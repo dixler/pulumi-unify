@@ -117,8 +117,11 @@ function getMatchApplicator(key: string, value: any, shapes: ShapeMap): [Applica
             overridenFields.push(subShapeName);
           }
         }
+        if (typeOverrides[shapeName] === undefined) {
+          typeOverrides[shapeName] = shapeName;
+        }
         const omittedFields = overridenFields.map(key => `"${key}"`).join("|")
-        typeOverrides[shapeName] = omittedFields ? `Omit<${shapeName}, ${omittedFields}>` : shapeName
+        typeOverrides[shapeName] = omittedFields ? `Omit<${typeOverrides[shapeName]}, ${omittedFields}>` : typeOverrides[shapeName]
         keyMatch[shapeName] = hasMatch[shapeName] = {
           apply: (item) => {
             if (shape.required) {
@@ -148,7 +151,7 @@ function getMatchApplicator(key: string, value: any, shapes: ShapeMap): [Applica
 type Op = {
   operation: string;
   applicator: Applicator;
-  applicatorType: string;
+  applicatorType: string[];
   inputShape: string;
   returnType: string;
 }
@@ -169,10 +172,11 @@ function getOperations(key: string, value: any, schema: Schema, client: Service)
 
     type Method = string
     const s3Method: Method = (opName[0].toLowerCase() + opName.substring(1));
+
     validOps[opName] = {
       operation: opName,
       applicator: applicators[inputShape],
-      applicatorType: tmap[inputShape],
+      applicatorType: [tmap[inputShape]],
       inputShape: inputShape,
       returnType: outputShape,
     }
@@ -195,10 +199,8 @@ export function getResourceOperations(resource: {[key: string]: string}, schema:
         })(curOp.applicator, opSpec.applicator),
       }
 
-      if (curOp.applicatorType === opSpec.applicatorType) {
-        continue;
-      }
-      curOp.applicatorType = `(${curOp.applicatorType} & ${opSpec.applicatorType})`;
+      curOp.applicatorType = curOp.applicatorType.concat(opSpec.applicatorType);
+      //curOp.applicatorType = `(${curOp.applicatorType} | ${opSpec.applicatorType})`;
     }
   }
   return resourceOps;
@@ -244,7 +246,11 @@ class MethodFactory {
     //${this.op.operation}(${this.args.map(([name, type]) =>`${name}: ${type}`).join(', ')}): ${this.returnType} {
     const op = this.op;
     return `
-    ${lowerCamelCase(op.operation)}(partialParams: ${op.applicatorType}): ${op.returnType} {
+    ${lowerCamelCase(op.operation)}(partialParams: ToOptional<{
+      [K in ${op.applicatorType.map((type) => {
+        return `keyof ${type}`;
+      }).join(' & ')}]: (${op.applicatorType.join(' & ')})[K]
+    }>): ${op.returnType} {
         return this.client.${lowerCamelCase(op.operation)}(
             this.ops["${upperCamelCase(op.operation)}"].apply(partialParams)
         );
@@ -292,6 +298,12 @@ import {
 } from "aws-sdk/clients/${serviceId.toLowerCase()}";
 
 import {getResourceOperations} from "./parse";
+
+type UndefinedProperties<T> = {
+    [P in keyof T]-?: undefined extends T[P] ? P : never
+}[keyof T]
+
+type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export class ${className} extends ${classRef} {
     private ops: any
