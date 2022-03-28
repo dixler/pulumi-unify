@@ -149,6 +149,7 @@ type Op = {
   operation: string;
   applicator: Applicator;
   applicatorType: string;
+  inputShape: string;
   returnType: string;
 }
 
@@ -172,12 +173,13 @@ function getOperations(key: string, value: any, schema: Schema, client: Service)
       operation: opName,
       applicator: applicators[inputShape],
       applicatorType: tmap[inputShape],
+      inputShape: inputShape,
       returnType: outputShape,
     }
   }
   return validOps;
 }
-function getResourceOperations(resource: {[key: string]: string}, schema: Schema, client: Service) {
+export function getResourceOperations(resource: {[key: string]: string}, schema: Schema, client: Service) {
   const resourceOps: {[key: string]: Op} = {};
   for (const [key, value] of Object.entries(resource)) {
     const ops = getOperations(key, value, schema, client)
@@ -192,7 +194,11 @@ function getResourceOperations(resource: {[key: string]: string}, schema: Schema
           return (elem) => newApplicator.apply(oldApplicator.apply(elem))
         })(curOp.applicator, opSpec.applicator),
       }
-      curOp.applicatorType = `${curOp.applicatorType} & ${opSpec.applicatorType}`;
+
+      if (curOp.applicatorType === opSpec.applicatorType) {
+        continue;
+      }
+      curOp.applicatorType = `(${curOp.applicatorType} & ${opSpec.applicatorType})`;
     }
   }
   return resourceOps;
@@ -203,18 +209,18 @@ var resops = getResourceOperations({
   "Key": "lekey",
 }, schema, new awssdk.S3())
 
-console.log(resops['PutObject'].applicator.apply({}))
+//console.log(resops['PutObject'].applicator.apply({}))
 
 resops = getResourceOperations({
   "Bucket": "mybuck",
   "Key": "lekey",
 }, schema, new awssdk.S3())
 
-console.log(resops['PutObject'].applicator.apply({}))
+//console.log(resops['PutObject'].applicator.apply({}))
 resops = getResourceOperations({
   "Bucket": "mybuck",
 }, schema, new awssdk.S3())
-console.log(resops['PutObject'].applicator.apply({Key: "Wew"}))
+//console.log(resops['PutObject'].applicator.apply({Key: "Wew"}))
 
 type BaseClass = string;
 type ServiceClass = string;
@@ -239,12 +245,9 @@ class MethodFactory {
     const op = this.op;
     return `
     ${lowerCamelCase(op.operation)}(partialParams: ${op.applicatorType}): ${op.returnType} {
-        const client = this.client;
-        const methodApplicator = this.ops[${upperCamelCase(op.operation)}].apply;
-
-        const params = methodApplicator(partialParams);
-
-        return client.${lowerCamelCase(op.operation)}(params)
+        return this.client.${lowerCamelCase(op.operation)}(
+            this.ops["${upperCamelCase(op.operation)}"].apply(partialParams)
+        );
     }`
   }
 }
@@ -256,27 +259,83 @@ class ClassFactory {
   render() {
     const [clientRef, client] = this.client
     const [classRef, cls] = this.cls
-    console.log('client', Object.keys(client))
 
-    const className = `Native${(client as any).api.serviceId}`
+    const serviceId = (client as any).api.serviceId
+    const className = `Native${serviceId}`
     
     const ops = getResourceOperations(cls, require(this.schemaFile), client)
     const methods = Object.entries(ops).map(([opName, op]) => {
       return new MethodFactory(op);
     })
+
+    const typeList = methods
+      .map((method) => method.op.inputShape)
+      .concat(
+        methods.map((method) => method.op.returnType))
+      .filter((type) => {
+        const filterList = [
+          "void",
+        ]
+        return !filterList.includes(type);
+      })
+    const typeSet: {[key: string]: true} = {};
+    typeList.forEach((type) => {
+      typeSet[type] = true;
+    })
+    const typeImports = Object.keys(typeSet);
+
     return `
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {
+    ${typeImports.join(",\n    ")}
+} from "aws-sdk/clients/${serviceId.toLowerCase()}";
 
-class ${className} extends ${classRef} {
-  private ops: any
-  ${methods.map(method => method.render()).join('\n')}
-  constructor() {
-    this.client = new ${clientRef}()
-    this.ops = getResourceOperations(this, require(${this.schemaFile}), this.client)
-  }
+import {getResourceOperations} from "./parse";
+
+export class ${className} extends ${classRef} {
+    private ops: any
+    private client: any
+    constructor(...args: ConstructorParameters<typeof ${classRef}>) {
+        super(...args)
+        this.client = new ${clientRef}()
+        this.ops = getResourceOperations(this as any, require("${this.schemaFile}"), this.client)
+    }
+${methods.map(method => method.render()).join('\n')}
 }`
   }
 }
 
-console.log(new ClassFactory(['aws.s3.Bucket', aws.s3.Bucket], ['awssdk.S3', new awssdk.S3()], '/home/kdixler/Documents/unify/aws-sdk-js/apis/s3-2006-03-01.normal.json').render())
+interface Field {
+  description: string;
+  language?: {
+    nodejs?: {
+      name?: string;
+    }
+  }
+}
+
+interface RefField extends Field {
+  $ref: string;
+}
+interface BasicField extends Field {
+  type: "string";
+}
+
+const pulumiSchema = require('./aws-schema.json')
+function schemaToResourceKeys(resourceName: string): any {
+    const resourceSchema: {[key: string]: BasicField | RefField} = pulumiSchema['resources'][resourceName].properties
+    const resource: {[key: string]: string} = {
+
+    }
+    Object.entries(resourceSchema).forEach(([key, val]: [string, any]) => {
+      if (val.type !== "string") {
+        return;
+      }
+      const basicField: BasicField = val;
+      resource[key] = basicField.type;
+    })
+    return resource;
+}
+
+console.log(new ClassFactory(['aws.s3.Bucket', schemaToResourceKeys('aws:s3/bucket:Bucket')], ['awssdk.S3', new awssdk.S3()], '/home/kdixler/Documents/unify/aws-sdk-js/apis/s3-2006-03-01.normal.json').render())
