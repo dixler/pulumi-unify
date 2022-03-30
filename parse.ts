@@ -1,8 +1,7 @@
-import * as pulumi from "@pulumi/pulumi"
-import * as aws from "@pulumi/aws"
-import * as awssdk from 'aws-sdk';
 import {Service} from 'aws-sdk';
 import * as defs from './parsedefs';
+import * as fs from "fs";
+import path from "path/posix";
 
 
 type CallSignature = {
@@ -14,8 +13,6 @@ type CallRef = {
   name: defs.ShapeRef;
   type: string;
 }
-
-const schema = require('/home/kdixler/Documents/unify/aws-sdk-js/apis/s3-2006-03-01.normal.json')
 
 type ShapeMap = {[key: string]: defs.Shape};
 type OperationMap = {[key: string]: defs.Operation};
@@ -206,24 +203,6 @@ export function getResourceOperations(resource: {[key: string]: string}, schema:
   return resourceOps;
 }
 
-var resops = getResourceOperations({
-  "BucketName": "mybuck",
-  "Key": "lekey",
-}, schema, new awssdk.S3())
-
-//console.log(resops['PutObject'].applicator.apply({}))
-
-resops = getResourceOperations({
-  "Bucket": "mybuck",
-  "Key": "lekey",
-}, schema, new awssdk.S3())
-
-//console.log(resops['PutObject'].applicator.apply({}))
-resops = getResourceOperations({
-  "Bucket": "mybuck",
-}, schema, new awssdk.S3())
-//console.log(resops['PutObject'].applicator.apply({Key: "Wew"}))
-
 type BaseClass = string;
 type ServiceClass = string;
 type SchemaPath = string;
@@ -246,7 +225,7 @@ class MethodFactory {
     //${this.op.operation}(${this.args.map(([name, type]) =>`${name}: ${type}`).join(', ')}): ${this.returnType} {
     const op = this.op;
     return `
-    ${lowerCamelCase(op.operation)}(partialParams: ToOptional<{
+    invoke${upperCamelCase(op.operation)}(partialParams: ToOptional<{
       [K in ${op.applicatorType.map((type) => {
         return `keyof ${type}`;
       }).join(' & ')}]: (${op.applicatorType.join(' & ')})[K]
@@ -259,16 +238,13 @@ class MethodFactory {
 }
 
 class ClassFactory {
-  constructor(readonly cls: [BaseClass, any], readonly client: [ServiceClass, any], readonly schemaFile: SchemaPath) {
+  constructor(readonly cls: [BaseClass, any], readonly client: [ServiceClass, any, string], readonly schemaFile: SchemaPath) {
     //getResourceOperations(this.baseClass, client)
   }
   render() {
-    const [clientRef, client] = this.client
+    const [clientRef, client, serviceId] = this.client
     const [classRef, cls] = this.cls
 
-    const serviceId = (client as any).api.serviceId
-    const className = `Native${serviceId}`
-    
     const ops = getResourceOperations(cls, require(this.schemaFile), client)
     const methods = Object.entries(ops).map(([opName, op]) => {
       return new MethodFactory(op);
@@ -297,7 +273,7 @@ import {
     ${typeImports.join(",\n    ")}
 } from "aws-sdk/clients/${serviceId.toLowerCase()}";
 
-import {getResourceOperations} from "./parse";
+import {getResourceOperations} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -305,13 +281,13 @@ type UndefinedProperties<T> = {
 
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
-export class ${className} extends ${classRef} {
+export default class extends ${classRef} {
     private ops: any
     private client: any
     constructor(...args: ConstructorParameters<typeof ${classRef}>) {
         super(...args)
         this.client = new ${clientRef}()
-        this.ops = getResourceOperations(this as any, require("${this.schemaFile}"), this.client)
+        this.ops = getResourceOperations(this as any, require("${path.join("../../", this.schemaFile)}"), this.client)
     }
 ${methods.map(method => method.render()).join('\n')}
 }`
@@ -334,8 +310,8 @@ interface BasicField extends Field {
   type: "string";
 }
 
-const pulumiSchema = require('./aws-schema.json')
 function schemaToResourceKeys(resourceName: string): any {
+    const pulumiSchema = require('./aws-schema.json')
     const resourceSchema: {[key: string]: BasicField | RefField} = pulumiSchema['resources'][resourceName].properties
     const resource: {[key: string]: string} = {
 
@@ -350,4 +326,73 @@ function schemaToResourceKeys(resourceName: string): any {
     return resource;
 }
 
-console.log(new ClassFactory(['aws.s3.Bucket', schemaToResourceKeys('aws:s3/bucket:Bucket')], ['awssdk.S3', new awssdk.S3()], '/home/kdixler/Documents/unify/aws-sdk-js/apis/s3-2006-03-01.normal.json').render())
+function findAWSSchema(service: string) {
+  const prefix = "./aws-sdk-js/apis/";
+  const files = fs.readdirSync(prefix)
+  const choices = files
+  .filter((filename) => {
+    const [prefix, suffix] = filename.split('-20', 2); // TODO fix parser
+    if (prefix.toLowerCase() != service.toLowerCase()) {
+      return false
+    }
+    if (!suffix.endsWith(".normal.json")) {
+      return false
+    }
+    return true
+  })
+  .sort();
+  if (choices.length === 0) {
+    return undefined;
+  }
+  return "./" + path.join(prefix, choices[choices.length - 1])
+}
+function main() {
+  const pulumiSchema = require('./aws-schema.json')
+  const awsSDK = require('aws-sdk');
+  const aws = require("@pulumi/aws");
+  fs.rmSync("./out", {
+    recursive: true,
+    force: true,
+  });
+  fs.mkdirSync('./out');
+  fs.copyFileSync('parse.ts', './out/parse.ts')
+
+  for (const key of Object.keys(pulumiSchema['resources'])) {
+      const [cloud, path, resource] = key.split(':');
+      const [service, _] = path.split('/', 2)
+      
+      const awsServiceNames = Object.keys(awsSDK)
+      .filter(key => key.toLowerCase() == service.toLowerCase())
+      .sort();
+      let awsServiceName: string = "";
+      try {
+        fs.mkdirSync(`out/${service}`)
+      } catch (e) {}
+      try {
+        awsServiceName = awsServiceNames[awsServiceNames.length-1];
+        const schema = findAWSSchema(service)
+        if (schema === undefined) {
+          console.error(`no schema found processing [key=${key}]`);
+          continue;
+        }
+        
+        if (!aws[service] || !aws[service][resource]) {
+          console.error(`no resource found processing [key=${key}]`);
+          continue;
+        }
+        fs.writeFileSync(
+          `out/${service}/${resource}.ts`, 
+          (new ClassFactory(
+            [`${cloud}.${service}.${resource}`, schemaToResourceKeys(key)],
+            [`awssdk.${awsServiceName}`, new (awsSDK[awsServiceName] as any)(), awsServiceName],
+            schema,
+          ).render()))
+        } catch (e: any) {
+          console.error(`error processing [key=${key}] ${e}`)
+          console.log(e.stack)
+      }
+  }
+}
+if (require.main === module) {
+    main();
+}
