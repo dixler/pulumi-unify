@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,150 +21,310 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/directconnect-2012-10-25.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.directconnect.PublicVirtualInterface {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.DirectConnect();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/directconnect-2012-10-25.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeAcceptDirectConnectGatewayAssociationProposal(partialParams) {
-        return this.client.acceptDirectConnectGatewayAssociationProposal(this.ops["AcceptDirectConnectGatewayAssociationProposal"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.acceptDirectConnectGatewayAssociationProposal(this.ops["AcceptDirectConnectGatewayAssociationProposal"].applicator.apply(partialParams));
     }
     invokeAllocateConnectionOnInterconnect(partialParams) {
-        return this.client.allocateConnectionOnInterconnect(this.ops["AllocateConnectionOnInterconnect"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.allocateConnectionOnInterconnect(this.ops["AllocateConnectionOnInterconnect"].applicator.apply(partialParams));
     }
     invokeAllocateHostedConnection(partialParams) {
-        return this.client.allocateHostedConnection(this.ops["AllocateHostedConnection"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.allocateHostedConnection(this.ops["AllocateHostedConnection"].applicator.apply(partialParams));
     }
     invokeAllocatePrivateVirtualInterface(partialParams) {
-        return this.client.allocatePrivateVirtualInterface(this.ops["AllocatePrivateVirtualInterface"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.allocatePrivateVirtualInterface(this.ops["AllocatePrivateVirtualInterface"].applicator.apply(partialParams));
     }
     invokeAllocatePublicVirtualInterface(partialParams) {
-        return this.client.allocatePublicVirtualInterface(this.ops["AllocatePublicVirtualInterface"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.allocatePublicVirtualInterface(this.ops["AllocatePublicVirtualInterface"].applicator.apply(partialParams));
     }
     invokeAllocateTransitVirtualInterface(partialParams) {
-        return this.client.allocateTransitVirtualInterface(this.ops["AllocateTransitVirtualInterface"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.allocateTransitVirtualInterface(this.ops["AllocateTransitVirtualInterface"].applicator.apply(partialParams));
     }
     invokeAssociateConnectionWithLag(partialParams) {
-        return this.client.associateConnectionWithLag(this.ops["AssociateConnectionWithLag"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateConnectionWithLag(this.ops["AssociateConnectionWithLag"].applicator.apply(partialParams));
     }
     invokeAssociateHostedConnection(partialParams) {
-        return this.client.associateHostedConnection(this.ops["AssociateHostedConnection"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateHostedConnection(this.ops["AssociateHostedConnection"].applicator.apply(partialParams));
     }
     invokeAssociateMacSecKey(partialParams) {
-        return this.client.associateMacSecKey(this.ops["AssociateMacSecKey"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateMacSecKey(this.ops["AssociateMacSecKey"].applicator.apply(partialParams));
     }
     invokeAssociateVirtualInterface(partialParams) {
-        return this.client.associateVirtualInterface(this.ops["AssociateVirtualInterface"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateVirtualInterface(this.ops["AssociateVirtualInterface"].applicator.apply(partialParams));
     }
     invokeConfirmConnection(partialParams) {
-        return this.client.confirmConnection(this.ops["ConfirmConnection"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.confirmConnection(this.ops["ConfirmConnection"].applicator.apply(partialParams));
     }
     invokeConfirmPrivateVirtualInterface(partialParams) {
-        return this.client.confirmPrivateVirtualInterface(this.ops["ConfirmPrivateVirtualInterface"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.confirmPrivateVirtualInterface(this.ops["ConfirmPrivateVirtualInterface"].applicator.apply(partialParams));
     }
     invokeConfirmPublicVirtualInterface(partialParams) {
-        return this.client.confirmPublicVirtualInterface(this.ops["ConfirmPublicVirtualInterface"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.confirmPublicVirtualInterface(this.ops["ConfirmPublicVirtualInterface"].applicator.apply(partialParams));
     }
     invokeConfirmTransitVirtualInterface(partialParams) {
-        return this.client.confirmTransitVirtualInterface(this.ops["ConfirmTransitVirtualInterface"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.confirmTransitVirtualInterface(this.ops["ConfirmTransitVirtualInterface"].applicator.apply(partialParams));
     }
     invokeCreateConnection(partialParams) {
-        return this.client.createConnection(this.ops["CreateConnection"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createConnection(this.ops["CreateConnection"].applicator.apply(partialParams));
     }
     invokeCreateDirectConnectGateway(partialParams) {
-        return this.client.createDirectConnectGateway(this.ops["CreateDirectConnectGateway"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createDirectConnectGateway(this.ops["CreateDirectConnectGateway"].applicator.apply(partialParams));
     }
     invokeCreateDirectConnectGatewayAssociation(partialParams) {
-        return this.client.createDirectConnectGatewayAssociation(this.ops["CreateDirectConnectGatewayAssociation"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createDirectConnectGatewayAssociation(this.ops["CreateDirectConnectGatewayAssociation"].applicator.apply(partialParams));
     }
     invokeCreateDirectConnectGatewayAssociationProposal(partialParams) {
-        return this.client.createDirectConnectGatewayAssociationProposal(this.ops["CreateDirectConnectGatewayAssociationProposal"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createDirectConnectGatewayAssociationProposal(this.ops["CreateDirectConnectGatewayAssociationProposal"].applicator.apply(partialParams));
     }
     invokeCreateInterconnect(partialParams) {
-        return this.client.createInterconnect(this.ops["CreateInterconnect"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createInterconnect(this.ops["CreateInterconnect"].applicator.apply(partialParams));
     }
     invokeCreateLag(partialParams) {
-        return this.client.createLag(this.ops["CreateLag"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createLag(this.ops["CreateLag"].applicator.apply(partialParams));
     }
     invokeCreatePrivateVirtualInterface(partialParams) {
-        return this.client.createPrivateVirtualInterface(this.ops["CreatePrivateVirtualInterface"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createPrivateVirtualInterface(this.ops["CreatePrivateVirtualInterface"].applicator.apply(partialParams));
     }
     invokeCreatePublicVirtualInterface(partialParams) {
-        return this.client.createPublicVirtualInterface(this.ops["CreatePublicVirtualInterface"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createPublicVirtualInterface(this.ops["CreatePublicVirtualInterface"].applicator.apply(partialParams));
     }
     invokeCreateTransitVirtualInterface(partialParams) {
-        return this.client.createTransitVirtualInterface(this.ops["CreateTransitVirtualInterface"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createTransitVirtualInterface(this.ops["CreateTransitVirtualInterface"].applicator.apply(partialParams));
     }
     invokeDeleteConnection(partialParams) {
-        return this.client.deleteConnection(this.ops["DeleteConnection"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteConnection(this.ops["DeleteConnection"].applicator.apply(partialParams));
     }
     invokeDeleteDirectConnectGateway(partialParams) {
-        return this.client.deleteDirectConnectGateway(this.ops["DeleteDirectConnectGateway"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteDirectConnectGateway(this.ops["DeleteDirectConnectGateway"].applicator.apply(partialParams));
     }
     invokeDeleteDirectConnectGatewayAssociationProposal(partialParams) {
-        return this.client.deleteDirectConnectGatewayAssociationProposal(this.ops["DeleteDirectConnectGatewayAssociationProposal"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteDirectConnectGatewayAssociationProposal(this.ops["DeleteDirectConnectGatewayAssociationProposal"].applicator.apply(partialParams));
     }
     invokeDeleteInterconnect(partialParams) {
-        return this.client.deleteInterconnect(this.ops["DeleteInterconnect"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteInterconnect(this.ops["DeleteInterconnect"].applicator.apply(partialParams));
     }
     invokeDeleteLag(partialParams) {
-        return this.client.deleteLag(this.ops["DeleteLag"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteLag(this.ops["DeleteLag"].applicator.apply(partialParams));
     }
     invokeDeleteVirtualInterface(partialParams) {
-        return this.client.deleteVirtualInterface(this.ops["DeleteVirtualInterface"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteVirtualInterface(this.ops["DeleteVirtualInterface"].applicator.apply(partialParams));
     }
     invokeDescribeConnectionLoa(partialParams) {
-        return this.client.describeConnectionLoa(this.ops["DescribeConnectionLoa"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeConnectionLoa(this.ops["DescribeConnectionLoa"].applicator.apply(partialParams));
     }
     invokeDescribeConnectionsOnInterconnect(partialParams) {
-        return this.client.describeConnectionsOnInterconnect(this.ops["DescribeConnectionsOnInterconnect"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeConnectionsOnInterconnect(this.ops["DescribeConnectionsOnInterconnect"].applicator.apply(partialParams));
     }
     invokeDescribeHostedConnections(partialParams) {
-        return this.client.describeHostedConnections(this.ops["DescribeHostedConnections"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeHostedConnections(this.ops["DescribeHostedConnections"].applicator.apply(partialParams));
     }
     invokeDescribeInterconnectLoa(partialParams) {
-        return this.client.describeInterconnectLoa(this.ops["DescribeInterconnectLoa"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeInterconnectLoa(this.ops["DescribeInterconnectLoa"].applicator.apply(partialParams));
     }
     invokeDescribeLoa(partialParams) {
-        return this.client.describeLoa(this.ops["DescribeLoa"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeLoa(this.ops["DescribeLoa"].applicator.apply(partialParams));
     }
     invokeDescribeRouterConfiguration(partialParams) {
-        return this.client.describeRouterConfiguration(this.ops["DescribeRouterConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeRouterConfiguration(this.ops["DescribeRouterConfiguration"].applicator.apply(partialParams));
     }
     invokeDescribeTags(partialParams) {
-        return this.client.describeTags(this.ops["DescribeTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeTags(this.ops["DescribeTags"].applicator.apply(partialParams));
     }
     invokeDisassociateConnectionFromLag(partialParams) {
-        return this.client.disassociateConnectionFromLag(this.ops["DisassociateConnectionFromLag"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociateConnectionFromLag(this.ops["DisassociateConnectionFromLag"].applicator.apply(partialParams));
     }
     invokeDisassociateMacSecKey(partialParams) {
-        return this.client.disassociateMacSecKey(this.ops["DisassociateMacSecKey"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociateMacSecKey(this.ops["DisassociateMacSecKey"].applicator.apply(partialParams));
     }
     invokeStartBgpFailoverTest(partialParams) {
-        return this.client.startBgpFailoverTest(this.ops["StartBgpFailoverTest"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startBgpFailoverTest(this.ops["StartBgpFailoverTest"].applicator.apply(partialParams));
     }
     invokeStopBgpFailoverTest(partialParams) {
-        return this.client.stopBgpFailoverTest(this.ops["StopBgpFailoverTest"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.stopBgpFailoverTest(this.ops["StopBgpFailoverTest"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateConnection(partialParams) {
-        return this.client.updateConnection(this.ops["UpdateConnection"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateConnection(this.ops["UpdateConnection"].applicator.apply(partialParams));
     }
     invokeUpdateDirectConnectGateway(partialParams) {
-        return this.client.updateDirectConnectGateway(this.ops["UpdateDirectConnectGateway"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateDirectConnectGateway(this.ops["UpdateDirectConnectGateway"].applicator.apply(partialParams));
     }
     invokeUpdateLag(partialParams) {
-        return this.client.updateLag(this.ops["UpdateLag"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateLag(this.ops["UpdateLag"].applicator.apply(partialParams));
     }
     invokeUpdateVirtualInterfaceAttributes(partialParams) {
-        return this.client.updateVirtualInterfaceAttributes(this.ops["UpdateVirtualInterfaceAttributes"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateVirtualInterfaceAttributes(this.ops["UpdateVirtualInterfaceAttributes"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     AssignInstanceRequest,
     AssignVolumeRequest,
@@ -78,8 +81,8 @@ import {
     RegisterInstanceResult,
     RegisterVolumeResult
 } from "aws-sdk/clients/opsworks";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/opsworks-2013-02-18.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -88,459 +91,649 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.opsworks.UserProfile {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.opsworks.UserProfile>) {
         super(...args)
         this.client = new awssdk.OpsWorks()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/opsworks-2013-02-18.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeAssignInstance(partialParams: ToOptional<{
       [K in keyof AssignInstanceRequest & keyof AssignInstanceRequest & keyof AssignInstanceRequest]: (AssignInstanceRequest & AssignInstanceRequest & AssignInstanceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.assignInstance(
-            this.ops["AssignInstance"].apply(partialParams)
+          this.ops["AssignInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeAssignVolume(partialParams: ToOptional<{
       [K in keyof AssignVolumeRequest & keyof AssignVolumeRequest & keyof AssignVolumeRequest]: (AssignVolumeRequest & AssignVolumeRequest & AssignVolumeRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.assignVolume(
-            this.ops["AssignVolume"].apply(partialParams)
+          this.ops["AssignVolume"].applicator.apply(partialParams)
         );
     }
 
     invokeAssociateElasticIp(partialParams: ToOptional<{
       [K in keyof AssociateElasticIpRequest & keyof AssociateElasticIpRequest & keyof AssociateElasticIpRequest]: (AssociateElasticIpRequest & AssociateElasticIpRequest & AssociateElasticIpRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.associateElasticIp(
-            this.ops["AssociateElasticIp"].apply(partialParams)
+          this.ops["AssociateElasticIp"].applicator.apply(partialParams)
         );
     }
 
     invokeAttachElasticLoadBalancer(partialParams: ToOptional<{
       [K in keyof AttachElasticLoadBalancerRequest & keyof AttachElasticLoadBalancerRequest & keyof AttachElasticLoadBalancerRequest]: (AttachElasticLoadBalancerRequest & AttachElasticLoadBalancerRequest & AttachElasticLoadBalancerRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.attachElasticLoadBalancer(
-            this.ops["AttachElasticLoadBalancer"].apply(partialParams)
+          this.ops["AttachElasticLoadBalancer"].applicator.apply(partialParams)
         );
     }
 
     invokeCloneStack(partialParams: ToOptional<{
       [K in keyof CloneStackRequest & keyof CloneStackRequest & keyof CloneStackRequest]: (CloneStackRequest & CloneStackRequest & CloneStackRequest)[K]
-    }>): CloneStackResult {
+    }>): Request<CloneStackResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.cloneStack(
-            this.ops["CloneStack"].apply(partialParams)
+          this.ops["CloneStack"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateApp(partialParams: ToOptional<{
       [K in keyof CreateAppRequest & keyof CreateAppRequest & keyof CreateAppRequest]: (CreateAppRequest & CreateAppRequest & CreateAppRequest)[K]
-    }>): CreateAppResult {
+    }>): Request<CreateAppResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createApp(
-            this.ops["CreateApp"].apply(partialParams)
+          this.ops["CreateApp"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateDeployment(partialParams: ToOptional<{
       [K in keyof CreateDeploymentRequest & keyof CreateDeploymentRequest & keyof CreateDeploymentRequest]: (CreateDeploymentRequest & CreateDeploymentRequest & CreateDeploymentRequest)[K]
-    }>): CreateDeploymentResult {
+    }>): Request<CreateDeploymentResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createDeployment(
-            this.ops["CreateDeployment"].apply(partialParams)
+          this.ops["CreateDeployment"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateInstance(partialParams: ToOptional<{
       [K in keyof CreateInstanceRequest & keyof CreateInstanceRequest & keyof CreateInstanceRequest]: (CreateInstanceRequest & CreateInstanceRequest & CreateInstanceRequest)[K]
-    }>): CreateInstanceResult {
+    }>): Request<CreateInstanceResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createInstance(
-            this.ops["CreateInstance"].apply(partialParams)
+          this.ops["CreateInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateLayer(partialParams: ToOptional<{
       [K in keyof CreateLayerRequest & keyof CreateLayerRequest & keyof CreateLayerRequest]: (CreateLayerRequest & CreateLayerRequest & CreateLayerRequest)[K]
-    }>): CreateLayerResult {
+    }>): Request<CreateLayerResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createLayer(
-            this.ops["CreateLayer"].apply(partialParams)
+          this.ops["CreateLayer"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateStack(partialParams: ToOptional<{
       [K in keyof CreateStackRequest & keyof CreateStackRequest & keyof CreateStackRequest]: (CreateStackRequest & CreateStackRequest & CreateStackRequest)[K]
-    }>): CreateStackResult {
+    }>): Request<CreateStackResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createStack(
-            this.ops["CreateStack"].apply(partialParams)
+          this.ops["CreateStack"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateUserProfile(partialParams: ToOptional<{
       [K in keyof CreateUserProfileRequest & keyof CreateUserProfileRequest & keyof CreateUserProfileRequest]: (CreateUserProfileRequest & CreateUserProfileRequest & CreateUserProfileRequest)[K]
-    }>): CreateUserProfileResult {
+    }>): Request<CreateUserProfileResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createUserProfile(
-            this.ops["CreateUserProfile"].apply(partialParams)
+          this.ops["CreateUserProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteApp(partialParams: ToOptional<{
       [K in keyof DeleteAppRequest & keyof DeleteAppRequest & keyof DeleteAppRequest]: (DeleteAppRequest & DeleteAppRequest & DeleteAppRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteApp(
-            this.ops["DeleteApp"].apply(partialParams)
+          this.ops["DeleteApp"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteInstance(partialParams: ToOptional<{
       [K in keyof DeleteInstanceRequest & keyof DeleteInstanceRequest & keyof DeleteInstanceRequest]: (DeleteInstanceRequest & DeleteInstanceRequest & DeleteInstanceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteInstance(
-            this.ops["DeleteInstance"].apply(partialParams)
+          this.ops["DeleteInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteLayer(partialParams: ToOptional<{
       [K in keyof DeleteLayerRequest & keyof DeleteLayerRequest & keyof DeleteLayerRequest]: (DeleteLayerRequest & DeleteLayerRequest & DeleteLayerRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteLayer(
-            this.ops["DeleteLayer"].apply(partialParams)
+          this.ops["DeleteLayer"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteStack(partialParams: ToOptional<{
       [K in keyof DeleteStackRequest & keyof DeleteStackRequest & keyof DeleteStackRequest]: (DeleteStackRequest & DeleteStackRequest & DeleteStackRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteStack(
-            this.ops["DeleteStack"].apply(partialParams)
+          this.ops["DeleteStack"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteUserProfile(partialParams: ToOptional<{
       [K in keyof DeleteUserProfileRequest & keyof DeleteUserProfileRequest & keyof DeleteUserProfileRequest]: (DeleteUserProfileRequest & DeleteUserProfileRequest & DeleteUserProfileRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteUserProfile(
-            this.ops["DeleteUserProfile"].apply(partialParams)
+          this.ops["DeleteUserProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeDeregisterEcsCluster(partialParams: ToOptional<{
       [K in keyof DeregisterEcsClusterRequest & keyof DeregisterEcsClusterRequest & keyof DeregisterEcsClusterRequest]: (DeregisterEcsClusterRequest & DeregisterEcsClusterRequest & DeregisterEcsClusterRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deregisterEcsCluster(
-            this.ops["DeregisterEcsCluster"].apply(partialParams)
+          this.ops["DeregisterEcsCluster"].applicator.apply(partialParams)
         );
     }
 
     invokeDeregisterElasticIp(partialParams: ToOptional<{
       [K in keyof DeregisterElasticIpRequest & keyof DeregisterElasticIpRequest & keyof DeregisterElasticIpRequest]: (DeregisterElasticIpRequest & DeregisterElasticIpRequest & DeregisterElasticIpRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deregisterElasticIp(
-            this.ops["DeregisterElasticIp"].apply(partialParams)
+          this.ops["DeregisterElasticIp"].applicator.apply(partialParams)
         );
     }
 
     invokeDeregisterInstance(partialParams: ToOptional<{
       [K in keyof DeregisterInstanceRequest & keyof DeregisterInstanceRequest & keyof DeregisterInstanceRequest]: (DeregisterInstanceRequest & DeregisterInstanceRequest & DeregisterInstanceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deregisterInstance(
-            this.ops["DeregisterInstance"].apply(partialParams)
+          this.ops["DeregisterInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeDeregisterRdsDbInstance(partialParams: ToOptional<{
       [K in keyof DeregisterRdsDbInstanceRequest & keyof DeregisterRdsDbInstanceRequest & keyof DeregisterRdsDbInstanceRequest]: (DeregisterRdsDbInstanceRequest & DeregisterRdsDbInstanceRequest & DeregisterRdsDbInstanceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deregisterRdsDbInstance(
-            this.ops["DeregisterRdsDbInstance"].apply(partialParams)
+          this.ops["DeregisterRdsDbInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeDeregisterVolume(partialParams: ToOptional<{
       [K in keyof DeregisterVolumeRequest & keyof DeregisterVolumeRequest & keyof DeregisterVolumeRequest]: (DeregisterVolumeRequest & DeregisterVolumeRequest & DeregisterVolumeRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deregisterVolume(
-            this.ops["DeregisterVolume"].apply(partialParams)
+          this.ops["DeregisterVolume"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeLoadBasedAutoScaling(partialParams: ToOptional<{
       [K in keyof DescribeLoadBasedAutoScalingRequest & keyof DescribeLoadBasedAutoScalingRequest & keyof DescribeLoadBasedAutoScalingRequest]: (DescribeLoadBasedAutoScalingRequest & DescribeLoadBasedAutoScalingRequest & DescribeLoadBasedAutoScalingRequest)[K]
-    }>): DescribeLoadBasedAutoScalingResult {
+    }>): Request<DescribeLoadBasedAutoScalingResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeLoadBasedAutoScaling(
-            this.ops["DescribeLoadBasedAutoScaling"].apply(partialParams)
+          this.ops["DescribeLoadBasedAutoScaling"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeRdsDbInstances(partialParams: ToOptional<{
       [K in keyof DescribeRdsDbInstancesRequest & keyof DescribeRdsDbInstancesRequest & keyof DescribeRdsDbInstancesRequest]: (DescribeRdsDbInstancesRequest & DescribeRdsDbInstancesRequest & DescribeRdsDbInstancesRequest)[K]
-    }>): DescribeRdsDbInstancesResult {
+    }>): Request<DescribeRdsDbInstancesResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeRdsDbInstances(
-            this.ops["DescribeRdsDbInstances"].apply(partialParams)
+          this.ops["DescribeRdsDbInstances"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeStackProvisioningParameters(partialParams: ToOptional<{
       [K in keyof DescribeStackProvisioningParametersRequest & keyof DescribeStackProvisioningParametersRequest & keyof DescribeStackProvisioningParametersRequest]: (DescribeStackProvisioningParametersRequest & DescribeStackProvisioningParametersRequest & DescribeStackProvisioningParametersRequest)[K]
-    }>): DescribeStackProvisioningParametersResult {
+    }>): Request<DescribeStackProvisioningParametersResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeStackProvisioningParameters(
-            this.ops["DescribeStackProvisioningParameters"].apply(partialParams)
+          this.ops["DescribeStackProvisioningParameters"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeStackSummary(partialParams: ToOptional<{
       [K in keyof DescribeStackSummaryRequest & keyof DescribeStackSummaryRequest & keyof DescribeStackSummaryRequest]: (DescribeStackSummaryRequest & DescribeStackSummaryRequest & DescribeStackSummaryRequest)[K]
-    }>): DescribeStackSummaryResult {
+    }>): Request<DescribeStackSummaryResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeStackSummary(
-            this.ops["DescribeStackSummary"].apply(partialParams)
+          this.ops["DescribeStackSummary"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeTimeBasedAutoScaling(partialParams: ToOptional<{
       [K in keyof DescribeTimeBasedAutoScalingRequest & keyof DescribeTimeBasedAutoScalingRequest & keyof DescribeTimeBasedAutoScalingRequest]: (DescribeTimeBasedAutoScalingRequest & DescribeTimeBasedAutoScalingRequest & DescribeTimeBasedAutoScalingRequest)[K]
-    }>): DescribeTimeBasedAutoScalingResult {
+    }>): Request<DescribeTimeBasedAutoScalingResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeTimeBasedAutoScaling(
-            this.ops["DescribeTimeBasedAutoScaling"].apply(partialParams)
+          this.ops["DescribeTimeBasedAutoScaling"].applicator.apply(partialParams)
         );
     }
 
     invokeDetachElasticLoadBalancer(partialParams: ToOptional<{
       [K in keyof DetachElasticLoadBalancerRequest & keyof DetachElasticLoadBalancerRequest & keyof DetachElasticLoadBalancerRequest]: (DetachElasticLoadBalancerRequest & DetachElasticLoadBalancerRequest & DetachElasticLoadBalancerRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.detachElasticLoadBalancer(
-            this.ops["DetachElasticLoadBalancer"].apply(partialParams)
+          this.ops["DetachElasticLoadBalancer"].applicator.apply(partialParams)
         );
     }
 
     invokeDisassociateElasticIp(partialParams: ToOptional<{
       [K in keyof DisassociateElasticIpRequest & keyof DisassociateElasticIpRequest & keyof DisassociateElasticIpRequest]: (DisassociateElasticIpRequest & DisassociateElasticIpRequest & DisassociateElasticIpRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disassociateElasticIp(
-            this.ops["DisassociateElasticIp"].apply(partialParams)
+          this.ops["DisassociateElasticIp"].applicator.apply(partialParams)
         );
     }
 
     invokeGetHostnameSuggestion(partialParams: ToOptional<{
       [K in keyof GetHostnameSuggestionRequest & keyof GetHostnameSuggestionRequest & keyof GetHostnameSuggestionRequest]: (GetHostnameSuggestionRequest & GetHostnameSuggestionRequest & GetHostnameSuggestionRequest)[K]
-    }>): GetHostnameSuggestionResult {
+    }>): Request<GetHostnameSuggestionResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getHostnameSuggestion(
-            this.ops["GetHostnameSuggestion"].apply(partialParams)
+          this.ops["GetHostnameSuggestion"].applicator.apply(partialParams)
         );
     }
 
     invokeGrantAccess(partialParams: ToOptional<{
       [K in keyof GrantAccessRequest & keyof GrantAccessRequest & keyof GrantAccessRequest]: (GrantAccessRequest & GrantAccessRequest & GrantAccessRequest)[K]
-    }>): GrantAccessResult {
+    }>): Request<GrantAccessResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.grantAccess(
-            this.ops["GrantAccess"].apply(partialParams)
+          this.ops["GrantAccess"].applicator.apply(partialParams)
         );
     }
 
     invokeListTags(partialParams: ToOptional<{
       [K in keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest]: (ListTagsRequest & ListTagsRequest & ListTagsRequest)[K]
-    }>): ListTagsResult {
+    }>): Request<ListTagsResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTags(
-            this.ops["ListTags"].apply(partialParams)
+          this.ops["ListTags"].applicator.apply(partialParams)
         );
     }
 
     invokeRebootInstance(partialParams: ToOptional<{
       [K in keyof RebootInstanceRequest & keyof RebootInstanceRequest & keyof RebootInstanceRequest]: (RebootInstanceRequest & RebootInstanceRequest & RebootInstanceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.rebootInstance(
-            this.ops["RebootInstance"].apply(partialParams)
+          this.ops["RebootInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeRegisterEcsCluster(partialParams: ToOptional<{
       [K in keyof RegisterEcsClusterRequest & keyof RegisterEcsClusterRequest & keyof RegisterEcsClusterRequest]: (RegisterEcsClusterRequest & RegisterEcsClusterRequest & RegisterEcsClusterRequest)[K]
-    }>): RegisterEcsClusterResult {
+    }>): Request<RegisterEcsClusterResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.registerEcsCluster(
-            this.ops["RegisterEcsCluster"].apply(partialParams)
+          this.ops["RegisterEcsCluster"].applicator.apply(partialParams)
         );
     }
 
     invokeRegisterElasticIp(partialParams: ToOptional<{
       [K in keyof RegisterElasticIpRequest & keyof RegisterElasticIpRequest & keyof RegisterElasticIpRequest]: (RegisterElasticIpRequest & RegisterElasticIpRequest & RegisterElasticIpRequest)[K]
-    }>): RegisterElasticIpResult {
+    }>): Request<RegisterElasticIpResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.registerElasticIp(
-            this.ops["RegisterElasticIp"].apply(partialParams)
+          this.ops["RegisterElasticIp"].applicator.apply(partialParams)
         );
     }
 
     invokeRegisterInstance(partialParams: ToOptional<{
       [K in keyof RegisterInstanceRequest & keyof RegisterInstanceRequest & keyof RegisterInstanceRequest]: (RegisterInstanceRequest & RegisterInstanceRequest & RegisterInstanceRequest)[K]
-    }>): RegisterInstanceResult {
+    }>): Request<RegisterInstanceResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.registerInstance(
-            this.ops["RegisterInstance"].apply(partialParams)
+          this.ops["RegisterInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeRegisterRdsDbInstance(partialParams: ToOptional<{
       [K in keyof RegisterRdsDbInstanceRequest & keyof RegisterRdsDbInstanceRequest & keyof RegisterRdsDbInstanceRequest]: (RegisterRdsDbInstanceRequest & RegisterRdsDbInstanceRequest & RegisterRdsDbInstanceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.registerRdsDbInstance(
-            this.ops["RegisterRdsDbInstance"].apply(partialParams)
+          this.ops["RegisterRdsDbInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeRegisterVolume(partialParams: ToOptional<{
       [K in keyof RegisterVolumeRequest & keyof RegisterVolumeRequest & keyof RegisterVolumeRequest]: (RegisterVolumeRequest & RegisterVolumeRequest & RegisterVolumeRequest)[K]
-    }>): RegisterVolumeResult {
+    }>): Request<RegisterVolumeResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.registerVolume(
-            this.ops["RegisterVolume"].apply(partialParams)
+          this.ops["RegisterVolume"].applicator.apply(partialParams)
         );
     }
 
     invokeSetLoadBasedAutoScaling(partialParams: ToOptional<{
       [K in keyof SetLoadBasedAutoScalingRequest & keyof SetLoadBasedAutoScalingRequest & keyof SetLoadBasedAutoScalingRequest]: (SetLoadBasedAutoScalingRequest & SetLoadBasedAutoScalingRequest & SetLoadBasedAutoScalingRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.setLoadBasedAutoScaling(
-            this.ops["SetLoadBasedAutoScaling"].apply(partialParams)
+          this.ops["SetLoadBasedAutoScaling"].applicator.apply(partialParams)
         );
     }
 
     invokeSetPermission(partialParams: ToOptional<{
       [K in keyof SetPermissionRequest & keyof SetPermissionRequest & keyof SetPermissionRequest]: (SetPermissionRequest & SetPermissionRequest & SetPermissionRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.setPermission(
-            this.ops["SetPermission"].apply(partialParams)
+          this.ops["SetPermission"].applicator.apply(partialParams)
         );
     }
 
     invokeSetTimeBasedAutoScaling(partialParams: ToOptional<{
       [K in keyof SetTimeBasedAutoScalingRequest & keyof SetTimeBasedAutoScalingRequest & keyof SetTimeBasedAutoScalingRequest]: (SetTimeBasedAutoScalingRequest & SetTimeBasedAutoScalingRequest & SetTimeBasedAutoScalingRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.setTimeBasedAutoScaling(
-            this.ops["SetTimeBasedAutoScaling"].apply(partialParams)
+          this.ops["SetTimeBasedAutoScaling"].applicator.apply(partialParams)
         );
     }
 
     invokeStartInstance(partialParams: ToOptional<{
       [K in keyof StartInstanceRequest & keyof StartInstanceRequest & keyof StartInstanceRequest]: (StartInstanceRequest & StartInstanceRequest & StartInstanceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startInstance(
-            this.ops["StartInstance"].apply(partialParams)
+          this.ops["StartInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeStartStack(partialParams: ToOptional<{
       [K in keyof StartStackRequest & keyof StartStackRequest & keyof StartStackRequest]: (StartStackRequest & StartStackRequest & StartStackRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startStack(
-            this.ops["StartStack"].apply(partialParams)
+          this.ops["StartStack"].applicator.apply(partialParams)
         );
     }
 
     invokeStopInstance(partialParams: ToOptional<{
       [K in keyof StopInstanceRequest & keyof StopInstanceRequest & keyof StopInstanceRequest]: (StopInstanceRequest & StopInstanceRequest & StopInstanceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.stopInstance(
-            this.ops["StopInstance"].apply(partialParams)
+          this.ops["StopInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeStopStack(partialParams: ToOptional<{
       [K in keyof StopStackRequest & keyof StopStackRequest & keyof StopStackRequest]: (StopStackRequest & StopStackRequest & StopStackRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.stopStack(
-            this.ops["StopStack"].apply(partialParams)
+          this.ops["StopStack"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUnassignInstance(partialParams: ToOptional<{
       [K in keyof UnassignInstanceRequest & keyof UnassignInstanceRequest & keyof UnassignInstanceRequest]: (UnassignInstanceRequest & UnassignInstanceRequest & UnassignInstanceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.unassignInstance(
-            this.ops["UnassignInstance"].apply(partialParams)
+          this.ops["UnassignInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeUnassignVolume(partialParams: ToOptional<{
       [K in keyof UnassignVolumeRequest & keyof UnassignVolumeRequest & keyof UnassignVolumeRequest]: (UnassignVolumeRequest & UnassignVolumeRequest & UnassignVolumeRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.unassignVolume(
-            this.ops["UnassignVolume"].apply(partialParams)
+          this.ops["UnassignVolume"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateApp(partialParams: ToOptional<{
       [K in keyof UpdateAppRequest & keyof UpdateAppRequest & keyof UpdateAppRequest]: (UpdateAppRequest & UpdateAppRequest & UpdateAppRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateApp(
-            this.ops["UpdateApp"].apply(partialParams)
+          this.ops["UpdateApp"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateElasticIp(partialParams: ToOptional<{
       [K in keyof UpdateElasticIpRequest & keyof UpdateElasticIpRequest & keyof UpdateElasticIpRequest]: (UpdateElasticIpRequest & UpdateElasticIpRequest & UpdateElasticIpRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateElasticIp(
-            this.ops["UpdateElasticIp"].apply(partialParams)
+          this.ops["UpdateElasticIp"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateInstance(partialParams: ToOptional<{
       [K in keyof UpdateInstanceRequest & keyof UpdateInstanceRequest & keyof UpdateInstanceRequest]: (UpdateInstanceRequest & UpdateInstanceRequest & UpdateInstanceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateInstance(
-            this.ops["UpdateInstance"].apply(partialParams)
+          this.ops["UpdateInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateLayer(partialParams: ToOptional<{
       [K in keyof UpdateLayerRequest & keyof UpdateLayerRequest & keyof UpdateLayerRequest]: (UpdateLayerRequest & UpdateLayerRequest & UpdateLayerRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateLayer(
-            this.ops["UpdateLayer"].apply(partialParams)
+          this.ops["UpdateLayer"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateRdsDbInstance(partialParams: ToOptional<{
       [K in keyof UpdateRdsDbInstanceRequest & keyof UpdateRdsDbInstanceRequest & keyof UpdateRdsDbInstanceRequest]: (UpdateRdsDbInstanceRequest & UpdateRdsDbInstanceRequest & UpdateRdsDbInstanceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateRdsDbInstance(
-            this.ops["UpdateRdsDbInstance"].apply(partialParams)
+          this.ops["UpdateRdsDbInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateStack(partialParams: ToOptional<{
       [K in keyof UpdateStackRequest & keyof UpdateStackRequest & keyof UpdateStackRequest]: (UpdateStackRequest & UpdateStackRequest & UpdateStackRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateStack(
-            this.ops["UpdateStack"].apply(partialParams)
+          this.ops["UpdateStack"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateUserProfile(partialParams: ToOptional<{
       [K in keyof UpdateUserProfileRequest & keyof UpdateUserProfileRequest & keyof UpdateUserProfileRequest]: (UpdateUserProfileRequest & UpdateUserProfileRequest & UpdateUserProfileRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateUserProfile(
-            this.ops["UpdateUserProfile"].apply(partialParams)
+          this.ops["UpdateUserProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateVolume(partialParams: ToOptional<{
       [K in keyof UpdateVolumeRequest & keyof UpdateVolumeRequest & keyof UpdateVolumeRequest]: (UpdateVolumeRequest & UpdateVolumeRequest & UpdateVolumeRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateVolume(
-            this.ops["UpdateVolume"].apply(partialParams)
+          this.ops["UpdateVolume"].applicator.apply(partialParams)
         );
     }
 }

@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,120 +21,250 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/datasync-2018-11-09.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.datasync.EfsLocation {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.DataSync();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/datasync-2018-11-09.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeCancelTaskExecution(partialParams) {
-        return this.client.cancelTaskExecution(this.ops["CancelTaskExecution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.cancelTaskExecution(this.ops["CancelTaskExecution"].applicator.apply(partialParams));
     }
     invokeCreateAgent(partialParams) {
-        return this.client.createAgent(this.ops["CreateAgent"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createAgent(this.ops["CreateAgent"].applicator.apply(partialParams));
     }
     invokeCreateLocationEfs(partialParams) {
-        return this.client.createLocationEfs(this.ops["CreateLocationEfs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createLocationEfs(this.ops["CreateLocationEfs"].applicator.apply(partialParams));
     }
     invokeCreateLocationFsxLustre(partialParams) {
-        return this.client.createLocationFsxLustre(this.ops["CreateLocationFsxLustre"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createLocationFsxLustre(this.ops["CreateLocationFsxLustre"].applicator.apply(partialParams));
     }
     invokeCreateLocationFsxWindows(partialParams) {
-        return this.client.createLocationFsxWindows(this.ops["CreateLocationFsxWindows"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createLocationFsxWindows(this.ops["CreateLocationFsxWindows"].applicator.apply(partialParams));
     }
     invokeCreateLocationHdfs(partialParams) {
-        return this.client.createLocationHdfs(this.ops["CreateLocationHdfs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createLocationHdfs(this.ops["CreateLocationHdfs"].applicator.apply(partialParams));
     }
     invokeCreateLocationNfs(partialParams) {
-        return this.client.createLocationNfs(this.ops["CreateLocationNfs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createLocationNfs(this.ops["CreateLocationNfs"].applicator.apply(partialParams));
     }
     invokeCreateLocationObjectStorage(partialParams) {
-        return this.client.createLocationObjectStorage(this.ops["CreateLocationObjectStorage"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createLocationObjectStorage(this.ops["CreateLocationObjectStorage"].applicator.apply(partialParams));
     }
     invokeCreateLocationS3(partialParams) {
-        return this.client.createLocationS3(this.ops["CreateLocationS3"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createLocationS3(this.ops["CreateLocationS3"].applicator.apply(partialParams));
     }
     invokeCreateLocationSmb(partialParams) {
-        return this.client.createLocationSmb(this.ops["CreateLocationSmb"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createLocationSmb(this.ops["CreateLocationSmb"].applicator.apply(partialParams));
     }
     invokeCreateTask(partialParams) {
-        return this.client.createTask(this.ops["CreateTask"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createTask(this.ops["CreateTask"].applicator.apply(partialParams));
     }
     invokeDeleteAgent(partialParams) {
-        return this.client.deleteAgent(this.ops["DeleteAgent"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteAgent(this.ops["DeleteAgent"].applicator.apply(partialParams));
     }
     invokeDeleteLocation(partialParams) {
-        return this.client.deleteLocation(this.ops["DeleteLocation"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteLocation(this.ops["DeleteLocation"].applicator.apply(partialParams));
     }
     invokeDeleteTask(partialParams) {
-        return this.client.deleteTask(this.ops["DeleteTask"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteTask(this.ops["DeleteTask"].applicator.apply(partialParams));
     }
     invokeDescribeAgent(partialParams) {
-        return this.client.describeAgent(this.ops["DescribeAgent"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeAgent(this.ops["DescribeAgent"].applicator.apply(partialParams));
     }
     invokeDescribeLocationEfs(partialParams) {
-        return this.client.describeLocationEfs(this.ops["DescribeLocationEfs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeLocationEfs(this.ops["DescribeLocationEfs"].applicator.apply(partialParams));
     }
     invokeDescribeLocationFsxLustre(partialParams) {
-        return this.client.describeLocationFsxLustre(this.ops["DescribeLocationFsxLustre"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeLocationFsxLustre(this.ops["DescribeLocationFsxLustre"].applicator.apply(partialParams));
     }
     invokeDescribeLocationFsxWindows(partialParams) {
-        return this.client.describeLocationFsxWindows(this.ops["DescribeLocationFsxWindows"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeLocationFsxWindows(this.ops["DescribeLocationFsxWindows"].applicator.apply(partialParams));
     }
     invokeDescribeLocationHdfs(partialParams) {
-        return this.client.describeLocationHdfs(this.ops["DescribeLocationHdfs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeLocationHdfs(this.ops["DescribeLocationHdfs"].applicator.apply(partialParams));
     }
     invokeDescribeLocationNfs(partialParams) {
-        return this.client.describeLocationNfs(this.ops["DescribeLocationNfs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeLocationNfs(this.ops["DescribeLocationNfs"].applicator.apply(partialParams));
     }
     invokeDescribeLocationObjectStorage(partialParams) {
-        return this.client.describeLocationObjectStorage(this.ops["DescribeLocationObjectStorage"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeLocationObjectStorage(this.ops["DescribeLocationObjectStorage"].applicator.apply(partialParams));
     }
     invokeDescribeLocationS3(partialParams) {
-        return this.client.describeLocationS3(this.ops["DescribeLocationS3"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeLocationS3(this.ops["DescribeLocationS3"].applicator.apply(partialParams));
     }
     invokeDescribeLocationSmb(partialParams) {
-        return this.client.describeLocationSmb(this.ops["DescribeLocationSmb"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeLocationSmb(this.ops["DescribeLocationSmb"].applicator.apply(partialParams));
     }
     invokeDescribeTask(partialParams) {
-        return this.client.describeTask(this.ops["DescribeTask"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeTask(this.ops["DescribeTask"].applicator.apply(partialParams));
     }
     invokeDescribeTaskExecution(partialParams) {
-        return this.client.describeTaskExecution(this.ops["DescribeTaskExecution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeTaskExecution(this.ops["DescribeTaskExecution"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokeStartTaskExecution(partialParams) {
-        return this.client.startTaskExecution(this.ops["StartTaskExecution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startTaskExecution(this.ops["StartTaskExecution"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateAgent(partialParams) {
-        return this.client.updateAgent(this.ops["UpdateAgent"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateAgent(this.ops["UpdateAgent"].applicator.apply(partialParams));
     }
     invokeUpdateLocationHdfs(partialParams) {
-        return this.client.updateLocationHdfs(this.ops["UpdateLocationHdfs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateLocationHdfs(this.ops["UpdateLocationHdfs"].applicator.apply(partialParams));
     }
     invokeUpdateLocationNfs(partialParams) {
-        return this.client.updateLocationNfs(this.ops["UpdateLocationNfs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateLocationNfs(this.ops["UpdateLocationNfs"].applicator.apply(partialParams));
     }
     invokeUpdateLocationObjectStorage(partialParams) {
-        return this.client.updateLocationObjectStorage(this.ops["UpdateLocationObjectStorage"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateLocationObjectStorage(this.ops["UpdateLocationObjectStorage"].applicator.apply(partialParams));
     }
     invokeUpdateLocationSmb(partialParams) {
-        return this.client.updateLocationSmb(this.ops["UpdateLocationSmb"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateLocationSmb(this.ops["UpdateLocationSmb"].applicator.apply(partialParams));
     }
     invokeUpdateTask(partialParams) {
-        return this.client.updateTask(this.ops["UpdateTask"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateTask(this.ops["UpdateTask"].applicator.apply(partialParams));
     }
     invokeUpdateTaskExecution(partialParams) {
-        return this.client.updateTaskExecution(this.ops["UpdateTaskExecution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateTaskExecution(this.ops["UpdateTaskExecution"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     AssociateEncryptionConfigRequest,
     AssociateIdentityProviderConfigRequest,
@@ -67,8 +70,8 @@ import {
     UpdateNodegroupConfigResponse,
     UpdateNodegroupVersionResponse
 } from "aws-sdk/clients/eks";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/eks-2017-11-01.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -77,267 +80,385 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.eks.Cluster {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.eks.Cluster>) {
         super(...args)
         this.client = new awssdk.EKS()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/eks-2017-11-01.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeAssociateEncryptionConfig(partialParams: ToOptional<{
       [K in keyof AssociateEncryptionConfigRequest & keyof AssociateEncryptionConfigRequest & keyof AssociateEncryptionConfigRequest & keyof AssociateEncryptionConfigRequest & keyof AssociateEncryptionConfigRequest & keyof AssociateEncryptionConfigRequest & keyof AssociateEncryptionConfigRequest & keyof AssociateEncryptionConfigRequest]: (AssociateEncryptionConfigRequest & AssociateEncryptionConfigRequest & AssociateEncryptionConfigRequest & AssociateEncryptionConfigRequest & AssociateEncryptionConfigRequest & AssociateEncryptionConfigRequest & AssociateEncryptionConfigRequest & AssociateEncryptionConfigRequest)[K]
-    }>): AssociateEncryptionConfigResponse {
+    }>): Request<AssociateEncryptionConfigResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.associateEncryptionConfig(
-            this.ops["AssociateEncryptionConfig"].apply(partialParams)
+          this.ops["AssociateEncryptionConfig"].applicator.apply(partialParams)
         );
     }
 
     invokeAssociateIdentityProviderConfig(partialParams: ToOptional<{
       [K in keyof AssociateIdentityProviderConfigRequest & keyof AssociateIdentityProviderConfigRequest & keyof AssociateIdentityProviderConfigRequest & keyof AssociateIdentityProviderConfigRequest & keyof AssociateIdentityProviderConfigRequest & keyof AssociateIdentityProviderConfigRequest & keyof AssociateIdentityProviderConfigRequest & keyof AssociateIdentityProviderConfigRequest]: (AssociateIdentityProviderConfigRequest & AssociateIdentityProviderConfigRequest & AssociateIdentityProviderConfigRequest & AssociateIdentityProviderConfigRequest & AssociateIdentityProviderConfigRequest & AssociateIdentityProviderConfigRequest & AssociateIdentityProviderConfigRequest & AssociateIdentityProviderConfigRequest)[K]
-    }>): AssociateIdentityProviderConfigResponse {
+    }>): Request<AssociateIdentityProviderConfigResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.associateIdentityProviderConfig(
-            this.ops["AssociateIdentityProviderConfig"].apply(partialParams)
+          this.ops["AssociateIdentityProviderConfig"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateAddon(partialParams: ToOptional<{
       [K in keyof CreateAddonRequest & keyof CreateAddonRequest & keyof CreateAddonRequest & keyof CreateAddonRequest & keyof CreateAddonRequest & keyof CreateAddonRequest & keyof CreateAddonRequest & keyof CreateAddonRequest]: (CreateAddonRequest & CreateAddonRequest & CreateAddonRequest & CreateAddonRequest & CreateAddonRequest & CreateAddonRequest & CreateAddonRequest & CreateAddonRequest)[K]
-    }>): CreateAddonResponse {
+    }>): Request<CreateAddonResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createAddon(
-            this.ops["CreateAddon"].apply(partialParams)
+          this.ops["CreateAddon"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateCluster(partialParams: ToOptional<{
       [K in keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest & keyof Omit<CreateClusterRequest, "name"> & keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest]: (CreateClusterRequest & CreateClusterRequest & CreateClusterRequest & Omit<CreateClusterRequest, "name"> & CreateClusterRequest & CreateClusterRequest & CreateClusterRequest & CreateClusterRequest)[K]
-    }>): CreateClusterResponse {
+    }>): Request<CreateClusterResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createCluster(
-            this.ops["CreateCluster"].apply(partialParams)
+          this.ops["CreateCluster"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateFargateProfile(partialParams: ToOptional<{
       [K in keyof CreateFargateProfileRequest & keyof CreateFargateProfileRequest & keyof CreateFargateProfileRequest & keyof CreateFargateProfileRequest & keyof CreateFargateProfileRequest & keyof CreateFargateProfileRequest & keyof CreateFargateProfileRequest & keyof CreateFargateProfileRequest]: (CreateFargateProfileRequest & CreateFargateProfileRequest & CreateFargateProfileRequest & CreateFargateProfileRequest & CreateFargateProfileRequest & CreateFargateProfileRequest & CreateFargateProfileRequest & CreateFargateProfileRequest)[K]
-    }>): CreateFargateProfileResponse {
+    }>): Request<CreateFargateProfileResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createFargateProfile(
-            this.ops["CreateFargateProfile"].apply(partialParams)
+          this.ops["CreateFargateProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateNodegroup(partialParams: ToOptional<{
       [K in keyof CreateNodegroupRequest & keyof CreateNodegroupRequest & keyof CreateNodegroupRequest & keyof CreateNodegroupRequest & keyof CreateNodegroupRequest & keyof CreateNodegroupRequest & keyof CreateNodegroupRequest & keyof CreateNodegroupRequest]: (CreateNodegroupRequest & CreateNodegroupRequest & CreateNodegroupRequest & CreateNodegroupRequest & CreateNodegroupRequest & CreateNodegroupRequest & CreateNodegroupRequest & CreateNodegroupRequest)[K]
-    }>): CreateNodegroupResponse {
+    }>): Request<CreateNodegroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createNodegroup(
-            this.ops["CreateNodegroup"].apply(partialParams)
+          this.ops["CreateNodegroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteAddon(partialParams: ToOptional<{
       [K in keyof DeleteAddonRequest & keyof DeleteAddonRequest & keyof DeleteAddonRequest & keyof DeleteAddonRequest & keyof DeleteAddonRequest & keyof DeleteAddonRequest & keyof DeleteAddonRequest & keyof DeleteAddonRequest]: (DeleteAddonRequest & DeleteAddonRequest & DeleteAddonRequest & DeleteAddonRequest & DeleteAddonRequest & DeleteAddonRequest & DeleteAddonRequest & DeleteAddonRequest)[K]
-    }>): DeleteAddonResponse {
+    }>): Request<DeleteAddonResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteAddon(
-            this.ops["DeleteAddon"].apply(partialParams)
+          this.ops["DeleteAddon"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteCluster(partialParams: ToOptional<{
       [K in keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest]: (DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest)[K]
-    }>): DeleteClusterResponse {
+    }>): Request<DeleteClusterResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteCluster(
-            this.ops["DeleteCluster"].apply(partialParams)
+          this.ops["DeleteCluster"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteFargateProfile(partialParams: ToOptional<{
       [K in keyof DeleteFargateProfileRequest & keyof DeleteFargateProfileRequest & keyof DeleteFargateProfileRequest & keyof DeleteFargateProfileRequest & keyof DeleteFargateProfileRequest & keyof DeleteFargateProfileRequest & keyof DeleteFargateProfileRequest & keyof DeleteFargateProfileRequest]: (DeleteFargateProfileRequest & DeleteFargateProfileRequest & DeleteFargateProfileRequest & DeleteFargateProfileRequest & DeleteFargateProfileRequest & DeleteFargateProfileRequest & DeleteFargateProfileRequest & DeleteFargateProfileRequest)[K]
-    }>): DeleteFargateProfileResponse {
+    }>): Request<DeleteFargateProfileResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteFargateProfile(
-            this.ops["DeleteFargateProfile"].apply(partialParams)
+          this.ops["DeleteFargateProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteNodegroup(partialParams: ToOptional<{
       [K in keyof DeleteNodegroupRequest & keyof DeleteNodegroupRequest & keyof DeleteNodegroupRequest & keyof DeleteNodegroupRequest & keyof DeleteNodegroupRequest & keyof DeleteNodegroupRequest & keyof DeleteNodegroupRequest & keyof DeleteNodegroupRequest]: (DeleteNodegroupRequest & DeleteNodegroupRequest & DeleteNodegroupRequest & DeleteNodegroupRequest & DeleteNodegroupRequest & DeleteNodegroupRequest & DeleteNodegroupRequest & DeleteNodegroupRequest)[K]
-    }>): DeleteNodegroupResponse {
+    }>): Request<DeleteNodegroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteNodegroup(
-            this.ops["DeleteNodegroup"].apply(partialParams)
+          this.ops["DeleteNodegroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDeregisterCluster(partialParams: ToOptional<{
       [K in keyof DeregisterClusterRequest & keyof DeregisterClusterRequest & keyof DeregisterClusterRequest & keyof DeregisterClusterRequest & keyof DeregisterClusterRequest & keyof DeregisterClusterRequest & keyof DeregisterClusterRequest & keyof DeregisterClusterRequest]: (DeregisterClusterRequest & DeregisterClusterRequest & DeregisterClusterRequest & DeregisterClusterRequest & DeregisterClusterRequest & DeregisterClusterRequest & DeregisterClusterRequest & DeregisterClusterRequest)[K]
-    }>): DeregisterClusterResponse {
+    }>): Request<DeregisterClusterResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deregisterCluster(
-            this.ops["DeregisterCluster"].apply(partialParams)
+          this.ops["DeregisterCluster"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeAddon(partialParams: ToOptional<{
       [K in keyof DescribeAddonRequest & keyof DescribeAddonRequest & keyof DescribeAddonRequest & keyof DescribeAddonRequest & keyof DescribeAddonRequest & keyof DescribeAddonRequest & keyof DescribeAddonRequest & keyof DescribeAddonRequest]: (DescribeAddonRequest & DescribeAddonRequest & DescribeAddonRequest & DescribeAddonRequest & DescribeAddonRequest & DescribeAddonRequest & DescribeAddonRequest & DescribeAddonRequest)[K]
-    }>): DescribeAddonResponse {
+    }>): Request<DescribeAddonResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeAddon(
-            this.ops["DescribeAddon"].apply(partialParams)
+          this.ops["DescribeAddon"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeCluster(partialParams: ToOptional<{
       [K in keyof DescribeClusterRequest & keyof DescribeClusterRequest & keyof DescribeClusterRequest & keyof DescribeClusterRequest & keyof DescribeClusterRequest & keyof DescribeClusterRequest & keyof DescribeClusterRequest & keyof DescribeClusterRequest]: (DescribeClusterRequest & DescribeClusterRequest & DescribeClusterRequest & DescribeClusterRequest & DescribeClusterRequest & DescribeClusterRequest & DescribeClusterRequest & DescribeClusterRequest)[K]
-    }>): DescribeClusterResponse {
+    }>): Request<DescribeClusterResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeCluster(
-            this.ops["DescribeCluster"].apply(partialParams)
+          this.ops["DescribeCluster"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeFargateProfile(partialParams: ToOptional<{
       [K in keyof DescribeFargateProfileRequest & keyof DescribeFargateProfileRequest & keyof DescribeFargateProfileRequest & keyof DescribeFargateProfileRequest & keyof DescribeFargateProfileRequest & keyof DescribeFargateProfileRequest & keyof DescribeFargateProfileRequest & keyof DescribeFargateProfileRequest]: (DescribeFargateProfileRequest & DescribeFargateProfileRequest & DescribeFargateProfileRequest & DescribeFargateProfileRequest & DescribeFargateProfileRequest & DescribeFargateProfileRequest & DescribeFargateProfileRequest & DescribeFargateProfileRequest)[K]
-    }>): DescribeFargateProfileResponse {
+    }>): Request<DescribeFargateProfileResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeFargateProfile(
-            this.ops["DescribeFargateProfile"].apply(partialParams)
+          this.ops["DescribeFargateProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeIdentityProviderConfig(partialParams: ToOptional<{
       [K in keyof DescribeIdentityProviderConfigRequest & keyof DescribeIdentityProviderConfigRequest & keyof DescribeIdentityProviderConfigRequest & keyof DescribeIdentityProviderConfigRequest & keyof DescribeIdentityProviderConfigRequest & keyof DescribeIdentityProviderConfigRequest & keyof DescribeIdentityProviderConfigRequest & keyof DescribeIdentityProviderConfigRequest]: (DescribeIdentityProviderConfigRequest & DescribeIdentityProviderConfigRequest & DescribeIdentityProviderConfigRequest & DescribeIdentityProviderConfigRequest & DescribeIdentityProviderConfigRequest & DescribeIdentityProviderConfigRequest & DescribeIdentityProviderConfigRequest & DescribeIdentityProviderConfigRequest)[K]
-    }>): DescribeIdentityProviderConfigResponse {
+    }>): Request<DescribeIdentityProviderConfigResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeIdentityProviderConfig(
-            this.ops["DescribeIdentityProviderConfig"].apply(partialParams)
+          this.ops["DescribeIdentityProviderConfig"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeNodegroup(partialParams: ToOptional<{
       [K in keyof DescribeNodegroupRequest & keyof DescribeNodegroupRequest & keyof DescribeNodegroupRequest & keyof DescribeNodegroupRequest & keyof DescribeNodegroupRequest & keyof DescribeNodegroupRequest & keyof DescribeNodegroupRequest & keyof DescribeNodegroupRequest]: (DescribeNodegroupRequest & DescribeNodegroupRequest & DescribeNodegroupRequest & DescribeNodegroupRequest & DescribeNodegroupRequest & DescribeNodegroupRequest & DescribeNodegroupRequest & DescribeNodegroupRequest)[K]
-    }>): DescribeNodegroupResponse {
+    }>): Request<DescribeNodegroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeNodegroup(
-            this.ops["DescribeNodegroup"].apply(partialParams)
+          this.ops["DescribeNodegroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeUpdate(partialParams: ToOptional<{
       [K in keyof DescribeUpdateRequest & keyof DescribeUpdateRequest & keyof DescribeUpdateRequest & keyof DescribeUpdateRequest & keyof DescribeUpdateRequest & keyof DescribeUpdateRequest & keyof DescribeUpdateRequest & keyof DescribeUpdateRequest]: (DescribeUpdateRequest & DescribeUpdateRequest & DescribeUpdateRequest & DescribeUpdateRequest & DescribeUpdateRequest & DescribeUpdateRequest & DescribeUpdateRequest & DescribeUpdateRequest)[K]
-    }>): DescribeUpdateResponse {
+    }>): Request<DescribeUpdateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeUpdate(
-            this.ops["DescribeUpdate"].apply(partialParams)
+          this.ops["DescribeUpdate"].applicator.apply(partialParams)
         );
     }
 
     invokeDisassociateIdentityProviderConfig(partialParams: ToOptional<{
       [K in keyof DisassociateIdentityProviderConfigRequest & keyof DisassociateIdentityProviderConfigRequest & keyof DisassociateIdentityProviderConfigRequest & keyof DisassociateIdentityProviderConfigRequest & keyof DisassociateIdentityProviderConfigRequest & keyof DisassociateIdentityProviderConfigRequest & keyof DisassociateIdentityProviderConfigRequest & keyof DisassociateIdentityProviderConfigRequest]: (DisassociateIdentityProviderConfigRequest & DisassociateIdentityProviderConfigRequest & DisassociateIdentityProviderConfigRequest & DisassociateIdentityProviderConfigRequest & DisassociateIdentityProviderConfigRequest & DisassociateIdentityProviderConfigRequest & DisassociateIdentityProviderConfigRequest & DisassociateIdentityProviderConfigRequest)[K]
-    }>): DisassociateIdentityProviderConfigResponse {
+    }>): Request<DisassociateIdentityProviderConfigResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disassociateIdentityProviderConfig(
-            this.ops["DisassociateIdentityProviderConfig"].apply(partialParams)
+          this.ops["DisassociateIdentityProviderConfig"].applicator.apply(partialParams)
         );
     }
 
     invokeListAddons(partialParams: ToOptional<{
       [K in keyof ListAddonsRequest & keyof ListAddonsRequest & keyof ListAddonsRequest & keyof ListAddonsRequest & keyof ListAddonsRequest & keyof ListAddonsRequest & keyof ListAddonsRequest & keyof ListAddonsRequest]: (ListAddonsRequest & ListAddonsRequest & ListAddonsRequest & ListAddonsRequest & ListAddonsRequest & ListAddonsRequest & ListAddonsRequest & ListAddonsRequest)[K]
-    }>): ListAddonsResponse {
+    }>): Request<ListAddonsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listAddons(
-            this.ops["ListAddons"].apply(partialParams)
+          this.ops["ListAddons"].applicator.apply(partialParams)
         );
     }
 
     invokeListFargateProfiles(partialParams: ToOptional<{
       [K in keyof ListFargateProfilesRequest & keyof ListFargateProfilesRequest & keyof ListFargateProfilesRequest & keyof ListFargateProfilesRequest & keyof ListFargateProfilesRequest & keyof ListFargateProfilesRequest & keyof ListFargateProfilesRequest & keyof ListFargateProfilesRequest]: (ListFargateProfilesRequest & ListFargateProfilesRequest & ListFargateProfilesRequest & ListFargateProfilesRequest & ListFargateProfilesRequest & ListFargateProfilesRequest & ListFargateProfilesRequest & ListFargateProfilesRequest)[K]
-    }>): ListFargateProfilesResponse {
+    }>): Request<ListFargateProfilesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listFargateProfiles(
-            this.ops["ListFargateProfiles"].apply(partialParams)
+          this.ops["ListFargateProfiles"].applicator.apply(partialParams)
         );
     }
 
     invokeListIdentityProviderConfigs(partialParams: ToOptional<{
       [K in keyof ListIdentityProviderConfigsRequest & keyof ListIdentityProviderConfigsRequest & keyof ListIdentityProviderConfigsRequest & keyof ListIdentityProviderConfigsRequest & keyof ListIdentityProviderConfigsRequest & keyof ListIdentityProviderConfigsRequest & keyof ListIdentityProviderConfigsRequest & keyof ListIdentityProviderConfigsRequest]: (ListIdentityProviderConfigsRequest & ListIdentityProviderConfigsRequest & ListIdentityProviderConfigsRequest & ListIdentityProviderConfigsRequest & ListIdentityProviderConfigsRequest & ListIdentityProviderConfigsRequest & ListIdentityProviderConfigsRequest & ListIdentityProviderConfigsRequest)[K]
-    }>): ListIdentityProviderConfigsResponse {
+    }>): Request<ListIdentityProviderConfigsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listIdentityProviderConfigs(
-            this.ops["ListIdentityProviderConfigs"].apply(partialParams)
+          this.ops["ListIdentityProviderConfigs"].applicator.apply(partialParams)
         );
     }
 
     invokeListNodegroups(partialParams: ToOptional<{
       [K in keyof ListNodegroupsRequest & keyof ListNodegroupsRequest & keyof ListNodegroupsRequest & keyof ListNodegroupsRequest & keyof ListNodegroupsRequest & keyof ListNodegroupsRequest & keyof ListNodegroupsRequest & keyof ListNodegroupsRequest]: (ListNodegroupsRequest & ListNodegroupsRequest & ListNodegroupsRequest & ListNodegroupsRequest & ListNodegroupsRequest & ListNodegroupsRequest & ListNodegroupsRequest & ListNodegroupsRequest)[K]
-    }>): ListNodegroupsResponse {
+    }>): Request<ListNodegroupsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listNodegroups(
-            this.ops["ListNodegroups"].apply(partialParams)
+          this.ops["ListNodegroups"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
-    }>): ListTagsForResourceResponse {
+    }>): Request<ListTagsForResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokeListUpdates(partialParams: ToOptional<{
       [K in keyof ListUpdatesRequest & keyof ListUpdatesRequest & keyof ListUpdatesRequest & keyof ListUpdatesRequest & keyof ListUpdatesRequest & keyof ListUpdatesRequest & keyof ListUpdatesRequest & keyof ListUpdatesRequest]: (ListUpdatesRequest & ListUpdatesRequest & ListUpdatesRequest & ListUpdatesRequest & ListUpdatesRequest & ListUpdatesRequest & ListUpdatesRequest & ListUpdatesRequest)[K]
-    }>): ListUpdatesResponse {
+    }>): Request<ListUpdatesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listUpdates(
-            this.ops["ListUpdates"].apply(partialParams)
+          this.ops["ListUpdates"].applicator.apply(partialParams)
         );
     }
 
     invokeRegisterCluster(partialParams: ToOptional<{
       [K in keyof RegisterClusterRequest & keyof RegisterClusterRequest & keyof RegisterClusterRequest & keyof Omit<RegisterClusterRequest, "name"> & keyof RegisterClusterRequest & keyof RegisterClusterRequest & keyof RegisterClusterRequest & keyof RegisterClusterRequest]: (RegisterClusterRequest & RegisterClusterRequest & RegisterClusterRequest & Omit<RegisterClusterRequest, "name"> & RegisterClusterRequest & RegisterClusterRequest & RegisterClusterRequest & RegisterClusterRequest)[K]
-    }>): RegisterClusterResponse {
+    }>): Request<RegisterClusterResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.registerCluster(
-            this.ops["RegisterCluster"].apply(partialParams)
+          this.ops["RegisterCluster"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
-    }>): TagResourceResponse {
+    }>): Request<TagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
-    }>): UntagResourceResponse {
+    }>): Request<UntagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateAddon(partialParams: ToOptional<{
       [K in keyof UpdateAddonRequest & keyof UpdateAddonRequest & keyof UpdateAddonRequest & keyof UpdateAddonRequest & keyof UpdateAddonRequest & keyof UpdateAddonRequest & keyof UpdateAddonRequest & keyof UpdateAddonRequest]: (UpdateAddonRequest & UpdateAddonRequest & UpdateAddonRequest & UpdateAddonRequest & UpdateAddonRequest & UpdateAddonRequest & UpdateAddonRequest & UpdateAddonRequest)[K]
-    }>): UpdateAddonResponse {
+    }>): Request<UpdateAddonResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateAddon(
-            this.ops["UpdateAddon"].apply(partialParams)
+          this.ops["UpdateAddon"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateClusterConfig(partialParams: ToOptional<{
       [K in keyof UpdateClusterConfigRequest & keyof UpdateClusterConfigRequest & keyof UpdateClusterConfigRequest & keyof Omit<UpdateClusterConfigRequest, "name"> & keyof UpdateClusterConfigRequest & keyof UpdateClusterConfigRequest & keyof UpdateClusterConfigRequest & keyof UpdateClusterConfigRequest]: (UpdateClusterConfigRequest & UpdateClusterConfigRequest & UpdateClusterConfigRequest & Omit<UpdateClusterConfigRequest, "name"> & UpdateClusterConfigRequest & UpdateClusterConfigRequest & UpdateClusterConfigRequest & UpdateClusterConfigRequest)[K]
-    }>): UpdateClusterConfigResponse {
+    }>): Request<UpdateClusterConfigResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateClusterConfig(
-            this.ops["UpdateClusterConfig"].apply(partialParams)
+          this.ops["UpdateClusterConfig"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateClusterVersion(partialParams: ToOptional<{
       [K in keyof UpdateClusterVersionRequest & keyof UpdateClusterVersionRequest & keyof UpdateClusterVersionRequest & keyof Omit<UpdateClusterVersionRequest, "name"> & keyof UpdateClusterVersionRequest & keyof UpdateClusterVersionRequest & keyof UpdateClusterVersionRequest & keyof Omit<UpdateClusterVersionRequest, "version">]: (UpdateClusterVersionRequest & UpdateClusterVersionRequest & UpdateClusterVersionRequest & Omit<UpdateClusterVersionRequest, "name"> & UpdateClusterVersionRequest & UpdateClusterVersionRequest & UpdateClusterVersionRequest & Omit<UpdateClusterVersionRequest, "version">)[K]
-    }>): UpdateClusterVersionResponse {
+    }>): Request<UpdateClusterVersionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateClusterVersion(
-            this.ops["UpdateClusterVersion"].apply(partialParams)
+          this.ops["UpdateClusterVersion"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateNodegroupConfig(partialParams: ToOptional<{
       [K in keyof UpdateNodegroupConfigRequest & keyof UpdateNodegroupConfigRequest & keyof UpdateNodegroupConfigRequest & keyof UpdateNodegroupConfigRequest & keyof UpdateNodegroupConfigRequest & keyof UpdateNodegroupConfigRequest & keyof UpdateNodegroupConfigRequest & keyof UpdateNodegroupConfigRequest]: (UpdateNodegroupConfigRequest & UpdateNodegroupConfigRequest & UpdateNodegroupConfigRequest & UpdateNodegroupConfigRequest & UpdateNodegroupConfigRequest & UpdateNodegroupConfigRequest & UpdateNodegroupConfigRequest & UpdateNodegroupConfigRequest)[K]
-    }>): UpdateNodegroupConfigResponse {
+    }>): Request<UpdateNodegroupConfigResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateNodegroupConfig(
-            this.ops["UpdateNodegroupConfig"].apply(partialParams)
+          this.ops["UpdateNodegroupConfig"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateNodegroupVersion(partialParams: ToOptional<{
       [K in keyof UpdateNodegroupVersionRequest & keyof UpdateNodegroupVersionRequest & keyof UpdateNodegroupVersionRequest & keyof UpdateNodegroupVersionRequest & keyof UpdateNodegroupVersionRequest & keyof UpdateNodegroupVersionRequest & keyof UpdateNodegroupVersionRequest & keyof UpdateNodegroupVersionRequest]: (UpdateNodegroupVersionRequest & UpdateNodegroupVersionRequest & UpdateNodegroupVersionRequest & UpdateNodegroupVersionRequest & UpdateNodegroupVersionRequest & UpdateNodegroupVersionRequest & UpdateNodegroupVersionRequest & UpdateNodegroupVersionRequest)[K]
-    }>): UpdateNodegroupVersionResponse {
+    }>): Request<UpdateNodegroupVersionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateNodegroupVersion(
-            this.ops["UpdateNodegroupVersion"].apply(partialParams)
+          this.ops["UpdateNodegroupVersion"].applicator.apply(partialParams)
         );
     }
 }

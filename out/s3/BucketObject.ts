@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     AbortMultipartUploadRequest,
     CompleteMultipartUploadRequest,
@@ -155,8 +158,8 @@ import {
     UploadPartOutput,
     UploadPartCopyOutput
 } from "aws-sdk/clients/s3";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/s3-2006-03-01.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -165,771 +168,1078 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.s3.BucketObject {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.s3.BucketObject>) {
         super(...args)
         this.client = new awssdk.S3()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/s3-2006-03-01.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeAbortMultipartUpload(partialParams: ToOptional<{
       [K in keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest & keyof AbortMultipartUploadRequest]: (AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest & AbortMultipartUploadRequest)[K]
-    }>): AbortMultipartUploadOutput {
+    }>): Request<AbortMultipartUploadOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.abortMultipartUpload(
-            this.ops["AbortMultipartUpload"].apply(partialParams)
+          this.ops["AbortMultipartUpload"].applicator.apply(partialParams)
         );
     }
 
     invokeCompleteMultipartUpload(partialParams: ToOptional<{
       [K in keyof CompleteMultipartUploadRequest & keyof Omit<CompleteMultipartUploadRequest, "Bucket"> & keyof CompleteMultipartUploadRequest & keyof CompleteMultipartUploadRequest & keyof CompleteMultipartUploadRequest & keyof CompleteMultipartUploadRequest & keyof CompleteMultipartUploadRequest & keyof CompleteMultipartUploadRequest & keyof CompleteMultipartUploadRequest & keyof CompleteMultipartUploadRequest & keyof CompleteMultipartUploadRequest & keyof CompleteMultipartUploadRequest & keyof CompleteMultipartUploadRequest & keyof CompleteMultipartUploadRequest & keyof CompleteMultipartUploadRequest & keyof CompleteMultipartUploadRequest & keyof CompleteMultipartUploadRequest & keyof CompleteMultipartUploadRequest & keyof CompleteMultipartUploadRequest & keyof CompleteMultipartUploadRequest]: (CompleteMultipartUploadRequest & Omit<CompleteMultipartUploadRequest, "Bucket"> & CompleteMultipartUploadRequest & CompleteMultipartUploadRequest & CompleteMultipartUploadRequest & CompleteMultipartUploadRequest & CompleteMultipartUploadRequest & CompleteMultipartUploadRequest & CompleteMultipartUploadRequest & CompleteMultipartUploadRequest & CompleteMultipartUploadRequest & CompleteMultipartUploadRequest & CompleteMultipartUploadRequest & CompleteMultipartUploadRequest & CompleteMultipartUploadRequest & CompleteMultipartUploadRequest & CompleteMultipartUploadRequest & CompleteMultipartUploadRequest & CompleteMultipartUploadRequest & CompleteMultipartUploadRequest)[K]
-    }>): CompleteMultipartUploadOutput {
+    }>): Request<CompleteMultipartUploadOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.completeMultipartUpload(
-            this.ops["CompleteMultipartUpload"].apply(partialParams)
+          this.ops["CompleteMultipartUpload"].applicator.apply(partialParams)
         );
     }
 
     invokeCopyObject(partialParams: ToOptional<{
       [K in keyof CopyObjectRequest & keyof Omit<CopyObjectRequest, "Bucket"> & keyof CopyObjectRequest & keyof CopyObjectRequest & keyof CopyObjectRequest & keyof CopyObjectRequest & keyof CopyObjectRequest & keyof CopyObjectRequest & keyof CopyObjectRequest & keyof CopyObjectRequest & keyof CopyObjectRequest & keyof CopyObjectRequest & keyof CopyObjectRequest & keyof CopyObjectRequest & keyof CopyObjectRequest & keyof CopyObjectRequest & keyof CopyObjectRequest & keyof CopyObjectRequest & keyof CopyObjectRequest & keyof CopyObjectRequest]: (CopyObjectRequest & Omit<CopyObjectRequest, "Bucket"> & CopyObjectRequest & CopyObjectRequest & CopyObjectRequest & CopyObjectRequest & CopyObjectRequest & CopyObjectRequest & CopyObjectRequest & CopyObjectRequest & CopyObjectRequest & CopyObjectRequest & CopyObjectRequest & CopyObjectRequest & CopyObjectRequest & CopyObjectRequest & CopyObjectRequest & CopyObjectRequest & CopyObjectRequest & CopyObjectRequest)[K]
-    }>): CopyObjectOutput {
+    }>): Request<CopyObjectOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.copyObject(
-            this.ops["CopyObject"].apply(partialParams)
+          this.ops["CopyObject"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateBucket(partialParams: ToOptional<{
       [K in keyof CreateBucketRequest & keyof Omit<CreateBucketRequest, "Bucket"> & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest]: (CreateBucketRequest & Omit<CreateBucketRequest, "Bucket"> & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest)[K]
-    }>): CreateBucketOutput {
+    }>): Request<CreateBucketOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createBucket(
-            this.ops["CreateBucket"].apply(partialParams)
+          this.ops["CreateBucket"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateMultipartUpload(partialParams: ToOptional<{
       [K in keyof CreateMultipartUploadRequest & keyof Omit<CreateMultipartUploadRequest, "Bucket"> & keyof CreateMultipartUploadRequest & keyof CreateMultipartUploadRequest & keyof CreateMultipartUploadRequest & keyof CreateMultipartUploadRequest & keyof CreateMultipartUploadRequest & keyof CreateMultipartUploadRequest & keyof CreateMultipartUploadRequest & keyof CreateMultipartUploadRequest & keyof CreateMultipartUploadRequest & keyof CreateMultipartUploadRequest & keyof CreateMultipartUploadRequest & keyof CreateMultipartUploadRequest & keyof CreateMultipartUploadRequest & keyof CreateMultipartUploadRequest & keyof CreateMultipartUploadRequest & keyof CreateMultipartUploadRequest & keyof CreateMultipartUploadRequest & keyof CreateMultipartUploadRequest]: (CreateMultipartUploadRequest & Omit<CreateMultipartUploadRequest, "Bucket"> & CreateMultipartUploadRequest & CreateMultipartUploadRequest & CreateMultipartUploadRequest & CreateMultipartUploadRequest & CreateMultipartUploadRequest & CreateMultipartUploadRequest & CreateMultipartUploadRequest & CreateMultipartUploadRequest & CreateMultipartUploadRequest & CreateMultipartUploadRequest & CreateMultipartUploadRequest & CreateMultipartUploadRequest & CreateMultipartUploadRequest & CreateMultipartUploadRequest & CreateMultipartUploadRequest & CreateMultipartUploadRequest & CreateMultipartUploadRequest & CreateMultipartUploadRequest)[K]
-    }>): CreateMultipartUploadOutput {
+    }>): Request<CreateMultipartUploadOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createMultipartUpload(
-            this.ops["CreateMultipartUpload"].apply(partialParams)
+          this.ops["CreateMultipartUpload"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBucket(partialParams: ToOptional<{
       [K in keyof DeleteBucketRequest & keyof Omit<DeleteBucketRequest, "Bucket"> & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest]: (DeleteBucketRequest & Omit<DeleteBucketRequest, "Bucket"> & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBucket(
-            this.ops["DeleteBucket"].apply(partialParams)
+          this.ops["DeleteBucket"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBucketAnalyticsConfiguration(partialParams: ToOptional<{
       [K in keyof DeleteBucketAnalyticsConfigurationRequest & keyof Omit<DeleteBucketAnalyticsConfigurationRequest, "Bucket"> & keyof DeleteBucketAnalyticsConfigurationRequest & keyof DeleteBucketAnalyticsConfigurationRequest & keyof DeleteBucketAnalyticsConfigurationRequest & keyof DeleteBucketAnalyticsConfigurationRequest & keyof DeleteBucketAnalyticsConfigurationRequest & keyof DeleteBucketAnalyticsConfigurationRequest & keyof DeleteBucketAnalyticsConfigurationRequest & keyof DeleteBucketAnalyticsConfigurationRequest & keyof DeleteBucketAnalyticsConfigurationRequest & keyof DeleteBucketAnalyticsConfigurationRequest & keyof DeleteBucketAnalyticsConfigurationRequest & keyof DeleteBucketAnalyticsConfigurationRequest & keyof DeleteBucketAnalyticsConfigurationRequest & keyof DeleteBucketAnalyticsConfigurationRequest & keyof DeleteBucketAnalyticsConfigurationRequest & keyof DeleteBucketAnalyticsConfigurationRequest & keyof DeleteBucketAnalyticsConfigurationRequest & keyof DeleteBucketAnalyticsConfigurationRequest]: (DeleteBucketAnalyticsConfigurationRequest & Omit<DeleteBucketAnalyticsConfigurationRequest, "Bucket"> & DeleteBucketAnalyticsConfigurationRequest & DeleteBucketAnalyticsConfigurationRequest & DeleteBucketAnalyticsConfigurationRequest & DeleteBucketAnalyticsConfigurationRequest & DeleteBucketAnalyticsConfigurationRequest & DeleteBucketAnalyticsConfigurationRequest & DeleteBucketAnalyticsConfigurationRequest & DeleteBucketAnalyticsConfigurationRequest & DeleteBucketAnalyticsConfigurationRequest & DeleteBucketAnalyticsConfigurationRequest & DeleteBucketAnalyticsConfigurationRequest & DeleteBucketAnalyticsConfigurationRequest & DeleteBucketAnalyticsConfigurationRequest & DeleteBucketAnalyticsConfigurationRequest & DeleteBucketAnalyticsConfigurationRequest & DeleteBucketAnalyticsConfigurationRequest & DeleteBucketAnalyticsConfigurationRequest & DeleteBucketAnalyticsConfigurationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBucketAnalyticsConfiguration(
-            this.ops["DeleteBucketAnalyticsConfiguration"].apply(partialParams)
+          this.ops["DeleteBucketAnalyticsConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBucketCors(partialParams: ToOptional<{
       [K in keyof DeleteBucketCorsRequest & keyof Omit<DeleteBucketCorsRequest, "Bucket"> & keyof DeleteBucketCorsRequest & keyof DeleteBucketCorsRequest & keyof DeleteBucketCorsRequest & keyof DeleteBucketCorsRequest & keyof DeleteBucketCorsRequest & keyof DeleteBucketCorsRequest & keyof DeleteBucketCorsRequest & keyof DeleteBucketCorsRequest & keyof DeleteBucketCorsRequest & keyof DeleteBucketCorsRequest & keyof DeleteBucketCorsRequest & keyof DeleteBucketCorsRequest & keyof DeleteBucketCorsRequest & keyof DeleteBucketCorsRequest & keyof DeleteBucketCorsRequest & keyof DeleteBucketCorsRequest & keyof DeleteBucketCorsRequest & keyof DeleteBucketCorsRequest]: (DeleteBucketCorsRequest & Omit<DeleteBucketCorsRequest, "Bucket"> & DeleteBucketCorsRequest & DeleteBucketCorsRequest & DeleteBucketCorsRequest & DeleteBucketCorsRequest & DeleteBucketCorsRequest & DeleteBucketCorsRequest & DeleteBucketCorsRequest & DeleteBucketCorsRequest & DeleteBucketCorsRequest & DeleteBucketCorsRequest & DeleteBucketCorsRequest & DeleteBucketCorsRequest & DeleteBucketCorsRequest & DeleteBucketCorsRequest & DeleteBucketCorsRequest & DeleteBucketCorsRequest & DeleteBucketCorsRequest & DeleteBucketCorsRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBucketCors(
-            this.ops["DeleteBucketCors"].apply(partialParams)
+          this.ops["DeleteBucketCors"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBucketEncryption(partialParams: ToOptional<{
       [K in keyof DeleteBucketEncryptionRequest & keyof Omit<DeleteBucketEncryptionRequest, "Bucket"> & keyof DeleteBucketEncryptionRequest & keyof DeleteBucketEncryptionRequest & keyof DeleteBucketEncryptionRequest & keyof DeleteBucketEncryptionRequest & keyof DeleteBucketEncryptionRequest & keyof DeleteBucketEncryptionRequest & keyof DeleteBucketEncryptionRequest & keyof DeleteBucketEncryptionRequest & keyof DeleteBucketEncryptionRequest & keyof DeleteBucketEncryptionRequest & keyof DeleteBucketEncryptionRequest & keyof DeleteBucketEncryptionRequest & keyof DeleteBucketEncryptionRequest & keyof DeleteBucketEncryptionRequest & keyof DeleteBucketEncryptionRequest & keyof DeleteBucketEncryptionRequest & keyof DeleteBucketEncryptionRequest & keyof DeleteBucketEncryptionRequest]: (DeleteBucketEncryptionRequest & Omit<DeleteBucketEncryptionRequest, "Bucket"> & DeleteBucketEncryptionRequest & DeleteBucketEncryptionRequest & DeleteBucketEncryptionRequest & DeleteBucketEncryptionRequest & DeleteBucketEncryptionRequest & DeleteBucketEncryptionRequest & DeleteBucketEncryptionRequest & DeleteBucketEncryptionRequest & DeleteBucketEncryptionRequest & DeleteBucketEncryptionRequest & DeleteBucketEncryptionRequest & DeleteBucketEncryptionRequest & DeleteBucketEncryptionRequest & DeleteBucketEncryptionRequest & DeleteBucketEncryptionRequest & DeleteBucketEncryptionRequest & DeleteBucketEncryptionRequest & DeleteBucketEncryptionRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBucketEncryption(
-            this.ops["DeleteBucketEncryption"].apply(partialParams)
+          this.ops["DeleteBucketEncryption"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBucketIntelligentTieringConfiguration(partialParams: ToOptional<{
       [K in keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof Omit<DeleteBucketIntelligentTieringConfigurationRequest, "Bucket"> & keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof DeleteBucketIntelligentTieringConfigurationRequest & keyof DeleteBucketIntelligentTieringConfigurationRequest]: (DeleteBucketIntelligentTieringConfigurationRequest & Omit<DeleteBucketIntelligentTieringConfigurationRequest, "Bucket"> & DeleteBucketIntelligentTieringConfigurationRequest & DeleteBucketIntelligentTieringConfigurationRequest & DeleteBucketIntelligentTieringConfigurationRequest & DeleteBucketIntelligentTieringConfigurationRequest & DeleteBucketIntelligentTieringConfigurationRequest & DeleteBucketIntelligentTieringConfigurationRequest & DeleteBucketIntelligentTieringConfigurationRequest & DeleteBucketIntelligentTieringConfigurationRequest & DeleteBucketIntelligentTieringConfigurationRequest & DeleteBucketIntelligentTieringConfigurationRequest & DeleteBucketIntelligentTieringConfigurationRequest & DeleteBucketIntelligentTieringConfigurationRequest & DeleteBucketIntelligentTieringConfigurationRequest & DeleteBucketIntelligentTieringConfigurationRequest & DeleteBucketIntelligentTieringConfigurationRequest & DeleteBucketIntelligentTieringConfigurationRequest & DeleteBucketIntelligentTieringConfigurationRequest & DeleteBucketIntelligentTieringConfigurationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBucketIntelligentTieringConfiguration(
-            this.ops["DeleteBucketIntelligentTieringConfiguration"].apply(partialParams)
+          this.ops["DeleteBucketIntelligentTieringConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBucketInventoryConfiguration(partialParams: ToOptional<{
       [K in keyof DeleteBucketInventoryConfigurationRequest & keyof Omit<DeleteBucketInventoryConfigurationRequest, "Bucket"> & keyof DeleteBucketInventoryConfigurationRequest & keyof DeleteBucketInventoryConfigurationRequest & keyof DeleteBucketInventoryConfigurationRequest & keyof DeleteBucketInventoryConfigurationRequest & keyof DeleteBucketInventoryConfigurationRequest & keyof DeleteBucketInventoryConfigurationRequest & keyof DeleteBucketInventoryConfigurationRequest & keyof DeleteBucketInventoryConfigurationRequest & keyof DeleteBucketInventoryConfigurationRequest & keyof DeleteBucketInventoryConfigurationRequest & keyof DeleteBucketInventoryConfigurationRequest & keyof DeleteBucketInventoryConfigurationRequest & keyof DeleteBucketInventoryConfigurationRequest & keyof DeleteBucketInventoryConfigurationRequest & keyof DeleteBucketInventoryConfigurationRequest & keyof DeleteBucketInventoryConfigurationRequest & keyof DeleteBucketInventoryConfigurationRequest & keyof DeleteBucketInventoryConfigurationRequest]: (DeleteBucketInventoryConfigurationRequest & Omit<DeleteBucketInventoryConfigurationRequest, "Bucket"> & DeleteBucketInventoryConfigurationRequest & DeleteBucketInventoryConfigurationRequest & DeleteBucketInventoryConfigurationRequest & DeleteBucketInventoryConfigurationRequest & DeleteBucketInventoryConfigurationRequest & DeleteBucketInventoryConfigurationRequest & DeleteBucketInventoryConfigurationRequest & DeleteBucketInventoryConfigurationRequest & DeleteBucketInventoryConfigurationRequest & DeleteBucketInventoryConfigurationRequest & DeleteBucketInventoryConfigurationRequest & DeleteBucketInventoryConfigurationRequest & DeleteBucketInventoryConfigurationRequest & DeleteBucketInventoryConfigurationRequest & DeleteBucketInventoryConfigurationRequest & DeleteBucketInventoryConfigurationRequest & DeleteBucketInventoryConfigurationRequest & DeleteBucketInventoryConfigurationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBucketInventoryConfiguration(
-            this.ops["DeleteBucketInventoryConfiguration"].apply(partialParams)
+          this.ops["DeleteBucketInventoryConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBucketLifecycle(partialParams: ToOptional<{
       [K in keyof DeleteBucketLifecycleRequest & keyof Omit<DeleteBucketLifecycleRequest, "Bucket"> & keyof DeleteBucketLifecycleRequest & keyof DeleteBucketLifecycleRequest & keyof DeleteBucketLifecycleRequest & keyof DeleteBucketLifecycleRequest & keyof DeleteBucketLifecycleRequest & keyof DeleteBucketLifecycleRequest & keyof DeleteBucketLifecycleRequest & keyof DeleteBucketLifecycleRequest & keyof DeleteBucketLifecycleRequest & keyof DeleteBucketLifecycleRequest & keyof DeleteBucketLifecycleRequest & keyof DeleteBucketLifecycleRequest & keyof DeleteBucketLifecycleRequest & keyof DeleteBucketLifecycleRequest & keyof DeleteBucketLifecycleRequest & keyof DeleteBucketLifecycleRequest & keyof DeleteBucketLifecycleRequest & keyof DeleteBucketLifecycleRequest]: (DeleteBucketLifecycleRequest & Omit<DeleteBucketLifecycleRequest, "Bucket"> & DeleteBucketLifecycleRequest & DeleteBucketLifecycleRequest & DeleteBucketLifecycleRequest & DeleteBucketLifecycleRequest & DeleteBucketLifecycleRequest & DeleteBucketLifecycleRequest & DeleteBucketLifecycleRequest & DeleteBucketLifecycleRequest & DeleteBucketLifecycleRequest & DeleteBucketLifecycleRequest & DeleteBucketLifecycleRequest & DeleteBucketLifecycleRequest & DeleteBucketLifecycleRequest & DeleteBucketLifecycleRequest & DeleteBucketLifecycleRequest & DeleteBucketLifecycleRequest & DeleteBucketLifecycleRequest & DeleteBucketLifecycleRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBucketLifecycle(
-            this.ops["DeleteBucketLifecycle"].apply(partialParams)
+          this.ops["DeleteBucketLifecycle"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBucketMetricsConfiguration(partialParams: ToOptional<{
       [K in keyof DeleteBucketMetricsConfigurationRequest & keyof Omit<DeleteBucketMetricsConfigurationRequest, "Bucket"> & keyof DeleteBucketMetricsConfigurationRequest & keyof DeleteBucketMetricsConfigurationRequest & keyof DeleteBucketMetricsConfigurationRequest & keyof DeleteBucketMetricsConfigurationRequest & keyof DeleteBucketMetricsConfigurationRequest & keyof DeleteBucketMetricsConfigurationRequest & keyof DeleteBucketMetricsConfigurationRequest & keyof DeleteBucketMetricsConfigurationRequest & keyof DeleteBucketMetricsConfigurationRequest & keyof DeleteBucketMetricsConfigurationRequest & keyof DeleteBucketMetricsConfigurationRequest & keyof DeleteBucketMetricsConfigurationRequest & keyof DeleteBucketMetricsConfigurationRequest & keyof DeleteBucketMetricsConfigurationRequest & keyof DeleteBucketMetricsConfigurationRequest & keyof DeleteBucketMetricsConfigurationRequest & keyof DeleteBucketMetricsConfigurationRequest & keyof DeleteBucketMetricsConfigurationRequest]: (DeleteBucketMetricsConfigurationRequest & Omit<DeleteBucketMetricsConfigurationRequest, "Bucket"> & DeleteBucketMetricsConfigurationRequest & DeleteBucketMetricsConfigurationRequest & DeleteBucketMetricsConfigurationRequest & DeleteBucketMetricsConfigurationRequest & DeleteBucketMetricsConfigurationRequest & DeleteBucketMetricsConfigurationRequest & DeleteBucketMetricsConfigurationRequest & DeleteBucketMetricsConfigurationRequest & DeleteBucketMetricsConfigurationRequest & DeleteBucketMetricsConfigurationRequest & DeleteBucketMetricsConfigurationRequest & DeleteBucketMetricsConfigurationRequest & DeleteBucketMetricsConfigurationRequest & DeleteBucketMetricsConfigurationRequest & DeleteBucketMetricsConfigurationRequest & DeleteBucketMetricsConfigurationRequest & DeleteBucketMetricsConfigurationRequest & DeleteBucketMetricsConfigurationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBucketMetricsConfiguration(
-            this.ops["DeleteBucketMetricsConfiguration"].apply(partialParams)
+          this.ops["DeleteBucketMetricsConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBucketOwnershipControls(partialParams: ToOptional<{
       [K in keyof DeleteBucketOwnershipControlsRequest & keyof Omit<DeleteBucketOwnershipControlsRequest, "Bucket"> & keyof DeleteBucketOwnershipControlsRequest & keyof DeleteBucketOwnershipControlsRequest & keyof DeleteBucketOwnershipControlsRequest & keyof DeleteBucketOwnershipControlsRequest & keyof DeleteBucketOwnershipControlsRequest & keyof DeleteBucketOwnershipControlsRequest & keyof DeleteBucketOwnershipControlsRequest & keyof DeleteBucketOwnershipControlsRequest & keyof DeleteBucketOwnershipControlsRequest & keyof DeleteBucketOwnershipControlsRequest & keyof DeleteBucketOwnershipControlsRequest & keyof DeleteBucketOwnershipControlsRequest & keyof DeleteBucketOwnershipControlsRequest & keyof DeleteBucketOwnershipControlsRequest & keyof DeleteBucketOwnershipControlsRequest & keyof DeleteBucketOwnershipControlsRequest & keyof DeleteBucketOwnershipControlsRequest & keyof DeleteBucketOwnershipControlsRequest]: (DeleteBucketOwnershipControlsRequest & Omit<DeleteBucketOwnershipControlsRequest, "Bucket"> & DeleteBucketOwnershipControlsRequest & DeleteBucketOwnershipControlsRequest & DeleteBucketOwnershipControlsRequest & DeleteBucketOwnershipControlsRequest & DeleteBucketOwnershipControlsRequest & DeleteBucketOwnershipControlsRequest & DeleteBucketOwnershipControlsRequest & DeleteBucketOwnershipControlsRequest & DeleteBucketOwnershipControlsRequest & DeleteBucketOwnershipControlsRequest & DeleteBucketOwnershipControlsRequest & DeleteBucketOwnershipControlsRequest & DeleteBucketOwnershipControlsRequest & DeleteBucketOwnershipControlsRequest & DeleteBucketOwnershipControlsRequest & DeleteBucketOwnershipControlsRequest & DeleteBucketOwnershipControlsRequest & DeleteBucketOwnershipControlsRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBucketOwnershipControls(
-            this.ops["DeleteBucketOwnershipControls"].apply(partialParams)
+          this.ops["DeleteBucketOwnershipControls"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBucketPolicy(partialParams: ToOptional<{
       [K in keyof DeleteBucketPolicyRequest & keyof Omit<DeleteBucketPolicyRequest, "Bucket"> & keyof DeleteBucketPolicyRequest & keyof DeleteBucketPolicyRequest & keyof DeleteBucketPolicyRequest & keyof DeleteBucketPolicyRequest & keyof DeleteBucketPolicyRequest & keyof DeleteBucketPolicyRequest & keyof DeleteBucketPolicyRequest & keyof DeleteBucketPolicyRequest & keyof DeleteBucketPolicyRequest & keyof DeleteBucketPolicyRequest & keyof DeleteBucketPolicyRequest & keyof DeleteBucketPolicyRequest & keyof DeleteBucketPolicyRequest & keyof DeleteBucketPolicyRequest & keyof DeleteBucketPolicyRequest & keyof DeleteBucketPolicyRequest & keyof DeleteBucketPolicyRequest & keyof DeleteBucketPolicyRequest]: (DeleteBucketPolicyRequest & Omit<DeleteBucketPolicyRequest, "Bucket"> & DeleteBucketPolicyRequest & DeleteBucketPolicyRequest & DeleteBucketPolicyRequest & DeleteBucketPolicyRequest & DeleteBucketPolicyRequest & DeleteBucketPolicyRequest & DeleteBucketPolicyRequest & DeleteBucketPolicyRequest & DeleteBucketPolicyRequest & DeleteBucketPolicyRequest & DeleteBucketPolicyRequest & DeleteBucketPolicyRequest & DeleteBucketPolicyRequest & DeleteBucketPolicyRequest & DeleteBucketPolicyRequest & DeleteBucketPolicyRequest & DeleteBucketPolicyRequest & DeleteBucketPolicyRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBucketPolicy(
-            this.ops["DeleteBucketPolicy"].apply(partialParams)
+          this.ops["DeleteBucketPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBucketReplication(partialParams: ToOptional<{
       [K in keyof DeleteBucketReplicationRequest & keyof Omit<DeleteBucketReplicationRequest, "Bucket"> & keyof DeleteBucketReplicationRequest & keyof DeleteBucketReplicationRequest & keyof DeleteBucketReplicationRequest & keyof DeleteBucketReplicationRequest & keyof DeleteBucketReplicationRequest & keyof DeleteBucketReplicationRequest & keyof DeleteBucketReplicationRequest & keyof DeleteBucketReplicationRequest & keyof DeleteBucketReplicationRequest & keyof DeleteBucketReplicationRequest & keyof DeleteBucketReplicationRequest & keyof DeleteBucketReplicationRequest & keyof DeleteBucketReplicationRequest & keyof DeleteBucketReplicationRequest & keyof DeleteBucketReplicationRequest & keyof DeleteBucketReplicationRequest & keyof DeleteBucketReplicationRequest & keyof DeleteBucketReplicationRequest]: (DeleteBucketReplicationRequest & Omit<DeleteBucketReplicationRequest, "Bucket"> & DeleteBucketReplicationRequest & DeleteBucketReplicationRequest & DeleteBucketReplicationRequest & DeleteBucketReplicationRequest & DeleteBucketReplicationRequest & DeleteBucketReplicationRequest & DeleteBucketReplicationRequest & DeleteBucketReplicationRequest & DeleteBucketReplicationRequest & DeleteBucketReplicationRequest & DeleteBucketReplicationRequest & DeleteBucketReplicationRequest & DeleteBucketReplicationRequest & DeleteBucketReplicationRequest & DeleteBucketReplicationRequest & DeleteBucketReplicationRequest & DeleteBucketReplicationRequest & DeleteBucketReplicationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBucketReplication(
-            this.ops["DeleteBucketReplication"].apply(partialParams)
+          this.ops["DeleteBucketReplication"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBucketTagging(partialParams: ToOptional<{
       [K in keyof DeleteBucketTaggingRequest & keyof Omit<DeleteBucketTaggingRequest, "Bucket"> & keyof DeleteBucketTaggingRequest & keyof DeleteBucketTaggingRequest & keyof DeleteBucketTaggingRequest & keyof DeleteBucketTaggingRequest & keyof DeleteBucketTaggingRequest & keyof DeleteBucketTaggingRequest & keyof DeleteBucketTaggingRequest & keyof DeleteBucketTaggingRequest & keyof DeleteBucketTaggingRequest & keyof DeleteBucketTaggingRequest & keyof DeleteBucketTaggingRequest & keyof DeleteBucketTaggingRequest & keyof DeleteBucketTaggingRequest & keyof DeleteBucketTaggingRequest & keyof DeleteBucketTaggingRequest & keyof DeleteBucketTaggingRequest & keyof DeleteBucketTaggingRequest & keyof DeleteBucketTaggingRequest]: (DeleteBucketTaggingRequest & Omit<DeleteBucketTaggingRequest, "Bucket"> & DeleteBucketTaggingRequest & DeleteBucketTaggingRequest & DeleteBucketTaggingRequest & DeleteBucketTaggingRequest & DeleteBucketTaggingRequest & DeleteBucketTaggingRequest & DeleteBucketTaggingRequest & DeleteBucketTaggingRequest & DeleteBucketTaggingRequest & DeleteBucketTaggingRequest & DeleteBucketTaggingRequest & DeleteBucketTaggingRequest & DeleteBucketTaggingRequest & DeleteBucketTaggingRequest & DeleteBucketTaggingRequest & DeleteBucketTaggingRequest & DeleteBucketTaggingRequest & DeleteBucketTaggingRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBucketTagging(
-            this.ops["DeleteBucketTagging"].apply(partialParams)
+          this.ops["DeleteBucketTagging"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBucketWebsite(partialParams: ToOptional<{
       [K in keyof DeleteBucketWebsiteRequest & keyof Omit<DeleteBucketWebsiteRequest, "Bucket"> & keyof DeleteBucketWebsiteRequest & keyof DeleteBucketWebsiteRequest & keyof DeleteBucketWebsiteRequest & keyof DeleteBucketWebsiteRequest & keyof DeleteBucketWebsiteRequest & keyof DeleteBucketWebsiteRequest & keyof DeleteBucketWebsiteRequest & keyof DeleteBucketWebsiteRequest & keyof DeleteBucketWebsiteRequest & keyof DeleteBucketWebsiteRequest & keyof DeleteBucketWebsiteRequest & keyof DeleteBucketWebsiteRequest & keyof DeleteBucketWebsiteRequest & keyof DeleteBucketWebsiteRequest & keyof DeleteBucketWebsiteRequest & keyof DeleteBucketWebsiteRequest & keyof DeleteBucketWebsiteRequest & keyof DeleteBucketWebsiteRequest]: (DeleteBucketWebsiteRequest & Omit<DeleteBucketWebsiteRequest, "Bucket"> & DeleteBucketWebsiteRequest & DeleteBucketWebsiteRequest & DeleteBucketWebsiteRequest & DeleteBucketWebsiteRequest & DeleteBucketWebsiteRequest & DeleteBucketWebsiteRequest & DeleteBucketWebsiteRequest & DeleteBucketWebsiteRequest & DeleteBucketWebsiteRequest & DeleteBucketWebsiteRequest & DeleteBucketWebsiteRequest & DeleteBucketWebsiteRequest & DeleteBucketWebsiteRequest & DeleteBucketWebsiteRequest & DeleteBucketWebsiteRequest & DeleteBucketWebsiteRequest & DeleteBucketWebsiteRequest & DeleteBucketWebsiteRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBucketWebsite(
-            this.ops["DeleteBucketWebsite"].apply(partialParams)
+          this.ops["DeleteBucketWebsite"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteObject(partialParams: ToOptional<{
       [K in keyof DeleteObjectRequest & keyof Omit<DeleteObjectRequest, "Bucket"> & keyof DeleteObjectRequest & keyof DeleteObjectRequest & keyof DeleteObjectRequest & keyof DeleteObjectRequest & keyof DeleteObjectRequest & keyof DeleteObjectRequest & keyof DeleteObjectRequest & keyof DeleteObjectRequest & keyof DeleteObjectRequest & keyof DeleteObjectRequest & keyof DeleteObjectRequest & keyof DeleteObjectRequest & keyof DeleteObjectRequest & keyof DeleteObjectRequest & keyof DeleteObjectRequest & keyof DeleteObjectRequest & keyof DeleteObjectRequest & keyof DeleteObjectRequest]: (DeleteObjectRequest & Omit<DeleteObjectRequest, "Bucket"> & DeleteObjectRequest & DeleteObjectRequest & DeleteObjectRequest & DeleteObjectRequest & DeleteObjectRequest & DeleteObjectRequest & DeleteObjectRequest & DeleteObjectRequest & DeleteObjectRequest & DeleteObjectRequest & DeleteObjectRequest & DeleteObjectRequest & DeleteObjectRequest & DeleteObjectRequest & DeleteObjectRequest & DeleteObjectRequest & DeleteObjectRequest & DeleteObjectRequest)[K]
-    }>): DeleteObjectOutput {
+    }>): Request<DeleteObjectOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteObject(
-            this.ops["DeleteObject"].apply(partialParams)
+          this.ops["DeleteObject"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteObjectTagging(partialParams: ToOptional<{
       [K in keyof DeleteObjectTaggingRequest & keyof Omit<DeleteObjectTaggingRequest, "Bucket"> & keyof DeleteObjectTaggingRequest & keyof DeleteObjectTaggingRequest & keyof DeleteObjectTaggingRequest & keyof DeleteObjectTaggingRequest & keyof DeleteObjectTaggingRequest & keyof DeleteObjectTaggingRequest & keyof DeleteObjectTaggingRequest & keyof DeleteObjectTaggingRequest & keyof DeleteObjectTaggingRequest & keyof DeleteObjectTaggingRequest & keyof DeleteObjectTaggingRequest & keyof DeleteObjectTaggingRequest & keyof DeleteObjectTaggingRequest & keyof DeleteObjectTaggingRequest & keyof DeleteObjectTaggingRequest & keyof DeleteObjectTaggingRequest & keyof DeleteObjectTaggingRequest & keyof DeleteObjectTaggingRequest]: (DeleteObjectTaggingRequest & Omit<DeleteObjectTaggingRequest, "Bucket"> & DeleteObjectTaggingRequest & DeleteObjectTaggingRequest & DeleteObjectTaggingRequest & DeleteObjectTaggingRequest & DeleteObjectTaggingRequest & DeleteObjectTaggingRequest & DeleteObjectTaggingRequest & DeleteObjectTaggingRequest & DeleteObjectTaggingRequest & DeleteObjectTaggingRequest & DeleteObjectTaggingRequest & DeleteObjectTaggingRequest & DeleteObjectTaggingRequest & DeleteObjectTaggingRequest & DeleteObjectTaggingRequest & DeleteObjectTaggingRequest & DeleteObjectTaggingRequest & DeleteObjectTaggingRequest)[K]
-    }>): DeleteObjectTaggingOutput {
+    }>): Request<DeleteObjectTaggingOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteObjectTagging(
-            this.ops["DeleteObjectTagging"].apply(partialParams)
+          this.ops["DeleteObjectTagging"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteObjects(partialParams: ToOptional<{
       [K in keyof DeleteObjectsRequest & keyof Omit<DeleteObjectsRequest, "Bucket"> & keyof DeleteObjectsRequest & keyof DeleteObjectsRequest & keyof DeleteObjectsRequest & keyof DeleteObjectsRequest & keyof DeleteObjectsRequest & keyof DeleteObjectsRequest & keyof DeleteObjectsRequest & keyof DeleteObjectsRequest & keyof DeleteObjectsRequest & keyof DeleteObjectsRequest & keyof DeleteObjectsRequest & keyof DeleteObjectsRequest & keyof DeleteObjectsRequest & keyof DeleteObjectsRequest & keyof DeleteObjectsRequest & keyof DeleteObjectsRequest & keyof DeleteObjectsRequest & keyof DeleteObjectsRequest]: (DeleteObjectsRequest & Omit<DeleteObjectsRequest, "Bucket"> & DeleteObjectsRequest & DeleteObjectsRequest & DeleteObjectsRequest & DeleteObjectsRequest & DeleteObjectsRequest & DeleteObjectsRequest & DeleteObjectsRequest & DeleteObjectsRequest & DeleteObjectsRequest & DeleteObjectsRequest & DeleteObjectsRequest & DeleteObjectsRequest & DeleteObjectsRequest & DeleteObjectsRequest & DeleteObjectsRequest & DeleteObjectsRequest & DeleteObjectsRequest & DeleteObjectsRequest)[K]
-    }>): DeleteObjectsOutput {
+    }>): Request<DeleteObjectsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteObjects(
-            this.ops["DeleteObjects"].apply(partialParams)
+          this.ops["DeleteObjects"].applicator.apply(partialParams)
         );
     }
 
     invokeDeletePublicAccessBlock(partialParams: ToOptional<{
       [K in keyof DeletePublicAccessBlockRequest & keyof Omit<DeletePublicAccessBlockRequest, "Bucket"> & keyof DeletePublicAccessBlockRequest & keyof DeletePublicAccessBlockRequest & keyof DeletePublicAccessBlockRequest & keyof DeletePublicAccessBlockRequest & keyof DeletePublicAccessBlockRequest & keyof DeletePublicAccessBlockRequest & keyof DeletePublicAccessBlockRequest & keyof DeletePublicAccessBlockRequest & keyof DeletePublicAccessBlockRequest & keyof DeletePublicAccessBlockRequest & keyof DeletePublicAccessBlockRequest & keyof DeletePublicAccessBlockRequest & keyof DeletePublicAccessBlockRequest & keyof DeletePublicAccessBlockRequest & keyof DeletePublicAccessBlockRequest & keyof DeletePublicAccessBlockRequest & keyof DeletePublicAccessBlockRequest & keyof DeletePublicAccessBlockRequest]: (DeletePublicAccessBlockRequest & Omit<DeletePublicAccessBlockRequest, "Bucket"> & DeletePublicAccessBlockRequest & DeletePublicAccessBlockRequest & DeletePublicAccessBlockRequest & DeletePublicAccessBlockRequest & DeletePublicAccessBlockRequest & DeletePublicAccessBlockRequest & DeletePublicAccessBlockRequest & DeletePublicAccessBlockRequest & DeletePublicAccessBlockRequest & DeletePublicAccessBlockRequest & DeletePublicAccessBlockRequest & DeletePublicAccessBlockRequest & DeletePublicAccessBlockRequest & DeletePublicAccessBlockRequest & DeletePublicAccessBlockRequest & DeletePublicAccessBlockRequest & DeletePublicAccessBlockRequest & DeletePublicAccessBlockRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deletePublicAccessBlock(
-            this.ops["DeletePublicAccessBlock"].apply(partialParams)
+          this.ops["DeletePublicAccessBlock"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketAccelerateConfiguration(partialParams: ToOptional<{
       [K in keyof GetBucketAccelerateConfigurationRequest & keyof Omit<GetBucketAccelerateConfigurationRequest, "Bucket"> & keyof GetBucketAccelerateConfigurationRequest & keyof GetBucketAccelerateConfigurationRequest & keyof GetBucketAccelerateConfigurationRequest & keyof GetBucketAccelerateConfigurationRequest & keyof GetBucketAccelerateConfigurationRequest & keyof GetBucketAccelerateConfigurationRequest & keyof GetBucketAccelerateConfigurationRequest & keyof GetBucketAccelerateConfigurationRequest & keyof GetBucketAccelerateConfigurationRequest & keyof GetBucketAccelerateConfigurationRequest & keyof GetBucketAccelerateConfigurationRequest & keyof GetBucketAccelerateConfigurationRequest & keyof GetBucketAccelerateConfigurationRequest & keyof GetBucketAccelerateConfigurationRequest & keyof GetBucketAccelerateConfigurationRequest & keyof GetBucketAccelerateConfigurationRequest & keyof GetBucketAccelerateConfigurationRequest & keyof GetBucketAccelerateConfigurationRequest]: (GetBucketAccelerateConfigurationRequest & Omit<GetBucketAccelerateConfigurationRequest, "Bucket"> & GetBucketAccelerateConfigurationRequest & GetBucketAccelerateConfigurationRequest & GetBucketAccelerateConfigurationRequest & GetBucketAccelerateConfigurationRequest & GetBucketAccelerateConfigurationRequest & GetBucketAccelerateConfigurationRequest & GetBucketAccelerateConfigurationRequest & GetBucketAccelerateConfigurationRequest & GetBucketAccelerateConfigurationRequest & GetBucketAccelerateConfigurationRequest & GetBucketAccelerateConfigurationRequest & GetBucketAccelerateConfigurationRequest & GetBucketAccelerateConfigurationRequest & GetBucketAccelerateConfigurationRequest & GetBucketAccelerateConfigurationRequest & GetBucketAccelerateConfigurationRequest & GetBucketAccelerateConfigurationRequest & GetBucketAccelerateConfigurationRequest)[K]
-    }>): GetBucketAccelerateConfigurationOutput {
+    }>): Request<GetBucketAccelerateConfigurationOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketAccelerateConfiguration(
-            this.ops["GetBucketAccelerateConfiguration"].apply(partialParams)
+          this.ops["GetBucketAccelerateConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketAcl(partialParams: ToOptional<{
       [K in keyof GetBucketAclRequest & keyof Omit<GetBucketAclRequest, "Bucket"> & keyof GetBucketAclRequest & keyof GetBucketAclRequest & keyof GetBucketAclRequest & keyof GetBucketAclRequest & keyof GetBucketAclRequest & keyof GetBucketAclRequest & keyof GetBucketAclRequest & keyof GetBucketAclRequest & keyof GetBucketAclRequest & keyof GetBucketAclRequest & keyof GetBucketAclRequest & keyof GetBucketAclRequest & keyof GetBucketAclRequest & keyof GetBucketAclRequest & keyof GetBucketAclRequest & keyof GetBucketAclRequest & keyof GetBucketAclRequest & keyof GetBucketAclRequest]: (GetBucketAclRequest & Omit<GetBucketAclRequest, "Bucket"> & GetBucketAclRequest & GetBucketAclRequest & GetBucketAclRequest & GetBucketAclRequest & GetBucketAclRequest & GetBucketAclRequest & GetBucketAclRequest & GetBucketAclRequest & GetBucketAclRequest & GetBucketAclRequest & GetBucketAclRequest & GetBucketAclRequest & GetBucketAclRequest & GetBucketAclRequest & GetBucketAclRequest & GetBucketAclRequest & GetBucketAclRequest & GetBucketAclRequest)[K]
-    }>): GetBucketAclOutput {
+    }>): Request<GetBucketAclOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketAcl(
-            this.ops["GetBucketAcl"].apply(partialParams)
+          this.ops["GetBucketAcl"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketAnalyticsConfiguration(partialParams: ToOptional<{
       [K in keyof GetBucketAnalyticsConfigurationRequest & keyof Omit<GetBucketAnalyticsConfigurationRequest, "Bucket"> & keyof GetBucketAnalyticsConfigurationRequest & keyof GetBucketAnalyticsConfigurationRequest & keyof GetBucketAnalyticsConfigurationRequest & keyof GetBucketAnalyticsConfigurationRequest & keyof GetBucketAnalyticsConfigurationRequest & keyof GetBucketAnalyticsConfigurationRequest & keyof GetBucketAnalyticsConfigurationRequest & keyof GetBucketAnalyticsConfigurationRequest & keyof GetBucketAnalyticsConfigurationRequest & keyof GetBucketAnalyticsConfigurationRequest & keyof GetBucketAnalyticsConfigurationRequest & keyof GetBucketAnalyticsConfigurationRequest & keyof GetBucketAnalyticsConfigurationRequest & keyof GetBucketAnalyticsConfigurationRequest & keyof GetBucketAnalyticsConfigurationRequest & keyof GetBucketAnalyticsConfigurationRequest & keyof GetBucketAnalyticsConfigurationRequest & keyof GetBucketAnalyticsConfigurationRequest]: (GetBucketAnalyticsConfigurationRequest & Omit<GetBucketAnalyticsConfigurationRequest, "Bucket"> & GetBucketAnalyticsConfigurationRequest & GetBucketAnalyticsConfigurationRequest & GetBucketAnalyticsConfigurationRequest & GetBucketAnalyticsConfigurationRequest & GetBucketAnalyticsConfigurationRequest & GetBucketAnalyticsConfigurationRequest & GetBucketAnalyticsConfigurationRequest & GetBucketAnalyticsConfigurationRequest & GetBucketAnalyticsConfigurationRequest & GetBucketAnalyticsConfigurationRequest & GetBucketAnalyticsConfigurationRequest & GetBucketAnalyticsConfigurationRequest & GetBucketAnalyticsConfigurationRequest & GetBucketAnalyticsConfigurationRequest & GetBucketAnalyticsConfigurationRequest & GetBucketAnalyticsConfigurationRequest & GetBucketAnalyticsConfigurationRequest & GetBucketAnalyticsConfigurationRequest)[K]
-    }>): GetBucketAnalyticsConfigurationOutput {
+    }>): Request<GetBucketAnalyticsConfigurationOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketAnalyticsConfiguration(
-            this.ops["GetBucketAnalyticsConfiguration"].apply(partialParams)
+          this.ops["GetBucketAnalyticsConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketCors(partialParams: ToOptional<{
       [K in keyof GetBucketCorsRequest & keyof Omit<GetBucketCorsRequest, "Bucket"> & keyof GetBucketCorsRequest & keyof GetBucketCorsRequest & keyof GetBucketCorsRequest & keyof GetBucketCorsRequest & keyof GetBucketCorsRequest & keyof GetBucketCorsRequest & keyof GetBucketCorsRequest & keyof GetBucketCorsRequest & keyof GetBucketCorsRequest & keyof GetBucketCorsRequest & keyof GetBucketCorsRequest & keyof GetBucketCorsRequest & keyof GetBucketCorsRequest & keyof GetBucketCorsRequest & keyof GetBucketCorsRequest & keyof GetBucketCorsRequest & keyof GetBucketCorsRequest & keyof GetBucketCorsRequest]: (GetBucketCorsRequest & Omit<GetBucketCorsRequest, "Bucket"> & GetBucketCorsRequest & GetBucketCorsRequest & GetBucketCorsRequest & GetBucketCorsRequest & GetBucketCorsRequest & GetBucketCorsRequest & GetBucketCorsRequest & GetBucketCorsRequest & GetBucketCorsRequest & GetBucketCorsRequest & GetBucketCorsRequest & GetBucketCorsRequest & GetBucketCorsRequest & GetBucketCorsRequest & GetBucketCorsRequest & GetBucketCorsRequest & GetBucketCorsRequest & GetBucketCorsRequest)[K]
-    }>): GetBucketCorsOutput {
+    }>): Request<GetBucketCorsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketCors(
-            this.ops["GetBucketCors"].apply(partialParams)
+          this.ops["GetBucketCors"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketEncryption(partialParams: ToOptional<{
       [K in keyof GetBucketEncryptionRequest & keyof Omit<GetBucketEncryptionRequest, "Bucket"> & keyof GetBucketEncryptionRequest & keyof GetBucketEncryptionRequest & keyof GetBucketEncryptionRequest & keyof GetBucketEncryptionRequest & keyof GetBucketEncryptionRequest & keyof GetBucketEncryptionRequest & keyof GetBucketEncryptionRequest & keyof GetBucketEncryptionRequest & keyof GetBucketEncryptionRequest & keyof GetBucketEncryptionRequest & keyof GetBucketEncryptionRequest & keyof GetBucketEncryptionRequest & keyof GetBucketEncryptionRequest & keyof GetBucketEncryptionRequest & keyof GetBucketEncryptionRequest & keyof GetBucketEncryptionRequest & keyof GetBucketEncryptionRequest & keyof GetBucketEncryptionRequest]: (GetBucketEncryptionRequest & Omit<GetBucketEncryptionRequest, "Bucket"> & GetBucketEncryptionRequest & GetBucketEncryptionRequest & GetBucketEncryptionRequest & GetBucketEncryptionRequest & GetBucketEncryptionRequest & GetBucketEncryptionRequest & GetBucketEncryptionRequest & GetBucketEncryptionRequest & GetBucketEncryptionRequest & GetBucketEncryptionRequest & GetBucketEncryptionRequest & GetBucketEncryptionRequest & GetBucketEncryptionRequest & GetBucketEncryptionRequest & GetBucketEncryptionRequest & GetBucketEncryptionRequest & GetBucketEncryptionRequest & GetBucketEncryptionRequest)[K]
-    }>): GetBucketEncryptionOutput {
+    }>): Request<GetBucketEncryptionOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketEncryption(
-            this.ops["GetBucketEncryption"].apply(partialParams)
+          this.ops["GetBucketEncryption"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketIntelligentTieringConfiguration(partialParams: ToOptional<{
       [K in keyof GetBucketIntelligentTieringConfigurationRequest & keyof Omit<GetBucketIntelligentTieringConfigurationRequest, "Bucket"> & keyof GetBucketIntelligentTieringConfigurationRequest & keyof GetBucketIntelligentTieringConfigurationRequest & keyof GetBucketIntelligentTieringConfigurationRequest & keyof GetBucketIntelligentTieringConfigurationRequest & keyof GetBucketIntelligentTieringConfigurationRequest & keyof GetBucketIntelligentTieringConfigurationRequest & keyof GetBucketIntelligentTieringConfigurationRequest & keyof GetBucketIntelligentTieringConfigurationRequest & keyof GetBucketIntelligentTieringConfigurationRequest & keyof GetBucketIntelligentTieringConfigurationRequest & keyof GetBucketIntelligentTieringConfigurationRequest & keyof GetBucketIntelligentTieringConfigurationRequest & keyof GetBucketIntelligentTieringConfigurationRequest & keyof GetBucketIntelligentTieringConfigurationRequest & keyof GetBucketIntelligentTieringConfigurationRequest & keyof GetBucketIntelligentTieringConfigurationRequest & keyof GetBucketIntelligentTieringConfigurationRequest & keyof GetBucketIntelligentTieringConfigurationRequest]: (GetBucketIntelligentTieringConfigurationRequest & Omit<GetBucketIntelligentTieringConfigurationRequest, "Bucket"> & GetBucketIntelligentTieringConfigurationRequest & GetBucketIntelligentTieringConfigurationRequest & GetBucketIntelligentTieringConfigurationRequest & GetBucketIntelligentTieringConfigurationRequest & GetBucketIntelligentTieringConfigurationRequest & GetBucketIntelligentTieringConfigurationRequest & GetBucketIntelligentTieringConfigurationRequest & GetBucketIntelligentTieringConfigurationRequest & GetBucketIntelligentTieringConfigurationRequest & GetBucketIntelligentTieringConfigurationRequest & GetBucketIntelligentTieringConfigurationRequest & GetBucketIntelligentTieringConfigurationRequest & GetBucketIntelligentTieringConfigurationRequest & GetBucketIntelligentTieringConfigurationRequest & GetBucketIntelligentTieringConfigurationRequest & GetBucketIntelligentTieringConfigurationRequest & GetBucketIntelligentTieringConfigurationRequest & GetBucketIntelligentTieringConfigurationRequest)[K]
-    }>): GetBucketIntelligentTieringConfigurationOutput {
+    }>): Request<GetBucketIntelligentTieringConfigurationOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketIntelligentTieringConfiguration(
-            this.ops["GetBucketIntelligentTieringConfiguration"].apply(partialParams)
+          this.ops["GetBucketIntelligentTieringConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketInventoryConfiguration(partialParams: ToOptional<{
       [K in keyof GetBucketInventoryConfigurationRequest & keyof Omit<GetBucketInventoryConfigurationRequest, "Bucket"> & keyof GetBucketInventoryConfigurationRequest & keyof GetBucketInventoryConfigurationRequest & keyof GetBucketInventoryConfigurationRequest & keyof GetBucketInventoryConfigurationRequest & keyof GetBucketInventoryConfigurationRequest & keyof GetBucketInventoryConfigurationRequest & keyof GetBucketInventoryConfigurationRequest & keyof GetBucketInventoryConfigurationRequest & keyof GetBucketInventoryConfigurationRequest & keyof GetBucketInventoryConfigurationRequest & keyof GetBucketInventoryConfigurationRequest & keyof GetBucketInventoryConfigurationRequest & keyof GetBucketInventoryConfigurationRequest & keyof GetBucketInventoryConfigurationRequest & keyof GetBucketInventoryConfigurationRequest & keyof GetBucketInventoryConfigurationRequest & keyof GetBucketInventoryConfigurationRequest & keyof GetBucketInventoryConfigurationRequest]: (GetBucketInventoryConfigurationRequest & Omit<GetBucketInventoryConfigurationRequest, "Bucket"> & GetBucketInventoryConfigurationRequest & GetBucketInventoryConfigurationRequest & GetBucketInventoryConfigurationRequest & GetBucketInventoryConfigurationRequest & GetBucketInventoryConfigurationRequest & GetBucketInventoryConfigurationRequest & GetBucketInventoryConfigurationRequest & GetBucketInventoryConfigurationRequest & GetBucketInventoryConfigurationRequest & GetBucketInventoryConfigurationRequest & GetBucketInventoryConfigurationRequest & GetBucketInventoryConfigurationRequest & GetBucketInventoryConfigurationRequest & GetBucketInventoryConfigurationRequest & GetBucketInventoryConfigurationRequest & GetBucketInventoryConfigurationRequest & GetBucketInventoryConfigurationRequest & GetBucketInventoryConfigurationRequest)[K]
-    }>): GetBucketInventoryConfigurationOutput {
+    }>): Request<GetBucketInventoryConfigurationOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketInventoryConfiguration(
-            this.ops["GetBucketInventoryConfiguration"].apply(partialParams)
+          this.ops["GetBucketInventoryConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketLifecycle(partialParams: ToOptional<{
       [K in keyof GetBucketLifecycleRequest & keyof Omit<GetBucketLifecycleRequest, "Bucket"> & keyof GetBucketLifecycleRequest & keyof GetBucketLifecycleRequest & keyof GetBucketLifecycleRequest & keyof GetBucketLifecycleRequest & keyof GetBucketLifecycleRequest & keyof GetBucketLifecycleRequest & keyof GetBucketLifecycleRequest & keyof GetBucketLifecycleRequest & keyof GetBucketLifecycleRequest & keyof GetBucketLifecycleRequest & keyof GetBucketLifecycleRequest & keyof GetBucketLifecycleRequest & keyof GetBucketLifecycleRequest & keyof GetBucketLifecycleRequest & keyof GetBucketLifecycleRequest & keyof GetBucketLifecycleRequest & keyof GetBucketLifecycleRequest & keyof GetBucketLifecycleRequest]: (GetBucketLifecycleRequest & Omit<GetBucketLifecycleRequest, "Bucket"> & GetBucketLifecycleRequest & GetBucketLifecycleRequest & GetBucketLifecycleRequest & GetBucketLifecycleRequest & GetBucketLifecycleRequest & GetBucketLifecycleRequest & GetBucketLifecycleRequest & GetBucketLifecycleRequest & GetBucketLifecycleRequest & GetBucketLifecycleRequest & GetBucketLifecycleRequest & GetBucketLifecycleRequest & GetBucketLifecycleRequest & GetBucketLifecycleRequest & GetBucketLifecycleRequest & GetBucketLifecycleRequest & GetBucketLifecycleRequest & GetBucketLifecycleRequest)[K]
-    }>): GetBucketLifecycleOutput {
+    }>): Request<GetBucketLifecycleOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketLifecycle(
-            this.ops["GetBucketLifecycle"].apply(partialParams)
+          this.ops["GetBucketLifecycle"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketLifecycleConfiguration(partialParams: ToOptional<{
       [K in keyof GetBucketLifecycleConfigurationRequest & keyof Omit<GetBucketLifecycleConfigurationRequest, "Bucket"> & keyof GetBucketLifecycleConfigurationRequest & keyof GetBucketLifecycleConfigurationRequest & keyof GetBucketLifecycleConfigurationRequest & keyof GetBucketLifecycleConfigurationRequest & keyof GetBucketLifecycleConfigurationRequest & keyof GetBucketLifecycleConfigurationRequest & keyof GetBucketLifecycleConfigurationRequest & keyof GetBucketLifecycleConfigurationRequest & keyof GetBucketLifecycleConfigurationRequest & keyof GetBucketLifecycleConfigurationRequest & keyof GetBucketLifecycleConfigurationRequest & keyof GetBucketLifecycleConfigurationRequest & keyof GetBucketLifecycleConfigurationRequest & keyof GetBucketLifecycleConfigurationRequest & keyof GetBucketLifecycleConfigurationRequest & keyof GetBucketLifecycleConfigurationRequest & keyof GetBucketLifecycleConfigurationRequest & keyof GetBucketLifecycleConfigurationRequest]: (GetBucketLifecycleConfigurationRequest & Omit<GetBucketLifecycleConfigurationRequest, "Bucket"> & GetBucketLifecycleConfigurationRequest & GetBucketLifecycleConfigurationRequest & GetBucketLifecycleConfigurationRequest & GetBucketLifecycleConfigurationRequest & GetBucketLifecycleConfigurationRequest & GetBucketLifecycleConfigurationRequest & GetBucketLifecycleConfigurationRequest & GetBucketLifecycleConfigurationRequest & GetBucketLifecycleConfigurationRequest & GetBucketLifecycleConfigurationRequest & GetBucketLifecycleConfigurationRequest & GetBucketLifecycleConfigurationRequest & GetBucketLifecycleConfigurationRequest & GetBucketLifecycleConfigurationRequest & GetBucketLifecycleConfigurationRequest & GetBucketLifecycleConfigurationRequest & GetBucketLifecycleConfigurationRequest & GetBucketLifecycleConfigurationRequest)[K]
-    }>): GetBucketLifecycleConfigurationOutput {
+    }>): Request<GetBucketLifecycleConfigurationOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketLifecycleConfiguration(
-            this.ops["GetBucketLifecycleConfiguration"].apply(partialParams)
+          this.ops["GetBucketLifecycleConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketLocation(partialParams: ToOptional<{
       [K in keyof GetBucketLocationRequest & keyof Omit<GetBucketLocationRequest, "Bucket"> & keyof GetBucketLocationRequest & keyof GetBucketLocationRequest & keyof GetBucketLocationRequest & keyof GetBucketLocationRequest & keyof GetBucketLocationRequest & keyof GetBucketLocationRequest & keyof GetBucketLocationRequest & keyof GetBucketLocationRequest & keyof GetBucketLocationRequest & keyof GetBucketLocationRequest & keyof GetBucketLocationRequest & keyof GetBucketLocationRequest & keyof GetBucketLocationRequest & keyof GetBucketLocationRequest & keyof GetBucketLocationRequest & keyof GetBucketLocationRequest & keyof GetBucketLocationRequest & keyof GetBucketLocationRequest]: (GetBucketLocationRequest & Omit<GetBucketLocationRequest, "Bucket"> & GetBucketLocationRequest & GetBucketLocationRequest & GetBucketLocationRequest & GetBucketLocationRequest & GetBucketLocationRequest & GetBucketLocationRequest & GetBucketLocationRequest & GetBucketLocationRequest & GetBucketLocationRequest & GetBucketLocationRequest & GetBucketLocationRequest & GetBucketLocationRequest & GetBucketLocationRequest & GetBucketLocationRequest & GetBucketLocationRequest & GetBucketLocationRequest & GetBucketLocationRequest & GetBucketLocationRequest)[K]
-    }>): GetBucketLocationOutput {
+    }>): Request<GetBucketLocationOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketLocation(
-            this.ops["GetBucketLocation"].apply(partialParams)
+          this.ops["GetBucketLocation"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketLogging(partialParams: ToOptional<{
       [K in keyof GetBucketLoggingRequest & keyof Omit<GetBucketLoggingRequest, "Bucket"> & keyof GetBucketLoggingRequest & keyof GetBucketLoggingRequest & keyof GetBucketLoggingRequest & keyof GetBucketLoggingRequest & keyof GetBucketLoggingRequest & keyof GetBucketLoggingRequest & keyof GetBucketLoggingRequest & keyof GetBucketLoggingRequest & keyof GetBucketLoggingRequest & keyof GetBucketLoggingRequest & keyof GetBucketLoggingRequest & keyof GetBucketLoggingRequest & keyof GetBucketLoggingRequest & keyof GetBucketLoggingRequest & keyof GetBucketLoggingRequest & keyof GetBucketLoggingRequest & keyof GetBucketLoggingRequest & keyof GetBucketLoggingRequest]: (GetBucketLoggingRequest & Omit<GetBucketLoggingRequest, "Bucket"> & GetBucketLoggingRequest & GetBucketLoggingRequest & GetBucketLoggingRequest & GetBucketLoggingRequest & GetBucketLoggingRequest & GetBucketLoggingRequest & GetBucketLoggingRequest & GetBucketLoggingRequest & GetBucketLoggingRequest & GetBucketLoggingRequest & GetBucketLoggingRequest & GetBucketLoggingRequest & GetBucketLoggingRequest & GetBucketLoggingRequest & GetBucketLoggingRequest & GetBucketLoggingRequest & GetBucketLoggingRequest & GetBucketLoggingRequest)[K]
-    }>): GetBucketLoggingOutput {
+    }>): Request<GetBucketLoggingOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketLogging(
-            this.ops["GetBucketLogging"].apply(partialParams)
+          this.ops["GetBucketLogging"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketMetricsConfiguration(partialParams: ToOptional<{
       [K in keyof GetBucketMetricsConfigurationRequest & keyof Omit<GetBucketMetricsConfigurationRequest, "Bucket"> & keyof GetBucketMetricsConfigurationRequest & keyof GetBucketMetricsConfigurationRequest & keyof GetBucketMetricsConfigurationRequest & keyof GetBucketMetricsConfigurationRequest & keyof GetBucketMetricsConfigurationRequest & keyof GetBucketMetricsConfigurationRequest & keyof GetBucketMetricsConfigurationRequest & keyof GetBucketMetricsConfigurationRequest & keyof GetBucketMetricsConfigurationRequest & keyof GetBucketMetricsConfigurationRequest & keyof GetBucketMetricsConfigurationRequest & keyof GetBucketMetricsConfigurationRequest & keyof GetBucketMetricsConfigurationRequest & keyof GetBucketMetricsConfigurationRequest & keyof GetBucketMetricsConfigurationRequest & keyof GetBucketMetricsConfigurationRequest & keyof GetBucketMetricsConfigurationRequest & keyof GetBucketMetricsConfigurationRequest]: (GetBucketMetricsConfigurationRequest & Omit<GetBucketMetricsConfigurationRequest, "Bucket"> & GetBucketMetricsConfigurationRequest & GetBucketMetricsConfigurationRequest & GetBucketMetricsConfigurationRequest & GetBucketMetricsConfigurationRequest & GetBucketMetricsConfigurationRequest & GetBucketMetricsConfigurationRequest & GetBucketMetricsConfigurationRequest & GetBucketMetricsConfigurationRequest & GetBucketMetricsConfigurationRequest & GetBucketMetricsConfigurationRequest & GetBucketMetricsConfigurationRequest & GetBucketMetricsConfigurationRequest & GetBucketMetricsConfigurationRequest & GetBucketMetricsConfigurationRequest & GetBucketMetricsConfigurationRequest & GetBucketMetricsConfigurationRequest & GetBucketMetricsConfigurationRequest & GetBucketMetricsConfigurationRequest)[K]
-    }>): GetBucketMetricsConfigurationOutput {
+    }>): Request<GetBucketMetricsConfigurationOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketMetricsConfiguration(
-            this.ops["GetBucketMetricsConfiguration"].apply(partialParams)
+          this.ops["GetBucketMetricsConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketNotification(partialParams: ToOptional<{
       [K in keyof GetBucketNotificationConfigurationRequest & keyof Omit<GetBucketNotificationConfigurationRequest, "Bucket"> & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest]: (GetBucketNotificationConfigurationRequest & Omit<GetBucketNotificationConfigurationRequest, "Bucket"> & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest)[K]
-    }>): NotificationConfigurationDeprecated {
+    }>): Request<NotificationConfigurationDeprecated, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketNotification(
-            this.ops["GetBucketNotification"].apply(partialParams)
+          this.ops["GetBucketNotification"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketNotificationConfiguration(partialParams: ToOptional<{
       [K in keyof GetBucketNotificationConfigurationRequest & keyof Omit<GetBucketNotificationConfigurationRequest, "Bucket"> & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest & keyof GetBucketNotificationConfigurationRequest]: (GetBucketNotificationConfigurationRequest & Omit<GetBucketNotificationConfigurationRequest, "Bucket"> & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest & GetBucketNotificationConfigurationRequest)[K]
-    }>): NotificationConfiguration {
+    }>): Request<NotificationConfiguration, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketNotificationConfiguration(
-            this.ops["GetBucketNotificationConfiguration"].apply(partialParams)
+          this.ops["GetBucketNotificationConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketOwnershipControls(partialParams: ToOptional<{
       [K in keyof GetBucketOwnershipControlsRequest & keyof Omit<GetBucketOwnershipControlsRequest, "Bucket"> & keyof GetBucketOwnershipControlsRequest & keyof GetBucketOwnershipControlsRequest & keyof GetBucketOwnershipControlsRequest & keyof GetBucketOwnershipControlsRequest & keyof GetBucketOwnershipControlsRequest & keyof GetBucketOwnershipControlsRequest & keyof GetBucketOwnershipControlsRequest & keyof GetBucketOwnershipControlsRequest & keyof GetBucketOwnershipControlsRequest & keyof GetBucketOwnershipControlsRequest & keyof GetBucketOwnershipControlsRequest & keyof GetBucketOwnershipControlsRequest & keyof GetBucketOwnershipControlsRequest & keyof GetBucketOwnershipControlsRequest & keyof GetBucketOwnershipControlsRequest & keyof GetBucketOwnershipControlsRequest & keyof GetBucketOwnershipControlsRequest & keyof GetBucketOwnershipControlsRequest]: (GetBucketOwnershipControlsRequest & Omit<GetBucketOwnershipControlsRequest, "Bucket"> & GetBucketOwnershipControlsRequest & GetBucketOwnershipControlsRequest & GetBucketOwnershipControlsRequest & GetBucketOwnershipControlsRequest & GetBucketOwnershipControlsRequest & GetBucketOwnershipControlsRequest & GetBucketOwnershipControlsRequest & GetBucketOwnershipControlsRequest & GetBucketOwnershipControlsRequest & GetBucketOwnershipControlsRequest & GetBucketOwnershipControlsRequest & GetBucketOwnershipControlsRequest & GetBucketOwnershipControlsRequest & GetBucketOwnershipControlsRequest & GetBucketOwnershipControlsRequest & GetBucketOwnershipControlsRequest & GetBucketOwnershipControlsRequest & GetBucketOwnershipControlsRequest)[K]
-    }>): GetBucketOwnershipControlsOutput {
+    }>): Request<GetBucketOwnershipControlsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketOwnershipControls(
-            this.ops["GetBucketOwnershipControls"].apply(partialParams)
+          this.ops["GetBucketOwnershipControls"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketPolicy(partialParams: ToOptional<{
       [K in keyof GetBucketPolicyRequest & keyof Omit<GetBucketPolicyRequest, "Bucket"> & keyof GetBucketPolicyRequest & keyof GetBucketPolicyRequest & keyof GetBucketPolicyRequest & keyof GetBucketPolicyRequest & keyof GetBucketPolicyRequest & keyof GetBucketPolicyRequest & keyof GetBucketPolicyRequest & keyof GetBucketPolicyRequest & keyof GetBucketPolicyRequest & keyof GetBucketPolicyRequest & keyof GetBucketPolicyRequest & keyof GetBucketPolicyRequest & keyof GetBucketPolicyRequest & keyof GetBucketPolicyRequest & keyof GetBucketPolicyRequest & keyof GetBucketPolicyRequest & keyof GetBucketPolicyRequest & keyof GetBucketPolicyRequest]: (GetBucketPolicyRequest & Omit<GetBucketPolicyRequest, "Bucket"> & GetBucketPolicyRequest & GetBucketPolicyRequest & GetBucketPolicyRequest & GetBucketPolicyRequest & GetBucketPolicyRequest & GetBucketPolicyRequest & GetBucketPolicyRequest & GetBucketPolicyRequest & GetBucketPolicyRequest & GetBucketPolicyRequest & GetBucketPolicyRequest & GetBucketPolicyRequest & GetBucketPolicyRequest & GetBucketPolicyRequest & GetBucketPolicyRequest & GetBucketPolicyRequest & GetBucketPolicyRequest & GetBucketPolicyRequest)[K]
-    }>): GetBucketPolicyOutput {
+    }>): Request<GetBucketPolicyOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketPolicy(
-            this.ops["GetBucketPolicy"].apply(partialParams)
+          this.ops["GetBucketPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketPolicyStatus(partialParams: ToOptional<{
       [K in keyof GetBucketPolicyStatusRequest & keyof Omit<GetBucketPolicyStatusRequest, "Bucket"> & keyof GetBucketPolicyStatusRequest & keyof GetBucketPolicyStatusRequest & keyof GetBucketPolicyStatusRequest & keyof GetBucketPolicyStatusRequest & keyof GetBucketPolicyStatusRequest & keyof GetBucketPolicyStatusRequest & keyof GetBucketPolicyStatusRequest & keyof GetBucketPolicyStatusRequest & keyof GetBucketPolicyStatusRequest & keyof GetBucketPolicyStatusRequest & keyof GetBucketPolicyStatusRequest & keyof GetBucketPolicyStatusRequest & keyof GetBucketPolicyStatusRequest & keyof GetBucketPolicyStatusRequest & keyof GetBucketPolicyStatusRequest & keyof GetBucketPolicyStatusRequest & keyof GetBucketPolicyStatusRequest & keyof GetBucketPolicyStatusRequest]: (GetBucketPolicyStatusRequest & Omit<GetBucketPolicyStatusRequest, "Bucket"> & GetBucketPolicyStatusRequest & GetBucketPolicyStatusRequest & GetBucketPolicyStatusRequest & GetBucketPolicyStatusRequest & GetBucketPolicyStatusRequest & GetBucketPolicyStatusRequest & GetBucketPolicyStatusRequest & GetBucketPolicyStatusRequest & GetBucketPolicyStatusRequest & GetBucketPolicyStatusRequest & GetBucketPolicyStatusRequest & GetBucketPolicyStatusRequest & GetBucketPolicyStatusRequest & GetBucketPolicyStatusRequest & GetBucketPolicyStatusRequest & GetBucketPolicyStatusRequest & GetBucketPolicyStatusRequest & GetBucketPolicyStatusRequest)[K]
-    }>): GetBucketPolicyStatusOutput {
+    }>): Request<GetBucketPolicyStatusOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketPolicyStatus(
-            this.ops["GetBucketPolicyStatus"].apply(partialParams)
+          this.ops["GetBucketPolicyStatus"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketReplication(partialParams: ToOptional<{
       [K in keyof GetBucketReplicationRequest & keyof Omit<GetBucketReplicationRequest, "Bucket"> & keyof GetBucketReplicationRequest & keyof GetBucketReplicationRequest & keyof GetBucketReplicationRequest & keyof GetBucketReplicationRequest & keyof GetBucketReplicationRequest & keyof GetBucketReplicationRequest & keyof GetBucketReplicationRequest & keyof GetBucketReplicationRequest & keyof GetBucketReplicationRequest & keyof GetBucketReplicationRequest & keyof GetBucketReplicationRequest & keyof GetBucketReplicationRequest & keyof GetBucketReplicationRequest & keyof GetBucketReplicationRequest & keyof GetBucketReplicationRequest & keyof GetBucketReplicationRequest & keyof GetBucketReplicationRequest & keyof GetBucketReplicationRequest]: (GetBucketReplicationRequest & Omit<GetBucketReplicationRequest, "Bucket"> & GetBucketReplicationRequest & GetBucketReplicationRequest & GetBucketReplicationRequest & GetBucketReplicationRequest & GetBucketReplicationRequest & GetBucketReplicationRequest & GetBucketReplicationRequest & GetBucketReplicationRequest & GetBucketReplicationRequest & GetBucketReplicationRequest & GetBucketReplicationRequest & GetBucketReplicationRequest & GetBucketReplicationRequest & GetBucketReplicationRequest & GetBucketReplicationRequest & GetBucketReplicationRequest & GetBucketReplicationRequest & GetBucketReplicationRequest)[K]
-    }>): GetBucketReplicationOutput {
+    }>): Request<GetBucketReplicationOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketReplication(
-            this.ops["GetBucketReplication"].apply(partialParams)
+          this.ops["GetBucketReplication"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketRequestPayment(partialParams: ToOptional<{
       [K in keyof GetBucketRequestPaymentRequest & keyof Omit<GetBucketRequestPaymentRequest, "Bucket"> & keyof GetBucketRequestPaymentRequest & keyof GetBucketRequestPaymentRequest & keyof GetBucketRequestPaymentRequest & keyof GetBucketRequestPaymentRequest & keyof GetBucketRequestPaymentRequest & keyof GetBucketRequestPaymentRequest & keyof GetBucketRequestPaymentRequest & keyof GetBucketRequestPaymentRequest & keyof GetBucketRequestPaymentRequest & keyof GetBucketRequestPaymentRequest & keyof GetBucketRequestPaymentRequest & keyof GetBucketRequestPaymentRequest & keyof GetBucketRequestPaymentRequest & keyof GetBucketRequestPaymentRequest & keyof GetBucketRequestPaymentRequest & keyof GetBucketRequestPaymentRequest & keyof GetBucketRequestPaymentRequest & keyof GetBucketRequestPaymentRequest]: (GetBucketRequestPaymentRequest & Omit<GetBucketRequestPaymentRequest, "Bucket"> & GetBucketRequestPaymentRequest & GetBucketRequestPaymentRequest & GetBucketRequestPaymentRequest & GetBucketRequestPaymentRequest & GetBucketRequestPaymentRequest & GetBucketRequestPaymentRequest & GetBucketRequestPaymentRequest & GetBucketRequestPaymentRequest & GetBucketRequestPaymentRequest & GetBucketRequestPaymentRequest & GetBucketRequestPaymentRequest & GetBucketRequestPaymentRequest & GetBucketRequestPaymentRequest & GetBucketRequestPaymentRequest & GetBucketRequestPaymentRequest & GetBucketRequestPaymentRequest & GetBucketRequestPaymentRequest & GetBucketRequestPaymentRequest)[K]
-    }>): GetBucketRequestPaymentOutput {
+    }>): Request<GetBucketRequestPaymentOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketRequestPayment(
-            this.ops["GetBucketRequestPayment"].apply(partialParams)
+          this.ops["GetBucketRequestPayment"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketTagging(partialParams: ToOptional<{
       [K in keyof GetBucketTaggingRequest & keyof Omit<GetBucketTaggingRequest, "Bucket"> & keyof GetBucketTaggingRequest & keyof GetBucketTaggingRequest & keyof GetBucketTaggingRequest & keyof GetBucketTaggingRequest & keyof GetBucketTaggingRequest & keyof GetBucketTaggingRequest & keyof GetBucketTaggingRequest & keyof GetBucketTaggingRequest & keyof GetBucketTaggingRequest & keyof GetBucketTaggingRequest & keyof GetBucketTaggingRequest & keyof GetBucketTaggingRequest & keyof GetBucketTaggingRequest & keyof GetBucketTaggingRequest & keyof GetBucketTaggingRequest & keyof GetBucketTaggingRequest & keyof GetBucketTaggingRequest & keyof GetBucketTaggingRequest]: (GetBucketTaggingRequest & Omit<GetBucketTaggingRequest, "Bucket"> & GetBucketTaggingRequest & GetBucketTaggingRequest & GetBucketTaggingRequest & GetBucketTaggingRequest & GetBucketTaggingRequest & GetBucketTaggingRequest & GetBucketTaggingRequest & GetBucketTaggingRequest & GetBucketTaggingRequest & GetBucketTaggingRequest & GetBucketTaggingRequest & GetBucketTaggingRequest & GetBucketTaggingRequest & GetBucketTaggingRequest & GetBucketTaggingRequest & GetBucketTaggingRequest & GetBucketTaggingRequest & GetBucketTaggingRequest)[K]
-    }>): GetBucketTaggingOutput {
+    }>): Request<GetBucketTaggingOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketTagging(
-            this.ops["GetBucketTagging"].apply(partialParams)
+          this.ops["GetBucketTagging"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketVersioning(partialParams: ToOptional<{
       [K in keyof GetBucketVersioningRequest & keyof Omit<GetBucketVersioningRequest, "Bucket"> & keyof GetBucketVersioningRequest & keyof GetBucketVersioningRequest & keyof GetBucketVersioningRequest & keyof GetBucketVersioningRequest & keyof GetBucketVersioningRequest & keyof GetBucketVersioningRequest & keyof GetBucketVersioningRequest & keyof GetBucketVersioningRequest & keyof GetBucketVersioningRequest & keyof GetBucketVersioningRequest & keyof GetBucketVersioningRequest & keyof GetBucketVersioningRequest & keyof GetBucketVersioningRequest & keyof GetBucketVersioningRequest & keyof GetBucketVersioningRequest & keyof GetBucketVersioningRequest & keyof GetBucketVersioningRequest & keyof GetBucketVersioningRequest]: (GetBucketVersioningRequest & Omit<GetBucketVersioningRequest, "Bucket"> & GetBucketVersioningRequest & GetBucketVersioningRequest & GetBucketVersioningRequest & GetBucketVersioningRequest & GetBucketVersioningRequest & GetBucketVersioningRequest & GetBucketVersioningRequest & GetBucketVersioningRequest & GetBucketVersioningRequest & GetBucketVersioningRequest & GetBucketVersioningRequest & GetBucketVersioningRequest & GetBucketVersioningRequest & GetBucketVersioningRequest & GetBucketVersioningRequest & GetBucketVersioningRequest & GetBucketVersioningRequest & GetBucketVersioningRequest)[K]
-    }>): GetBucketVersioningOutput {
+    }>): Request<GetBucketVersioningOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketVersioning(
-            this.ops["GetBucketVersioning"].apply(partialParams)
+          this.ops["GetBucketVersioning"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketWebsite(partialParams: ToOptional<{
       [K in keyof GetBucketWebsiteRequest & keyof Omit<GetBucketWebsiteRequest, "Bucket"> & keyof GetBucketWebsiteRequest & keyof GetBucketWebsiteRequest & keyof GetBucketWebsiteRequest & keyof GetBucketWebsiteRequest & keyof GetBucketWebsiteRequest & keyof GetBucketWebsiteRequest & keyof GetBucketWebsiteRequest & keyof GetBucketWebsiteRequest & keyof GetBucketWebsiteRequest & keyof GetBucketWebsiteRequest & keyof GetBucketWebsiteRequest & keyof GetBucketWebsiteRequest & keyof GetBucketWebsiteRequest & keyof GetBucketWebsiteRequest & keyof GetBucketWebsiteRequest & keyof GetBucketWebsiteRequest & keyof GetBucketWebsiteRequest & keyof GetBucketWebsiteRequest]: (GetBucketWebsiteRequest & Omit<GetBucketWebsiteRequest, "Bucket"> & GetBucketWebsiteRequest & GetBucketWebsiteRequest & GetBucketWebsiteRequest & GetBucketWebsiteRequest & GetBucketWebsiteRequest & GetBucketWebsiteRequest & GetBucketWebsiteRequest & GetBucketWebsiteRequest & GetBucketWebsiteRequest & GetBucketWebsiteRequest & GetBucketWebsiteRequest & GetBucketWebsiteRequest & GetBucketWebsiteRequest & GetBucketWebsiteRequest & GetBucketWebsiteRequest & GetBucketWebsiteRequest & GetBucketWebsiteRequest & GetBucketWebsiteRequest)[K]
-    }>): GetBucketWebsiteOutput {
+    }>): Request<GetBucketWebsiteOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketWebsite(
-            this.ops["GetBucketWebsite"].apply(partialParams)
+          this.ops["GetBucketWebsite"].applicator.apply(partialParams)
         );
     }
 
     invokeGetObject(partialParams: ToOptional<{
       [K in keyof GetObjectRequest & keyof Omit<GetObjectRequest, "Bucket"> & keyof GetObjectRequest & keyof GetObjectRequest & keyof GetObjectRequest & keyof GetObjectRequest & keyof GetObjectRequest & keyof GetObjectRequest & keyof GetObjectRequest & keyof GetObjectRequest & keyof GetObjectRequest & keyof GetObjectRequest & keyof GetObjectRequest & keyof GetObjectRequest & keyof GetObjectRequest & keyof GetObjectRequest & keyof GetObjectRequest & keyof GetObjectRequest & keyof GetObjectRequest & keyof GetObjectRequest]: (GetObjectRequest & Omit<GetObjectRequest, "Bucket"> & GetObjectRequest & GetObjectRequest & GetObjectRequest & GetObjectRequest & GetObjectRequest & GetObjectRequest & GetObjectRequest & GetObjectRequest & GetObjectRequest & GetObjectRequest & GetObjectRequest & GetObjectRequest & GetObjectRequest & GetObjectRequest & GetObjectRequest & GetObjectRequest & GetObjectRequest & GetObjectRequest)[K]
-    }>): GetObjectOutput {
+    }>): Request<GetObjectOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getObject(
-            this.ops["GetObject"].apply(partialParams)
+          this.ops["GetObject"].applicator.apply(partialParams)
         );
     }
 
     invokeGetObjectAcl(partialParams: ToOptional<{
       [K in keyof GetObjectAclRequest & keyof Omit<GetObjectAclRequest, "Bucket"> & keyof GetObjectAclRequest & keyof GetObjectAclRequest & keyof GetObjectAclRequest & keyof GetObjectAclRequest & keyof GetObjectAclRequest & keyof GetObjectAclRequest & keyof GetObjectAclRequest & keyof GetObjectAclRequest & keyof GetObjectAclRequest & keyof GetObjectAclRequest & keyof GetObjectAclRequest & keyof GetObjectAclRequest & keyof GetObjectAclRequest & keyof GetObjectAclRequest & keyof GetObjectAclRequest & keyof GetObjectAclRequest & keyof GetObjectAclRequest & keyof GetObjectAclRequest]: (GetObjectAclRequest & Omit<GetObjectAclRequest, "Bucket"> & GetObjectAclRequest & GetObjectAclRequest & GetObjectAclRequest & GetObjectAclRequest & GetObjectAclRequest & GetObjectAclRequest & GetObjectAclRequest & GetObjectAclRequest & GetObjectAclRequest & GetObjectAclRequest & GetObjectAclRequest & GetObjectAclRequest & GetObjectAclRequest & GetObjectAclRequest & GetObjectAclRequest & GetObjectAclRequest & GetObjectAclRequest & GetObjectAclRequest)[K]
-    }>): GetObjectAclOutput {
+    }>): Request<GetObjectAclOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getObjectAcl(
-            this.ops["GetObjectAcl"].apply(partialParams)
+          this.ops["GetObjectAcl"].applicator.apply(partialParams)
         );
     }
 
     invokeGetObjectLegalHold(partialParams: ToOptional<{
       [K in keyof GetObjectLegalHoldRequest & keyof Omit<GetObjectLegalHoldRequest, "Bucket"> & keyof GetObjectLegalHoldRequest & keyof GetObjectLegalHoldRequest & keyof GetObjectLegalHoldRequest & keyof GetObjectLegalHoldRequest & keyof GetObjectLegalHoldRequest & keyof GetObjectLegalHoldRequest & keyof GetObjectLegalHoldRequest & keyof GetObjectLegalHoldRequest & keyof GetObjectLegalHoldRequest & keyof GetObjectLegalHoldRequest & keyof GetObjectLegalHoldRequest & keyof GetObjectLegalHoldRequest & keyof GetObjectLegalHoldRequest & keyof GetObjectLegalHoldRequest & keyof GetObjectLegalHoldRequest & keyof GetObjectLegalHoldRequest & keyof GetObjectLegalHoldRequest & keyof GetObjectLegalHoldRequest]: (GetObjectLegalHoldRequest & Omit<GetObjectLegalHoldRequest, "Bucket"> & GetObjectLegalHoldRequest & GetObjectLegalHoldRequest & GetObjectLegalHoldRequest & GetObjectLegalHoldRequest & GetObjectLegalHoldRequest & GetObjectLegalHoldRequest & GetObjectLegalHoldRequest & GetObjectLegalHoldRequest & GetObjectLegalHoldRequest & GetObjectLegalHoldRequest & GetObjectLegalHoldRequest & GetObjectLegalHoldRequest & GetObjectLegalHoldRequest & GetObjectLegalHoldRequest & GetObjectLegalHoldRequest & GetObjectLegalHoldRequest & GetObjectLegalHoldRequest & GetObjectLegalHoldRequest)[K]
-    }>): GetObjectLegalHoldOutput {
+    }>): Request<GetObjectLegalHoldOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getObjectLegalHold(
-            this.ops["GetObjectLegalHold"].apply(partialParams)
+          this.ops["GetObjectLegalHold"].applicator.apply(partialParams)
         );
     }
 
     invokeGetObjectLockConfiguration(partialParams: ToOptional<{
       [K in keyof GetObjectLockConfigurationRequest & keyof Omit<GetObjectLockConfigurationRequest, "Bucket"> & keyof GetObjectLockConfigurationRequest & keyof GetObjectLockConfigurationRequest & keyof GetObjectLockConfigurationRequest & keyof GetObjectLockConfigurationRequest & keyof GetObjectLockConfigurationRequest & keyof GetObjectLockConfigurationRequest & keyof GetObjectLockConfigurationRequest & keyof GetObjectLockConfigurationRequest & keyof GetObjectLockConfigurationRequest & keyof GetObjectLockConfigurationRequest & keyof GetObjectLockConfigurationRequest & keyof GetObjectLockConfigurationRequest & keyof GetObjectLockConfigurationRequest & keyof GetObjectLockConfigurationRequest & keyof GetObjectLockConfigurationRequest & keyof GetObjectLockConfigurationRequest & keyof GetObjectLockConfigurationRequest & keyof GetObjectLockConfigurationRequest]: (GetObjectLockConfigurationRequest & Omit<GetObjectLockConfigurationRequest, "Bucket"> & GetObjectLockConfigurationRequest & GetObjectLockConfigurationRequest & GetObjectLockConfigurationRequest & GetObjectLockConfigurationRequest & GetObjectLockConfigurationRequest & GetObjectLockConfigurationRequest & GetObjectLockConfigurationRequest & GetObjectLockConfigurationRequest & GetObjectLockConfigurationRequest & GetObjectLockConfigurationRequest & GetObjectLockConfigurationRequest & GetObjectLockConfigurationRequest & GetObjectLockConfigurationRequest & GetObjectLockConfigurationRequest & GetObjectLockConfigurationRequest & GetObjectLockConfigurationRequest & GetObjectLockConfigurationRequest & GetObjectLockConfigurationRequest)[K]
-    }>): GetObjectLockConfigurationOutput {
+    }>): Request<GetObjectLockConfigurationOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getObjectLockConfiguration(
-            this.ops["GetObjectLockConfiguration"].apply(partialParams)
+          this.ops["GetObjectLockConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeGetObjectRetention(partialParams: ToOptional<{
       [K in keyof GetObjectRetentionRequest & keyof Omit<GetObjectRetentionRequest, "Bucket"> & keyof GetObjectRetentionRequest & keyof GetObjectRetentionRequest & keyof GetObjectRetentionRequest & keyof GetObjectRetentionRequest & keyof GetObjectRetentionRequest & keyof GetObjectRetentionRequest & keyof GetObjectRetentionRequest & keyof GetObjectRetentionRequest & keyof GetObjectRetentionRequest & keyof GetObjectRetentionRequest & keyof GetObjectRetentionRequest & keyof GetObjectRetentionRequest & keyof GetObjectRetentionRequest & keyof GetObjectRetentionRequest & keyof GetObjectRetentionRequest & keyof GetObjectRetentionRequest & keyof GetObjectRetentionRequest & keyof GetObjectRetentionRequest]: (GetObjectRetentionRequest & Omit<GetObjectRetentionRequest, "Bucket"> & GetObjectRetentionRequest & GetObjectRetentionRequest & GetObjectRetentionRequest & GetObjectRetentionRequest & GetObjectRetentionRequest & GetObjectRetentionRequest & GetObjectRetentionRequest & GetObjectRetentionRequest & GetObjectRetentionRequest & GetObjectRetentionRequest & GetObjectRetentionRequest & GetObjectRetentionRequest & GetObjectRetentionRequest & GetObjectRetentionRequest & GetObjectRetentionRequest & GetObjectRetentionRequest & GetObjectRetentionRequest & GetObjectRetentionRequest)[K]
-    }>): GetObjectRetentionOutput {
+    }>): Request<GetObjectRetentionOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getObjectRetention(
-            this.ops["GetObjectRetention"].apply(partialParams)
+          this.ops["GetObjectRetention"].applicator.apply(partialParams)
         );
     }
 
     invokeGetObjectTagging(partialParams: ToOptional<{
       [K in keyof GetObjectTaggingRequest & keyof Omit<GetObjectTaggingRequest, "Bucket"> & keyof GetObjectTaggingRequest & keyof GetObjectTaggingRequest & keyof GetObjectTaggingRequest & keyof GetObjectTaggingRequest & keyof GetObjectTaggingRequest & keyof GetObjectTaggingRequest & keyof GetObjectTaggingRequest & keyof GetObjectTaggingRequest & keyof GetObjectTaggingRequest & keyof GetObjectTaggingRequest & keyof GetObjectTaggingRequest & keyof GetObjectTaggingRequest & keyof GetObjectTaggingRequest & keyof GetObjectTaggingRequest & keyof GetObjectTaggingRequest & keyof GetObjectTaggingRequest & keyof GetObjectTaggingRequest & keyof GetObjectTaggingRequest]: (GetObjectTaggingRequest & Omit<GetObjectTaggingRequest, "Bucket"> & GetObjectTaggingRequest & GetObjectTaggingRequest & GetObjectTaggingRequest & GetObjectTaggingRequest & GetObjectTaggingRequest & GetObjectTaggingRequest & GetObjectTaggingRequest & GetObjectTaggingRequest & GetObjectTaggingRequest & GetObjectTaggingRequest & GetObjectTaggingRequest & GetObjectTaggingRequest & GetObjectTaggingRequest & GetObjectTaggingRequest & GetObjectTaggingRequest & GetObjectTaggingRequest & GetObjectTaggingRequest & GetObjectTaggingRequest)[K]
-    }>): GetObjectTaggingOutput {
+    }>): Request<GetObjectTaggingOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getObjectTagging(
-            this.ops["GetObjectTagging"].apply(partialParams)
+          this.ops["GetObjectTagging"].applicator.apply(partialParams)
         );
     }
 
     invokeGetObjectTorrent(partialParams: ToOptional<{
       [K in keyof GetObjectTorrentRequest & keyof Omit<GetObjectTorrentRequest, "Bucket"> & keyof GetObjectTorrentRequest & keyof GetObjectTorrentRequest & keyof GetObjectTorrentRequest & keyof GetObjectTorrentRequest & keyof GetObjectTorrentRequest & keyof GetObjectTorrentRequest & keyof GetObjectTorrentRequest & keyof GetObjectTorrentRequest & keyof GetObjectTorrentRequest & keyof GetObjectTorrentRequest & keyof GetObjectTorrentRequest & keyof GetObjectTorrentRequest & keyof GetObjectTorrentRequest & keyof GetObjectTorrentRequest & keyof GetObjectTorrentRequest & keyof GetObjectTorrentRequest & keyof GetObjectTorrentRequest & keyof GetObjectTorrentRequest]: (GetObjectTorrentRequest & Omit<GetObjectTorrentRequest, "Bucket"> & GetObjectTorrentRequest & GetObjectTorrentRequest & GetObjectTorrentRequest & GetObjectTorrentRequest & GetObjectTorrentRequest & GetObjectTorrentRequest & GetObjectTorrentRequest & GetObjectTorrentRequest & GetObjectTorrentRequest & GetObjectTorrentRequest & GetObjectTorrentRequest & GetObjectTorrentRequest & GetObjectTorrentRequest & GetObjectTorrentRequest & GetObjectTorrentRequest & GetObjectTorrentRequest & GetObjectTorrentRequest & GetObjectTorrentRequest)[K]
-    }>): GetObjectTorrentOutput {
+    }>): Request<GetObjectTorrentOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getObjectTorrent(
-            this.ops["GetObjectTorrent"].apply(partialParams)
+          this.ops["GetObjectTorrent"].applicator.apply(partialParams)
         );
     }
 
     invokeGetPublicAccessBlock(partialParams: ToOptional<{
       [K in keyof GetPublicAccessBlockRequest & keyof Omit<GetPublicAccessBlockRequest, "Bucket"> & keyof GetPublicAccessBlockRequest & keyof GetPublicAccessBlockRequest & keyof GetPublicAccessBlockRequest & keyof GetPublicAccessBlockRequest & keyof GetPublicAccessBlockRequest & keyof GetPublicAccessBlockRequest & keyof GetPublicAccessBlockRequest & keyof GetPublicAccessBlockRequest & keyof GetPublicAccessBlockRequest & keyof GetPublicAccessBlockRequest & keyof GetPublicAccessBlockRequest & keyof GetPublicAccessBlockRequest & keyof GetPublicAccessBlockRequest & keyof GetPublicAccessBlockRequest & keyof GetPublicAccessBlockRequest & keyof GetPublicAccessBlockRequest & keyof GetPublicAccessBlockRequest & keyof GetPublicAccessBlockRequest]: (GetPublicAccessBlockRequest & Omit<GetPublicAccessBlockRequest, "Bucket"> & GetPublicAccessBlockRequest & GetPublicAccessBlockRequest & GetPublicAccessBlockRequest & GetPublicAccessBlockRequest & GetPublicAccessBlockRequest & GetPublicAccessBlockRequest & GetPublicAccessBlockRequest & GetPublicAccessBlockRequest & GetPublicAccessBlockRequest & GetPublicAccessBlockRequest & GetPublicAccessBlockRequest & GetPublicAccessBlockRequest & GetPublicAccessBlockRequest & GetPublicAccessBlockRequest & GetPublicAccessBlockRequest & GetPublicAccessBlockRequest & GetPublicAccessBlockRequest & GetPublicAccessBlockRequest)[K]
-    }>): GetPublicAccessBlockOutput {
+    }>): Request<GetPublicAccessBlockOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getPublicAccessBlock(
-            this.ops["GetPublicAccessBlock"].apply(partialParams)
+          this.ops["GetPublicAccessBlock"].applicator.apply(partialParams)
         );
     }
 
     invokeHeadBucket(partialParams: ToOptional<{
       [K in keyof HeadBucketRequest & keyof Omit<HeadBucketRequest, "Bucket"> & keyof HeadBucketRequest & keyof HeadBucketRequest & keyof HeadBucketRequest & keyof HeadBucketRequest & keyof HeadBucketRequest & keyof HeadBucketRequest & keyof HeadBucketRequest & keyof HeadBucketRequest & keyof HeadBucketRequest & keyof HeadBucketRequest & keyof HeadBucketRequest & keyof HeadBucketRequest & keyof HeadBucketRequest & keyof HeadBucketRequest & keyof HeadBucketRequest & keyof HeadBucketRequest & keyof HeadBucketRequest & keyof HeadBucketRequest]: (HeadBucketRequest & Omit<HeadBucketRequest, "Bucket"> & HeadBucketRequest & HeadBucketRequest & HeadBucketRequest & HeadBucketRequest & HeadBucketRequest & HeadBucketRequest & HeadBucketRequest & HeadBucketRequest & HeadBucketRequest & HeadBucketRequest & HeadBucketRequest & HeadBucketRequest & HeadBucketRequest & HeadBucketRequest & HeadBucketRequest & HeadBucketRequest & HeadBucketRequest & HeadBucketRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.headBucket(
-            this.ops["HeadBucket"].apply(partialParams)
+          this.ops["HeadBucket"].applicator.apply(partialParams)
         );
     }
 
     invokeHeadObject(partialParams: ToOptional<{
       [K in keyof HeadObjectRequest & keyof Omit<HeadObjectRequest, "Bucket"> & keyof HeadObjectRequest & keyof HeadObjectRequest & keyof HeadObjectRequest & keyof HeadObjectRequest & keyof HeadObjectRequest & keyof HeadObjectRequest & keyof HeadObjectRequest & keyof HeadObjectRequest & keyof HeadObjectRequest & keyof HeadObjectRequest & keyof HeadObjectRequest & keyof HeadObjectRequest & keyof HeadObjectRequest & keyof HeadObjectRequest & keyof HeadObjectRequest & keyof HeadObjectRequest & keyof HeadObjectRequest & keyof HeadObjectRequest]: (HeadObjectRequest & Omit<HeadObjectRequest, "Bucket"> & HeadObjectRequest & HeadObjectRequest & HeadObjectRequest & HeadObjectRequest & HeadObjectRequest & HeadObjectRequest & HeadObjectRequest & HeadObjectRequest & HeadObjectRequest & HeadObjectRequest & HeadObjectRequest & HeadObjectRequest & HeadObjectRequest & HeadObjectRequest & HeadObjectRequest & HeadObjectRequest & HeadObjectRequest & HeadObjectRequest)[K]
-    }>): HeadObjectOutput {
+    }>): Request<HeadObjectOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.headObject(
-            this.ops["HeadObject"].apply(partialParams)
+          this.ops["HeadObject"].applicator.apply(partialParams)
         );
     }
 
     invokeListBucketAnalyticsConfigurations(partialParams: ToOptional<{
       [K in keyof ListBucketAnalyticsConfigurationsRequest & keyof Omit<ListBucketAnalyticsConfigurationsRequest, "Bucket"> & keyof ListBucketAnalyticsConfigurationsRequest & keyof ListBucketAnalyticsConfigurationsRequest & keyof ListBucketAnalyticsConfigurationsRequest & keyof ListBucketAnalyticsConfigurationsRequest & keyof ListBucketAnalyticsConfigurationsRequest & keyof ListBucketAnalyticsConfigurationsRequest & keyof ListBucketAnalyticsConfigurationsRequest & keyof ListBucketAnalyticsConfigurationsRequest & keyof ListBucketAnalyticsConfigurationsRequest & keyof ListBucketAnalyticsConfigurationsRequest & keyof ListBucketAnalyticsConfigurationsRequest & keyof ListBucketAnalyticsConfigurationsRequest & keyof ListBucketAnalyticsConfigurationsRequest & keyof ListBucketAnalyticsConfigurationsRequest & keyof ListBucketAnalyticsConfigurationsRequest & keyof ListBucketAnalyticsConfigurationsRequest & keyof ListBucketAnalyticsConfigurationsRequest & keyof ListBucketAnalyticsConfigurationsRequest]: (ListBucketAnalyticsConfigurationsRequest & Omit<ListBucketAnalyticsConfigurationsRequest, "Bucket"> & ListBucketAnalyticsConfigurationsRequest & ListBucketAnalyticsConfigurationsRequest & ListBucketAnalyticsConfigurationsRequest & ListBucketAnalyticsConfigurationsRequest & ListBucketAnalyticsConfigurationsRequest & ListBucketAnalyticsConfigurationsRequest & ListBucketAnalyticsConfigurationsRequest & ListBucketAnalyticsConfigurationsRequest & ListBucketAnalyticsConfigurationsRequest & ListBucketAnalyticsConfigurationsRequest & ListBucketAnalyticsConfigurationsRequest & ListBucketAnalyticsConfigurationsRequest & ListBucketAnalyticsConfigurationsRequest & ListBucketAnalyticsConfigurationsRequest & ListBucketAnalyticsConfigurationsRequest & ListBucketAnalyticsConfigurationsRequest & ListBucketAnalyticsConfigurationsRequest & ListBucketAnalyticsConfigurationsRequest)[K]
-    }>): ListBucketAnalyticsConfigurationsOutput {
+    }>): Request<ListBucketAnalyticsConfigurationsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listBucketAnalyticsConfigurations(
-            this.ops["ListBucketAnalyticsConfigurations"].apply(partialParams)
+          this.ops["ListBucketAnalyticsConfigurations"].applicator.apply(partialParams)
         );
     }
 
     invokeListBucketIntelligentTieringConfigurations(partialParams: ToOptional<{
       [K in keyof ListBucketIntelligentTieringConfigurationsRequest & keyof Omit<ListBucketIntelligentTieringConfigurationsRequest, "Bucket"> & keyof ListBucketIntelligentTieringConfigurationsRequest & keyof ListBucketIntelligentTieringConfigurationsRequest & keyof ListBucketIntelligentTieringConfigurationsRequest & keyof ListBucketIntelligentTieringConfigurationsRequest & keyof ListBucketIntelligentTieringConfigurationsRequest & keyof ListBucketIntelligentTieringConfigurationsRequest & keyof ListBucketIntelligentTieringConfigurationsRequest & keyof ListBucketIntelligentTieringConfigurationsRequest & keyof ListBucketIntelligentTieringConfigurationsRequest & keyof ListBucketIntelligentTieringConfigurationsRequest & keyof ListBucketIntelligentTieringConfigurationsRequest & keyof ListBucketIntelligentTieringConfigurationsRequest & keyof ListBucketIntelligentTieringConfigurationsRequest & keyof ListBucketIntelligentTieringConfigurationsRequest & keyof ListBucketIntelligentTieringConfigurationsRequest & keyof ListBucketIntelligentTieringConfigurationsRequest & keyof ListBucketIntelligentTieringConfigurationsRequest & keyof ListBucketIntelligentTieringConfigurationsRequest]: (ListBucketIntelligentTieringConfigurationsRequest & Omit<ListBucketIntelligentTieringConfigurationsRequest, "Bucket"> & ListBucketIntelligentTieringConfigurationsRequest & ListBucketIntelligentTieringConfigurationsRequest & ListBucketIntelligentTieringConfigurationsRequest & ListBucketIntelligentTieringConfigurationsRequest & ListBucketIntelligentTieringConfigurationsRequest & ListBucketIntelligentTieringConfigurationsRequest & ListBucketIntelligentTieringConfigurationsRequest & ListBucketIntelligentTieringConfigurationsRequest & ListBucketIntelligentTieringConfigurationsRequest & ListBucketIntelligentTieringConfigurationsRequest & ListBucketIntelligentTieringConfigurationsRequest & ListBucketIntelligentTieringConfigurationsRequest & ListBucketIntelligentTieringConfigurationsRequest & ListBucketIntelligentTieringConfigurationsRequest & ListBucketIntelligentTieringConfigurationsRequest & ListBucketIntelligentTieringConfigurationsRequest & ListBucketIntelligentTieringConfigurationsRequest & ListBucketIntelligentTieringConfigurationsRequest)[K]
-    }>): ListBucketIntelligentTieringConfigurationsOutput {
+    }>): Request<ListBucketIntelligentTieringConfigurationsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listBucketIntelligentTieringConfigurations(
-            this.ops["ListBucketIntelligentTieringConfigurations"].apply(partialParams)
+          this.ops["ListBucketIntelligentTieringConfigurations"].applicator.apply(partialParams)
         );
     }
 
     invokeListBucketInventoryConfigurations(partialParams: ToOptional<{
       [K in keyof ListBucketInventoryConfigurationsRequest & keyof Omit<ListBucketInventoryConfigurationsRequest, "Bucket"> & keyof ListBucketInventoryConfigurationsRequest & keyof ListBucketInventoryConfigurationsRequest & keyof ListBucketInventoryConfigurationsRequest & keyof ListBucketInventoryConfigurationsRequest & keyof ListBucketInventoryConfigurationsRequest & keyof ListBucketInventoryConfigurationsRequest & keyof ListBucketInventoryConfigurationsRequest & keyof ListBucketInventoryConfigurationsRequest & keyof ListBucketInventoryConfigurationsRequest & keyof ListBucketInventoryConfigurationsRequest & keyof ListBucketInventoryConfigurationsRequest & keyof ListBucketInventoryConfigurationsRequest & keyof ListBucketInventoryConfigurationsRequest & keyof ListBucketInventoryConfigurationsRequest & keyof ListBucketInventoryConfigurationsRequest & keyof ListBucketInventoryConfigurationsRequest & keyof ListBucketInventoryConfigurationsRequest & keyof ListBucketInventoryConfigurationsRequest]: (ListBucketInventoryConfigurationsRequest & Omit<ListBucketInventoryConfigurationsRequest, "Bucket"> & ListBucketInventoryConfigurationsRequest & ListBucketInventoryConfigurationsRequest & ListBucketInventoryConfigurationsRequest & ListBucketInventoryConfigurationsRequest & ListBucketInventoryConfigurationsRequest & ListBucketInventoryConfigurationsRequest & ListBucketInventoryConfigurationsRequest & ListBucketInventoryConfigurationsRequest & ListBucketInventoryConfigurationsRequest & ListBucketInventoryConfigurationsRequest & ListBucketInventoryConfigurationsRequest & ListBucketInventoryConfigurationsRequest & ListBucketInventoryConfigurationsRequest & ListBucketInventoryConfigurationsRequest & ListBucketInventoryConfigurationsRequest & ListBucketInventoryConfigurationsRequest & ListBucketInventoryConfigurationsRequest & ListBucketInventoryConfigurationsRequest)[K]
-    }>): ListBucketInventoryConfigurationsOutput {
+    }>): Request<ListBucketInventoryConfigurationsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listBucketInventoryConfigurations(
-            this.ops["ListBucketInventoryConfigurations"].apply(partialParams)
+          this.ops["ListBucketInventoryConfigurations"].applicator.apply(partialParams)
         );
     }
 
     invokeListBucketMetricsConfigurations(partialParams: ToOptional<{
       [K in keyof ListBucketMetricsConfigurationsRequest & keyof Omit<ListBucketMetricsConfigurationsRequest, "Bucket"> & keyof ListBucketMetricsConfigurationsRequest & keyof ListBucketMetricsConfigurationsRequest & keyof ListBucketMetricsConfigurationsRequest & keyof ListBucketMetricsConfigurationsRequest & keyof ListBucketMetricsConfigurationsRequest & keyof ListBucketMetricsConfigurationsRequest & keyof ListBucketMetricsConfigurationsRequest & keyof ListBucketMetricsConfigurationsRequest & keyof ListBucketMetricsConfigurationsRequest & keyof ListBucketMetricsConfigurationsRequest & keyof ListBucketMetricsConfigurationsRequest & keyof ListBucketMetricsConfigurationsRequest & keyof ListBucketMetricsConfigurationsRequest & keyof ListBucketMetricsConfigurationsRequest & keyof ListBucketMetricsConfigurationsRequest & keyof ListBucketMetricsConfigurationsRequest & keyof ListBucketMetricsConfigurationsRequest & keyof ListBucketMetricsConfigurationsRequest]: (ListBucketMetricsConfigurationsRequest & Omit<ListBucketMetricsConfigurationsRequest, "Bucket"> & ListBucketMetricsConfigurationsRequest & ListBucketMetricsConfigurationsRequest & ListBucketMetricsConfigurationsRequest & ListBucketMetricsConfigurationsRequest & ListBucketMetricsConfigurationsRequest & ListBucketMetricsConfigurationsRequest & ListBucketMetricsConfigurationsRequest & ListBucketMetricsConfigurationsRequest & ListBucketMetricsConfigurationsRequest & ListBucketMetricsConfigurationsRequest & ListBucketMetricsConfigurationsRequest & ListBucketMetricsConfigurationsRequest & ListBucketMetricsConfigurationsRequest & ListBucketMetricsConfigurationsRequest & ListBucketMetricsConfigurationsRequest & ListBucketMetricsConfigurationsRequest & ListBucketMetricsConfigurationsRequest & ListBucketMetricsConfigurationsRequest)[K]
-    }>): ListBucketMetricsConfigurationsOutput {
+    }>): Request<ListBucketMetricsConfigurationsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listBucketMetricsConfigurations(
-            this.ops["ListBucketMetricsConfigurations"].apply(partialParams)
+          this.ops["ListBucketMetricsConfigurations"].applicator.apply(partialParams)
         );
     }
 
     invokeListMultipartUploads(partialParams: ToOptional<{
       [K in keyof ListMultipartUploadsRequest & keyof Omit<ListMultipartUploadsRequest, "Bucket"> & keyof ListMultipartUploadsRequest & keyof ListMultipartUploadsRequest & keyof ListMultipartUploadsRequest & keyof ListMultipartUploadsRequest & keyof ListMultipartUploadsRequest & keyof ListMultipartUploadsRequest & keyof ListMultipartUploadsRequest & keyof ListMultipartUploadsRequest & keyof ListMultipartUploadsRequest & keyof ListMultipartUploadsRequest & keyof ListMultipartUploadsRequest & keyof ListMultipartUploadsRequest & keyof ListMultipartUploadsRequest & keyof ListMultipartUploadsRequest & keyof ListMultipartUploadsRequest & keyof ListMultipartUploadsRequest & keyof ListMultipartUploadsRequest & keyof ListMultipartUploadsRequest]: (ListMultipartUploadsRequest & Omit<ListMultipartUploadsRequest, "Bucket"> & ListMultipartUploadsRequest & ListMultipartUploadsRequest & ListMultipartUploadsRequest & ListMultipartUploadsRequest & ListMultipartUploadsRequest & ListMultipartUploadsRequest & ListMultipartUploadsRequest & ListMultipartUploadsRequest & ListMultipartUploadsRequest & ListMultipartUploadsRequest & ListMultipartUploadsRequest & ListMultipartUploadsRequest & ListMultipartUploadsRequest & ListMultipartUploadsRequest & ListMultipartUploadsRequest & ListMultipartUploadsRequest & ListMultipartUploadsRequest & ListMultipartUploadsRequest)[K]
-    }>): ListMultipartUploadsOutput {
+    }>): Request<ListMultipartUploadsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listMultipartUploads(
-            this.ops["ListMultipartUploads"].apply(partialParams)
+          this.ops["ListMultipartUploads"].applicator.apply(partialParams)
         );
     }
 
     invokeListObjectVersions(partialParams: ToOptional<{
       [K in keyof ListObjectVersionsRequest & keyof Omit<ListObjectVersionsRequest, "Bucket"> & keyof ListObjectVersionsRequest & keyof ListObjectVersionsRequest & keyof ListObjectVersionsRequest & keyof ListObjectVersionsRequest & keyof ListObjectVersionsRequest & keyof ListObjectVersionsRequest & keyof ListObjectVersionsRequest & keyof ListObjectVersionsRequest & keyof ListObjectVersionsRequest & keyof ListObjectVersionsRequest & keyof ListObjectVersionsRequest & keyof ListObjectVersionsRequest & keyof ListObjectVersionsRequest & keyof ListObjectVersionsRequest & keyof ListObjectVersionsRequest & keyof ListObjectVersionsRequest & keyof ListObjectVersionsRequest & keyof ListObjectVersionsRequest]: (ListObjectVersionsRequest & Omit<ListObjectVersionsRequest, "Bucket"> & ListObjectVersionsRequest & ListObjectVersionsRequest & ListObjectVersionsRequest & ListObjectVersionsRequest & ListObjectVersionsRequest & ListObjectVersionsRequest & ListObjectVersionsRequest & ListObjectVersionsRequest & ListObjectVersionsRequest & ListObjectVersionsRequest & ListObjectVersionsRequest & ListObjectVersionsRequest & ListObjectVersionsRequest & ListObjectVersionsRequest & ListObjectVersionsRequest & ListObjectVersionsRequest & ListObjectVersionsRequest & ListObjectVersionsRequest)[K]
-    }>): ListObjectVersionsOutput {
+    }>): Request<ListObjectVersionsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listObjectVersions(
-            this.ops["ListObjectVersions"].apply(partialParams)
+          this.ops["ListObjectVersions"].applicator.apply(partialParams)
         );
     }
 
     invokeListObjects(partialParams: ToOptional<{
       [K in keyof ListObjectsRequest & keyof Omit<ListObjectsRequest, "Bucket"> & keyof ListObjectsRequest & keyof ListObjectsRequest & keyof ListObjectsRequest & keyof ListObjectsRequest & keyof ListObjectsRequest & keyof ListObjectsRequest & keyof ListObjectsRequest & keyof ListObjectsRequest & keyof ListObjectsRequest & keyof ListObjectsRequest & keyof ListObjectsRequest & keyof ListObjectsRequest & keyof ListObjectsRequest & keyof ListObjectsRequest & keyof ListObjectsRequest & keyof ListObjectsRequest & keyof ListObjectsRequest & keyof ListObjectsRequest]: (ListObjectsRequest & Omit<ListObjectsRequest, "Bucket"> & ListObjectsRequest & ListObjectsRequest & ListObjectsRequest & ListObjectsRequest & ListObjectsRequest & ListObjectsRequest & ListObjectsRequest & ListObjectsRequest & ListObjectsRequest & ListObjectsRequest & ListObjectsRequest & ListObjectsRequest & ListObjectsRequest & ListObjectsRequest & ListObjectsRequest & ListObjectsRequest & ListObjectsRequest & ListObjectsRequest)[K]
-    }>): ListObjectsOutput {
+    }>): Request<ListObjectsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listObjects(
-            this.ops["ListObjects"].apply(partialParams)
+          this.ops["ListObjects"].applicator.apply(partialParams)
         );
     }
 
     invokeListObjectsV2(partialParams: ToOptional<{
       [K in keyof ListObjectsV2Request & keyof Omit<ListObjectsV2Request, "Bucket"> & keyof ListObjectsV2Request & keyof ListObjectsV2Request & keyof ListObjectsV2Request & keyof ListObjectsV2Request & keyof ListObjectsV2Request & keyof ListObjectsV2Request & keyof ListObjectsV2Request & keyof ListObjectsV2Request & keyof ListObjectsV2Request & keyof ListObjectsV2Request & keyof ListObjectsV2Request & keyof ListObjectsV2Request & keyof ListObjectsV2Request & keyof ListObjectsV2Request & keyof ListObjectsV2Request & keyof ListObjectsV2Request & keyof ListObjectsV2Request & keyof ListObjectsV2Request]: (ListObjectsV2Request & Omit<ListObjectsV2Request, "Bucket"> & ListObjectsV2Request & ListObjectsV2Request & ListObjectsV2Request & ListObjectsV2Request & ListObjectsV2Request & ListObjectsV2Request & ListObjectsV2Request & ListObjectsV2Request & ListObjectsV2Request & ListObjectsV2Request & ListObjectsV2Request & ListObjectsV2Request & ListObjectsV2Request & ListObjectsV2Request & ListObjectsV2Request & ListObjectsV2Request & ListObjectsV2Request & ListObjectsV2Request)[K]
-    }>): ListObjectsV2Output {
+    }>): Request<ListObjectsV2Output, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listObjectsV2(
-            this.ops["ListObjectsV2"].apply(partialParams)
+          this.ops["ListObjectsV2"].applicator.apply(partialParams)
         );
     }
 
     invokeListParts(partialParams: ToOptional<{
       [K in keyof ListPartsRequest & keyof Omit<ListPartsRequest, "Bucket"> & keyof ListPartsRequest & keyof ListPartsRequest & keyof ListPartsRequest & keyof ListPartsRequest & keyof ListPartsRequest & keyof ListPartsRequest & keyof ListPartsRequest & keyof ListPartsRequest & keyof ListPartsRequest & keyof ListPartsRequest & keyof ListPartsRequest & keyof ListPartsRequest & keyof ListPartsRequest & keyof ListPartsRequest & keyof ListPartsRequest & keyof ListPartsRequest & keyof ListPartsRequest & keyof ListPartsRequest]: (ListPartsRequest & Omit<ListPartsRequest, "Bucket"> & ListPartsRequest & ListPartsRequest & ListPartsRequest & ListPartsRequest & ListPartsRequest & ListPartsRequest & ListPartsRequest & ListPartsRequest & ListPartsRequest & ListPartsRequest & ListPartsRequest & ListPartsRequest & ListPartsRequest & ListPartsRequest & ListPartsRequest & ListPartsRequest & ListPartsRequest & ListPartsRequest)[K]
-    }>): ListPartsOutput {
+    }>): Request<ListPartsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listParts(
-            this.ops["ListParts"].apply(partialParams)
+          this.ops["ListParts"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketAccelerateConfiguration(partialParams: ToOptional<{
       [K in keyof PutBucketAccelerateConfigurationRequest & keyof Omit<PutBucketAccelerateConfigurationRequest, "Bucket"> & keyof PutBucketAccelerateConfigurationRequest & keyof PutBucketAccelerateConfigurationRequest & keyof PutBucketAccelerateConfigurationRequest & keyof PutBucketAccelerateConfigurationRequest & keyof PutBucketAccelerateConfigurationRequest & keyof PutBucketAccelerateConfigurationRequest & keyof PutBucketAccelerateConfigurationRequest & keyof PutBucketAccelerateConfigurationRequest & keyof PutBucketAccelerateConfigurationRequest & keyof PutBucketAccelerateConfigurationRequest & keyof PutBucketAccelerateConfigurationRequest & keyof PutBucketAccelerateConfigurationRequest & keyof PutBucketAccelerateConfigurationRequest & keyof PutBucketAccelerateConfigurationRequest & keyof PutBucketAccelerateConfigurationRequest & keyof PutBucketAccelerateConfigurationRequest & keyof PutBucketAccelerateConfigurationRequest & keyof PutBucketAccelerateConfigurationRequest]: (PutBucketAccelerateConfigurationRequest & Omit<PutBucketAccelerateConfigurationRequest, "Bucket"> & PutBucketAccelerateConfigurationRequest & PutBucketAccelerateConfigurationRequest & PutBucketAccelerateConfigurationRequest & PutBucketAccelerateConfigurationRequest & PutBucketAccelerateConfigurationRequest & PutBucketAccelerateConfigurationRequest & PutBucketAccelerateConfigurationRequest & PutBucketAccelerateConfigurationRequest & PutBucketAccelerateConfigurationRequest & PutBucketAccelerateConfigurationRequest & PutBucketAccelerateConfigurationRequest & PutBucketAccelerateConfigurationRequest & PutBucketAccelerateConfigurationRequest & PutBucketAccelerateConfigurationRequest & PutBucketAccelerateConfigurationRequest & PutBucketAccelerateConfigurationRequest & PutBucketAccelerateConfigurationRequest & PutBucketAccelerateConfigurationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketAccelerateConfiguration(
-            this.ops["PutBucketAccelerateConfiguration"].apply(partialParams)
+          this.ops["PutBucketAccelerateConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketAcl(partialParams: ToOptional<{
       [K in keyof PutBucketAclRequest & keyof Omit<PutBucketAclRequest, "Bucket"> & keyof PutBucketAclRequest & keyof PutBucketAclRequest & keyof PutBucketAclRequest & keyof PutBucketAclRequest & keyof PutBucketAclRequest & keyof PutBucketAclRequest & keyof PutBucketAclRequest & keyof PutBucketAclRequest & keyof PutBucketAclRequest & keyof PutBucketAclRequest & keyof PutBucketAclRequest & keyof PutBucketAclRequest & keyof PutBucketAclRequest & keyof PutBucketAclRequest & keyof PutBucketAclRequest & keyof PutBucketAclRequest & keyof PutBucketAclRequest & keyof PutBucketAclRequest]: (PutBucketAclRequest & Omit<PutBucketAclRequest, "Bucket"> & PutBucketAclRequest & PutBucketAclRequest & PutBucketAclRequest & PutBucketAclRequest & PutBucketAclRequest & PutBucketAclRequest & PutBucketAclRequest & PutBucketAclRequest & PutBucketAclRequest & PutBucketAclRequest & PutBucketAclRequest & PutBucketAclRequest & PutBucketAclRequest & PutBucketAclRequest & PutBucketAclRequest & PutBucketAclRequest & PutBucketAclRequest & PutBucketAclRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketAcl(
-            this.ops["PutBucketAcl"].apply(partialParams)
+          this.ops["PutBucketAcl"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketAnalyticsConfiguration(partialParams: ToOptional<{
       [K in keyof PutBucketAnalyticsConfigurationRequest & keyof Omit<PutBucketAnalyticsConfigurationRequest, "Bucket"> & keyof PutBucketAnalyticsConfigurationRequest & keyof PutBucketAnalyticsConfigurationRequest & keyof PutBucketAnalyticsConfigurationRequest & keyof PutBucketAnalyticsConfigurationRequest & keyof PutBucketAnalyticsConfigurationRequest & keyof PutBucketAnalyticsConfigurationRequest & keyof PutBucketAnalyticsConfigurationRequest & keyof PutBucketAnalyticsConfigurationRequest & keyof PutBucketAnalyticsConfigurationRequest & keyof PutBucketAnalyticsConfigurationRequest & keyof PutBucketAnalyticsConfigurationRequest & keyof PutBucketAnalyticsConfigurationRequest & keyof PutBucketAnalyticsConfigurationRequest & keyof PutBucketAnalyticsConfigurationRequest & keyof PutBucketAnalyticsConfigurationRequest & keyof PutBucketAnalyticsConfigurationRequest & keyof PutBucketAnalyticsConfigurationRequest & keyof PutBucketAnalyticsConfigurationRequest]: (PutBucketAnalyticsConfigurationRequest & Omit<PutBucketAnalyticsConfigurationRequest, "Bucket"> & PutBucketAnalyticsConfigurationRequest & PutBucketAnalyticsConfigurationRequest & PutBucketAnalyticsConfigurationRequest & PutBucketAnalyticsConfigurationRequest & PutBucketAnalyticsConfigurationRequest & PutBucketAnalyticsConfigurationRequest & PutBucketAnalyticsConfigurationRequest & PutBucketAnalyticsConfigurationRequest & PutBucketAnalyticsConfigurationRequest & PutBucketAnalyticsConfigurationRequest & PutBucketAnalyticsConfigurationRequest & PutBucketAnalyticsConfigurationRequest & PutBucketAnalyticsConfigurationRequest & PutBucketAnalyticsConfigurationRequest & PutBucketAnalyticsConfigurationRequest & PutBucketAnalyticsConfigurationRequest & PutBucketAnalyticsConfigurationRequest & PutBucketAnalyticsConfigurationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketAnalyticsConfiguration(
-            this.ops["PutBucketAnalyticsConfiguration"].apply(partialParams)
+          this.ops["PutBucketAnalyticsConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketCors(partialParams: ToOptional<{
       [K in keyof PutBucketCorsRequest & keyof Omit<PutBucketCorsRequest, "Bucket"> & keyof PutBucketCorsRequest & keyof PutBucketCorsRequest & keyof PutBucketCorsRequest & keyof PutBucketCorsRequest & keyof PutBucketCorsRequest & keyof PutBucketCorsRequest & keyof PutBucketCorsRequest & keyof PutBucketCorsRequest & keyof PutBucketCorsRequest & keyof PutBucketCorsRequest & keyof PutBucketCorsRequest & keyof PutBucketCorsRequest & keyof PutBucketCorsRequest & keyof PutBucketCorsRequest & keyof PutBucketCorsRequest & keyof PutBucketCorsRequest & keyof PutBucketCorsRequest & keyof PutBucketCorsRequest]: (PutBucketCorsRequest & Omit<PutBucketCorsRequest, "Bucket"> & PutBucketCorsRequest & PutBucketCorsRequest & PutBucketCorsRequest & PutBucketCorsRequest & PutBucketCorsRequest & PutBucketCorsRequest & PutBucketCorsRequest & PutBucketCorsRequest & PutBucketCorsRequest & PutBucketCorsRequest & PutBucketCorsRequest & PutBucketCorsRequest & PutBucketCorsRequest & PutBucketCorsRequest & PutBucketCorsRequest & PutBucketCorsRequest & PutBucketCorsRequest & PutBucketCorsRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketCors(
-            this.ops["PutBucketCors"].apply(partialParams)
+          this.ops["PutBucketCors"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketEncryption(partialParams: ToOptional<{
       [K in keyof PutBucketEncryptionRequest & keyof Omit<PutBucketEncryptionRequest, "Bucket"> & keyof PutBucketEncryptionRequest & keyof PutBucketEncryptionRequest & keyof PutBucketEncryptionRequest & keyof PutBucketEncryptionRequest & keyof PutBucketEncryptionRequest & keyof PutBucketEncryptionRequest & keyof PutBucketEncryptionRequest & keyof PutBucketEncryptionRequest & keyof PutBucketEncryptionRequest & keyof PutBucketEncryptionRequest & keyof PutBucketEncryptionRequest & keyof PutBucketEncryptionRequest & keyof PutBucketEncryptionRequest & keyof PutBucketEncryptionRequest & keyof PutBucketEncryptionRequest & keyof PutBucketEncryptionRequest & keyof PutBucketEncryptionRequest & keyof PutBucketEncryptionRequest]: (PutBucketEncryptionRequest & Omit<PutBucketEncryptionRequest, "Bucket"> & PutBucketEncryptionRequest & PutBucketEncryptionRequest & PutBucketEncryptionRequest & PutBucketEncryptionRequest & PutBucketEncryptionRequest & PutBucketEncryptionRequest & PutBucketEncryptionRequest & PutBucketEncryptionRequest & PutBucketEncryptionRequest & PutBucketEncryptionRequest & PutBucketEncryptionRequest & PutBucketEncryptionRequest & PutBucketEncryptionRequest & PutBucketEncryptionRequest & PutBucketEncryptionRequest & PutBucketEncryptionRequest & PutBucketEncryptionRequest & PutBucketEncryptionRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketEncryption(
-            this.ops["PutBucketEncryption"].apply(partialParams)
+          this.ops["PutBucketEncryption"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketIntelligentTieringConfiguration(partialParams: ToOptional<{
       [K in keyof PutBucketIntelligentTieringConfigurationRequest & keyof Omit<PutBucketIntelligentTieringConfigurationRequest, "Bucket"> & keyof PutBucketIntelligentTieringConfigurationRequest & keyof PutBucketIntelligentTieringConfigurationRequest & keyof PutBucketIntelligentTieringConfigurationRequest & keyof PutBucketIntelligentTieringConfigurationRequest & keyof PutBucketIntelligentTieringConfigurationRequest & keyof PutBucketIntelligentTieringConfigurationRequest & keyof PutBucketIntelligentTieringConfigurationRequest & keyof PutBucketIntelligentTieringConfigurationRequest & keyof PutBucketIntelligentTieringConfigurationRequest & keyof PutBucketIntelligentTieringConfigurationRequest & keyof PutBucketIntelligentTieringConfigurationRequest & keyof PutBucketIntelligentTieringConfigurationRequest & keyof PutBucketIntelligentTieringConfigurationRequest & keyof PutBucketIntelligentTieringConfigurationRequest & keyof PutBucketIntelligentTieringConfigurationRequest & keyof PutBucketIntelligentTieringConfigurationRequest & keyof PutBucketIntelligentTieringConfigurationRequest & keyof PutBucketIntelligentTieringConfigurationRequest]: (PutBucketIntelligentTieringConfigurationRequest & Omit<PutBucketIntelligentTieringConfigurationRequest, "Bucket"> & PutBucketIntelligentTieringConfigurationRequest & PutBucketIntelligentTieringConfigurationRequest & PutBucketIntelligentTieringConfigurationRequest & PutBucketIntelligentTieringConfigurationRequest & PutBucketIntelligentTieringConfigurationRequest & PutBucketIntelligentTieringConfigurationRequest & PutBucketIntelligentTieringConfigurationRequest & PutBucketIntelligentTieringConfigurationRequest & PutBucketIntelligentTieringConfigurationRequest & PutBucketIntelligentTieringConfigurationRequest & PutBucketIntelligentTieringConfigurationRequest & PutBucketIntelligentTieringConfigurationRequest & PutBucketIntelligentTieringConfigurationRequest & PutBucketIntelligentTieringConfigurationRequest & PutBucketIntelligentTieringConfigurationRequest & PutBucketIntelligentTieringConfigurationRequest & PutBucketIntelligentTieringConfigurationRequest & PutBucketIntelligentTieringConfigurationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketIntelligentTieringConfiguration(
-            this.ops["PutBucketIntelligentTieringConfiguration"].apply(partialParams)
+          this.ops["PutBucketIntelligentTieringConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketInventoryConfiguration(partialParams: ToOptional<{
       [K in keyof PutBucketInventoryConfigurationRequest & keyof Omit<PutBucketInventoryConfigurationRequest, "Bucket"> & keyof PutBucketInventoryConfigurationRequest & keyof PutBucketInventoryConfigurationRequest & keyof PutBucketInventoryConfigurationRequest & keyof PutBucketInventoryConfigurationRequest & keyof PutBucketInventoryConfigurationRequest & keyof PutBucketInventoryConfigurationRequest & keyof PutBucketInventoryConfigurationRequest & keyof PutBucketInventoryConfigurationRequest & keyof PutBucketInventoryConfigurationRequest & keyof PutBucketInventoryConfigurationRequest & keyof PutBucketInventoryConfigurationRequest & keyof PutBucketInventoryConfigurationRequest & keyof PutBucketInventoryConfigurationRequest & keyof PutBucketInventoryConfigurationRequest & keyof PutBucketInventoryConfigurationRequest & keyof PutBucketInventoryConfigurationRequest & keyof PutBucketInventoryConfigurationRequest & keyof PutBucketInventoryConfigurationRequest]: (PutBucketInventoryConfigurationRequest & Omit<PutBucketInventoryConfigurationRequest, "Bucket"> & PutBucketInventoryConfigurationRequest & PutBucketInventoryConfigurationRequest & PutBucketInventoryConfigurationRequest & PutBucketInventoryConfigurationRequest & PutBucketInventoryConfigurationRequest & PutBucketInventoryConfigurationRequest & PutBucketInventoryConfigurationRequest & PutBucketInventoryConfigurationRequest & PutBucketInventoryConfigurationRequest & PutBucketInventoryConfigurationRequest & PutBucketInventoryConfigurationRequest & PutBucketInventoryConfigurationRequest & PutBucketInventoryConfigurationRequest & PutBucketInventoryConfigurationRequest & PutBucketInventoryConfigurationRequest & PutBucketInventoryConfigurationRequest & PutBucketInventoryConfigurationRequest & PutBucketInventoryConfigurationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketInventoryConfiguration(
-            this.ops["PutBucketInventoryConfiguration"].apply(partialParams)
+          this.ops["PutBucketInventoryConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketLifecycle(partialParams: ToOptional<{
       [K in keyof PutBucketLifecycleRequest & keyof Omit<PutBucketLifecycleRequest, "Bucket"> & keyof PutBucketLifecycleRequest & keyof PutBucketLifecycleRequest & keyof PutBucketLifecycleRequest & keyof PutBucketLifecycleRequest & keyof PutBucketLifecycleRequest & keyof PutBucketLifecycleRequest & keyof PutBucketLifecycleRequest & keyof PutBucketLifecycleRequest & keyof PutBucketLifecycleRequest & keyof PutBucketLifecycleRequest & keyof PutBucketLifecycleRequest & keyof PutBucketLifecycleRequest & keyof PutBucketLifecycleRequest & keyof PutBucketLifecycleRequest & keyof PutBucketLifecycleRequest & keyof PutBucketLifecycleRequest & keyof PutBucketLifecycleRequest & keyof PutBucketLifecycleRequest]: (PutBucketLifecycleRequest & Omit<PutBucketLifecycleRequest, "Bucket"> & PutBucketLifecycleRequest & PutBucketLifecycleRequest & PutBucketLifecycleRequest & PutBucketLifecycleRequest & PutBucketLifecycleRequest & PutBucketLifecycleRequest & PutBucketLifecycleRequest & PutBucketLifecycleRequest & PutBucketLifecycleRequest & PutBucketLifecycleRequest & PutBucketLifecycleRequest & PutBucketLifecycleRequest & PutBucketLifecycleRequest & PutBucketLifecycleRequest & PutBucketLifecycleRequest & PutBucketLifecycleRequest & PutBucketLifecycleRequest & PutBucketLifecycleRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketLifecycle(
-            this.ops["PutBucketLifecycle"].apply(partialParams)
+          this.ops["PutBucketLifecycle"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketLifecycleConfiguration(partialParams: ToOptional<{
       [K in keyof PutBucketLifecycleConfigurationRequest & keyof Omit<PutBucketLifecycleConfigurationRequest, "Bucket"> & keyof PutBucketLifecycleConfigurationRequest & keyof PutBucketLifecycleConfigurationRequest & keyof PutBucketLifecycleConfigurationRequest & keyof PutBucketLifecycleConfigurationRequest & keyof PutBucketLifecycleConfigurationRequest & keyof PutBucketLifecycleConfigurationRequest & keyof PutBucketLifecycleConfigurationRequest & keyof PutBucketLifecycleConfigurationRequest & keyof PutBucketLifecycleConfigurationRequest & keyof PutBucketLifecycleConfigurationRequest & keyof PutBucketLifecycleConfigurationRequest & keyof PutBucketLifecycleConfigurationRequest & keyof PutBucketLifecycleConfigurationRequest & keyof PutBucketLifecycleConfigurationRequest & keyof PutBucketLifecycleConfigurationRequest & keyof PutBucketLifecycleConfigurationRequest & keyof PutBucketLifecycleConfigurationRequest & keyof PutBucketLifecycleConfigurationRequest]: (PutBucketLifecycleConfigurationRequest & Omit<PutBucketLifecycleConfigurationRequest, "Bucket"> & PutBucketLifecycleConfigurationRequest & PutBucketLifecycleConfigurationRequest & PutBucketLifecycleConfigurationRequest & PutBucketLifecycleConfigurationRequest & PutBucketLifecycleConfigurationRequest & PutBucketLifecycleConfigurationRequest & PutBucketLifecycleConfigurationRequest & PutBucketLifecycleConfigurationRequest & PutBucketLifecycleConfigurationRequest & PutBucketLifecycleConfigurationRequest & PutBucketLifecycleConfigurationRequest & PutBucketLifecycleConfigurationRequest & PutBucketLifecycleConfigurationRequest & PutBucketLifecycleConfigurationRequest & PutBucketLifecycleConfigurationRequest & PutBucketLifecycleConfigurationRequest & PutBucketLifecycleConfigurationRequest & PutBucketLifecycleConfigurationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketLifecycleConfiguration(
-            this.ops["PutBucketLifecycleConfiguration"].apply(partialParams)
+          this.ops["PutBucketLifecycleConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketLogging(partialParams: ToOptional<{
       [K in keyof PutBucketLoggingRequest & keyof Omit<PutBucketLoggingRequest, "Bucket"> & keyof PutBucketLoggingRequest & keyof PutBucketLoggingRequest & keyof PutBucketLoggingRequest & keyof PutBucketLoggingRequest & keyof PutBucketLoggingRequest & keyof PutBucketLoggingRequest & keyof PutBucketLoggingRequest & keyof PutBucketLoggingRequest & keyof PutBucketLoggingRequest & keyof PutBucketLoggingRequest & keyof PutBucketLoggingRequest & keyof PutBucketLoggingRequest & keyof PutBucketLoggingRequest & keyof PutBucketLoggingRequest & keyof PutBucketLoggingRequest & keyof PutBucketLoggingRequest & keyof PutBucketLoggingRequest & keyof PutBucketLoggingRequest]: (PutBucketLoggingRequest & Omit<PutBucketLoggingRequest, "Bucket"> & PutBucketLoggingRequest & PutBucketLoggingRequest & PutBucketLoggingRequest & PutBucketLoggingRequest & PutBucketLoggingRequest & PutBucketLoggingRequest & PutBucketLoggingRequest & PutBucketLoggingRequest & PutBucketLoggingRequest & PutBucketLoggingRequest & PutBucketLoggingRequest & PutBucketLoggingRequest & PutBucketLoggingRequest & PutBucketLoggingRequest & PutBucketLoggingRequest & PutBucketLoggingRequest & PutBucketLoggingRequest & PutBucketLoggingRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketLogging(
-            this.ops["PutBucketLogging"].apply(partialParams)
+          this.ops["PutBucketLogging"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketMetricsConfiguration(partialParams: ToOptional<{
       [K in keyof PutBucketMetricsConfigurationRequest & keyof Omit<PutBucketMetricsConfigurationRequest, "Bucket"> & keyof PutBucketMetricsConfigurationRequest & keyof PutBucketMetricsConfigurationRequest & keyof PutBucketMetricsConfigurationRequest & keyof PutBucketMetricsConfigurationRequest & keyof PutBucketMetricsConfigurationRequest & keyof PutBucketMetricsConfigurationRequest & keyof PutBucketMetricsConfigurationRequest & keyof PutBucketMetricsConfigurationRequest & keyof PutBucketMetricsConfigurationRequest & keyof PutBucketMetricsConfigurationRequest & keyof PutBucketMetricsConfigurationRequest & keyof PutBucketMetricsConfigurationRequest & keyof PutBucketMetricsConfigurationRequest & keyof PutBucketMetricsConfigurationRequest & keyof PutBucketMetricsConfigurationRequest & keyof PutBucketMetricsConfigurationRequest & keyof PutBucketMetricsConfigurationRequest & keyof PutBucketMetricsConfigurationRequest]: (PutBucketMetricsConfigurationRequest & Omit<PutBucketMetricsConfigurationRequest, "Bucket"> & PutBucketMetricsConfigurationRequest & PutBucketMetricsConfigurationRequest & PutBucketMetricsConfigurationRequest & PutBucketMetricsConfigurationRequest & PutBucketMetricsConfigurationRequest & PutBucketMetricsConfigurationRequest & PutBucketMetricsConfigurationRequest & PutBucketMetricsConfigurationRequest & PutBucketMetricsConfigurationRequest & PutBucketMetricsConfigurationRequest & PutBucketMetricsConfigurationRequest & PutBucketMetricsConfigurationRequest & PutBucketMetricsConfigurationRequest & PutBucketMetricsConfigurationRequest & PutBucketMetricsConfigurationRequest & PutBucketMetricsConfigurationRequest & PutBucketMetricsConfigurationRequest & PutBucketMetricsConfigurationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketMetricsConfiguration(
-            this.ops["PutBucketMetricsConfiguration"].apply(partialParams)
+          this.ops["PutBucketMetricsConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketNotification(partialParams: ToOptional<{
       [K in keyof PutBucketNotificationRequest & keyof Omit<PutBucketNotificationRequest, "Bucket"> & keyof PutBucketNotificationRequest & keyof PutBucketNotificationRequest & keyof PutBucketNotificationRequest & keyof PutBucketNotificationRequest & keyof PutBucketNotificationRequest & keyof PutBucketNotificationRequest & keyof PutBucketNotificationRequest & keyof PutBucketNotificationRequest & keyof PutBucketNotificationRequest & keyof PutBucketNotificationRequest & keyof PutBucketNotificationRequest & keyof PutBucketNotificationRequest & keyof PutBucketNotificationRequest & keyof PutBucketNotificationRequest & keyof PutBucketNotificationRequest & keyof PutBucketNotificationRequest & keyof PutBucketNotificationRequest & keyof PutBucketNotificationRequest]: (PutBucketNotificationRequest & Omit<PutBucketNotificationRequest, "Bucket"> & PutBucketNotificationRequest & PutBucketNotificationRequest & PutBucketNotificationRequest & PutBucketNotificationRequest & PutBucketNotificationRequest & PutBucketNotificationRequest & PutBucketNotificationRequest & PutBucketNotificationRequest & PutBucketNotificationRequest & PutBucketNotificationRequest & PutBucketNotificationRequest & PutBucketNotificationRequest & PutBucketNotificationRequest & PutBucketNotificationRequest & PutBucketNotificationRequest & PutBucketNotificationRequest & PutBucketNotificationRequest & PutBucketNotificationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketNotification(
-            this.ops["PutBucketNotification"].apply(partialParams)
+          this.ops["PutBucketNotification"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketNotificationConfiguration(partialParams: ToOptional<{
       [K in keyof PutBucketNotificationConfigurationRequest & keyof Omit<PutBucketNotificationConfigurationRequest, "Bucket"> & keyof PutBucketNotificationConfigurationRequest & keyof PutBucketNotificationConfigurationRequest & keyof PutBucketNotificationConfigurationRequest & keyof PutBucketNotificationConfigurationRequest & keyof PutBucketNotificationConfigurationRequest & keyof PutBucketNotificationConfigurationRequest & keyof PutBucketNotificationConfigurationRequest & keyof PutBucketNotificationConfigurationRequest & keyof PutBucketNotificationConfigurationRequest & keyof PutBucketNotificationConfigurationRequest & keyof PutBucketNotificationConfigurationRequest & keyof PutBucketNotificationConfigurationRequest & keyof PutBucketNotificationConfigurationRequest & keyof PutBucketNotificationConfigurationRequest & keyof PutBucketNotificationConfigurationRequest & keyof PutBucketNotificationConfigurationRequest & keyof PutBucketNotificationConfigurationRequest & keyof PutBucketNotificationConfigurationRequest]: (PutBucketNotificationConfigurationRequest & Omit<PutBucketNotificationConfigurationRequest, "Bucket"> & PutBucketNotificationConfigurationRequest & PutBucketNotificationConfigurationRequest & PutBucketNotificationConfigurationRequest & PutBucketNotificationConfigurationRequest & PutBucketNotificationConfigurationRequest & PutBucketNotificationConfigurationRequest & PutBucketNotificationConfigurationRequest & PutBucketNotificationConfigurationRequest & PutBucketNotificationConfigurationRequest & PutBucketNotificationConfigurationRequest & PutBucketNotificationConfigurationRequest & PutBucketNotificationConfigurationRequest & PutBucketNotificationConfigurationRequest & PutBucketNotificationConfigurationRequest & PutBucketNotificationConfigurationRequest & PutBucketNotificationConfigurationRequest & PutBucketNotificationConfigurationRequest & PutBucketNotificationConfigurationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketNotificationConfiguration(
-            this.ops["PutBucketNotificationConfiguration"].apply(partialParams)
+          this.ops["PutBucketNotificationConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketOwnershipControls(partialParams: ToOptional<{
       [K in keyof PutBucketOwnershipControlsRequest & keyof Omit<PutBucketOwnershipControlsRequest, "Bucket"> & keyof PutBucketOwnershipControlsRequest & keyof PutBucketOwnershipControlsRequest & keyof PutBucketOwnershipControlsRequest & keyof PutBucketOwnershipControlsRequest & keyof PutBucketOwnershipControlsRequest & keyof PutBucketOwnershipControlsRequest & keyof PutBucketOwnershipControlsRequest & keyof PutBucketOwnershipControlsRequest & keyof PutBucketOwnershipControlsRequest & keyof PutBucketOwnershipControlsRequest & keyof PutBucketOwnershipControlsRequest & keyof PutBucketOwnershipControlsRequest & keyof PutBucketOwnershipControlsRequest & keyof PutBucketOwnershipControlsRequest & keyof PutBucketOwnershipControlsRequest & keyof PutBucketOwnershipControlsRequest & keyof PutBucketOwnershipControlsRequest & keyof PutBucketOwnershipControlsRequest]: (PutBucketOwnershipControlsRequest & Omit<PutBucketOwnershipControlsRequest, "Bucket"> & PutBucketOwnershipControlsRequest & PutBucketOwnershipControlsRequest & PutBucketOwnershipControlsRequest & PutBucketOwnershipControlsRequest & PutBucketOwnershipControlsRequest & PutBucketOwnershipControlsRequest & PutBucketOwnershipControlsRequest & PutBucketOwnershipControlsRequest & PutBucketOwnershipControlsRequest & PutBucketOwnershipControlsRequest & PutBucketOwnershipControlsRequest & PutBucketOwnershipControlsRequest & PutBucketOwnershipControlsRequest & PutBucketOwnershipControlsRequest & PutBucketOwnershipControlsRequest & PutBucketOwnershipControlsRequest & PutBucketOwnershipControlsRequest & PutBucketOwnershipControlsRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketOwnershipControls(
-            this.ops["PutBucketOwnershipControls"].apply(partialParams)
+          this.ops["PutBucketOwnershipControls"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketPolicy(partialParams: ToOptional<{
       [K in keyof PutBucketPolicyRequest & keyof Omit<PutBucketPolicyRequest, "Bucket"> & keyof PutBucketPolicyRequest & keyof PutBucketPolicyRequest & keyof PutBucketPolicyRequest & keyof PutBucketPolicyRequest & keyof PutBucketPolicyRequest & keyof PutBucketPolicyRequest & keyof PutBucketPolicyRequest & keyof PutBucketPolicyRequest & keyof PutBucketPolicyRequest & keyof PutBucketPolicyRequest & keyof PutBucketPolicyRequest & keyof PutBucketPolicyRequest & keyof PutBucketPolicyRequest & keyof PutBucketPolicyRequest & keyof PutBucketPolicyRequest & keyof PutBucketPolicyRequest & keyof PutBucketPolicyRequest & keyof PutBucketPolicyRequest]: (PutBucketPolicyRequest & Omit<PutBucketPolicyRequest, "Bucket"> & PutBucketPolicyRequest & PutBucketPolicyRequest & PutBucketPolicyRequest & PutBucketPolicyRequest & PutBucketPolicyRequest & PutBucketPolicyRequest & PutBucketPolicyRequest & PutBucketPolicyRequest & PutBucketPolicyRequest & PutBucketPolicyRequest & PutBucketPolicyRequest & PutBucketPolicyRequest & PutBucketPolicyRequest & PutBucketPolicyRequest & PutBucketPolicyRequest & PutBucketPolicyRequest & PutBucketPolicyRequest & PutBucketPolicyRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketPolicy(
-            this.ops["PutBucketPolicy"].apply(partialParams)
+          this.ops["PutBucketPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketReplication(partialParams: ToOptional<{
       [K in keyof PutBucketReplicationRequest & keyof Omit<PutBucketReplicationRequest, "Bucket"> & keyof PutBucketReplicationRequest & keyof PutBucketReplicationRequest & keyof PutBucketReplicationRequest & keyof PutBucketReplicationRequest & keyof PutBucketReplicationRequest & keyof PutBucketReplicationRequest & keyof PutBucketReplicationRequest & keyof PutBucketReplicationRequest & keyof PutBucketReplicationRequest & keyof PutBucketReplicationRequest & keyof PutBucketReplicationRequest & keyof PutBucketReplicationRequest & keyof PutBucketReplicationRequest & keyof PutBucketReplicationRequest & keyof PutBucketReplicationRequest & keyof PutBucketReplicationRequest & keyof PutBucketReplicationRequest & keyof PutBucketReplicationRequest]: (PutBucketReplicationRequest & Omit<PutBucketReplicationRequest, "Bucket"> & PutBucketReplicationRequest & PutBucketReplicationRequest & PutBucketReplicationRequest & PutBucketReplicationRequest & PutBucketReplicationRequest & PutBucketReplicationRequest & PutBucketReplicationRequest & PutBucketReplicationRequest & PutBucketReplicationRequest & PutBucketReplicationRequest & PutBucketReplicationRequest & PutBucketReplicationRequest & PutBucketReplicationRequest & PutBucketReplicationRequest & PutBucketReplicationRequest & PutBucketReplicationRequest & PutBucketReplicationRequest & PutBucketReplicationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketReplication(
-            this.ops["PutBucketReplication"].apply(partialParams)
+          this.ops["PutBucketReplication"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketRequestPayment(partialParams: ToOptional<{
       [K in keyof PutBucketRequestPaymentRequest & keyof Omit<PutBucketRequestPaymentRequest, "Bucket"> & keyof PutBucketRequestPaymentRequest & keyof PutBucketRequestPaymentRequest & keyof PutBucketRequestPaymentRequest & keyof PutBucketRequestPaymentRequest & keyof PutBucketRequestPaymentRequest & keyof PutBucketRequestPaymentRequest & keyof PutBucketRequestPaymentRequest & keyof PutBucketRequestPaymentRequest & keyof PutBucketRequestPaymentRequest & keyof PutBucketRequestPaymentRequest & keyof PutBucketRequestPaymentRequest & keyof PutBucketRequestPaymentRequest & keyof PutBucketRequestPaymentRequest & keyof PutBucketRequestPaymentRequest & keyof PutBucketRequestPaymentRequest & keyof PutBucketRequestPaymentRequest & keyof PutBucketRequestPaymentRequest & keyof PutBucketRequestPaymentRequest]: (PutBucketRequestPaymentRequest & Omit<PutBucketRequestPaymentRequest, "Bucket"> & PutBucketRequestPaymentRequest & PutBucketRequestPaymentRequest & PutBucketRequestPaymentRequest & PutBucketRequestPaymentRequest & PutBucketRequestPaymentRequest & PutBucketRequestPaymentRequest & PutBucketRequestPaymentRequest & PutBucketRequestPaymentRequest & PutBucketRequestPaymentRequest & PutBucketRequestPaymentRequest & PutBucketRequestPaymentRequest & PutBucketRequestPaymentRequest & PutBucketRequestPaymentRequest & PutBucketRequestPaymentRequest & PutBucketRequestPaymentRequest & PutBucketRequestPaymentRequest & PutBucketRequestPaymentRequest & PutBucketRequestPaymentRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketRequestPayment(
-            this.ops["PutBucketRequestPayment"].apply(partialParams)
+          this.ops["PutBucketRequestPayment"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketTagging(partialParams: ToOptional<{
       [K in keyof PutBucketTaggingRequest & keyof Omit<PutBucketTaggingRequest, "Bucket"> & keyof PutBucketTaggingRequest & keyof PutBucketTaggingRequest & keyof PutBucketTaggingRequest & keyof PutBucketTaggingRequest & keyof PutBucketTaggingRequest & keyof PutBucketTaggingRequest & keyof PutBucketTaggingRequest & keyof PutBucketTaggingRequest & keyof PutBucketTaggingRequest & keyof PutBucketTaggingRequest & keyof PutBucketTaggingRequest & keyof PutBucketTaggingRequest & keyof PutBucketTaggingRequest & keyof PutBucketTaggingRequest & keyof PutBucketTaggingRequest & keyof PutBucketTaggingRequest & keyof PutBucketTaggingRequest & keyof PutBucketTaggingRequest]: (PutBucketTaggingRequest & Omit<PutBucketTaggingRequest, "Bucket"> & PutBucketTaggingRequest & PutBucketTaggingRequest & PutBucketTaggingRequest & PutBucketTaggingRequest & PutBucketTaggingRequest & PutBucketTaggingRequest & PutBucketTaggingRequest & PutBucketTaggingRequest & PutBucketTaggingRequest & PutBucketTaggingRequest & PutBucketTaggingRequest & PutBucketTaggingRequest & PutBucketTaggingRequest & PutBucketTaggingRequest & PutBucketTaggingRequest & PutBucketTaggingRequest & PutBucketTaggingRequest & PutBucketTaggingRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketTagging(
-            this.ops["PutBucketTagging"].apply(partialParams)
+          this.ops["PutBucketTagging"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketVersioning(partialParams: ToOptional<{
       [K in keyof PutBucketVersioningRequest & keyof Omit<PutBucketVersioningRequest, "Bucket"> & keyof PutBucketVersioningRequest & keyof PutBucketVersioningRequest & keyof PutBucketVersioningRequest & keyof PutBucketVersioningRequest & keyof PutBucketVersioningRequest & keyof PutBucketVersioningRequest & keyof PutBucketVersioningRequest & keyof PutBucketVersioningRequest & keyof PutBucketVersioningRequest & keyof PutBucketVersioningRequest & keyof PutBucketVersioningRequest & keyof PutBucketVersioningRequest & keyof PutBucketVersioningRequest & keyof PutBucketVersioningRequest & keyof PutBucketVersioningRequest & keyof PutBucketVersioningRequest & keyof PutBucketVersioningRequest & keyof PutBucketVersioningRequest]: (PutBucketVersioningRequest & Omit<PutBucketVersioningRequest, "Bucket"> & PutBucketVersioningRequest & PutBucketVersioningRequest & PutBucketVersioningRequest & PutBucketVersioningRequest & PutBucketVersioningRequest & PutBucketVersioningRequest & PutBucketVersioningRequest & PutBucketVersioningRequest & PutBucketVersioningRequest & PutBucketVersioningRequest & PutBucketVersioningRequest & PutBucketVersioningRequest & PutBucketVersioningRequest & PutBucketVersioningRequest & PutBucketVersioningRequest & PutBucketVersioningRequest & PutBucketVersioningRequest & PutBucketVersioningRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketVersioning(
-            this.ops["PutBucketVersioning"].apply(partialParams)
+          this.ops["PutBucketVersioning"].applicator.apply(partialParams)
         );
     }
 
     invokePutBucketWebsite(partialParams: ToOptional<{
       [K in keyof PutBucketWebsiteRequest & keyof Omit<PutBucketWebsiteRequest, "Bucket"> & keyof PutBucketWebsiteRequest & keyof PutBucketWebsiteRequest & keyof PutBucketWebsiteRequest & keyof PutBucketWebsiteRequest & keyof PutBucketWebsiteRequest & keyof PutBucketWebsiteRequest & keyof PutBucketWebsiteRequest & keyof PutBucketWebsiteRequest & keyof PutBucketWebsiteRequest & keyof PutBucketWebsiteRequest & keyof PutBucketWebsiteRequest & keyof PutBucketWebsiteRequest & keyof PutBucketWebsiteRequest & keyof PutBucketWebsiteRequest & keyof PutBucketWebsiteRequest & keyof PutBucketWebsiteRequest & keyof PutBucketWebsiteRequest & keyof PutBucketWebsiteRequest]: (PutBucketWebsiteRequest & Omit<PutBucketWebsiteRequest, "Bucket"> & PutBucketWebsiteRequest & PutBucketWebsiteRequest & PutBucketWebsiteRequest & PutBucketWebsiteRequest & PutBucketWebsiteRequest & PutBucketWebsiteRequest & PutBucketWebsiteRequest & PutBucketWebsiteRequest & PutBucketWebsiteRequest & PutBucketWebsiteRequest & PutBucketWebsiteRequest & PutBucketWebsiteRequest & PutBucketWebsiteRequest & PutBucketWebsiteRequest & PutBucketWebsiteRequest & PutBucketWebsiteRequest & PutBucketWebsiteRequest & PutBucketWebsiteRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBucketWebsite(
-            this.ops["PutBucketWebsite"].apply(partialParams)
+          this.ops["PutBucketWebsite"].applicator.apply(partialParams)
         );
     }
 
     invokePutObject(partialParams: ToOptional<{
       [K in keyof PutObjectRequest & keyof Omit<PutObjectRequest, "Bucket"> & keyof PutObjectRequest & keyof PutObjectRequest & keyof PutObjectRequest & keyof PutObjectRequest & keyof PutObjectRequest & keyof PutObjectRequest & keyof PutObjectRequest & keyof PutObjectRequest & keyof Omit<PutObjectRequest, "Key"> & keyof PutObjectRequest & keyof PutObjectRequest & keyof PutObjectRequest & keyof PutObjectRequest & keyof PutObjectRequest & keyof PutObjectRequest & keyof PutObjectRequest & keyof PutObjectRequest & keyof PutObjectRequest]: (PutObjectRequest & Omit<PutObjectRequest, "Bucket"> & PutObjectRequest & PutObjectRequest & PutObjectRequest & PutObjectRequest & PutObjectRequest & PutObjectRequest & PutObjectRequest & PutObjectRequest & Omit<PutObjectRequest, "Key"> & PutObjectRequest & PutObjectRequest & PutObjectRequest & PutObjectRequest & PutObjectRequest & PutObjectRequest & PutObjectRequest & PutObjectRequest & PutObjectRequest)[K]
-    }>): PutObjectOutput {
+    }>): Request<PutObjectOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putObject(
-            this.ops["PutObject"].apply(partialParams)
+          this.ops["PutObject"].applicator.apply(partialParams)
         );
     }
 
     invokePutObjectAcl(partialParams: ToOptional<{
       [K in keyof PutObjectAclRequest & keyof Omit<PutObjectAclRequest, "Bucket"> & keyof PutObjectAclRequest & keyof PutObjectAclRequest & keyof PutObjectAclRequest & keyof PutObjectAclRequest & keyof PutObjectAclRequest & keyof PutObjectAclRequest & keyof PutObjectAclRequest & keyof PutObjectAclRequest & keyof Omit<PutObjectAclRequest, "Key"> & keyof PutObjectAclRequest & keyof PutObjectAclRequest & keyof PutObjectAclRequest & keyof PutObjectAclRequest & keyof PutObjectAclRequest & keyof PutObjectAclRequest & keyof PutObjectAclRequest & keyof PutObjectAclRequest & keyof PutObjectAclRequest]: (PutObjectAclRequest & Omit<PutObjectAclRequest, "Bucket"> & PutObjectAclRequest & PutObjectAclRequest & PutObjectAclRequest & PutObjectAclRequest & PutObjectAclRequest & PutObjectAclRequest & PutObjectAclRequest & PutObjectAclRequest & Omit<PutObjectAclRequest, "Key"> & PutObjectAclRequest & PutObjectAclRequest & PutObjectAclRequest & PutObjectAclRequest & PutObjectAclRequest & PutObjectAclRequest & PutObjectAclRequest & PutObjectAclRequest & PutObjectAclRequest)[K]
-    }>): PutObjectAclOutput {
+    }>): Request<PutObjectAclOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putObjectAcl(
-            this.ops["PutObjectAcl"].apply(partialParams)
+          this.ops["PutObjectAcl"].applicator.apply(partialParams)
         );
     }
 
     invokePutObjectLegalHold(partialParams: ToOptional<{
       [K in keyof PutObjectLegalHoldRequest & keyof Omit<PutObjectLegalHoldRequest, "Bucket"> & keyof PutObjectLegalHoldRequest & keyof PutObjectLegalHoldRequest & keyof PutObjectLegalHoldRequest & keyof PutObjectLegalHoldRequest & keyof PutObjectLegalHoldRequest & keyof PutObjectLegalHoldRequest & keyof PutObjectLegalHoldRequest & keyof PutObjectLegalHoldRequest & keyof Omit<PutObjectLegalHoldRequest, "Key"> & keyof PutObjectLegalHoldRequest & keyof PutObjectLegalHoldRequest & keyof PutObjectLegalHoldRequest & keyof PutObjectLegalHoldRequest & keyof PutObjectLegalHoldRequest & keyof PutObjectLegalHoldRequest & keyof PutObjectLegalHoldRequest & keyof PutObjectLegalHoldRequest & keyof PutObjectLegalHoldRequest]: (PutObjectLegalHoldRequest & Omit<PutObjectLegalHoldRequest, "Bucket"> & PutObjectLegalHoldRequest & PutObjectLegalHoldRequest & PutObjectLegalHoldRequest & PutObjectLegalHoldRequest & PutObjectLegalHoldRequest & PutObjectLegalHoldRequest & PutObjectLegalHoldRequest & PutObjectLegalHoldRequest & Omit<PutObjectLegalHoldRequest, "Key"> & PutObjectLegalHoldRequest & PutObjectLegalHoldRequest & PutObjectLegalHoldRequest & PutObjectLegalHoldRequest & PutObjectLegalHoldRequest & PutObjectLegalHoldRequest & PutObjectLegalHoldRequest & PutObjectLegalHoldRequest & PutObjectLegalHoldRequest)[K]
-    }>): PutObjectLegalHoldOutput {
+    }>): Request<PutObjectLegalHoldOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putObjectLegalHold(
-            this.ops["PutObjectLegalHold"].apply(partialParams)
+          this.ops["PutObjectLegalHold"].applicator.apply(partialParams)
         );
     }
 
     invokePutObjectLockConfiguration(partialParams: ToOptional<{
       [K in keyof PutObjectLockConfigurationRequest & keyof Omit<PutObjectLockConfigurationRequest, "Bucket"> & keyof PutObjectLockConfigurationRequest & keyof PutObjectLockConfigurationRequest & keyof PutObjectLockConfigurationRequest & keyof PutObjectLockConfigurationRequest & keyof PutObjectLockConfigurationRequest & keyof PutObjectLockConfigurationRequest & keyof PutObjectLockConfigurationRequest & keyof PutObjectLockConfigurationRequest & keyof PutObjectLockConfigurationRequest & keyof PutObjectLockConfigurationRequest & keyof PutObjectLockConfigurationRequest & keyof PutObjectLockConfigurationRequest & keyof PutObjectLockConfigurationRequest & keyof PutObjectLockConfigurationRequest & keyof PutObjectLockConfigurationRequest & keyof PutObjectLockConfigurationRequest & keyof PutObjectLockConfigurationRequest & keyof PutObjectLockConfigurationRequest]: (PutObjectLockConfigurationRequest & Omit<PutObjectLockConfigurationRequest, "Bucket"> & PutObjectLockConfigurationRequest & PutObjectLockConfigurationRequest & PutObjectLockConfigurationRequest & PutObjectLockConfigurationRequest & PutObjectLockConfigurationRequest & PutObjectLockConfigurationRequest & PutObjectLockConfigurationRequest & PutObjectLockConfigurationRequest & PutObjectLockConfigurationRequest & PutObjectLockConfigurationRequest & PutObjectLockConfigurationRequest & PutObjectLockConfigurationRequest & PutObjectLockConfigurationRequest & PutObjectLockConfigurationRequest & PutObjectLockConfigurationRequest & PutObjectLockConfigurationRequest & PutObjectLockConfigurationRequest & PutObjectLockConfigurationRequest)[K]
-    }>): PutObjectLockConfigurationOutput {
+    }>): Request<PutObjectLockConfigurationOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putObjectLockConfiguration(
-            this.ops["PutObjectLockConfiguration"].apply(partialParams)
+          this.ops["PutObjectLockConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokePutObjectRetention(partialParams: ToOptional<{
       [K in keyof PutObjectRetentionRequest & keyof Omit<PutObjectRetentionRequest, "Bucket"> & keyof PutObjectRetentionRequest & keyof PutObjectRetentionRequest & keyof PutObjectRetentionRequest & keyof PutObjectRetentionRequest & keyof PutObjectRetentionRequest & keyof PutObjectRetentionRequest & keyof PutObjectRetentionRequest & keyof PutObjectRetentionRequest & keyof Omit<PutObjectRetentionRequest, "Key"> & keyof PutObjectRetentionRequest & keyof PutObjectRetentionRequest & keyof PutObjectRetentionRequest & keyof PutObjectRetentionRequest & keyof PutObjectRetentionRequest & keyof PutObjectRetentionRequest & keyof PutObjectRetentionRequest & keyof PutObjectRetentionRequest & keyof PutObjectRetentionRequest]: (PutObjectRetentionRequest & Omit<PutObjectRetentionRequest, "Bucket"> & PutObjectRetentionRequest & PutObjectRetentionRequest & PutObjectRetentionRequest & PutObjectRetentionRequest & PutObjectRetentionRequest & PutObjectRetentionRequest & PutObjectRetentionRequest & PutObjectRetentionRequest & Omit<PutObjectRetentionRequest, "Key"> & PutObjectRetentionRequest & PutObjectRetentionRequest & PutObjectRetentionRequest & PutObjectRetentionRequest & PutObjectRetentionRequest & PutObjectRetentionRequest & PutObjectRetentionRequest & PutObjectRetentionRequest & PutObjectRetentionRequest)[K]
-    }>): PutObjectRetentionOutput {
+    }>): Request<PutObjectRetentionOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putObjectRetention(
-            this.ops["PutObjectRetention"].apply(partialParams)
+          this.ops["PutObjectRetention"].applicator.apply(partialParams)
         );
     }
 
     invokePutObjectTagging(partialParams: ToOptional<{
       [K in keyof PutObjectTaggingRequest & keyof Omit<PutObjectTaggingRequest, "Bucket"> & keyof PutObjectTaggingRequest & keyof PutObjectTaggingRequest & keyof PutObjectTaggingRequest & keyof PutObjectTaggingRequest & keyof PutObjectTaggingRequest & keyof PutObjectTaggingRequest & keyof PutObjectTaggingRequest & keyof PutObjectTaggingRequest & keyof Omit<PutObjectTaggingRequest, "Key"> & keyof PutObjectTaggingRequest & keyof PutObjectTaggingRequest & keyof PutObjectTaggingRequest & keyof PutObjectTaggingRequest & keyof PutObjectTaggingRequest & keyof PutObjectTaggingRequest & keyof PutObjectTaggingRequest & keyof PutObjectTaggingRequest & keyof PutObjectTaggingRequest]: (PutObjectTaggingRequest & Omit<PutObjectTaggingRequest, "Bucket"> & PutObjectTaggingRequest & PutObjectTaggingRequest & PutObjectTaggingRequest & PutObjectTaggingRequest & PutObjectTaggingRequest & PutObjectTaggingRequest & PutObjectTaggingRequest & PutObjectTaggingRequest & Omit<PutObjectTaggingRequest, "Key"> & PutObjectTaggingRequest & PutObjectTaggingRequest & PutObjectTaggingRequest & PutObjectTaggingRequest & PutObjectTaggingRequest & PutObjectTaggingRequest & PutObjectTaggingRequest & PutObjectTaggingRequest & PutObjectTaggingRequest)[K]
-    }>): PutObjectTaggingOutput {
+    }>): Request<PutObjectTaggingOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putObjectTagging(
-            this.ops["PutObjectTagging"].apply(partialParams)
+          this.ops["PutObjectTagging"].applicator.apply(partialParams)
         );
     }
 
     invokePutPublicAccessBlock(partialParams: ToOptional<{
       [K in keyof PutPublicAccessBlockRequest & keyof Omit<PutPublicAccessBlockRequest, "Bucket"> & keyof PutPublicAccessBlockRequest & keyof PutPublicAccessBlockRequest & keyof PutPublicAccessBlockRequest & keyof PutPublicAccessBlockRequest & keyof PutPublicAccessBlockRequest & keyof PutPublicAccessBlockRequest & keyof PutPublicAccessBlockRequest & keyof PutPublicAccessBlockRequest & keyof PutPublicAccessBlockRequest & keyof PutPublicAccessBlockRequest & keyof PutPublicAccessBlockRequest & keyof PutPublicAccessBlockRequest & keyof PutPublicAccessBlockRequest & keyof PutPublicAccessBlockRequest & keyof PutPublicAccessBlockRequest & keyof PutPublicAccessBlockRequest & keyof PutPublicAccessBlockRequest & keyof PutPublicAccessBlockRequest]: (PutPublicAccessBlockRequest & Omit<PutPublicAccessBlockRequest, "Bucket"> & PutPublicAccessBlockRequest & PutPublicAccessBlockRequest & PutPublicAccessBlockRequest & PutPublicAccessBlockRequest & PutPublicAccessBlockRequest & PutPublicAccessBlockRequest & PutPublicAccessBlockRequest & PutPublicAccessBlockRequest & PutPublicAccessBlockRequest & PutPublicAccessBlockRequest & PutPublicAccessBlockRequest & PutPublicAccessBlockRequest & PutPublicAccessBlockRequest & PutPublicAccessBlockRequest & PutPublicAccessBlockRequest & PutPublicAccessBlockRequest & PutPublicAccessBlockRequest & PutPublicAccessBlockRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putPublicAccessBlock(
-            this.ops["PutPublicAccessBlock"].apply(partialParams)
+          this.ops["PutPublicAccessBlock"].applicator.apply(partialParams)
         );
     }
 
     invokeRestoreObject(partialParams: ToOptional<{
       [K in keyof RestoreObjectRequest & keyof Omit<RestoreObjectRequest, "Bucket"> & keyof RestoreObjectRequest & keyof RestoreObjectRequest & keyof RestoreObjectRequest & keyof RestoreObjectRequest & keyof RestoreObjectRequest & keyof RestoreObjectRequest & keyof RestoreObjectRequest & keyof RestoreObjectRequest & keyof Omit<RestoreObjectRequest, "Key"> & keyof RestoreObjectRequest & keyof RestoreObjectRequest & keyof RestoreObjectRequest & keyof RestoreObjectRequest & keyof RestoreObjectRequest & keyof RestoreObjectRequest & keyof RestoreObjectRequest & keyof RestoreObjectRequest & keyof RestoreObjectRequest]: (RestoreObjectRequest & Omit<RestoreObjectRequest, "Bucket"> & RestoreObjectRequest & RestoreObjectRequest & RestoreObjectRequest & RestoreObjectRequest & RestoreObjectRequest & RestoreObjectRequest & RestoreObjectRequest & RestoreObjectRequest & Omit<RestoreObjectRequest, "Key"> & RestoreObjectRequest & RestoreObjectRequest & RestoreObjectRequest & RestoreObjectRequest & RestoreObjectRequest & RestoreObjectRequest & RestoreObjectRequest & RestoreObjectRequest & RestoreObjectRequest)[K]
-    }>): RestoreObjectOutput {
+    }>): Request<RestoreObjectOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.restoreObject(
-            this.ops["RestoreObject"].apply(partialParams)
+          this.ops["RestoreObject"].applicator.apply(partialParams)
         );
     }
 
     invokeSelectObjectContent(partialParams: ToOptional<{
       [K in keyof SelectObjectContentRequest & keyof Omit<SelectObjectContentRequest, "Bucket"> & keyof SelectObjectContentRequest & keyof SelectObjectContentRequest & keyof SelectObjectContentRequest & keyof SelectObjectContentRequest & keyof SelectObjectContentRequest & keyof SelectObjectContentRequest & keyof SelectObjectContentRequest & keyof SelectObjectContentRequest & keyof Omit<SelectObjectContentRequest, "Key"> & keyof SelectObjectContentRequest & keyof SelectObjectContentRequest & keyof SelectObjectContentRequest & keyof SelectObjectContentRequest & keyof SelectObjectContentRequest & keyof SelectObjectContentRequest & keyof SelectObjectContentRequest & keyof SelectObjectContentRequest & keyof SelectObjectContentRequest]: (SelectObjectContentRequest & Omit<SelectObjectContentRequest, "Bucket"> & SelectObjectContentRequest & SelectObjectContentRequest & SelectObjectContentRequest & SelectObjectContentRequest & SelectObjectContentRequest & SelectObjectContentRequest & SelectObjectContentRequest & SelectObjectContentRequest & Omit<SelectObjectContentRequest, "Key"> & SelectObjectContentRequest & SelectObjectContentRequest & SelectObjectContentRequest & SelectObjectContentRequest & SelectObjectContentRequest & SelectObjectContentRequest & SelectObjectContentRequest & SelectObjectContentRequest & SelectObjectContentRequest)[K]
-    }>): SelectObjectContentOutput {
+    }>): Request<SelectObjectContentOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.selectObjectContent(
-            this.ops["SelectObjectContent"].apply(partialParams)
+          this.ops["SelectObjectContent"].applicator.apply(partialParams)
         );
     }
 
     invokeUploadPart(partialParams: ToOptional<{
       [K in keyof UploadPartRequest & keyof Omit<UploadPartRequest, "Bucket"> & keyof UploadPartRequest & keyof UploadPartRequest & keyof UploadPartRequest & keyof UploadPartRequest & keyof UploadPartRequest & keyof UploadPartRequest & keyof UploadPartRequest & keyof UploadPartRequest & keyof Omit<UploadPartRequest, "Key"> & keyof UploadPartRequest & keyof UploadPartRequest & keyof UploadPartRequest & keyof UploadPartRequest & keyof UploadPartRequest & keyof UploadPartRequest & keyof UploadPartRequest & keyof UploadPartRequest & keyof UploadPartRequest]: (UploadPartRequest & Omit<UploadPartRequest, "Bucket"> & UploadPartRequest & UploadPartRequest & UploadPartRequest & UploadPartRequest & UploadPartRequest & UploadPartRequest & UploadPartRequest & UploadPartRequest & Omit<UploadPartRequest, "Key"> & UploadPartRequest & UploadPartRequest & UploadPartRequest & UploadPartRequest & UploadPartRequest & UploadPartRequest & UploadPartRequest & UploadPartRequest & UploadPartRequest)[K]
-    }>): UploadPartOutput {
+    }>): Request<UploadPartOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.uploadPart(
-            this.ops["UploadPart"].apply(partialParams)
+          this.ops["UploadPart"].applicator.apply(partialParams)
         );
     }
 
     invokeUploadPartCopy(partialParams: ToOptional<{
       [K in keyof UploadPartCopyRequest & keyof Omit<UploadPartCopyRequest, "Bucket"> & keyof UploadPartCopyRequest & keyof UploadPartCopyRequest & keyof UploadPartCopyRequest & keyof UploadPartCopyRequest & keyof UploadPartCopyRequest & keyof UploadPartCopyRequest & keyof UploadPartCopyRequest & keyof UploadPartCopyRequest & keyof Omit<UploadPartCopyRequest, "Key"> & keyof UploadPartCopyRequest & keyof UploadPartCopyRequest & keyof UploadPartCopyRequest & keyof UploadPartCopyRequest & keyof UploadPartCopyRequest & keyof UploadPartCopyRequest & keyof UploadPartCopyRequest & keyof UploadPartCopyRequest & keyof UploadPartCopyRequest]: (UploadPartCopyRequest & Omit<UploadPartCopyRequest, "Bucket"> & UploadPartCopyRequest & UploadPartCopyRequest & UploadPartCopyRequest & UploadPartCopyRequest & UploadPartCopyRequest & UploadPartCopyRequest & UploadPartCopyRequest & UploadPartCopyRequest & Omit<UploadPartCopyRequest, "Key"> & UploadPartCopyRequest & UploadPartCopyRequest & UploadPartCopyRequest & UploadPartCopyRequest & UploadPartCopyRequest & UploadPartCopyRequest & UploadPartCopyRequest & UploadPartCopyRequest & UploadPartCopyRequest)[K]
-    }>): UploadPartCopyOutput {
+    }>): Request<UploadPartCopyOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.uploadPartCopy(
-            this.ops["UploadPartCopy"].apply(partialParams)
+          this.ops["UploadPartCopy"].applicator.apply(partialParams)
         );
     }
 
     invokeWriteGetObjectResponse(partialParams: ToOptional<{
       [K in keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest & keyof WriteGetObjectResponseRequest]: (WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest & WriteGetObjectResponseRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.writeGetObjectResponse(
-            this.ops["WriteGetObjectResponse"].apply(partialParams)
+          this.ops["WriteGetObjectResponse"].applicator.apply(partialParams)
         );
     }
 }

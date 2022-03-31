@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,51 +21,112 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/cloudhsmv2-2017-04-28.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.cloudhsmv2.Cluster {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.CloudHSMV2();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/cloudhsmv2-2017-04-28.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeCopyBackupToRegion(partialParams) {
-        return this.client.copyBackupToRegion(this.ops["CopyBackupToRegion"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.copyBackupToRegion(this.ops["CopyBackupToRegion"].applicator.apply(partialParams));
     }
     invokeCreateCluster(partialParams) {
-        return this.client.createCluster(this.ops["CreateCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createCluster(this.ops["CreateCluster"].applicator.apply(partialParams));
     }
     invokeCreateHsm(partialParams) {
-        return this.client.createHsm(this.ops["CreateHsm"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createHsm(this.ops["CreateHsm"].applicator.apply(partialParams));
     }
     invokeDeleteBackup(partialParams) {
-        return this.client.deleteBackup(this.ops["DeleteBackup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteBackup(this.ops["DeleteBackup"].applicator.apply(partialParams));
     }
     invokeDeleteCluster(partialParams) {
-        return this.client.deleteCluster(this.ops["DeleteCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteCluster(this.ops["DeleteCluster"].applicator.apply(partialParams));
     }
     invokeDeleteHsm(partialParams) {
-        return this.client.deleteHsm(this.ops["DeleteHsm"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteHsm(this.ops["DeleteHsm"].applicator.apply(partialParams));
     }
     invokeInitializeCluster(partialParams) {
-        return this.client.initializeCluster(this.ops["InitializeCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.initializeCluster(this.ops["InitializeCluster"].applicator.apply(partialParams));
     }
     invokeListTags(partialParams) {
-        return this.client.listTags(this.ops["ListTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTags(this.ops["ListTags"].applicator.apply(partialParams));
     }
     invokeModifyBackupAttributes(partialParams) {
-        return this.client.modifyBackupAttributes(this.ops["ModifyBackupAttributes"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyBackupAttributes(this.ops["ModifyBackupAttributes"].applicator.apply(partialParams));
     }
     invokeModifyCluster(partialParams) {
-        return this.client.modifyCluster(this.ops["ModifyCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyCluster(this.ops["ModifyCluster"].applicator.apply(partialParams));
     }
     invokeRestoreBackup(partialParams) {
-        return this.client.restoreBackup(this.ops["RestoreBackup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.restoreBackup(this.ops["RestoreBackup"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

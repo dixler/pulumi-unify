@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,81 +21,172 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/servicediscovery-2017-03-14.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.servicediscovery.Instance {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.ServiceDiscovery();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/servicediscovery-2017-03-14.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeCreateHttpNamespace(partialParams) {
-        return this.client.createHttpNamespace(this.ops["CreateHttpNamespace"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createHttpNamespace(this.ops["CreateHttpNamespace"].applicator.apply(partialParams));
     }
     invokeCreatePrivateDnsNamespace(partialParams) {
-        return this.client.createPrivateDnsNamespace(this.ops["CreatePrivateDnsNamespace"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createPrivateDnsNamespace(this.ops["CreatePrivateDnsNamespace"].applicator.apply(partialParams));
     }
     invokeCreatePublicDnsNamespace(partialParams) {
-        return this.client.createPublicDnsNamespace(this.ops["CreatePublicDnsNamespace"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createPublicDnsNamespace(this.ops["CreatePublicDnsNamespace"].applicator.apply(partialParams));
     }
     invokeCreateService(partialParams) {
-        return this.client.createService(this.ops["CreateService"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createService(this.ops["CreateService"].applicator.apply(partialParams));
     }
     invokeDeleteNamespace(partialParams) {
-        return this.client.deleteNamespace(this.ops["DeleteNamespace"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteNamespace(this.ops["DeleteNamespace"].applicator.apply(partialParams));
     }
     invokeDeleteService(partialParams) {
-        return this.client.deleteService(this.ops["DeleteService"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteService(this.ops["DeleteService"].applicator.apply(partialParams));
     }
     invokeDeregisterInstance(partialParams) {
-        return this.client.deregisterInstance(this.ops["DeregisterInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deregisterInstance(this.ops["DeregisterInstance"].applicator.apply(partialParams));
     }
     invokeDiscoverInstances(partialParams) {
-        return this.client.discoverInstances(this.ops["DiscoverInstances"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.discoverInstances(this.ops["DiscoverInstances"].applicator.apply(partialParams));
     }
     invokeGetInstance(partialParams) {
-        return this.client.getInstance(this.ops["GetInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getInstance(this.ops["GetInstance"].applicator.apply(partialParams));
     }
     invokeGetInstancesHealthStatus(partialParams) {
-        return this.client.getInstancesHealthStatus(this.ops["GetInstancesHealthStatus"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getInstancesHealthStatus(this.ops["GetInstancesHealthStatus"].applicator.apply(partialParams));
     }
     invokeGetNamespace(partialParams) {
-        return this.client.getNamespace(this.ops["GetNamespace"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getNamespace(this.ops["GetNamespace"].applicator.apply(partialParams));
     }
     invokeGetOperation(partialParams) {
-        return this.client.getOperation(this.ops["GetOperation"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getOperation(this.ops["GetOperation"].applicator.apply(partialParams));
     }
     invokeGetService(partialParams) {
-        return this.client.getService(this.ops["GetService"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getService(this.ops["GetService"].applicator.apply(partialParams));
     }
     invokeListInstances(partialParams) {
-        return this.client.listInstances(this.ops["ListInstances"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listInstances(this.ops["ListInstances"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokeRegisterInstance(partialParams) {
-        return this.client.registerInstance(this.ops["RegisterInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.registerInstance(this.ops["RegisterInstance"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateHttpNamespace(partialParams) {
-        return this.client.updateHttpNamespace(this.ops["UpdateHttpNamespace"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateHttpNamespace(this.ops["UpdateHttpNamespace"].applicator.apply(partialParams));
     }
     invokeUpdateInstanceCustomHealthStatus(partialParams) {
-        return this.client.updateInstanceCustomHealthStatus(this.ops["UpdateInstanceCustomHealthStatus"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateInstanceCustomHealthStatus(this.ops["UpdateInstanceCustomHealthStatus"].applicator.apply(partialParams));
     }
     invokeUpdatePrivateDnsNamespace(partialParams) {
-        return this.client.updatePrivateDnsNamespace(this.ops["UpdatePrivateDnsNamespace"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updatePrivateDnsNamespace(this.ops["UpdatePrivateDnsNamespace"].applicator.apply(partialParams));
     }
     invokeUpdatePublicDnsNamespace(partialParams) {
-        return this.client.updatePublicDnsNamespace(this.ops["UpdatePublicDnsNamespace"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updatePublicDnsNamespace(this.ops["UpdatePublicDnsNamespace"].applicator.apply(partialParams));
     }
     invokeUpdateService(partialParams) {
-        return this.client.updateService(this.ops["UpdateService"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateService(this.ops["UpdateService"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     AssociateApprovalRuleTemplateWithRepositoryInput,
     BatchAssociateApprovalRuleTemplateWithRepositoriesInput,
@@ -140,8 +143,8 @@ import {
     UpdatePullRequestStatusOutput,
     UpdatePullRequestTitleOutput
 } from "aws-sdk/clients/codecommit";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/codecommit-2015-04-13.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -150,603 +153,847 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.codecommit.Repository {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.codecommit.Repository>) {
         super(...args)
         this.client = new awssdk.CodeCommit()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/codecommit-2015-04-13.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeAssociateApprovalRuleTemplateWithRepository(partialParams: ToOptional<{
       [K in keyof AssociateApprovalRuleTemplateWithRepositoryInput & keyof AssociateApprovalRuleTemplateWithRepositoryInput & keyof AssociateApprovalRuleTemplateWithRepositoryInput & keyof AssociateApprovalRuleTemplateWithRepositoryInput & keyof AssociateApprovalRuleTemplateWithRepositoryInput & keyof AssociateApprovalRuleTemplateWithRepositoryInput & keyof AssociateApprovalRuleTemplateWithRepositoryInput]: (AssociateApprovalRuleTemplateWithRepositoryInput & AssociateApprovalRuleTemplateWithRepositoryInput & AssociateApprovalRuleTemplateWithRepositoryInput & AssociateApprovalRuleTemplateWithRepositoryInput & AssociateApprovalRuleTemplateWithRepositoryInput & AssociateApprovalRuleTemplateWithRepositoryInput & AssociateApprovalRuleTemplateWithRepositoryInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.associateApprovalRuleTemplateWithRepository(
-            this.ops["AssociateApprovalRuleTemplateWithRepository"].apply(partialParams)
+          this.ops["AssociateApprovalRuleTemplateWithRepository"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchAssociateApprovalRuleTemplateWithRepositories(partialParams: ToOptional<{
       [K in keyof BatchAssociateApprovalRuleTemplateWithRepositoriesInput & keyof BatchAssociateApprovalRuleTemplateWithRepositoriesInput & keyof BatchAssociateApprovalRuleTemplateWithRepositoriesInput & keyof BatchAssociateApprovalRuleTemplateWithRepositoriesInput & keyof BatchAssociateApprovalRuleTemplateWithRepositoriesInput & keyof BatchAssociateApprovalRuleTemplateWithRepositoriesInput & keyof BatchAssociateApprovalRuleTemplateWithRepositoriesInput]: (BatchAssociateApprovalRuleTemplateWithRepositoriesInput & BatchAssociateApprovalRuleTemplateWithRepositoriesInput & BatchAssociateApprovalRuleTemplateWithRepositoriesInput & BatchAssociateApprovalRuleTemplateWithRepositoriesInput & BatchAssociateApprovalRuleTemplateWithRepositoriesInput & BatchAssociateApprovalRuleTemplateWithRepositoriesInput & BatchAssociateApprovalRuleTemplateWithRepositoriesInput)[K]
-    }>): BatchAssociateApprovalRuleTemplateWithRepositoriesOutput {
+    }>): Request<BatchAssociateApprovalRuleTemplateWithRepositoriesOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchAssociateApprovalRuleTemplateWithRepositories(
-            this.ops["BatchAssociateApprovalRuleTemplateWithRepositories"].apply(partialParams)
+          this.ops["BatchAssociateApprovalRuleTemplateWithRepositories"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchDescribeMergeConflicts(partialParams: ToOptional<{
       [K in keyof BatchDescribeMergeConflictsInput & keyof BatchDescribeMergeConflictsInput & keyof BatchDescribeMergeConflictsInput & keyof BatchDescribeMergeConflictsInput & keyof BatchDescribeMergeConflictsInput & keyof BatchDescribeMergeConflictsInput & keyof BatchDescribeMergeConflictsInput]: (BatchDescribeMergeConflictsInput & BatchDescribeMergeConflictsInput & BatchDescribeMergeConflictsInput & BatchDescribeMergeConflictsInput & BatchDescribeMergeConflictsInput & BatchDescribeMergeConflictsInput & BatchDescribeMergeConflictsInput)[K]
-    }>): BatchDescribeMergeConflictsOutput {
+    }>): Request<BatchDescribeMergeConflictsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchDescribeMergeConflicts(
-            this.ops["BatchDescribeMergeConflicts"].apply(partialParams)
+          this.ops["BatchDescribeMergeConflicts"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchDisassociateApprovalRuleTemplateFromRepositories(partialParams: ToOptional<{
       [K in keyof BatchDisassociateApprovalRuleTemplateFromRepositoriesInput & keyof BatchDisassociateApprovalRuleTemplateFromRepositoriesInput & keyof BatchDisassociateApprovalRuleTemplateFromRepositoriesInput & keyof BatchDisassociateApprovalRuleTemplateFromRepositoriesInput & keyof BatchDisassociateApprovalRuleTemplateFromRepositoriesInput & keyof BatchDisassociateApprovalRuleTemplateFromRepositoriesInput & keyof BatchDisassociateApprovalRuleTemplateFromRepositoriesInput]: (BatchDisassociateApprovalRuleTemplateFromRepositoriesInput & BatchDisassociateApprovalRuleTemplateFromRepositoriesInput & BatchDisassociateApprovalRuleTemplateFromRepositoriesInput & BatchDisassociateApprovalRuleTemplateFromRepositoriesInput & BatchDisassociateApprovalRuleTemplateFromRepositoriesInput & BatchDisassociateApprovalRuleTemplateFromRepositoriesInput & BatchDisassociateApprovalRuleTemplateFromRepositoriesInput)[K]
-    }>): BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput {
+    }>): Request<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchDisassociateApprovalRuleTemplateFromRepositories(
-            this.ops["BatchDisassociateApprovalRuleTemplateFromRepositories"].apply(partialParams)
+          this.ops["BatchDisassociateApprovalRuleTemplateFromRepositories"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchGetCommits(partialParams: ToOptional<{
       [K in keyof BatchGetCommitsInput & keyof BatchGetCommitsInput & keyof BatchGetCommitsInput & keyof BatchGetCommitsInput & keyof BatchGetCommitsInput & keyof BatchGetCommitsInput & keyof BatchGetCommitsInput]: (BatchGetCommitsInput & BatchGetCommitsInput & BatchGetCommitsInput & BatchGetCommitsInput & BatchGetCommitsInput & BatchGetCommitsInput & BatchGetCommitsInput)[K]
-    }>): BatchGetCommitsOutput {
+    }>): Request<BatchGetCommitsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchGetCommits(
-            this.ops["BatchGetCommits"].apply(partialParams)
+          this.ops["BatchGetCommits"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchGetRepositories(partialParams: ToOptional<{
       [K in keyof BatchGetRepositoriesInput & keyof BatchGetRepositoriesInput & keyof BatchGetRepositoriesInput & keyof BatchGetRepositoriesInput & keyof BatchGetRepositoriesInput & keyof BatchGetRepositoriesInput & keyof BatchGetRepositoriesInput]: (BatchGetRepositoriesInput & BatchGetRepositoriesInput & BatchGetRepositoriesInput & BatchGetRepositoriesInput & BatchGetRepositoriesInput & BatchGetRepositoriesInput & BatchGetRepositoriesInput)[K]
-    }>): BatchGetRepositoriesOutput {
+    }>): Request<BatchGetRepositoriesOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchGetRepositories(
-            this.ops["BatchGetRepositories"].apply(partialParams)
+          this.ops["BatchGetRepositories"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateApprovalRuleTemplate(partialParams: ToOptional<{
       [K in keyof CreateApprovalRuleTemplateInput & keyof CreateApprovalRuleTemplateInput & keyof CreateApprovalRuleTemplateInput & keyof CreateApprovalRuleTemplateInput & keyof CreateApprovalRuleTemplateInput & keyof CreateApprovalRuleTemplateInput & keyof CreateApprovalRuleTemplateInput]: (CreateApprovalRuleTemplateInput & CreateApprovalRuleTemplateInput & CreateApprovalRuleTemplateInput & CreateApprovalRuleTemplateInput & CreateApprovalRuleTemplateInput & CreateApprovalRuleTemplateInput & CreateApprovalRuleTemplateInput)[K]
-    }>): CreateApprovalRuleTemplateOutput {
+    }>): Request<CreateApprovalRuleTemplateOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createApprovalRuleTemplate(
-            this.ops["CreateApprovalRuleTemplate"].apply(partialParams)
+          this.ops["CreateApprovalRuleTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateBranch(partialParams: ToOptional<{
       [K in keyof CreateBranchInput & keyof CreateBranchInput & keyof CreateBranchInput & keyof CreateBranchInput & keyof CreateBranchInput & keyof CreateBranchInput & keyof CreateBranchInput]: (CreateBranchInput & CreateBranchInput & CreateBranchInput & CreateBranchInput & CreateBranchInput & CreateBranchInput & CreateBranchInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createBranch(
-            this.ops["CreateBranch"].apply(partialParams)
+          this.ops["CreateBranch"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateCommit(partialParams: ToOptional<{
       [K in keyof CreateCommitInput & keyof CreateCommitInput & keyof CreateCommitInput & keyof CreateCommitInput & keyof CreateCommitInput & keyof CreateCommitInput & keyof CreateCommitInput]: (CreateCommitInput & CreateCommitInput & CreateCommitInput & CreateCommitInput & CreateCommitInput & CreateCommitInput & CreateCommitInput)[K]
-    }>): CreateCommitOutput {
+    }>): Request<CreateCommitOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createCommit(
-            this.ops["CreateCommit"].apply(partialParams)
+          this.ops["CreateCommit"].applicator.apply(partialParams)
         );
     }
 
     invokeCreatePullRequest(partialParams: ToOptional<{
       [K in keyof CreatePullRequestInput & keyof CreatePullRequestInput & keyof CreatePullRequestInput & keyof CreatePullRequestInput & keyof CreatePullRequestInput & keyof CreatePullRequestInput & keyof CreatePullRequestInput]: (CreatePullRequestInput & CreatePullRequestInput & CreatePullRequestInput & CreatePullRequestInput & CreatePullRequestInput & CreatePullRequestInput & CreatePullRequestInput)[K]
-    }>): CreatePullRequestOutput {
+    }>): Request<CreatePullRequestOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createPullRequest(
-            this.ops["CreatePullRequest"].apply(partialParams)
+          this.ops["CreatePullRequest"].applicator.apply(partialParams)
         );
     }
 
     invokeCreatePullRequestApprovalRule(partialParams: ToOptional<{
       [K in keyof CreatePullRequestApprovalRuleInput & keyof CreatePullRequestApprovalRuleInput & keyof CreatePullRequestApprovalRuleInput & keyof CreatePullRequestApprovalRuleInput & keyof CreatePullRequestApprovalRuleInput & keyof CreatePullRequestApprovalRuleInput & keyof CreatePullRequestApprovalRuleInput]: (CreatePullRequestApprovalRuleInput & CreatePullRequestApprovalRuleInput & CreatePullRequestApprovalRuleInput & CreatePullRequestApprovalRuleInput & CreatePullRequestApprovalRuleInput & CreatePullRequestApprovalRuleInput & CreatePullRequestApprovalRuleInput)[K]
-    }>): CreatePullRequestApprovalRuleOutput {
+    }>): Request<CreatePullRequestApprovalRuleOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createPullRequestApprovalRule(
-            this.ops["CreatePullRequestApprovalRule"].apply(partialParams)
+          this.ops["CreatePullRequestApprovalRule"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateRepository(partialParams: ToOptional<{
       [K in keyof CreateRepositoryInput & keyof CreateRepositoryInput & keyof CreateRepositoryInput & keyof CreateRepositoryInput & keyof CreateRepositoryInput & keyof CreateRepositoryInput & keyof CreateRepositoryInput]: (CreateRepositoryInput & CreateRepositoryInput & CreateRepositoryInput & CreateRepositoryInput & CreateRepositoryInput & CreateRepositoryInput & CreateRepositoryInput)[K]
-    }>): CreateRepositoryOutput {
+    }>): Request<CreateRepositoryOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createRepository(
-            this.ops["CreateRepository"].apply(partialParams)
+          this.ops["CreateRepository"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateUnreferencedMergeCommit(partialParams: ToOptional<{
       [K in keyof CreateUnreferencedMergeCommitInput & keyof CreateUnreferencedMergeCommitInput & keyof CreateUnreferencedMergeCommitInput & keyof CreateUnreferencedMergeCommitInput & keyof CreateUnreferencedMergeCommitInput & keyof CreateUnreferencedMergeCommitInput & keyof CreateUnreferencedMergeCommitInput]: (CreateUnreferencedMergeCommitInput & CreateUnreferencedMergeCommitInput & CreateUnreferencedMergeCommitInput & CreateUnreferencedMergeCommitInput & CreateUnreferencedMergeCommitInput & CreateUnreferencedMergeCommitInput & CreateUnreferencedMergeCommitInput)[K]
-    }>): CreateUnreferencedMergeCommitOutput {
+    }>): Request<CreateUnreferencedMergeCommitOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createUnreferencedMergeCommit(
-            this.ops["CreateUnreferencedMergeCommit"].apply(partialParams)
+          this.ops["CreateUnreferencedMergeCommit"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteApprovalRuleTemplate(partialParams: ToOptional<{
       [K in keyof DeleteApprovalRuleTemplateInput & keyof DeleteApprovalRuleTemplateInput & keyof DeleteApprovalRuleTemplateInput & keyof DeleteApprovalRuleTemplateInput & keyof DeleteApprovalRuleTemplateInput & keyof DeleteApprovalRuleTemplateInput & keyof DeleteApprovalRuleTemplateInput]: (DeleteApprovalRuleTemplateInput & DeleteApprovalRuleTemplateInput & DeleteApprovalRuleTemplateInput & DeleteApprovalRuleTemplateInput & DeleteApprovalRuleTemplateInput & DeleteApprovalRuleTemplateInput & DeleteApprovalRuleTemplateInput)[K]
-    }>): DeleteApprovalRuleTemplateOutput {
+    }>): Request<DeleteApprovalRuleTemplateOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteApprovalRuleTemplate(
-            this.ops["DeleteApprovalRuleTemplate"].apply(partialParams)
+          this.ops["DeleteApprovalRuleTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBranch(partialParams: ToOptional<{
       [K in keyof DeleteBranchInput & keyof DeleteBranchInput & keyof DeleteBranchInput & keyof DeleteBranchInput & keyof DeleteBranchInput & keyof DeleteBranchInput & keyof DeleteBranchInput]: (DeleteBranchInput & DeleteBranchInput & DeleteBranchInput & DeleteBranchInput & DeleteBranchInput & DeleteBranchInput & DeleteBranchInput)[K]
-    }>): DeleteBranchOutput {
+    }>): Request<DeleteBranchOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBranch(
-            this.ops["DeleteBranch"].apply(partialParams)
+          this.ops["DeleteBranch"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteCommentContent(partialParams: ToOptional<{
       [K in keyof DeleteCommentContentInput & keyof DeleteCommentContentInput & keyof DeleteCommentContentInput & keyof DeleteCommentContentInput & keyof DeleteCommentContentInput & keyof DeleteCommentContentInput & keyof DeleteCommentContentInput]: (DeleteCommentContentInput & DeleteCommentContentInput & DeleteCommentContentInput & DeleteCommentContentInput & DeleteCommentContentInput & DeleteCommentContentInput & DeleteCommentContentInput)[K]
-    }>): DeleteCommentContentOutput {
+    }>): Request<DeleteCommentContentOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteCommentContent(
-            this.ops["DeleteCommentContent"].apply(partialParams)
+          this.ops["DeleteCommentContent"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteFile(partialParams: ToOptional<{
       [K in keyof DeleteFileInput & keyof DeleteFileInput & keyof DeleteFileInput & keyof DeleteFileInput & keyof DeleteFileInput & keyof DeleteFileInput & keyof DeleteFileInput]: (DeleteFileInput & DeleteFileInput & DeleteFileInput & DeleteFileInput & DeleteFileInput & DeleteFileInput & DeleteFileInput)[K]
-    }>): DeleteFileOutput {
+    }>): Request<DeleteFileOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteFile(
-            this.ops["DeleteFile"].apply(partialParams)
+          this.ops["DeleteFile"].applicator.apply(partialParams)
         );
     }
 
     invokeDeletePullRequestApprovalRule(partialParams: ToOptional<{
       [K in keyof DeletePullRequestApprovalRuleInput & keyof DeletePullRequestApprovalRuleInput & keyof DeletePullRequestApprovalRuleInput & keyof DeletePullRequestApprovalRuleInput & keyof DeletePullRequestApprovalRuleInput & keyof DeletePullRequestApprovalRuleInput & keyof DeletePullRequestApprovalRuleInput]: (DeletePullRequestApprovalRuleInput & DeletePullRequestApprovalRuleInput & DeletePullRequestApprovalRuleInput & DeletePullRequestApprovalRuleInput & DeletePullRequestApprovalRuleInput & DeletePullRequestApprovalRuleInput & DeletePullRequestApprovalRuleInput)[K]
-    }>): DeletePullRequestApprovalRuleOutput {
+    }>): Request<DeletePullRequestApprovalRuleOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deletePullRequestApprovalRule(
-            this.ops["DeletePullRequestApprovalRule"].apply(partialParams)
+          this.ops["DeletePullRequestApprovalRule"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteRepository(partialParams: ToOptional<{
       [K in keyof DeleteRepositoryInput & keyof DeleteRepositoryInput & keyof DeleteRepositoryInput & keyof DeleteRepositoryInput & keyof DeleteRepositoryInput & keyof DeleteRepositoryInput & keyof DeleteRepositoryInput]: (DeleteRepositoryInput & DeleteRepositoryInput & DeleteRepositoryInput & DeleteRepositoryInput & DeleteRepositoryInput & DeleteRepositoryInput & DeleteRepositoryInput)[K]
-    }>): DeleteRepositoryOutput {
+    }>): Request<DeleteRepositoryOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteRepository(
-            this.ops["DeleteRepository"].apply(partialParams)
+          this.ops["DeleteRepository"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeMergeConflicts(partialParams: ToOptional<{
       [K in keyof DescribeMergeConflictsInput & keyof DescribeMergeConflictsInput & keyof DescribeMergeConflictsInput & keyof DescribeMergeConflictsInput & keyof DescribeMergeConflictsInput & keyof DescribeMergeConflictsInput & keyof DescribeMergeConflictsInput]: (DescribeMergeConflictsInput & DescribeMergeConflictsInput & DescribeMergeConflictsInput & DescribeMergeConflictsInput & DescribeMergeConflictsInput & DescribeMergeConflictsInput & DescribeMergeConflictsInput)[K]
-    }>): DescribeMergeConflictsOutput {
+    }>): Request<DescribeMergeConflictsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeMergeConflicts(
-            this.ops["DescribeMergeConflicts"].apply(partialParams)
+          this.ops["DescribeMergeConflicts"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribePullRequestEvents(partialParams: ToOptional<{
       [K in keyof DescribePullRequestEventsInput & keyof DescribePullRequestEventsInput & keyof DescribePullRequestEventsInput & keyof DescribePullRequestEventsInput & keyof DescribePullRequestEventsInput & keyof DescribePullRequestEventsInput & keyof DescribePullRequestEventsInput]: (DescribePullRequestEventsInput & DescribePullRequestEventsInput & DescribePullRequestEventsInput & DescribePullRequestEventsInput & DescribePullRequestEventsInput & DescribePullRequestEventsInput & DescribePullRequestEventsInput)[K]
-    }>): DescribePullRequestEventsOutput {
+    }>): Request<DescribePullRequestEventsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describePullRequestEvents(
-            this.ops["DescribePullRequestEvents"].apply(partialParams)
+          this.ops["DescribePullRequestEvents"].applicator.apply(partialParams)
         );
     }
 
     invokeDisassociateApprovalRuleTemplateFromRepository(partialParams: ToOptional<{
       [K in keyof DisassociateApprovalRuleTemplateFromRepositoryInput & keyof DisassociateApprovalRuleTemplateFromRepositoryInput & keyof DisassociateApprovalRuleTemplateFromRepositoryInput & keyof DisassociateApprovalRuleTemplateFromRepositoryInput & keyof DisassociateApprovalRuleTemplateFromRepositoryInput & keyof DisassociateApprovalRuleTemplateFromRepositoryInput & keyof DisassociateApprovalRuleTemplateFromRepositoryInput]: (DisassociateApprovalRuleTemplateFromRepositoryInput & DisassociateApprovalRuleTemplateFromRepositoryInput & DisassociateApprovalRuleTemplateFromRepositoryInput & DisassociateApprovalRuleTemplateFromRepositoryInput & DisassociateApprovalRuleTemplateFromRepositoryInput & DisassociateApprovalRuleTemplateFromRepositoryInput & DisassociateApprovalRuleTemplateFromRepositoryInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disassociateApprovalRuleTemplateFromRepository(
-            this.ops["DisassociateApprovalRuleTemplateFromRepository"].apply(partialParams)
+          this.ops["DisassociateApprovalRuleTemplateFromRepository"].applicator.apply(partialParams)
         );
     }
 
     invokeEvaluatePullRequestApprovalRules(partialParams: ToOptional<{
       [K in keyof EvaluatePullRequestApprovalRulesInput & keyof EvaluatePullRequestApprovalRulesInput & keyof EvaluatePullRequestApprovalRulesInput & keyof EvaluatePullRequestApprovalRulesInput & keyof EvaluatePullRequestApprovalRulesInput & keyof EvaluatePullRequestApprovalRulesInput & keyof EvaluatePullRequestApprovalRulesInput]: (EvaluatePullRequestApprovalRulesInput & EvaluatePullRequestApprovalRulesInput & EvaluatePullRequestApprovalRulesInput & EvaluatePullRequestApprovalRulesInput & EvaluatePullRequestApprovalRulesInput & EvaluatePullRequestApprovalRulesInput & EvaluatePullRequestApprovalRulesInput)[K]
-    }>): EvaluatePullRequestApprovalRulesOutput {
+    }>): Request<EvaluatePullRequestApprovalRulesOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.evaluatePullRequestApprovalRules(
-            this.ops["EvaluatePullRequestApprovalRules"].apply(partialParams)
+          this.ops["EvaluatePullRequestApprovalRules"].applicator.apply(partialParams)
         );
     }
 
     invokeGetApprovalRuleTemplate(partialParams: ToOptional<{
       [K in keyof GetApprovalRuleTemplateInput & keyof GetApprovalRuleTemplateInput & keyof GetApprovalRuleTemplateInput & keyof GetApprovalRuleTemplateInput & keyof GetApprovalRuleTemplateInput & keyof GetApprovalRuleTemplateInput & keyof GetApprovalRuleTemplateInput]: (GetApprovalRuleTemplateInput & GetApprovalRuleTemplateInput & GetApprovalRuleTemplateInput & GetApprovalRuleTemplateInput & GetApprovalRuleTemplateInput & GetApprovalRuleTemplateInput & GetApprovalRuleTemplateInput)[K]
-    }>): GetApprovalRuleTemplateOutput {
+    }>): Request<GetApprovalRuleTemplateOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getApprovalRuleTemplate(
-            this.ops["GetApprovalRuleTemplate"].apply(partialParams)
+          this.ops["GetApprovalRuleTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBlob(partialParams: ToOptional<{
       [K in keyof GetBlobInput & keyof GetBlobInput & keyof GetBlobInput & keyof GetBlobInput & keyof GetBlobInput & keyof GetBlobInput & keyof GetBlobInput]: (GetBlobInput & GetBlobInput & GetBlobInput & GetBlobInput & GetBlobInput & GetBlobInput & GetBlobInput)[K]
-    }>): GetBlobOutput {
+    }>): Request<GetBlobOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBlob(
-            this.ops["GetBlob"].apply(partialParams)
+          this.ops["GetBlob"].applicator.apply(partialParams)
         );
     }
 
     invokeGetComment(partialParams: ToOptional<{
       [K in keyof GetCommentInput & keyof GetCommentInput & keyof GetCommentInput & keyof GetCommentInput & keyof GetCommentInput & keyof GetCommentInput & keyof GetCommentInput]: (GetCommentInput & GetCommentInput & GetCommentInput & GetCommentInput & GetCommentInput & GetCommentInput & GetCommentInput)[K]
-    }>): GetCommentOutput {
+    }>): Request<GetCommentOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getComment(
-            this.ops["GetComment"].apply(partialParams)
+          this.ops["GetComment"].applicator.apply(partialParams)
         );
     }
 
     invokeGetCommentReactions(partialParams: ToOptional<{
       [K in keyof GetCommentReactionsInput & keyof GetCommentReactionsInput & keyof GetCommentReactionsInput & keyof GetCommentReactionsInput & keyof GetCommentReactionsInput & keyof GetCommentReactionsInput & keyof GetCommentReactionsInput]: (GetCommentReactionsInput & GetCommentReactionsInput & GetCommentReactionsInput & GetCommentReactionsInput & GetCommentReactionsInput & GetCommentReactionsInput & GetCommentReactionsInput)[K]
-    }>): GetCommentReactionsOutput {
+    }>): Request<GetCommentReactionsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getCommentReactions(
-            this.ops["GetCommentReactions"].apply(partialParams)
+          this.ops["GetCommentReactions"].applicator.apply(partialParams)
         );
     }
 
     invokeGetCommentsForComparedCommit(partialParams: ToOptional<{
       [K in keyof GetCommentsForComparedCommitInput & keyof GetCommentsForComparedCommitInput & keyof GetCommentsForComparedCommitInput & keyof GetCommentsForComparedCommitInput & keyof GetCommentsForComparedCommitInput & keyof GetCommentsForComparedCommitInput & keyof GetCommentsForComparedCommitInput]: (GetCommentsForComparedCommitInput & GetCommentsForComparedCommitInput & GetCommentsForComparedCommitInput & GetCommentsForComparedCommitInput & GetCommentsForComparedCommitInput & GetCommentsForComparedCommitInput & GetCommentsForComparedCommitInput)[K]
-    }>): GetCommentsForComparedCommitOutput {
+    }>): Request<GetCommentsForComparedCommitOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getCommentsForComparedCommit(
-            this.ops["GetCommentsForComparedCommit"].apply(partialParams)
+          this.ops["GetCommentsForComparedCommit"].applicator.apply(partialParams)
         );
     }
 
     invokeGetCommentsForPullRequest(partialParams: ToOptional<{
       [K in keyof GetCommentsForPullRequestInput & keyof GetCommentsForPullRequestInput & keyof GetCommentsForPullRequestInput & keyof GetCommentsForPullRequestInput & keyof GetCommentsForPullRequestInput & keyof GetCommentsForPullRequestInput & keyof GetCommentsForPullRequestInput]: (GetCommentsForPullRequestInput & GetCommentsForPullRequestInput & GetCommentsForPullRequestInput & GetCommentsForPullRequestInput & GetCommentsForPullRequestInput & GetCommentsForPullRequestInput & GetCommentsForPullRequestInput)[K]
-    }>): GetCommentsForPullRequestOutput {
+    }>): Request<GetCommentsForPullRequestOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getCommentsForPullRequest(
-            this.ops["GetCommentsForPullRequest"].apply(partialParams)
+          this.ops["GetCommentsForPullRequest"].applicator.apply(partialParams)
         );
     }
 
     invokeGetCommit(partialParams: ToOptional<{
       [K in keyof GetCommitInput & keyof GetCommitInput & keyof GetCommitInput & keyof GetCommitInput & keyof GetCommitInput & keyof GetCommitInput & keyof GetCommitInput]: (GetCommitInput & GetCommitInput & GetCommitInput & GetCommitInput & GetCommitInput & GetCommitInput & GetCommitInput)[K]
-    }>): GetCommitOutput {
+    }>): Request<GetCommitOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getCommit(
-            this.ops["GetCommit"].apply(partialParams)
+          this.ops["GetCommit"].applicator.apply(partialParams)
         );
     }
 
     invokeGetDifferences(partialParams: ToOptional<{
       [K in keyof GetDifferencesInput & keyof GetDifferencesInput & keyof GetDifferencesInput & keyof GetDifferencesInput & keyof GetDifferencesInput & keyof GetDifferencesInput & keyof GetDifferencesInput]: (GetDifferencesInput & GetDifferencesInput & GetDifferencesInput & GetDifferencesInput & GetDifferencesInput & GetDifferencesInput & GetDifferencesInput)[K]
-    }>): GetDifferencesOutput {
+    }>): Request<GetDifferencesOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getDifferences(
-            this.ops["GetDifferences"].apply(partialParams)
+          this.ops["GetDifferences"].applicator.apply(partialParams)
         );
     }
 
     invokeGetFile(partialParams: ToOptional<{
       [K in keyof GetFileInput & keyof GetFileInput & keyof GetFileInput & keyof GetFileInput & keyof GetFileInput & keyof GetFileInput & keyof GetFileInput]: (GetFileInput & GetFileInput & GetFileInput & GetFileInput & GetFileInput & GetFileInput & GetFileInput)[K]
-    }>): GetFileOutput {
+    }>): Request<GetFileOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getFile(
-            this.ops["GetFile"].apply(partialParams)
+          this.ops["GetFile"].applicator.apply(partialParams)
         );
     }
 
     invokeGetFolder(partialParams: ToOptional<{
       [K in keyof GetFolderInput & keyof GetFolderInput & keyof GetFolderInput & keyof GetFolderInput & keyof GetFolderInput & keyof GetFolderInput & keyof GetFolderInput]: (GetFolderInput & GetFolderInput & GetFolderInput & GetFolderInput & GetFolderInput & GetFolderInput & GetFolderInput)[K]
-    }>): GetFolderOutput {
+    }>): Request<GetFolderOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getFolder(
-            this.ops["GetFolder"].apply(partialParams)
+          this.ops["GetFolder"].applicator.apply(partialParams)
         );
     }
 
     invokeGetMergeCommit(partialParams: ToOptional<{
       [K in keyof GetMergeCommitInput & keyof GetMergeCommitInput & keyof GetMergeCommitInput & keyof GetMergeCommitInput & keyof GetMergeCommitInput & keyof GetMergeCommitInput & keyof GetMergeCommitInput]: (GetMergeCommitInput & GetMergeCommitInput & GetMergeCommitInput & GetMergeCommitInput & GetMergeCommitInput & GetMergeCommitInput & GetMergeCommitInput)[K]
-    }>): GetMergeCommitOutput {
+    }>): Request<GetMergeCommitOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getMergeCommit(
-            this.ops["GetMergeCommit"].apply(partialParams)
+          this.ops["GetMergeCommit"].applicator.apply(partialParams)
         );
     }
 
     invokeGetMergeConflicts(partialParams: ToOptional<{
       [K in keyof GetMergeConflictsInput & keyof GetMergeConflictsInput & keyof GetMergeConflictsInput & keyof GetMergeConflictsInput & keyof GetMergeConflictsInput & keyof GetMergeConflictsInput & keyof GetMergeConflictsInput]: (GetMergeConflictsInput & GetMergeConflictsInput & GetMergeConflictsInput & GetMergeConflictsInput & GetMergeConflictsInput & GetMergeConflictsInput & GetMergeConflictsInput)[K]
-    }>): GetMergeConflictsOutput {
+    }>): Request<GetMergeConflictsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getMergeConflicts(
-            this.ops["GetMergeConflicts"].apply(partialParams)
+          this.ops["GetMergeConflicts"].applicator.apply(partialParams)
         );
     }
 
     invokeGetMergeOptions(partialParams: ToOptional<{
       [K in keyof GetMergeOptionsInput & keyof GetMergeOptionsInput & keyof GetMergeOptionsInput & keyof GetMergeOptionsInput & keyof GetMergeOptionsInput & keyof GetMergeOptionsInput & keyof GetMergeOptionsInput]: (GetMergeOptionsInput & GetMergeOptionsInput & GetMergeOptionsInput & GetMergeOptionsInput & GetMergeOptionsInput & GetMergeOptionsInput & GetMergeOptionsInput)[K]
-    }>): GetMergeOptionsOutput {
+    }>): Request<GetMergeOptionsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getMergeOptions(
-            this.ops["GetMergeOptions"].apply(partialParams)
+          this.ops["GetMergeOptions"].applicator.apply(partialParams)
         );
     }
 
     invokeGetPullRequest(partialParams: ToOptional<{
       [K in keyof GetPullRequestInput & keyof GetPullRequestInput & keyof GetPullRequestInput & keyof GetPullRequestInput & keyof GetPullRequestInput & keyof GetPullRequestInput & keyof GetPullRequestInput]: (GetPullRequestInput & GetPullRequestInput & GetPullRequestInput & GetPullRequestInput & GetPullRequestInput & GetPullRequestInput & GetPullRequestInput)[K]
-    }>): GetPullRequestOutput {
+    }>): Request<GetPullRequestOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getPullRequest(
-            this.ops["GetPullRequest"].apply(partialParams)
+          this.ops["GetPullRequest"].applicator.apply(partialParams)
         );
     }
 
     invokeGetPullRequestApprovalStates(partialParams: ToOptional<{
       [K in keyof GetPullRequestApprovalStatesInput & keyof GetPullRequestApprovalStatesInput & keyof GetPullRequestApprovalStatesInput & keyof GetPullRequestApprovalStatesInput & keyof GetPullRequestApprovalStatesInput & keyof GetPullRequestApprovalStatesInput & keyof GetPullRequestApprovalStatesInput]: (GetPullRequestApprovalStatesInput & GetPullRequestApprovalStatesInput & GetPullRequestApprovalStatesInput & GetPullRequestApprovalStatesInput & GetPullRequestApprovalStatesInput & GetPullRequestApprovalStatesInput & GetPullRequestApprovalStatesInput)[K]
-    }>): GetPullRequestApprovalStatesOutput {
+    }>): Request<GetPullRequestApprovalStatesOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getPullRequestApprovalStates(
-            this.ops["GetPullRequestApprovalStates"].apply(partialParams)
+          this.ops["GetPullRequestApprovalStates"].applicator.apply(partialParams)
         );
     }
 
     invokeGetPullRequestOverrideState(partialParams: ToOptional<{
       [K in keyof GetPullRequestOverrideStateInput & keyof GetPullRequestOverrideStateInput & keyof GetPullRequestOverrideStateInput & keyof GetPullRequestOverrideStateInput & keyof GetPullRequestOverrideStateInput & keyof GetPullRequestOverrideStateInput & keyof GetPullRequestOverrideStateInput]: (GetPullRequestOverrideStateInput & GetPullRequestOverrideStateInput & GetPullRequestOverrideStateInput & GetPullRequestOverrideStateInput & GetPullRequestOverrideStateInput & GetPullRequestOverrideStateInput & GetPullRequestOverrideStateInput)[K]
-    }>): GetPullRequestOverrideStateOutput {
+    }>): Request<GetPullRequestOverrideStateOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getPullRequestOverrideState(
-            this.ops["GetPullRequestOverrideState"].apply(partialParams)
+          this.ops["GetPullRequestOverrideState"].applicator.apply(partialParams)
         );
     }
 
     invokeGetRepository(partialParams: ToOptional<{
       [K in keyof GetRepositoryInput & keyof GetRepositoryInput & keyof GetRepositoryInput & keyof GetRepositoryInput & keyof GetRepositoryInput & keyof GetRepositoryInput & keyof GetRepositoryInput]: (GetRepositoryInput & GetRepositoryInput & GetRepositoryInput & GetRepositoryInput & GetRepositoryInput & GetRepositoryInput & GetRepositoryInput)[K]
-    }>): GetRepositoryOutput {
+    }>): Request<GetRepositoryOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getRepository(
-            this.ops["GetRepository"].apply(partialParams)
+          this.ops["GetRepository"].applicator.apply(partialParams)
         );
     }
 
     invokeGetRepositoryTriggers(partialParams: ToOptional<{
       [K in keyof GetRepositoryTriggersInput & keyof GetRepositoryTriggersInput & keyof GetRepositoryTriggersInput & keyof GetRepositoryTriggersInput & keyof GetRepositoryTriggersInput & keyof GetRepositoryTriggersInput & keyof GetRepositoryTriggersInput]: (GetRepositoryTriggersInput & GetRepositoryTriggersInput & GetRepositoryTriggersInput & GetRepositoryTriggersInput & GetRepositoryTriggersInput & GetRepositoryTriggersInput & GetRepositoryTriggersInput)[K]
-    }>): GetRepositoryTriggersOutput {
+    }>): Request<GetRepositoryTriggersOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getRepositoryTriggers(
-            this.ops["GetRepositoryTriggers"].apply(partialParams)
+          this.ops["GetRepositoryTriggers"].applicator.apply(partialParams)
         );
     }
 
     invokeListAssociatedApprovalRuleTemplatesForRepository(partialParams: ToOptional<{
       [K in keyof ListAssociatedApprovalRuleTemplatesForRepositoryInput & keyof ListAssociatedApprovalRuleTemplatesForRepositoryInput & keyof ListAssociatedApprovalRuleTemplatesForRepositoryInput & keyof ListAssociatedApprovalRuleTemplatesForRepositoryInput & keyof ListAssociatedApprovalRuleTemplatesForRepositoryInput & keyof ListAssociatedApprovalRuleTemplatesForRepositoryInput & keyof ListAssociatedApprovalRuleTemplatesForRepositoryInput]: (ListAssociatedApprovalRuleTemplatesForRepositoryInput & ListAssociatedApprovalRuleTemplatesForRepositoryInput & ListAssociatedApprovalRuleTemplatesForRepositoryInput & ListAssociatedApprovalRuleTemplatesForRepositoryInput & ListAssociatedApprovalRuleTemplatesForRepositoryInput & ListAssociatedApprovalRuleTemplatesForRepositoryInput & ListAssociatedApprovalRuleTemplatesForRepositoryInput)[K]
-    }>): ListAssociatedApprovalRuleTemplatesForRepositoryOutput {
+    }>): Request<ListAssociatedApprovalRuleTemplatesForRepositoryOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listAssociatedApprovalRuleTemplatesForRepository(
-            this.ops["ListAssociatedApprovalRuleTemplatesForRepository"].apply(partialParams)
+          this.ops["ListAssociatedApprovalRuleTemplatesForRepository"].applicator.apply(partialParams)
         );
     }
 
     invokeListBranches(partialParams: ToOptional<{
       [K in keyof ListBranchesInput & keyof ListBranchesInput & keyof ListBranchesInput & keyof ListBranchesInput & keyof ListBranchesInput & keyof ListBranchesInput & keyof ListBranchesInput]: (ListBranchesInput & ListBranchesInput & ListBranchesInput & ListBranchesInput & ListBranchesInput & ListBranchesInput & ListBranchesInput)[K]
-    }>): ListBranchesOutput {
+    }>): Request<ListBranchesOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listBranches(
-            this.ops["ListBranches"].apply(partialParams)
+          this.ops["ListBranches"].applicator.apply(partialParams)
         );
     }
 
     invokeListPullRequests(partialParams: ToOptional<{
       [K in keyof ListPullRequestsInput & keyof ListPullRequestsInput & keyof ListPullRequestsInput & keyof ListPullRequestsInput & keyof ListPullRequestsInput & keyof ListPullRequestsInput & keyof ListPullRequestsInput]: (ListPullRequestsInput & ListPullRequestsInput & ListPullRequestsInput & ListPullRequestsInput & ListPullRequestsInput & ListPullRequestsInput & ListPullRequestsInput)[K]
-    }>): ListPullRequestsOutput {
+    }>): Request<ListPullRequestsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listPullRequests(
-            this.ops["ListPullRequests"].apply(partialParams)
+          this.ops["ListPullRequests"].applicator.apply(partialParams)
         );
     }
 
     invokeListRepositoriesForApprovalRuleTemplate(partialParams: ToOptional<{
       [K in keyof ListRepositoriesForApprovalRuleTemplateInput & keyof ListRepositoriesForApprovalRuleTemplateInput & keyof ListRepositoriesForApprovalRuleTemplateInput & keyof ListRepositoriesForApprovalRuleTemplateInput & keyof ListRepositoriesForApprovalRuleTemplateInput & keyof ListRepositoriesForApprovalRuleTemplateInput & keyof ListRepositoriesForApprovalRuleTemplateInput]: (ListRepositoriesForApprovalRuleTemplateInput & ListRepositoriesForApprovalRuleTemplateInput & ListRepositoriesForApprovalRuleTemplateInput & ListRepositoriesForApprovalRuleTemplateInput & ListRepositoriesForApprovalRuleTemplateInput & ListRepositoriesForApprovalRuleTemplateInput & ListRepositoriesForApprovalRuleTemplateInput)[K]
-    }>): ListRepositoriesForApprovalRuleTemplateOutput {
+    }>): Request<ListRepositoriesForApprovalRuleTemplateOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listRepositoriesForApprovalRuleTemplate(
-            this.ops["ListRepositoriesForApprovalRuleTemplate"].apply(partialParams)
+          this.ops["ListRepositoriesForApprovalRuleTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput]: (ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput)[K]
-    }>): ListTagsForResourceOutput {
+    }>): Request<ListTagsForResourceOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokeMergeBranchesByFastForward(partialParams: ToOptional<{
       [K in keyof MergeBranchesByFastForwardInput & keyof MergeBranchesByFastForwardInput & keyof MergeBranchesByFastForwardInput & keyof MergeBranchesByFastForwardInput & keyof MergeBranchesByFastForwardInput & keyof MergeBranchesByFastForwardInput & keyof MergeBranchesByFastForwardInput]: (MergeBranchesByFastForwardInput & MergeBranchesByFastForwardInput & MergeBranchesByFastForwardInput & MergeBranchesByFastForwardInput & MergeBranchesByFastForwardInput & MergeBranchesByFastForwardInput & MergeBranchesByFastForwardInput)[K]
-    }>): MergeBranchesByFastForwardOutput {
+    }>): Request<MergeBranchesByFastForwardOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.mergeBranchesByFastForward(
-            this.ops["MergeBranchesByFastForward"].apply(partialParams)
+          this.ops["MergeBranchesByFastForward"].applicator.apply(partialParams)
         );
     }
 
     invokeMergeBranchesBySquash(partialParams: ToOptional<{
       [K in keyof MergeBranchesBySquashInput & keyof MergeBranchesBySquashInput & keyof MergeBranchesBySquashInput & keyof MergeBranchesBySquashInput & keyof MergeBranchesBySquashInput & keyof MergeBranchesBySquashInput & keyof MergeBranchesBySquashInput]: (MergeBranchesBySquashInput & MergeBranchesBySquashInput & MergeBranchesBySquashInput & MergeBranchesBySquashInput & MergeBranchesBySquashInput & MergeBranchesBySquashInput & MergeBranchesBySquashInput)[K]
-    }>): MergeBranchesBySquashOutput {
+    }>): Request<MergeBranchesBySquashOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.mergeBranchesBySquash(
-            this.ops["MergeBranchesBySquash"].apply(partialParams)
+          this.ops["MergeBranchesBySquash"].applicator.apply(partialParams)
         );
     }
 
     invokeMergeBranchesByThreeWay(partialParams: ToOptional<{
       [K in keyof MergeBranchesByThreeWayInput & keyof MergeBranchesByThreeWayInput & keyof MergeBranchesByThreeWayInput & keyof MergeBranchesByThreeWayInput & keyof MergeBranchesByThreeWayInput & keyof MergeBranchesByThreeWayInput & keyof MergeBranchesByThreeWayInput]: (MergeBranchesByThreeWayInput & MergeBranchesByThreeWayInput & MergeBranchesByThreeWayInput & MergeBranchesByThreeWayInput & MergeBranchesByThreeWayInput & MergeBranchesByThreeWayInput & MergeBranchesByThreeWayInput)[K]
-    }>): MergeBranchesByThreeWayOutput {
+    }>): Request<MergeBranchesByThreeWayOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.mergeBranchesByThreeWay(
-            this.ops["MergeBranchesByThreeWay"].apply(partialParams)
+          this.ops["MergeBranchesByThreeWay"].applicator.apply(partialParams)
         );
     }
 
     invokeMergePullRequestByFastForward(partialParams: ToOptional<{
       [K in keyof MergePullRequestByFastForwardInput & keyof MergePullRequestByFastForwardInput & keyof MergePullRequestByFastForwardInput & keyof MergePullRequestByFastForwardInput & keyof MergePullRequestByFastForwardInput & keyof MergePullRequestByFastForwardInput & keyof MergePullRequestByFastForwardInput]: (MergePullRequestByFastForwardInput & MergePullRequestByFastForwardInput & MergePullRequestByFastForwardInput & MergePullRequestByFastForwardInput & MergePullRequestByFastForwardInput & MergePullRequestByFastForwardInput & MergePullRequestByFastForwardInput)[K]
-    }>): MergePullRequestByFastForwardOutput {
+    }>): Request<MergePullRequestByFastForwardOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.mergePullRequestByFastForward(
-            this.ops["MergePullRequestByFastForward"].apply(partialParams)
+          this.ops["MergePullRequestByFastForward"].applicator.apply(partialParams)
         );
     }
 
     invokeMergePullRequestBySquash(partialParams: ToOptional<{
       [K in keyof MergePullRequestBySquashInput & keyof MergePullRequestBySquashInput & keyof MergePullRequestBySquashInput & keyof MergePullRequestBySquashInput & keyof MergePullRequestBySquashInput & keyof MergePullRequestBySquashInput & keyof MergePullRequestBySquashInput]: (MergePullRequestBySquashInput & MergePullRequestBySquashInput & MergePullRequestBySquashInput & MergePullRequestBySquashInput & MergePullRequestBySquashInput & MergePullRequestBySquashInput & MergePullRequestBySquashInput)[K]
-    }>): MergePullRequestBySquashOutput {
+    }>): Request<MergePullRequestBySquashOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.mergePullRequestBySquash(
-            this.ops["MergePullRequestBySquash"].apply(partialParams)
+          this.ops["MergePullRequestBySquash"].applicator.apply(partialParams)
         );
     }
 
     invokeMergePullRequestByThreeWay(partialParams: ToOptional<{
       [K in keyof MergePullRequestByThreeWayInput & keyof MergePullRequestByThreeWayInput & keyof MergePullRequestByThreeWayInput & keyof MergePullRequestByThreeWayInput & keyof MergePullRequestByThreeWayInput & keyof MergePullRequestByThreeWayInput & keyof MergePullRequestByThreeWayInput]: (MergePullRequestByThreeWayInput & MergePullRequestByThreeWayInput & MergePullRequestByThreeWayInput & MergePullRequestByThreeWayInput & MergePullRequestByThreeWayInput & MergePullRequestByThreeWayInput & MergePullRequestByThreeWayInput)[K]
-    }>): MergePullRequestByThreeWayOutput {
+    }>): Request<MergePullRequestByThreeWayOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.mergePullRequestByThreeWay(
-            this.ops["MergePullRequestByThreeWay"].apply(partialParams)
+          this.ops["MergePullRequestByThreeWay"].applicator.apply(partialParams)
         );
     }
 
     invokeOverridePullRequestApprovalRules(partialParams: ToOptional<{
       [K in keyof OverridePullRequestApprovalRulesInput & keyof OverridePullRequestApprovalRulesInput & keyof OverridePullRequestApprovalRulesInput & keyof OverridePullRequestApprovalRulesInput & keyof OverridePullRequestApprovalRulesInput & keyof OverridePullRequestApprovalRulesInput & keyof OverridePullRequestApprovalRulesInput]: (OverridePullRequestApprovalRulesInput & OverridePullRequestApprovalRulesInput & OverridePullRequestApprovalRulesInput & OverridePullRequestApprovalRulesInput & OverridePullRequestApprovalRulesInput & OverridePullRequestApprovalRulesInput & OverridePullRequestApprovalRulesInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.overridePullRequestApprovalRules(
-            this.ops["OverridePullRequestApprovalRules"].apply(partialParams)
+          this.ops["OverridePullRequestApprovalRules"].applicator.apply(partialParams)
         );
     }
 
     invokePostCommentForComparedCommit(partialParams: ToOptional<{
       [K in keyof PostCommentForComparedCommitInput & keyof PostCommentForComparedCommitInput & keyof PostCommentForComparedCommitInput & keyof PostCommentForComparedCommitInput & keyof PostCommentForComparedCommitInput & keyof PostCommentForComparedCommitInput & keyof PostCommentForComparedCommitInput]: (PostCommentForComparedCommitInput & PostCommentForComparedCommitInput & PostCommentForComparedCommitInput & PostCommentForComparedCommitInput & PostCommentForComparedCommitInput & PostCommentForComparedCommitInput & PostCommentForComparedCommitInput)[K]
-    }>): PostCommentForComparedCommitOutput {
+    }>): Request<PostCommentForComparedCommitOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.postCommentForComparedCommit(
-            this.ops["PostCommentForComparedCommit"].apply(partialParams)
+          this.ops["PostCommentForComparedCommit"].applicator.apply(partialParams)
         );
     }
 
     invokePostCommentForPullRequest(partialParams: ToOptional<{
       [K in keyof PostCommentForPullRequestInput & keyof PostCommentForPullRequestInput & keyof PostCommentForPullRequestInput & keyof PostCommentForPullRequestInput & keyof PostCommentForPullRequestInput & keyof PostCommentForPullRequestInput & keyof PostCommentForPullRequestInput]: (PostCommentForPullRequestInput & PostCommentForPullRequestInput & PostCommentForPullRequestInput & PostCommentForPullRequestInput & PostCommentForPullRequestInput & PostCommentForPullRequestInput & PostCommentForPullRequestInput)[K]
-    }>): PostCommentForPullRequestOutput {
+    }>): Request<PostCommentForPullRequestOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.postCommentForPullRequest(
-            this.ops["PostCommentForPullRequest"].apply(partialParams)
+          this.ops["PostCommentForPullRequest"].applicator.apply(partialParams)
         );
     }
 
     invokePostCommentReply(partialParams: ToOptional<{
       [K in keyof PostCommentReplyInput & keyof PostCommentReplyInput & keyof PostCommentReplyInput & keyof PostCommentReplyInput & keyof PostCommentReplyInput & keyof PostCommentReplyInput & keyof PostCommentReplyInput]: (PostCommentReplyInput & PostCommentReplyInput & PostCommentReplyInput & PostCommentReplyInput & PostCommentReplyInput & PostCommentReplyInput & PostCommentReplyInput)[K]
-    }>): PostCommentReplyOutput {
+    }>): Request<PostCommentReplyOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.postCommentReply(
-            this.ops["PostCommentReply"].apply(partialParams)
+          this.ops["PostCommentReply"].applicator.apply(partialParams)
         );
     }
 
     invokePutCommentReaction(partialParams: ToOptional<{
       [K in keyof PutCommentReactionInput & keyof PutCommentReactionInput & keyof PutCommentReactionInput & keyof PutCommentReactionInput & keyof PutCommentReactionInput & keyof PutCommentReactionInput & keyof PutCommentReactionInput]: (PutCommentReactionInput & PutCommentReactionInput & PutCommentReactionInput & PutCommentReactionInput & PutCommentReactionInput & PutCommentReactionInput & PutCommentReactionInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putCommentReaction(
-            this.ops["PutCommentReaction"].apply(partialParams)
+          this.ops["PutCommentReaction"].applicator.apply(partialParams)
         );
     }
 
     invokePutFile(partialParams: ToOptional<{
       [K in keyof PutFileInput & keyof PutFileInput & keyof PutFileInput & keyof PutFileInput & keyof PutFileInput & keyof PutFileInput & keyof PutFileInput]: (PutFileInput & PutFileInput & PutFileInput & PutFileInput & PutFileInput & PutFileInput & PutFileInput)[K]
-    }>): PutFileOutput {
+    }>): Request<PutFileOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putFile(
-            this.ops["PutFile"].apply(partialParams)
+          this.ops["PutFile"].applicator.apply(partialParams)
         );
     }
 
     invokePutRepositoryTriggers(partialParams: ToOptional<{
       [K in keyof PutRepositoryTriggersInput & keyof PutRepositoryTriggersInput & keyof PutRepositoryTriggersInput & keyof PutRepositoryTriggersInput & keyof PutRepositoryTriggersInput & keyof PutRepositoryTriggersInput & keyof PutRepositoryTriggersInput]: (PutRepositoryTriggersInput & PutRepositoryTriggersInput & PutRepositoryTriggersInput & PutRepositoryTriggersInput & PutRepositoryTriggersInput & PutRepositoryTriggersInput & PutRepositoryTriggersInput)[K]
-    }>): PutRepositoryTriggersOutput {
+    }>): Request<PutRepositoryTriggersOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putRepositoryTriggers(
-            this.ops["PutRepositoryTriggers"].apply(partialParams)
+          this.ops["PutRepositoryTriggers"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput]: (TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeTestRepositoryTriggers(partialParams: ToOptional<{
       [K in keyof TestRepositoryTriggersInput & keyof TestRepositoryTriggersInput & keyof TestRepositoryTriggersInput & keyof TestRepositoryTriggersInput & keyof TestRepositoryTriggersInput & keyof TestRepositoryTriggersInput & keyof Omit<TestRepositoryTriggersInput, "repositoryName">]: (TestRepositoryTriggersInput & TestRepositoryTriggersInput & TestRepositoryTriggersInput & TestRepositoryTriggersInput & TestRepositoryTriggersInput & TestRepositoryTriggersInput & Omit<TestRepositoryTriggersInput, "repositoryName">)[K]
-    }>): TestRepositoryTriggersOutput {
+    }>): Request<TestRepositoryTriggersOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.testRepositoryTriggers(
-            this.ops["TestRepositoryTriggers"].apply(partialParams)
+          this.ops["TestRepositoryTriggers"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput]: (UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateApprovalRuleTemplateContent(partialParams: ToOptional<{
       [K in keyof UpdateApprovalRuleTemplateContentInput & keyof UpdateApprovalRuleTemplateContentInput & keyof UpdateApprovalRuleTemplateContentInput & keyof UpdateApprovalRuleTemplateContentInput & keyof UpdateApprovalRuleTemplateContentInput & keyof UpdateApprovalRuleTemplateContentInput & keyof UpdateApprovalRuleTemplateContentInput]: (UpdateApprovalRuleTemplateContentInput & UpdateApprovalRuleTemplateContentInput & UpdateApprovalRuleTemplateContentInput & UpdateApprovalRuleTemplateContentInput & UpdateApprovalRuleTemplateContentInput & UpdateApprovalRuleTemplateContentInput & UpdateApprovalRuleTemplateContentInput)[K]
-    }>): UpdateApprovalRuleTemplateContentOutput {
+    }>): Request<UpdateApprovalRuleTemplateContentOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateApprovalRuleTemplateContent(
-            this.ops["UpdateApprovalRuleTemplateContent"].apply(partialParams)
+          this.ops["UpdateApprovalRuleTemplateContent"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateApprovalRuleTemplateDescription(partialParams: ToOptional<{
       [K in keyof UpdateApprovalRuleTemplateDescriptionInput & keyof UpdateApprovalRuleTemplateDescriptionInput & keyof UpdateApprovalRuleTemplateDescriptionInput & keyof UpdateApprovalRuleTemplateDescriptionInput & keyof UpdateApprovalRuleTemplateDescriptionInput & keyof UpdateApprovalRuleTemplateDescriptionInput & keyof UpdateApprovalRuleTemplateDescriptionInput]: (UpdateApprovalRuleTemplateDescriptionInput & UpdateApprovalRuleTemplateDescriptionInput & UpdateApprovalRuleTemplateDescriptionInput & UpdateApprovalRuleTemplateDescriptionInput & UpdateApprovalRuleTemplateDescriptionInput & UpdateApprovalRuleTemplateDescriptionInput & UpdateApprovalRuleTemplateDescriptionInput)[K]
-    }>): UpdateApprovalRuleTemplateDescriptionOutput {
+    }>): Request<UpdateApprovalRuleTemplateDescriptionOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateApprovalRuleTemplateDescription(
-            this.ops["UpdateApprovalRuleTemplateDescription"].apply(partialParams)
+          this.ops["UpdateApprovalRuleTemplateDescription"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateApprovalRuleTemplateName(partialParams: ToOptional<{
       [K in keyof UpdateApprovalRuleTemplateNameInput & keyof UpdateApprovalRuleTemplateNameInput & keyof UpdateApprovalRuleTemplateNameInput & keyof UpdateApprovalRuleTemplateNameInput & keyof UpdateApprovalRuleTemplateNameInput & keyof UpdateApprovalRuleTemplateNameInput & keyof UpdateApprovalRuleTemplateNameInput]: (UpdateApprovalRuleTemplateNameInput & UpdateApprovalRuleTemplateNameInput & UpdateApprovalRuleTemplateNameInput & UpdateApprovalRuleTemplateNameInput & UpdateApprovalRuleTemplateNameInput & UpdateApprovalRuleTemplateNameInput & UpdateApprovalRuleTemplateNameInput)[K]
-    }>): UpdateApprovalRuleTemplateNameOutput {
+    }>): Request<UpdateApprovalRuleTemplateNameOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateApprovalRuleTemplateName(
-            this.ops["UpdateApprovalRuleTemplateName"].apply(partialParams)
+          this.ops["UpdateApprovalRuleTemplateName"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateComment(partialParams: ToOptional<{
       [K in keyof UpdateCommentInput & keyof UpdateCommentInput & keyof UpdateCommentInput & keyof UpdateCommentInput & keyof UpdateCommentInput & keyof UpdateCommentInput & keyof UpdateCommentInput]: (UpdateCommentInput & UpdateCommentInput & UpdateCommentInput & UpdateCommentInput & UpdateCommentInput & UpdateCommentInput & UpdateCommentInput)[K]
-    }>): UpdateCommentOutput {
+    }>): Request<UpdateCommentOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateComment(
-            this.ops["UpdateComment"].apply(partialParams)
+          this.ops["UpdateComment"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateDefaultBranch(partialParams: ToOptional<{
       [K in keyof UpdateDefaultBranchInput & keyof UpdateDefaultBranchInput & keyof UpdateDefaultBranchInput & keyof UpdateDefaultBranchInput & keyof UpdateDefaultBranchInput & keyof UpdateDefaultBranchInput & keyof Omit<UpdateDefaultBranchInput, "repositoryName">]: (UpdateDefaultBranchInput & UpdateDefaultBranchInput & UpdateDefaultBranchInput & UpdateDefaultBranchInput & UpdateDefaultBranchInput & UpdateDefaultBranchInput & Omit<UpdateDefaultBranchInput, "repositoryName">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateDefaultBranch(
-            this.ops["UpdateDefaultBranch"].apply(partialParams)
+          this.ops["UpdateDefaultBranch"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdatePullRequestApprovalRuleContent(partialParams: ToOptional<{
       [K in keyof UpdatePullRequestApprovalRuleContentInput & keyof UpdatePullRequestApprovalRuleContentInput & keyof UpdatePullRequestApprovalRuleContentInput & keyof UpdatePullRequestApprovalRuleContentInput & keyof UpdatePullRequestApprovalRuleContentInput & keyof UpdatePullRequestApprovalRuleContentInput & keyof UpdatePullRequestApprovalRuleContentInput]: (UpdatePullRequestApprovalRuleContentInput & UpdatePullRequestApprovalRuleContentInput & UpdatePullRequestApprovalRuleContentInput & UpdatePullRequestApprovalRuleContentInput & UpdatePullRequestApprovalRuleContentInput & UpdatePullRequestApprovalRuleContentInput & UpdatePullRequestApprovalRuleContentInput)[K]
-    }>): UpdatePullRequestApprovalRuleContentOutput {
+    }>): Request<UpdatePullRequestApprovalRuleContentOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updatePullRequestApprovalRuleContent(
-            this.ops["UpdatePullRequestApprovalRuleContent"].apply(partialParams)
+          this.ops["UpdatePullRequestApprovalRuleContent"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdatePullRequestApprovalState(partialParams: ToOptional<{
       [K in keyof UpdatePullRequestApprovalStateInput & keyof UpdatePullRequestApprovalStateInput & keyof UpdatePullRequestApprovalStateInput & keyof UpdatePullRequestApprovalStateInput & keyof UpdatePullRequestApprovalStateInput & keyof UpdatePullRequestApprovalStateInput & keyof UpdatePullRequestApprovalStateInput]: (UpdatePullRequestApprovalStateInput & UpdatePullRequestApprovalStateInput & UpdatePullRequestApprovalStateInput & UpdatePullRequestApprovalStateInput & UpdatePullRequestApprovalStateInput & UpdatePullRequestApprovalStateInput & UpdatePullRequestApprovalStateInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updatePullRequestApprovalState(
-            this.ops["UpdatePullRequestApprovalState"].apply(partialParams)
+          this.ops["UpdatePullRequestApprovalState"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdatePullRequestDescription(partialParams: ToOptional<{
       [K in keyof UpdatePullRequestDescriptionInput & keyof UpdatePullRequestDescriptionInput & keyof UpdatePullRequestDescriptionInput & keyof UpdatePullRequestDescriptionInput & keyof Omit<UpdatePullRequestDescriptionInput, "description"> & keyof UpdatePullRequestDescriptionInput & keyof UpdatePullRequestDescriptionInput]: (UpdatePullRequestDescriptionInput & UpdatePullRequestDescriptionInput & UpdatePullRequestDescriptionInput & UpdatePullRequestDescriptionInput & Omit<UpdatePullRequestDescriptionInput, "description"> & UpdatePullRequestDescriptionInput & UpdatePullRequestDescriptionInput)[K]
-    }>): UpdatePullRequestDescriptionOutput {
+    }>): Request<UpdatePullRequestDescriptionOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updatePullRequestDescription(
-            this.ops["UpdatePullRequestDescription"].apply(partialParams)
+          this.ops["UpdatePullRequestDescription"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdatePullRequestStatus(partialParams: ToOptional<{
       [K in keyof UpdatePullRequestStatusInput & keyof UpdatePullRequestStatusInput & keyof UpdatePullRequestStatusInput & keyof UpdatePullRequestStatusInput & keyof UpdatePullRequestStatusInput & keyof UpdatePullRequestStatusInput & keyof UpdatePullRequestStatusInput]: (UpdatePullRequestStatusInput & UpdatePullRequestStatusInput & UpdatePullRequestStatusInput & UpdatePullRequestStatusInput & UpdatePullRequestStatusInput & UpdatePullRequestStatusInput & UpdatePullRequestStatusInput)[K]
-    }>): UpdatePullRequestStatusOutput {
+    }>): Request<UpdatePullRequestStatusOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updatePullRequestStatus(
-            this.ops["UpdatePullRequestStatus"].apply(partialParams)
+          this.ops["UpdatePullRequestStatus"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdatePullRequestTitle(partialParams: ToOptional<{
       [K in keyof UpdatePullRequestTitleInput & keyof UpdatePullRequestTitleInput & keyof UpdatePullRequestTitleInput & keyof UpdatePullRequestTitleInput & keyof UpdatePullRequestTitleInput & keyof UpdatePullRequestTitleInput & keyof UpdatePullRequestTitleInput]: (UpdatePullRequestTitleInput & UpdatePullRequestTitleInput & UpdatePullRequestTitleInput & UpdatePullRequestTitleInput & UpdatePullRequestTitleInput & UpdatePullRequestTitleInput & UpdatePullRequestTitleInput)[K]
-    }>): UpdatePullRequestTitleOutput {
+    }>): Request<UpdatePullRequestTitleOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updatePullRequestTitle(
-            this.ops["UpdatePullRequestTitle"].apply(partialParams)
+          this.ops["UpdatePullRequestTitle"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateRepositoryDescription(partialParams: ToOptional<{
       [K in keyof UpdateRepositoryDescriptionInput & keyof UpdateRepositoryDescriptionInput & keyof UpdateRepositoryDescriptionInput & keyof UpdateRepositoryDescriptionInput & keyof UpdateRepositoryDescriptionInput & keyof UpdateRepositoryDescriptionInput & keyof Omit<UpdateRepositoryDescriptionInput, "repositoryName">]: (UpdateRepositoryDescriptionInput & UpdateRepositoryDescriptionInput & UpdateRepositoryDescriptionInput & UpdateRepositoryDescriptionInput & UpdateRepositoryDescriptionInput & UpdateRepositoryDescriptionInput & Omit<UpdateRepositoryDescriptionInput, "repositoryName">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateRepositoryDescription(
-            this.ops["UpdateRepositoryDescription"].apply(partialParams)
+          this.ops["UpdateRepositoryDescription"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateRepositoryName(partialParams: ToOptional<{
       [K in keyof UpdateRepositoryNameInput & keyof UpdateRepositoryNameInput & keyof UpdateRepositoryNameInput & keyof UpdateRepositoryNameInput & keyof UpdateRepositoryNameInput & keyof UpdateRepositoryNameInput & keyof Omit<UpdateRepositoryNameInput, "oldName"|"newName">]: (UpdateRepositoryNameInput & UpdateRepositoryNameInput & UpdateRepositoryNameInput & UpdateRepositoryNameInput & UpdateRepositoryNameInput & UpdateRepositoryNameInput & Omit<UpdateRepositoryNameInput, "oldName"|"newName">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateRepositoryName(
-            this.ops["UpdateRepositoryName"].apply(partialParams)
+          this.ops["UpdateRepositoryName"].applicator.apply(partialParams)
         );
     }
 }

@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,69 +21,148 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/mediastore-2017-09-01.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.mediastore.ContainerPolicy {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.MediaStore();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/mediastore-2017-09-01.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeCreateContainer(partialParams) {
-        return this.client.createContainer(this.ops["CreateContainer"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createContainer(this.ops["CreateContainer"].applicator.apply(partialParams));
     }
     invokeDeleteContainer(partialParams) {
-        return this.client.deleteContainer(this.ops["DeleteContainer"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteContainer(this.ops["DeleteContainer"].applicator.apply(partialParams));
     }
     invokeDeleteContainerPolicy(partialParams) {
-        return this.client.deleteContainerPolicy(this.ops["DeleteContainerPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteContainerPolicy(this.ops["DeleteContainerPolicy"].applicator.apply(partialParams));
     }
     invokeDeleteCorsPolicy(partialParams) {
-        return this.client.deleteCorsPolicy(this.ops["DeleteCorsPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteCorsPolicy(this.ops["DeleteCorsPolicy"].applicator.apply(partialParams));
     }
     invokeDeleteLifecyclePolicy(partialParams) {
-        return this.client.deleteLifecyclePolicy(this.ops["DeleteLifecyclePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteLifecyclePolicy(this.ops["DeleteLifecyclePolicy"].applicator.apply(partialParams));
     }
     invokeDeleteMetricPolicy(partialParams) {
-        return this.client.deleteMetricPolicy(this.ops["DeleteMetricPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteMetricPolicy(this.ops["DeleteMetricPolicy"].applicator.apply(partialParams));
     }
     invokeGetContainerPolicy(partialParams) {
-        return this.client.getContainerPolicy(this.ops["GetContainerPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getContainerPolicy(this.ops["GetContainerPolicy"].applicator.apply(partialParams));
     }
     invokeGetCorsPolicy(partialParams) {
-        return this.client.getCorsPolicy(this.ops["GetCorsPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getCorsPolicy(this.ops["GetCorsPolicy"].applicator.apply(partialParams));
     }
     invokeGetLifecyclePolicy(partialParams) {
-        return this.client.getLifecyclePolicy(this.ops["GetLifecyclePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getLifecyclePolicy(this.ops["GetLifecyclePolicy"].applicator.apply(partialParams));
     }
     invokeGetMetricPolicy(partialParams) {
-        return this.client.getMetricPolicy(this.ops["GetMetricPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getMetricPolicy(this.ops["GetMetricPolicy"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokePutContainerPolicy(partialParams) {
-        return this.client.putContainerPolicy(this.ops["PutContainerPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putContainerPolicy(this.ops["PutContainerPolicy"].applicator.apply(partialParams));
     }
     invokePutCorsPolicy(partialParams) {
-        return this.client.putCorsPolicy(this.ops["PutCorsPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putCorsPolicy(this.ops["PutCorsPolicy"].applicator.apply(partialParams));
     }
     invokePutLifecyclePolicy(partialParams) {
-        return this.client.putLifecyclePolicy(this.ops["PutLifecyclePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putLifecyclePolicy(this.ops["PutLifecyclePolicy"].applicator.apply(partialParams));
     }
     invokePutMetricPolicy(partialParams) {
-        return this.client.putMetricPolicy(this.ops["PutMetricPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putMetricPolicy(this.ops["PutMetricPolicy"].applicator.apply(partialParams));
     }
     invokeStartAccessLogging(partialParams) {
-        return this.client.startAccessLogging(this.ops["StartAccessLogging"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startAccessLogging(this.ops["StartAccessLogging"].applicator.apply(partialParams));
     }
     invokeStopAccessLogging(partialParams) {
-        return this.client.stopAccessLogging(this.ops["StopAccessLogging"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.stopAccessLogging(this.ops["StopAccessLogging"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

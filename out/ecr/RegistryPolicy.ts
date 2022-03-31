@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     BatchCheckLayerAvailabilityRequest,
     BatchDeleteImageRequest,
@@ -69,8 +72,8 @@ import {
     UntagResourceResponse,
     UploadLayerPartResponse
 } from "aws-sdk/clients/ecr";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/ecr-2015-09-21.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -79,275 +82,396 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.ecr.RegistryPolicy {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.ecr.RegistryPolicy>) {
         super(...args)
         this.client = new awssdk.ECR()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/ecr-2015-09-21.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeBatchCheckLayerAvailability(partialParams: ToOptional<{
       [K in keyof BatchCheckLayerAvailabilityRequest & keyof BatchCheckLayerAvailabilityRequest]: (BatchCheckLayerAvailabilityRequest & BatchCheckLayerAvailabilityRequest)[K]
-    }>): BatchCheckLayerAvailabilityResponse {
+    }>): Request<BatchCheckLayerAvailabilityResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchCheckLayerAvailability(
-            this.ops["BatchCheckLayerAvailability"].apply(partialParams)
+          this.ops["BatchCheckLayerAvailability"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchDeleteImage(partialParams: ToOptional<{
       [K in keyof BatchDeleteImageRequest & keyof BatchDeleteImageRequest]: (BatchDeleteImageRequest & BatchDeleteImageRequest)[K]
-    }>): BatchDeleteImageResponse {
+    }>): Request<BatchDeleteImageResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchDeleteImage(
-            this.ops["BatchDeleteImage"].apply(partialParams)
+          this.ops["BatchDeleteImage"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchGetImage(partialParams: ToOptional<{
       [K in keyof BatchGetImageRequest & keyof BatchGetImageRequest]: (BatchGetImageRequest & BatchGetImageRequest)[K]
-    }>): BatchGetImageResponse {
+    }>): Request<BatchGetImageResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchGetImage(
-            this.ops["BatchGetImage"].apply(partialParams)
+          this.ops["BatchGetImage"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchGetRepositoryScanningConfiguration(partialParams: ToOptional<{
       [K in keyof BatchGetRepositoryScanningConfigurationRequest & keyof BatchGetRepositoryScanningConfigurationRequest]: (BatchGetRepositoryScanningConfigurationRequest & BatchGetRepositoryScanningConfigurationRequest)[K]
-    }>): BatchGetRepositoryScanningConfigurationResponse {
+    }>): Request<BatchGetRepositoryScanningConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchGetRepositoryScanningConfiguration(
-            this.ops["BatchGetRepositoryScanningConfiguration"].apply(partialParams)
+          this.ops["BatchGetRepositoryScanningConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeCompleteLayerUpload(partialParams: ToOptional<{
       [K in keyof CompleteLayerUploadRequest & keyof CompleteLayerUploadRequest]: (CompleteLayerUploadRequest & CompleteLayerUploadRequest)[K]
-    }>): CompleteLayerUploadResponse {
+    }>): Request<CompleteLayerUploadResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.completeLayerUpload(
-            this.ops["CompleteLayerUpload"].apply(partialParams)
+          this.ops["CompleteLayerUpload"].applicator.apply(partialParams)
         );
     }
 
     invokeCreatePullThroughCacheRule(partialParams: ToOptional<{
       [K in keyof CreatePullThroughCacheRuleRequest & keyof CreatePullThroughCacheRuleRequest]: (CreatePullThroughCacheRuleRequest & CreatePullThroughCacheRuleRequest)[K]
-    }>): CreatePullThroughCacheRuleResponse {
+    }>): Request<CreatePullThroughCacheRuleResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createPullThroughCacheRule(
-            this.ops["CreatePullThroughCacheRule"].apply(partialParams)
+          this.ops["CreatePullThroughCacheRule"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateRepository(partialParams: ToOptional<{
       [K in keyof CreateRepositoryRequest & keyof CreateRepositoryRequest]: (CreateRepositoryRequest & CreateRepositoryRequest)[K]
-    }>): CreateRepositoryResponse {
+    }>): Request<CreateRepositoryResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createRepository(
-            this.ops["CreateRepository"].apply(partialParams)
+          this.ops["CreateRepository"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteLifecyclePolicy(partialParams: ToOptional<{
       [K in keyof DeleteLifecyclePolicyRequest & keyof DeleteLifecyclePolicyRequest]: (DeleteLifecyclePolicyRequest & DeleteLifecyclePolicyRequest)[K]
-    }>): DeleteLifecyclePolicyResponse {
+    }>): Request<DeleteLifecyclePolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteLifecyclePolicy(
-            this.ops["DeleteLifecyclePolicy"].apply(partialParams)
+          this.ops["DeleteLifecyclePolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeDeletePullThroughCacheRule(partialParams: ToOptional<{
       [K in keyof DeletePullThroughCacheRuleRequest & keyof DeletePullThroughCacheRuleRequest]: (DeletePullThroughCacheRuleRequest & DeletePullThroughCacheRuleRequest)[K]
-    }>): DeletePullThroughCacheRuleResponse {
+    }>): Request<DeletePullThroughCacheRuleResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deletePullThroughCacheRule(
-            this.ops["DeletePullThroughCacheRule"].apply(partialParams)
+          this.ops["DeletePullThroughCacheRule"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteRepository(partialParams: ToOptional<{
       [K in keyof DeleteRepositoryRequest & keyof DeleteRepositoryRequest]: (DeleteRepositoryRequest & DeleteRepositoryRequest)[K]
-    }>): DeleteRepositoryResponse {
+    }>): Request<DeleteRepositoryResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteRepository(
-            this.ops["DeleteRepository"].apply(partialParams)
+          this.ops["DeleteRepository"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteRepositoryPolicy(partialParams: ToOptional<{
       [K in keyof DeleteRepositoryPolicyRequest & keyof DeleteRepositoryPolicyRequest]: (DeleteRepositoryPolicyRequest & DeleteRepositoryPolicyRequest)[K]
-    }>): DeleteRepositoryPolicyResponse {
+    }>): Request<DeleteRepositoryPolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteRepositoryPolicy(
-            this.ops["DeleteRepositoryPolicy"].apply(partialParams)
+          this.ops["DeleteRepositoryPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeImageReplicationStatus(partialParams: ToOptional<{
       [K in keyof DescribeImageReplicationStatusRequest & keyof DescribeImageReplicationStatusRequest]: (DescribeImageReplicationStatusRequest & DescribeImageReplicationStatusRequest)[K]
-    }>): DescribeImageReplicationStatusResponse {
+    }>): Request<DescribeImageReplicationStatusResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeImageReplicationStatus(
-            this.ops["DescribeImageReplicationStatus"].apply(partialParams)
+          this.ops["DescribeImageReplicationStatus"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeImageScanFindings(partialParams: ToOptional<{
       [K in keyof DescribeImageScanFindingsRequest & keyof DescribeImageScanFindingsRequest]: (DescribeImageScanFindingsRequest & DescribeImageScanFindingsRequest)[K]
-    }>): DescribeImageScanFindingsResponse {
+    }>): Request<DescribeImageScanFindingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeImageScanFindings(
-            this.ops["DescribeImageScanFindings"].apply(partialParams)
+          this.ops["DescribeImageScanFindings"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeImages(partialParams: ToOptional<{
       [K in keyof DescribeImagesRequest & keyof DescribeImagesRequest]: (DescribeImagesRequest & DescribeImagesRequest)[K]
-    }>): DescribeImagesResponse {
+    }>): Request<DescribeImagesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeImages(
-            this.ops["DescribeImages"].apply(partialParams)
+          this.ops["DescribeImages"].applicator.apply(partialParams)
         );
     }
 
     invokeGetDownloadUrlForLayer(partialParams: ToOptional<{
       [K in keyof GetDownloadUrlForLayerRequest & keyof GetDownloadUrlForLayerRequest]: (GetDownloadUrlForLayerRequest & GetDownloadUrlForLayerRequest)[K]
-    }>): GetDownloadUrlForLayerResponse {
+    }>): Request<GetDownloadUrlForLayerResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getDownloadUrlForLayer(
-            this.ops["GetDownloadUrlForLayer"].apply(partialParams)
+          this.ops["GetDownloadUrlForLayer"].applicator.apply(partialParams)
         );
     }
 
     invokeGetLifecyclePolicy(partialParams: ToOptional<{
       [K in keyof GetLifecyclePolicyRequest & keyof GetLifecyclePolicyRequest]: (GetLifecyclePolicyRequest & GetLifecyclePolicyRequest)[K]
-    }>): GetLifecyclePolicyResponse {
+    }>): Request<GetLifecyclePolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getLifecyclePolicy(
-            this.ops["GetLifecyclePolicy"].apply(partialParams)
+          this.ops["GetLifecyclePolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeGetLifecyclePolicyPreview(partialParams: ToOptional<{
       [K in keyof GetLifecyclePolicyPreviewRequest & keyof GetLifecyclePolicyPreviewRequest]: (GetLifecyclePolicyPreviewRequest & GetLifecyclePolicyPreviewRequest)[K]
-    }>): GetLifecyclePolicyPreviewResponse {
+    }>): Request<GetLifecyclePolicyPreviewResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getLifecyclePolicyPreview(
-            this.ops["GetLifecyclePolicyPreview"].apply(partialParams)
+          this.ops["GetLifecyclePolicyPreview"].applicator.apply(partialParams)
         );
     }
 
     invokeGetRepositoryPolicy(partialParams: ToOptional<{
       [K in keyof GetRepositoryPolicyRequest & keyof GetRepositoryPolicyRequest]: (GetRepositoryPolicyRequest & GetRepositoryPolicyRequest)[K]
-    }>): GetRepositoryPolicyResponse {
+    }>): Request<GetRepositoryPolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getRepositoryPolicy(
-            this.ops["GetRepositoryPolicy"].apply(partialParams)
+          this.ops["GetRepositoryPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeInitiateLayerUpload(partialParams: ToOptional<{
       [K in keyof InitiateLayerUploadRequest & keyof InitiateLayerUploadRequest]: (InitiateLayerUploadRequest & InitiateLayerUploadRequest)[K]
-    }>): InitiateLayerUploadResponse {
+    }>): Request<InitiateLayerUploadResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.initiateLayerUpload(
-            this.ops["InitiateLayerUpload"].apply(partialParams)
+          this.ops["InitiateLayerUpload"].applicator.apply(partialParams)
         );
     }
 
     invokeListImages(partialParams: ToOptional<{
       [K in keyof ListImagesRequest & keyof ListImagesRequest]: (ListImagesRequest & ListImagesRequest)[K]
-    }>): ListImagesResponse {
+    }>): Request<ListImagesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listImages(
-            this.ops["ListImages"].apply(partialParams)
+          this.ops["ListImages"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
-    }>): ListTagsForResourceResponse {
+    }>): Request<ListTagsForResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokePutImage(partialParams: ToOptional<{
       [K in keyof PutImageRequest & keyof PutImageRequest]: (PutImageRequest & PutImageRequest)[K]
-    }>): PutImageResponse {
+    }>): Request<PutImageResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putImage(
-            this.ops["PutImage"].apply(partialParams)
+          this.ops["PutImage"].applicator.apply(partialParams)
         );
     }
 
     invokePutImageScanningConfiguration(partialParams: ToOptional<{
       [K in keyof PutImageScanningConfigurationRequest & keyof PutImageScanningConfigurationRequest]: (PutImageScanningConfigurationRequest & PutImageScanningConfigurationRequest)[K]
-    }>): PutImageScanningConfigurationResponse {
+    }>): Request<PutImageScanningConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putImageScanningConfiguration(
-            this.ops["PutImageScanningConfiguration"].apply(partialParams)
+          this.ops["PutImageScanningConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokePutImageTagMutability(partialParams: ToOptional<{
       [K in keyof PutImageTagMutabilityRequest & keyof PutImageTagMutabilityRequest]: (PutImageTagMutabilityRequest & PutImageTagMutabilityRequest)[K]
-    }>): PutImageTagMutabilityResponse {
+    }>): Request<PutImageTagMutabilityResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putImageTagMutability(
-            this.ops["PutImageTagMutability"].apply(partialParams)
+          this.ops["PutImageTagMutability"].applicator.apply(partialParams)
         );
     }
 
     invokePutLifecyclePolicy(partialParams: ToOptional<{
       [K in keyof PutLifecyclePolicyRequest & keyof PutLifecyclePolicyRequest]: (PutLifecyclePolicyRequest & PutLifecyclePolicyRequest)[K]
-    }>): PutLifecyclePolicyResponse {
+    }>): Request<PutLifecyclePolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putLifecyclePolicy(
-            this.ops["PutLifecyclePolicy"].apply(partialParams)
+          this.ops["PutLifecyclePolicy"].applicator.apply(partialParams)
         );
     }
 
     invokePutRegistryPolicy(partialParams: ToOptional<{
       [K in keyof PutRegistryPolicyRequest & keyof PutRegistryPolicyRequest]: (PutRegistryPolicyRequest & PutRegistryPolicyRequest)[K]
-    }>): PutRegistryPolicyResponse {
+    }>): Request<PutRegistryPolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putRegistryPolicy(
-            this.ops["PutRegistryPolicy"].apply(partialParams)
+          this.ops["PutRegistryPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokePutReplicationConfiguration(partialParams: ToOptional<{
       [K in keyof PutReplicationConfigurationRequest & keyof PutReplicationConfigurationRequest]: (PutReplicationConfigurationRequest & PutReplicationConfigurationRequest)[K]
-    }>): PutReplicationConfigurationResponse {
+    }>): Request<PutReplicationConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putReplicationConfiguration(
-            this.ops["PutReplicationConfiguration"].apply(partialParams)
+          this.ops["PutReplicationConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeSetRepositoryPolicy(partialParams: ToOptional<{
       [K in keyof SetRepositoryPolicyRequest & keyof SetRepositoryPolicyRequest]: (SetRepositoryPolicyRequest & SetRepositoryPolicyRequest)[K]
-    }>): SetRepositoryPolicyResponse {
+    }>): Request<SetRepositoryPolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.setRepositoryPolicy(
-            this.ops["SetRepositoryPolicy"].apply(partialParams)
+          this.ops["SetRepositoryPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeStartImageScan(partialParams: ToOptional<{
       [K in keyof StartImageScanRequest & keyof StartImageScanRequest]: (StartImageScanRequest & StartImageScanRequest)[K]
-    }>): StartImageScanResponse {
+    }>): Request<StartImageScanResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startImageScan(
-            this.ops["StartImageScan"].apply(partialParams)
+          this.ops["StartImageScan"].applicator.apply(partialParams)
         );
     }
 
     invokeStartLifecyclePolicyPreview(partialParams: ToOptional<{
       [K in keyof StartLifecyclePolicyPreviewRequest & keyof StartLifecyclePolicyPreviewRequest]: (StartLifecyclePolicyPreviewRequest & StartLifecyclePolicyPreviewRequest)[K]
-    }>): StartLifecyclePolicyPreviewResponse {
+    }>): Request<StartLifecyclePolicyPreviewResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startLifecyclePolicyPreview(
-            this.ops["StartLifecyclePolicyPreview"].apply(partialParams)
+          this.ops["StartLifecyclePolicyPreview"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest)[K]
-    }>): TagResourceResponse {
+    }>): Request<TagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest)[K]
-    }>): UntagResourceResponse {
+    }>): Request<UntagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUploadLayerPart(partialParams: ToOptional<{
       [K in keyof UploadLayerPartRequest & keyof UploadLayerPartRequest]: (UploadLayerPartRequest & UploadLayerPartRequest)[K]
-    }>): UploadLayerPartResponse {
+    }>): Request<UploadLayerPartResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.uploadLayerPart(
-            this.ops["UploadLayerPart"].apply(partialParams)
+          this.ops["UploadLayerPart"].applicator.apply(partialParams)
         );
     }
 }

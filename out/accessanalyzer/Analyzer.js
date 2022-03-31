@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,90 +21,190 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/accessanalyzer-2019-11-01.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.accessanalyzer.Analyzer {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.AccessAnalyzer();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/accessanalyzer-2019-11-01.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeApplyArchiveRule(partialParams) {
-        return this.client.applyArchiveRule(this.ops["ApplyArchiveRule"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.applyArchiveRule(this.ops["ApplyArchiveRule"].applicator.apply(partialParams));
     }
     invokeCancelPolicyGeneration(partialParams) {
-        return this.client.cancelPolicyGeneration(this.ops["CancelPolicyGeneration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.cancelPolicyGeneration(this.ops["CancelPolicyGeneration"].applicator.apply(partialParams));
     }
     invokeCreateAccessPreview(partialParams) {
-        return this.client.createAccessPreview(this.ops["CreateAccessPreview"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createAccessPreview(this.ops["CreateAccessPreview"].applicator.apply(partialParams));
     }
     invokeCreateAnalyzer(partialParams) {
-        return this.client.createAnalyzer(this.ops["CreateAnalyzer"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createAnalyzer(this.ops["CreateAnalyzer"].applicator.apply(partialParams));
     }
     invokeCreateArchiveRule(partialParams) {
-        return this.client.createArchiveRule(this.ops["CreateArchiveRule"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createArchiveRule(this.ops["CreateArchiveRule"].applicator.apply(partialParams));
     }
     invokeDeleteAnalyzer(partialParams) {
-        return this.client.deleteAnalyzer(this.ops["DeleteAnalyzer"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteAnalyzer(this.ops["DeleteAnalyzer"].applicator.apply(partialParams));
     }
     invokeDeleteArchiveRule(partialParams) {
-        return this.client.deleteArchiveRule(this.ops["DeleteArchiveRule"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteArchiveRule(this.ops["DeleteArchiveRule"].applicator.apply(partialParams));
     }
     invokeGetAccessPreview(partialParams) {
-        return this.client.getAccessPreview(this.ops["GetAccessPreview"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getAccessPreview(this.ops["GetAccessPreview"].applicator.apply(partialParams));
     }
     invokeGetAnalyzedResource(partialParams) {
-        return this.client.getAnalyzedResource(this.ops["GetAnalyzedResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getAnalyzedResource(this.ops["GetAnalyzedResource"].applicator.apply(partialParams));
     }
     invokeGetAnalyzer(partialParams) {
-        return this.client.getAnalyzer(this.ops["GetAnalyzer"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getAnalyzer(this.ops["GetAnalyzer"].applicator.apply(partialParams));
     }
     invokeGetArchiveRule(partialParams) {
-        return this.client.getArchiveRule(this.ops["GetArchiveRule"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getArchiveRule(this.ops["GetArchiveRule"].applicator.apply(partialParams));
     }
     invokeGetFinding(partialParams) {
-        return this.client.getFinding(this.ops["GetFinding"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getFinding(this.ops["GetFinding"].applicator.apply(partialParams));
     }
     invokeGetGeneratedPolicy(partialParams) {
-        return this.client.getGeneratedPolicy(this.ops["GetGeneratedPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getGeneratedPolicy(this.ops["GetGeneratedPolicy"].applicator.apply(partialParams));
     }
     invokeListAccessPreviewFindings(partialParams) {
-        return this.client.listAccessPreviewFindings(this.ops["ListAccessPreviewFindings"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listAccessPreviewFindings(this.ops["ListAccessPreviewFindings"].applicator.apply(partialParams));
     }
     invokeListAccessPreviews(partialParams) {
-        return this.client.listAccessPreviews(this.ops["ListAccessPreviews"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listAccessPreviews(this.ops["ListAccessPreviews"].applicator.apply(partialParams));
     }
     invokeListAnalyzedResources(partialParams) {
-        return this.client.listAnalyzedResources(this.ops["ListAnalyzedResources"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listAnalyzedResources(this.ops["ListAnalyzedResources"].applicator.apply(partialParams));
     }
     invokeListArchiveRules(partialParams) {
-        return this.client.listArchiveRules(this.ops["ListArchiveRules"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listArchiveRules(this.ops["ListArchiveRules"].applicator.apply(partialParams));
     }
     invokeListFindings(partialParams) {
-        return this.client.listFindings(this.ops["ListFindings"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listFindings(this.ops["ListFindings"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokeStartPolicyGeneration(partialParams) {
-        return this.client.startPolicyGeneration(this.ops["StartPolicyGeneration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startPolicyGeneration(this.ops["StartPolicyGeneration"].applicator.apply(partialParams));
     }
     invokeStartResourceScan(partialParams) {
-        return this.client.startResourceScan(this.ops["StartResourceScan"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startResourceScan(this.ops["StartResourceScan"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateArchiveRule(partialParams) {
-        return this.client.updateArchiveRule(this.ops["UpdateArchiveRule"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateArchiveRule(this.ops["UpdateArchiveRule"].applicator.apply(partialParams));
     }
     invokeUpdateFindings(partialParams) {
-        return this.client.updateFindings(this.ops["UpdateFindings"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateFindings(this.ops["UpdateFindings"].applicator.apply(partialParams));
     }
     invokeValidatePolicy(partialParams) {
-        return this.client.validatePolicy(this.ops["ValidatePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.validatePolicy(this.ops["ValidatePolicy"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

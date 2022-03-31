@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,33 +21,76 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/cloudcontrol-2021-09-30.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.cloudcontrol.Resource {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.CloudControl();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/cloudcontrol-2021-09-30.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeCancelResourceRequest(partialParams) {
-        return this.client.cancelResourceRequest(this.ops["CancelResourceRequest"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.cancelResourceRequest(this.ops["CancelResourceRequest"].applicator.apply(partialParams));
     }
     invokeCreateResource(partialParams) {
-        return this.client.createResource(this.ops["CreateResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createResource(this.ops["CreateResource"].applicator.apply(partialParams));
     }
     invokeDeleteResource(partialParams) {
-        return this.client.deleteResource(this.ops["DeleteResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteResource(this.ops["DeleteResource"].applicator.apply(partialParams));
     }
     invokeGetResource(partialParams) {
-        return this.client.getResource(this.ops["GetResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getResource(this.ops["GetResource"].applicator.apply(partialParams));
     }
     invokeGetResourceRequestStatus(partialParams) {
-        return this.client.getResourceRequestStatus(this.ops["GetResourceRequestStatus"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getResourceRequestStatus(this.ops["GetResourceRequestStatus"].applicator.apply(partialParams));
     }
     invokeListResources(partialParams) {
-        return this.client.listResources(this.ops["ListResources"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listResources(this.ops["ListResources"].applicator.apply(partialParams));
     }
     invokeUpdateResource(partialParams) {
-        return this.client.updateResource(this.ops["UpdateResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateResource(this.ops["UpdateResource"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

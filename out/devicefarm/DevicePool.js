@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,207 +21,424 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/devicefarm-2015-06-23.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.devicefarm.DevicePool {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.DeviceFarm();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/devicefarm-2015-06-23.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeCreateDevicePool(partialParams) {
-        return this.client.createDevicePool(this.ops["CreateDevicePool"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createDevicePool(this.ops["CreateDevicePool"].applicator.apply(partialParams));
     }
     invokeCreateInstanceProfile(partialParams) {
-        return this.client.createInstanceProfile(this.ops["CreateInstanceProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createInstanceProfile(this.ops["CreateInstanceProfile"].applicator.apply(partialParams));
     }
     invokeCreateNetworkProfile(partialParams) {
-        return this.client.createNetworkProfile(this.ops["CreateNetworkProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createNetworkProfile(this.ops["CreateNetworkProfile"].applicator.apply(partialParams));
     }
     invokeCreateProject(partialParams) {
-        return this.client.createProject(this.ops["CreateProject"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createProject(this.ops["CreateProject"].applicator.apply(partialParams));
     }
     invokeCreateRemoteAccessSession(partialParams) {
-        return this.client.createRemoteAccessSession(this.ops["CreateRemoteAccessSession"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createRemoteAccessSession(this.ops["CreateRemoteAccessSession"].applicator.apply(partialParams));
     }
     invokeCreateTestGridProject(partialParams) {
-        return this.client.createTestGridProject(this.ops["CreateTestGridProject"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createTestGridProject(this.ops["CreateTestGridProject"].applicator.apply(partialParams));
     }
     invokeCreateTestGridUrl(partialParams) {
-        return this.client.createTestGridUrl(this.ops["CreateTestGridUrl"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createTestGridUrl(this.ops["CreateTestGridUrl"].applicator.apply(partialParams));
     }
     invokeCreateUpload(partialParams) {
-        return this.client.createUpload(this.ops["CreateUpload"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createUpload(this.ops["CreateUpload"].applicator.apply(partialParams));
     }
     invokeCreateVPCEConfiguration(partialParams) {
-        return this.client.createVPCEConfiguration(this.ops["CreateVPCEConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createVPCEConfiguration(this.ops["CreateVPCEConfiguration"].applicator.apply(partialParams));
     }
     invokeDeleteDevicePool(partialParams) {
-        return this.client.deleteDevicePool(this.ops["DeleteDevicePool"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteDevicePool(this.ops["DeleteDevicePool"].applicator.apply(partialParams));
     }
     invokeDeleteInstanceProfile(partialParams) {
-        return this.client.deleteInstanceProfile(this.ops["DeleteInstanceProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteInstanceProfile(this.ops["DeleteInstanceProfile"].applicator.apply(partialParams));
     }
     invokeDeleteNetworkProfile(partialParams) {
-        return this.client.deleteNetworkProfile(this.ops["DeleteNetworkProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteNetworkProfile(this.ops["DeleteNetworkProfile"].applicator.apply(partialParams));
     }
     invokeDeleteProject(partialParams) {
-        return this.client.deleteProject(this.ops["DeleteProject"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteProject(this.ops["DeleteProject"].applicator.apply(partialParams));
     }
     invokeDeleteRemoteAccessSession(partialParams) {
-        return this.client.deleteRemoteAccessSession(this.ops["DeleteRemoteAccessSession"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteRemoteAccessSession(this.ops["DeleteRemoteAccessSession"].applicator.apply(partialParams));
     }
     invokeDeleteRun(partialParams) {
-        return this.client.deleteRun(this.ops["DeleteRun"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteRun(this.ops["DeleteRun"].applicator.apply(partialParams));
     }
     invokeDeleteTestGridProject(partialParams) {
-        return this.client.deleteTestGridProject(this.ops["DeleteTestGridProject"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteTestGridProject(this.ops["DeleteTestGridProject"].applicator.apply(partialParams));
     }
     invokeDeleteUpload(partialParams) {
-        return this.client.deleteUpload(this.ops["DeleteUpload"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteUpload(this.ops["DeleteUpload"].applicator.apply(partialParams));
     }
     invokeDeleteVPCEConfiguration(partialParams) {
-        return this.client.deleteVPCEConfiguration(this.ops["DeleteVPCEConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteVPCEConfiguration(this.ops["DeleteVPCEConfiguration"].applicator.apply(partialParams));
     }
     invokeGetDevice(partialParams) {
-        return this.client.getDevice(this.ops["GetDevice"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getDevice(this.ops["GetDevice"].applicator.apply(partialParams));
     }
     invokeGetDeviceInstance(partialParams) {
-        return this.client.getDeviceInstance(this.ops["GetDeviceInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getDeviceInstance(this.ops["GetDeviceInstance"].applicator.apply(partialParams));
     }
     invokeGetDevicePool(partialParams) {
-        return this.client.getDevicePool(this.ops["GetDevicePool"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getDevicePool(this.ops["GetDevicePool"].applicator.apply(partialParams));
     }
     invokeGetDevicePoolCompatibility(partialParams) {
-        return this.client.getDevicePoolCompatibility(this.ops["GetDevicePoolCompatibility"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getDevicePoolCompatibility(this.ops["GetDevicePoolCompatibility"].applicator.apply(partialParams));
     }
     invokeGetInstanceProfile(partialParams) {
-        return this.client.getInstanceProfile(this.ops["GetInstanceProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getInstanceProfile(this.ops["GetInstanceProfile"].applicator.apply(partialParams));
     }
     invokeGetJob(partialParams) {
-        return this.client.getJob(this.ops["GetJob"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getJob(this.ops["GetJob"].applicator.apply(partialParams));
     }
     invokeGetNetworkProfile(partialParams) {
-        return this.client.getNetworkProfile(this.ops["GetNetworkProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getNetworkProfile(this.ops["GetNetworkProfile"].applicator.apply(partialParams));
     }
     invokeGetProject(partialParams) {
-        return this.client.getProject(this.ops["GetProject"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getProject(this.ops["GetProject"].applicator.apply(partialParams));
     }
     invokeGetRemoteAccessSession(partialParams) {
-        return this.client.getRemoteAccessSession(this.ops["GetRemoteAccessSession"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getRemoteAccessSession(this.ops["GetRemoteAccessSession"].applicator.apply(partialParams));
     }
     invokeGetRun(partialParams) {
-        return this.client.getRun(this.ops["GetRun"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getRun(this.ops["GetRun"].applicator.apply(partialParams));
     }
     invokeGetSuite(partialParams) {
-        return this.client.getSuite(this.ops["GetSuite"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getSuite(this.ops["GetSuite"].applicator.apply(partialParams));
     }
     invokeGetTest(partialParams) {
-        return this.client.getTest(this.ops["GetTest"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getTest(this.ops["GetTest"].applicator.apply(partialParams));
     }
     invokeGetTestGridProject(partialParams) {
-        return this.client.getTestGridProject(this.ops["GetTestGridProject"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getTestGridProject(this.ops["GetTestGridProject"].applicator.apply(partialParams));
     }
     invokeGetUpload(partialParams) {
-        return this.client.getUpload(this.ops["GetUpload"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getUpload(this.ops["GetUpload"].applicator.apply(partialParams));
     }
     invokeGetVPCEConfiguration(partialParams) {
-        return this.client.getVPCEConfiguration(this.ops["GetVPCEConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getVPCEConfiguration(this.ops["GetVPCEConfiguration"].applicator.apply(partialParams));
     }
     invokeInstallToRemoteAccessSession(partialParams) {
-        return this.client.installToRemoteAccessSession(this.ops["InstallToRemoteAccessSession"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.installToRemoteAccessSession(this.ops["InstallToRemoteAccessSession"].applicator.apply(partialParams));
     }
     invokeListArtifacts(partialParams) {
-        return this.client.listArtifacts(this.ops["ListArtifacts"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listArtifacts(this.ops["ListArtifacts"].applicator.apply(partialParams));
     }
     invokeListDevicePools(partialParams) {
-        return this.client.listDevicePools(this.ops["ListDevicePools"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listDevicePools(this.ops["ListDevicePools"].applicator.apply(partialParams));
     }
     invokeListJobs(partialParams) {
-        return this.client.listJobs(this.ops["ListJobs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listJobs(this.ops["ListJobs"].applicator.apply(partialParams));
     }
     invokeListNetworkProfiles(partialParams) {
-        return this.client.listNetworkProfiles(this.ops["ListNetworkProfiles"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listNetworkProfiles(this.ops["ListNetworkProfiles"].applicator.apply(partialParams));
     }
     invokeListRemoteAccessSessions(partialParams) {
-        return this.client.listRemoteAccessSessions(this.ops["ListRemoteAccessSessions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listRemoteAccessSessions(this.ops["ListRemoteAccessSessions"].applicator.apply(partialParams));
     }
     invokeListRuns(partialParams) {
-        return this.client.listRuns(this.ops["ListRuns"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listRuns(this.ops["ListRuns"].applicator.apply(partialParams));
     }
     invokeListSamples(partialParams) {
-        return this.client.listSamples(this.ops["ListSamples"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listSamples(this.ops["ListSamples"].applicator.apply(partialParams));
     }
     invokeListSuites(partialParams) {
-        return this.client.listSuites(this.ops["ListSuites"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listSuites(this.ops["ListSuites"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokeListTestGridSessionActions(partialParams) {
-        return this.client.listTestGridSessionActions(this.ops["ListTestGridSessionActions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTestGridSessionActions(this.ops["ListTestGridSessionActions"].applicator.apply(partialParams));
     }
     invokeListTestGridSessionArtifacts(partialParams) {
-        return this.client.listTestGridSessionArtifacts(this.ops["ListTestGridSessionArtifacts"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTestGridSessionArtifacts(this.ops["ListTestGridSessionArtifacts"].applicator.apply(partialParams));
     }
     invokeListTestGridSessions(partialParams) {
-        return this.client.listTestGridSessions(this.ops["ListTestGridSessions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTestGridSessions(this.ops["ListTestGridSessions"].applicator.apply(partialParams));
     }
     invokeListTests(partialParams) {
-        return this.client.listTests(this.ops["ListTests"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTests(this.ops["ListTests"].applicator.apply(partialParams));
     }
     invokeListUniqueProblems(partialParams) {
-        return this.client.listUniqueProblems(this.ops["ListUniqueProblems"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listUniqueProblems(this.ops["ListUniqueProblems"].applicator.apply(partialParams));
     }
     invokeListUploads(partialParams) {
-        return this.client.listUploads(this.ops["ListUploads"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listUploads(this.ops["ListUploads"].applicator.apply(partialParams));
     }
     invokePurchaseOffering(partialParams) {
-        return this.client.purchaseOffering(this.ops["PurchaseOffering"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.purchaseOffering(this.ops["PurchaseOffering"].applicator.apply(partialParams));
     }
     invokeRenewOffering(partialParams) {
-        return this.client.renewOffering(this.ops["RenewOffering"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.renewOffering(this.ops["RenewOffering"].applicator.apply(partialParams));
     }
     invokeScheduleRun(partialParams) {
-        return this.client.scheduleRun(this.ops["ScheduleRun"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.scheduleRun(this.ops["ScheduleRun"].applicator.apply(partialParams));
     }
     invokeStopJob(partialParams) {
-        return this.client.stopJob(this.ops["StopJob"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.stopJob(this.ops["StopJob"].applicator.apply(partialParams));
     }
     invokeStopRemoteAccessSession(partialParams) {
-        return this.client.stopRemoteAccessSession(this.ops["StopRemoteAccessSession"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.stopRemoteAccessSession(this.ops["StopRemoteAccessSession"].applicator.apply(partialParams));
     }
     invokeStopRun(partialParams) {
-        return this.client.stopRun(this.ops["StopRun"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.stopRun(this.ops["StopRun"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateDeviceInstance(partialParams) {
-        return this.client.updateDeviceInstance(this.ops["UpdateDeviceInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateDeviceInstance(this.ops["UpdateDeviceInstance"].applicator.apply(partialParams));
     }
     invokeUpdateDevicePool(partialParams) {
-        return this.client.updateDevicePool(this.ops["UpdateDevicePool"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateDevicePool(this.ops["UpdateDevicePool"].applicator.apply(partialParams));
     }
     invokeUpdateInstanceProfile(partialParams) {
-        return this.client.updateInstanceProfile(this.ops["UpdateInstanceProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateInstanceProfile(this.ops["UpdateInstanceProfile"].applicator.apply(partialParams));
     }
     invokeUpdateNetworkProfile(partialParams) {
-        return this.client.updateNetworkProfile(this.ops["UpdateNetworkProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateNetworkProfile(this.ops["UpdateNetworkProfile"].applicator.apply(partialParams));
     }
     invokeUpdateProject(partialParams) {
-        return this.client.updateProject(this.ops["UpdateProject"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateProject(this.ops["UpdateProject"].applicator.apply(partialParams));
     }
     invokeUpdateTestGridProject(partialParams) {
-        return this.client.updateTestGridProject(this.ops["UpdateTestGridProject"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateTestGridProject(this.ops["UpdateTestGridProject"].applicator.apply(partialParams));
     }
     invokeUpdateUpload(partialParams) {
-        return this.client.updateUpload(this.ops["UpdateUpload"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateUpload(this.ops["UpdateUpload"].applicator.apply(partialParams));
     }
     invokeUpdateVPCEConfiguration(partialParams) {
-        return this.client.updateVPCEConfiguration(this.ops["UpdateVPCEConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateVPCEConfiguration(this.ops["UpdateVPCEConfiguration"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

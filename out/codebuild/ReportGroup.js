@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,111 +21,232 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/codebuild-2016-10-06.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.codebuild.ReportGroup {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.CodeBuild();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/codebuild-2016-10-06.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeBatchDeleteBuilds(partialParams) {
-        return this.client.batchDeleteBuilds(this.ops["BatchDeleteBuilds"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchDeleteBuilds(this.ops["BatchDeleteBuilds"].applicator.apply(partialParams));
     }
     invokeBatchGetBuildBatches(partialParams) {
-        return this.client.batchGetBuildBatches(this.ops["BatchGetBuildBatches"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchGetBuildBatches(this.ops["BatchGetBuildBatches"].applicator.apply(partialParams));
     }
     invokeBatchGetBuilds(partialParams) {
-        return this.client.batchGetBuilds(this.ops["BatchGetBuilds"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchGetBuilds(this.ops["BatchGetBuilds"].applicator.apply(partialParams));
     }
     invokeBatchGetProjects(partialParams) {
-        return this.client.batchGetProjects(this.ops["BatchGetProjects"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchGetProjects(this.ops["BatchGetProjects"].applicator.apply(partialParams));
     }
     invokeBatchGetReportGroups(partialParams) {
-        return this.client.batchGetReportGroups(this.ops["BatchGetReportGroups"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchGetReportGroups(this.ops["BatchGetReportGroups"].applicator.apply(partialParams));
     }
     invokeBatchGetReports(partialParams) {
-        return this.client.batchGetReports(this.ops["BatchGetReports"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchGetReports(this.ops["BatchGetReports"].applicator.apply(partialParams));
     }
     invokeCreateProject(partialParams) {
-        return this.client.createProject(this.ops["CreateProject"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createProject(this.ops["CreateProject"].applicator.apply(partialParams));
     }
     invokeCreateReportGroup(partialParams) {
-        return this.client.createReportGroup(this.ops["CreateReportGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createReportGroup(this.ops["CreateReportGroup"].applicator.apply(partialParams));
     }
     invokeCreateWebhook(partialParams) {
-        return this.client.createWebhook(this.ops["CreateWebhook"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createWebhook(this.ops["CreateWebhook"].applicator.apply(partialParams));
     }
     invokeDeleteBuildBatch(partialParams) {
-        return this.client.deleteBuildBatch(this.ops["DeleteBuildBatch"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteBuildBatch(this.ops["DeleteBuildBatch"].applicator.apply(partialParams));
     }
     invokeDeleteProject(partialParams) {
-        return this.client.deleteProject(this.ops["DeleteProject"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteProject(this.ops["DeleteProject"].applicator.apply(partialParams));
     }
     invokeDeleteReport(partialParams) {
-        return this.client.deleteReport(this.ops["DeleteReport"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteReport(this.ops["DeleteReport"].applicator.apply(partialParams));
     }
     invokeDeleteReportGroup(partialParams) {
-        return this.client.deleteReportGroup(this.ops["DeleteReportGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteReportGroup(this.ops["DeleteReportGroup"].applicator.apply(partialParams));
     }
     invokeDeleteResourcePolicy(partialParams) {
-        return this.client.deleteResourcePolicy(this.ops["DeleteResourcePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteResourcePolicy(this.ops["DeleteResourcePolicy"].applicator.apply(partialParams));
     }
     invokeDeleteSourceCredentials(partialParams) {
-        return this.client.deleteSourceCredentials(this.ops["DeleteSourceCredentials"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteSourceCredentials(this.ops["DeleteSourceCredentials"].applicator.apply(partialParams));
     }
     invokeDeleteWebhook(partialParams) {
-        return this.client.deleteWebhook(this.ops["DeleteWebhook"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteWebhook(this.ops["DeleteWebhook"].applicator.apply(partialParams));
     }
     invokeDescribeCodeCoverages(partialParams) {
-        return this.client.describeCodeCoverages(this.ops["DescribeCodeCoverages"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeCodeCoverages(this.ops["DescribeCodeCoverages"].applicator.apply(partialParams));
     }
     invokeDescribeTestCases(partialParams) {
-        return this.client.describeTestCases(this.ops["DescribeTestCases"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeTestCases(this.ops["DescribeTestCases"].applicator.apply(partialParams));
     }
     invokeGetReportGroupTrend(partialParams) {
-        return this.client.getReportGroupTrend(this.ops["GetReportGroupTrend"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getReportGroupTrend(this.ops["GetReportGroupTrend"].applicator.apply(partialParams));
     }
     invokeGetResourcePolicy(partialParams) {
-        return this.client.getResourcePolicy(this.ops["GetResourcePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getResourcePolicy(this.ops["GetResourcePolicy"].applicator.apply(partialParams));
     }
     invokeImportSourceCredentials(partialParams) {
-        return this.client.importSourceCredentials(this.ops["ImportSourceCredentials"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.importSourceCredentials(this.ops["ImportSourceCredentials"].applicator.apply(partialParams));
     }
     invokeInvalidateProjectCache(partialParams) {
-        return this.client.invalidateProjectCache(this.ops["InvalidateProjectCache"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.invalidateProjectCache(this.ops["InvalidateProjectCache"].applicator.apply(partialParams));
     }
     invokeListBuildsForProject(partialParams) {
-        return this.client.listBuildsForProject(this.ops["ListBuildsForProject"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listBuildsForProject(this.ops["ListBuildsForProject"].applicator.apply(partialParams));
     }
     invokeListReportsForReportGroup(partialParams) {
-        return this.client.listReportsForReportGroup(this.ops["ListReportsForReportGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listReportsForReportGroup(this.ops["ListReportsForReportGroup"].applicator.apply(partialParams));
     }
     invokePutResourcePolicy(partialParams) {
-        return this.client.putResourcePolicy(this.ops["PutResourcePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putResourcePolicy(this.ops["PutResourcePolicy"].applicator.apply(partialParams));
     }
     invokeStartBuild(partialParams) {
-        return this.client.startBuild(this.ops["StartBuild"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startBuild(this.ops["StartBuild"].applicator.apply(partialParams));
     }
     invokeStartBuildBatch(partialParams) {
-        return this.client.startBuildBatch(this.ops["StartBuildBatch"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startBuildBatch(this.ops["StartBuildBatch"].applicator.apply(partialParams));
     }
     invokeStopBuild(partialParams) {
-        return this.client.stopBuild(this.ops["StopBuild"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.stopBuild(this.ops["StopBuild"].applicator.apply(partialParams));
     }
     invokeStopBuildBatch(partialParams) {
-        return this.client.stopBuildBatch(this.ops["StopBuildBatch"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.stopBuildBatch(this.ops["StopBuildBatch"].applicator.apply(partialParams));
     }
     invokeUpdateProject(partialParams) {
-        return this.client.updateProject(this.ops["UpdateProject"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateProject(this.ops["UpdateProject"].applicator.apply(partialParams));
     }
     invokeUpdateProjectVisibility(partialParams) {
-        return this.client.updateProjectVisibility(this.ops["UpdateProjectVisibility"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateProjectVisibility(this.ops["UpdateProjectVisibility"].applicator.apply(partialParams));
     }
     invokeUpdateReportGroup(partialParams) {
-        return this.client.updateReportGroup(this.ops["UpdateReportGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateReportGroup(this.ops["UpdateReportGroup"].applicator.apply(partialParams));
     }
     invokeUpdateWebhook(partialParams) {
-        return this.client.updateWebhook(this.ops["UpdateWebhook"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateWebhook(this.ops["UpdateWebhook"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

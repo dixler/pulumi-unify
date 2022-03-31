@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     AcceptCertificateTransferRequest,
     AssociateTargetsWithJobRequest,
@@ -337,8 +340,8 @@ import {
     UpdateTopicRuleDestinationResponse,
     ValidateSecurityProfileBehaviorsResponse
 } from "aws-sdk/clients/iot";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/iot-2015-05-28.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -347,1459 +350,2024 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.iot.ThingPrincipalAttachment {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.iot.ThingPrincipalAttachment>) {
         super(...args)
         this.client = new awssdk.Iot()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/iot-2015-05-28.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeAcceptCertificateTransfer(partialParams: ToOptional<{
       [K in keyof AcceptCertificateTransferRequest & keyof AcceptCertificateTransferRequest]: (AcceptCertificateTransferRequest & AcceptCertificateTransferRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.acceptCertificateTransfer(
-            this.ops["AcceptCertificateTransfer"].apply(partialParams)
+          this.ops["AcceptCertificateTransfer"].applicator.apply(partialParams)
         );
     }
 
     invokeAssociateTargetsWithJob(partialParams: ToOptional<{
       [K in keyof AssociateTargetsWithJobRequest & keyof AssociateTargetsWithJobRequest]: (AssociateTargetsWithJobRequest & AssociateTargetsWithJobRequest)[K]
-    }>): AssociateTargetsWithJobResponse {
+    }>): Request<AssociateTargetsWithJobResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.associateTargetsWithJob(
-            this.ops["AssociateTargetsWithJob"].apply(partialParams)
+          this.ops["AssociateTargetsWithJob"].applicator.apply(partialParams)
         );
     }
 
     invokeAttachPolicy(partialParams: ToOptional<{
       [K in keyof AttachPolicyRequest & keyof AttachPolicyRequest]: (AttachPolicyRequest & AttachPolicyRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.attachPolicy(
-            this.ops["AttachPolicy"].apply(partialParams)
+          this.ops["AttachPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeAttachPrincipalPolicy(partialParams: ToOptional<{
       [K in keyof AttachPrincipalPolicyRequest & keyof AttachPrincipalPolicyRequest]: (AttachPrincipalPolicyRequest & AttachPrincipalPolicyRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.attachPrincipalPolicy(
-            this.ops["AttachPrincipalPolicy"].apply(partialParams)
+          this.ops["AttachPrincipalPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeAttachSecurityProfile(partialParams: ToOptional<{
       [K in keyof AttachSecurityProfileRequest & keyof AttachSecurityProfileRequest]: (AttachSecurityProfileRequest & AttachSecurityProfileRequest)[K]
-    }>): AttachSecurityProfileResponse {
+    }>): Request<AttachSecurityProfileResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.attachSecurityProfile(
-            this.ops["AttachSecurityProfile"].apply(partialParams)
+          this.ops["AttachSecurityProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeAttachThingPrincipal(partialParams: ToOptional<{
       [K in keyof AttachThingPrincipalRequest & keyof AttachThingPrincipalRequest]: (AttachThingPrincipalRequest & AttachThingPrincipalRequest)[K]
-    }>): AttachThingPrincipalResponse {
+    }>): Request<AttachThingPrincipalResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.attachThingPrincipal(
-            this.ops["AttachThingPrincipal"].apply(partialParams)
+          this.ops["AttachThingPrincipal"].applicator.apply(partialParams)
         );
     }
 
     invokeCancelAuditMitigationActionsTask(partialParams: ToOptional<{
       [K in keyof CancelAuditMitigationActionsTaskRequest & keyof CancelAuditMitigationActionsTaskRequest]: (CancelAuditMitigationActionsTaskRequest & CancelAuditMitigationActionsTaskRequest)[K]
-    }>): CancelAuditMitigationActionsTaskResponse {
+    }>): Request<CancelAuditMitigationActionsTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.cancelAuditMitigationActionsTask(
-            this.ops["CancelAuditMitigationActionsTask"].apply(partialParams)
+          this.ops["CancelAuditMitigationActionsTask"].applicator.apply(partialParams)
         );
     }
 
     invokeCancelAuditTask(partialParams: ToOptional<{
       [K in keyof CancelAuditTaskRequest & keyof CancelAuditTaskRequest]: (CancelAuditTaskRequest & CancelAuditTaskRequest)[K]
-    }>): CancelAuditTaskResponse {
+    }>): Request<CancelAuditTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.cancelAuditTask(
-            this.ops["CancelAuditTask"].apply(partialParams)
+          this.ops["CancelAuditTask"].applicator.apply(partialParams)
         );
     }
 
     invokeCancelCertificateTransfer(partialParams: ToOptional<{
       [K in keyof CancelCertificateTransferRequest & keyof CancelCertificateTransferRequest]: (CancelCertificateTransferRequest & CancelCertificateTransferRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.cancelCertificateTransfer(
-            this.ops["CancelCertificateTransfer"].apply(partialParams)
+          this.ops["CancelCertificateTransfer"].applicator.apply(partialParams)
         );
     }
 
     invokeCancelDetectMitigationActionsTask(partialParams: ToOptional<{
       [K in keyof CancelDetectMitigationActionsTaskRequest & keyof CancelDetectMitigationActionsTaskRequest]: (CancelDetectMitigationActionsTaskRequest & CancelDetectMitigationActionsTaskRequest)[K]
-    }>): CancelDetectMitigationActionsTaskResponse {
+    }>): Request<CancelDetectMitigationActionsTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.cancelDetectMitigationActionsTask(
-            this.ops["CancelDetectMitigationActionsTask"].apply(partialParams)
+          this.ops["CancelDetectMitigationActionsTask"].applicator.apply(partialParams)
         );
     }
 
     invokeCancelJob(partialParams: ToOptional<{
       [K in keyof CancelJobRequest & keyof CancelJobRequest]: (CancelJobRequest & CancelJobRequest)[K]
-    }>): CancelJobResponse {
+    }>): Request<CancelJobResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.cancelJob(
-            this.ops["CancelJob"].apply(partialParams)
+          this.ops["CancelJob"].applicator.apply(partialParams)
         );
     }
 
     invokeCancelJobExecution(partialParams: ToOptional<{
       [K in keyof CancelJobExecutionRequest & keyof CancelJobExecutionRequest]: (CancelJobExecutionRequest & CancelJobExecutionRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.cancelJobExecution(
-            this.ops["CancelJobExecution"].apply(partialParams)
+          this.ops["CancelJobExecution"].applicator.apply(partialParams)
         );
     }
 
     invokeConfirmTopicRuleDestination(partialParams: ToOptional<{
       [K in keyof ConfirmTopicRuleDestinationRequest & keyof ConfirmTopicRuleDestinationRequest]: (ConfirmTopicRuleDestinationRequest & ConfirmTopicRuleDestinationRequest)[K]
-    }>): ConfirmTopicRuleDestinationResponse {
+    }>): Request<ConfirmTopicRuleDestinationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.confirmTopicRuleDestination(
-            this.ops["ConfirmTopicRuleDestination"].apply(partialParams)
+          this.ops["ConfirmTopicRuleDestination"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateAuditSuppression(partialParams: ToOptional<{
       [K in keyof CreateAuditSuppressionRequest & keyof CreateAuditSuppressionRequest]: (CreateAuditSuppressionRequest & CreateAuditSuppressionRequest)[K]
-    }>): CreateAuditSuppressionResponse {
+    }>): Request<CreateAuditSuppressionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createAuditSuppression(
-            this.ops["CreateAuditSuppression"].apply(partialParams)
+          this.ops["CreateAuditSuppression"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateAuthorizer(partialParams: ToOptional<{
       [K in keyof CreateAuthorizerRequest & keyof CreateAuthorizerRequest]: (CreateAuthorizerRequest & CreateAuthorizerRequest)[K]
-    }>): CreateAuthorizerResponse {
+    }>): Request<CreateAuthorizerResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createAuthorizer(
-            this.ops["CreateAuthorizer"].apply(partialParams)
+          this.ops["CreateAuthorizer"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateBillingGroup(partialParams: ToOptional<{
       [K in keyof CreateBillingGroupRequest & keyof CreateBillingGroupRequest]: (CreateBillingGroupRequest & CreateBillingGroupRequest)[K]
-    }>): CreateBillingGroupResponse {
+    }>): Request<CreateBillingGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createBillingGroup(
-            this.ops["CreateBillingGroup"].apply(partialParams)
+          this.ops["CreateBillingGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateCertificateFromCsr(partialParams: ToOptional<{
       [K in keyof CreateCertificateFromCsrRequest & keyof CreateCertificateFromCsrRequest]: (CreateCertificateFromCsrRequest & CreateCertificateFromCsrRequest)[K]
-    }>): CreateCertificateFromCsrResponse {
+    }>): Request<CreateCertificateFromCsrResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createCertificateFromCsr(
-            this.ops["CreateCertificateFromCsr"].apply(partialParams)
+          this.ops["CreateCertificateFromCsr"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateCustomMetric(partialParams: ToOptional<{
       [K in keyof CreateCustomMetricRequest & keyof CreateCustomMetricRequest]: (CreateCustomMetricRequest & CreateCustomMetricRequest)[K]
-    }>): CreateCustomMetricResponse {
+    }>): Request<CreateCustomMetricResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createCustomMetric(
-            this.ops["CreateCustomMetric"].apply(partialParams)
+          this.ops["CreateCustomMetric"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateDimension(partialParams: ToOptional<{
       [K in keyof CreateDimensionRequest & keyof CreateDimensionRequest]: (CreateDimensionRequest & CreateDimensionRequest)[K]
-    }>): CreateDimensionResponse {
+    }>): Request<CreateDimensionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createDimension(
-            this.ops["CreateDimension"].apply(partialParams)
+          this.ops["CreateDimension"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateDomainConfiguration(partialParams: ToOptional<{
       [K in keyof CreateDomainConfigurationRequest & keyof CreateDomainConfigurationRequest]: (CreateDomainConfigurationRequest & CreateDomainConfigurationRequest)[K]
-    }>): CreateDomainConfigurationResponse {
+    }>): Request<CreateDomainConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createDomainConfiguration(
-            this.ops["CreateDomainConfiguration"].apply(partialParams)
+          this.ops["CreateDomainConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateDynamicThingGroup(partialParams: ToOptional<{
       [K in keyof CreateDynamicThingGroupRequest & keyof CreateDynamicThingGroupRequest]: (CreateDynamicThingGroupRequest & CreateDynamicThingGroupRequest)[K]
-    }>): CreateDynamicThingGroupResponse {
+    }>): Request<CreateDynamicThingGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createDynamicThingGroup(
-            this.ops["CreateDynamicThingGroup"].apply(partialParams)
+          this.ops["CreateDynamicThingGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateFleetMetric(partialParams: ToOptional<{
       [K in keyof CreateFleetMetricRequest & keyof CreateFleetMetricRequest]: (CreateFleetMetricRequest & CreateFleetMetricRequest)[K]
-    }>): CreateFleetMetricResponse {
+    }>): Request<CreateFleetMetricResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createFleetMetric(
-            this.ops["CreateFleetMetric"].apply(partialParams)
+          this.ops["CreateFleetMetric"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateJob(partialParams: ToOptional<{
       [K in keyof CreateJobRequest & keyof CreateJobRequest]: (CreateJobRequest & CreateJobRequest)[K]
-    }>): CreateJobResponse {
+    }>): Request<CreateJobResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createJob(
-            this.ops["CreateJob"].apply(partialParams)
+          this.ops["CreateJob"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateJobTemplate(partialParams: ToOptional<{
       [K in keyof CreateJobTemplateRequest & keyof CreateJobTemplateRequest]: (CreateJobTemplateRequest & CreateJobTemplateRequest)[K]
-    }>): CreateJobTemplateResponse {
+    }>): Request<CreateJobTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createJobTemplate(
-            this.ops["CreateJobTemplate"].apply(partialParams)
+          this.ops["CreateJobTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateMitigationAction(partialParams: ToOptional<{
       [K in keyof CreateMitigationActionRequest & keyof CreateMitigationActionRequest]: (CreateMitigationActionRequest & CreateMitigationActionRequest)[K]
-    }>): CreateMitigationActionResponse {
+    }>): Request<CreateMitigationActionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createMitigationAction(
-            this.ops["CreateMitigationAction"].apply(partialParams)
+          this.ops["CreateMitigationAction"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateOTAUpdate(partialParams: ToOptional<{
       [K in keyof CreateOTAUpdateRequest & keyof CreateOTAUpdateRequest]: (CreateOTAUpdateRequest & CreateOTAUpdateRequest)[K]
-    }>): CreateOTAUpdateResponse {
+    }>): Request<CreateOTAUpdateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createOTAUpdate(
-            this.ops["CreateOTAUpdate"].apply(partialParams)
+          this.ops["CreateOTAUpdate"].applicator.apply(partialParams)
         );
     }
 
     invokeCreatePolicy(partialParams: ToOptional<{
       [K in keyof CreatePolicyRequest & keyof CreatePolicyRequest]: (CreatePolicyRequest & CreatePolicyRequest)[K]
-    }>): CreatePolicyResponse {
+    }>): Request<CreatePolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createPolicy(
-            this.ops["CreatePolicy"].apply(partialParams)
+          this.ops["CreatePolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeCreatePolicyVersion(partialParams: ToOptional<{
       [K in keyof CreatePolicyVersionRequest & keyof CreatePolicyVersionRequest]: (CreatePolicyVersionRequest & CreatePolicyVersionRequest)[K]
-    }>): CreatePolicyVersionResponse {
+    }>): Request<CreatePolicyVersionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createPolicyVersion(
-            this.ops["CreatePolicyVersion"].apply(partialParams)
+          this.ops["CreatePolicyVersion"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateProvisioningClaim(partialParams: ToOptional<{
       [K in keyof CreateProvisioningClaimRequest & keyof CreateProvisioningClaimRequest]: (CreateProvisioningClaimRequest & CreateProvisioningClaimRequest)[K]
-    }>): CreateProvisioningClaimResponse {
+    }>): Request<CreateProvisioningClaimResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createProvisioningClaim(
-            this.ops["CreateProvisioningClaim"].apply(partialParams)
+          this.ops["CreateProvisioningClaim"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateProvisioningTemplate(partialParams: ToOptional<{
       [K in keyof CreateProvisioningTemplateRequest & keyof CreateProvisioningTemplateRequest]: (CreateProvisioningTemplateRequest & CreateProvisioningTemplateRequest)[K]
-    }>): CreateProvisioningTemplateResponse {
+    }>): Request<CreateProvisioningTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createProvisioningTemplate(
-            this.ops["CreateProvisioningTemplate"].apply(partialParams)
+          this.ops["CreateProvisioningTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateProvisioningTemplateVersion(partialParams: ToOptional<{
       [K in keyof CreateProvisioningTemplateVersionRequest & keyof CreateProvisioningTemplateVersionRequest]: (CreateProvisioningTemplateVersionRequest & CreateProvisioningTemplateVersionRequest)[K]
-    }>): CreateProvisioningTemplateVersionResponse {
+    }>): Request<CreateProvisioningTemplateVersionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createProvisioningTemplateVersion(
-            this.ops["CreateProvisioningTemplateVersion"].apply(partialParams)
+          this.ops["CreateProvisioningTemplateVersion"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateRoleAlias(partialParams: ToOptional<{
       [K in keyof CreateRoleAliasRequest & keyof CreateRoleAliasRequest]: (CreateRoleAliasRequest & CreateRoleAliasRequest)[K]
-    }>): CreateRoleAliasResponse {
+    }>): Request<CreateRoleAliasResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createRoleAlias(
-            this.ops["CreateRoleAlias"].apply(partialParams)
+          this.ops["CreateRoleAlias"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateScheduledAudit(partialParams: ToOptional<{
       [K in keyof CreateScheduledAuditRequest & keyof CreateScheduledAuditRequest]: (CreateScheduledAuditRequest & CreateScheduledAuditRequest)[K]
-    }>): CreateScheduledAuditResponse {
+    }>): Request<CreateScheduledAuditResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createScheduledAudit(
-            this.ops["CreateScheduledAudit"].apply(partialParams)
+          this.ops["CreateScheduledAudit"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateSecurityProfile(partialParams: ToOptional<{
       [K in keyof CreateSecurityProfileRequest & keyof CreateSecurityProfileRequest]: (CreateSecurityProfileRequest & CreateSecurityProfileRequest)[K]
-    }>): CreateSecurityProfileResponse {
+    }>): Request<CreateSecurityProfileResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createSecurityProfile(
-            this.ops["CreateSecurityProfile"].apply(partialParams)
+          this.ops["CreateSecurityProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateStream(partialParams: ToOptional<{
       [K in keyof CreateStreamRequest & keyof CreateStreamRequest]: (CreateStreamRequest & CreateStreamRequest)[K]
-    }>): CreateStreamResponse {
+    }>): Request<CreateStreamResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createStream(
-            this.ops["CreateStream"].apply(partialParams)
+          this.ops["CreateStream"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateThing(partialParams: ToOptional<{
       [K in keyof CreateThingRequest & keyof CreateThingRequest]: (CreateThingRequest & CreateThingRequest)[K]
-    }>): CreateThingResponse {
+    }>): Request<CreateThingResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createThing(
-            this.ops["CreateThing"].apply(partialParams)
+          this.ops["CreateThing"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateThingGroup(partialParams: ToOptional<{
       [K in keyof CreateThingGroupRequest & keyof CreateThingGroupRequest]: (CreateThingGroupRequest & CreateThingGroupRequest)[K]
-    }>): CreateThingGroupResponse {
+    }>): Request<CreateThingGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createThingGroup(
-            this.ops["CreateThingGroup"].apply(partialParams)
+          this.ops["CreateThingGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateThingType(partialParams: ToOptional<{
       [K in keyof CreateThingTypeRequest & keyof CreateThingTypeRequest]: (CreateThingTypeRequest & CreateThingTypeRequest)[K]
-    }>): CreateThingTypeResponse {
+    }>): Request<CreateThingTypeResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createThingType(
-            this.ops["CreateThingType"].apply(partialParams)
+          this.ops["CreateThingType"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateTopicRule(partialParams: ToOptional<{
       [K in keyof CreateTopicRuleRequest & keyof CreateTopicRuleRequest]: (CreateTopicRuleRequest & CreateTopicRuleRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createTopicRule(
-            this.ops["CreateTopicRule"].apply(partialParams)
+          this.ops["CreateTopicRule"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateTopicRuleDestination(partialParams: ToOptional<{
       [K in keyof CreateTopicRuleDestinationRequest & keyof CreateTopicRuleDestinationRequest]: (CreateTopicRuleDestinationRequest & CreateTopicRuleDestinationRequest)[K]
-    }>): CreateTopicRuleDestinationResponse {
+    }>): Request<CreateTopicRuleDestinationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createTopicRuleDestination(
-            this.ops["CreateTopicRuleDestination"].apply(partialParams)
+          this.ops["CreateTopicRuleDestination"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteAuditSuppression(partialParams: ToOptional<{
       [K in keyof DeleteAuditSuppressionRequest & keyof DeleteAuditSuppressionRequest]: (DeleteAuditSuppressionRequest & DeleteAuditSuppressionRequest)[K]
-    }>): DeleteAuditSuppressionResponse {
+    }>): Request<DeleteAuditSuppressionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteAuditSuppression(
-            this.ops["DeleteAuditSuppression"].apply(partialParams)
+          this.ops["DeleteAuditSuppression"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteAuthorizer(partialParams: ToOptional<{
       [K in keyof DeleteAuthorizerRequest & keyof DeleteAuthorizerRequest]: (DeleteAuthorizerRequest & DeleteAuthorizerRequest)[K]
-    }>): DeleteAuthorizerResponse {
+    }>): Request<DeleteAuthorizerResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteAuthorizer(
-            this.ops["DeleteAuthorizer"].apply(partialParams)
+          this.ops["DeleteAuthorizer"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBillingGroup(partialParams: ToOptional<{
       [K in keyof DeleteBillingGroupRequest & keyof DeleteBillingGroupRequest]: (DeleteBillingGroupRequest & DeleteBillingGroupRequest)[K]
-    }>): DeleteBillingGroupResponse {
+    }>): Request<DeleteBillingGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBillingGroup(
-            this.ops["DeleteBillingGroup"].apply(partialParams)
+          this.ops["DeleteBillingGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteCACertificate(partialParams: ToOptional<{
       [K in keyof DeleteCACertificateRequest & keyof DeleteCACertificateRequest]: (DeleteCACertificateRequest & DeleteCACertificateRequest)[K]
-    }>): DeleteCACertificateResponse {
+    }>): Request<DeleteCACertificateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteCACertificate(
-            this.ops["DeleteCACertificate"].apply(partialParams)
+          this.ops["DeleteCACertificate"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteCertificate(partialParams: ToOptional<{
       [K in keyof DeleteCertificateRequest & keyof DeleteCertificateRequest]: (DeleteCertificateRequest & DeleteCertificateRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteCertificate(
-            this.ops["DeleteCertificate"].apply(partialParams)
+          this.ops["DeleteCertificate"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteCustomMetric(partialParams: ToOptional<{
       [K in keyof DeleteCustomMetricRequest & keyof DeleteCustomMetricRequest]: (DeleteCustomMetricRequest & DeleteCustomMetricRequest)[K]
-    }>): DeleteCustomMetricResponse {
+    }>): Request<DeleteCustomMetricResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteCustomMetric(
-            this.ops["DeleteCustomMetric"].apply(partialParams)
+          this.ops["DeleteCustomMetric"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteDimension(partialParams: ToOptional<{
       [K in keyof DeleteDimensionRequest & keyof DeleteDimensionRequest]: (DeleteDimensionRequest & DeleteDimensionRequest)[K]
-    }>): DeleteDimensionResponse {
+    }>): Request<DeleteDimensionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteDimension(
-            this.ops["DeleteDimension"].apply(partialParams)
+          this.ops["DeleteDimension"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteDomainConfiguration(partialParams: ToOptional<{
       [K in keyof DeleteDomainConfigurationRequest & keyof DeleteDomainConfigurationRequest]: (DeleteDomainConfigurationRequest & DeleteDomainConfigurationRequest)[K]
-    }>): DeleteDomainConfigurationResponse {
+    }>): Request<DeleteDomainConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteDomainConfiguration(
-            this.ops["DeleteDomainConfiguration"].apply(partialParams)
+          this.ops["DeleteDomainConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteDynamicThingGroup(partialParams: ToOptional<{
       [K in keyof DeleteDynamicThingGroupRequest & keyof DeleteDynamicThingGroupRequest]: (DeleteDynamicThingGroupRequest & DeleteDynamicThingGroupRequest)[K]
-    }>): DeleteDynamicThingGroupResponse {
+    }>): Request<DeleteDynamicThingGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteDynamicThingGroup(
-            this.ops["DeleteDynamicThingGroup"].apply(partialParams)
+          this.ops["DeleteDynamicThingGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteFleetMetric(partialParams: ToOptional<{
       [K in keyof DeleteFleetMetricRequest & keyof DeleteFleetMetricRequest]: (DeleteFleetMetricRequest & DeleteFleetMetricRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteFleetMetric(
-            this.ops["DeleteFleetMetric"].apply(partialParams)
+          this.ops["DeleteFleetMetric"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteJob(partialParams: ToOptional<{
       [K in keyof DeleteJobRequest & keyof DeleteJobRequest]: (DeleteJobRequest & DeleteJobRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteJob(
-            this.ops["DeleteJob"].apply(partialParams)
+          this.ops["DeleteJob"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteJobExecution(partialParams: ToOptional<{
       [K in keyof DeleteJobExecutionRequest & keyof DeleteJobExecutionRequest]: (DeleteJobExecutionRequest & DeleteJobExecutionRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteJobExecution(
-            this.ops["DeleteJobExecution"].apply(partialParams)
+          this.ops["DeleteJobExecution"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteJobTemplate(partialParams: ToOptional<{
       [K in keyof DeleteJobTemplateRequest & keyof DeleteJobTemplateRequest]: (DeleteJobTemplateRequest & DeleteJobTemplateRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteJobTemplate(
-            this.ops["DeleteJobTemplate"].apply(partialParams)
+          this.ops["DeleteJobTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteMitigationAction(partialParams: ToOptional<{
       [K in keyof DeleteMitigationActionRequest & keyof DeleteMitigationActionRequest]: (DeleteMitigationActionRequest & DeleteMitigationActionRequest)[K]
-    }>): DeleteMitigationActionResponse {
+    }>): Request<DeleteMitigationActionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteMitigationAction(
-            this.ops["DeleteMitigationAction"].apply(partialParams)
+          this.ops["DeleteMitigationAction"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteOTAUpdate(partialParams: ToOptional<{
       [K in keyof DeleteOTAUpdateRequest & keyof DeleteOTAUpdateRequest]: (DeleteOTAUpdateRequest & DeleteOTAUpdateRequest)[K]
-    }>): DeleteOTAUpdateResponse {
+    }>): Request<DeleteOTAUpdateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteOTAUpdate(
-            this.ops["DeleteOTAUpdate"].apply(partialParams)
+          this.ops["DeleteOTAUpdate"].applicator.apply(partialParams)
         );
     }
 
     invokeDeletePolicy(partialParams: ToOptional<{
       [K in keyof DeletePolicyRequest & keyof DeletePolicyRequest]: (DeletePolicyRequest & DeletePolicyRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deletePolicy(
-            this.ops["DeletePolicy"].apply(partialParams)
+          this.ops["DeletePolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeDeletePolicyVersion(partialParams: ToOptional<{
       [K in keyof DeletePolicyVersionRequest & keyof DeletePolicyVersionRequest]: (DeletePolicyVersionRequest & DeletePolicyVersionRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deletePolicyVersion(
-            this.ops["DeletePolicyVersion"].apply(partialParams)
+          this.ops["DeletePolicyVersion"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteProvisioningTemplate(partialParams: ToOptional<{
       [K in keyof DeleteProvisioningTemplateRequest & keyof DeleteProvisioningTemplateRequest]: (DeleteProvisioningTemplateRequest & DeleteProvisioningTemplateRequest)[K]
-    }>): DeleteProvisioningTemplateResponse {
+    }>): Request<DeleteProvisioningTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteProvisioningTemplate(
-            this.ops["DeleteProvisioningTemplate"].apply(partialParams)
+          this.ops["DeleteProvisioningTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteProvisioningTemplateVersion(partialParams: ToOptional<{
       [K in keyof DeleteProvisioningTemplateVersionRequest & keyof DeleteProvisioningTemplateVersionRequest]: (DeleteProvisioningTemplateVersionRequest & DeleteProvisioningTemplateVersionRequest)[K]
-    }>): DeleteProvisioningTemplateVersionResponse {
+    }>): Request<DeleteProvisioningTemplateVersionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteProvisioningTemplateVersion(
-            this.ops["DeleteProvisioningTemplateVersion"].apply(partialParams)
+          this.ops["DeleteProvisioningTemplateVersion"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteRoleAlias(partialParams: ToOptional<{
       [K in keyof DeleteRoleAliasRequest & keyof DeleteRoleAliasRequest]: (DeleteRoleAliasRequest & DeleteRoleAliasRequest)[K]
-    }>): DeleteRoleAliasResponse {
+    }>): Request<DeleteRoleAliasResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteRoleAlias(
-            this.ops["DeleteRoleAlias"].apply(partialParams)
+          this.ops["DeleteRoleAlias"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteScheduledAudit(partialParams: ToOptional<{
       [K in keyof DeleteScheduledAuditRequest & keyof DeleteScheduledAuditRequest]: (DeleteScheduledAuditRequest & DeleteScheduledAuditRequest)[K]
-    }>): DeleteScheduledAuditResponse {
+    }>): Request<DeleteScheduledAuditResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteScheduledAudit(
-            this.ops["DeleteScheduledAudit"].apply(partialParams)
+          this.ops["DeleteScheduledAudit"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteSecurityProfile(partialParams: ToOptional<{
       [K in keyof DeleteSecurityProfileRequest & keyof DeleteSecurityProfileRequest]: (DeleteSecurityProfileRequest & DeleteSecurityProfileRequest)[K]
-    }>): DeleteSecurityProfileResponse {
+    }>): Request<DeleteSecurityProfileResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteSecurityProfile(
-            this.ops["DeleteSecurityProfile"].apply(partialParams)
+          this.ops["DeleteSecurityProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteStream(partialParams: ToOptional<{
       [K in keyof DeleteStreamRequest & keyof DeleteStreamRequest]: (DeleteStreamRequest & DeleteStreamRequest)[K]
-    }>): DeleteStreamResponse {
+    }>): Request<DeleteStreamResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteStream(
-            this.ops["DeleteStream"].apply(partialParams)
+          this.ops["DeleteStream"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteThing(partialParams: ToOptional<{
       [K in keyof DeleteThingRequest & keyof DeleteThingRequest]: (DeleteThingRequest & DeleteThingRequest)[K]
-    }>): DeleteThingResponse {
+    }>): Request<DeleteThingResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteThing(
-            this.ops["DeleteThing"].apply(partialParams)
+          this.ops["DeleteThing"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteThingGroup(partialParams: ToOptional<{
       [K in keyof DeleteThingGroupRequest & keyof DeleteThingGroupRequest]: (DeleteThingGroupRequest & DeleteThingGroupRequest)[K]
-    }>): DeleteThingGroupResponse {
+    }>): Request<DeleteThingGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteThingGroup(
-            this.ops["DeleteThingGroup"].apply(partialParams)
+          this.ops["DeleteThingGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteThingType(partialParams: ToOptional<{
       [K in keyof DeleteThingTypeRequest & keyof DeleteThingTypeRequest]: (DeleteThingTypeRequest & DeleteThingTypeRequest)[K]
-    }>): DeleteThingTypeResponse {
+    }>): Request<DeleteThingTypeResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteThingType(
-            this.ops["DeleteThingType"].apply(partialParams)
+          this.ops["DeleteThingType"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteTopicRule(partialParams: ToOptional<{
       [K in keyof DeleteTopicRuleRequest & keyof DeleteTopicRuleRequest]: (DeleteTopicRuleRequest & DeleteTopicRuleRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteTopicRule(
-            this.ops["DeleteTopicRule"].apply(partialParams)
+          this.ops["DeleteTopicRule"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteTopicRuleDestination(partialParams: ToOptional<{
       [K in keyof DeleteTopicRuleDestinationRequest & keyof DeleteTopicRuleDestinationRequest]: (DeleteTopicRuleDestinationRequest & DeleteTopicRuleDestinationRequest)[K]
-    }>): DeleteTopicRuleDestinationResponse {
+    }>): Request<DeleteTopicRuleDestinationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteTopicRuleDestination(
-            this.ops["DeleteTopicRuleDestination"].apply(partialParams)
+          this.ops["DeleteTopicRuleDestination"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteV2LoggingLevel(partialParams: ToOptional<{
       [K in keyof DeleteV2LoggingLevelRequest & keyof DeleteV2LoggingLevelRequest]: (DeleteV2LoggingLevelRequest & DeleteV2LoggingLevelRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteV2LoggingLevel(
-            this.ops["DeleteV2LoggingLevel"].apply(partialParams)
+          this.ops["DeleteV2LoggingLevel"].applicator.apply(partialParams)
         );
     }
 
     invokeDeprecateThingType(partialParams: ToOptional<{
       [K in keyof DeprecateThingTypeRequest & keyof DeprecateThingTypeRequest]: (DeprecateThingTypeRequest & DeprecateThingTypeRequest)[K]
-    }>): DeprecateThingTypeResponse {
+    }>): Request<DeprecateThingTypeResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deprecateThingType(
-            this.ops["DeprecateThingType"].apply(partialParams)
+          this.ops["DeprecateThingType"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeAuditFinding(partialParams: ToOptional<{
       [K in keyof DescribeAuditFindingRequest & keyof DescribeAuditFindingRequest]: (DescribeAuditFindingRequest & DescribeAuditFindingRequest)[K]
-    }>): DescribeAuditFindingResponse {
+    }>): Request<DescribeAuditFindingResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeAuditFinding(
-            this.ops["DescribeAuditFinding"].apply(partialParams)
+          this.ops["DescribeAuditFinding"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeAuditMitigationActionsTask(partialParams: ToOptional<{
       [K in keyof DescribeAuditMitigationActionsTaskRequest & keyof DescribeAuditMitigationActionsTaskRequest]: (DescribeAuditMitigationActionsTaskRequest & DescribeAuditMitigationActionsTaskRequest)[K]
-    }>): DescribeAuditMitigationActionsTaskResponse {
+    }>): Request<DescribeAuditMitigationActionsTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeAuditMitigationActionsTask(
-            this.ops["DescribeAuditMitigationActionsTask"].apply(partialParams)
+          this.ops["DescribeAuditMitigationActionsTask"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeAuditSuppression(partialParams: ToOptional<{
       [K in keyof DescribeAuditSuppressionRequest & keyof DescribeAuditSuppressionRequest]: (DescribeAuditSuppressionRequest & DescribeAuditSuppressionRequest)[K]
-    }>): DescribeAuditSuppressionResponse {
+    }>): Request<DescribeAuditSuppressionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeAuditSuppression(
-            this.ops["DescribeAuditSuppression"].apply(partialParams)
+          this.ops["DescribeAuditSuppression"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeAuditTask(partialParams: ToOptional<{
       [K in keyof DescribeAuditTaskRequest & keyof DescribeAuditTaskRequest]: (DescribeAuditTaskRequest & DescribeAuditTaskRequest)[K]
-    }>): DescribeAuditTaskResponse {
+    }>): Request<DescribeAuditTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeAuditTask(
-            this.ops["DescribeAuditTask"].apply(partialParams)
+          this.ops["DescribeAuditTask"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeAuthorizer(partialParams: ToOptional<{
       [K in keyof DescribeAuthorizerRequest & keyof DescribeAuthorizerRequest]: (DescribeAuthorizerRequest & DescribeAuthorizerRequest)[K]
-    }>): DescribeAuthorizerResponse {
+    }>): Request<DescribeAuthorizerResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeAuthorizer(
-            this.ops["DescribeAuthorizer"].apply(partialParams)
+          this.ops["DescribeAuthorizer"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeBillingGroup(partialParams: ToOptional<{
       [K in keyof DescribeBillingGroupRequest & keyof DescribeBillingGroupRequest]: (DescribeBillingGroupRequest & DescribeBillingGroupRequest)[K]
-    }>): DescribeBillingGroupResponse {
+    }>): Request<DescribeBillingGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeBillingGroup(
-            this.ops["DescribeBillingGroup"].apply(partialParams)
+          this.ops["DescribeBillingGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeCACertificate(partialParams: ToOptional<{
       [K in keyof DescribeCACertificateRequest & keyof DescribeCACertificateRequest]: (DescribeCACertificateRequest & DescribeCACertificateRequest)[K]
-    }>): DescribeCACertificateResponse {
+    }>): Request<DescribeCACertificateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeCACertificate(
-            this.ops["DescribeCACertificate"].apply(partialParams)
+          this.ops["DescribeCACertificate"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeCertificate(partialParams: ToOptional<{
       [K in keyof DescribeCertificateRequest & keyof DescribeCertificateRequest]: (DescribeCertificateRequest & DescribeCertificateRequest)[K]
-    }>): DescribeCertificateResponse {
+    }>): Request<DescribeCertificateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeCertificate(
-            this.ops["DescribeCertificate"].apply(partialParams)
+          this.ops["DescribeCertificate"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeCustomMetric(partialParams: ToOptional<{
       [K in keyof DescribeCustomMetricRequest & keyof DescribeCustomMetricRequest]: (DescribeCustomMetricRequest & DescribeCustomMetricRequest)[K]
-    }>): DescribeCustomMetricResponse {
+    }>): Request<DescribeCustomMetricResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeCustomMetric(
-            this.ops["DescribeCustomMetric"].apply(partialParams)
+          this.ops["DescribeCustomMetric"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeDetectMitigationActionsTask(partialParams: ToOptional<{
       [K in keyof DescribeDetectMitigationActionsTaskRequest & keyof DescribeDetectMitigationActionsTaskRequest]: (DescribeDetectMitigationActionsTaskRequest & DescribeDetectMitigationActionsTaskRequest)[K]
-    }>): DescribeDetectMitigationActionsTaskResponse {
+    }>): Request<DescribeDetectMitigationActionsTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeDetectMitigationActionsTask(
-            this.ops["DescribeDetectMitigationActionsTask"].apply(partialParams)
+          this.ops["DescribeDetectMitigationActionsTask"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeDimension(partialParams: ToOptional<{
       [K in keyof DescribeDimensionRequest & keyof DescribeDimensionRequest]: (DescribeDimensionRequest & DescribeDimensionRequest)[K]
-    }>): DescribeDimensionResponse {
+    }>): Request<DescribeDimensionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeDimension(
-            this.ops["DescribeDimension"].apply(partialParams)
+          this.ops["DescribeDimension"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeDomainConfiguration(partialParams: ToOptional<{
       [K in keyof DescribeDomainConfigurationRequest & keyof DescribeDomainConfigurationRequest]: (DescribeDomainConfigurationRequest & DescribeDomainConfigurationRequest)[K]
-    }>): DescribeDomainConfigurationResponse {
+    }>): Request<DescribeDomainConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeDomainConfiguration(
-            this.ops["DescribeDomainConfiguration"].apply(partialParams)
+          this.ops["DescribeDomainConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeFleetMetric(partialParams: ToOptional<{
       [K in keyof DescribeFleetMetricRequest & keyof DescribeFleetMetricRequest]: (DescribeFleetMetricRequest & DescribeFleetMetricRequest)[K]
-    }>): DescribeFleetMetricResponse {
+    }>): Request<DescribeFleetMetricResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeFleetMetric(
-            this.ops["DescribeFleetMetric"].apply(partialParams)
+          this.ops["DescribeFleetMetric"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeIndex(partialParams: ToOptional<{
       [K in keyof DescribeIndexRequest & keyof DescribeIndexRequest]: (DescribeIndexRequest & DescribeIndexRequest)[K]
-    }>): DescribeIndexResponse {
+    }>): Request<DescribeIndexResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeIndex(
-            this.ops["DescribeIndex"].apply(partialParams)
+          this.ops["DescribeIndex"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeJob(partialParams: ToOptional<{
       [K in keyof DescribeJobRequest & keyof DescribeJobRequest]: (DescribeJobRequest & DescribeJobRequest)[K]
-    }>): DescribeJobResponse {
+    }>): Request<DescribeJobResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeJob(
-            this.ops["DescribeJob"].apply(partialParams)
+          this.ops["DescribeJob"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeJobExecution(partialParams: ToOptional<{
       [K in keyof DescribeJobExecutionRequest & keyof DescribeJobExecutionRequest]: (DescribeJobExecutionRequest & DescribeJobExecutionRequest)[K]
-    }>): DescribeJobExecutionResponse {
+    }>): Request<DescribeJobExecutionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeJobExecution(
-            this.ops["DescribeJobExecution"].apply(partialParams)
+          this.ops["DescribeJobExecution"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeJobTemplate(partialParams: ToOptional<{
       [K in keyof DescribeJobTemplateRequest & keyof DescribeJobTemplateRequest]: (DescribeJobTemplateRequest & DescribeJobTemplateRequest)[K]
-    }>): DescribeJobTemplateResponse {
+    }>): Request<DescribeJobTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeJobTemplate(
-            this.ops["DescribeJobTemplate"].apply(partialParams)
+          this.ops["DescribeJobTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeManagedJobTemplate(partialParams: ToOptional<{
       [K in keyof DescribeManagedJobTemplateRequest & keyof DescribeManagedJobTemplateRequest]: (DescribeManagedJobTemplateRequest & DescribeManagedJobTemplateRequest)[K]
-    }>): DescribeManagedJobTemplateResponse {
+    }>): Request<DescribeManagedJobTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeManagedJobTemplate(
-            this.ops["DescribeManagedJobTemplate"].apply(partialParams)
+          this.ops["DescribeManagedJobTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeMitigationAction(partialParams: ToOptional<{
       [K in keyof DescribeMitigationActionRequest & keyof DescribeMitigationActionRequest]: (DescribeMitigationActionRequest & DescribeMitigationActionRequest)[K]
-    }>): DescribeMitigationActionResponse {
+    }>): Request<DescribeMitigationActionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeMitigationAction(
-            this.ops["DescribeMitigationAction"].apply(partialParams)
+          this.ops["DescribeMitigationAction"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeProvisioningTemplate(partialParams: ToOptional<{
       [K in keyof DescribeProvisioningTemplateRequest & keyof DescribeProvisioningTemplateRequest]: (DescribeProvisioningTemplateRequest & DescribeProvisioningTemplateRequest)[K]
-    }>): DescribeProvisioningTemplateResponse {
+    }>): Request<DescribeProvisioningTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeProvisioningTemplate(
-            this.ops["DescribeProvisioningTemplate"].apply(partialParams)
+          this.ops["DescribeProvisioningTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeProvisioningTemplateVersion(partialParams: ToOptional<{
       [K in keyof DescribeProvisioningTemplateVersionRequest & keyof DescribeProvisioningTemplateVersionRequest]: (DescribeProvisioningTemplateVersionRequest & DescribeProvisioningTemplateVersionRequest)[K]
-    }>): DescribeProvisioningTemplateVersionResponse {
+    }>): Request<DescribeProvisioningTemplateVersionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeProvisioningTemplateVersion(
-            this.ops["DescribeProvisioningTemplateVersion"].apply(partialParams)
+          this.ops["DescribeProvisioningTemplateVersion"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeRoleAlias(partialParams: ToOptional<{
       [K in keyof DescribeRoleAliasRequest & keyof DescribeRoleAliasRequest]: (DescribeRoleAliasRequest & DescribeRoleAliasRequest)[K]
-    }>): DescribeRoleAliasResponse {
+    }>): Request<DescribeRoleAliasResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeRoleAlias(
-            this.ops["DescribeRoleAlias"].apply(partialParams)
+          this.ops["DescribeRoleAlias"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeScheduledAudit(partialParams: ToOptional<{
       [K in keyof DescribeScheduledAuditRequest & keyof DescribeScheduledAuditRequest]: (DescribeScheduledAuditRequest & DescribeScheduledAuditRequest)[K]
-    }>): DescribeScheduledAuditResponse {
+    }>): Request<DescribeScheduledAuditResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeScheduledAudit(
-            this.ops["DescribeScheduledAudit"].apply(partialParams)
+          this.ops["DescribeScheduledAudit"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeSecurityProfile(partialParams: ToOptional<{
       [K in keyof DescribeSecurityProfileRequest & keyof DescribeSecurityProfileRequest]: (DescribeSecurityProfileRequest & DescribeSecurityProfileRequest)[K]
-    }>): DescribeSecurityProfileResponse {
+    }>): Request<DescribeSecurityProfileResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeSecurityProfile(
-            this.ops["DescribeSecurityProfile"].apply(partialParams)
+          this.ops["DescribeSecurityProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeStream(partialParams: ToOptional<{
       [K in keyof DescribeStreamRequest & keyof DescribeStreamRequest]: (DescribeStreamRequest & DescribeStreamRequest)[K]
-    }>): DescribeStreamResponse {
+    }>): Request<DescribeStreamResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeStream(
-            this.ops["DescribeStream"].apply(partialParams)
+          this.ops["DescribeStream"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeThing(partialParams: ToOptional<{
       [K in keyof DescribeThingRequest & keyof DescribeThingRequest]: (DescribeThingRequest & DescribeThingRequest)[K]
-    }>): DescribeThingResponse {
+    }>): Request<DescribeThingResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeThing(
-            this.ops["DescribeThing"].apply(partialParams)
+          this.ops["DescribeThing"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeThingGroup(partialParams: ToOptional<{
       [K in keyof DescribeThingGroupRequest & keyof DescribeThingGroupRequest]: (DescribeThingGroupRequest & DescribeThingGroupRequest)[K]
-    }>): DescribeThingGroupResponse {
+    }>): Request<DescribeThingGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeThingGroup(
-            this.ops["DescribeThingGroup"].apply(partialParams)
+          this.ops["DescribeThingGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeThingRegistrationTask(partialParams: ToOptional<{
       [K in keyof DescribeThingRegistrationTaskRequest & keyof DescribeThingRegistrationTaskRequest]: (DescribeThingRegistrationTaskRequest & DescribeThingRegistrationTaskRequest)[K]
-    }>): DescribeThingRegistrationTaskResponse {
+    }>): Request<DescribeThingRegistrationTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeThingRegistrationTask(
-            this.ops["DescribeThingRegistrationTask"].apply(partialParams)
+          this.ops["DescribeThingRegistrationTask"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeThingType(partialParams: ToOptional<{
       [K in keyof DescribeThingTypeRequest & keyof DescribeThingTypeRequest]: (DescribeThingTypeRequest & DescribeThingTypeRequest)[K]
-    }>): DescribeThingTypeResponse {
+    }>): Request<DescribeThingTypeResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeThingType(
-            this.ops["DescribeThingType"].apply(partialParams)
+          this.ops["DescribeThingType"].applicator.apply(partialParams)
         );
     }
 
     invokeDetachPolicy(partialParams: ToOptional<{
       [K in keyof DetachPolicyRequest & keyof DetachPolicyRequest]: (DetachPolicyRequest & DetachPolicyRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.detachPolicy(
-            this.ops["DetachPolicy"].apply(partialParams)
+          this.ops["DetachPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeDetachPrincipalPolicy(partialParams: ToOptional<{
       [K in keyof DetachPrincipalPolicyRequest & keyof DetachPrincipalPolicyRequest]: (DetachPrincipalPolicyRequest & DetachPrincipalPolicyRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.detachPrincipalPolicy(
-            this.ops["DetachPrincipalPolicy"].apply(partialParams)
+          this.ops["DetachPrincipalPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeDetachSecurityProfile(partialParams: ToOptional<{
       [K in keyof DetachSecurityProfileRequest & keyof DetachSecurityProfileRequest]: (DetachSecurityProfileRequest & DetachSecurityProfileRequest)[K]
-    }>): DetachSecurityProfileResponse {
+    }>): Request<DetachSecurityProfileResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.detachSecurityProfile(
-            this.ops["DetachSecurityProfile"].apply(partialParams)
+          this.ops["DetachSecurityProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeDetachThingPrincipal(partialParams: ToOptional<{
       [K in keyof DetachThingPrincipalRequest & keyof DetachThingPrincipalRequest]: (DetachThingPrincipalRequest & DetachThingPrincipalRequest)[K]
-    }>): DetachThingPrincipalResponse {
+    }>): Request<DetachThingPrincipalResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.detachThingPrincipal(
-            this.ops["DetachThingPrincipal"].apply(partialParams)
+          this.ops["DetachThingPrincipal"].applicator.apply(partialParams)
         );
     }
 
     invokeDisableTopicRule(partialParams: ToOptional<{
       [K in keyof DisableTopicRuleRequest & keyof DisableTopicRuleRequest]: (DisableTopicRuleRequest & DisableTopicRuleRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disableTopicRule(
-            this.ops["DisableTopicRule"].apply(partialParams)
+          this.ops["DisableTopicRule"].applicator.apply(partialParams)
         );
     }
 
     invokeEnableTopicRule(partialParams: ToOptional<{
       [K in keyof EnableTopicRuleRequest & keyof EnableTopicRuleRequest]: (EnableTopicRuleRequest & EnableTopicRuleRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.enableTopicRule(
-            this.ops["EnableTopicRule"].apply(partialParams)
+          this.ops["EnableTopicRule"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBucketsAggregation(partialParams: ToOptional<{
       [K in keyof GetBucketsAggregationRequest & keyof GetBucketsAggregationRequest]: (GetBucketsAggregationRequest & GetBucketsAggregationRequest)[K]
-    }>): GetBucketsAggregationResponse {
+    }>): Request<GetBucketsAggregationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBucketsAggregation(
-            this.ops["GetBucketsAggregation"].apply(partialParams)
+          this.ops["GetBucketsAggregation"].applicator.apply(partialParams)
         );
     }
 
     invokeGetCardinality(partialParams: ToOptional<{
       [K in keyof GetCardinalityRequest & keyof GetCardinalityRequest]: (GetCardinalityRequest & GetCardinalityRequest)[K]
-    }>): GetCardinalityResponse {
+    }>): Request<GetCardinalityResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getCardinality(
-            this.ops["GetCardinality"].apply(partialParams)
+          this.ops["GetCardinality"].applicator.apply(partialParams)
         );
     }
 
     invokeGetJobDocument(partialParams: ToOptional<{
       [K in keyof GetJobDocumentRequest & keyof GetJobDocumentRequest]: (GetJobDocumentRequest & GetJobDocumentRequest)[K]
-    }>): GetJobDocumentResponse {
+    }>): Request<GetJobDocumentResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getJobDocument(
-            this.ops["GetJobDocument"].apply(partialParams)
+          this.ops["GetJobDocument"].applicator.apply(partialParams)
         );
     }
 
     invokeGetOTAUpdate(partialParams: ToOptional<{
       [K in keyof GetOTAUpdateRequest & keyof GetOTAUpdateRequest]: (GetOTAUpdateRequest & GetOTAUpdateRequest)[K]
-    }>): GetOTAUpdateResponse {
+    }>): Request<GetOTAUpdateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getOTAUpdate(
-            this.ops["GetOTAUpdate"].apply(partialParams)
+          this.ops["GetOTAUpdate"].applicator.apply(partialParams)
         );
     }
 
     invokeGetPercentiles(partialParams: ToOptional<{
       [K in keyof GetPercentilesRequest & keyof GetPercentilesRequest]: (GetPercentilesRequest & GetPercentilesRequest)[K]
-    }>): GetPercentilesResponse {
+    }>): Request<GetPercentilesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getPercentiles(
-            this.ops["GetPercentiles"].apply(partialParams)
+          this.ops["GetPercentiles"].applicator.apply(partialParams)
         );
     }
 
     invokeGetPolicy(partialParams: ToOptional<{
       [K in keyof GetPolicyRequest & keyof GetPolicyRequest]: (GetPolicyRequest & GetPolicyRequest)[K]
-    }>): GetPolicyResponse {
+    }>): Request<GetPolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getPolicy(
-            this.ops["GetPolicy"].apply(partialParams)
+          this.ops["GetPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeGetPolicyVersion(partialParams: ToOptional<{
       [K in keyof GetPolicyVersionRequest & keyof GetPolicyVersionRequest]: (GetPolicyVersionRequest & GetPolicyVersionRequest)[K]
-    }>): GetPolicyVersionResponse {
+    }>): Request<GetPolicyVersionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getPolicyVersion(
-            this.ops["GetPolicyVersion"].apply(partialParams)
+          this.ops["GetPolicyVersion"].applicator.apply(partialParams)
         );
     }
 
     invokeGetStatistics(partialParams: ToOptional<{
       [K in keyof GetStatisticsRequest & keyof GetStatisticsRequest]: (GetStatisticsRequest & GetStatisticsRequest)[K]
-    }>): GetStatisticsResponse {
+    }>): Request<GetStatisticsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getStatistics(
-            this.ops["GetStatistics"].apply(partialParams)
+          this.ops["GetStatistics"].applicator.apply(partialParams)
         );
     }
 
     invokeGetTopicRule(partialParams: ToOptional<{
       [K in keyof GetTopicRuleRequest & keyof GetTopicRuleRequest]: (GetTopicRuleRequest & GetTopicRuleRequest)[K]
-    }>): GetTopicRuleResponse {
+    }>): Request<GetTopicRuleResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getTopicRule(
-            this.ops["GetTopicRule"].apply(partialParams)
+          this.ops["GetTopicRule"].applicator.apply(partialParams)
         );
     }
 
     invokeGetTopicRuleDestination(partialParams: ToOptional<{
       [K in keyof GetTopicRuleDestinationRequest & keyof GetTopicRuleDestinationRequest]: (GetTopicRuleDestinationRequest & GetTopicRuleDestinationRequest)[K]
-    }>): GetTopicRuleDestinationResponse {
+    }>): Request<GetTopicRuleDestinationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getTopicRuleDestination(
-            this.ops["GetTopicRuleDestination"].apply(partialParams)
+          this.ops["GetTopicRuleDestination"].applicator.apply(partialParams)
         );
     }
 
     invokeListAttachedPolicies(partialParams: ToOptional<{
       [K in keyof ListAttachedPoliciesRequest & keyof ListAttachedPoliciesRequest]: (ListAttachedPoliciesRequest & ListAttachedPoliciesRequest)[K]
-    }>): ListAttachedPoliciesResponse {
+    }>): Request<ListAttachedPoliciesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listAttachedPolicies(
-            this.ops["ListAttachedPolicies"].apply(partialParams)
+          this.ops["ListAttachedPolicies"].applicator.apply(partialParams)
         );
     }
 
     invokeListAuditMitigationActionsExecutions(partialParams: ToOptional<{
       [K in keyof ListAuditMitigationActionsExecutionsRequest & keyof ListAuditMitigationActionsExecutionsRequest]: (ListAuditMitigationActionsExecutionsRequest & ListAuditMitigationActionsExecutionsRequest)[K]
-    }>): ListAuditMitigationActionsExecutionsResponse {
+    }>): Request<ListAuditMitigationActionsExecutionsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listAuditMitigationActionsExecutions(
-            this.ops["ListAuditMitigationActionsExecutions"].apply(partialParams)
+          this.ops["ListAuditMitigationActionsExecutions"].applicator.apply(partialParams)
         );
     }
 
     invokeListAuditMitigationActionsTasks(partialParams: ToOptional<{
       [K in keyof ListAuditMitigationActionsTasksRequest & keyof ListAuditMitigationActionsTasksRequest]: (ListAuditMitigationActionsTasksRequest & ListAuditMitigationActionsTasksRequest)[K]
-    }>): ListAuditMitigationActionsTasksResponse {
+    }>): Request<ListAuditMitigationActionsTasksResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listAuditMitigationActionsTasks(
-            this.ops["ListAuditMitigationActionsTasks"].apply(partialParams)
+          this.ops["ListAuditMitigationActionsTasks"].applicator.apply(partialParams)
         );
     }
 
     invokeListAuditTasks(partialParams: ToOptional<{
       [K in keyof ListAuditTasksRequest & keyof ListAuditTasksRequest]: (ListAuditTasksRequest & ListAuditTasksRequest)[K]
-    }>): ListAuditTasksResponse {
+    }>): Request<ListAuditTasksResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listAuditTasks(
-            this.ops["ListAuditTasks"].apply(partialParams)
+          this.ops["ListAuditTasks"].applicator.apply(partialParams)
         );
     }
 
     invokeListCertificatesByCA(partialParams: ToOptional<{
       [K in keyof ListCertificatesByCARequest & keyof ListCertificatesByCARequest]: (ListCertificatesByCARequest & ListCertificatesByCARequest)[K]
-    }>): ListCertificatesByCAResponse {
+    }>): Request<ListCertificatesByCAResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listCertificatesByCA(
-            this.ops["ListCertificatesByCA"].apply(partialParams)
+          this.ops["ListCertificatesByCA"].applicator.apply(partialParams)
         );
     }
 
     invokeListDetectMitigationActionsTasks(partialParams: ToOptional<{
       [K in keyof ListDetectMitigationActionsTasksRequest & keyof ListDetectMitigationActionsTasksRequest]: (ListDetectMitigationActionsTasksRequest & ListDetectMitigationActionsTasksRequest)[K]
-    }>): ListDetectMitigationActionsTasksResponse {
+    }>): Request<ListDetectMitigationActionsTasksResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listDetectMitigationActionsTasks(
-            this.ops["ListDetectMitigationActionsTasks"].apply(partialParams)
+          this.ops["ListDetectMitigationActionsTasks"].applicator.apply(partialParams)
         );
     }
 
     invokeListJobExecutionsForJob(partialParams: ToOptional<{
       [K in keyof ListJobExecutionsForJobRequest & keyof ListJobExecutionsForJobRequest]: (ListJobExecutionsForJobRequest & ListJobExecutionsForJobRequest)[K]
-    }>): ListJobExecutionsForJobResponse {
+    }>): Request<ListJobExecutionsForJobResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listJobExecutionsForJob(
-            this.ops["ListJobExecutionsForJob"].apply(partialParams)
+          this.ops["ListJobExecutionsForJob"].applicator.apply(partialParams)
         );
     }
 
     invokeListJobExecutionsForThing(partialParams: ToOptional<{
       [K in keyof ListJobExecutionsForThingRequest & keyof ListJobExecutionsForThingRequest]: (ListJobExecutionsForThingRequest & ListJobExecutionsForThingRequest)[K]
-    }>): ListJobExecutionsForThingResponse {
+    }>): Request<ListJobExecutionsForThingResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listJobExecutionsForThing(
-            this.ops["ListJobExecutionsForThing"].apply(partialParams)
+          this.ops["ListJobExecutionsForThing"].applicator.apply(partialParams)
         );
     }
 
     invokeListPolicyPrincipals(partialParams: ToOptional<{
       [K in keyof ListPolicyPrincipalsRequest & keyof ListPolicyPrincipalsRequest]: (ListPolicyPrincipalsRequest & ListPolicyPrincipalsRequest)[K]
-    }>): ListPolicyPrincipalsResponse {
+    }>): Request<ListPolicyPrincipalsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listPolicyPrincipals(
-            this.ops["ListPolicyPrincipals"].apply(partialParams)
+          this.ops["ListPolicyPrincipals"].applicator.apply(partialParams)
         );
     }
 
     invokeListPolicyVersions(partialParams: ToOptional<{
       [K in keyof ListPolicyVersionsRequest & keyof ListPolicyVersionsRequest]: (ListPolicyVersionsRequest & ListPolicyVersionsRequest)[K]
-    }>): ListPolicyVersionsResponse {
+    }>): Request<ListPolicyVersionsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listPolicyVersions(
-            this.ops["ListPolicyVersions"].apply(partialParams)
+          this.ops["ListPolicyVersions"].applicator.apply(partialParams)
         );
     }
 
     invokeListPrincipalPolicies(partialParams: ToOptional<{
       [K in keyof ListPrincipalPoliciesRequest & keyof ListPrincipalPoliciesRequest]: (ListPrincipalPoliciesRequest & ListPrincipalPoliciesRequest)[K]
-    }>): ListPrincipalPoliciesResponse {
+    }>): Request<ListPrincipalPoliciesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listPrincipalPolicies(
-            this.ops["ListPrincipalPolicies"].apply(partialParams)
+          this.ops["ListPrincipalPolicies"].applicator.apply(partialParams)
         );
     }
 
     invokeListPrincipalThings(partialParams: ToOptional<{
       [K in keyof ListPrincipalThingsRequest & keyof ListPrincipalThingsRequest]: (ListPrincipalThingsRequest & ListPrincipalThingsRequest)[K]
-    }>): ListPrincipalThingsResponse {
+    }>): Request<ListPrincipalThingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listPrincipalThings(
-            this.ops["ListPrincipalThings"].apply(partialParams)
+          this.ops["ListPrincipalThings"].applicator.apply(partialParams)
         );
     }
 
     invokeListProvisioningTemplateVersions(partialParams: ToOptional<{
       [K in keyof ListProvisioningTemplateVersionsRequest & keyof ListProvisioningTemplateVersionsRequest]: (ListProvisioningTemplateVersionsRequest & ListProvisioningTemplateVersionsRequest)[K]
-    }>): ListProvisioningTemplateVersionsResponse {
+    }>): Request<ListProvisioningTemplateVersionsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listProvisioningTemplateVersions(
-            this.ops["ListProvisioningTemplateVersions"].apply(partialParams)
+          this.ops["ListProvisioningTemplateVersions"].applicator.apply(partialParams)
         );
     }
 
     invokeListSecurityProfilesForTarget(partialParams: ToOptional<{
       [K in keyof ListSecurityProfilesForTargetRequest & keyof ListSecurityProfilesForTargetRequest]: (ListSecurityProfilesForTargetRequest & ListSecurityProfilesForTargetRequest)[K]
-    }>): ListSecurityProfilesForTargetResponse {
+    }>): Request<ListSecurityProfilesForTargetResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listSecurityProfilesForTarget(
-            this.ops["ListSecurityProfilesForTarget"].apply(partialParams)
+          this.ops["ListSecurityProfilesForTarget"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
-    }>): ListTagsForResourceResponse {
+    }>): Request<ListTagsForResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokeListTargetsForPolicy(partialParams: ToOptional<{
       [K in keyof ListTargetsForPolicyRequest & keyof ListTargetsForPolicyRequest]: (ListTargetsForPolicyRequest & ListTargetsForPolicyRequest)[K]
-    }>): ListTargetsForPolicyResponse {
+    }>): Request<ListTargetsForPolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTargetsForPolicy(
-            this.ops["ListTargetsForPolicy"].apply(partialParams)
+          this.ops["ListTargetsForPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeListTargetsForSecurityProfile(partialParams: ToOptional<{
       [K in keyof ListTargetsForSecurityProfileRequest & keyof ListTargetsForSecurityProfileRequest]: (ListTargetsForSecurityProfileRequest & ListTargetsForSecurityProfileRequest)[K]
-    }>): ListTargetsForSecurityProfileResponse {
+    }>): Request<ListTargetsForSecurityProfileResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTargetsForSecurityProfile(
-            this.ops["ListTargetsForSecurityProfile"].apply(partialParams)
+          this.ops["ListTargetsForSecurityProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeListThingGroupsForThing(partialParams: ToOptional<{
       [K in keyof ListThingGroupsForThingRequest & keyof ListThingGroupsForThingRequest]: (ListThingGroupsForThingRequest & ListThingGroupsForThingRequest)[K]
-    }>): ListThingGroupsForThingResponse {
+    }>): Request<ListThingGroupsForThingResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listThingGroupsForThing(
-            this.ops["ListThingGroupsForThing"].apply(partialParams)
+          this.ops["ListThingGroupsForThing"].applicator.apply(partialParams)
         );
     }
 
     invokeListThingPrincipals(partialParams: ToOptional<{
       [K in keyof ListThingPrincipalsRequest & keyof ListThingPrincipalsRequest]: (ListThingPrincipalsRequest & ListThingPrincipalsRequest)[K]
-    }>): ListThingPrincipalsResponse {
+    }>): Request<ListThingPrincipalsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listThingPrincipals(
-            this.ops["ListThingPrincipals"].apply(partialParams)
+          this.ops["ListThingPrincipals"].applicator.apply(partialParams)
         );
     }
 
     invokeListThingRegistrationTaskReports(partialParams: ToOptional<{
       [K in keyof ListThingRegistrationTaskReportsRequest & keyof ListThingRegistrationTaskReportsRequest]: (ListThingRegistrationTaskReportsRequest & ListThingRegistrationTaskReportsRequest)[K]
-    }>): ListThingRegistrationTaskReportsResponse {
+    }>): Request<ListThingRegistrationTaskReportsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listThingRegistrationTaskReports(
-            this.ops["ListThingRegistrationTaskReports"].apply(partialParams)
+          this.ops["ListThingRegistrationTaskReports"].applicator.apply(partialParams)
         );
     }
 
     invokeListThingsInBillingGroup(partialParams: ToOptional<{
       [K in keyof ListThingsInBillingGroupRequest & keyof ListThingsInBillingGroupRequest]: (ListThingsInBillingGroupRequest & ListThingsInBillingGroupRequest)[K]
-    }>): ListThingsInBillingGroupResponse {
+    }>): Request<ListThingsInBillingGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listThingsInBillingGroup(
-            this.ops["ListThingsInBillingGroup"].apply(partialParams)
+          this.ops["ListThingsInBillingGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeListThingsInThingGroup(partialParams: ToOptional<{
       [K in keyof ListThingsInThingGroupRequest & keyof ListThingsInThingGroupRequest]: (ListThingsInThingGroupRequest & ListThingsInThingGroupRequest)[K]
-    }>): ListThingsInThingGroupResponse {
+    }>): Request<ListThingsInThingGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listThingsInThingGroup(
-            this.ops["ListThingsInThingGroup"].apply(partialParams)
+          this.ops["ListThingsInThingGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeListViolationEvents(partialParams: ToOptional<{
       [K in keyof ListViolationEventsRequest & keyof ListViolationEventsRequest]: (ListViolationEventsRequest & ListViolationEventsRequest)[K]
-    }>): ListViolationEventsResponse {
+    }>): Request<ListViolationEventsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listViolationEvents(
-            this.ops["ListViolationEvents"].apply(partialParams)
+          this.ops["ListViolationEvents"].applicator.apply(partialParams)
         );
     }
 
     invokePutVerificationStateOnViolation(partialParams: ToOptional<{
       [K in keyof PutVerificationStateOnViolationRequest & keyof PutVerificationStateOnViolationRequest]: (PutVerificationStateOnViolationRequest & PutVerificationStateOnViolationRequest)[K]
-    }>): PutVerificationStateOnViolationResponse {
+    }>): Request<PutVerificationStateOnViolationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putVerificationStateOnViolation(
-            this.ops["PutVerificationStateOnViolation"].apply(partialParams)
+          this.ops["PutVerificationStateOnViolation"].applicator.apply(partialParams)
         );
     }
 
     invokeRegisterCACertificate(partialParams: ToOptional<{
       [K in keyof RegisterCACertificateRequest & keyof RegisterCACertificateRequest]: (RegisterCACertificateRequest & RegisterCACertificateRequest)[K]
-    }>): RegisterCACertificateResponse {
+    }>): Request<RegisterCACertificateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.registerCACertificate(
-            this.ops["RegisterCACertificate"].apply(partialParams)
+          this.ops["RegisterCACertificate"].applicator.apply(partialParams)
         );
     }
 
     invokeRegisterCertificate(partialParams: ToOptional<{
       [K in keyof RegisterCertificateRequest & keyof RegisterCertificateRequest]: (RegisterCertificateRequest & RegisterCertificateRequest)[K]
-    }>): RegisterCertificateResponse {
+    }>): Request<RegisterCertificateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.registerCertificate(
-            this.ops["RegisterCertificate"].apply(partialParams)
+          this.ops["RegisterCertificate"].applicator.apply(partialParams)
         );
     }
 
     invokeRegisterCertificateWithoutCA(partialParams: ToOptional<{
       [K in keyof RegisterCertificateWithoutCARequest & keyof RegisterCertificateWithoutCARequest]: (RegisterCertificateWithoutCARequest & RegisterCertificateWithoutCARequest)[K]
-    }>): RegisterCertificateWithoutCAResponse {
+    }>): Request<RegisterCertificateWithoutCAResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.registerCertificateWithoutCA(
-            this.ops["RegisterCertificateWithoutCA"].apply(partialParams)
+          this.ops["RegisterCertificateWithoutCA"].applicator.apply(partialParams)
         );
     }
 
     invokeRegisterThing(partialParams: ToOptional<{
       [K in keyof RegisterThingRequest & keyof RegisterThingRequest]: (RegisterThingRequest & RegisterThingRequest)[K]
-    }>): RegisterThingResponse {
+    }>): Request<RegisterThingResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.registerThing(
-            this.ops["RegisterThing"].apply(partialParams)
+          this.ops["RegisterThing"].applicator.apply(partialParams)
         );
     }
 
     invokeRejectCertificateTransfer(partialParams: ToOptional<{
       [K in keyof RejectCertificateTransferRequest & keyof RejectCertificateTransferRequest]: (RejectCertificateTransferRequest & RejectCertificateTransferRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.rejectCertificateTransfer(
-            this.ops["RejectCertificateTransfer"].apply(partialParams)
+          this.ops["RejectCertificateTransfer"].applicator.apply(partialParams)
         );
     }
 
     invokeReplaceTopicRule(partialParams: ToOptional<{
       [K in keyof ReplaceTopicRuleRequest & keyof ReplaceTopicRuleRequest]: (ReplaceTopicRuleRequest & ReplaceTopicRuleRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.replaceTopicRule(
-            this.ops["ReplaceTopicRule"].apply(partialParams)
+          this.ops["ReplaceTopicRule"].applicator.apply(partialParams)
         );
     }
 
     invokeSearchIndex(partialParams: ToOptional<{
       [K in keyof SearchIndexRequest & keyof SearchIndexRequest]: (SearchIndexRequest & SearchIndexRequest)[K]
-    }>): SearchIndexResponse {
+    }>): Request<SearchIndexResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.searchIndex(
-            this.ops["SearchIndex"].apply(partialParams)
+          this.ops["SearchIndex"].applicator.apply(partialParams)
         );
     }
 
     invokeSetDefaultAuthorizer(partialParams: ToOptional<{
       [K in keyof SetDefaultAuthorizerRequest & keyof SetDefaultAuthorizerRequest]: (SetDefaultAuthorizerRequest & SetDefaultAuthorizerRequest)[K]
-    }>): SetDefaultAuthorizerResponse {
+    }>): Request<SetDefaultAuthorizerResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.setDefaultAuthorizer(
-            this.ops["SetDefaultAuthorizer"].apply(partialParams)
+          this.ops["SetDefaultAuthorizer"].applicator.apply(partialParams)
         );
     }
 
     invokeSetDefaultPolicyVersion(partialParams: ToOptional<{
       [K in keyof SetDefaultPolicyVersionRequest & keyof SetDefaultPolicyVersionRequest]: (SetDefaultPolicyVersionRequest & SetDefaultPolicyVersionRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.setDefaultPolicyVersion(
-            this.ops["SetDefaultPolicyVersion"].apply(partialParams)
+          this.ops["SetDefaultPolicyVersion"].applicator.apply(partialParams)
         );
     }
 
     invokeSetLoggingOptions(partialParams: ToOptional<{
       [K in keyof SetLoggingOptionsRequest & keyof SetLoggingOptionsRequest]: (SetLoggingOptionsRequest & SetLoggingOptionsRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.setLoggingOptions(
-            this.ops["SetLoggingOptions"].apply(partialParams)
+          this.ops["SetLoggingOptions"].applicator.apply(partialParams)
         );
     }
 
     invokeSetV2LoggingLevel(partialParams: ToOptional<{
       [K in keyof SetV2LoggingLevelRequest & keyof SetV2LoggingLevelRequest]: (SetV2LoggingLevelRequest & SetV2LoggingLevelRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.setV2LoggingLevel(
-            this.ops["SetV2LoggingLevel"].apply(partialParams)
+          this.ops["SetV2LoggingLevel"].applicator.apply(partialParams)
         );
     }
 
     invokeStartAuditMitigationActionsTask(partialParams: ToOptional<{
       [K in keyof StartAuditMitigationActionsTaskRequest & keyof StartAuditMitigationActionsTaskRequest]: (StartAuditMitigationActionsTaskRequest & StartAuditMitigationActionsTaskRequest)[K]
-    }>): StartAuditMitigationActionsTaskResponse {
+    }>): Request<StartAuditMitigationActionsTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startAuditMitigationActionsTask(
-            this.ops["StartAuditMitigationActionsTask"].apply(partialParams)
+          this.ops["StartAuditMitigationActionsTask"].applicator.apply(partialParams)
         );
     }
 
     invokeStartDetectMitigationActionsTask(partialParams: ToOptional<{
       [K in keyof StartDetectMitigationActionsTaskRequest & keyof StartDetectMitigationActionsTaskRequest]: (StartDetectMitigationActionsTaskRequest & StartDetectMitigationActionsTaskRequest)[K]
-    }>): StartDetectMitigationActionsTaskResponse {
+    }>): Request<StartDetectMitigationActionsTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startDetectMitigationActionsTask(
-            this.ops["StartDetectMitigationActionsTask"].apply(partialParams)
+          this.ops["StartDetectMitigationActionsTask"].applicator.apply(partialParams)
         );
     }
 
     invokeStartOnDemandAuditTask(partialParams: ToOptional<{
       [K in keyof StartOnDemandAuditTaskRequest & keyof StartOnDemandAuditTaskRequest]: (StartOnDemandAuditTaskRequest & StartOnDemandAuditTaskRequest)[K]
-    }>): StartOnDemandAuditTaskResponse {
+    }>): Request<StartOnDemandAuditTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startOnDemandAuditTask(
-            this.ops["StartOnDemandAuditTask"].apply(partialParams)
+          this.ops["StartOnDemandAuditTask"].applicator.apply(partialParams)
         );
     }
 
     invokeStartThingRegistrationTask(partialParams: ToOptional<{
       [K in keyof StartThingRegistrationTaskRequest & keyof StartThingRegistrationTaskRequest]: (StartThingRegistrationTaskRequest & StartThingRegistrationTaskRequest)[K]
-    }>): StartThingRegistrationTaskResponse {
+    }>): Request<StartThingRegistrationTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startThingRegistrationTask(
-            this.ops["StartThingRegistrationTask"].apply(partialParams)
+          this.ops["StartThingRegistrationTask"].applicator.apply(partialParams)
         );
     }
 
     invokeStopThingRegistrationTask(partialParams: ToOptional<{
       [K in keyof StopThingRegistrationTaskRequest & keyof StopThingRegistrationTaskRequest]: (StopThingRegistrationTaskRequest & StopThingRegistrationTaskRequest)[K]
-    }>): StopThingRegistrationTaskResponse {
+    }>): Request<StopThingRegistrationTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.stopThingRegistrationTask(
-            this.ops["StopThingRegistrationTask"].apply(partialParams)
+          this.ops["StopThingRegistrationTask"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest)[K]
-    }>): TagResourceResponse {
+    }>): Request<TagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeTestAuthorization(partialParams: ToOptional<{
       [K in keyof TestAuthorizationRequest & keyof TestAuthorizationRequest]: (TestAuthorizationRequest & TestAuthorizationRequest)[K]
-    }>): TestAuthorizationResponse {
+    }>): Request<TestAuthorizationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.testAuthorization(
-            this.ops["TestAuthorization"].apply(partialParams)
+          this.ops["TestAuthorization"].applicator.apply(partialParams)
         );
     }
 
     invokeTestInvokeAuthorizer(partialParams: ToOptional<{
       [K in keyof TestInvokeAuthorizerRequest & keyof TestInvokeAuthorizerRequest]: (TestInvokeAuthorizerRequest & TestInvokeAuthorizerRequest)[K]
-    }>): TestInvokeAuthorizerResponse {
+    }>): Request<TestInvokeAuthorizerResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.testInvokeAuthorizer(
-            this.ops["TestInvokeAuthorizer"].apply(partialParams)
+          this.ops["TestInvokeAuthorizer"].applicator.apply(partialParams)
         );
     }
 
     invokeTransferCertificate(partialParams: ToOptional<{
       [K in keyof TransferCertificateRequest & keyof TransferCertificateRequest]: (TransferCertificateRequest & TransferCertificateRequest)[K]
-    }>): TransferCertificateResponse {
+    }>): Request<TransferCertificateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.transferCertificate(
-            this.ops["TransferCertificate"].apply(partialParams)
+          this.ops["TransferCertificate"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest)[K]
-    }>): UntagResourceResponse {
+    }>): Request<UntagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateAuditSuppression(partialParams: ToOptional<{
       [K in keyof UpdateAuditSuppressionRequest & keyof UpdateAuditSuppressionRequest]: (UpdateAuditSuppressionRequest & UpdateAuditSuppressionRequest)[K]
-    }>): UpdateAuditSuppressionResponse {
+    }>): Request<UpdateAuditSuppressionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateAuditSuppression(
-            this.ops["UpdateAuditSuppression"].apply(partialParams)
+          this.ops["UpdateAuditSuppression"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateAuthorizer(partialParams: ToOptional<{
       [K in keyof UpdateAuthorizerRequest & keyof UpdateAuthorizerRequest]: (UpdateAuthorizerRequest & UpdateAuthorizerRequest)[K]
-    }>): UpdateAuthorizerResponse {
+    }>): Request<UpdateAuthorizerResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateAuthorizer(
-            this.ops["UpdateAuthorizer"].apply(partialParams)
+          this.ops["UpdateAuthorizer"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateBillingGroup(partialParams: ToOptional<{
       [K in keyof UpdateBillingGroupRequest & keyof UpdateBillingGroupRequest]: (UpdateBillingGroupRequest & UpdateBillingGroupRequest)[K]
-    }>): UpdateBillingGroupResponse {
+    }>): Request<UpdateBillingGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateBillingGroup(
-            this.ops["UpdateBillingGroup"].apply(partialParams)
+          this.ops["UpdateBillingGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateCACertificate(partialParams: ToOptional<{
       [K in keyof UpdateCACertificateRequest & keyof UpdateCACertificateRequest]: (UpdateCACertificateRequest & UpdateCACertificateRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateCACertificate(
-            this.ops["UpdateCACertificate"].apply(partialParams)
+          this.ops["UpdateCACertificate"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateCertificate(partialParams: ToOptional<{
       [K in keyof UpdateCertificateRequest & keyof UpdateCertificateRequest]: (UpdateCertificateRequest & UpdateCertificateRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateCertificate(
-            this.ops["UpdateCertificate"].apply(partialParams)
+          this.ops["UpdateCertificate"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateCustomMetric(partialParams: ToOptional<{
       [K in keyof UpdateCustomMetricRequest & keyof UpdateCustomMetricRequest]: (UpdateCustomMetricRequest & UpdateCustomMetricRequest)[K]
-    }>): UpdateCustomMetricResponse {
+    }>): Request<UpdateCustomMetricResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateCustomMetric(
-            this.ops["UpdateCustomMetric"].apply(partialParams)
+          this.ops["UpdateCustomMetric"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateDimension(partialParams: ToOptional<{
       [K in keyof UpdateDimensionRequest & keyof UpdateDimensionRequest]: (UpdateDimensionRequest & UpdateDimensionRequest)[K]
-    }>): UpdateDimensionResponse {
+    }>): Request<UpdateDimensionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateDimension(
-            this.ops["UpdateDimension"].apply(partialParams)
+          this.ops["UpdateDimension"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateDomainConfiguration(partialParams: ToOptional<{
       [K in keyof UpdateDomainConfigurationRequest & keyof UpdateDomainConfigurationRequest]: (UpdateDomainConfigurationRequest & UpdateDomainConfigurationRequest)[K]
-    }>): UpdateDomainConfigurationResponse {
+    }>): Request<UpdateDomainConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateDomainConfiguration(
-            this.ops["UpdateDomainConfiguration"].apply(partialParams)
+          this.ops["UpdateDomainConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateDynamicThingGroup(partialParams: ToOptional<{
       [K in keyof UpdateDynamicThingGroupRequest & keyof UpdateDynamicThingGroupRequest]: (UpdateDynamicThingGroupRequest & UpdateDynamicThingGroupRequest)[K]
-    }>): UpdateDynamicThingGroupResponse {
+    }>): Request<UpdateDynamicThingGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateDynamicThingGroup(
-            this.ops["UpdateDynamicThingGroup"].apply(partialParams)
+          this.ops["UpdateDynamicThingGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateFleetMetric(partialParams: ToOptional<{
       [K in keyof UpdateFleetMetricRequest & keyof UpdateFleetMetricRequest]: (UpdateFleetMetricRequest & UpdateFleetMetricRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateFleetMetric(
-            this.ops["UpdateFleetMetric"].apply(partialParams)
+          this.ops["UpdateFleetMetric"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateJob(partialParams: ToOptional<{
       [K in keyof UpdateJobRequest & keyof UpdateJobRequest]: (UpdateJobRequest & UpdateJobRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateJob(
-            this.ops["UpdateJob"].apply(partialParams)
+          this.ops["UpdateJob"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateMitigationAction(partialParams: ToOptional<{
       [K in keyof UpdateMitigationActionRequest & keyof UpdateMitigationActionRequest]: (UpdateMitigationActionRequest & UpdateMitigationActionRequest)[K]
-    }>): UpdateMitigationActionResponse {
+    }>): Request<UpdateMitigationActionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateMitigationAction(
-            this.ops["UpdateMitigationAction"].apply(partialParams)
+          this.ops["UpdateMitigationAction"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateProvisioningTemplate(partialParams: ToOptional<{
       [K in keyof UpdateProvisioningTemplateRequest & keyof UpdateProvisioningTemplateRequest]: (UpdateProvisioningTemplateRequest & UpdateProvisioningTemplateRequest)[K]
-    }>): UpdateProvisioningTemplateResponse {
+    }>): Request<UpdateProvisioningTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateProvisioningTemplate(
-            this.ops["UpdateProvisioningTemplate"].apply(partialParams)
+          this.ops["UpdateProvisioningTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateRoleAlias(partialParams: ToOptional<{
       [K in keyof UpdateRoleAliasRequest & keyof UpdateRoleAliasRequest]: (UpdateRoleAliasRequest & UpdateRoleAliasRequest)[K]
-    }>): UpdateRoleAliasResponse {
+    }>): Request<UpdateRoleAliasResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateRoleAlias(
-            this.ops["UpdateRoleAlias"].apply(partialParams)
+          this.ops["UpdateRoleAlias"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateScheduledAudit(partialParams: ToOptional<{
       [K in keyof UpdateScheduledAuditRequest & keyof UpdateScheduledAuditRequest]: (UpdateScheduledAuditRequest & UpdateScheduledAuditRequest)[K]
-    }>): UpdateScheduledAuditResponse {
+    }>): Request<UpdateScheduledAuditResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateScheduledAudit(
-            this.ops["UpdateScheduledAudit"].apply(partialParams)
+          this.ops["UpdateScheduledAudit"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateSecurityProfile(partialParams: ToOptional<{
       [K in keyof UpdateSecurityProfileRequest & keyof UpdateSecurityProfileRequest]: (UpdateSecurityProfileRequest & UpdateSecurityProfileRequest)[K]
-    }>): UpdateSecurityProfileResponse {
+    }>): Request<UpdateSecurityProfileResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateSecurityProfile(
-            this.ops["UpdateSecurityProfile"].apply(partialParams)
+          this.ops["UpdateSecurityProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateStream(partialParams: ToOptional<{
       [K in keyof UpdateStreamRequest & keyof UpdateStreamRequest]: (UpdateStreamRequest & UpdateStreamRequest)[K]
-    }>): UpdateStreamResponse {
+    }>): Request<UpdateStreamResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateStream(
-            this.ops["UpdateStream"].apply(partialParams)
+          this.ops["UpdateStream"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateThing(partialParams: ToOptional<{
       [K in keyof UpdateThingRequest & keyof UpdateThingRequest]: (UpdateThingRequest & UpdateThingRequest)[K]
-    }>): UpdateThingResponse {
+    }>): Request<UpdateThingResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateThing(
-            this.ops["UpdateThing"].apply(partialParams)
+          this.ops["UpdateThing"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateThingGroup(partialParams: ToOptional<{
       [K in keyof UpdateThingGroupRequest & keyof UpdateThingGroupRequest]: (UpdateThingGroupRequest & UpdateThingGroupRequest)[K]
-    }>): UpdateThingGroupResponse {
+    }>): Request<UpdateThingGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateThingGroup(
-            this.ops["UpdateThingGroup"].apply(partialParams)
+          this.ops["UpdateThingGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateTopicRuleDestination(partialParams: ToOptional<{
       [K in keyof UpdateTopicRuleDestinationRequest & keyof UpdateTopicRuleDestinationRequest]: (UpdateTopicRuleDestinationRequest & UpdateTopicRuleDestinationRequest)[K]
-    }>): UpdateTopicRuleDestinationResponse {
+    }>): Request<UpdateTopicRuleDestinationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateTopicRuleDestination(
-            this.ops["UpdateTopicRuleDestination"].apply(partialParams)
+          this.ops["UpdateTopicRuleDestination"].applicator.apply(partialParams)
         );
     }
 
     invokeValidateSecurityProfileBehaviors(partialParams: ToOptional<{
       [K in keyof ValidateSecurityProfileBehaviorsRequest & keyof ValidateSecurityProfileBehaviorsRequest]: (ValidateSecurityProfileBehaviorsRequest & ValidateSecurityProfileBehaviorsRequest)[K]
-    }>): ValidateSecurityProfileBehaviorsResponse {
+    }>): Request<ValidateSecurityProfileBehaviorsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.validateSecurityProfileBehaviors(
-            this.ops["ValidateSecurityProfileBehaviors"].apply(partialParams)
+          this.ops["ValidateSecurityProfileBehaviors"].applicator.apply(partialParams)
         );
     }
 }

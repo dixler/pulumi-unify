@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,150 +21,310 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/workspaces-2015-04-08.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.workspaces.Directory {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.WorkSpaces();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/workspaces-2015-04-08.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeAssociateConnectionAlias(partialParams) {
-        return this.client.associateConnectionAlias(this.ops["AssociateConnectionAlias"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateConnectionAlias(this.ops["AssociateConnectionAlias"].applicator.apply(partialParams));
     }
     invokeAssociateIpGroups(partialParams) {
-        return this.client.associateIpGroups(this.ops["AssociateIpGroups"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateIpGroups(this.ops["AssociateIpGroups"].applicator.apply(partialParams));
     }
     invokeAuthorizeIpRules(partialParams) {
-        return this.client.authorizeIpRules(this.ops["AuthorizeIpRules"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.authorizeIpRules(this.ops["AuthorizeIpRules"].applicator.apply(partialParams));
     }
     invokeCopyWorkspaceImage(partialParams) {
-        return this.client.copyWorkspaceImage(this.ops["CopyWorkspaceImage"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.copyWorkspaceImage(this.ops["CopyWorkspaceImage"].applicator.apply(partialParams));
     }
     invokeCreateConnectClientAddIn(partialParams) {
-        return this.client.createConnectClientAddIn(this.ops["CreateConnectClientAddIn"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createConnectClientAddIn(this.ops["CreateConnectClientAddIn"].applicator.apply(partialParams));
     }
     invokeCreateConnectionAlias(partialParams) {
-        return this.client.createConnectionAlias(this.ops["CreateConnectionAlias"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createConnectionAlias(this.ops["CreateConnectionAlias"].applicator.apply(partialParams));
     }
     invokeCreateIpGroup(partialParams) {
-        return this.client.createIpGroup(this.ops["CreateIpGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createIpGroup(this.ops["CreateIpGroup"].applicator.apply(partialParams));
     }
     invokeCreateTags(partialParams) {
-        return this.client.createTags(this.ops["CreateTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createTags(this.ops["CreateTags"].applicator.apply(partialParams));
     }
     invokeCreateUpdatedWorkspaceImage(partialParams) {
-        return this.client.createUpdatedWorkspaceImage(this.ops["CreateUpdatedWorkspaceImage"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createUpdatedWorkspaceImage(this.ops["CreateUpdatedWorkspaceImage"].applicator.apply(partialParams));
     }
     invokeCreateWorkspaceBundle(partialParams) {
-        return this.client.createWorkspaceBundle(this.ops["CreateWorkspaceBundle"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createWorkspaceBundle(this.ops["CreateWorkspaceBundle"].applicator.apply(partialParams));
     }
     invokeCreateWorkspaces(partialParams) {
-        return this.client.createWorkspaces(this.ops["CreateWorkspaces"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createWorkspaces(this.ops["CreateWorkspaces"].applicator.apply(partialParams));
     }
     invokeDeleteConnectClientAddIn(partialParams) {
-        return this.client.deleteConnectClientAddIn(this.ops["DeleteConnectClientAddIn"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteConnectClientAddIn(this.ops["DeleteConnectClientAddIn"].applicator.apply(partialParams));
     }
     invokeDeleteConnectionAlias(partialParams) {
-        return this.client.deleteConnectionAlias(this.ops["DeleteConnectionAlias"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteConnectionAlias(this.ops["DeleteConnectionAlias"].applicator.apply(partialParams));
     }
     invokeDeleteIpGroup(partialParams) {
-        return this.client.deleteIpGroup(this.ops["DeleteIpGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteIpGroup(this.ops["DeleteIpGroup"].applicator.apply(partialParams));
     }
     invokeDeleteTags(partialParams) {
-        return this.client.deleteTags(this.ops["DeleteTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteTags(this.ops["DeleteTags"].applicator.apply(partialParams));
     }
     invokeDeleteWorkspaceImage(partialParams) {
-        return this.client.deleteWorkspaceImage(this.ops["DeleteWorkspaceImage"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteWorkspaceImage(this.ops["DeleteWorkspaceImage"].applicator.apply(partialParams));
     }
     invokeDeregisterWorkspaceDirectory(partialParams) {
-        return this.client.deregisterWorkspaceDirectory(this.ops["DeregisterWorkspaceDirectory"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deregisterWorkspaceDirectory(this.ops["DeregisterWorkspaceDirectory"].applicator.apply(partialParams));
     }
     invokeDescribeClientProperties(partialParams) {
-        return this.client.describeClientProperties(this.ops["DescribeClientProperties"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeClientProperties(this.ops["DescribeClientProperties"].applicator.apply(partialParams));
     }
     invokeDescribeConnectClientAddIns(partialParams) {
-        return this.client.describeConnectClientAddIns(this.ops["DescribeConnectClientAddIns"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeConnectClientAddIns(this.ops["DescribeConnectClientAddIns"].applicator.apply(partialParams));
     }
     invokeDescribeConnectionAliasPermissions(partialParams) {
-        return this.client.describeConnectionAliasPermissions(this.ops["DescribeConnectionAliasPermissions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeConnectionAliasPermissions(this.ops["DescribeConnectionAliasPermissions"].applicator.apply(partialParams));
     }
     invokeDescribeTags(partialParams) {
-        return this.client.describeTags(this.ops["DescribeTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeTags(this.ops["DescribeTags"].applicator.apply(partialParams));
     }
     invokeDescribeWorkspaceImagePermissions(partialParams) {
-        return this.client.describeWorkspaceImagePermissions(this.ops["DescribeWorkspaceImagePermissions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeWorkspaceImagePermissions(this.ops["DescribeWorkspaceImagePermissions"].applicator.apply(partialParams));
     }
     invokeDescribeWorkspaceSnapshots(partialParams) {
-        return this.client.describeWorkspaceSnapshots(this.ops["DescribeWorkspaceSnapshots"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeWorkspaceSnapshots(this.ops["DescribeWorkspaceSnapshots"].applicator.apply(partialParams));
     }
     invokeDisassociateConnectionAlias(partialParams) {
-        return this.client.disassociateConnectionAlias(this.ops["DisassociateConnectionAlias"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociateConnectionAlias(this.ops["DisassociateConnectionAlias"].applicator.apply(partialParams));
     }
     invokeDisassociateIpGroups(partialParams) {
-        return this.client.disassociateIpGroups(this.ops["DisassociateIpGroups"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociateIpGroups(this.ops["DisassociateIpGroups"].applicator.apply(partialParams));
     }
     invokeImportWorkspaceImage(partialParams) {
-        return this.client.importWorkspaceImage(this.ops["ImportWorkspaceImage"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.importWorkspaceImage(this.ops["ImportWorkspaceImage"].applicator.apply(partialParams));
     }
     invokeListAvailableManagementCidrRanges(partialParams) {
-        return this.client.listAvailableManagementCidrRanges(this.ops["ListAvailableManagementCidrRanges"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listAvailableManagementCidrRanges(this.ops["ListAvailableManagementCidrRanges"].applicator.apply(partialParams));
     }
     invokeMigrateWorkspace(partialParams) {
-        return this.client.migrateWorkspace(this.ops["MigrateWorkspace"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.migrateWorkspace(this.ops["MigrateWorkspace"].applicator.apply(partialParams));
     }
     invokeModifyClientProperties(partialParams) {
-        return this.client.modifyClientProperties(this.ops["ModifyClientProperties"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyClientProperties(this.ops["ModifyClientProperties"].applicator.apply(partialParams));
     }
     invokeModifySelfservicePermissions(partialParams) {
-        return this.client.modifySelfservicePermissions(this.ops["ModifySelfservicePermissions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifySelfservicePermissions(this.ops["ModifySelfservicePermissions"].applicator.apply(partialParams));
     }
     invokeModifyWorkspaceAccessProperties(partialParams) {
-        return this.client.modifyWorkspaceAccessProperties(this.ops["ModifyWorkspaceAccessProperties"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyWorkspaceAccessProperties(this.ops["ModifyWorkspaceAccessProperties"].applicator.apply(partialParams));
     }
     invokeModifyWorkspaceCreationProperties(partialParams) {
-        return this.client.modifyWorkspaceCreationProperties(this.ops["ModifyWorkspaceCreationProperties"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyWorkspaceCreationProperties(this.ops["ModifyWorkspaceCreationProperties"].applicator.apply(partialParams));
     }
     invokeModifyWorkspaceProperties(partialParams) {
-        return this.client.modifyWorkspaceProperties(this.ops["ModifyWorkspaceProperties"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyWorkspaceProperties(this.ops["ModifyWorkspaceProperties"].applicator.apply(partialParams));
     }
     invokeModifyWorkspaceState(partialParams) {
-        return this.client.modifyWorkspaceState(this.ops["ModifyWorkspaceState"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyWorkspaceState(this.ops["ModifyWorkspaceState"].applicator.apply(partialParams));
     }
     invokeRebootWorkspaces(partialParams) {
-        return this.client.rebootWorkspaces(this.ops["RebootWorkspaces"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.rebootWorkspaces(this.ops["RebootWorkspaces"].applicator.apply(partialParams));
     }
     invokeRebuildWorkspaces(partialParams) {
-        return this.client.rebuildWorkspaces(this.ops["RebuildWorkspaces"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.rebuildWorkspaces(this.ops["RebuildWorkspaces"].applicator.apply(partialParams));
     }
     invokeRegisterWorkspaceDirectory(partialParams) {
-        return this.client.registerWorkspaceDirectory(this.ops["RegisterWorkspaceDirectory"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.registerWorkspaceDirectory(this.ops["RegisterWorkspaceDirectory"].applicator.apply(partialParams));
     }
     invokeRestoreWorkspace(partialParams) {
-        return this.client.restoreWorkspace(this.ops["RestoreWorkspace"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.restoreWorkspace(this.ops["RestoreWorkspace"].applicator.apply(partialParams));
     }
     invokeRevokeIpRules(partialParams) {
-        return this.client.revokeIpRules(this.ops["RevokeIpRules"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.revokeIpRules(this.ops["RevokeIpRules"].applicator.apply(partialParams));
     }
     invokeStartWorkspaces(partialParams) {
-        return this.client.startWorkspaces(this.ops["StartWorkspaces"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startWorkspaces(this.ops["StartWorkspaces"].applicator.apply(partialParams));
     }
     invokeStopWorkspaces(partialParams) {
-        return this.client.stopWorkspaces(this.ops["StopWorkspaces"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.stopWorkspaces(this.ops["StopWorkspaces"].applicator.apply(partialParams));
     }
     invokeTerminateWorkspaces(partialParams) {
-        return this.client.terminateWorkspaces(this.ops["TerminateWorkspaces"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.terminateWorkspaces(this.ops["TerminateWorkspaces"].applicator.apply(partialParams));
     }
     invokeUpdateConnectClientAddIn(partialParams) {
-        return this.client.updateConnectClientAddIn(this.ops["UpdateConnectClientAddIn"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateConnectClientAddIn(this.ops["UpdateConnectClientAddIn"].applicator.apply(partialParams));
     }
     invokeUpdateConnectionAliasPermission(partialParams) {
-        return this.client.updateConnectionAliasPermission(this.ops["UpdateConnectionAliasPermission"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateConnectionAliasPermission(this.ops["UpdateConnectionAliasPermission"].applicator.apply(partialParams));
     }
     invokeUpdateRulesOfIpGroup(partialParams) {
-        return this.client.updateRulesOfIpGroup(this.ops["UpdateRulesOfIpGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateRulesOfIpGroup(this.ops["UpdateRulesOfIpGroup"].applicator.apply(partialParams));
     }
     invokeUpdateWorkspaceImagePermission(partialParams) {
-        return this.client.updateWorkspaceImagePermission(this.ops["UpdateWorkspaceImagePermission"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateWorkspaceImagePermission(this.ops["UpdateWorkspaceImagePermission"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

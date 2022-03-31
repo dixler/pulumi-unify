@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,414 +21,838 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/iam-2010-05-08.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.iam.ServiceLinkedRole {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.IAM();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/iam-2010-05-08.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeAddClientIDToOpenIDConnectProvider(partialParams) {
-        return this.client.addClientIDToOpenIDConnectProvider(this.ops["AddClientIDToOpenIDConnectProvider"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.addClientIDToOpenIDConnectProvider(this.ops["AddClientIDToOpenIDConnectProvider"].applicator.apply(partialParams));
     }
     invokeAddRoleToInstanceProfile(partialParams) {
-        return this.client.addRoleToInstanceProfile(this.ops["AddRoleToInstanceProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.addRoleToInstanceProfile(this.ops["AddRoleToInstanceProfile"].applicator.apply(partialParams));
     }
     invokeAddUserToGroup(partialParams) {
-        return this.client.addUserToGroup(this.ops["AddUserToGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.addUserToGroup(this.ops["AddUserToGroup"].applicator.apply(partialParams));
     }
     invokeAttachGroupPolicy(partialParams) {
-        return this.client.attachGroupPolicy(this.ops["AttachGroupPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.attachGroupPolicy(this.ops["AttachGroupPolicy"].applicator.apply(partialParams));
     }
     invokeAttachRolePolicy(partialParams) {
-        return this.client.attachRolePolicy(this.ops["AttachRolePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.attachRolePolicy(this.ops["AttachRolePolicy"].applicator.apply(partialParams));
     }
     invokeAttachUserPolicy(partialParams) {
-        return this.client.attachUserPolicy(this.ops["AttachUserPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.attachUserPolicy(this.ops["AttachUserPolicy"].applicator.apply(partialParams));
     }
     invokeChangePassword(partialParams) {
-        return this.client.changePassword(this.ops["ChangePassword"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.changePassword(this.ops["ChangePassword"].applicator.apply(partialParams));
     }
     invokeCreateAccountAlias(partialParams) {
-        return this.client.createAccountAlias(this.ops["CreateAccountAlias"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createAccountAlias(this.ops["CreateAccountAlias"].applicator.apply(partialParams));
     }
     invokeCreateGroup(partialParams) {
-        return this.client.createGroup(this.ops["CreateGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createGroup(this.ops["CreateGroup"].applicator.apply(partialParams));
     }
     invokeCreateInstanceProfile(partialParams) {
-        return this.client.createInstanceProfile(this.ops["CreateInstanceProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createInstanceProfile(this.ops["CreateInstanceProfile"].applicator.apply(partialParams));
     }
     invokeCreateLoginProfile(partialParams) {
-        return this.client.createLoginProfile(this.ops["CreateLoginProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createLoginProfile(this.ops["CreateLoginProfile"].applicator.apply(partialParams));
     }
     invokeCreateOpenIDConnectProvider(partialParams) {
-        return this.client.createOpenIDConnectProvider(this.ops["CreateOpenIDConnectProvider"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createOpenIDConnectProvider(this.ops["CreateOpenIDConnectProvider"].applicator.apply(partialParams));
     }
     invokeCreatePolicy(partialParams) {
-        return this.client.createPolicy(this.ops["CreatePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createPolicy(this.ops["CreatePolicy"].applicator.apply(partialParams));
     }
     invokeCreatePolicyVersion(partialParams) {
-        return this.client.createPolicyVersion(this.ops["CreatePolicyVersion"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createPolicyVersion(this.ops["CreatePolicyVersion"].applicator.apply(partialParams));
     }
     invokeCreateRole(partialParams) {
-        return this.client.createRole(this.ops["CreateRole"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createRole(this.ops["CreateRole"].applicator.apply(partialParams));
     }
     invokeCreateSAMLProvider(partialParams) {
-        return this.client.createSAMLProvider(this.ops["CreateSAMLProvider"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createSAMLProvider(this.ops["CreateSAMLProvider"].applicator.apply(partialParams));
     }
     invokeCreateServiceLinkedRole(partialParams) {
-        return this.client.createServiceLinkedRole(this.ops["CreateServiceLinkedRole"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createServiceLinkedRole(this.ops["CreateServiceLinkedRole"].applicator.apply(partialParams));
     }
     invokeCreateServiceSpecificCredential(partialParams) {
-        return this.client.createServiceSpecificCredential(this.ops["CreateServiceSpecificCredential"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createServiceSpecificCredential(this.ops["CreateServiceSpecificCredential"].applicator.apply(partialParams));
     }
     invokeCreateUser(partialParams) {
-        return this.client.createUser(this.ops["CreateUser"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createUser(this.ops["CreateUser"].applicator.apply(partialParams));
     }
     invokeCreateVirtualMFADevice(partialParams) {
-        return this.client.createVirtualMFADevice(this.ops["CreateVirtualMFADevice"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createVirtualMFADevice(this.ops["CreateVirtualMFADevice"].applicator.apply(partialParams));
     }
     invokeDeactivateMFADevice(partialParams) {
-        return this.client.deactivateMFADevice(this.ops["DeactivateMFADevice"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deactivateMFADevice(this.ops["DeactivateMFADevice"].applicator.apply(partialParams));
     }
     invokeDeleteAccessKey(partialParams) {
-        return this.client.deleteAccessKey(this.ops["DeleteAccessKey"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteAccessKey(this.ops["DeleteAccessKey"].applicator.apply(partialParams));
     }
     invokeDeleteAccountAlias(partialParams) {
-        return this.client.deleteAccountAlias(this.ops["DeleteAccountAlias"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteAccountAlias(this.ops["DeleteAccountAlias"].applicator.apply(partialParams));
     }
     invokeDeleteGroup(partialParams) {
-        return this.client.deleteGroup(this.ops["DeleteGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteGroup(this.ops["DeleteGroup"].applicator.apply(partialParams));
     }
     invokeDeleteGroupPolicy(partialParams) {
-        return this.client.deleteGroupPolicy(this.ops["DeleteGroupPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteGroupPolicy(this.ops["DeleteGroupPolicy"].applicator.apply(partialParams));
     }
     invokeDeleteInstanceProfile(partialParams) {
-        return this.client.deleteInstanceProfile(this.ops["DeleteInstanceProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteInstanceProfile(this.ops["DeleteInstanceProfile"].applicator.apply(partialParams));
     }
     invokeDeleteLoginProfile(partialParams) {
-        return this.client.deleteLoginProfile(this.ops["DeleteLoginProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteLoginProfile(this.ops["DeleteLoginProfile"].applicator.apply(partialParams));
     }
     invokeDeleteOpenIDConnectProvider(partialParams) {
-        return this.client.deleteOpenIDConnectProvider(this.ops["DeleteOpenIDConnectProvider"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteOpenIDConnectProvider(this.ops["DeleteOpenIDConnectProvider"].applicator.apply(partialParams));
     }
     invokeDeletePolicy(partialParams) {
-        return this.client.deletePolicy(this.ops["DeletePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deletePolicy(this.ops["DeletePolicy"].applicator.apply(partialParams));
     }
     invokeDeletePolicyVersion(partialParams) {
-        return this.client.deletePolicyVersion(this.ops["DeletePolicyVersion"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deletePolicyVersion(this.ops["DeletePolicyVersion"].applicator.apply(partialParams));
     }
     invokeDeleteRole(partialParams) {
-        return this.client.deleteRole(this.ops["DeleteRole"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteRole(this.ops["DeleteRole"].applicator.apply(partialParams));
     }
     invokeDeleteRolePermissionsBoundary(partialParams) {
-        return this.client.deleteRolePermissionsBoundary(this.ops["DeleteRolePermissionsBoundary"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteRolePermissionsBoundary(this.ops["DeleteRolePermissionsBoundary"].applicator.apply(partialParams));
     }
     invokeDeleteRolePolicy(partialParams) {
-        return this.client.deleteRolePolicy(this.ops["DeleteRolePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteRolePolicy(this.ops["DeleteRolePolicy"].applicator.apply(partialParams));
     }
     invokeDeleteSAMLProvider(partialParams) {
-        return this.client.deleteSAMLProvider(this.ops["DeleteSAMLProvider"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteSAMLProvider(this.ops["DeleteSAMLProvider"].applicator.apply(partialParams));
     }
     invokeDeleteSSHPublicKey(partialParams) {
-        return this.client.deleteSSHPublicKey(this.ops["DeleteSSHPublicKey"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteSSHPublicKey(this.ops["DeleteSSHPublicKey"].applicator.apply(partialParams));
     }
     invokeDeleteServerCertificate(partialParams) {
-        return this.client.deleteServerCertificate(this.ops["DeleteServerCertificate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteServerCertificate(this.ops["DeleteServerCertificate"].applicator.apply(partialParams));
     }
     invokeDeleteServiceLinkedRole(partialParams) {
-        return this.client.deleteServiceLinkedRole(this.ops["DeleteServiceLinkedRole"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteServiceLinkedRole(this.ops["DeleteServiceLinkedRole"].applicator.apply(partialParams));
     }
     invokeDeleteServiceSpecificCredential(partialParams) {
-        return this.client.deleteServiceSpecificCredential(this.ops["DeleteServiceSpecificCredential"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteServiceSpecificCredential(this.ops["DeleteServiceSpecificCredential"].applicator.apply(partialParams));
     }
     invokeDeleteSigningCertificate(partialParams) {
-        return this.client.deleteSigningCertificate(this.ops["DeleteSigningCertificate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteSigningCertificate(this.ops["DeleteSigningCertificate"].applicator.apply(partialParams));
     }
     invokeDeleteUser(partialParams) {
-        return this.client.deleteUser(this.ops["DeleteUser"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteUser(this.ops["DeleteUser"].applicator.apply(partialParams));
     }
     invokeDeleteUserPermissionsBoundary(partialParams) {
-        return this.client.deleteUserPermissionsBoundary(this.ops["DeleteUserPermissionsBoundary"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteUserPermissionsBoundary(this.ops["DeleteUserPermissionsBoundary"].applicator.apply(partialParams));
     }
     invokeDeleteUserPolicy(partialParams) {
-        return this.client.deleteUserPolicy(this.ops["DeleteUserPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteUserPolicy(this.ops["DeleteUserPolicy"].applicator.apply(partialParams));
     }
     invokeDeleteVirtualMFADevice(partialParams) {
-        return this.client.deleteVirtualMFADevice(this.ops["DeleteVirtualMFADevice"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteVirtualMFADevice(this.ops["DeleteVirtualMFADevice"].applicator.apply(partialParams));
     }
     invokeDetachGroupPolicy(partialParams) {
-        return this.client.detachGroupPolicy(this.ops["DetachGroupPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.detachGroupPolicy(this.ops["DetachGroupPolicy"].applicator.apply(partialParams));
     }
     invokeDetachRolePolicy(partialParams) {
-        return this.client.detachRolePolicy(this.ops["DetachRolePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.detachRolePolicy(this.ops["DetachRolePolicy"].applicator.apply(partialParams));
     }
     invokeDetachUserPolicy(partialParams) {
-        return this.client.detachUserPolicy(this.ops["DetachUserPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.detachUserPolicy(this.ops["DetachUserPolicy"].applicator.apply(partialParams));
     }
     invokeEnableMFADevice(partialParams) {
-        return this.client.enableMFADevice(this.ops["EnableMFADevice"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.enableMFADevice(this.ops["EnableMFADevice"].applicator.apply(partialParams));
     }
     invokeGenerateOrganizationsAccessReport(partialParams) {
-        return this.client.generateOrganizationsAccessReport(this.ops["GenerateOrganizationsAccessReport"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.generateOrganizationsAccessReport(this.ops["GenerateOrganizationsAccessReport"].applicator.apply(partialParams));
     }
     invokeGenerateServiceLastAccessedDetails(partialParams) {
-        return this.client.generateServiceLastAccessedDetails(this.ops["GenerateServiceLastAccessedDetails"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.generateServiceLastAccessedDetails(this.ops["GenerateServiceLastAccessedDetails"].applicator.apply(partialParams));
     }
     invokeGetAccessKeyLastUsed(partialParams) {
-        return this.client.getAccessKeyLastUsed(this.ops["GetAccessKeyLastUsed"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getAccessKeyLastUsed(this.ops["GetAccessKeyLastUsed"].applicator.apply(partialParams));
     }
     invokeGetContextKeysForCustomPolicy(partialParams) {
-        return this.client.getContextKeysForCustomPolicy(this.ops["GetContextKeysForCustomPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getContextKeysForCustomPolicy(this.ops["GetContextKeysForCustomPolicy"].applicator.apply(partialParams));
     }
     invokeGetContextKeysForPrincipalPolicy(partialParams) {
-        return this.client.getContextKeysForPrincipalPolicy(this.ops["GetContextKeysForPrincipalPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getContextKeysForPrincipalPolicy(this.ops["GetContextKeysForPrincipalPolicy"].applicator.apply(partialParams));
     }
     invokeGetGroup(partialParams) {
-        return this.client.getGroup(this.ops["GetGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getGroup(this.ops["GetGroup"].applicator.apply(partialParams));
     }
     invokeGetGroupPolicy(partialParams) {
-        return this.client.getGroupPolicy(this.ops["GetGroupPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getGroupPolicy(this.ops["GetGroupPolicy"].applicator.apply(partialParams));
     }
     invokeGetInstanceProfile(partialParams) {
-        return this.client.getInstanceProfile(this.ops["GetInstanceProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getInstanceProfile(this.ops["GetInstanceProfile"].applicator.apply(partialParams));
     }
     invokeGetLoginProfile(partialParams) {
-        return this.client.getLoginProfile(this.ops["GetLoginProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getLoginProfile(this.ops["GetLoginProfile"].applicator.apply(partialParams));
     }
     invokeGetOpenIDConnectProvider(partialParams) {
-        return this.client.getOpenIDConnectProvider(this.ops["GetOpenIDConnectProvider"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getOpenIDConnectProvider(this.ops["GetOpenIDConnectProvider"].applicator.apply(partialParams));
     }
     invokeGetOrganizationsAccessReport(partialParams) {
-        return this.client.getOrganizationsAccessReport(this.ops["GetOrganizationsAccessReport"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getOrganizationsAccessReport(this.ops["GetOrganizationsAccessReport"].applicator.apply(partialParams));
     }
     invokeGetPolicy(partialParams) {
-        return this.client.getPolicy(this.ops["GetPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getPolicy(this.ops["GetPolicy"].applicator.apply(partialParams));
     }
     invokeGetPolicyVersion(partialParams) {
-        return this.client.getPolicyVersion(this.ops["GetPolicyVersion"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getPolicyVersion(this.ops["GetPolicyVersion"].applicator.apply(partialParams));
     }
     invokeGetRole(partialParams) {
-        return this.client.getRole(this.ops["GetRole"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getRole(this.ops["GetRole"].applicator.apply(partialParams));
     }
     invokeGetRolePolicy(partialParams) {
-        return this.client.getRolePolicy(this.ops["GetRolePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getRolePolicy(this.ops["GetRolePolicy"].applicator.apply(partialParams));
     }
     invokeGetSAMLProvider(partialParams) {
-        return this.client.getSAMLProvider(this.ops["GetSAMLProvider"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getSAMLProvider(this.ops["GetSAMLProvider"].applicator.apply(partialParams));
     }
     invokeGetSSHPublicKey(partialParams) {
-        return this.client.getSSHPublicKey(this.ops["GetSSHPublicKey"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getSSHPublicKey(this.ops["GetSSHPublicKey"].applicator.apply(partialParams));
     }
     invokeGetServerCertificate(partialParams) {
-        return this.client.getServerCertificate(this.ops["GetServerCertificate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getServerCertificate(this.ops["GetServerCertificate"].applicator.apply(partialParams));
     }
     invokeGetServiceLastAccessedDetails(partialParams) {
-        return this.client.getServiceLastAccessedDetails(this.ops["GetServiceLastAccessedDetails"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getServiceLastAccessedDetails(this.ops["GetServiceLastAccessedDetails"].applicator.apply(partialParams));
     }
     invokeGetServiceLastAccessedDetailsWithEntities(partialParams) {
-        return this.client.getServiceLastAccessedDetailsWithEntities(this.ops["GetServiceLastAccessedDetailsWithEntities"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getServiceLastAccessedDetailsWithEntities(this.ops["GetServiceLastAccessedDetailsWithEntities"].applicator.apply(partialParams));
     }
     invokeGetServiceLinkedRoleDeletionStatus(partialParams) {
-        return this.client.getServiceLinkedRoleDeletionStatus(this.ops["GetServiceLinkedRoleDeletionStatus"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getServiceLinkedRoleDeletionStatus(this.ops["GetServiceLinkedRoleDeletionStatus"].applicator.apply(partialParams));
     }
     invokeGetUserPolicy(partialParams) {
-        return this.client.getUserPolicy(this.ops["GetUserPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getUserPolicy(this.ops["GetUserPolicy"].applicator.apply(partialParams));
     }
     invokeListAttachedGroupPolicies(partialParams) {
-        return this.client.listAttachedGroupPolicies(this.ops["ListAttachedGroupPolicies"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listAttachedGroupPolicies(this.ops["ListAttachedGroupPolicies"].applicator.apply(partialParams));
     }
     invokeListAttachedRolePolicies(partialParams) {
-        return this.client.listAttachedRolePolicies(this.ops["ListAttachedRolePolicies"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listAttachedRolePolicies(this.ops["ListAttachedRolePolicies"].applicator.apply(partialParams));
     }
     invokeListAttachedUserPolicies(partialParams) {
-        return this.client.listAttachedUserPolicies(this.ops["ListAttachedUserPolicies"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listAttachedUserPolicies(this.ops["ListAttachedUserPolicies"].applicator.apply(partialParams));
     }
     invokeListEntitiesForPolicy(partialParams) {
-        return this.client.listEntitiesForPolicy(this.ops["ListEntitiesForPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listEntitiesForPolicy(this.ops["ListEntitiesForPolicy"].applicator.apply(partialParams));
     }
     invokeListGroupPolicies(partialParams) {
-        return this.client.listGroupPolicies(this.ops["ListGroupPolicies"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listGroupPolicies(this.ops["ListGroupPolicies"].applicator.apply(partialParams));
     }
     invokeListGroupsForUser(partialParams) {
-        return this.client.listGroupsForUser(this.ops["ListGroupsForUser"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listGroupsForUser(this.ops["ListGroupsForUser"].applicator.apply(partialParams));
     }
     invokeListInstanceProfileTags(partialParams) {
-        return this.client.listInstanceProfileTags(this.ops["ListInstanceProfileTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listInstanceProfileTags(this.ops["ListInstanceProfileTags"].applicator.apply(partialParams));
     }
     invokeListInstanceProfilesForRole(partialParams) {
-        return this.client.listInstanceProfilesForRole(this.ops["ListInstanceProfilesForRole"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listInstanceProfilesForRole(this.ops["ListInstanceProfilesForRole"].applicator.apply(partialParams));
     }
     invokeListMFADeviceTags(partialParams) {
-        return this.client.listMFADeviceTags(this.ops["ListMFADeviceTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listMFADeviceTags(this.ops["ListMFADeviceTags"].applicator.apply(partialParams));
     }
     invokeListOpenIDConnectProviderTags(partialParams) {
-        return this.client.listOpenIDConnectProviderTags(this.ops["ListOpenIDConnectProviderTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listOpenIDConnectProviderTags(this.ops["ListOpenIDConnectProviderTags"].applicator.apply(partialParams));
     }
     invokeListPoliciesGrantingServiceAccess(partialParams) {
-        return this.client.listPoliciesGrantingServiceAccess(this.ops["ListPoliciesGrantingServiceAccess"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listPoliciesGrantingServiceAccess(this.ops["ListPoliciesGrantingServiceAccess"].applicator.apply(partialParams));
     }
     invokeListPolicyTags(partialParams) {
-        return this.client.listPolicyTags(this.ops["ListPolicyTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listPolicyTags(this.ops["ListPolicyTags"].applicator.apply(partialParams));
     }
     invokeListPolicyVersions(partialParams) {
-        return this.client.listPolicyVersions(this.ops["ListPolicyVersions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listPolicyVersions(this.ops["ListPolicyVersions"].applicator.apply(partialParams));
     }
     invokeListRolePolicies(partialParams) {
-        return this.client.listRolePolicies(this.ops["ListRolePolicies"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listRolePolicies(this.ops["ListRolePolicies"].applicator.apply(partialParams));
     }
     invokeListRoleTags(partialParams) {
-        return this.client.listRoleTags(this.ops["ListRoleTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listRoleTags(this.ops["ListRoleTags"].applicator.apply(partialParams));
     }
     invokeListSAMLProviderTags(partialParams) {
-        return this.client.listSAMLProviderTags(this.ops["ListSAMLProviderTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listSAMLProviderTags(this.ops["ListSAMLProviderTags"].applicator.apply(partialParams));
     }
     invokeListServerCertificateTags(partialParams) {
-        return this.client.listServerCertificateTags(this.ops["ListServerCertificateTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listServerCertificateTags(this.ops["ListServerCertificateTags"].applicator.apply(partialParams));
     }
     invokeListUserPolicies(partialParams) {
-        return this.client.listUserPolicies(this.ops["ListUserPolicies"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listUserPolicies(this.ops["ListUserPolicies"].applicator.apply(partialParams));
     }
     invokeListUserTags(partialParams) {
-        return this.client.listUserTags(this.ops["ListUserTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listUserTags(this.ops["ListUserTags"].applicator.apply(partialParams));
     }
     invokePutGroupPolicy(partialParams) {
-        return this.client.putGroupPolicy(this.ops["PutGroupPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putGroupPolicy(this.ops["PutGroupPolicy"].applicator.apply(partialParams));
     }
     invokePutRolePermissionsBoundary(partialParams) {
-        return this.client.putRolePermissionsBoundary(this.ops["PutRolePermissionsBoundary"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putRolePermissionsBoundary(this.ops["PutRolePermissionsBoundary"].applicator.apply(partialParams));
     }
     invokePutRolePolicy(partialParams) {
-        return this.client.putRolePolicy(this.ops["PutRolePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putRolePolicy(this.ops["PutRolePolicy"].applicator.apply(partialParams));
     }
     invokePutUserPermissionsBoundary(partialParams) {
-        return this.client.putUserPermissionsBoundary(this.ops["PutUserPermissionsBoundary"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putUserPermissionsBoundary(this.ops["PutUserPermissionsBoundary"].applicator.apply(partialParams));
     }
     invokePutUserPolicy(partialParams) {
-        return this.client.putUserPolicy(this.ops["PutUserPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putUserPolicy(this.ops["PutUserPolicy"].applicator.apply(partialParams));
     }
     invokeRemoveClientIDFromOpenIDConnectProvider(partialParams) {
-        return this.client.removeClientIDFromOpenIDConnectProvider(this.ops["RemoveClientIDFromOpenIDConnectProvider"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.removeClientIDFromOpenIDConnectProvider(this.ops["RemoveClientIDFromOpenIDConnectProvider"].applicator.apply(partialParams));
     }
     invokeRemoveRoleFromInstanceProfile(partialParams) {
-        return this.client.removeRoleFromInstanceProfile(this.ops["RemoveRoleFromInstanceProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.removeRoleFromInstanceProfile(this.ops["RemoveRoleFromInstanceProfile"].applicator.apply(partialParams));
     }
     invokeRemoveUserFromGroup(partialParams) {
-        return this.client.removeUserFromGroup(this.ops["RemoveUserFromGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.removeUserFromGroup(this.ops["RemoveUserFromGroup"].applicator.apply(partialParams));
     }
     invokeResetServiceSpecificCredential(partialParams) {
-        return this.client.resetServiceSpecificCredential(this.ops["ResetServiceSpecificCredential"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.resetServiceSpecificCredential(this.ops["ResetServiceSpecificCredential"].applicator.apply(partialParams));
     }
     invokeResyncMFADevice(partialParams) {
-        return this.client.resyncMFADevice(this.ops["ResyncMFADevice"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.resyncMFADevice(this.ops["ResyncMFADevice"].applicator.apply(partialParams));
     }
     invokeSetDefaultPolicyVersion(partialParams) {
-        return this.client.setDefaultPolicyVersion(this.ops["SetDefaultPolicyVersion"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.setDefaultPolicyVersion(this.ops["SetDefaultPolicyVersion"].applicator.apply(partialParams));
     }
     invokeSetSecurityTokenServicePreferences(partialParams) {
-        return this.client.setSecurityTokenServicePreferences(this.ops["SetSecurityTokenServicePreferences"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.setSecurityTokenServicePreferences(this.ops["SetSecurityTokenServicePreferences"].applicator.apply(partialParams));
     }
     invokeSimulateCustomPolicy(partialParams) {
-        return this.client.simulateCustomPolicy(this.ops["SimulateCustomPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.simulateCustomPolicy(this.ops["SimulateCustomPolicy"].applicator.apply(partialParams));
     }
     invokeSimulatePrincipalPolicy(partialParams) {
-        return this.client.simulatePrincipalPolicy(this.ops["SimulatePrincipalPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.simulatePrincipalPolicy(this.ops["SimulatePrincipalPolicy"].applicator.apply(partialParams));
     }
     invokeTagInstanceProfile(partialParams) {
-        return this.client.tagInstanceProfile(this.ops["TagInstanceProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagInstanceProfile(this.ops["TagInstanceProfile"].applicator.apply(partialParams));
     }
     invokeTagMFADevice(partialParams) {
-        return this.client.tagMFADevice(this.ops["TagMFADevice"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagMFADevice(this.ops["TagMFADevice"].applicator.apply(partialParams));
     }
     invokeTagOpenIDConnectProvider(partialParams) {
-        return this.client.tagOpenIDConnectProvider(this.ops["TagOpenIDConnectProvider"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagOpenIDConnectProvider(this.ops["TagOpenIDConnectProvider"].applicator.apply(partialParams));
     }
     invokeTagPolicy(partialParams) {
-        return this.client.tagPolicy(this.ops["TagPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagPolicy(this.ops["TagPolicy"].applicator.apply(partialParams));
     }
     invokeTagRole(partialParams) {
-        return this.client.tagRole(this.ops["TagRole"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagRole(this.ops["TagRole"].applicator.apply(partialParams));
     }
     invokeTagSAMLProvider(partialParams) {
-        return this.client.tagSAMLProvider(this.ops["TagSAMLProvider"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagSAMLProvider(this.ops["TagSAMLProvider"].applicator.apply(partialParams));
     }
     invokeTagServerCertificate(partialParams) {
-        return this.client.tagServerCertificate(this.ops["TagServerCertificate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagServerCertificate(this.ops["TagServerCertificate"].applicator.apply(partialParams));
     }
     invokeTagUser(partialParams) {
-        return this.client.tagUser(this.ops["TagUser"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagUser(this.ops["TagUser"].applicator.apply(partialParams));
     }
     invokeUntagInstanceProfile(partialParams) {
-        return this.client.untagInstanceProfile(this.ops["UntagInstanceProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagInstanceProfile(this.ops["UntagInstanceProfile"].applicator.apply(partialParams));
     }
     invokeUntagMFADevice(partialParams) {
-        return this.client.untagMFADevice(this.ops["UntagMFADevice"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagMFADevice(this.ops["UntagMFADevice"].applicator.apply(partialParams));
     }
     invokeUntagOpenIDConnectProvider(partialParams) {
-        return this.client.untagOpenIDConnectProvider(this.ops["UntagOpenIDConnectProvider"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagOpenIDConnectProvider(this.ops["UntagOpenIDConnectProvider"].applicator.apply(partialParams));
     }
     invokeUntagPolicy(partialParams) {
-        return this.client.untagPolicy(this.ops["UntagPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagPolicy(this.ops["UntagPolicy"].applicator.apply(partialParams));
     }
     invokeUntagRole(partialParams) {
-        return this.client.untagRole(this.ops["UntagRole"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagRole(this.ops["UntagRole"].applicator.apply(partialParams));
     }
     invokeUntagSAMLProvider(partialParams) {
-        return this.client.untagSAMLProvider(this.ops["UntagSAMLProvider"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagSAMLProvider(this.ops["UntagSAMLProvider"].applicator.apply(partialParams));
     }
     invokeUntagServerCertificate(partialParams) {
-        return this.client.untagServerCertificate(this.ops["UntagServerCertificate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagServerCertificate(this.ops["UntagServerCertificate"].applicator.apply(partialParams));
     }
     invokeUntagUser(partialParams) {
-        return this.client.untagUser(this.ops["UntagUser"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagUser(this.ops["UntagUser"].applicator.apply(partialParams));
     }
     invokeUpdateAccessKey(partialParams) {
-        return this.client.updateAccessKey(this.ops["UpdateAccessKey"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateAccessKey(this.ops["UpdateAccessKey"].applicator.apply(partialParams));
     }
     invokeUpdateAssumeRolePolicy(partialParams) {
-        return this.client.updateAssumeRolePolicy(this.ops["UpdateAssumeRolePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateAssumeRolePolicy(this.ops["UpdateAssumeRolePolicy"].applicator.apply(partialParams));
     }
     invokeUpdateGroup(partialParams) {
-        return this.client.updateGroup(this.ops["UpdateGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateGroup(this.ops["UpdateGroup"].applicator.apply(partialParams));
     }
     invokeUpdateLoginProfile(partialParams) {
-        return this.client.updateLoginProfile(this.ops["UpdateLoginProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateLoginProfile(this.ops["UpdateLoginProfile"].applicator.apply(partialParams));
     }
     invokeUpdateOpenIDConnectProviderThumbprint(partialParams) {
-        return this.client.updateOpenIDConnectProviderThumbprint(this.ops["UpdateOpenIDConnectProviderThumbprint"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateOpenIDConnectProviderThumbprint(this.ops["UpdateOpenIDConnectProviderThumbprint"].applicator.apply(partialParams));
     }
     invokeUpdateRole(partialParams) {
-        return this.client.updateRole(this.ops["UpdateRole"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateRole(this.ops["UpdateRole"].applicator.apply(partialParams));
     }
     invokeUpdateRoleDescription(partialParams) {
-        return this.client.updateRoleDescription(this.ops["UpdateRoleDescription"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateRoleDescription(this.ops["UpdateRoleDescription"].applicator.apply(partialParams));
     }
     invokeUpdateSAMLProvider(partialParams) {
-        return this.client.updateSAMLProvider(this.ops["UpdateSAMLProvider"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateSAMLProvider(this.ops["UpdateSAMLProvider"].applicator.apply(partialParams));
     }
     invokeUpdateSSHPublicKey(partialParams) {
-        return this.client.updateSSHPublicKey(this.ops["UpdateSSHPublicKey"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateSSHPublicKey(this.ops["UpdateSSHPublicKey"].applicator.apply(partialParams));
     }
     invokeUpdateServerCertificate(partialParams) {
-        return this.client.updateServerCertificate(this.ops["UpdateServerCertificate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateServerCertificate(this.ops["UpdateServerCertificate"].applicator.apply(partialParams));
     }
     invokeUpdateServiceSpecificCredential(partialParams) {
-        return this.client.updateServiceSpecificCredential(this.ops["UpdateServiceSpecificCredential"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateServiceSpecificCredential(this.ops["UpdateServiceSpecificCredential"].applicator.apply(partialParams));
     }
     invokeUpdateSigningCertificate(partialParams) {
-        return this.client.updateSigningCertificate(this.ops["UpdateSigningCertificate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateSigningCertificate(this.ops["UpdateSigningCertificate"].applicator.apply(partialParams));
     }
     invokeUpdateUser(partialParams) {
-        return this.client.updateUser(this.ops["UpdateUser"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateUser(this.ops["UpdateUser"].applicator.apply(partialParams));
     }
     invokeUploadSSHPublicKey(partialParams) {
-        return this.client.uploadSSHPublicKey(this.ops["UploadSSHPublicKey"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.uploadSSHPublicKey(this.ops["UploadSSHPublicKey"].applicator.apply(partialParams));
     }
     invokeUploadServerCertificate(partialParams) {
-        return this.client.uploadServerCertificate(this.ops["UploadServerCertificate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.uploadServerCertificate(this.ops["UploadServerCertificate"].applicator.apply(partialParams));
     }
     invokeUploadSigningCertificate(partialParams) {
-        return this.client.uploadSigningCertificate(this.ops["UploadSigningCertificate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.uploadSigningCertificate(this.ops["UploadSigningCertificate"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

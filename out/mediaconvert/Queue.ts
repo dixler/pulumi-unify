@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     AssociateCertificateRequest,
     CancelJobRequest,
@@ -45,8 +48,8 @@ import {
     UpdatePresetResponse,
     UpdateQueueResponse
 } from "aws-sdk/clients/mediaconvert";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/mediaconvert-2017-08-29.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -55,179 +58,264 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.mediaconvert.Queue {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.mediaconvert.Queue>) {
         super(...args)
         this.client = new awssdk.MediaConvert()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/mediaconvert-2017-08-29.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeAssociateCertificate(partialParams: ToOptional<{
       [K in keyof AssociateCertificateRequest & keyof AssociateCertificateRequest & keyof AssociateCertificateRequest & keyof AssociateCertificateRequest & keyof AssociateCertificateRequest]: (AssociateCertificateRequest & AssociateCertificateRequest & AssociateCertificateRequest & AssociateCertificateRequest & AssociateCertificateRequest)[K]
-    }>): AssociateCertificateResponse {
+    }>): Request<AssociateCertificateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.associateCertificate(
-            this.ops["AssociateCertificate"].apply(partialParams)
+          this.ops["AssociateCertificate"].applicator.apply(partialParams)
         );
     }
 
     invokeCancelJob(partialParams: ToOptional<{
       [K in keyof CancelJobRequest & keyof CancelJobRequest & keyof CancelJobRequest & keyof CancelJobRequest & keyof CancelJobRequest]: (CancelJobRequest & CancelJobRequest & CancelJobRequest & CancelJobRequest & CancelJobRequest)[K]
-    }>): CancelJobResponse {
+    }>): Request<CancelJobResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.cancelJob(
-            this.ops["CancelJob"].apply(partialParams)
+          this.ops["CancelJob"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateJob(partialParams: ToOptional<{
       [K in keyof CreateJobRequest & keyof CreateJobRequest & keyof CreateJobRequest & keyof CreateJobRequest & keyof CreateJobRequest]: (CreateJobRequest & CreateJobRequest & CreateJobRequest & CreateJobRequest & CreateJobRequest)[K]
-    }>): CreateJobResponse {
+    }>): Request<CreateJobResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createJob(
-            this.ops["CreateJob"].apply(partialParams)
+          this.ops["CreateJob"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateJobTemplate(partialParams: ToOptional<{
       [K in keyof CreateJobTemplateRequest & keyof CreateJobTemplateRequest & keyof CreateJobTemplateRequest & keyof CreateJobTemplateRequest & keyof CreateJobTemplateRequest]: (CreateJobTemplateRequest & CreateJobTemplateRequest & CreateJobTemplateRequest & CreateJobTemplateRequest & CreateJobTemplateRequest)[K]
-    }>): CreateJobTemplateResponse {
+    }>): Request<CreateJobTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createJobTemplate(
-            this.ops["CreateJobTemplate"].apply(partialParams)
+          this.ops["CreateJobTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeCreatePreset(partialParams: ToOptional<{
       [K in keyof CreatePresetRequest & keyof CreatePresetRequest & keyof CreatePresetRequest & keyof CreatePresetRequest & keyof CreatePresetRequest]: (CreatePresetRequest & CreatePresetRequest & CreatePresetRequest & CreatePresetRequest & CreatePresetRequest)[K]
-    }>): CreatePresetResponse {
+    }>): Request<CreatePresetResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createPreset(
-            this.ops["CreatePreset"].apply(partialParams)
+          this.ops["CreatePreset"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateQueue(partialParams: ToOptional<{
       [K in keyof CreateQueueRequest & keyof CreateQueueRequest & keyof CreateQueueRequest & keyof CreateQueueRequest & keyof CreateQueueRequest]: (CreateQueueRequest & CreateQueueRequest & CreateQueueRequest & CreateQueueRequest & CreateQueueRequest)[K]
-    }>): CreateQueueResponse {
+    }>): Request<CreateQueueResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createQueue(
-            this.ops["CreateQueue"].apply(partialParams)
+          this.ops["CreateQueue"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteJobTemplate(partialParams: ToOptional<{
       [K in keyof DeleteJobTemplateRequest & keyof DeleteJobTemplateRequest & keyof DeleteJobTemplateRequest & keyof DeleteJobTemplateRequest & keyof DeleteJobTemplateRequest]: (DeleteJobTemplateRequest & DeleteJobTemplateRequest & DeleteJobTemplateRequest & DeleteJobTemplateRequest & DeleteJobTemplateRequest)[K]
-    }>): DeleteJobTemplateResponse {
+    }>): Request<DeleteJobTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteJobTemplate(
-            this.ops["DeleteJobTemplate"].apply(partialParams)
+          this.ops["DeleteJobTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeDeletePreset(partialParams: ToOptional<{
       [K in keyof DeletePresetRequest & keyof DeletePresetRequest & keyof DeletePresetRequest & keyof DeletePresetRequest & keyof DeletePresetRequest]: (DeletePresetRequest & DeletePresetRequest & DeletePresetRequest & DeletePresetRequest & DeletePresetRequest)[K]
-    }>): DeletePresetResponse {
+    }>): Request<DeletePresetResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deletePreset(
-            this.ops["DeletePreset"].apply(partialParams)
+          this.ops["DeletePreset"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteQueue(partialParams: ToOptional<{
       [K in keyof DeleteQueueRequest & keyof DeleteQueueRequest & keyof DeleteQueueRequest & keyof DeleteQueueRequest & keyof DeleteQueueRequest]: (DeleteQueueRequest & DeleteQueueRequest & DeleteQueueRequest & DeleteQueueRequest & DeleteQueueRequest)[K]
-    }>): DeleteQueueResponse {
+    }>): Request<DeleteQueueResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteQueue(
-            this.ops["DeleteQueue"].apply(partialParams)
+          this.ops["DeleteQueue"].applicator.apply(partialParams)
         );
     }
 
     invokeDisassociateCertificate(partialParams: ToOptional<{
       [K in keyof DisassociateCertificateRequest & keyof DisassociateCertificateRequest & keyof DisassociateCertificateRequest & keyof DisassociateCertificateRequest & keyof DisassociateCertificateRequest]: (DisassociateCertificateRequest & DisassociateCertificateRequest & DisassociateCertificateRequest & DisassociateCertificateRequest & DisassociateCertificateRequest)[K]
-    }>): DisassociateCertificateResponse {
+    }>): Request<DisassociateCertificateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disassociateCertificate(
-            this.ops["DisassociateCertificate"].apply(partialParams)
+          this.ops["DisassociateCertificate"].applicator.apply(partialParams)
         );
     }
 
     invokeGetJob(partialParams: ToOptional<{
       [K in keyof GetJobRequest & keyof GetJobRequest & keyof GetJobRequest & keyof GetJobRequest & keyof GetJobRequest]: (GetJobRequest & GetJobRequest & GetJobRequest & GetJobRequest & GetJobRequest)[K]
-    }>): GetJobResponse {
+    }>): Request<GetJobResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getJob(
-            this.ops["GetJob"].apply(partialParams)
+          this.ops["GetJob"].applicator.apply(partialParams)
         );
     }
 
     invokeGetJobTemplate(partialParams: ToOptional<{
       [K in keyof GetJobTemplateRequest & keyof GetJobTemplateRequest & keyof GetJobTemplateRequest & keyof GetJobTemplateRequest & keyof GetJobTemplateRequest]: (GetJobTemplateRequest & GetJobTemplateRequest & GetJobTemplateRequest & GetJobTemplateRequest & GetJobTemplateRequest)[K]
-    }>): GetJobTemplateResponse {
+    }>): Request<GetJobTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getJobTemplate(
-            this.ops["GetJobTemplate"].apply(partialParams)
+          this.ops["GetJobTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeGetPreset(partialParams: ToOptional<{
       [K in keyof GetPresetRequest & keyof GetPresetRequest & keyof GetPresetRequest & keyof GetPresetRequest & keyof GetPresetRequest]: (GetPresetRequest & GetPresetRequest & GetPresetRequest & GetPresetRequest & GetPresetRequest)[K]
-    }>): GetPresetResponse {
+    }>): Request<GetPresetResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getPreset(
-            this.ops["GetPreset"].apply(partialParams)
+          this.ops["GetPreset"].applicator.apply(partialParams)
         );
     }
 
     invokeGetQueue(partialParams: ToOptional<{
       [K in keyof GetQueueRequest & keyof GetQueueRequest & keyof GetQueueRequest & keyof GetQueueRequest & keyof GetQueueRequest]: (GetQueueRequest & GetQueueRequest & GetQueueRequest & GetQueueRequest & GetQueueRequest)[K]
-    }>): GetQueueResponse {
+    }>): Request<GetQueueResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getQueue(
-            this.ops["GetQueue"].apply(partialParams)
+          this.ops["GetQueue"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
-    }>): ListTagsForResourceResponse {
+    }>): Request<ListTagsForResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokePutPolicy(partialParams: ToOptional<{
       [K in keyof PutPolicyRequest & keyof PutPolicyRequest & keyof PutPolicyRequest & keyof PutPolicyRequest & keyof PutPolicyRequest]: (PutPolicyRequest & PutPolicyRequest & PutPolicyRequest & PutPolicyRequest & PutPolicyRequest)[K]
-    }>): PutPolicyResponse {
+    }>): Request<PutPolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putPolicy(
-            this.ops["PutPolicy"].apply(partialParams)
+          this.ops["PutPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
-    }>): TagResourceResponse {
+    }>): Request<TagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
-    }>): UntagResourceResponse {
+    }>): Request<UntagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateJobTemplate(partialParams: ToOptional<{
       [K in keyof UpdateJobTemplateRequest & keyof UpdateJobTemplateRequest & keyof UpdateJobTemplateRequest & keyof UpdateJobTemplateRequest & keyof UpdateJobTemplateRequest]: (UpdateJobTemplateRequest & UpdateJobTemplateRequest & UpdateJobTemplateRequest & UpdateJobTemplateRequest & UpdateJobTemplateRequest)[K]
-    }>): UpdateJobTemplateResponse {
+    }>): Request<UpdateJobTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateJobTemplate(
-            this.ops["UpdateJobTemplate"].apply(partialParams)
+          this.ops["UpdateJobTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdatePreset(partialParams: ToOptional<{
       [K in keyof UpdatePresetRequest & keyof UpdatePresetRequest & keyof UpdatePresetRequest & keyof UpdatePresetRequest & keyof UpdatePresetRequest]: (UpdatePresetRequest & UpdatePresetRequest & UpdatePresetRequest & UpdatePresetRequest & UpdatePresetRequest)[K]
-    }>): UpdatePresetResponse {
+    }>): Request<UpdatePresetResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updatePreset(
-            this.ops["UpdatePreset"].apply(partialParams)
+          this.ops["UpdatePreset"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateQueue(partialParams: ToOptional<{
       [K in keyof UpdateQueueRequest & keyof UpdateQueueRequest & keyof UpdateQueueRequest & keyof UpdateQueueRequest & keyof UpdateQueueRequest]: (UpdateQueueRequest & UpdateQueueRequest & UpdateQueueRequest & UpdateQueueRequest & UpdateQueueRequest)[K]
-    }>): UpdateQueueResponse {
+    }>): Request<UpdateQueueResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateQueue(
-            this.ops["UpdateQueue"].apply(partialParams)
+          this.ops["UpdateQueue"].applicator.apply(partialParams)
         );
     }
 }

@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,57 +21,124 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/elastictranscoder-2012-09-25.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.elastictranscoder.Pipeline {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.ElasticTranscoder();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/elastictranscoder-2012-09-25.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeCancelJob(partialParams) {
-        return this.client.cancelJob(this.ops["CancelJob"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.cancelJob(this.ops["CancelJob"].applicator.apply(partialParams));
     }
     invokeCreateJob(partialParams) {
-        return this.client.createJob(this.ops["CreateJob"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createJob(this.ops["CreateJob"].applicator.apply(partialParams));
     }
     invokeCreatePipeline(partialParams) {
-        return this.client.createPipeline(this.ops["CreatePipeline"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createPipeline(this.ops["CreatePipeline"].applicator.apply(partialParams));
     }
     invokeCreatePreset(partialParams) {
-        return this.client.createPreset(this.ops["CreatePreset"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createPreset(this.ops["CreatePreset"].applicator.apply(partialParams));
     }
     invokeDeletePipeline(partialParams) {
-        return this.client.deletePipeline(this.ops["DeletePipeline"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deletePipeline(this.ops["DeletePipeline"].applicator.apply(partialParams));
     }
     invokeDeletePreset(partialParams) {
-        return this.client.deletePreset(this.ops["DeletePreset"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deletePreset(this.ops["DeletePreset"].applicator.apply(partialParams));
     }
     invokeListJobsByPipeline(partialParams) {
-        return this.client.listJobsByPipeline(this.ops["ListJobsByPipeline"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listJobsByPipeline(this.ops["ListJobsByPipeline"].applicator.apply(partialParams));
     }
     invokeListJobsByStatus(partialParams) {
-        return this.client.listJobsByStatus(this.ops["ListJobsByStatus"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listJobsByStatus(this.ops["ListJobsByStatus"].applicator.apply(partialParams));
     }
     invokeReadJob(partialParams) {
-        return this.client.readJob(this.ops["ReadJob"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.readJob(this.ops["ReadJob"].applicator.apply(partialParams));
     }
     invokeReadPipeline(partialParams) {
-        return this.client.readPipeline(this.ops["ReadPipeline"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.readPipeline(this.ops["ReadPipeline"].applicator.apply(partialParams));
     }
     invokeReadPreset(partialParams) {
-        return this.client.readPreset(this.ops["ReadPreset"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.readPreset(this.ops["ReadPreset"].applicator.apply(partialParams));
     }
     invokeTestRole(partialParams) {
-        return this.client.testRole(this.ops["TestRole"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.testRole(this.ops["TestRole"].applicator.apply(partialParams));
     }
     invokeUpdatePipeline(partialParams) {
-        return this.client.updatePipeline(this.ops["UpdatePipeline"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updatePipeline(this.ops["UpdatePipeline"].applicator.apply(partialParams));
     }
     invokeUpdatePipelineNotifications(partialParams) {
-        return this.client.updatePipelineNotifications(this.ops["UpdatePipelineNotifications"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updatePipelineNotifications(this.ops["UpdatePipelineNotifications"].applicator.apply(partialParams));
     }
     invokeUpdatePipelineStatus(partialParams) {
-        return this.client.updatePipelineStatus(this.ops["UpdatePipelineStatus"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updatePipelineStatus(this.ops["UpdatePipelineStatus"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

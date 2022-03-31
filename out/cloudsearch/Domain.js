@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,84 +21,178 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/cloudsearch-2013-01-01.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.cloudsearch.Domain {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.CloudSearch();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/cloudsearch-2013-01-01.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeBuildSuggesters(partialParams) {
-        return this.client.buildSuggesters(this.ops["BuildSuggesters"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.buildSuggesters(this.ops["BuildSuggesters"].applicator.apply(partialParams));
     }
     invokeCreateDomain(partialParams) {
-        return this.client.createDomain(this.ops["CreateDomain"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createDomain(this.ops["CreateDomain"].applicator.apply(partialParams));
     }
     invokeDefineAnalysisScheme(partialParams) {
-        return this.client.defineAnalysisScheme(this.ops["DefineAnalysisScheme"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.defineAnalysisScheme(this.ops["DefineAnalysisScheme"].applicator.apply(partialParams));
     }
     invokeDefineExpression(partialParams) {
-        return this.client.defineExpression(this.ops["DefineExpression"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.defineExpression(this.ops["DefineExpression"].applicator.apply(partialParams));
     }
     invokeDefineIndexField(partialParams) {
-        return this.client.defineIndexField(this.ops["DefineIndexField"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.defineIndexField(this.ops["DefineIndexField"].applicator.apply(partialParams));
     }
     invokeDefineSuggester(partialParams) {
-        return this.client.defineSuggester(this.ops["DefineSuggester"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.defineSuggester(this.ops["DefineSuggester"].applicator.apply(partialParams));
     }
     invokeDeleteAnalysisScheme(partialParams) {
-        return this.client.deleteAnalysisScheme(this.ops["DeleteAnalysisScheme"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteAnalysisScheme(this.ops["DeleteAnalysisScheme"].applicator.apply(partialParams));
     }
     invokeDeleteDomain(partialParams) {
-        return this.client.deleteDomain(this.ops["DeleteDomain"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteDomain(this.ops["DeleteDomain"].applicator.apply(partialParams));
     }
     invokeDeleteExpression(partialParams) {
-        return this.client.deleteExpression(this.ops["DeleteExpression"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteExpression(this.ops["DeleteExpression"].applicator.apply(partialParams));
     }
     invokeDeleteIndexField(partialParams) {
-        return this.client.deleteIndexField(this.ops["DeleteIndexField"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteIndexField(this.ops["DeleteIndexField"].applicator.apply(partialParams));
     }
     invokeDeleteSuggester(partialParams) {
-        return this.client.deleteSuggester(this.ops["DeleteSuggester"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteSuggester(this.ops["DeleteSuggester"].applicator.apply(partialParams));
     }
     invokeDescribeAnalysisSchemes(partialParams) {
-        return this.client.describeAnalysisSchemes(this.ops["DescribeAnalysisSchemes"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeAnalysisSchemes(this.ops["DescribeAnalysisSchemes"].applicator.apply(partialParams));
     }
     invokeDescribeAvailabilityOptions(partialParams) {
-        return this.client.describeAvailabilityOptions(this.ops["DescribeAvailabilityOptions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeAvailabilityOptions(this.ops["DescribeAvailabilityOptions"].applicator.apply(partialParams));
     }
     invokeDescribeDomainEndpointOptions(partialParams) {
-        return this.client.describeDomainEndpointOptions(this.ops["DescribeDomainEndpointOptions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeDomainEndpointOptions(this.ops["DescribeDomainEndpointOptions"].applicator.apply(partialParams));
     }
     invokeDescribeExpressions(partialParams) {
-        return this.client.describeExpressions(this.ops["DescribeExpressions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeExpressions(this.ops["DescribeExpressions"].applicator.apply(partialParams));
     }
     invokeDescribeIndexFields(partialParams) {
-        return this.client.describeIndexFields(this.ops["DescribeIndexFields"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeIndexFields(this.ops["DescribeIndexFields"].applicator.apply(partialParams));
     }
     invokeDescribeScalingParameters(partialParams) {
-        return this.client.describeScalingParameters(this.ops["DescribeScalingParameters"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeScalingParameters(this.ops["DescribeScalingParameters"].applicator.apply(partialParams));
     }
     invokeDescribeServiceAccessPolicies(partialParams) {
-        return this.client.describeServiceAccessPolicies(this.ops["DescribeServiceAccessPolicies"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeServiceAccessPolicies(this.ops["DescribeServiceAccessPolicies"].applicator.apply(partialParams));
     }
     invokeDescribeSuggesters(partialParams) {
-        return this.client.describeSuggesters(this.ops["DescribeSuggesters"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeSuggesters(this.ops["DescribeSuggesters"].applicator.apply(partialParams));
     }
     invokeIndexDocuments(partialParams) {
-        return this.client.indexDocuments(this.ops["IndexDocuments"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.indexDocuments(this.ops["IndexDocuments"].applicator.apply(partialParams));
     }
     invokeUpdateAvailabilityOptions(partialParams) {
-        return this.client.updateAvailabilityOptions(this.ops["UpdateAvailabilityOptions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateAvailabilityOptions(this.ops["UpdateAvailabilityOptions"].applicator.apply(partialParams));
     }
     invokeUpdateDomainEndpointOptions(partialParams) {
-        return this.client.updateDomainEndpointOptions(this.ops["UpdateDomainEndpointOptions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateDomainEndpointOptions(this.ops["UpdateDomainEndpointOptions"].applicator.apply(partialParams));
     }
     invokeUpdateScalingParameters(partialParams) {
-        return this.client.updateScalingParameters(this.ops["UpdateScalingParameters"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateScalingParameters(this.ops["UpdateScalingParameters"].applicator.apply(partialParams));
     }
     invokeUpdateServiceAccessPolicies(partialParams) {
-        return this.client.updateServiceAccessPolicies(this.ops["UpdateServiceAccessPolicies"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateServiceAccessPolicies(this.ops["UpdateServiceAccessPolicies"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

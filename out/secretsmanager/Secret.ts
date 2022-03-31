@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     CancelRotateSecretRequest,
     CreateSecretRequest,
@@ -41,8 +44,8 @@ import {
     UpdateSecretVersionStageResponse,
     ValidateResourcePolicyResponse
 } from "aws-sdk/clients/secretsmanager";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/secretsmanager-2017-10-17.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -51,171 +54,253 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.secretsmanager.Secret {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.secretsmanager.Secret>) {
         super(...args)
         this.client = new awssdk.SecretsManager()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/secretsmanager-2017-10-17.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeCancelRotateSecret(partialParams: ToOptional<{
       [K in keyof CancelRotateSecretRequest & keyof CancelRotateSecretRequest & keyof CancelRotateSecretRequest & keyof CancelRotateSecretRequest & keyof CancelRotateSecretRequest & keyof CancelRotateSecretRequest & keyof CancelRotateSecretRequest]: (CancelRotateSecretRequest & CancelRotateSecretRequest & CancelRotateSecretRequest & CancelRotateSecretRequest & CancelRotateSecretRequest & CancelRotateSecretRequest & CancelRotateSecretRequest)[K]
-    }>): CancelRotateSecretResponse {
+    }>): Request<CancelRotateSecretResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.cancelRotateSecret(
-            this.ops["CancelRotateSecret"].apply(partialParams)
+          this.ops["CancelRotateSecret"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateSecret(partialParams: ToOptional<{
       [K in keyof CreateSecretRequest & keyof CreateSecretRequest & keyof CreateSecretRequest & keyof CreateSecretRequest & keyof CreateSecretRequest & keyof CreateSecretRequest & keyof CreateSecretRequest]: (CreateSecretRequest & CreateSecretRequest & CreateSecretRequest & CreateSecretRequest & CreateSecretRequest & CreateSecretRequest & CreateSecretRequest)[K]
-    }>): CreateSecretResponse {
+    }>): Request<CreateSecretResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createSecret(
-            this.ops["CreateSecret"].apply(partialParams)
+          this.ops["CreateSecret"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteResourcePolicy(partialParams: ToOptional<{
       [K in keyof DeleteResourcePolicyRequest & keyof DeleteResourcePolicyRequest & keyof DeleteResourcePolicyRequest & keyof DeleteResourcePolicyRequest & keyof DeleteResourcePolicyRequest & keyof DeleteResourcePolicyRequest & keyof DeleteResourcePolicyRequest]: (DeleteResourcePolicyRequest & DeleteResourcePolicyRequest & DeleteResourcePolicyRequest & DeleteResourcePolicyRequest & DeleteResourcePolicyRequest & DeleteResourcePolicyRequest & DeleteResourcePolicyRequest)[K]
-    }>): DeleteResourcePolicyResponse {
+    }>): Request<DeleteResourcePolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteResourcePolicy(
-            this.ops["DeleteResourcePolicy"].apply(partialParams)
+          this.ops["DeleteResourcePolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteSecret(partialParams: ToOptional<{
       [K in keyof DeleteSecretRequest & keyof DeleteSecretRequest & keyof DeleteSecretRequest & keyof DeleteSecretRequest & keyof DeleteSecretRequest & keyof DeleteSecretRequest & keyof DeleteSecretRequest]: (DeleteSecretRequest & DeleteSecretRequest & DeleteSecretRequest & DeleteSecretRequest & DeleteSecretRequest & DeleteSecretRequest & DeleteSecretRequest)[K]
-    }>): DeleteSecretResponse {
+    }>): Request<DeleteSecretResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteSecret(
-            this.ops["DeleteSecret"].apply(partialParams)
+          this.ops["DeleteSecret"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeSecret(partialParams: ToOptional<{
       [K in keyof DescribeSecretRequest & keyof DescribeSecretRequest & keyof DescribeSecretRequest & keyof DescribeSecretRequest & keyof DescribeSecretRequest & keyof DescribeSecretRequest & keyof DescribeSecretRequest]: (DescribeSecretRequest & DescribeSecretRequest & DescribeSecretRequest & DescribeSecretRequest & DescribeSecretRequest & DescribeSecretRequest & DescribeSecretRequest)[K]
-    }>): DescribeSecretResponse {
+    }>): Request<DescribeSecretResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeSecret(
-            this.ops["DescribeSecret"].apply(partialParams)
+          this.ops["DescribeSecret"].applicator.apply(partialParams)
         );
     }
 
     invokeGetResourcePolicy(partialParams: ToOptional<{
       [K in keyof GetResourcePolicyRequest & keyof GetResourcePolicyRequest & keyof GetResourcePolicyRequest & keyof GetResourcePolicyRequest & keyof GetResourcePolicyRequest & keyof GetResourcePolicyRequest & keyof GetResourcePolicyRequest]: (GetResourcePolicyRequest & GetResourcePolicyRequest & GetResourcePolicyRequest & GetResourcePolicyRequest & GetResourcePolicyRequest & GetResourcePolicyRequest & GetResourcePolicyRequest)[K]
-    }>): GetResourcePolicyResponse {
+    }>): Request<GetResourcePolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getResourcePolicy(
-            this.ops["GetResourcePolicy"].apply(partialParams)
+          this.ops["GetResourcePolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeGetSecretValue(partialParams: ToOptional<{
       [K in keyof GetSecretValueRequest & keyof GetSecretValueRequest & keyof GetSecretValueRequest & keyof GetSecretValueRequest & keyof GetSecretValueRequest & keyof GetSecretValueRequest & keyof GetSecretValueRequest]: (GetSecretValueRequest & GetSecretValueRequest & GetSecretValueRequest & GetSecretValueRequest & GetSecretValueRequest & GetSecretValueRequest & GetSecretValueRequest)[K]
-    }>): GetSecretValueResponse {
+    }>): Request<GetSecretValueResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getSecretValue(
-            this.ops["GetSecretValue"].apply(partialParams)
+          this.ops["GetSecretValue"].applicator.apply(partialParams)
         );
     }
 
     invokeListSecretVersionIds(partialParams: ToOptional<{
       [K in keyof ListSecretVersionIdsRequest & keyof ListSecretVersionIdsRequest & keyof ListSecretVersionIdsRequest & keyof ListSecretVersionIdsRequest & keyof ListSecretVersionIdsRequest & keyof ListSecretVersionIdsRequest & keyof ListSecretVersionIdsRequest]: (ListSecretVersionIdsRequest & ListSecretVersionIdsRequest & ListSecretVersionIdsRequest & ListSecretVersionIdsRequest & ListSecretVersionIdsRequest & ListSecretVersionIdsRequest & ListSecretVersionIdsRequest)[K]
-    }>): ListSecretVersionIdsResponse {
+    }>): Request<ListSecretVersionIdsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listSecretVersionIds(
-            this.ops["ListSecretVersionIds"].apply(partialParams)
+          this.ops["ListSecretVersionIds"].applicator.apply(partialParams)
         );
     }
 
     invokePutResourcePolicy(partialParams: ToOptional<{
       [K in keyof PutResourcePolicyRequest & keyof PutResourcePolicyRequest & keyof PutResourcePolicyRequest & keyof PutResourcePolicyRequest & keyof PutResourcePolicyRequest & keyof PutResourcePolicyRequest & keyof PutResourcePolicyRequest]: (PutResourcePolicyRequest & PutResourcePolicyRequest & PutResourcePolicyRequest & PutResourcePolicyRequest & PutResourcePolicyRequest & PutResourcePolicyRequest & PutResourcePolicyRequest)[K]
-    }>): PutResourcePolicyResponse {
+    }>): Request<PutResourcePolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putResourcePolicy(
-            this.ops["PutResourcePolicy"].apply(partialParams)
+          this.ops["PutResourcePolicy"].applicator.apply(partialParams)
         );
     }
 
     invokePutSecretValue(partialParams: ToOptional<{
       [K in keyof PutSecretValueRequest & keyof PutSecretValueRequest & keyof PutSecretValueRequest & keyof PutSecretValueRequest & keyof PutSecretValueRequest & keyof PutSecretValueRequest & keyof PutSecretValueRequest]: (PutSecretValueRequest & PutSecretValueRequest & PutSecretValueRequest & PutSecretValueRequest & PutSecretValueRequest & PutSecretValueRequest & PutSecretValueRequest)[K]
-    }>): PutSecretValueResponse {
+    }>): Request<PutSecretValueResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putSecretValue(
-            this.ops["PutSecretValue"].apply(partialParams)
+          this.ops["PutSecretValue"].applicator.apply(partialParams)
         );
     }
 
     invokeRemoveRegionsFromReplication(partialParams: ToOptional<{
       [K in keyof RemoveRegionsFromReplicationRequest & keyof RemoveRegionsFromReplicationRequest & keyof RemoveRegionsFromReplicationRequest & keyof RemoveRegionsFromReplicationRequest & keyof RemoveRegionsFromReplicationRequest & keyof RemoveRegionsFromReplicationRequest & keyof RemoveRegionsFromReplicationRequest]: (RemoveRegionsFromReplicationRequest & RemoveRegionsFromReplicationRequest & RemoveRegionsFromReplicationRequest & RemoveRegionsFromReplicationRequest & RemoveRegionsFromReplicationRequest & RemoveRegionsFromReplicationRequest & RemoveRegionsFromReplicationRequest)[K]
-    }>): RemoveRegionsFromReplicationResponse {
+    }>): Request<RemoveRegionsFromReplicationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.removeRegionsFromReplication(
-            this.ops["RemoveRegionsFromReplication"].apply(partialParams)
+          this.ops["RemoveRegionsFromReplication"].applicator.apply(partialParams)
         );
     }
 
     invokeReplicateSecretToRegions(partialParams: ToOptional<{
       [K in keyof ReplicateSecretToRegionsRequest & keyof ReplicateSecretToRegionsRequest & keyof ReplicateSecretToRegionsRequest & keyof ReplicateSecretToRegionsRequest & keyof ReplicateSecretToRegionsRequest & keyof ReplicateSecretToRegionsRequest & keyof ReplicateSecretToRegionsRequest]: (ReplicateSecretToRegionsRequest & ReplicateSecretToRegionsRequest & ReplicateSecretToRegionsRequest & ReplicateSecretToRegionsRequest & ReplicateSecretToRegionsRequest & ReplicateSecretToRegionsRequest & ReplicateSecretToRegionsRequest)[K]
-    }>): ReplicateSecretToRegionsResponse {
+    }>): Request<ReplicateSecretToRegionsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.replicateSecretToRegions(
-            this.ops["ReplicateSecretToRegions"].apply(partialParams)
+          this.ops["ReplicateSecretToRegions"].applicator.apply(partialParams)
         );
     }
 
     invokeRestoreSecret(partialParams: ToOptional<{
       [K in keyof RestoreSecretRequest & keyof RestoreSecretRequest & keyof RestoreSecretRequest & keyof RestoreSecretRequest & keyof RestoreSecretRequest & keyof RestoreSecretRequest & keyof RestoreSecretRequest]: (RestoreSecretRequest & RestoreSecretRequest & RestoreSecretRequest & RestoreSecretRequest & RestoreSecretRequest & RestoreSecretRequest & RestoreSecretRequest)[K]
-    }>): RestoreSecretResponse {
+    }>): Request<RestoreSecretResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.restoreSecret(
-            this.ops["RestoreSecret"].apply(partialParams)
+          this.ops["RestoreSecret"].applicator.apply(partialParams)
         );
     }
 
     invokeRotateSecret(partialParams: ToOptional<{
       [K in keyof RotateSecretRequest & keyof RotateSecretRequest & keyof RotateSecretRequest & keyof RotateSecretRequest & keyof RotateSecretRequest & keyof RotateSecretRequest & keyof RotateSecretRequest]: (RotateSecretRequest & RotateSecretRequest & RotateSecretRequest & RotateSecretRequest & RotateSecretRequest & RotateSecretRequest & RotateSecretRequest)[K]
-    }>): RotateSecretResponse {
+    }>): Request<RotateSecretResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.rotateSecret(
-            this.ops["RotateSecret"].apply(partialParams)
+          this.ops["RotateSecret"].applicator.apply(partialParams)
         );
     }
 
     invokeStopReplicationToReplica(partialParams: ToOptional<{
       [K in keyof StopReplicationToReplicaRequest & keyof StopReplicationToReplicaRequest & keyof StopReplicationToReplicaRequest & keyof StopReplicationToReplicaRequest & keyof StopReplicationToReplicaRequest & keyof StopReplicationToReplicaRequest & keyof StopReplicationToReplicaRequest]: (StopReplicationToReplicaRequest & StopReplicationToReplicaRequest & StopReplicationToReplicaRequest & StopReplicationToReplicaRequest & StopReplicationToReplicaRequest & StopReplicationToReplicaRequest & StopReplicationToReplicaRequest)[K]
-    }>): StopReplicationToReplicaResponse {
+    }>): Request<StopReplicationToReplicaResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.stopReplicationToReplica(
-            this.ops["StopReplicationToReplica"].apply(partialParams)
+          this.ops["StopReplicationToReplica"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateSecret(partialParams: ToOptional<{
       [K in keyof UpdateSecretRequest & keyof UpdateSecretRequest & keyof UpdateSecretRequest & keyof UpdateSecretRequest & keyof UpdateSecretRequest & keyof UpdateSecretRequest & keyof UpdateSecretRequest]: (UpdateSecretRequest & UpdateSecretRequest & UpdateSecretRequest & UpdateSecretRequest & UpdateSecretRequest & UpdateSecretRequest & UpdateSecretRequest)[K]
-    }>): UpdateSecretResponse {
+    }>): Request<UpdateSecretResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateSecret(
-            this.ops["UpdateSecret"].apply(partialParams)
+          this.ops["UpdateSecret"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateSecretVersionStage(partialParams: ToOptional<{
       [K in keyof UpdateSecretVersionStageRequest & keyof UpdateSecretVersionStageRequest & keyof UpdateSecretVersionStageRequest & keyof UpdateSecretVersionStageRequest & keyof UpdateSecretVersionStageRequest & keyof UpdateSecretVersionStageRequest & keyof UpdateSecretVersionStageRequest]: (UpdateSecretVersionStageRequest & UpdateSecretVersionStageRequest & UpdateSecretVersionStageRequest & UpdateSecretVersionStageRequest & UpdateSecretVersionStageRequest & UpdateSecretVersionStageRequest & UpdateSecretVersionStageRequest)[K]
-    }>): UpdateSecretVersionStageResponse {
+    }>): Request<UpdateSecretVersionStageResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateSecretVersionStage(
-            this.ops["UpdateSecretVersionStage"].apply(partialParams)
+          this.ops["UpdateSecretVersionStage"].applicator.apply(partialParams)
         );
     }
 
     invokeValidateResourcePolicy(partialParams: ToOptional<{
       [K in keyof ValidateResourcePolicyRequest & keyof ValidateResourcePolicyRequest & keyof ValidateResourcePolicyRequest & keyof ValidateResourcePolicyRequest & keyof ValidateResourcePolicyRequest & keyof ValidateResourcePolicyRequest & keyof ValidateResourcePolicyRequest]: (ValidateResourcePolicyRequest & ValidateResourcePolicyRequest & ValidateResourcePolicyRequest & ValidateResourcePolicyRequest & ValidateResourcePolicyRequest & ValidateResourcePolicyRequest & ValidateResourcePolicyRequest)[K]
-    }>): ValidateResourcePolicyResponse {
+    }>): Request<ValidateResourcePolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.validateResourcePolicy(
-            this.ops["ValidateResourcePolicy"].apply(partialParams)
+          this.ops["ValidateResourcePolicy"].applicator.apply(partialParams)
         );
     }
 }

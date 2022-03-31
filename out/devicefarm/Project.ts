@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     CreateDevicePoolRequest,
     CreateInstanceProfileRequest,
@@ -133,8 +136,8 @@ import {
     UpdateUploadResult,
     UpdateVPCEConfigurationResult
 } from "aws-sdk/clients/devicefarm";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/devicefarm-2015-06-23.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -143,531 +146,748 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.devicefarm.Project {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.devicefarm.Project>) {
         super(...args)
         this.client = new awssdk.DeviceFarm()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/devicefarm-2015-06-23.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeCreateDevicePool(partialParams: ToOptional<{
       [K in keyof CreateDevicePoolRequest & keyof CreateDevicePoolRequest]: (CreateDevicePoolRequest & CreateDevicePoolRequest)[K]
-    }>): CreateDevicePoolResult {
+    }>): Request<CreateDevicePoolResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createDevicePool(
-            this.ops["CreateDevicePool"].apply(partialParams)
+          this.ops["CreateDevicePool"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateInstanceProfile(partialParams: ToOptional<{
       [K in keyof CreateInstanceProfileRequest & keyof CreateInstanceProfileRequest]: (CreateInstanceProfileRequest & CreateInstanceProfileRequest)[K]
-    }>): CreateInstanceProfileResult {
+    }>): Request<CreateInstanceProfileResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createInstanceProfile(
-            this.ops["CreateInstanceProfile"].apply(partialParams)
+          this.ops["CreateInstanceProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateNetworkProfile(partialParams: ToOptional<{
       [K in keyof CreateNetworkProfileRequest & keyof CreateNetworkProfileRequest]: (CreateNetworkProfileRequest & CreateNetworkProfileRequest)[K]
-    }>): CreateNetworkProfileResult {
+    }>): Request<CreateNetworkProfileResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createNetworkProfile(
-            this.ops["CreateNetworkProfile"].apply(partialParams)
+          this.ops["CreateNetworkProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateProject(partialParams: ToOptional<{
       [K in keyof CreateProjectRequest & keyof CreateProjectRequest]: (CreateProjectRequest & CreateProjectRequest)[K]
-    }>): CreateProjectResult {
+    }>): Request<CreateProjectResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createProject(
-            this.ops["CreateProject"].apply(partialParams)
+          this.ops["CreateProject"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateRemoteAccessSession(partialParams: ToOptional<{
       [K in keyof CreateRemoteAccessSessionRequest & keyof CreateRemoteAccessSessionRequest]: (CreateRemoteAccessSessionRequest & CreateRemoteAccessSessionRequest)[K]
-    }>): CreateRemoteAccessSessionResult {
+    }>): Request<CreateRemoteAccessSessionResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createRemoteAccessSession(
-            this.ops["CreateRemoteAccessSession"].apply(partialParams)
+          this.ops["CreateRemoteAccessSession"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateTestGridProject(partialParams: ToOptional<{
       [K in keyof CreateTestGridProjectRequest & keyof CreateTestGridProjectRequest]: (CreateTestGridProjectRequest & CreateTestGridProjectRequest)[K]
-    }>): CreateTestGridProjectResult {
+    }>): Request<CreateTestGridProjectResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createTestGridProject(
-            this.ops["CreateTestGridProject"].apply(partialParams)
+          this.ops["CreateTestGridProject"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateTestGridUrl(partialParams: ToOptional<{
       [K in keyof CreateTestGridUrlRequest & keyof CreateTestGridUrlRequest]: (CreateTestGridUrlRequest & CreateTestGridUrlRequest)[K]
-    }>): CreateTestGridUrlResult {
+    }>): Request<CreateTestGridUrlResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createTestGridUrl(
-            this.ops["CreateTestGridUrl"].apply(partialParams)
+          this.ops["CreateTestGridUrl"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateUpload(partialParams: ToOptional<{
       [K in keyof CreateUploadRequest & keyof CreateUploadRequest]: (CreateUploadRequest & CreateUploadRequest)[K]
-    }>): CreateUploadResult {
+    }>): Request<CreateUploadResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createUpload(
-            this.ops["CreateUpload"].apply(partialParams)
+          this.ops["CreateUpload"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateVPCEConfiguration(partialParams: ToOptional<{
       [K in keyof CreateVPCEConfigurationRequest & keyof CreateVPCEConfigurationRequest]: (CreateVPCEConfigurationRequest & CreateVPCEConfigurationRequest)[K]
-    }>): CreateVPCEConfigurationResult {
+    }>): Request<CreateVPCEConfigurationResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createVPCEConfiguration(
-            this.ops["CreateVPCEConfiguration"].apply(partialParams)
+          this.ops["CreateVPCEConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteDevicePool(partialParams: ToOptional<{
       [K in keyof Omit<DeleteDevicePoolRequest, "arn"> & keyof DeleteDevicePoolRequest]: (Omit<DeleteDevicePoolRequest, "arn"> & DeleteDevicePoolRequest)[K]
-    }>): DeleteDevicePoolResult {
+    }>): Request<DeleteDevicePoolResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteDevicePool(
-            this.ops["DeleteDevicePool"].apply(partialParams)
+          this.ops["DeleteDevicePool"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteInstanceProfile(partialParams: ToOptional<{
       [K in keyof Omit<DeleteInstanceProfileRequest, "arn"> & keyof DeleteInstanceProfileRequest]: (Omit<DeleteInstanceProfileRequest, "arn"> & DeleteInstanceProfileRequest)[K]
-    }>): DeleteInstanceProfileResult {
+    }>): Request<DeleteInstanceProfileResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteInstanceProfile(
-            this.ops["DeleteInstanceProfile"].apply(partialParams)
+          this.ops["DeleteInstanceProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteNetworkProfile(partialParams: ToOptional<{
       [K in keyof Omit<DeleteNetworkProfileRequest, "arn"> & keyof DeleteNetworkProfileRequest]: (Omit<DeleteNetworkProfileRequest, "arn"> & DeleteNetworkProfileRequest)[K]
-    }>): DeleteNetworkProfileResult {
+    }>): Request<DeleteNetworkProfileResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteNetworkProfile(
-            this.ops["DeleteNetworkProfile"].apply(partialParams)
+          this.ops["DeleteNetworkProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteProject(partialParams: ToOptional<{
       [K in keyof Omit<DeleteProjectRequest, "arn"> & keyof DeleteProjectRequest]: (Omit<DeleteProjectRequest, "arn"> & DeleteProjectRequest)[K]
-    }>): DeleteProjectResult {
+    }>): Request<DeleteProjectResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteProject(
-            this.ops["DeleteProject"].apply(partialParams)
+          this.ops["DeleteProject"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteRemoteAccessSession(partialParams: ToOptional<{
       [K in keyof Omit<DeleteRemoteAccessSessionRequest, "arn"> & keyof DeleteRemoteAccessSessionRequest]: (Omit<DeleteRemoteAccessSessionRequest, "arn"> & DeleteRemoteAccessSessionRequest)[K]
-    }>): DeleteRemoteAccessSessionResult {
+    }>): Request<DeleteRemoteAccessSessionResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteRemoteAccessSession(
-            this.ops["DeleteRemoteAccessSession"].apply(partialParams)
+          this.ops["DeleteRemoteAccessSession"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteRun(partialParams: ToOptional<{
       [K in keyof Omit<DeleteRunRequest, "arn"> & keyof DeleteRunRequest]: (Omit<DeleteRunRequest, "arn"> & DeleteRunRequest)[K]
-    }>): DeleteRunResult {
+    }>): Request<DeleteRunResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteRun(
-            this.ops["DeleteRun"].apply(partialParams)
+          this.ops["DeleteRun"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteTestGridProject(partialParams: ToOptional<{
       [K in keyof DeleteTestGridProjectRequest & keyof DeleteTestGridProjectRequest]: (DeleteTestGridProjectRequest & DeleteTestGridProjectRequest)[K]
-    }>): DeleteTestGridProjectResult {
+    }>): Request<DeleteTestGridProjectResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteTestGridProject(
-            this.ops["DeleteTestGridProject"].apply(partialParams)
+          this.ops["DeleteTestGridProject"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteUpload(partialParams: ToOptional<{
       [K in keyof Omit<DeleteUploadRequest, "arn"> & keyof DeleteUploadRequest]: (Omit<DeleteUploadRequest, "arn"> & DeleteUploadRequest)[K]
-    }>): DeleteUploadResult {
+    }>): Request<DeleteUploadResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteUpload(
-            this.ops["DeleteUpload"].apply(partialParams)
+          this.ops["DeleteUpload"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteVPCEConfiguration(partialParams: ToOptional<{
       [K in keyof Omit<DeleteVPCEConfigurationRequest, "arn"> & keyof DeleteVPCEConfigurationRequest]: (Omit<DeleteVPCEConfigurationRequest, "arn"> & DeleteVPCEConfigurationRequest)[K]
-    }>): DeleteVPCEConfigurationResult {
+    }>): Request<DeleteVPCEConfigurationResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteVPCEConfiguration(
-            this.ops["DeleteVPCEConfiguration"].apply(partialParams)
+          this.ops["DeleteVPCEConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeGetDevice(partialParams: ToOptional<{
       [K in keyof Omit<GetDeviceRequest, "arn"> & keyof GetDeviceRequest]: (Omit<GetDeviceRequest, "arn"> & GetDeviceRequest)[K]
-    }>): GetDeviceResult {
+    }>): Request<GetDeviceResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getDevice(
-            this.ops["GetDevice"].apply(partialParams)
+          this.ops["GetDevice"].applicator.apply(partialParams)
         );
     }
 
     invokeGetDeviceInstance(partialParams: ToOptional<{
       [K in keyof Omit<GetDeviceInstanceRequest, "arn"> & keyof GetDeviceInstanceRequest]: (Omit<GetDeviceInstanceRequest, "arn"> & GetDeviceInstanceRequest)[K]
-    }>): GetDeviceInstanceResult {
+    }>): Request<GetDeviceInstanceResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getDeviceInstance(
-            this.ops["GetDeviceInstance"].apply(partialParams)
+          this.ops["GetDeviceInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeGetDevicePool(partialParams: ToOptional<{
       [K in keyof Omit<GetDevicePoolRequest, "arn"> & keyof GetDevicePoolRequest]: (Omit<GetDevicePoolRequest, "arn"> & GetDevicePoolRequest)[K]
-    }>): GetDevicePoolResult {
+    }>): Request<GetDevicePoolResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getDevicePool(
-            this.ops["GetDevicePool"].apply(partialParams)
+          this.ops["GetDevicePool"].applicator.apply(partialParams)
         );
     }
 
     invokeGetDevicePoolCompatibility(partialParams: ToOptional<{
       [K in keyof GetDevicePoolCompatibilityRequest & keyof GetDevicePoolCompatibilityRequest]: (GetDevicePoolCompatibilityRequest & GetDevicePoolCompatibilityRequest)[K]
-    }>): GetDevicePoolCompatibilityResult {
+    }>): Request<GetDevicePoolCompatibilityResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getDevicePoolCompatibility(
-            this.ops["GetDevicePoolCompatibility"].apply(partialParams)
+          this.ops["GetDevicePoolCompatibility"].applicator.apply(partialParams)
         );
     }
 
     invokeGetInstanceProfile(partialParams: ToOptional<{
       [K in keyof Omit<GetInstanceProfileRequest, "arn"> & keyof GetInstanceProfileRequest]: (Omit<GetInstanceProfileRequest, "arn"> & GetInstanceProfileRequest)[K]
-    }>): GetInstanceProfileResult {
+    }>): Request<GetInstanceProfileResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getInstanceProfile(
-            this.ops["GetInstanceProfile"].apply(partialParams)
+          this.ops["GetInstanceProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeGetJob(partialParams: ToOptional<{
       [K in keyof Omit<GetJobRequest, "arn"> & keyof GetJobRequest]: (Omit<GetJobRequest, "arn"> & GetJobRequest)[K]
-    }>): GetJobResult {
+    }>): Request<GetJobResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getJob(
-            this.ops["GetJob"].apply(partialParams)
+          this.ops["GetJob"].applicator.apply(partialParams)
         );
     }
 
     invokeGetNetworkProfile(partialParams: ToOptional<{
       [K in keyof Omit<GetNetworkProfileRequest, "arn"> & keyof GetNetworkProfileRequest]: (Omit<GetNetworkProfileRequest, "arn"> & GetNetworkProfileRequest)[K]
-    }>): GetNetworkProfileResult {
+    }>): Request<GetNetworkProfileResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getNetworkProfile(
-            this.ops["GetNetworkProfile"].apply(partialParams)
+          this.ops["GetNetworkProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeGetProject(partialParams: ToOptional<{
       [K in keyof Omit<GetProjectRequest, "arn"> & keyof GetProjectRequest]: (Omit<GetProjectRequest, "arn"> & GetProjectRequest)[K]
-    }>): GetProjectResult {
+    }>): Request<GetProjectResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getProject(
-            this.ops["GetProject"].apply(partialParams)
+          this.ops["GetProject"].applicator.apply(partialParams)
         );
     }
 
     invokeGetRemoteAccessSession(partialParams: ToOptional<{
       [K in keyof Omit<GetRemoteAccessSessionRequest, "arn"> & keyof GetRemoteAccessSessionRequest]: (Omit<GetRemoteAccessSessionRequest, "arn"> & GetRemoteAccessSessionRequest)[K]
-    }>): GetRemoteAccessSessionResult {
+    }>): Request<GetRemoteAccessSessionResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getRemoteAccessSession(
-            this.ops["GetRemoteAccessSession"].apply(partialParams)
+          this.ops["GetRemoteAccessSession"].applicator.apply(partialParams)
         );
     }
 
     invokeGetRun(partialParams: ToOptional<{
       [K in keyof Omit<GetRunRequest, "arn"> & keyof GetRunRequest]: (Omit<GetRunRequest, "arn"> & GetRunRequest)[K]
-    }>): GetRunResult {
+    }>): Request<GetRunResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getRun(
-            this.ops["GetRun"].apply(partialParams)
+          this.ops["GetRun"].applicator.apply(partialParams)
         );
     }
 
     invokeGetSuite(partialParams: ToOptional<{
       [K in keyof Omit<GetSuiteRequest, "arn"> & keyof GetSuiteRequest]: (Omit<GetSuiteRequest, "arn"> & GetSuiteRequest)[K]
-    }>): GetSuiteResult {
+    }>): Request<GetSuiteResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getSuite(
-            this.ops["GetSuite"].apply(partialParams)
+          this.ops["GetSuite"].applicator.apply(partialParams)
         );
     }
 
     invokeGetTest(partialParams: ToOptional<{
       [K in keyof Omit<GetTestRequest, "arn"> & keyof GetTestRequest]: (Omit<GetTestRequest, "arn"> & GetTestRequest)[K]
-    }>): GetTestResult {
+    }>): Request<GetTestResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getTest(
-            this.ops["GetTest"].apply(partialParams)
+          this.ops["GetTest"].applicator.apply(partialParams)
         );
     }
 
     invokeGetTestGridProject(partialParams: ToOptional<{
       [K in keyof GetTestGridProjectRequest & keyof GetTestGridProjectRequest]: (GetTestGridProjectRequest & GetTestGridProjectRequest)[K]
-    }>): GetTestGridProjectResult {
+    }>): Request<GetTestGridProjectResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getTestGridProject(
-            this.ops["GetTestGridProject"].apply(partialParams)
+          this.ops["GetTestGridProject"].applicator.apply(partialParams)
         );
     }
 
     invokeGetUpload(partialParams: ToOptional<{
       [K in keyof Omit<GetUploadRequest, "arn"> & keyof GetUploadRequest]: (Omit<GetUploadRequest, "arn"> & GetUploadRequest)[K]
-    }>): GetUploadResult {
+    }>): Request<GetUploadResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getUpload(
-            this.ops["GetUpload"].apply(partialParams)
+          this.ops["GetUpload"].applicator.apply(partialParams)
         );
     }
 
     invokeGetVPCEConfiguration(partialParams: ToOptional<{
       [K in keyof Omit<GetVPCEConfigurationRequest, "arn"> & keyof GetVPCEConfigurationRequest]: (Omit<GetVPCEConfigurationRequest, "arn"> & GetVPCEConfigurationRequest)[K]
-    }>): GetVPCEConfigurationResult {
+    }>): Request<GetVPCEConfigurationResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getVPCEConfiguration(
-            this.ops["GetVPCEConfiguration"].apply(partialParams)
+          this.ops["GetVPCEConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeInstallToRemoteAccessSession(partialParams: ToOptional<{
       [K in keyof InstallToRemoteAccessSessionRequest & keyof InstallToRemoteAccessSessionRequest]: (InstallToRemoteAccessSessionRequest & InstallToRemoteAccessSessionRequest)[K]
-    }>): InstallToRemoteAccessSessionResult {
+    }>): Request<InstallToRemoteAccessSessionResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.installToRemoteAccessSession(
-            this.ops["InstallToRemoteAccessSession"].apply(partialParams)
+          this.ops["InstallToRemoteAccessSession"].applicator.apply(partialParams)
         );
     }
 
     invokeListArtifacts(partialParams: ToOptional<{
       [K in keyof Omit<ListArtifactsRequest, "arn"> & keyof ListArtifactsRequest]: (Omit<ListArtifactsRequest, "arn"> & ListArtifactsRequest)[K]
-    }>): ListArtifactsResult {
+    }>): Request<ListArtifactsResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listArtifacts(
-            this.ops["ListArtifacts"].apply(partialParams)
+          this.ops["ListArtifacts"].applicator.apply(partialParams)
         );
     }
 
     invokeListDevicePools(partialParams: ToOptional<{
       [K in keyof Omit<ListDevicePoolsRequest, "arn"> & keyof ListDevicePoolsRequest]: (Omit<ListDevicePoolsRequest, "arn"> & ListDevicePoolsRequest)[K]
-    }>): ListDevicePoolsResult {
+    }>): Request<ListDevicePoolsResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listDevicePools(
-            this.ops["ListDevicePools"].apply(partialParams)
+          this.ops["ListDevicePools"].applicator.apply(partialParams)
         );
     }
 
     invokeListJobs(partialParams: ToOptional<{
       [K in keyof Omit<ListJobsRequest, "arn"> & keyof ListJobsRequest]: (Omit<ListJobsRequest, "arn"> & ListJobsRequest)[K]
-    }>): ListJobsResult {
+    }>): Request<ListJobsResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listJobs(
-            this.ops["ListJobs"].apply(partialParams)
+          this.ops["ListJobs"].applicator.apply(partialParams)
         );
     }
 
     invokeListNetworkProfiles(partialParams: ToOptional<{
       [K in keyof Omit<ListNetworkProfilesRequest, "arn"> & keyof ListNetworkProfilesRequest]: (Omit<ListNetworkProfilesRequest, "arn"> & ListNetworkProfilesRequest)[K]
-    }>): ListNetworkProfilesResult {
+    }>): Request<ListNetworkProfilesResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listNetworkProfiles(
-            this.ops["ListNetworkProfiles"].apply(partialParams)
+          this.ops["ListNetworkProfiles"].applicator.apply(partialParams)
         );
     }
 
     invokeListRemoteAccessSessions(partialParams: ToOptional<{
       [K in keyof Omit<ListRemoteAccessSessionsRequest, "arn"> & keyof ListRemoteAccessSessionsRequest]: (Omit<ListRemoteAccessSessionsRequest, "arn"> & ListRemoteAccessSessionsRequest)[K]
-    }>): ListRemoteAccessSessionsResult {
+    }>): Request<ListRemoteAccessSessionsResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listRemoteAccessSessions(
-            this.ops["ListRemoteAccessSessions"].apply(partialParams)
+          this.ops["ListRemoteAccessSessions"].applicator.apply(partialParams)
         );
     }
 
     invokeListRuns(partialParams: ToOptional<{
       [K in keyof Omit<ListRunsRequest, "arn"> & keyof ListRunsRequest]: (Omit<ListRunsRequest, "arn"> & ListRunsRequest)[K]
-    }>): ListRunsResult {
+    }>): Request<ListRunsResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listRuns(
-            this.ops["ListRuns"].apply(partialParams)
+          this.ops["ListRuns"].applicator.apply(partialParams)
         );
     }
 
     invokeListSamples(partialParams: ToOptional<{
       [K in keyof Omit<ListSamplesRequest, "arn"> & keyof ListSamplesRequest]: (Omit<ListSamplesRequest, "arn"> & ListSamplesRequest)[K]
-    }>): ListSamplesResult {
+    }>): Request<ListSamplesResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listSamples(
-            this.ops["ListSamples"].apply(partialParams)
+          this.ops["ListSamples"].applicator.apply(partialParams)
         );
     }
 
     invokeListSuites(partialParams: ToOptional<{
       [K in keyof Omit<ListSuitesRequest, "arn"> & keyof ListSuitesRequest]: (Omit<ListSuitesRequest, "arn"> & ListSuitesRequest)[K]
-    }>): ListSuitesResult {
+    }>): Request<ListSuitesResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listSuites(
-            this.ops["ListSuites"].apply(partialParams)
+          this.ops["ListSuites"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
-    }>): ListTagsForResourceResponse {
+    }>): Request<ListTagsForResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokeListTestGridSessionActions(partialParams: ToOptional<{
       [K in keyof ListTestGridSessionActionsRequest & keyof ListTestGridSessionActionsRequest]: (ListTestGridSessionActionsRequest & ListTestGridSessionActionsRequest)[K]
-    }>): ListTestGridSessionActionsResult {
+    }>): Request<ListTestGridSessionActionsResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTestGridSessionActions(
-            this.ops["ListTestGridSessionActions"].apply(partialParams)
+          this.ops["ListTestGridSessionActions"].applicator.apply(partialParams)
         );
     }
 
     invokeListTestGridSessionArtifacts(partialParams: ToOptional<{
       [K in keyof ListTestGridSessionArtifactsRequest & keyof ListTestGridSessionArtifactsRequest]: (ListTestGridSessionArtifactsRequest & ListTestGridSessionArtifactsRequest)[K]
-    }>): ListTestGridSessionArtifactsResult {
+    }>): Request<ListTestGridSessionArtifactsResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTestGridSessionArtifacts(
-            this.ops["ListTestGridSessionArtifacts"].apply(partialParams)
+          this.ops["ListTestGridSessionArtifacts"].applicator.apply(partialParams)
         );
     }
 
     invokeListTestGridSessions(partialParams: ToOptional<{
       [K in keyof ListTestGridSessionsRequest & keyof ListTestGridSessionsRequest]: (ListTestGridSessionsRequest & ListTestGridSessionsRequest)[K]
-    }>): ListTestGridSessionsResult {
+    }>): Request<ListTestGridSessionsResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTestGridSessions(
-            this.ops["ListTestGridSessions"].apply(partialParams)
+          this.ops["ListTestGridSessions"].applicator.apply(partialParams)
         );
     }
 
     invokeListTests(partialParams: ToOptional<{
       [K in keyof Omit<ListTestsRequest, "arn"> & keyof ListTestsRequest]: (Omit<ListTestsRequest, "arn"> & ListTestsRequest)[K]
-    }>): ListTestsResult {
+    }>): Request<ListTestsResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTests(
-            this.ops["ListTests"].apply(partialParams)
+          this.ops["ListTests"].applicator.apply(partialParams)
         );
     }
 
     invokeListUniqueProblems(partialParams: ToOptional<{
       [K in keyof Omit<ListUniqueProblemsRequest, "arn"> & keyof ListUniqueProblemsRequest]: (Omit<ListUniqueProblemsRequest, "arn"> & ListUniqueProblemsRequest)[K]
-    }>): ListUniqueProblemsResult {
+    }>): Request<ListUniqueProblemsResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listUniqueProblems(
-            this.ops["ListUniqueProblems"].apply(partialParams)
+          this.ops["ListUniqueProblems"].applicator.apply(partialParams)
         );
     }
 
     invokeListUploads(partialParams: ToOptional<{
       [K in keyof Omit<ListUploadsRequest, "arn"> & keyof ListUploadsRequest]: (Omit<ListUploadsRequest, "arn"> & ListUploadsRequest)[K]
-    }>): ListUploadsResult {
+    }>): Request<ListUploadsResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listUploads(
-            this.ops["ListUploads"].apply(partialParams)
+          this.ops["ListUploads"].applicator.apply(partialParams)
         );
     }
 
     invokePurchaseOffering(partialParams: ToOptional<{
       [K in keyof PurchaseOfferingRequest & keyof PurchaseOfferingRequest]: (PurchaseOfferingRequest & PurchaseOfferingRequest)[K]
-    }>): PurchaseOfferingResult {
+    }>): Request<PurchaseOfferingResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.purchaseOffering(
-            this.ops["PurchaseOffering"].apply(partialParams)
+          this.ops["PurchaseOffering"].applicator.apply(partialParams)
         );
     }
 
     invokeRenewOffering(partialParams: ToOptional<{
       [K in keyof RenewOfferingRequest & keyof RenewOfferingRequest]: (RenewOfferingRequest & RenewOfferingRequest)[K]
-    }>): RenewOfferingResult {
+    }>): Request<RenewOfferingResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.renewOffering(
-            this.ops["RenewOffering"].apply(partialParams)
+          this.ops["RenewOffering"].applicator.apply(partialParams)
         );
     }
 
     invokeScheduleRun(partialParams: ToOptional<{
       [K in keyof ScheduleRunRequest & keyof ScheduleRunRequest]: (ScheduleRunRequest & ScheduleRunRequest)[K]
-    }>): ScheduleRunResult {
+    }>): Request<ScheduleRunResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.scheduleRun(
-            this.ops["ScheduleRun"].apply(partialParams)
+          this.ops["ScheduleRun"].applicator.apply(partialParams)
         );
     }
 
     invokeStopJob(partialParams: ToOptional<{
       [K in keyof Omit<StopJobRequest, "arn"> & keyof StopJobRequest]: (Omit<StopJobRequest, "arn"> & StopJobRequest)[K]
-    }>): StopJobResult {
+    }>): Request<StopJobResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.stopJob(
-            this.ops["StopJob"].apply(partialParams)
+          this.ops["StopJob"].applicator.apply(partialParams)
         );
     }
 
     invokeStopRemoteAccessSession(partialParams: ToOptional<{
       [K in keyof Omit<StopRemoteAccessSessionRequest, "arn"> & keyof StopRemoteAccessSessionRequest]: (Omit<StopRemoteAccessSessionRequest, "arn"> & StopRemoteAccessSessionRequest)[K]
-    }>): StopRemoteAccessSessionResult {
+    }>): Request<StopRemoteAccessSessionResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.stopRemoteAccessSession(
-            this.ops["StopRemoteAccessSession"].apply(partialParams)
+          this.ops["StopRemoteAccessSession"].applicator.apply(partialParams)
         );
     }
 
     invokeStopRun(partialParams: ToOptional<{
       [K in keyof Omit<StopRunRequest, "arn"> & keyof StopRunRequest]: (Omit<StopRunRequest, "arn"> & StopRunRequest)[K]
-    }>): StopRunResult {
+    }>): Request<StopRunResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.stopRun(
-            this.ops["StopRun"].apply(partialParams)
+          this.ops["StopRun"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest)[K]
-    }>): TagResourceResponse {
+    }>): Request<TagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest)[K]
-    }>): UntagResourceResponse {
+    }>): Request<UntagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateDeviceInstance(partialParams: ToOptional<{
       [K in keyof Omit<UpdateDeviceInstanceRequest, "arn"> & keyof UpdateDeviceInstanceRequest]: (Omit<UpdateDeviceInstanceRequest, "arn"> & UpdateDeviceInstanceRequest)[K]
-    }>): UpdateDeviceInstanceResult {
+    }>): Request<UpdateDeviceInstanceResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateDeviceInstance(
-            this.ops["UpdateDeviceInstance"].apply(partialParams)
+          this.ops["UpdateDeviceInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateDevicePool(partialParams: ToOptional<{
       [K in keyof Omit<UpdateDevicePoolRequest, "arn"> & keyof UpdateDevicePoolRequest]: (Omit<UpdateDevicePoolRequest, "arn"> & UpdateDevicePoolRequest)[K]
-    }>): UpdateDevicePoolResult {
+    }>): Request<UpdateDevicePoolResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateDevicePool(
-            this.ops["UpdateDevicePool"].apply(partialParams)
+          this.ops["UpdateDevicePool"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateInstanceProfile(partialParams: ToOptional<{
       [K in keyof Omit<UpdateInstanceProfileRequest, "arn"> & keyof UpdateInstanceProfileRequest]: (Omit<UpdateInstanceProfileRequest, "arn"> & UpdateInstanceProfileRequest)[K]
-    }>): UpdateInstanceProfileResult {
+    }>): Request<UpdateInstanceProfileResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateInstanceProfile(
-            this.ops["UpdateInstanceProfile"].apply(partialParams)
+          this.ops["UpdateInstanceProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateNetworkProfile(partialParams: ToOptional<{
       [K in keyof Omit<UpdateNetworkProfileRequest, "arn"> & keyof UpdateNetworkProfileRequest]: (Omit<UpdateNetworkProfileRequest, "arn"> & UpdateNetworkProfileRequest)[K]
-    }>): UpdateNetworkProfileResult {
+    }>): Request<UpdateNetworkProfileResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateNetworkProfile(
-            this.ops["UpdateNetworkProfile"].apply(partialParams)
+          this.ops["UpdateNetworkProfile"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateProject(partialParams: ToOptional<{
       [K in keyof Omit<UpdateProjectRequest, "arn"> & keyof UpdateProjectRequest]: (Omit<UpdateProjectRequest, "arn"> & UpdateProjectRequest)[K]
-    }>): UpdateProjectResult {
+    }>): Request<UpdateProjectResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateProject(
-            this.ops["UpdateProject"].apply(partialParams)
+          this.ops["UpdateProject"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateTestGridProject(partialParams: ToOptional<{
       [K in keyof UpdateTestGridProjectRequest & keyof UpdateTestGridProjectRequest]: (UpdateTestGridProjectRequest & UpdateTestGridProjectRequest)[K]
-    }>): UpdateTestGridProjectResult {
+    }>): Request<UpdateTestGridProjectResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateTestGridProject(
-            this.ops["UpdateTestGridProject"].apply(partialParams)
+          this.ops["UpdateTestGridProject"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateUpload(partialParams: ToOptional<{
       [K in keyof Omit<UpdateUploadRequest, "arn"> & keyof UpdateUploadRequest]: (Omit<UpdateUploadRequest, "arn"> & UpdateUploadRequest)[K]
-    }>): UpdateUploadResult {
+    }>): Request<UpdateUploadResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateUpload(
-            this.ops["UpdateUpload"].apply(partialParams)
+          this.ops["UpdateUpload"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateVPCEConfiguration(partialParams: ToOptional<{
       [K in keyof Omit<UpdateVPCEConfigurationRequest, "arn"> & keyof UpdateVPCEConfigurationRequest]: (Omit<UpdateVPCEConfigurationRequest, "arn"> & UpdateVPCEConfigurationRequest)[K]
-    }>): UpdateVPCEConfigurationResult {
+    }>): Request<UpdateVPCEConfigurationResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateVPCEConfiguration(
-            this.ops["UpdateVPCEConfiguration"].apply(partialParams)
+          this.ops["UpdateVPCEConfiguration"].applicator.apply(partialParams)
         );
     }
 }

@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,141 +21,292 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/dynamodb-2012-08-10.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.dynamodb.GlobalTable {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.DynamoDB();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/dynamodb-2012-08-10.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeBatchExecuteStatement(partialParams) {
-        return this.client.batchExecuteStatement(this.ops["BatchExecuteStatement"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchExecuteStatement(this.ops["BatchExecuteStatement"].applicator.apply(partialParams));
     }
     invokeBatchGetItem(partialParams) {
-        return this.client.batchGetItem(this.ops["BatchGetItem"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchGetItem(this.ops["BatchGetItem"].applicator.apply(partialParams));
     }
     invokeBatchWriteItem(partialParams) {
-        return this.client.batchWriteItem(this.ops["BatchWriteItem"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchWriteItem(this.ops["BatchWriteItem"].applicator.apply(partialParams));
     }
     invokeCreateBackup(partialParams) {
-        return this.client.createBackup(this.ops["CreateBackup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createBackup(this.ops["CreateBackup"].applicator.apply(partialParams));
     }
     invokeCreateGlobalTable(partialParams) {
-        return this.client.createGlobalTable(this.ops["CreateGlobalTable"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createGlobalTable(this.ops["CreateGlobalTable"].applicator.apply(partialParams));
     }
     invokeCreateTable(partialParams) {
-        return this.client.createTable(this.ops["CreateTable"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createTable(this.ops["CreateTable"].applicator.apply(partialParams));
     }
     invokeDeleteBackup(partialParams) {
-        return this.client.deleteBackup(this.ops["DeleteBackup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteBackup(this.ops["DeleteBackup"].applicator.apply(partialParams));
     }
     invokeDeleteItem(partialParams) {
-        return this.client.deleteItem(this.ops["DeleteItem"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteItem(this.ops["DeleteItem"].applicator.apply(partialParams));
     }
     invokeDeleteTable(partialParams) {
-        return this.client.deleteTable(this.ops["DeleteTable"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteTable(this.ops["DeleteTable"].applicator.apply(partialParams));
     }
     invokeDescribeBackup(partialParams) {
-        return this.client.describeBackup(this.ops["DescribeBackup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeBackup(this.ops["DescribeBackup"].applicator.apply(partialParams));
     }
     invokeDescribeContinuousBackups(partialParams) {
-        return this.client.describeContinuousBackups(this.ops["DescribeContinuousBackups"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeContinuousBackups(this.ops["DescribeContinuousBackups"].applicator.apply(partialParams));
     }
     invokeDescribeContributorInsights(partialParams) {
-        return this.client.describeContributorInsights(this.ops["DescribeContributorInsights"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeContributorInsights(this.ops["DescribeContributorInsights"].applicator.apply(partialParams));
     }
     invokeDescribeExport(partialParams) {
-        return this.client.describeExport(this.ops["DescribeExport"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeExport(this.ops["DescribeExport"].applicator.apply(partialParams));
     }
     invokeDescribeGlobalTable(partialParams) {
-        return this.client.describeGlobalTable(this.ops["DescribeGlobalTable"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeGlobalTable(this.ops["DescribeGlobalTable"].applicator.apply(partialParams));
     }
     invokeDescribeGlobalTableSettings(partialParams) {
-        return this.client.describeGlobalTableSettings(this.ops["DescribeGlobalTableSettings"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeGlobalTableSettings(this.ops["DescribeGlobalTableSettings"].applicator.apply(partialParams));
     }
     invokeDescribeKinesisStreamingDestination(partialParams) {
-        return this.client.describeKinesisStreamingDestination(this.ops["DescribeKinesisStreamingDestination"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeKinesisStreamingDestination(this.ops["DescribeKinesisStreamingDestination"].applicator.apply(partialParams));
     }
     invokeDescribeTable(partialParams) {
-        return this.client.describeTable(this.ops["DescribeTable"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeTable(this.ops["DescribeTable"].applicator.apply(partialParams));
     }
     invokeDescribeTableReplicaAutoScaling(partialParams) {
-        return this.client.describeTableReplicaAutoScaling(this.ops["DescribeTableReplicaAutoScaling"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeTableReplicaAutoScaling(this.ops["DescribeTableReplicaAutoScaling"].applicator.apply(partialParams));
     }
     invokeDescribeTimeToLive(partialParams) {
-        return this.client.describeTimeToLive(this.ops["DescribeTimeToLive"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeTimeToLive(this.ops["DescribeTimeToLive"].applicator.apply(partialParams));
     }
     invokeDisableKinesisStreamingDestination(partialParams) {
-        return this.client.disableKinesisStreamingDestination(this.ops["DisableKinesisStreamingDestination"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disableKinesisStreamingDestination(this.ops["DisableKinesisStreamingDestination"].applicator.apply(partialParams));
     }
     invokeEnableKinesisStreamingDestination(partialParams) {
-        return this.client.enableKinesisStreamingDestination(this.ops["EnableKinesisStreamingDestination"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.enableKinesisStreamingDestination(this.ops["EnableKinesisStreamingDestination"].applicator.apply(partialParams));
     }
     invokeExecuteStatement(partialParams) {
-        return this.client.executeStatement(this.ops["ExecuteStatement"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.executeStatement(this.ops["ExecuteStatement"].applicator.apply(partialParams));
     }
     invokeExecuteTransaction(partialParams) {
-        return this.client.executeTransaction(this.ops["ExecuteTransaction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.executeTransaction(this.ops["ExecuteTransaction"].applicator.apply(partialParams));
     }
     invokeExportTableToPointInTime(partialParams) {
-        return this.client.exportTableToPointInTime(this.ops["ExportTableToPointInTime"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.exportTableToPointInTime(this.ops["ExportTableToPointInTime"].applicator.apply(partialParams));
     }
     invokeGetItem(partialParams) {
-        return this.client.getItem(this.ops["GetItem"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getItem(this.ops["GetItem"].applicator.apply(partialParams));
     }
     invokeListTagsOfResource(partialParams) {
-        return this.client.listTagsOfResource(this.ops["ListTagsOfResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsOfResource(this.ops["ListTagsOfResource"].applicator.apply(partialParams));
     }
     invokePutItem(partialParams) {
-        return this.client.putItem(this.ops["PutItem"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putItem(this.ops["PutItem"].applicator.apply(partialParams));
     }
     invokeQuery(partialParams) {
-        return this.client.query(this.ops["Query"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.query(this.ops["Query"].applicator.apply(partialParams));
     }
     invokeRestoreTableFromBackup(partialParams) {
-        return this.client.restoreTableFromBackup(this.ops["RestoreTableFromBackup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.restoreTableFromBackup(this.ops["RestoreTableFromBackup"].applicator.apply(partialParams));
     }
     invokeRestoreTableToPointInTime(partialParams) {
-        return this.client.restoreTableToPointInTime(this.ops["RestoreTableToPointInTime"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.restoreTableToPointInTime(this.ops["RestoreTableToPointInTime"].applicator.apply(partialParams));
     }
     invokeScan(partialParams) {
-        return this.client.scan(this.ops["Scan"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.scan(this.ops["Scan"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeTransactGetItems(partialParams) {
-        return this.client.transactGetItems(this.ops["TransactGetItems"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.transactGetItems(this.ops["TransactGetItems"].applicator.apply(partialParams));
     }
     invokeTransactWriteItems(partialParams) {
-        return this.client.transactWriteItems(this.ops["TransactWriteItems"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.transactWriteItems(this.ops["TransactWriteItems"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateContinuousBackups(partialParams) {
-        return this.client.updateContinuousBackups(this.ops["UpdateContinuousBackups"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateContinuousBackups(this.ops["UpdateContinuousBackups"].applicator.apply(partialParams));
     }
     invokeUpdateContributorInsights(partialParams) {
-        return this.client.updateContributorInsights(this.ops["UpdateContributorInsights"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateContributorInsights(this.ops["UpdateContributorInsights"].applicator.apply(partialParams));
     }
     invokeUpdateGlobalTable(partialParams) {
-        return this.client.updateGlobalTable(this.ops["UpdateGlobalTable"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateGlobalTable(this.ops["UpdateGlobalTable"].applicator.apply(partialParams));
     }
     invokeUpdateGlobalTableSettings(partialParams) {
-        return this.client.updateGlobalTableSettings(this.ops["UpdateGlobalTableSettings"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateGlobalTableSettings(this.ops["UpdateGlobalTableSettings"].applicator.apply(partialParams));
     }
     invokeUpdateItem(partialParams) {
-        return this.client.updateItem(this.ops["UpdateItem"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateItem(this.ops["UpdateItem"].applicator.apply(partialParams));
     }
     invokeUpdateTable(partialParams) {
-        return this.client.updateTable(this.ops["UpdateTable"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateTable(this.ops["UpdateTable"].applicator.apply(partialParams));
     }
     invokeUpdateTableReplicaAutoScaling(partialParams) {
-        return this.client.updateTableReplicaAutoScaling(this.ops["UpdateTableReplicaAutoScaling"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateTableReplicaAutoScaling(this.ops["UpdateTableReplicaAutoScaling"].applicator.apply(partialParams));
     }
     invokeUpdateTimeToLive(partialParams) {
-        return this.client.updateTimeToLive(this.ops["UpdateTimeToLive"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateTimeToLive(this.ops["UpdateTimeToLive"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

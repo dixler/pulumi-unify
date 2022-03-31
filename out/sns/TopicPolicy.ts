@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     AddPermissionInput,
     CheckIfPhoneNumberIsOptedOutInput,
@@ -57,8 +60,8 @@ import {
     UntagResourceResponse,
     VerifySMSSandboxPhoneNumberResult
 } from "aws-sdk/clients/sns";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/sns-2010-03-31.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -67,267 +70,385 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.sns.TopicPolicy {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.sns.TopicPolicy>) {
         super(...args)
         this.client = new awssdk.SNS()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/sns-2010-03-31.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeAddPermission(partialParams: ToOptional<{
       [K in keyof AddPermissionInput & keyof AddPermissionInput & keyof AddPermissionInput]: (AddPermissionInput & AddPermissionInput & AddPermissionInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.addPermission(
-            this.ops["AddPermission"].apply(partialParams)
+          this.ops["AddPermission"].applicator.apply(partialParams)
         );
     }
 
     invokeCheckIfPhoneNumberIsOptedOut(partialParams: ToOptional<{
       [K in keyof CheckIfPhoneNumberIsOptedOutInput & keyof CheckIfPhoneNumberIsOptedOutInput & keyof CheckIfPhoneNumberIsOptedOutInput]: (CheckIfPhoneNumberIsOptedOutInput & CheckIfPhoneNumberIsOptedOutInput & CheckIfPhoneNumberIsOptedOutInput)[K]
-    }>): CheckIfPhoneNumberIsOptedOutResponse {
+    }>): Request<CheckIfPhoneNumberIsOptedOutResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.checkIfPhoneNumberIsOptedOut(
-            this.ops["CheckIfPhoneNumberIsOptedOut"].apply(partialParams)
+          this.ops["CheckIfPhoneNumberIsOptedOut"].applicator.apply(partialParams)
         );
     }
 
     invokeConfirmSubscription(partialParams: ToOptional<{
       [K in keyof ConfirmSubscriptionInput & keyof ConfirmSubscriptionInput & keyof ConfirmSubscriptionInput]: (ConfirmSubscriptionInput & ConfirmSubscriptionInput & ConfirmSubscriptionInput)[K]
-    }>): ConfirmSubscriptionResponse {
+    }>): Request<ConfirmSubscriptionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.confirmSubscription(
-            this.ops["ConfirmSubscription"].apply(partialParams)
+          this.ops["ConfirmSubscription"].applicator.apply(partialParams)
         );
     }
 
     invokeCreatePlatformApplication(partialParams: ToOptional<{
       [K in keyof CreatePlatformApplicationInput & keyof CreatePlatformApplicationInput & keyof CreatePlatformApplicationInput]: (CreatePlatformApplicationInput & CreatePlatformApplicationInput & CreatePlatformApplicationInput)[K]
-    }>): CreatePlatformApplicationResponse {
+    }>): Request<CreatePlatformApplicationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createPlatformApplication(
-            this.ops["CreatePlatformApplication"].apply(partialParams)
+          this.ops["CreatePlatformApplication"].applicator.apply(partialParams)
         );
     }
 
     invokeCreatePlatformEndpoint(partialParams: ToOptional<{
       [K in keyof CreatePlatformEndpointInput & keyof CreatePlatformEndpointInput & keyof CreatePlatformEndpointInput]: (CreatePlatformEndpointInput & CreatePlatformEndpointInput & CreatePlatformEndpointInput)[K]
-    }>): CreateEndpointResponse {
+    }>): Request<CreateEndpointResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createPlatformEndpoint(
-            this.ops["CreatePlatformEndpoint"].apply(partialParams)
+          this.ops["CreatePlatformEndpoint"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateSMSSandboxPhoneNumber(partialParams: ToOptional<{
       [K in keyof CreateSMSSandboxPhoneNumberInput & keyof CreateSMSSandboxPhoneNumberInput & keyof CreateSMSSandboxPhoneNumberInput]: (CreateSMSSandboxPhoneNumberInput & CreateSMSSandboxPhoneNumberInput & CreateSMSSandboxPhoneNumberInput)[K]
-    }>): CreateSMSSandboxPhoneNumberResult {
+    }>): Request<CreateSMSSandboxPhoneNumberResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createSMSSandboxPhoneNumber(
-            this.ops["CreateSMSSandboxPhoneNumber"].apply(partialParams)
+          this.ops["CreateSMSSandboxPhoneNumber"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateTopic(partialParams: ToOptional<{
       [K in keyof CreateTopicInput & keyof CreateTopicInput & keyof CreateTopicInput]: (CreateTopicInput & CreateTopicInput & CreateTopicInput)[K]
-    }>): CreateTopicResponse {
+    }>): Request<CreateTopicResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createTopic(
-            this.ops["CreateTopic"].apply(partialParams)
+          this.ops["CreateTopic"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteEndpoint(partialParams: ToOptional<{
       [K in keyof DeleteEndpointInput & keyof DeleteEndpointInput & keyof DeleteEndpointInput]: (DeleteEndpointInput & DeleteEndpointInput & DeleteEndpointInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteEndpoint(
-            this.ops["DeleteEndpoint"].apply(partialParams)
+          this.ops["DeleteEndpoint"].applicator.apply(partialParams)
         );
     }
 
     invokeDeletePlatformApplication(partialParams: ToOptional<{
       [K in keyof DeletePlatformApplicationInput & keyof DeletePlatformApplicationInput & keyof DeletePlatformApplicationInput]: (DeletePlatformApplicationInput & DeletePlatformApplicationInput & DeletePlatformApplicationInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deletePlatformApplication(
-            this.ops["DeletePlatformApplication"].apply(partialParams)
+          this.ops["DeletePlatformApplication"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteSMSSandboxPhoneNumber(partialParams: ToOptional<{
       [K in keyof DeleteSMSSandboxPhoneNumberInput & keyof DeleteSMSSandboxPhoneNumberInput & keyof DeleteSMSSandboxPhoneNumberInput]: (DeleteSMSSandboxPhoneNumberInput & DeleteSMSSandboxPhoneNumberInput & DeleteSMSSandboxPhoneNumberInput)[K]
-    }>): DeleteSMSSandboxPhoneNumberResult {
+    }>): Request<DeleteSMSSandboxPhoneNumberResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteSMSSandboxPhoneNumber(
-            this.ops["DeleteSMSSandboxPhoneNumber"].apply(partialParams)
+          this.ops["DeleteSMSSandboxPhoneNumber"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteTopic(partialParams: ToOptional<{
       [K in keyof DeleteTopicInput & keyof DeleteTopicInput & keyof DeleteTopicInput]: (DeleteTopicInput & DeleteTopicInput & DeleteTopicInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteTopic(
-            this.ops["DeleteTopic"].apply(partialParams)
+          this.ops["DeleteTopic"].applicator.apply(partialParams)
         );
     }
 
     invokeGetEndpointAttributes(partialParams: ToOptional<{
       [K in keyof GetEndpointAttributesInput & keyof GetEndpointAttributesInput & keyof GetEndpointAttributesInput]: (GetEndpointAttributesInput & GetEndpointAttributesInput & GetEndpointAttributesInput)[K]
-    }>): GetEndpointAttributesResponse {
+    }>): Request<GetEndpointAttributesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getEndpointAttributes(
-            this.ops["GetEndpointAttributes"].apply(partialParams)
+          this.ops["GetEndpointAttributes"].applicator.apply(partialParams)
         );
     }
 
     invokeGetPlatformApplicationAttributes(partialParams: ToOptional<{
       [K in keyof GetPlatformApplicationAttributesInput & keyof GetPlatformApplicationAttributesInput & keyof GetPlatformApplicationAttributesInput]: (GetPlatformApplicationAttributesInput & GetPlatformApplicationAttributesInput & GetPlatformApplicationAttributesInput)[K]
-    }>): GetPlatformApplicationAttributesResponse {
+    }>): Request<GetPlatformApplicationAttributesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getPlatformApplicationAttributes(
-            this.ops["GetPlatformApplicationAttributes"].apply(partialParams)
+          this.ops["GetPlatformApplicationAttributes"].applicator.apply(partialParams)
         );
     }
 
     invokeGetSubscriptionAttributes(partialParams: ToOptional<{
       [K in keyof GetSubscriptionAttributesInput & keyof GetSubscriptionAttributesInput & keyof GetSubscriptionAttributesInput]: (GetSubscriptionAttributesInput & GetSubscriptionAttributesInput & GetSubscriptionAttributesInput)[K]
-    }>): GetSubscriptionAttributesResponse {
+    }>): Request<GetSubscriptionAttributesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getSubscriptionAttributes(
-            this.ops["GetSubscriptionAttributes"].apply(partialParams)
+          this.ops["GetSubscriptionAttributes"].applicator.apply(partialParams)
         );
     }
 
     invokeGetTopicAttributes(partialParams: ToOptional<{
       [K in keyof GetTopicAttributesInput & keyof GetTopicAttributesInput & keyof GetTopicAttributesInput]: (GetTopicAttributesInput & GetTopicAttributesInput & GetTopicAttributesInput)[K]
-    }>): GetTopicAttributesResponse {
+    }>): Request<GetTopicAttributesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getTopicAttributes(
-            this.ops["GetTopicAttributes"].apply(partialParams)
+          this.ops["GetTopicAttributes"].applicator.apply(partialParams)
         );
     }
 
     invokeListEndpointsByPlatformApplication(partialParams: ToOptional<{
       [K in keyof ListEndpointsByPlatformApplicationInput & keyof ListEndpointsByPlatformApplicationInput & keyof ListEndpointsByPlatformApplicationInput]: (ListEndpointsByPlatformApplicationInput & ListEndpointsByPlatformApplicationInput & ListEndpointsByPlatformApplicationInput)[K]
-    }>): ListEndpointsByPlatformApplicationResponse {
+    }>): Request<ListEndpointsByPlatformApplicationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listEndpointsByPlatformApplication(
-            this.ops["ListEndpointsByPlatformApplication"].apply(partialParams)
+          this.ops["ListEndpointsByPlatformApplication"].applicator.apply(partialParams)
         );
     }
 
     invokeListSubscriptionsByTopic(partialParams: ToOptional<{
       [K in keyof ListSubscriptionsByTopicInput & keyof ListSubscriptionsByTopicInput & keyof ListSubscriptionsByTopicInput]: (ListSubscriptionsByTopicInput & ListSubscriptionsByTopicInput & ListSubscriptionsByTopicInput)[K]
-    }>): ListSubscriptionsByTopicResponse {
+    }>): Request<ListSubscriptionsByTopicResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listSubscriptionsByTopic(
-            this.ops["ListSubscriptionsByTopic"].apply(partialParams)
+          this.ops["ListSubscriptionsByTopic"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
-    }>): ListTagsForResourceResponse {
+    }>): Request<ListTagsForResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokeOptInPhoneNumber(partialParams: ToOptional<{
       [K in keyof OptInPhoneNumberInput & keyof OptInPhoneNumberInput & keyof OptInPhoneNumberInput]: (OptInPhoneNumberInput & OptInPhoneNumberInput & OptInPhoneNumberInput)[K]
-    }>): OptInPhoneNumberResponse {
+    }>): Request<OptInPhoneNumberResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.optInPhoneNumber(
-            this.ops["OptInPhoneNumber"].apply(partialParams)
+          this.ops["OptInPhoneNumber"].applicator.apply(partialParams)
         );
     }
 
     invokePublish(partialParams: ToOptional<{
       [K in keyof PublishInput & keyof PublishInput & keyof PublishInput]: (PublishInput & PublishInput & PublishInput)[K]
-    }>): PublishResponse {
+    }>): Request<PublishResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.publish(
-            this.ops["Publish"].apply(partialParams)
+          this.ops["Publish"].applicator.apply(partialParams)
         );
     }
 
     invokePublishBatch(partialParams: ToOptional<{
       [K in keyof PublishBatchInput & keyof PublishBatchInput & keyof PublishBatchInput]: (PublishBatchInput & PublishBatchInput & PublishBatchInput)[K]
-    }>): PublishBatchResponse {
+    }>): Request<PublishBatchResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.publishBatch(
-            this.ops["PublishBatch"].apply(partialParams)
+          this.ops["PublishBatch"].applicator.apply(partialParams)
         );
     }
 
     invokeRemovePermission(partialParams: ToOptional<{
       [K in keyof RemovePermissionInput & keyof RemovePermissionInput & keyof RemovePermissionInput]: (RemovePermissionInput & RemovePermissionInput & RemovePermissionInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.removePermission(
-            this.ops["RemovePermission"].apply(partialParams)
+          this.ops["RemovePermission"].applicator.apply(partialParams)
         );
     }
 
     invokeSetEndpointAttributes(partialParams: ToOptional<{
       [K in keyof SetEndpointAttributesInput & keyof SetEndpointAttributesInput & keyof SetEndpointAttributesInput]: (SetEndpointAttributesInput & SetEndpointAttributesInput & SetEndpointAttributesInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.setEndpointAttributes(
-            this.ops["SetEndpointAttributes"].apply(partialParams)
+          this.ops["SetEndpointAttributes"].applicator.apply(partialParams)
         );
     }
 
     invokeSetPlatformApplicationAttributes(partialParams: ToOptional<{
       [K in keyof SetPlatformApplicationAttributesInput & keyof SetPlatformApplicationAttributesInput & keyof SetPlatformApplicationAttributesInput]: (SetPlatformApplicationAttributesInput & SetPlatformApplicationAttributesInput & SetPlatformApplicationAttributesInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.setPlatformApplicationAttributes(
-            this.ops["SetPlatformApplicationAttributes"].apply(partialParams)
+          this.ops["SetPlatformApplicationAttributes"].applicator.apply(partialParams)
         );
     }
 
     invokeSetSMSAttributes(partialParams: ToOptional<{
       [K in keyof SetSMSAttributesInput & keyof SetSMSAttributesInput & keyof SetSMSAttributesInput]: (SetSMSAttributesInput & SetSMSAttributesInput & SetSMSAttributesInput)[K]
-    }>): SetSMSAttributesResponse {
+    }>): Request<SetSMSAttributesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.setSMSAttributes(
-            this.ops["SetSMSAttributes"].apply(partialParams)
+          this.ops["SetSMSAttributes"].applicator.apply(partialParams)
         );
     }
 
     invokeSetSubscriptionAttributes(partialParams: ToOptional<{
       [K in keyof SetSubscriptionAttributesInput & keyof SetSubscriptionAttributesInput & keyof SetSubscriptionAttributesInput]: (SetSubscriptionAttributesInput & SetSubscriptionAttributesInput & SetSubscriptionAttributesInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.setSubscriptionAttributes(
-            this.ops["SetSubscriptionAttributes"].apply(partialParams)
+          this.ops["SetSubscriptionAttributes"].applicator.apply(partialParams)
         );
     }
 
     invokeSetTopicAttributes(partialParams: ToOptional<{
       [K in keyof SetTopicAttributesInput & keyof SetTopicAttributesInput & keyof SetTopicAttributesInput]: (SetTopicAttributesInput & SetTopicAttributesInput & SetTopicAttributesInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.setTopicAttributes(
-            this.ops["SetTopicAttributes"].apply(partialParams)
+          this.ops["SetTopicAttributes"].applicator.apply(partialParams)
         );
     }
 
     invokeSubscribe(partialParams: ToOptional<{
       [K in keyof SubscribeInput & keyof SubscribeInput & keyof SubscribeInput]: (SubscribeInput & SubscribeInput & SubscribeInput)[K]
-    }>): SubscribeResponse {
+    }>): Request<SubscribeResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.subscribe(
-            this.ops["Subscribe"].apply(partialParams)
+          this.ops["Subscribe"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
-    }>): TagResourceResponse {
+    }>): Request<TagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUnsubscribe(partialParams: ToOptional<{
       [K in keyof UnsubscribeInput & keyof UnsubscribeInput & keyof UnsubscribeInput]: (UnsubscribeInput & UnsubscribeInput & UnsubscribeInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.unsubscribe(
-            this.ops["Unsubscribe"].apply(partialParams)
+          this.ops["Unsubscribe"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
-    }>): UntagResourceResponse {
+    }>): Request<UntagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeVerifySMSSandboxPhoneNumber(partialParams: ToOptional<{
       [K in keyof VerifySMSSandboxPhoneNumberInput & keyof VerifySMSSandboxPhoneNumberInput & keyof VerifySMSSandboxPhoneNumberInput]: (VerifySMSSandboxPhoneNumberInput & VerifySMSSandboxPhoneNumberInput & VerifySMSSandboxPhoneNumberInput)[K]
-    }>): VerifySMSSandboxPhoneNumberResult {
+    }>): Request<VerifySMSSandboxPhoneNumberResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.verifySMSSandboxPhoneNumber(
-            this.ops["VerifySMSSandboxPhoneNumber"].apply(partialParams)
+          this.ops["VerifySMSSandboxPhoneNumber"].applicator.apply(partialParams)
         );
     }
 }

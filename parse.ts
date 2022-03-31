@@ -1,7 +1,10 @@
+import * as pulumi from '@pulumi/pulumi';
+import * as awsSDK from 'aws-sdk';
 import {Service} from 'aws-sdk';
 import * as defs from './parsedefs';
 import * as fs from "fs";
-import path from "path/posix";
+import path from "path";
+import { serializeFunction } from '@pulumi/pulumi/runtime';
 
 
 type CallSignature = {
@@ -77,7 +80,9 @@ function getMatchApplicator(key: string, value: any, shapes: ShapeMap): [Applica
         }
         typeOverrides[shapeName] = pType;
         keyMatch[shapeName] = hasMatch[shapeName] = {
-          apply: (elem) => elem || value,
+          apply: (elem) => {
+            return elem || value;
+          },
         }
         continue
       }
@@ -211,10 +216,10 @@ type ArgName = string;
 type ArgType = string;
 type Arg = [ArgName, ArgType];
 
-function lowerCamelCase(str: string) {
+export function lowerCamelCase(str: string) {
   return str[0].toLowerCase() + str.substring(1);
 }
-function upperCamelCase(str: string) {
+export function upperCamelCase(str: string) {
   return str[0].toUpperCase() + str.substring(1);
 }
 
@@ -229,9 +234,12 @@ class MethodFactory {
       [K in ${op.applicatorType.map((type) => {
         return `keyof ${type}`;
       }).join(' & ')}]: (${op.applicatorType.join(' & ')})[K]
-    }>): ${op.returnType} {
+    }>): Request<${op.returnType}, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.${lowerCamelCase(op.operation)}(
-            this.ops["${upperCamelCase(op.operation)}"].apply(partialParams)
+          this.ops["${upperCamelCase(op.operation)}"].applicator.apply(partialParams)
         );
     }`
   }
@@ -269,11 +277,14 @@ class ClassFactory {
     return `
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     ${typeImports.join(",\n    ")}
 } from "aws-sdk/clients/${serviceId.toLowerCase()}";
-
-import {getResourceOperations} from "../parse";
+const schema = require("${path.join("../apis", path.basename(this.schemaFile))}")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -282,12 +293,34 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends ${classRef} {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof ${classRef}>) {
         super(...args)
         this.client = new ${clientRef}()
-        this.ops = getResourceOperations(this as any, require("${path.join("../../", this.schemaFile)}"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 ${methods.map(method => method.render()).join('\n')}
 }`
@@ -395,4 +428,13 @@ function main() {
 }
 if (require.main === module) {
     main();
+    /*
+    const schema = require(findAWSSchema('s3')!)
+    //serializeFunction(() => {
+      const resops = getResourceOperations({
+        "Bucket": "mybuck",
+      }, schema, new awsSDK.S3())
+      console.log(resops['PutObject'].applicator.apply({Key: "Wew"}))
+    //});
+    */
 }

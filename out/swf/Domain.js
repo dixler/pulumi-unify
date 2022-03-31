@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,123 +21,256 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/swf-2012-01-25.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.swf.Domain {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.SWF();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/swf-2012-01-25.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeCountClosedWorkflowExecutions(partialParams) {
-        return this.client.countClosedWorkflowExecutions(this.ops["CountClosedWorkflowExecutions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.countClosedWorkflowExecutions(this.ops["CountClosedWorkflowExecutions"].applicator.apply(partialParams));
     }
     invokeCountOpenWorkflowExecutions(partialParams) {
-        return this.client.countOpenWorkflowExecutions(this.ops["CountOpenWorkflowExecutions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.countOpenWorkflowExecutions(this.ops["CountOpenWorkflowExecutions"].applicator.apply(partialParams));
     }
     invokeCountPendingActivityTasks(partialParams) {
-        return this.client.countPendingActivityTasks(this.ops["CountPendingActivityTasks"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.countPendingActivityTasks(this.ops["CountPendingActivityTasks"].applicator.apply(partialParams));
     }
     invokeCountPendingDecisionTasks(partialParams) {
-        return this.client.countPendingDecisionTasks(this.ops["CountPendingDecisionTasks"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.countPendingDecisionTasks(this.ops["CountPendingDecisionTasks"].applicator.apply(partialParams));
     }
     invokeDeprecateActivityType(partialParams) {
-        return this.client.deprecateActivityType(this.ops["DeprecateActivityType"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deprecateActivityType(this.ops["DeprecateActivityType"].applicator.apply(partialParams));
     }
     invokeDeprecateDomain(partialParams) {
-        return this.client.deprecateDomain(this.ops["DeprecateDomain"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deprecateDomain(this.ops["DeprecateDomain"].applicator.apply(partialParams));
     }
     invokeDeprecateWorkflowType(partialParams) {
-        return this.client.deprecateWorkflowType(this.ops["DeprecateWorkflowType"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deprecateWorkflowType(this.ops["DeprecateWorkflowType"].applicator.apply(partialParams));
     }
     invokeDescribeActivityType(partialParams) {
-        return this.client.describeActivityType(this.ops["DescribeActivityType"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeActivityType(this.ops["DescribeActivityType"].applicator.apply(partialParams));
     }
     invokeDescribeDomain(partialParams) {
-        return this.client.describeDomain(this.ops["DescribeDomain"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeDomain(this.ops["DescribeDomain"].applicator.apply(partialParams));
     }
     invokeDescribeWorkflowExecution(partialParams) {
-        return this.client.describeWorkflowExecution(this.ops["DescribeWorkflowExecution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeWorkflowExecution(this.ops["DescribeWorkflowExecution"].applicator.apply(partialParams));
     }
     invokeDescribeWorkflowType(partialParams) {
-        return this.client.describeWorkflowType(this.ops["DescribeWorkflowType"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeWorkflowType(this.ops["DescribeWorkflowType"].applicator.apply(partialParams));
     }
     invokeGetWorkflowExecutionHistory(partialParams) {
-        return this.client.getWorkflowExecutionHistory(this.ops["GetWorkflowExecutionHistory"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getWorkflowExecutionHistory(this.ops["GetWorkflowExecutionHistory"].applicator.apply(partialParams));
     }
     invokeListActivityTypes(partialParams) {
-        return this.client.listActivityTypes(this.ops["ListActivityTypes"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listActivityTypes(this.ops["ListActivityTypes"].applicator.apply(partialParams));
     }
     invokeListClosedWorkflowExecutions(partialParams) {
-        return this.client.listClosedWorkflowExecutions(this.ops["ListClosedWorkflowExecutions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listClosedWorkflowExecutions(this.ops["ListClosedWorkflowExecutions"].applicator.apply(partialParams));
     }
     invokeListDomains(partialParams) {
-        return this.client.listDomains(this.ops["ListDomains"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listDomains(this.ops["ListDomains"].applicator.apply(partialParams));
     }
     invokeListOpenWorkflowExecutions(partialParams) {
-        return this.client.listOpenWorkflowExecutions(this.ops["ListOpenWorkflowExecutions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listOpenWorkflowExecutions(this.ops["ListOpenWorkflowExecutions"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokeListWorkflowTypes(partialParams) {
-        return this.client.listWorkflowTypes(this.ops["ListWorkflowTypes"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listWorkflowTypes(this.ops["ListWorkflowTypes"].applicator.apply(partialParams));
     }
     invokePollForActivityTask(partialParams) {
-        return this.client.pollForActivityTask(this.ops["PollForActivityTask"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.pollForActivityTask(this.ops["PollForActivityTask"].applicator.apply(partialParams));
     }
     invokePollForDecisionTask(partialParams) {
-        return this.client.pollForDecisionTask(this.ops["PollForDecisionTask"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.pollForDecisionTask(this.ops["PollForDecisionTask"].applicator.apply(partialParams));
     }
     invokeRecordActivityTaskHeartbeat(partialParams) {
-        return this.client.recordActivityTaskHeartbeat(this.ops["RecordActivityTaskHeartbeat"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.recordActivityTaskHeartbeat(this.ops["RecordActivityTaskHeartbeat"].applicator.apply(partialParams));
     }
     invokeRegisterActivityType(partialParams) {
-        return this.client.registerActivityType(this.ops["RegisterActivityType"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.registerActivityType(this.ops["RegisterActivityType"].applicator.apply(partialParams));
     }
     invokeRegisterDomain(partialParams) {
-        return this.client.registerDomain(this.ops["RegisterDomain"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.registerDomain(this.ops["RegisterDomain"].applicator.apply(partialParams));
     }
     invokeRegisterWorkflowType(partialParams) {
-        return this.client.registerWorkflowType(this.ops["RegisterWorkflowType"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.registerWorkflowType(this.ops["RegisterWorkflowType"].applicator.apply(partialParams));
     }
     invokeRequestCancelWorkflowExecution(partialParams) {
-        return this.client.requestCancelWorkflowExecution(this.ops["RequestCancelWorkflowExecution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.requestCancelWorkflowExecution(this.ops["RequestCancelWorkflowExecution"].applicator.apply(partialParams));
     }
     invokeRespondActivityTaskCanceled(partialParams) {
-        return this.client.respondActivityTaskCanceled(this.ops["RespondActivityTaskCanceled"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.respondActivityTaskCanceled(this.ops["RespondActivityTaskCanceled"].applicator.apply(partialParams));
     }
     invokeRespondActivityTaskCompleted(partialParams) {
-        return this.client.respondActivityTaskCompleted(this.ops["RespondActivityTaskCompleted"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.respondActivityTaskCompleted(this.ops["RespondActivityTaskCompleted"].applicator.apply(partialParams));
     }
     invokeRespondActivityTaskFailed(partialParams) {
-        return this.client.respondActivityTaskFailed(this.ops["RespondActivityTaskFailed"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.respondActivityTaskFailed(this.ops["RespondActivityTaskFailed"].applicator.apply(partialParams));
     }
     invokeRespondDecisionTaskCompleted(partialParams) {
-        return this.client.respondDecisionTaskCompleted(this.ops["RespondDecisionTaskCompleted"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.respondDecisionTaskCompleted(this.ops["RespondDecisionTaskCompleted"].applicator.apply(partialParams));
     }
     invokeSignalWorkflowExecution(partialParams) {
-        return this.client.signalWorkflowExecution(this.ops["SignalWorkflowExecution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.signalWorkflowExecution(this.ops["SignalWorkflowExecution"].applicator.apply(partialParams));
     }
     invokeStartWorkflowExecution(partialParams) {
-        return this.client.startWorkflowExecution(this.ops["StartWorkflowExecution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startWorkflowExecution(this.ops["StartWorkflowExecution"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeTerminateWorkflowExecution(partialParams) {
-        return this.client.terminateWorkflowExecution(this.ops["TerminateWorkflowExecution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.terminateWorkflowExecution(this.ops["TerminateWorkflowExecution"].applicator.apply(partialParams));
     }
     invokeUndeprecateActivityType(partialParams) {
-        return this.client.undeprecateActivityType(this.ops["UndeprecateActivityType"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.undeprecateActivityType(this.ops["UndeprecateActivityType"].applicator.apply(partialParams));
     }
     invokeUndeprecateDomain(partialParams) {
-        return this.client.undeprecateDomain(this.ops["UndeprecateDomain"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.undeprecateDomain(this.ops["UndeprecateDomain"].applicator.apply(partialParams));
     }
     invokeUndeprecateWorkflowType(partialParams) {
-        return this.client.undeprecateWorkflowType(this.ops["UndeprecateWorkflowType"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.undeprecateWorkflowType(this.ops["UndeprecateWorkflowType"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

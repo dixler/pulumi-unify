@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,66 +21,142 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/mq-2017-11-27.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.mq.Configuration {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.MQ();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/mq-2017-11-27.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeCreateBroker(partialParams) {
-        return this.client.createBroker(this.ops["CreateBroker"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createBroker(this.ops["CreateBroker"].applicator.apply(partialParams));
     }
     invokeCreateConfiguration(partialParams) {
-        return this.client.createConfiguration(this.ops["CreateConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createConfiguration(this.ops["CreateConfiguration"].applicator.apply(partialParams));
     }
     invokeCreateTags(partialParams) {
-        return this.client.createTags(this.ops["CreateTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createTags(this.ops["CreateTags"].applicator.apply(partialParams));
     }
     invokeCreateUser(partialParams) {
-        return this.client.createUser(this.ops["CreateUser"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createUser(this.ops["CreateUser"].applicator.apply(partialParams));
     }
     invokeDeleteBroker(partialParams) {
-        return this.client.deleteBroker(this.ops["DeleteBroker"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteBroker(this.ops["DeleteBroker"].applicator.apply(partialParams));
     }
     invokeDeleteTags(partialParams) {
-        return this.client.deleteTags(this.ops["DeleteTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteTags(this.ops["DeleteTags"].applicator.apply(partialParams));
     }
     invokeDeleteUser(partialParams) {
-        return this.client.deleteUser(this.ops["DeleteUser"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteUser(this.ops["DeleteUser"].applicator.apply(partialParams));
     }
     invokeDescribeBroker(partialParams) {
-        return this.client.describeBroker(this.ops["DescribeBroker"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeBroker(this.ops["DescribeBroker"].applicator.apply(partialParams));
     }
     invokeDescribeConfiguration(partialParams) {
-        return this.client.describeConfiguration(this.ops["DescribeConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeConfiguration(this.ops["DescribeConfiguration"].applicator.apply(partialParams));
     }
     invokeDescribeConfigurationRevision(partialParams) {
-        return this.client.describeConfigurationRevision(this.ops["DescribeConfigurationRevision"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeConfigurationRevision(this.ops["DescribeConfigurationRevision"].applicator.apply(partialParams));
     }
     invokeDescribeUser(partialParams) {
-        return this.client.describeUser(this.ops["DescribeUser"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeUser(this.ops["DescribeUser"].applicator.apply(partialParams));
     }
     invokeListConfigurationRevisions(partialParams) {
-        return this.client.listConfigurationRevisions(this.ops["ListConfigurationRevisions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listConfigurationRevisions(this.ops["ListConfigurationRevisions"].applicator.apply(partialParams));
     }
     invokeListTags(partialParams) {
-        return this.client.listTags(this.ops["ListTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTags(this.ops["ListTags"].applicator.apply(partialParams));
     }
     invokeListUsers(partialParams) {
-        return this.client.listUsers(this.ops["ListUsers"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listUsers(this.ops["ListUsers"].applicator.apply(partialParams));
     }
     invokeRebootBroker(partialParams) {
-        return this.client.rebootBroker(this.ops["RebootBroker"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.rebootBroker(this.ops["RebootBroker"].applicator.apply(partialParams));
     }
     invokeUpdateBroker(partialParams) {
-        return this.client.updateBroker(this.ops["UpdateBroker"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateBroker(this.ops["UpdateBroker"].applicator.apply(partialParams));
     }
     invokeUpdateConfiguration(partialParams) {
-        return this.client.updateConfiguration(this.ops["UpdateConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateConfiguration(this.ops["UpdateConfiguration"].applicator.apply(partialParams));
     }
     invokeUpdateUser(partialParams) {
-        return this.client.updateUser(this.ops["UpdateUser"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateUser(this.ops["UpdateUser"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

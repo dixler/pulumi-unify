@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     AssociateExternalConnectionRequest,
     CopyPackageVersionsRequest,
@@ -67,8 +70,8 @@ import {
     UpdatePackageVersionsStatusResult,
     UpdateRepositoryResult
 } from "aws-sdk/clients/codeartifact";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/codeartifact-2018-09-22.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -77,267 +80,385 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.codeartifact.DomainPermissions {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.codeartifact.DomainPermissions>) {
         super(...args)
         this.client = new awssdk.CodeArtifact()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/codeartifact-2018-09-22.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeAssociateExternalConnection(partialParams: ToOptional<{
       [K in keyof AssociateExternalConnectionRequest & keyof AssociateExternalConnectionRequest & keyof AssociateExternalConnectionRequest & keyof AssociateExternalConnectionRequest & keyof AssociateExternalConnectionRequest]: (AssociateExternalConnectionRequest & AssociateExternalConnectionRequest & AssociateExternalConnectionRequest & AssociateExternalConnectionRequest & AssociateExternalConnectionRequest)[K]
-    }>): AssociateExternalConnectionResult {
+    }>): Request<AssociateExternalConnectionResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.associateExternalConnection(
-            this.ops["AssociateExternalConnection"].apply(partialParams)
+          this.ops["AssociateExternalConnection"].applicator.apply(partialParams)
         );
     }
 
     invokeCopyPackageVersions(partialParams: ToOptional<{
       [K in keyof CopyPackageVersionsRequest & keyof CopyPackageVersionsRequest & keyof CopyPackageVersionsRequest & keyof CopyPackageVersionsRequest & keyof CopyPackageVersionsRequest]: (CopyPackageVersionsRequest & CopyPackageVersionsRequest & CopyPackageVersionsRequest & CopyPackageVersionsRequest & CopyPackageVersionsRequest)[K]
-    }>): CopyPackageVersionsResult {
+    }>): Request<CopyPackageVersionsResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.copyPackageVersions(
-            this.ops["CopyPackageVersions"].apply(partialParams)
+          this.ops["CopyPackageVersions"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateDomain(partialParams: ToOptional<{
       [K in keyof CreateDomainRequest & keyof CreateDomainRequest & keyof CreateDomainRequest & keyof CreateDomainRequest & keyof CreateDomainRequest]: (CreateDomainRequest & CreateDomainRequest & CreateDomainRequest & CreateDomainRequest & CreateDomainRequest)[K]
-    }>): CreateDomainResult {
+    }>): Request<CreateDomainResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createDomain(
-            this.ops["CreateDomain"].apply(partialParams)
+          this.ops["CreateDomain"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateRepository(partialParams: ToOptional<{
       [K in keyof CreateRepositoryRequest & keyof CreateRepositoryRequest & keyof CreateRepositoryRequest & keyof CreateRepositoryRequest & keyof CreateRepositoryRequest]: (CreateRepositoryRequest & CreateRepositoryRequest & CreateRepositoryRequest & CreateRepositoryRequest & CreateRepositoryRequest)[K]
-    }>): CreateRepositoryResult {
+    }>): Request<CreateRepositoryResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createRepository(
-            this.ops["CreateRepository"].apply(partialParams)
+          this.ops["CreateRepository"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteDomain(partialParams: ToOptional<{
       [K in keyof DeleteDomainRequest & keyof DeleteDomainRequest & keyof DeleteDomainRequest & keyof DeleteDomainRequest & keyof DeleteDomainRequest]: (DeleteDomainRequest & DeleteDomainRequest & DeleteDomainRequest & DeleteDomainRequest & DeleteDomainRequest)[K]
-    }>): DeleteDomainResult {
+    }>): Request<DeleteDomainResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteDomain(
-            this.ops["DeleteDomain"].apply(partialParams)
+          this.ops["DeleteDomain"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteDomainPermissionsPolicy(partialParams: ToOptional<{
       [K in keyof DeleteDomainPermissionsPolicyRequest & keyof DeleteDomainPermissionsPolicyRequest & keyof DeleteDomainPermissionsPolicyRequest & keyof DeleteDomainPermissionsPolicyRequest & keyof DeleteDomainPermissionsPolicyRequest]: (DeleteDomainPermissionsPolicyRequest & DeleteDomainPermissionsPolicyRequest & DeleteDomainPermissionsPolicyRequest & DeleteDomainPermissionsPolicyRequest & DeleteDomainPermissionsPolicyRequest)[K]
-    }>): DeleteDomainPermissionsPolicyResult {
+    }>): Request<DeleteDomainPermissionsPolicyResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteDomainPermissionsPolicy(
-            this.ops["DeleteDomainPermissionsPolicy"].apply(partialParams)
+          this.ops["DeleteDomainPermissionsPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeDeletePackageVersions(partialParams: ToOptional<{
       [K in keyof DeletePackageVersionsRequest & keyof DeletePackageVersionsRequest & keyof DeletePackageVersionsRequest & keyof DeletePackageVersionsRequest & keyof DeletePackageVersionsRequest]: (DeletePackageVersionsRequest & DeletePackageVersionsRequest & DeletePackageVersionsRequest & DeletePackageVersionsRequest & DeletePackageVersionsRequest)[K]
-    }>): DeletePackageVersionsResult {
+    }>): Request<DeletePackageVersionsResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deletePackageVersions(
-            this.ops["DeletePackageVersions"].apply(partialParams)
+          this.ops["DeletePackageVersions"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteRepository(partialParams: ToOptional<{
       [K in keyof DeleteRepositoryRequest & keyof DeleteRepositoryRequest & keyof DeleteRepositoryRequest & keyof DeleteRepositoryRequest & keyof DeleteRepositoryRequest]: (DeleteRepositoryRequest & DeleteRepositoryRequest & DeleteRepositoryRequest & DeleteRepositoryRequest & DeleteRepositoryRequest)[K]
-    }>): DeleteRepositoryResult {
+    }>): Request<DeleteRepositoryResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteRepository(
-            this.ops["DeleteRepository"].apply(partialParams)
+          this.ops["DeleteRepository"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteRepositoryPermissionsPolicy(partialParams: ToOptional<{
       [K in keyof DeleteRepositoryPermissionsPolicyRequest & keyof DeleteRepositoryPermissionsPolicyRequest & keyof DeleteRepositoryPermissionsPolicyRequest & keyof DeleteRepositoryPermissionsPolicyRequest & keyof DeleteRepositoryPermissionsPolicyRequest]: (DeleteRepositoryPermissionsPolicyRequest & DeleteRepositoryPermissionsPolicyRequest & DeleteRepositoryPermissionsPolicyRequest & DeleteRepositoryPermissionsPolicyRequest & DeleteRepositoryPermissionsPolicyRequest)[K]
-    }>): DeleteRepositoryPermissionsPolicyResult {
+    }>): Request<DeleteRepositoryPermissionsPolicyResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteRepositoryPermissionsPolicy(
-            this.ops["DeleteRepositoryPermissionsPolicy"].apply(partialParams)
+          this.ops["DeleteRepositoryPermissionsPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeDomain(partialParams: ToOptional<{
       [K in keyof DescribeDomainRequest & keyof DescribeDomainRequest & keyof DescribeDomainRequest & keyof DescribeDomainRequest & keyof DescribeDomainRequest]: (DescribeDomainRequest & DescribeDomainRequest & DescribeDomainRequest & DescribeDomainRequest & DescribeDomainRequest)[K]
-    }>): DescribeDomainResult {
+    }>): Request<DescribeDomainResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeDomain(
-            this.ops["DescribeDomain"].apply(partialParams)
+          this.ops["DescribeDomain"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribePackageVersion(partialParams: ToOptional<{
       [K in keyof DescribePackageVersionRequest & keyof DescribePackageVersionRequest & keyof DescribePackageVersionRequest & keyof DescribePackageVersionRequest & keyof DescribePackageVersionRequest]: (DescribePackageVersionRequest & DescribePackageVersionRequest & DescribePackageVersionRequest & DescribePackageVersionRequest & DescribePackageVersionRequest)[K]
-    }>): DescribePackageVersionResult {
+    }>): Request<DescribePackageVersionResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describePackageVersion(
-            this.ops["DescribePackageVersion"].apply(partialParams)
+          this.ops["DescribePackageVersion"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeRepository(partialParams: ToOptional<{
       [K in keyof DescribeRepositoryRequest & keyof DescribeRepositoryRequest & keyof DescribeRepositoryRequest & keyof DescribeRepositoryRequest & keyof DescribeRepositoryRequest]: (DescribeRepositoryRequest & DescribeRepositoryRequest & DescribeRepositoryRequest & DescribeRepositoryRequest & DescribeRepositoryRequest)[K]
-    }>): DescribeRepositoryResult {
+    }>): Request<DescribeRepositoryResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeRepository(
-            this.ops["DescribeRepository"].apply(partialParams)
+          this.ops["DescribeRepository"].applicator.apply(partialParams)
         );
     }
 
     invokeDisassociateExternalConnection(partialParams: ToOptional<{
       [K in keyof DisassociateExternalConnectionRequest & keyof DisassociateExternalConnectionRequest & keyof DisassociateExternalConnectionRequest & keyof DisassociateExternalConnectionRequest & keyof DisassociateExternalConnectionRequest]: (DisassociateExternalConnectionRequest & DisassociateExternalConnectionRequest & DisassociateExternalConnectionRequest & DisassociateExternalConnectionRequest & DisassociateExternalConnectionRequest)[K]
-    }>): DisassociateExternalConnectionResult {
+    }>): Request<DisassociateExternalConnectionResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disassociateExternalConnection(
-            this.ops["DisassociateExternalConnection"].apply(partialParams)
+          this.ops["DisassociateExternalConnection"].applicator.apply(partialParams)
         );
     }
 
     invokeDisposePackageVersions(partialParams: ToOptional<{
       [K in keyof DisposePackageVersionsRequest & keyof DisposePackageVersionsRequest & keyof DisposePackageVersionsRequest & keyof DisposePackageVersionsRequest & keyof DisposePackageVersionsRequest]: (DisposePackageVersionsRequest & DisposePackageVersionsRequest & DisposePackageVersionsRequest & DisposePackageVersionsRequest & DisposePackageVersionsRequest)[K]
-    }>): DisposePackageVersionsResult {
+    }>): Request<DisposePackageVersionsResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disposePackageVersions(
-            this.ops["DisposePackageVersions"].apply(partialParams)
+          this.ops["DisposePackageVersions"].applicator.apply(partialParams)
         );
     }
 
     invokeGetAuthorizationToken(partialParams: ToOptional<{
       [K in keyof Omit<GetAuthorizationTokenRequest, "domain"> & keyof GetAuthorizationTokenRequest & keyof GetAuthorizationTokenRequest & keyof GetAuthorizationTokenRequest & keyof GetAuthorizationTokenRequest]: (Omit<GetAuthorizationTokenRequest, "domain"> & GetAuthorizationTokenRequest & GetAuthorizationTokenRequest & GetAuthorizationTokenRequest & GetAuthorizationTokenRequest)[K]
-    }>): GetAuthorizationTokenResult {
+    }>): Request<GetAuthorizationTokenResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getAuthorizationToken(
-            this.ops["GetAuthorizationToken"].apply(partialParams)
+          this.ops["GetAuthorizationToken"].applicator.apply(partialParams)
         );
     }
 
     invokeGetDomainPermissionsPolicy(partialParams: ToOptional<{
       [K in keyof Omit<GetDomainPermissionsPolicyRequest, "domain"> & keyof GetDomainPermissionsPolicyRequest & keyof GetDomainPermissionsPolicyRequest & keyof GetDomainPermissionsPolicyRequest & keyof GetDomainPermissionsPolicyRequest]: (Omit<GetDomainPermissionsPolicyRequest, "domain"> & GetDomainPermissionsPolicyRequest & GetDomainPermissionsPolicyRequest & GetDomainPermissionsPolicyRequest & GetDomainPermissionsPolicyRequest)[K]
-    }>): GetDomainPermissionsPolicyResult {
+    }>): Request<GetDomainPermissionsPolicyResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getDomainPermissionsPolicy(
-            this.ops["GetDomainPermissionsPolicy"].apply(partialParams)
+          this.ops["GetDomainPermissionsPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeGetPackageVersionAsset(partialParams: ToOptional<{
       [K in keyof Omit<GetPackageVersionAssetRequest, "domain"> & keyof GetPackageVersionAssetRequest & keyof GetPackageVersionAssetRequest & keyof GetPackageVersionAssetRequest & keyof GetPackageVersionAssetRequest]: (Omit<GetPackageVersionAssetRequest, "domain"> & GetPackageVersionAssetRequest & GetPackageVersionAssetRequest & GetPackageVersionAssetRequest & GetPackageVersionAssetRequest)[K]
-    }>): GetPackageVersionAssetResult {
+    }>): Request<GetPackageVersionAssetResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getPackageVersionAsset(
-            this.ops["GetPackageVersionAsset"].apply(partialParams)
+          this.ops["GetPackageVersionAsset"].applicator.apply(partialParams)
         );
     }
 
     invokeGetPackageVersionReadme(partialParams: ToOptional<{
       [K in keyof Omit<GetPackageVersionReadmeRequest, "domain"> & keyof GetPackageVersionReadmeRequest & keyof GetPackageVersionReadmeRequest & keyof GetPackageVersionReadmeRequest & keyof GetPackageVersionReadmeRequest]: (Omit<GetPackageVersionReadmeRequest, "domain"> & GetPackageVersionReadmeRequest & GetPackageVersionReadmeRequest & GetPackageVersionReadmeRequest & GetPackageVersionReadmeRequest)[K]
-    }>): GetPackageVersionReadmeResult {
+    }>): Request<GetPackageVersionReadmeResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getPackageVersionReadme(
-            this.ops["GetPackageVersionReadme"].apply(partialParams)
+          this.ops["GetPackageVersionReadme"].applicator.apply(partialParams)
         );
     }
 
     invokeGetRepositoryEndpoint(partialParams: ToOptional<{
       [K in keyof Omit<GetRepositoryEndpointRequest, "domain"> & keyof GetRepositoryEndpointRequest & keyof GetRepositoryEndpointRequest & keyof GetRepositoryEndpointRequest & keyof GetRepositoryEndpointRequest]: (Omit<GetRepositoryEndpointRequest, "domain"> & GetRepositoryEndpointRequest & GetRepositoryEndpointRequest & GetRepositoryEndpointRequest & GetRepositoryEndpointRequest)[K]
-    }>): GetRepositoryEndpointResult {
+    }>): Request<GetRepositoryEndpointResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getRepositoryEndpoint(
-            this.ops["GetRepositoryEndpoint"].apply(partialParams)
+          this.ops["GetRepositoryEndpoint"].applicator.apply(partialParams)
         );
     }
 
     invokeGetRepositoryPermissionsPolicy(partialParams: ToOptional<{
       [K in keyof Omit<GetRepositoryPermissionsPolicyRequest, "domain"> & keyof GetRepositoryPermissionsPolicyRequest & keyof GetRepositoryPermissionsPolicyRequest & keyof GetRepositoryPermissionsPolicyRequest & keyof GetRepositoryPermissionsPolicyRequest]: (Omit<GetRepositoryPermissionsPolicyRequest, "domain"> & GetRepositoryPermissionsPolicyRequest & GetRepositoryPermissionsPolicyRequest & GetRepositoryPermissionsPolicyRequest & GetRepositoryPermissionsPolicyRequest)[K]
-    }>): GetRepositoryPermissionsPolicyResult {
+    }>): Request<GetRepositoryPermissionsPolicyResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getRepositoryPermissionsPolicy(
-            this.ops["GetRepositoryPermissionsPolicy"].apply(partialParams)
+          this.ops["GetRepositoryPermissionsPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeListPackageVersionAssets(partialParams: ToOptional<{
       [K in keyof Omit<ListPackageVersionAssetsRequest, "domain"> & keyof ListPackageVersionAssetsRequest & keyof ListPackageVersionAssetsRequest & keyof ListPackageVersionAssetsRequest & keyof ListPackageVersionAssetsRequest]: (Omit<ListPackageVersionAssetsRequest, "domain"> & ListPackageVersionAssetsRequest & ListPackageVersionAssetsRequest & ListPackageVersionAssetsRequest & ListPackageVersionAssetsRequest)[K]
-    }>): ListPackageVersionAssetsResult {
+    }>): Request<ListPackageVersionAssetsResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listPackageVersionAssets(
-            this.ops["ListPackageVersionAssets"].apply(partialParams)
+          this.ops["ListPackageVersionAssets"].applicator.apply(partialParams)
         );
     }
 
     invokeListPackageVersionDependencies(partialParams: ToOptional<{
       [K in keyof Omit<ListPackageVersionDependenciesRequest, "domain"> & keyof ListPackageVersionDependenciesRequest & keyof ListPackageVersionDependenciesRequest & keyof ListPackageVersionDependenciesRequest & keyof ListPackageVersionDependenciesRequest]: (Omit<ListPackageVersionDependenciesRequest, "domain"> & ListPackageVersionDependenciesRequest & ListPackageVersionDependenciesRequest & ListPackageVersionDependenciesRequest & ListPackageVersionDependenciesRequest)[K]
-    }>): ListPackageVersionDependenciesResult {
+    }>): Request<ListPackageVersionDependenciesResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listPackageVersionDependencies(
-            this.ops["ListPackageVersionDependencies"].apply(partialParams)
+          this.ops["ListPackageVersionDependencies"].applicator.apply(partialParams)
         );
     }
 
     invokeListPackageVersions(partialParams: ToOptional<{
       [K in keyof Omit<ListPackageVersionsRequest, "domain"> & keyof ListPackageVersionsRequest & keyof ListPackageVersionsRequest & keyof ListPackageVersionsRequest & keyof ListPackageVersionsRequest]: (Omit<ListPackageVersionsRequest, "domain"> & ListPackageVersionsRequest & ListPackageVersionsRequest & ListPackageVersionsRequest & ListPackageVersionsRequest)[K]
-    }>): ListPackageVersionsResult {
+    }>): Request<ListPackageVersionsResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listPackageVersions(
-            this.ops["ListPackageVersions"].apply(partialParams)
+          this.ops["ListPackageVersions"].applicator.apply(partialParams)
         );
     }
 
     invokeListPackages(partialParams: ToOptional<{
       [K in keyof Omit<ListPackagesRequest, "domain"> & keyof ListPackagesRequest & keyof ListPackagesRequest & keyof ListPackagesRequest & keyof ListPackagesRequest]: (Omit<ListPackagesRequest, "domain"> & ListPackagesRequest & ListPackagesRequest & ListPackagesRequest & ListPackagesRequest)[K]
-    }>): ListPackagesResult {
+    }>): Request<ListPackagesResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listPackages(
-            this.ops["ListPackages"].apply(partialParams)
+          this.ops["ListPackages"].applicator.apply(partialParams)
         );
     }
 
     invokeListRepositoriesInDomain(partialParams: ToOptional<{
       [K in keyof Omit<ListRepositoriesInDomainRequest, "domain"> & keyof ListRepositoriesInDomainRequest & keyof ListRepositoriesInDomainRequest & keyof ListRepositoriesInDomainRequest & keyof ListRepositoriesInDomainRequest]: (Omit<ListRepositoriesInDomainRequest, "domain"> & ListRepositoriesInDomainRequest & ListRepositoriesInDomainRequest & ListRepositoriesInDomainRequest & ListRepositoriesInDomainRequest)[K]
-    }>): ListRepositoriesInDomainResult {
+    }>): Request<ListRepositoriesInDomainResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listRepositoriesInDomain(
-            this.ops["ListRepositoriesInDomain"].apply(partialParams)
+          this.ops["ListRepositoriesInDomain"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof Omit<ListTagsForResourceRequest, "resourceArn">]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & Omit<ListTagsForResourceRequest, "resourceArn">)[K]
-    }>): ListTagsForResourceResult {
+    }>): Request<ListTagsForResourceResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokePutDomainPermissionsPolicy(partialParams: ToOptional<{
       [K in keyof Omit<PutDomainPermissionsPolicyRequest, "domain"> & keyof PutDomainPermissionsPolicyRequest & keyof Omit<PutDomainPermissionsPolicyRequest, "policyDocument"> & keyof PutDomainPermissionsPolicyRequest & keyof PutDomainPermissionsPolicyRequest]: (Omit<PutDomainPermissionsPolicyRequest, "domain"> & PutDomainPermissionsPolicyRequest & Omit<PutDomainPermissionsPolicyRequest, "policyDocument"> & PutDomainPermissionsPolicyRequest & PutDomainPermissionsPolicyRequest)[K]
-    }>): PutDomainPermissionsPolicyResult {
+    }>): Request<PutDomainPermissionsPolicyResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putDomainPermissionsPolicy(
-            this.ops["PutDomainPermissionsPolicy"].apply(partialParams)
+          this.ops["PutDomainPermissionsPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokePutRepositoryPermissionsPolicy(partialParams: ToOptional<{
       [K in keyof Omit<PutRepositoryPermissionsPolicyRequest, "domain"> & keyof PutRepositoryPermissionsPolicyRequest & keyof Omit<PutRepositoryPermissionsPolicyRequest, "policyDocument"> & keyof PutRepositoryPermissionsPolicyRequest & keyof PutRepositoryPermissionsPolicyRequest]: (Omit<PutRepositoryPermissionsPolicyRequest, "domain"> & PutRepositoryPermissionsPolicyRequest & Omit<PutRepositoryPermissionsPolicyRequest, "policyDocument"> & PutRepositoryPermissionsPolicyRequest & PutRepositoryPermissionsPolicyRequest)[K]
-    }>): PutRepositoryPermissionsPolicyResult {
+    }>): Request<PutRepositoryPermissionsPolicyResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putRepositoryPermissionsPolicy(
-            this.ops["PutRepositoryPermissionsPolicy"].apply(partialParams)
+          this.ops["PutRepositoryPermissionsPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof Omit<TagResourceRequest, "resourceArn">]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & Omit<TagResourceRequest, "resourceArn">)[K]
-    }>): TagResourceResult {
+    }>): Request<TagResourceResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof Omit<UntagResourceRequest, "resourceArn">]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & Omit<UntagResourceRequest, "resourceArn">)[K]
-    }>): UntagResourceResult {
+    }>): Request<UntagResourceResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdatePackageVersionsStatus(partialParams: ToOptional<{
       [K in keyof Omit<UpdatePackageVersionsStatusRequest, "domain"> & keyof UpdatePackageVersionsStatusRequest & keyof UpdatePackageVersionsStatusRequest & keyof UpdatePackageVersionsStatusRequest & keyof UpdatePackageVersionsStatusRequest]: (Omit<UpdatePackageVersionsStatusRequest, "domain"> & UpdatePackageVersionsStatusRequest & UpdatePackageVersionsStatusRequest & UpdatePackageVersionsStatusRequest & UpdatePackageVersionsStatusRequest)[K]
-    }>): UpdatePackageVersionsStatusResult {
+    }>): Request<UpdatePackageVersionsStatusResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updatePackageVersionsStatus(
-            this.ops["UpdatePackageVersionsStatus"].apply(partialParams)
+          this.ops["UpdatePackageVersionsStatus"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateRepository(partialParams: ToOptional<{
       [K in keyof Omit<UpdateRepositoryRequest, "domain"> & keyof UpdateRepositoryRequest & keyof UpdateRepositoryRequest & keyof UpdateRepositoryRequest & keyof UpdateRepositoryRequest]: (Omit<UpdateRepositoryRequest, "domain"> & UpdateRepositoryRequest & UpdateRepositoryRequest & UpdateRepositoryRequest & UpdateRepositoryRequest)[K]
-    }>): UpdateRepositoryResult {
+    }>): Request<UpdateRepositoryResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateRepository(
-            this.ops["UpdateRepository"].apply(partialParams)
+          this.ops["UpdateRepository"].applicator.apply(partialParams)
         );
     }
 }

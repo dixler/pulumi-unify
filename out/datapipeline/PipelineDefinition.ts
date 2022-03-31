@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     ActivatePipelineInput,
     AddTagsInput,
@@ -37,8 +40,8 @@ import {
     SetTaskStatusOutput,
     ValidatePipelineDefinitionOutput
 } from "aws-sdk/clients/datapipeline";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/datapipeline-2012-10-29.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -47,155 +50,231 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.datapipeline.PipelineDefinition {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.datapipeline.PipelineDefinition>) {
         super(...args)
         this.client = new awssdk.DataPipeline()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/datapipeline-2012-10-29.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeActivatePipeline(partialParams: ToOptional<{
       [K in keyof ActivatePipelineInput]: (ActivatePipelineInput)[K]
-    }>): ActivatePipelineOutput {
+    }>): Request<ActivatePipelineOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.activatePipeline(
-            this.ops["ActivatePipeline"].apply(partialParams)
+          this.ops["ActivatePipeline"].applicator.apply(partialParams)
         );
     }
 
     invokeAddTags(partialParams: ToOptional<{
       [K in keyof AddTagsInput]: (AddTagsInput)[K]
-    }>): AddTagsOutput {
+    }>): Request<AddTagsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.addTags(
-            this.ops["AddTags"].apply(partialParams)
+          this.ops["AddTags"].applicator.apply(partialParams)
         );
     }
 
     invokeCreatePipeline(partialParams: ToOptional<{
       [K in keyof CreatePipelineInput]: (CreatePipelineInput)[K]
-    }>): CreatePipelineOutput {
+    }>): Request<CreatePipelineOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createPipeline(
-            this.ops["CreatePipeline"].apply(partialParams)
+          this.ops["CreatePipeline"].applicator.apply(partialParams)
         );
     }
 
     invokeDeactivatePipeline(partialParams: ToOptional<{
       [K in keyof DeactivatePipelineInput]: (DeactivatePipelineInput)[K]
-    }>): DeactivatePipelineOutput {
+    }>): Request<DeactivatePipelineOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deactivatePipeline(
-            this.ops["DeactivatePipeline"].apply(partialParams)
+          this.ops["DeactivatePipeline"].applicator.apply(partialParams)
         );
     }
 
     invokeDeletePipeline(partialParams: ToOptional<{
       [K in keyof DeletePipelineInput]: (DeletePipelineInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deletePipeline(
-            this.ops["DeletePipeline"].apply(partialParams)
+          this.ops["DeletePipeline"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeObjects(partialParams: ToOptional<{
       [K in keyof DescribeObjectsInput]: (DescribeObjectsInput)[K]
-    }>): DescribeObjectsOutput {
+    }>): Request<DescribeObjectsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeObjects(
-            this.ops["DescribeObjects"].apply(partialParams)
+          this.ops["DescribeObjects"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribePipelines(partialParams: ToOptional<{
       [K in keyof DescribePipelinesInput]: (DescribePipelinesInput)[K]
-    }>): DescribePipelinesOutput {
+    }>): Request<DescribePipelinesOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describePipelines(
-            this.ops["DescribePipelines"].apply(partialParams)
+          this.ops["DescribePipelines"].applicator.apply(partialParams)
         );
     }
 
     invokeEvaluateExpression(partialParams: ToOptional<{
       [K in keyof EvaluateExpressionInput]: (EvaluateExpressionInput)[K]
-    }>): EvaluateExpressionOutput {
+    }>): Request<EvaluateExpressionOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.evaluateExpression(
-            this.ops["EvaluateExpression"].apply(partialParams)
+          this.ops["EvaluateExpression"].applicator.apply(partialParams)
         );
     }
 
     invokeGetPipelineDefinition(partialParams: ToOptional<{
       [K in keyof GetPipelineDefinitionInput]: (GetPipelineDefinitionInput)[K]
-    }>): GetPipelineDefinitionOutput {
+    }>): Request<GetPipelineDefinitionOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getPipelineDefinition(
-            this.ops["GetPipelineDefinition"].apply(partialParams)
+          this.ops["GetPipelineDefinition"].applicator.apply(partialParams)
         );
     }
 
     invokePollForTask(partialParams: ToOptional<{
       [K in keyof PollForTaskInput]: (PollForTaskInput)[K]
-    }>): PollForTaskOutput {
+    }>): Request<PollForTaskOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.pollForTask(
-            this.ops["PollForTask"].apply(partialParams)
+          this.ops["PollForTask"].applicator.apply(partialParams)
         );
     }
 
     invokePutPipelineDefinition(partialParams: ToOptional<{
       [K in keyof PutPipelineDefinitionInput]: (PutPipelineDefinitionInput)[K]
-    }>): PutPipelineDefinitionOutput {
+    }>): Request<PutPipelineDefinitionOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putPipelineDefinition(
-            this.ops["PutPipelineDefinition"].apply(partialParams)
+          this.ops["PutPipelineDefinition"].applicator.apply(partialParams)
         );
     }
 
     invokeQueryObjects(partialParams: ToOptional<{
       [K in keyof QueryObjectsInput]: (QueryObjectsInput)[K]
-    }>): QueryObjectsOutput {
+    }>): Request<QueryObjectsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.queryObjects(
-            this.ops["QueryObjects"].apply(partialParams)
+          this.ops["QueryObjects"].applicator.apply(partialParams)
         );
     }
 
     invokeRemoveTags(partialParams: ToOptional<{
       [K in keyof RemoveTagsInput]: (RemoveTagsInput)[K]
-    }>): RemoveTagsOutput {
+    }>): Request<RemoveTagsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.removeTags(
-            this.ops["RemoveTags"].apply(partialParams)
+          this.ops["RemoveTags"].applicator.apply(partialParams)
         );
     }
 
     invokeReportTaskProgress(partialParams: ToOptional<{
       [K in keyof ReportTaskProgressInput]: (ReportTaskProgressInput)[K]
-    }>): ReportTaskProgressOutput {
+    }>): Request<ReportTaskProgressOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.reportTaskProgress(
-            this.ops["ReportTaskProgress"].apply(partialParams)
+          this.ops["ReportTaskProgress"].applicator.apply(partialParams)
         );
     }
 
     invokeReportTaskRunnerHeartbeat(partialParams: ToOptional<{
       [K in keyof ReportTaskRunnerHeartbeatInput]: (ReportTaskRunnerHeartbeatInput)[K]
-    }>): ReportTaskRunnerHeartbeatOutput {
+    }>): Request<ReportTaskRunnerHeartbeatOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.reportTaskRunnerHeartbeat(
-            this.ops["ReportTaskRunnerHeartbeat"].apply(partialParams)
+          this.ops["ReportTaskRunnerHeartbeat"].applicator.apply(partialParams)
         );
     }
 
     invokeSetStatus(partialParams: ToOptional<{
       [K in keyof SetStatusInput]: (SetStatusInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.setStatus(
-            this.ops["SetStatus"].apply(partialParams)
+          this.ops["SetStatus"].applicator.apply(partialParams)
         );
     }
 
     invokeSetTaskStatus(partialParams: ToOptional<{
       [K in keyof SetTaskStatusInput]: (SetTaskStatusInput)[K]
-    }>): SetTaskStatusOutput {
+    }>): Request<SetTaskStatusOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.setTaskStatus(
-            this.ops["SetTaskStatus"].apply(partialParams)
+          this.ops["SetTaskStatus"].applicator.apply(partialParams)
         );
     }
 
     invokeValidatePipelineDefinition(partialParams: ToOptional<{
       [K in keyof ValidatePipelineDefinitionInput]: (ValidatePipelineDefinitionInput)[K]
-    }>): ValidatePipelineDefinitionOutput {
+    }>): Request<ValidatePipelineDefinitionOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.validatePipelineDefinition(
-            this.ops["ValidatePipelineDefinition"].apply(partialParams)
+          this.ops["ValidatePipelineDefinition"].applicator.apply(partialParams)
         );
     }
 }

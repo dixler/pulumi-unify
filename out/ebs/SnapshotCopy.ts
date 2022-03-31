@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     CompleteSnapshotRequest,
     GetSnapshotBlockRequest,
@@ -15,8 +18,8 @@ import {
     PutSnapshotBlockResponse,
     StartSnapshotResponse
 } from "aws-sdk/clients/ebs";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/ebs-2019-11-02.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -25,59 +28,99 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.ebs.SnapshotCopy {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.ebs.SnapshotCopy>) {
         super(...args)
         this.client = new awssdk.EBS()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/ebs-2019-11-02.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeCompleteSnapshot(partialParams: ToOptional<{
       [K in keyof CompleteSnapshotRequest & keyof CompleteSnapshotRequest & keyof CompleteSnapshotRequest & keyof CompleteSnapshotRequest & keyof CompleteSnapshotRequest & keyof CompleteSnapshotRequest & keyof CompleteSnapshotRequest & keyof CompleteSnapshotRequest & keyof CompleteSnapshotRequest & keyof CompleteSnapshotRequest & keyof CompleteSnapshotRequest]: (CompleteSnapshotRequest & CompleteSnapshotRequest & CompleteSnapshotRequest & CompleteSnapshotRequest & CompleteSnapshotRequest & CompleteSnapshotRequest & CompleteSnapshotRequest & CompleteSnapshotRequest & CompleteSnapshotRequest & CompleteSnapshotRequest & CompleteSnapshotRequest)[K]
-    }>): CompleteSnapshotResponse {
+    }>): Request<CompleteSnapshotResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.completeSnapshot(
-            this.ops["CompleteSnapshot"].apply(partialParams)
+          this.ops["CompleteSnapshot"].applicator.apply(partialParams)
         );
     }
 
     invokeGetSnapshotBlock(partialParams: ToOptional<{
       [K in keyof GetSnapshotBlockRequest & keyof GetSnapshotBlockRequest & keyof GetSnapshotBlockRequest & keyof GetSnapshotBlockRequest & keyof GetSnapshotBlockRequest & keyof GetSnapshotBlockRequest & keyof GetSnapshotBlockRequest & keyof GetSnapshotBlockRequest & keyof GetSnapshotBlockRequest & keyof GetSnapshotBlockRequest & keyof GetSnapshotBlockRequest]: (GetSnapshotBlockRequest & GetSnapshotBlockRequest & GetSnapshotBlockRequest & GetSnapshotBlockRequest & GetSnapshotBlockRequest & GetSnapshotBlockRequest & GetSnapshotBlockRequest & GetSnapshotBlockRequest & GetSnapshotBlockRequest & GetSnapshotBlockRequest & GetSnapshotBlockRequest)[K]
-    }>): GetSnapshotBlockResponse {
+    }>): Request<GetSnapshotBlockResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getSnapshotBlock(
-            this.ops["GetSnapshotBlock"].apply(partialParams)
+          this.ops["GetSnapshotBlock"].applicator.apply(partialParams)
         );
     }
 
     invokeListChangedBlocks(partialParams: ToOptional<{
       [K in keyof ListChangedBlocksRequest & keyof ListChangedBlocksRequest & keyof ListChangedBlocksRequest & keyof ListChangedBlocksRequest & keyof ListChangedBlocksRequest & keyof ListChangedBlocksRequest & keyof ListChangedBlocksRequest & keyof ListChangedBlocksRequest & keyof ListChangedBlocksRequest & keyof ListChangedBlocksRequest & keyof ListChangedBlocksRequest]: (ListChangedBlocksRequest & ListChangedBlocksRequest & ListChangedBlocksRequest & ListChangedBlocksRequest & ListChangedBlocksRequest & ListChangedBlocksRequest & ListChangedBlocksRequest & ListChangedBlocksRequest & ListChangedBlocksRequest & ListChangedBlocksRequest & ListChangedBlocksRequest)[K]
-    }>): ListChangedBlocksResponse {
+    }>): Request<ListChangedBlocksResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listChangedBlocks(
-            this.ops["ListChangedBlocks"].apply(partialParams)
+          this.ops["ListChangedBlocks"].applicator.apply(partialParams)
         );
     }
 
     invokeListSnapshotBlocks(partialParams: ToOptional<{
       [K in keyof ListSnapshotBlocksRequest & keyof ListSnapshotBlocksRequest & keyof ListSnapshotBlocksRequest & keyof ListSnapshotBlocksRequest & keyof ListSnapshotBlocksRequest & keyof ListSnapshotBlocksRequest & keyof ListSnapshotBlocksRequest & keyof ListSnapshotBlocksRequest & keyof ListSnapshotBlocksRequest & keyof ListSnapshotBlocksRequest & keyof ListSnapshotBlocksRequest]: (ListSnapshotBlocksRequest & ListSnapshotBlocksRequest & ListSnapshotBlocksRequest & ListSnapshotBlocksRequest & ListSnapshotBlocksRequest & ListSnapshotBlocksRequest & ListSnapshotBlocksRequest & ListSnapshotBlocksRequest & ListSnapshotBlocksRequest & ListSnapshotBlocksRequest & ListSnapshotBlocksRequest)[K]
-    }>): ListSnapshotBlocksResponse {
+    }>): Request<ListSnapshotBlocksResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listSnapshotBlocks(
-            this.ops["ListSnapshotBlocks"].apply(partialParams)
+          this.ops["ListSnapshotBlocks"].applicator.apply(partialParams)
         );
     }
 
     invokePutSnapshotBlock(partialParams: ToOptional<{
       [K in keyof PutSnapshotBlockRequest & keyof PutSnapshotBlockRequest & keyof PutSnapshotBlockRequest & keyof PutSnapshotBlockRequest & keyof PutSnapshotBlockRequest & keyof PutSnapshotBlockRequest & keyof PutSnapshotBlockRequest & keyof PutSnapshotBlockRequest & keyof PutSnapshotBlockRequest & keyof PutSnapshotBlockRequest & keyof PutSnapshotBlockRequest]: (PutSnapshotBlockRequest & PutSnapshotBlockRequest & PutSnapshotBlockRequest & PutSnapshotBlockRequest & PutSnapshotBlockRequest & PutSnapshotBlockRequest & PutSnapshotBlockRequest & PutSnapshotBlockRequest & PutSnapshotBlockRequest & PutSnapshotBlockRequest & PutSnapshotBlockRequest)[K]
-    }>): PutSnapshotBlockResponse {
+    }>): Request<PutSnapshotBlockResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putSnapshotBlock(
-            this.ops["PutSnapshotBlock"].apply(partialParams)
+          this.ops["PutSnapshotBlock"].applicator.apply(partialParams)
         );
     }
 
     invokeStartSnapshot(partialParams: ToOptional<{
       [K in keyof StartSnapshotRequest & keyof StartSnapshotRequest & keyof StartSnapshotRequest & keyof StartSnapshotRequest & keyof StartSnapshotRequest & keyof StartSnapshotRequest & keyof StartSnapshotRequest & keyof StartSnapshotRequest & keyof StartSnapshotRequest & keyof StartSnapshotRequest & keyof StartSnapshotRequest]: (StartSnapshotRequest & StartSnapshotRequest & StartSnapshotRequest & StartSnapshotRequest & StartSnapshotRequest & StartSnapshotRequest & StartSnapshotRequest & StartSnapshotRequest & StartSnapshotRequest & StartSnapshotRequest & StartSnapshotRequest)[K]
-    }>): StartSnapshotResponse {
+    }>): Request<StartSnapshotResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startSnapshot(
-            this.ops["StartSnapshot"].apply(partialParams)
+          this.ops["StartSnapshot"].applicator.apply(partialParams)
         );
     }
 }

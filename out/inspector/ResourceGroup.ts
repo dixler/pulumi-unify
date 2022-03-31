@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     AddAttributesToFindingsRequest,
     CreateAssessmentTargetRequest,
@@ -54,8 +57,8 @@ import {
     RemoveAttributesFromFindingsResponse,
     StartAssessmentRunResponse
 } from "aws-sdk/clients/inspector";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/inspector-2016-02-16.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -64,251 +67,363 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.inspector.ResourceGroup {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.inspector.ResourceGroup>) {
         super(...args)
         this.client = new awssdk.Inspector()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/inspector-2016-02-16.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeAddAttributesToFindings(partialParams: ToOptional<{
       [K in keyof AddAttributesToFindingsRequest]: (AddAttributesToFindingsRequest)[K]
-    }>): AddAttributesToFindingsResponse {
+    }>): Request<AddAttributesToFindingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.addAttributesToFindings(
-            this.ops["AddAttributesToFindings"].apply(partialParams)
+          this.ops["AddAttributesToFindings"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateAssessmentTarget(partialParams: ToOptional<{
       [K in keyof CreateAssessmentTargetRequest]: (CreateAssessmentTargetRequest)[K]
-    }>): CreateAssessmentTargetResponse {
+    }>): Request<CreateAssessmentTargetResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createAssessmentTarget(
-            this.ops["CreateAssessmentTarget"].apply(partialParams)
+          this.ops["CreateAssessmentTarget"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateAssessmentTemplate(partialParams: ToOptional<{
       [K in keyof Omit<CreateAssessmentTemplateRequest, "assessmentTargetArn">]: (Omit<CreateAssessmentTemplateRequest, "assessmentTargetArn">)[K]
-    }>): CreateAssessmentTemplateResponse {
+    }>): Request<CreateAssessmentTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createAssessmentTemplate(
-            this.ops["CreateAssessmentTemplate"].apply(partialParams)
+          this.ops["CreateAssessmentTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateExclusionsPreview(partialParams: ToOptional<{
       [K in keyof Omit<CreateExclusionsPreviewRequest, "assessmentTemplateArn">]: (Omit<CreateExclusionsPreviewRequest, "assessmentTemplateArn">)[K]
-    }>): CreateExclusionsPreviewResponse {
+    }>): Request<CreateExclusionsPreviewResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createExclusionsPreview(
-            this.ops["CreateExclusionsPreview"].apply(partialParams)
+          this.ops["CreateExclusionsPreview"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateResourceGroup(partialParams: ToOptional<{
       [K in keyof CreateResourceGroupRequest]: (CreateResourceGroupRequest)[K]
-    }>): CreateResourceGroupResponse {
+    }>): Request<CreateResourceGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createResourceGroup(
-            this.ops["CreateResourceGroup"].apply(partialParams)
+          this.ops["CreateResourceGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteAssessmentRun(partialParams: ToOptional<{
       [K in keyof Omit<DeleteAssessmentRunRequest, "assessmentRunArn">]: (Omit<DeleteAssessmentRunRequest, "assessmentRunArn">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteAssessmentRun(
-            this.ops["DeleteAssessmentRun"].apply(partialParams)
+          this.ops["DeleteAssessmentRun"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteAssessmentTarget(partialParams: ToOptional<{
       [K in keyof Omit<DeleteAssessmentTargetRequest, "assessmentTargetArn">]: (Omit<DeleteAssessmentTargetRequest, "assessmentTargetArn">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteAssessmentTarget(
-            this.ops["DeleteAssessmentTarget"].apply(partialParams)
+          this.ops["DeleteAssessmentTarget"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteAssessmentTemplate(partialParams: ToOptional<{
       [K in keyof Omit<DeleteAssessmentTemplateRequest, "assessmentTemplateArn">]: (Omit<DeleteAssessmentTemplateRequest, "assessmentTemplateArn">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteAssessmentTemplate(
-            this.ops["DeleteAssessmentTemplate"].apply(partialParams)
+          this.ops["DeleteAssessmentTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeAssessmentRuns(partialParams: ToOptional<{
       [K in keyof DescribeAssessmentRunsRequest]: (DescribeAssessmentRunsRequest)[K]
-    }>): DescribeAssessmentRunsResponse {
+    }>): Request<DescribeAssessmentRunsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeAssessmentRuns(
-            this.ops["DescribeAssessmentRuns"].apply(partialParams)
+          this.ops["DescribeAssessmentRuns"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeAssessmentTargets(partialParams: ToOptional<{
       [K in keyof DescribeAssessmentTargetsRequest]: (DescribeAssessmentTargetsRequest)[K]
-    }>): DescribeAssessmentTargetsResponse {
+    }>): Request<DescribeAssessmentTargetsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeAssessmentTargets(
-            this.ops["DescribeAssessmentTargets"].apply(partialParams)
+          this.ops["DescribeAssessmentTargets"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeAssessmentTemplates(partialParams: ToOptional<{
       [K in keyof DescribeAssessmentTemplatesRequest]: (DescribeAssessmentTemplatesRequest)[K]
-    }>): DescribeAssessmentTemplatesResponse {
+    }>): Request<DescribeAssessmentTemplatesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeAssessmentTemplates(
-            this.ops["DescribeAssessmentTemplates"].apply(partialParams)
+          this.ops["DescribeAssessmentTemplates"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeExclusions(partialParams: ToOptional<{
       [K in keyof DescribeExclusionsRequest]: (DescribeExclusionsRequest)[K]
-    }>): DescribeExclusionsResponse {
+    }>): Request<DescribeExclusionsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeExclusions(
-            this.ops["DescribeExclusions"].apply(partialParams)
+          this.ops["DescribeExclusions"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeFindings(partialParams: ToOptional<{
       [K in keyof DescribeFindingsRequest]: (DescribeFindingsRequest)[K]
-    }>): DescribeFindingsResponse {
+    }>): Request<DescribeFindingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeFindings(
-            this.ops["DescribeFindings"].apply(partialParams)
+          this.ops["DescribeFindings"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeResourceGroups(partialParams: ToOptional<{
       [K in keyof DescribeResourceGroupsRequest]: (DescribeResourceGroupsRequest)[K]
-    }>): DescribeResourceGroupsResponse {
+    }>): Request<DescribeResourceGroupsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeResourceGroups(
-            this.ops["DescribeResourceGroups"].apply(partialParams)
+          this.ops["DescribeResourceGroups"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeRulesPackages(partialParams: ToOptional<{
       [K in keyof DescribeRulesPackagesRequest]: (DescribeRulesPackagesRequest)[K]
-    }>): DescribeRulesPackagesResponse {
+    }>): Request<DescribeRulesPackagesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeRulesPackages(
-            this.ops["DescribeRulesPackages"].apply(partialParams)
+          this.ops["DescribeRulesPackages"].applicator.apply(partialParams)
         );
     }
 
     invokeGetAssessmentReport(partialParams: ToOptional<{
       [K in keyof Omit<GetAssessmentReportRequest, "assessmentRunArn">]: (Omit<GetAssessmentReportRequest, "assessmentRunArn">)[K]
-    }>): GetAssessmentReportResponse {
+    }>): Request<GetAssessmentReportResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getAssessmentReport(
-            this.ops["GetAssessmentReport"].apply(partialParams)
+          this.ops["GetAssessmentReport"].applicator.apply(partialParams)
         );
     }
 
     invokeGetExclusionsPreview(partialParams: ToOptional<{
       [K in keyof Omit<GetExclusionsPreviewRequest, "assessmentTemplateArn">]: (Omit<GetExclusionsPreviewRequest, "assessmentTemplateArn">)[K]
-    }>): GetExclusionsPreviewResponse {
+    }>): Request<GetExclusionsPreviewResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getExclusionsPreview(
-            this.ops["GetExclusionsPreview"].apply(partialParams)
+          this.ops["GetExclusionsPreview"].applicator.apply(partialParams)
         );
     }
 
     invokeGetTelemetryMetadata(partialParams: ToOptional<{
       [K in keyof Omit<GetTelemetryMetadataRequest, "assessmentRunArn">]: (Omit<GetTelemetryMetadataRequest, "assessmentRunArn">)[K]
-    }>): GetTelemetryMetadataResponse {
+    }>): Request<GetTelemetryMetadataResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getTelemetryMetadata(
-            this.ops["GetTelemetryMetadata"].apply(partialParams)
+          this.ops["GetTelemetryMetadata"].applicator.apply(partialParams)
         );
     }
 
     invokeListAssessmentRunAgents(partialParams: ToOptional<{
       [K in keyof Omit<ListAssessmentRunAgentsRequest, "assessmentRunArn">]: (Omit<ListAssessmentRunAgentsRequest, "assessmentRunArn">)[K]
-    }>): ListAssessmentRunAgentsResponse {
+    }>): Request<ListAssessmentRunAgentsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listAssessmentRunAgents(
-            this.ops["ListAssessmentRunAgents"].apply(partialParams)
+          this.ops["ListAssessmentRunAgents"].applicator.apply(partialParams)
         );
     }
 
     invokeListExclusions(partialParams: ToOptional<{
       [K in keyof Omit<ListExclusionsRequest, "assessmentRunArn">]: (Omit<ListExclusionsRequest, "assessmentRunArn">)[K]
-    }>): ListExclusionsResponse {
+    }>): Request<ListExclusionsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listExclusions(
-            this.ops["ListExclusions"].apply(partialParams)
+          this.ops["ListExclusions"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof Omit<ListTagsForResourceRequest, "resourceArn">]: (Omit<ListTagsForResourceRequest, "resourceArn">)[K]
-    }>): ListTagsForResourceResponse {
+    }>): Request<ListTagsForResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokePreviewAgents(partialParams: ToOptional<{
       [K in keyof Omit<PreviewAgentsRequest, "previewAgentsArn">]: (Omit<PreviewAgentsRequest, "previewAgentsArn">)[K]
-    }>): PreviewAgentsResponse {
+    }>): Request<PreviewAgentsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.previewAgents(
-            this.ops["PreviewAgents"].apply(partialParams)
+          this.ops["PreviewAgents"].applicator.apply(partialParams)
         );
     }
 
     invokeRegisterCrossAccountAccessRole(partialParams: ToOptional<{
       [K in keyof Omit<RegisterCrossAccountAccessRoleRequest, "roleArn">]: (Omit<RegisterCrossAccountAccessRoleRequest, "roleArn">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.registerCrossAccountAccessRole(
-            this.ops["RegisterCrossAccountAccessRole"].apply(partialParams)
+          this.ops["RegisterCrossAccountAccessRole"].applicator.apply(partialParams)
         );
     }
 
     invokeRemoveAttributesFromFindings(partialParams: ToOptional<{
       [K in keyof RemoveAttributesFromFindingsRequest]: (RemoveAttributesFromFindingsRequest)[K]
-    }>): RemoveAttributesFromFindingsResponse {
+    }>): Request<RemoveAttributesFromFindingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.removeAttributesFromFindings(
-            this.ops["RemoveAttributesFromFindings"].apply(partialParams)
+          this.ops["RemoveAttributesFromFindings"].applicator.apply(partialParams)
         );
     }
 
     invokeSetTagsForResource(partialParams: ToOptional<{
       [K in keyof Omit<SetTagsForResourceRequest, "resourceArn">]: (Omit<SetTagsForResourceRequest, "resourceArn">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.setTagsForResource(
-            this.ops["SetTagsForResource"].apply(partialParams)
+          this.ops["SetTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokeStartAssessmentRun(partialParams: ToOptional<{
       [K in keyof Omit<StartAssessmentRunRequest, "assessmentTemplateArn">]: (Omit<StartAssessmentRunRequest, "assessmentTemplateArn">)[K]
-    }>): StartAssessmentRunResponse {
+    }>): Request<StartAssessmentRunResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startAssessmentRun(
-            this.ops["StartAssessmentRun"].apply(partialParams)
+          this.ops["StartAssessmentRun"].applicator.apply(partialParams)
         );
     }
 
     invokeStopAssessmentRun(partialParams: ToOptional<{
       [K in keyof Omit<StopAssessmentRunRequest, "assessmentRunArn">]: (Omit<StopAssessmentRunRequest, "assessmentRunArn">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.stopAssessmentRun(
-            this.ops["StopAssessmentRun"].apply(partialParams)
+          this.ops["StopAssessmentRun"].applicator.apply(partialParams)
         );
     }
 
     invokeSubscribeToEvent(partialParams: ToOptional<{
       [K in keyof Omit<SubscribeToEventRequest, "resourceArn"|"topicArn">]: (Omit<SubscribeToEventRequest, "resourceArn"|"topicArn">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.subscribeToEvent(
-            this.ops["SubscribeToEvent"].apply(partialParams)
+          this.ops["SubscribeToEvent"].applicator.apply(partialParams)
         );
     }
 
     invokeUnsubscribeFromEvent(partialParams: ToOptional<{
       [K in keyof Omit<UnsubscribeFromEventRequest, "resourceArn"|"topicArn">]: (Omit<UnsubscribeFromEventRequest, "resourceArn"|"topicArn">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.unsubscribeFromEvent(
-            this.ops["UnsubscribeFromEvent"].apply(partialParams)
+          this.ops["UnsubscribeFromEvent"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateAssessmentTarget(partialParams: ToOptional<{
       [K in keyof Omit<UpdateAssessmentTargetRequest, "assessmentTargetArn">]: (Omit<UpdateAssessmentTargetRequest, "assessmentTargetArn">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateAssessmentTarget(
-            this.ops["UpdateAssessmentTarget"].apply(partialParams)
+          this.ops["UpdateAssessmentTarget"].applicator.apply(partialParams)
         );
     }
 }

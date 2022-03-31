@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,54 +21,118 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/signer-2017-08-25.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.signer.SigningProfilePermission {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.Signer();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/signer-2017-08-25.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeAddProfilePermission(partialParams) {
-        return this.client.addProfilePermission(this.ops["AddProfilePermission"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.addProfilePermission(this.ops["AddProfilePermission"].applicator.apply(partialParams));
     }
     invokeCancelSigningProfile(partialParams) {
-        return this.client.cancelSigningProfile(this.ops["CancelSigningProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.cancelSigningProfile(this.ops["CancelSigningProfile"].applicator.apply(partialParams));
     }
     invokeDescribeSigningJob(partialParams) {
-        return this.client.describeSigningJob(this.ops["DescribeSigningJob"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeSigningJob(this.ops["DescribeSigningJob"].applicator.apply(partialParams));
     }
     invokeGetSigningPlatform(partialParams) {
-        return this.client.getSigningPlatform(this.ops["GetSigningPlatform"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getSigningPlatform(this.ops["GetSigningPlatform"].applicator.apply(partialParams));
     }
     invokeGetSigningProfile(partialParams) {
-        return this.client.getSigningProfile(this.ops["GetSigningProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getSigningProfile(this.ops["GetSigningProfile"].applicator.apply(partialParams));
     }
     invokeListProfilePermissions(partialParams) {
-        return this.client.listProfilePermissions(this.ops["ListProfilePermissions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listProfilePermissions(this.ops["ListProfilePermissions"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokePutSigningProfile(partialParams) {
-        return this.client.putSigningProfile(this.ops["PutSigningProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putSigningProfile(this.ops["PutSigningProfile"].applicator.apply(partialParams));
     }
     invokeRemoveProfilePermission(partialParams) {
-        return this.client.removeProfilePermission(this.ops["RemoveProfilePermission"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.removeProfilePermission(this.ops["RemoveProfilePermission"].applicator.apply(partialParams));
     }
     invokeRevokeSignature(partialParams) {
-        return this.client.revokeSignature(this.ops["RevokeSignature"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.revokeSignature(this.ops["RevokeSignature"].applicator.apply(partialParams));
     }
     invokeRevokeSigningProfile(partialParams) {
-        return this.client.revokeSigningProfile(this.ops["RevokeSigningProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.revokeSigningProfile(this.ops["RevokeSigningProfile"].applicator.apply(partialParams));
     }
     invokeStartSigningJob(partialParams) {
-        return this.client.startSigningJob(this.ops["StartSigningJob"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startSigningJob(this.ops["StartSigningJob"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,57 +21,124 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/amp-2020-08-01.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.amp.AlertManagerDefinition {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.Amp();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/amp-2020-08-01.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeCreateAlertManagerDefinition(partialParams) {
-        return this.client.createAlertManagerDefinition(this.ops["CreateAlertManagerDefinition"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createAlertManagerDefinition(this.ops["CreateAlertManagerDefinition"].applicator.apply(partialParams));
     }
     invokeCreateRuleGroupsNamespace(partialParams) {
-        return this.client.createRuleGroupsNamespace(this.ops["CreateRuleGroupsNamespace"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createRuleGroupsNamespace(this.ops["CreateRuleGroupsNamespace"].applicator.apply(partialParams));
     }
     invokeDeleteAlertManagerDefinition(partialParams) {
-        return this.client.deleteAlertManagerDefinition(this.ops["DeleteAlertManagerDefinition"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteAlertManagerDefinition(this.ops["DeleteAlertManagerDefinition"].applicator.apply(partialParams));
     }
     invokeDeleteRuleGroupsNamespace(partialParams) {
-        return this.client.deleteRuleGroupsNamespace(this.ops["DeleteRuleGroupsNamespace"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteRuleGroupsNamespace(this.ops["DeleteRuleGroupsNamespace"].applicator.apply(partialParams));
     }
     invokeDeleteWorkspace(partialParams) {
-        return this.client.deleteWorkspace(this.ops["DeleteWorkspace"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteWorkspace(this.ops["DeleteWorkspace"].applicator.apply(partialParams));
     }
     invokeDescribeAlertManagerDefinition(partialParams) {
-        return this.client.describeAlertManagerDefinition(this.ops["DescribeAlertManagerDefinition"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeAlertManagerDefinition(this.ops["DescribeAlertManagerDefinition"].applicator.apply(partialParams));
     }
     invokeDescribeRuleGroupsNamespace(partialParams) {
-        return this.client.describeRuleGroupsNamespace(this.ops["DescribeRuleGroupsNamespace"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeRuleGroupsNamespace(this.ops["DescribeRuleGroupsNamespace"].applicator.apply(partialParams));
     }
     invokeDescribeWorkspace(partialParams) {
-        return this.client.describeWorkspace(this.ops["DescribeWorkspace"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeWorkspace(this.ops["DescribeWorkspace"].applicator.apply(partialParams));
     }
     invokeListRuleGroupsNamespaces(partialParams) {
-        return this.client.listRuleGroupsNamespaces(this.ops["ListRuleGroupsNamespaces"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listRuleGroupsNamespaces(this.ops["ListRuleGroupsNamespaces"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokePutAlertManagerDefinition(partialParams) {
-        return this.client.putAlertManagerDefinition(this.ops["PutAlertManagerDefinition"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putAlertManagerDefinition(this.ops["PutAlertManagerDefinition"].applicator.apply(partialParams));
     }
     invokePutRuleGroupsNamespace(partialParams) {
-        return this.client.putRuleGroupsNamespace(this.ops["PutRuleGroupsNamespace"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putRuleGroupsNamespace(this.ops["PutRuleGroupsNamespace"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateWorkspaceAlias(partialParams) {
-        return this.client.updateWorkspaceAlias(this.ops["UpdateWorkspaceAlias"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateWorkspaceAlias(this.ops["UpdateWorkspaceAlias"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

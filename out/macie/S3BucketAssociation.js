@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,27 +21,64 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/macie-2017-12-19.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.macie.S3BucketAssociation {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.Macie();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/macie-2017-12-19.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeAssociateMemberAccount(partialParams) {
-        return this.client.associateMemberAccount(this.ops["AssociateMemberAccount"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateMemberAccount(this.ops["AssociateMemberAccount"].applicator.apply(partialParams));
     }
     invokeAssociateS3Resources(partialParams) {
-        return this.client.associateS3Resources(this.ops["AssociateS3Resources"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateS3Resources(this.ops["AssociateS3Resources"].applicator.apply(partialParams));
     }
     invokeDisassociateMemberAccount(partialParams) {
-        return this.client.disassociateMemberAccount(this.ops["DisassociateMemberAccount"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociateMemberAccount(this.ops["DisassociateMemberAccount"].applicator.apply(partialParams));
     }
     invokeDisassociateS3Resources(partialParams) {
-        return this.client.disassociateS3Resources(this.ops["DisassociateS3Resources"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociateS3Resources(this.ops["DisassociateS3Resources"].applicator.apply(partialParams));
     }
     invokeUpdateS3Resources(partialParams) {
-        return this.client.updateS3Resources(this.ops["UpdateS3Resources"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateS3Resources(this.ops["UpdateS3Resources"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

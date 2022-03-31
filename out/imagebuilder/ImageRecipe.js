@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,141 +21,292 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/imagebuilder-2019-12-02.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.imagebuilder.ImageRecipe {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.Imagebuilder();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/imagebuilder-2019-12-02.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeCancelImageCreation(partialParams) {
-        return this.client.cancelImageCreation(this.ops["CancelImageCreation"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.cancelImageCreation(this.ops["CancelImageCreation"].applicator.apply(partialParams));
     }
     invokeCreateComponent(partialParams) {
-        return this.client.createComponent(this.ops["CreateComponent"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createComponent(this.ops["CreateComponent"].applicator.apply(partialParams));
     }
     invokeCreateContainerRecipe(partialParams) {
-        return this.client.createContainerRecipe(this.ops["CreateContainerRecipe"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createContainerRecipe(this.ops["CreateContainerRecipe"].applicator.apply(partialParams));
     }
     invokeCreateDistributionConfiguration(partialParams) {
-        return this.client.createDistributionConfiguration(this.ops["CreateDistributionConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createDistributionConfiguration(this.ops["CreateDistributionConfiguration"].applicator.apply(partialParams));
     }
     invokeCreateImage(partialParams) {
-        return this.client.createImage(this.ops["CreateImage"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createImage(this.ops["CreateImage"].applicator.apply(partialParams));
     }
     invokeCreateImagePipeline(partialParams) {
-        return this.client.createImagePipeline(this.ops["CreateImagePipeline"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createImagePipeline(this.ops["CreateImagePipeline"].applicator.apply(partialParams));
     }
     invokeCreateImageRecipe(partialParams) {
-        return this.client.createImageRecipe(this.ops["CreateImageRecipe"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createImageRecipe(this.ops["CreateImageRecipe"].applicator.apply(partialParams));
     }
     invokeCreateInfrastructureConfiguration(partialParams) {
-        return this.client.createInfrastructureConfiguration(this.ops["CreateInfrastructureConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createInfrastructureConfiguration(this.ops["CreateInfrastructureConfiguration"].applicator.apply(partialParams));
     }
     invokeDeleteComponent(partialParams) {
-        return this.client.deleteComponent(this.ops["DeleteComponent"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteComponent(this.ops["DeleteComponent"].applicator.apply(partialParams));
     }
     invokeDeleteContainerRecipe(partialParams) {
-        return this.client.deleteContainerRecipe(this.ops["DeleteContainerRecipe"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteContainerRecipe(this.ops["DeleteContainerRecipe"].applicator.apply(partialParams));
     }
     invokeDeleteDistributionConfiguration(partialParams) {
-        return this.client.deleteDistributionConfiguration(this.ops["DeleteDistributionConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteDistributionConfiguration(this.ops["DeleteDistributionConfiguration"].applicator.apply(partialParams));
     }
     invokeDeleteImage(partialParams) {
-        return this.client.deleteImage(this.ops["DeleteImage"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteImage(this.ops["DeleteImage"].applicator.apply(partialParams));
     }
     invokeDeleteImagePipeline(partialParams) {
-        return this.client.deleteImagePipeline(this.ops["DeleteImagePipeline"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteImagePipeline(this.ops["DeleteImagePipeline"].applicator.apply(partialParams));
     }
     invokeDeleteImageRecipe(partialParams) {
-        return this.client.deleteImageRecipe(this.ops["DeleteImageRecipe"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteImageRecipe(this.ops["DeleteImageRecipe"].applicator.apply(partialParams));
     }
     invokeDeleteInfrastructureConfiguration(partialParams) {
-        return this.client.deleteInfrastructureConfiguration(this.ops["DeleteInfrastructureConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteInfrastructureConfiguration(this.ops["DeleteInfrastructureConfiguration"].applicator.apply(partialParams));
     }
     invokeGetComponent(partialParams) {
-        return this.client.getComponent(this.ops["GetComponent"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getComponent(this.ops["GetComponent"].applicator.apply(partialParams));
     }
     invokeGetComponentPolicy(partialParams) {
-        return this.client.getComponentPolicy(this.ops["GetComponentPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getComponentPolicy(this.ops["GetComponentPolicy"].applicator.apply(partialParams));
     }
     invokeGetContainerRecipe(partialParams) {
-        return this.client.getContainerRecipe(this.ops["GetContainerRecipe"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getContainerRecipe(this.ops["GetContainerRecipe"].applicator.apply(partialParams));
     }
     invokeGetContainerRecipePolicy(partialParams) {
-        return this.client.getContainerRecipePolicy(this.ops["GetContainerRecipePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getContainerRecipePolicy(this.ops["GetContainerRecipePolicy"].applicator.apply(partialParams));
     }
     invokeGetDistributionConfiguration(partialParams) {
-        return this.client.getDistributionConfiguration(this.ops["GetDistributionConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getDistributionConfiguration(this.ops["GetDistributionConfiguration"].applicator.apply(partialParams));
     }
     invokeGetImage(partialParams) {
-        return this.client.getImage(this.ops["GetImage"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getImage(this.ops["GetImage"].applicator.apply(partialParams));
     }
     invokeGetImagePipeline(partialParams) {
-        return this.client.getImagePipeline(this.ops["GetImagePipeline"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getImagePipeline(this.ops["GetImagePipeline"].applicator.apply(partialParams));
     }
     invokeGetImagePolicy(partialParams) {
-        return this.client.getImagePolicy(this.ops["GetImagePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getImagePolicy(this.ops["GetImagePolicy"].applicator.apply(partialParams));
     }
     invokeGetImageRecipe(partialParams) {
-        return this.client.getImageRecipe(this.ops["GetImageRecipe"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getImageRecipe(this.ops["GetImageRecipe"].applicator.apply(partialParams));
     }
     invokeGetImageRecipePolicy(partialParams) {
-        return this.client.getImageRecipePolicy(this.ops["GetImageRecipePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getImageRecipePolicy(this.ops["GetImageRecipePolicy"].applicator.apply(partialParams));
     }
     invokeGetInfrastructureConfiguration(partialParams) {
-        return this.client.getInfrastructureConfiguration(this.ops["GetInfrastructureConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getInfrastructureConfiguration(this.ops["GetInfrastructureConfiguration"].applicator.apply(partialParams));
     }
     invokeImportComponent(partialParams) {
-        return this.client.importComponent(this.ops["ImportComponent"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.importComponent(this.ops["ImportComponent"].applicator.apply(partialParams));
     }
     invokeImportVmImage(partialParams) {
-        return this.client.importVmImage(this.ops["ImportVmImage"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.importVmImage(this.ops["ImportVmImage"].applicator.apply(partialParams));
     }
     invokeListComponentBuildVersions(partialParams) {
-        return this.client.listComponentBuildVersions(this.ops["ListComponentBuildVersions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listComponentBuildVersions(this.ops["ListComponentBuildVersions"].applicator.apply(partialParams));
     }
     invokeListImageBuildVersions(partialParams) {
-        return this.client.listImageBuildVersions(this.ops["ListImageBuildVersions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listImageBuildVersions(this.ops["ListImageBuildVersions"].applicator.apply(partialParams));
     }
     invokeListImagePackages(partialParams) {
-        return this.client.listImagePackages(this.ops["ListImagePackages"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listImagePackages(this.ops["ListImagePackages"].applicator.apply(partialParams));
     }
     invokeListImagePipelineImages(partialParams) {
-        return this.client.listImagePipelineImages(this.ops["ListImagePipelineImages"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listImagePipelineImages(this.ops["ListImagePipelineImages"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokePutComponentPolicy(partialParams) {
-        return this.client.putComponentPolicy(this.ops["PutComponentPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putComponentPolicy(this.ops["PutComponentPolicy"].applicator.apply(partialParams));
     }
     invokePutContainerRecipePolicy(partialParams) {
-        return this.client.putContainerRecipePolicy(this.ops["PutContainerRecipePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putContainerRecipePolicy(this.ops["PutContainerRecipePolicy"].applicator.apply(partialParams));
     }
     invokePutImagePolicy(partialParams) {
-        return this.client.putImagePolicy(this.ops["PutImagePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putImagePolicy(this.ops["PutImagePolicy"].applicator.apply(partialParams));
     }
     invokePutImageRecipePolicy(partialParams) {
-        return this.client.putImageRecipePolicy(this.ops["PutImageRecipePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putImageRecipePolicy(this.ops["PutImageRecipePolicy"].applicator.apply(partialParams));
     }
     invokeStartImagePipelineExecution(partialParams) {
-        return this.client.startImagePipelineExecution(this.ops["StartImagePipelineExecution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startImagePipelineExecution(this.ops["StartImagePipelineExecution"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateDistributionConfiguration(partialParams) {
-        return this.client.updateDistributionConfiguration(this.ops["UpdateDistributionConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateDistributionConfiguration(this.ops["UpdateDistributionConfiguration"].applicator.apply(partialParams));
     }
     invokeUpdateImagePipeline(partialParams) {
-        return this.client.updateImagePipeline(this.ops["UpdateImagePipeline"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateImagePipeline(this.ops["UpdateImagePipeline"].applicator.apply(partialParams));
     }
     invokeUpdateInfrastructureConfiguration(partialParams) {
-        return this.client.updateInfrastructureConfiguration(this.ops["UpdateInfrastructureConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateInfrastructureConfiguration(this.ops["UpdateInfrastructureConfiguration"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

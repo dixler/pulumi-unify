@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     CreateAppRequest,
     CreateCampaignRequest,
@@ -233,8 +236,8 @@ import {
     UpdateVoiceTemplateResponse,
     VerifyOTPMessageResponse
 } from "aws-sdk/clients/pinpoint";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/pinpoint-2016-12-01.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -243,939 +246,1309 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.pinpoint.GcmChannel {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.pinpoint.GcmChannel>) {
         super(...args)
         this.client = new awssdk.Pinpoint()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/pinpoint-2016-12-01.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeCreateApp(partialParams: ToOptional<{
       [K in keyof CreateAppRequest & keyof CreateAppRequest]: (CreateAppRequest & CreateAppRequest)[K]
-    }>): CreateAppResponse {
+    }>): Request<CreateAppResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createApp(
-            this.ops["CreateApp"].apply(partialParams)
+          this.ops["CreateApp"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateCampaign(partialParams: ToOptional<{
       [K in keyof CreateCampaignRequest & keyof CreateCampaignRequest]: (CreateCampaignRequest & CreateCampaignRequest)[K]
-    }>): CreateCampaignResponse {
+    }>): Request<CreateCampaignResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createCampaign(
-            this.ops["CreateCampaign"].apply(partialParams)
+          this.ops["CreateCampaign"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateEmailTemplate(partialParams: ToOptional<{
       [K in keyof CreateEmailTemplateRequest & keyof CreateEmailTemplateRequest]: (CreateEmailTemplateRequest & CreateEmailTemplateRequest)[K]
-    }>): CreateEmailTemplateResponse {
+    }>): Request<CreateEmailTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createEmailTemplate(
-            this.ops["CreateEmailTemplate"].apply(partialParams)
+          this.ops["CreateEmailTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateExportJob(partialParams: ToOptional<{
       [K in keyof CreateExportJobRequest & keyof CreateExportJobRequest]: (CreateExportJobRequest & CreateExportJobRequest)[K]
-    }>): CreateExportJobResponse {
+    }>): Request<CreateExportJobResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createExportJob(
-            this.ops["CreateExportJob"].apply(partialParams)
+          this.ops["CreateExportJob"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateImportJob(partialParams: ToOptional<{
       [K in keyof CreateImportJobRequest & keyof CreateImportJobRequest]: (CreateImportJobRequest & CreateImportJobRequest)[K]
-    }>): CreateImportJobResponse {
+    }>): Request<CreateImportJobResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createImportJob(
-            this.ops["CreateImportJob"].apply(partialParams)
+          this.ops["CreateImportJob"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateInAppTemplate(partialParams: ToOptional<{
       [K in keyof CreateInAppTemplateRequest & keyof CreateInAppTemplateRequest]: (CreateInAppTemplateRequest & CreateInAppTemplateRequest)[K]
-    }>): CreateInAppTemplateResponse {
+    }>): Request<CreateInAppTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createInAppTemplate(
-            this.ops["CreateInAppTemplate"].apply(partialParams)
+          this.ops["CreateInAppTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateJourney(partialParams: ToOptional<{
       [K in keyof CreateJourneyRequest & keyof CreateJourneyRequest]: (CreateJourneyRequest & CreateJourneyRequest)[K]
-    }>): CreateJourneyResponse {
+    }>): Request<CreateJourneyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createJourney(
-            this.ops["CreateJourney"].apply(partialParams)
+          this.ops["CreateJourney"].applicator.apply(partialParams)
         );
     }
 
     invokeCreatePushTemplate(partialParams: ToOptional<{
       [K in keyof CreatePushTemplateRequest & keyof CreatePushTemplateRequest]: (CreatePushTemplateRequest & CreatePushTemplateRequest)[K]
-    }>): CreatePushTemplateResponse {
+    }>): Request<CreatePushTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createPushTemplate(
-            this.ops["CreatePushTemplate"].apply(partialParams)
+          this.ops["CreatePushTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateRecommenderConfiguration(partialParams: ToOptional<{
       [K in keyof CreateRecommenderConfigurationRequest & keyof CreateRecommenderConfigurationRequest]: (CreateRecommenderConfigurationRequest & CreateRecommenderConfigurationRequest)[K]
-    }>): CreateRecommenderConfigurationResponse {
+    }>): Request<CreateRecommenderConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createRecommenderConfiguration(
-            this.ops["CreateRecommenderConfiguration"].apply(partialParams)
+          this.ops["CreateRecommenderConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateSegment(partialParams: ToOptional<{
       [K in keyof CreateSegmentRequest & keyof CreateSegmentRequest]: (CreateSegmentRequest & CreateSegmentRequest)[K]
-    }>): CreateSegmentResponse {
+    }>): Request<CreateSegmentResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createSegment(
-            this.ops["CreateSegment"].apply(partialParams)
+          this.ops["CreateSegment"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateSmsTemplate(partialParams: ToOptional<{
       [K in keyof CreateSmsTemplateRequest & keyof CreateSmsTemplateRequest]: (CreateSmsTemplateRequest & CreateSmsTemplateRequest)[K]
-    }>): CreateSmsTemplateResponse {
+    }>): Request<CreateSmsTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createSmsTemplate(
-            this.ops["CreateSmsTemplate"].apply(partialParams)
+          this.ops["CreateSmsTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateVoiceTemplate(partialParams: ToOptional<{
       [K in keyof CreateVoiceTemplateRequest & keyof CreateVoiceTemplateRequest]: (CreateVoiceTemplateRequest & CreateVoiceTemplateRequest)[K]
-    }>): CreateVoiceTemplateResponse {
+    }>): Request<CreateVoiceTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createVoiceTemplate(
-            this.ops["CreateVoiceTemplate"].apply(partialParams)
+          this.ops["CreateVoiceTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteAdmChannel(partialParams: ToOptional<{
       [K in keyof DeleteAdmChannelRequest & keyof DeleteAdmChannelRequest]: (DeleteAdmChannelRequest & DeleteAdmChannelRequest)[K]
-    }>): DeleteAdmChannelResponse {
+    }>): Request<DeleteAdmChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteAdmChannel(
-            this.ops["DeleteAdmChannel"].apply(partialParams)
+          this.ops["DeleteAdmChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteApnsChannel(partialParams: ToOptional<{
       [K in keyof DeleteApnsChannelRequest & keyof DeleteApnsChannelRequest]: (DeleteApnsChannelRequest & DeleteApnsChannelRequest)[K]
-    }>): DeleteApnsChannelResponse {
+    }>): Request<DeleteApnsChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteApnsChannel(
-            this.ops["DeleteApnsChannel"].apply(partialParams)
+          this.ops["DeleteApnsChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteApnsSandboxChannel(partialParams: ToOptional<{
       [K in keyof DeleteApnsSandboxChannelRequest & keyof DeleteApnsSandboxChannelRequest]: (DeleteApnsSandboxChannelRequest & DeleteApnsSandboxChannelRequest)[K]
-    }>): DeleteApnsSandboxChannelResponse {
+    }>): Request<DeleteApnsSandboxChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteApnsSandboxChannel(
-            this.ops["DeleteApnsSandboxChannel"].apply(partialParams)
+          this.ops["DeleteApnsSandboxChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteApnsVoipChannel(partialParams: ToOptional<{
       [K in keyof DeleteApnsVoipChannelRequest & keyof DeleteApnsVoipChannelRequest]: (DeleteApnsVoipChannelRequest & DeleteApnsVoipChannelRequest)[K]
-    }>): DeleteApnsVoipChannelResponse {
+    }>): Request<DeleteApnsVoipChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteApnsVoipChannel(
-            this.ops["DeleteApnsVoipChannel"].apply(partialParams)
+          this.ops["DeleteApnsVoipChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteApnsVoipSandboxChannel(partialParams: ToOptional<{
       [K in keyof DeleteApnsVoipSandboxChannelRequest & keyof DeleteApnsVoipSandboxChannelRequest]: (DeleteApnsVoipSandboxChannelRequest & DeleteApnsVoipSandboxChannelRequest)[K]
-    }>): DeleteApnsVoipSandboxChannelResponse {
+    }>): Request<DeleteApnsVoipSandboxChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteApnsVoipSandboxChannel(
-            this.ops["DeleteApnsVoipSandboxChannel"].apply(partialParams)
+          this.ops["DeleteApnsVoipSandboxChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteApp(partialParams: ToOptional<{
       [K in keyof DeleteAppRequest & keyof DeleteAppRequest]: (DeleteAppRequest & DeleteAppRequest)[K]
-    }>): DeleteAppResponse {
+    }>): Request<DeleteAppResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteApp(
-            this.ops["DeleteApp"].apply(partialParams)
+          this.ops["DeleteApp"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBaiduChannel(partialParams: ToOptional<{
       [K in keyof DeleteBaiduChannelRequest & keyof DeleteBaiduChannelRequest]: (DeleteBaiduChannelRequest & DeleteBaiduChannelRequest)[K]
-    }>): DeleteBaiduChannelResponse {
+    }>): Request<DeleteBaiduChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBaiduChannel(
-            this.ops["DeleteBaiduChannel"].apply(partialParams)
+          this.ops["DeleteBaiduChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteCampaign(partialParams: ToOptional<{
       [K in keyof DeleteCampaignRequest & keyof DeleteCampaignRequest]: (DeleteCampaignRequest & DeleteCampaignRequest)[K]
-    }>): DeleteCampaignResponse {
+    }>): Request<DeleteCampaignResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteCampaign(
-            this.ops["DeleteCampaign"].apply(partialParams)
+          this.ops["DeleteCampaign"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteEmailChannel(partialParams: ToOptional<{
       [K in keyof DeleteEmailChannelRequest & keyof DeleteEmailChannelRequest]: (DeleteEmailChannelRequest & DeleteEmailChannelRequest)[K]
-    }>): DeleteEmailChannelResponse {
+    }>): Request<DeleteEmailChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteEmailChannel(
-            this.ops["DeleteEmailChannel"].apply(partialParams)
+          this.ops["DeleteEmailChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteEmailTemplate(partialParams: ToOptional<{
       [K in keyof DeleteEmailTemplateRequest & keyof DeleteEmailTemplateRequest]: (DeleteEmailTemplateRequest & DeleteEmailTemplateRequest)[K]
-    }>): DeleteEmailTemplateResponse {
+    }>): Request<DeleteEmailTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteEmailTemplate(
-            this.ops["DeleteEmailTemplate"].apply(partialParams)
+          this.ops["DeleteEmailTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteEndpoint(partialParams: ToOptional<{
       [K in keyof DeleteEndpointRequest & keyof DeleteEndpointRequest]: (DeleteEndpointRequest & DeleteEndpointRequest)[K]
-    }>): DeleteEndpointResponse {
+    }>): Request<DeleteEndpointResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteEndpoint(
-            this.ops["DeleteEndpoint"].apply(partialParams)
+          this.ops["DeleteEndpoint"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteEventStream(partialParams: ToOptional<{
       [K in keyof DeleteEventStreamRequest & keyof DeleteEventStreamRequest]: (DeleteEventStreamRequest & DeleteEventStreamRequest)[K]
-    }>): DeleteEventStreamResponse {
+    }>): Request<DeleteEventStreamResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteEventStream(
-            this.ops["DeleteEventStream"].apply(partialParams)
+          this.ops["DeleteEventStream"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteGcmChannel(partialParams: ToOptional<{
       [K in keyof DeleteGcmChannelRequest & keyof DeleteGcmChannelRequest]: (DeleteGcmChannelRequest & DeleteGcmChannelRequest)[K]
-    }>): DeleteGcmChannelResponse {
+    }>): Request<DeleteGcmChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteGcmChannel(
-            this.ops["DeleteGcmChannel"].apply(partialParams)
+          this.ops["DeleteGcmChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteInAppTemplate(partialParams: ToOptional<{
       [K in keyof DeleteInAppTemplateRequest & keyof DeleteInAppTemplateRequest]: (DeleteInAppTemplateRequest & DeleteInAppTemplateRequest)[K]
-    }>): DeleteInAppTemplateResponse {
+    }>): Request<DeleteInAppTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteInAppTemplate(
-            this.ops["DeleteInAppTemplate"].apply(partialParams)
+          this.ops["DeleteInAppTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteJourney(partialParams: ToOptional<{
       [K in keyof DeleteJourneyRequest & keyof DeleteJourneyRequest]: (DeleteJourneyRequest & DeleteJourneyRequest)[K]
-    }>): DeleteJourneyResponse {
+    }>): Request<DeleteJourneyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteJourney(
-            this.ops["DeleteJourney"].apply(partialParams)
+          this.ops["DeleteJourney"].applicator.apply(partialParams)
         );
     }
 
     invokeDeletePushTemplate(partialParams: ToOptional<{
       [K in keyof DeletePushTemplateRequest & keyof DeletePushTemplateRequest]: (DeletePushTemplateRequest & DeletePushTemplateRequest)[K]
-    }>): DeletePushTemplateResponse {
+    }>): Request<DeletePushTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deletePushTemplate(
-            this.ops["DeletePushTemplate"].apply(partialParams)
+          this.ops["DeletePushTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteRecommenderConfiguration(partialParams: ToOptional<{
       [K in keyof DeleteRecommenderConfigurationRequest & keyof DeleteRecommenderConfigurationRequest]: (DeleteRecommenderConfigurationRequest & DeleteRecommenderConfigurationRequest)[K]
-    }>): DeleteRecommenderConfigurationResponse {
+    }>): Request<DeleteRecommenderConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteRecommenderConfiguration(
-            this.ops["DeleteRecommenderConfiguration"].apply(partialParams)
+          this.ops["DeleteRecommenderConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteSegment(partialParams: ToOptional<{
       [K in keyof DeleteSegmentRequest & keyof DeleteSegmentRequest]: (DeleteSegmentRequest & DeleteSegmentRequest)[K]
-    }>): DeleteSegmentResponse {
+    }>): Request<DeleteSegmentResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteSegment(
-            this.ops["DeleteSegment"].apply(partialParams)
+          this.ops["DeleteSegment"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteSmsChannel(partialParams: ToOptional<{
       [K in keyof DeleteSmsChannelRequest & keyof DeleteSmsChannelRequest]: (DeleteSmsChannelRequest & DeleteSmsChannelRequest)[K]
-    }>): DeleteSmsChannelResponse {
+    }>): Request<DeleteSmsChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteSmsChannel(
-            this.ops["DeleteSmsChannel"].apply(partialParams)
+          this.ops["DeleteSmsChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteSmsTemplate(partialParams: ToOptional<{
       [K in keyof DeleteSmsTemplateRequest & keyof DeleteSmsTemplateRequest]: (DeleteSmsTemplateRequest & DeleteSmsTemplateRequest)[K]
-    }>): DeleteSmsTemplateResponse {
+    }>): Request<DeleteSmsTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteSmsTemplate(
-            this.ops["DeleteSmsTemplate"].apply(partialParams)
+          this.ops["DeleteSmsTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteUserEndpoints(partialParams: ToOptional<{
       [K in keyof DeleteUserEndpointsRequest & keyof DeleteUserEndpointsRequest]: (DeleteUserEndpointsRequest & DeleteUserEndpointsRequest)[K]
-    }>): DeleteUserEndpointsResponse {
+    }>): Request<DeleteUserEndpointsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteUserEndpoints(
-            this.ops["DeleteUserEndpoints"].apply(partialParams)
+          this.ops["DeleteUserEndpoints"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteVoiceChannel(partialParams: ToOptional<{
       [K in keyof DeleteVoiceChannelRequest & keyof DeleteVoiceChannelRequest]: (DeleteVoiceChannelRequest & DeleteVoiceChannelRequest)[K]
-    }>): DeleteVoiceChannelResponse {
+    }>): Request<DeleteVoiceChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteVoiceChannel(
-            this.ops["DeleteVoiceChannel"].apply(partialParams)
+          this.ops["DeleteVoiceChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteVoiceTemplate(partialParams: ToOptional<{
       [K in keyof DeleteVoiceTemplateRequest & keyof DeleteVoiceTemplateRequest]: (DeleteVoiceTemplateRequest & DeleteVoiceTemplateRequest)[K]
-    }>): DeleteVoiceTemplateResponse {
+    }>): Request<DeleteVoiceTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteVoiceTemplate(
-            this.ops["DeleteVoiceTemplate"].apply(partialParams)
+          this.ops["DeleteVoiceTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeGetAdmChannel(partialParams: ToOptional<{
       [K in keyof GetAdmChannelRequest & keyof GetAdmChannelRequest]: (GetAdmChannelRequest & GetAdmChannelRequest)[K]
-    }>): GetAdmChannelResponse {
+    }>): Request<GetAdmChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getAdmChannel(
-            this.ops["GetAdmChannel"].apply(partialParams)
+          this.ops["GetAdmChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeGetApnsChannel(partialParams: ToOptional<{
       [K in keyof GetApnsChannelRequest & keyof GetApnsChannelRequest]: (GetApnsChannelRequest & GetApnsChannelRequest)[K]
-    }>): GetApnsChannelResponse {
+    }>): Request<GetApnsChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getApnsChannel(
-            this.ops["GetApnsChannel"].apply(partialParams)
+          this.ops["GetApnsChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeGetApnsSandboxChannel(partialParams: ToOptional<{
       [K in keyof GetApnsSandboxChannelRequest & keyof GetApnsSandboxChannelRequest]: (GetApnsSandboxChannelRequest & GetApnsSandboxChannelRequest)[K]
-    }>): GetApnsSandboxChannelResponse {
+    }>): Request<GetApnsSandboxChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getApnsSandboxChannel(
-            this.ops["GetApnsSandboxChannel"].apply(partialParams)
+          this.ops["GetApnsSandboxChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeGetApnsVoipChannel(partialParams: ToOptional<{
       [K in keyof GetApnsVoipChannelRequest & keyof GetApnsVoipChannelRequest]: (GetApnsVoipChannelRequest & GetApnsVoipChannelRequest)[K]
-    }>): GetApnsVoipChannelResponse {
+    }>): Request<GetApnsVoipChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getApnsVoipChannel(
-            this.ops["GetApnsVoipChannel"].apply(partialParams)
+          this.ops["GetApnsVoipChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeGetApnsVoipSandboxChannel(partialParams: ToOptional<{
       [K in keyof GetApnsVoipSandboxChannelRequest & keyof GetApnsVoipSandboxChannelRequest]: (GetApnsVoipSandboxChannelRequest & GetApnsVoipSandboxChannelRequest)[K]
-    }>): GetApnsVoipSandboxChannelResponse {
+    }>): Request<GetApnsVoipSandboxChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getApnsVoipSandboxChannel(
-            this.ops["GetApnsVoipSandboxChannel"].apply(partialParams)
+          this.ops["GetApnsVoipSandboxChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeGetApp(partialParams: ToOptional<{
       [K in keyof GetAppRequest & keyof GetAppRequest]: (GetAppRequest & GetAppRequest)[K]
-    }>): GetAppResponse {
+    }>): Request<GetAppResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getApp(
-            this.ops["GetApp"].apply(partialParams)
+          this.ops["GetApp"].applicator.apply(partialParams)
         );
     }
 
     invokeGetApplicationDateRangeKpi(partialParams: ToOptional<{
       [K in keyof GetApplicationDateRangeKpiRequest & keyof GetApplicationDateRangeKpiRequest]: (GetApplicationDateRangeKpiRequest & GetApplicationDateRangeKpiRequest)[K]
-    }>): GetApplicationDateRangeKpiResponse {
+    }>): Request<GetApplicationDateRangeKpiResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getApplicationDateRangeKpi(
-            this.ops["GetApplicationDateRangeKpi"].apply(partialParams)
+          this.ops["GetApplicationDateRangeKpi"].applicator.apply(partialParams)
         );
     }
 
     invokeGetApplicationSettings(partialParams: ToOptional<{
       [K in keyof GetApplicationSettingsRequest & keyof GetApplicationSettingsRequest]: (GetApplicationSettingsRequest & GetApplicationSettingsRequest)[K]
-    }>): GetApplicationSettingsResponse {
+    }>): Request<GetApplicationSettingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getApplicationSettings(
-            this.ops["GetApplicationSettings"].apply(partialParams)
+          this.ops["GetApplicationSettings"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBaiduChannel(partialParams: ToOptional<{
       [K in keyof GetBaiduChannelRequest & keyof GetBaiduChannelRequest]: (GetBaiduChannelRequest & GetBaiduChannelRequest)[K]
-    }>): GetBaiduChannelResponse {
+    }>): Request<GetBaiduChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBaiduChannel(
-            this.ops["GetBaiduChannel"].apply(partialParams)
+          this.ops["GetBaiduChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeGetCampaign(partialParams: ToOptional<{
       [K in keyof GetCampaignRequest & keyof GetCampaignRequest]: (GetCampaignRequest & GetCampaignRequest)[K]
-    }>): GetCampaignResponse {
+    }>): Request<GetCampaignResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getCampaign(
-            this.ops["GetCampaign"].apply(partialParams)
+          this.ops["GetCampaign"].applicator.apply(partialParams)
         );
     }
 
     invokeGetCampaignActivities(partialParams: ToOptional<{
       [K in keyof GetCampaignActivitiesRequest & keyof GetCampaignActivitiesRequest]: (GetCampaignActivitiesRequest & GetCampaignActivitiesRequest)[K]
-    }>): GetCampaignActivitiesResponse {
+    }>): Request<GetCampaignActivitiesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getCampaignActivities(
-            this.ops["GetCampaignActivities"].apply(partialParams)
+          this.ops["GetCampaignActivities"].applicator.apply(partialParams)
         );
     }
 
     invokeGetCampaignDateRangeKpi(partialParams: ToOptional<{
       [K in keyof GetCampaignDateRangeKpiRequest & keyof GetCampaignDateRangeKpiRequest]: (GetCampaignDateRangeKpiRequest & GetCampaignDateRangeKpiRequest)[K]
-    }>): GetCampaignDateRangeKpiResponse {
+    }>): Request<GetCampaignDateRangeKpiResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getCampaignDateRangeKpi(
-            this.ops["GetCampaignDateRangeKpi"].apply(partialParams)
+          this.ops["GetCampaignDateRangeKpi"].applicator.apply(partialParams)
         );
     }
 
     invokeGetCampaignVersion(partialParams: ToOptional<{
       [K in keyof GetCampaignVersionRequest & keyof GetCampaignVersionRequest]: (GetCampaignVersionRequest & GetCampaignVersionRequest)[K]
-    }>): GetCampaignVersionResponse {
+    }>): Request<GetCampaignVersionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getCampaignVersion(
-            this.ops["GetCampaignVersion"].apply(partialParams)
+          this.ops["GetCampaignVersion"].applicator.apply(partialParams)
         );
     }
 
     invokeGetCampaignVersions(partialParams: ToOptional<{
       [K in keyof GetCampaignVersionsRequest & keyof GetCampaignVersionsRequest]: (GetCampaignVersionsRequest & GetCampaignVersionsRequest)[K]
-    }>): GetCampaignVersionsResponse {
+    }>): Request<GetCampaignVersionsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getCampaignVersions(
-            this.ops["GetCampaignVersions"].apply(partialParams)
+          this.ops["GetCampaignVersions"].applicator.apply(partialParams)
         );
     }
 
     invokeGetCampaigns(partialParams: ToOptional<{
       [K in keyof GetCampaignsRequest & keyof GetCampaignsRequest]: (GetCampaignsRequest & GetCampaignsRequest)[K]
-    }>): GetCampaignsResponse {
+    }>): Request<GetCampaignsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getCampaigns(
-            this.ops["GetCampaigns"].apply(partialParams)
+          this.ops["GetCampaigns"].applicator.apply(partialParams)
         );
     }
 
     invokeGetChannels(partialParams: ToOptional<{
       [K in keyof GetChannelsRequest & keyof GetChannelsRequest]: (GetChannelsRequest & GetChannelsRequest)[K]
-    }>): GetChannelsResponse {
+    }>): Request<GetChannelsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getChannels(
-            this.ops["GetChannels"].apply(partialParams)
+          this.ops["GetChannels"].applicator.apply(partialParams)
         );
     }
 
     invokeGetEmailChannel(partialParams: ToOptional<{
       [K in keyof GetEmailChannelRequest & keyof GetEmailChannelRequest]: (GetEmailChannelRequest & GetEmailChannelRequest)[K]
-    }>): GetEmailChannelResponse {
+    }>): Request<GetEmailChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getEmailChannel(
-            this.ops["GetEmailChannel"].apply(partialParams)
+          this.ops["GetEmailChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeGetEmailTemplate(partialParams: ToOptional<{
       [K in keyof GetEmailTemplateRequest & keyof GetEmailTemplateRequest]: (GetEmailTemplateRequest & GetEmailTemplateRequest)[K]
-    }>): GetEmailTemplateResponse {
+    }>): Request<GetEmailTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getEmailTemplate(
-            this.ops["GetEmailTemplate"].apply(partialParams)
+          this.ops["GetEmailTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeGetEndpoint(partialParams: ToOptional<{
       [K in keyof GetEndpointRequest & keyof GetEndpointRequest]: (GetEndpointRequest & GetEndpointRequest)[K]
-    }>): GetEndpointResponse {
+    }>): Request<GetEndpointResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getEndpoint(
-            this.ops["GetEndpoint"].apply(partialParams)
+          this.ops["GetEndpoint"].applicator.apply(partialParams)
         );
     }
 
     invokeGetEventStream(partialParams: ToOptional<{
       [K in keyof GetEventStreamRequest & keyof GetEventStreamRequest]: (GetEventStreamRequest & GetEventStreamRequest)[K]
-    }>): GetEventStreamResponse {
+    }>): Request<GetEventStreamResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getEventStream(
-            this.ops["GetEventStream"].apply(partialParams)
+          this.ops["GetEventStream"].applicator.apply(partialParams)
         );
     }
 
     invokeGetExportJob(partialParams: ToOptional<{
       [K in keyof GetExportJobRequest & keyof GetExportJobRequest]: (GetExportJobRequest & GetExportJobRequest)[K]
-    }>): GetExportJobResponse {
+    }>): Request<GetExportJobResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getExportJob(
-            this.ops["GetExportJob"].apply(partialParams)
+          this.ops["GetExportJob"].applicator.apply(partialParams)
         );
     }
 
     invokeGetExportJobs(partialParams: ToOptional<{
       [K in keyof GetExportJobsRequest & keyof GetExportJobsRequest]: (GetExportJobsRequest & GetExportJobsRequest)[K]
-    }>): GetExportJobsResponse {
+    }>): Request<GetExportJobsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getExportJobs(
-            this.ops["GetExportJobs"].apply(partialParams)
+          this.ops["GetExportJobs"].applicator.apply(partialParams)
         );
     }
 
     invokeGetGcmChannel(partialParams: ToOptional<{
       [K in keyof GetGcmChannelRequest & keyof GetGcmChannelRequest]: (GetGcmChannelRequest & GetGcmChannelRequest)[K]
-    }>): GetGcmChannelResponse {
+    }>): Request<GetGcmChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getGcmChannel(
-            this.ops["GetGcmChannel"].apply(partialParams)
+          this.ops["GetGcmChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeGetImportJob(partialParams: ToOptional<{
       [K in keyof GetImportJobRequest & keyof GetImportJobRequest]: (GetImportJobRequest & GetImportJobRequest)[K]
-    }>): GetImportJobResponse {
+    }>): Request<GetImportJobResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getImportJob(
-            this.ops["GetImportJob"].apply(partialParams)
+          this.ops["GetImportJob"].applicator.apply(partialParams)
         );
     }
 
     invokeGetImportJobs(partialParams: ToOptional<{
       [K in keyof GetImportJobsRequest & keyof GetImportJobsRequest]: (GetImportJobsRequest & GetImportJobsRequest)[K]
-    }>): GetImportJobsResponse {
+    }>): Request<GetImportJobsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getImportJobs(
-            this.ops["GetImportJobs"].apply(partialParams)
+          this.ops["GetImportJobs"].applicator.apply(partialParams)
         );
     }
 
     invokeGetInAppMessages(partialParams: ToOptional<{
       [K in keyof GetInAppMessagesRequest & keyof GetInAppMessagesRequest]: (GetInAppMessagesRequest & GetInAppMessagesRequest)[K]
-    }>): GetInAppMessagesResponse {
+    }>): Request<GetInAppMessagesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getInAppMessages(
-            this.ops["GetInAppMessages"].apply(partialParams)
+          this.ops["GetInAppMessages"].applicator.apply(partialParams)
         );
     }
 
     invokeGetInAppTemplate(partialParams: ToOptional<{
       [K in keyof GetInAppTemplateRequest & keyof GetInAppTemplateRequest]: (GetInAppTemplateRequest & GetInAppTemplateRequest)[K]
-    }>): GetInAppTemplateResponse {
+    }>): Request<GetInAppTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getInAppTemplate(
-            this.ops["GetInAppTemplate"].apply(partialParams)
+          this.ops["GetInAppTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeGetJourney(partialParams: ToOptional<{
       [K in keyof GetJourneyRequest & keyof GetJourneyRequest]: (GetJourneyRequest & GetJourneyRequest)[K]
-    }>): GetJourneyResponse {
+    }>): Request<GetJourneyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getJourney(
-            this.ops["GetJourney"].apply(partialParams)
+          this.ops["GetJourney"].applicator.apply(partialParams)
         );
     }
 
     invokeGetJourneyDateRangeKpi(partialParams: ToOptional<{
       [K in keyof GetJourneyDateRangeKpiRequest & keyof GetJourneyDateRangeKpiRequest]: (GetJourneyDateRangeKpiRequest & GetJourneyDateRangeKpiRequest)[K]
-    }>): GetJourneyDateRangeKpiResponse {
+    }>): Request<GetJourneyDateRangeKpiResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getJourneyDateRangeKpi(
-            this.ops["GetJourneyDateRangeKpi"].apply(partialParams)
+          this.ops["GetJourneyDateRangeKpi"].applicator.apply(partialParams)
         );
     }
 
     invokeGetJourneyExecutionActivityMetrics(partialParams: ToOptional<{
       [K in keyof GetJourneyExecutionActivityMetricsRequest & keyof GetJourneyExecutionActivityMetricsRequest]: (GetJourneyExecutionActivityMetricsRequest & GetJourneyExecutionActivityMetricsRequest)[K]
-    }>): GetJourneyExecutionActivityMetricsResponse {
+    }>): Request<GetJourneyExecutionActivityMetricsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getJourneyExecutionActivityMetrics(
-            this.ops["GetJourneyExecutionActivityMetrics"].apply(partialParams)
+          this.ops["GetJourneyExecutionActivityMetrics"].applicator.apply(partialParams)
         );
     }
 
     invokeGetJourneyExecutionMetrics(partialParams: ToOptional<{
       [K in keyof GetJourneyExecutionMetricsRequest & keyof GetJourneyExecutionMetricsRequest]: (GetJourneyExecutionMetricsRequest & GetJourneyExecutionMetricsRequest)[K]
-    }>): GetJourneyExecutionMetricsResponse {
+    }>): Request<GetJourneyExecutionMetricsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getJourneyExecutionMetrics(
-            this.ops["GetJourneyExecutionMetrics"].apply(partialParams)
+          this.ops["GetJourneyExecutionMetrics"].applicator.apply(partialParams)
         );
     }
 
     invokeGetPushTemplate(partialParams: ToOptional<{
       [K in keyof GetPushTemplateRequest & keyof GetPushTemplateRequest]: (GetPushTemplateRequest & GetPushTemplateRequest)[K]
-    }>): GetPushTemplateResponse {
+    }>): Request<GetPushTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getPushTemplate(
-            this.ops["GetPushTemplate"].apply(partialParams)
+          this.ops["GetPushTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeGetRecommenderConfiguration(partialParams: ToOptional<{
       [K in keyof GetRecommenderConfigurationRequest & keyof GetRecommenderConfigurationRequest]: (GetRecommenderConfigurationRequest & GetRecommenderConfigurationRequest)[K]
-    }>): GetRecommenderConfigurationResponse {
+    }>): Request<GetRecommenderConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getRecommenderConfiguration(
-            this.ops["GetRecommenderConfiguration"].apply(partialParams)
+          this.ops["GetRecommenderConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeGetSegment(partialParams: ToOptional<{
       [K in keyof GetSegmentRequest & keyof GetSegmentRequest]: (GetSegmentRequest & GetSegmentRequest)[K]
-    }>): GetSegmentResponse {
+    }>): Request<GetSegmentResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getSegment(
-            this.ops["GetSegment"].apply(partialParams)
+          this.ops["GetSegment"].applicator.apply(partialParams)
         );
     }
 
     invokeGetSegmentExportJobs(partialParams: ToOptional<{
       [K in keyof GetSegmentExportJobsRequest & keyof GetSegmentExportJobsRequest]: (GetSegmentExportJobsRequest & GetSegmentExportJobsRequest)[K]
-    }>): GetSegmentExportJobsResponse {
+    }>): Request<GetSegmentExportJobsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getSegmentExportJobs(
-            this.ops["GetSegmentExportJobs"].apply(partialParams)
+          this.ops["GetSegmentExportJobs"].applicator.apply(partialParams)
         );
     }
 
     invokeGetSegmentImportJobs(partialParams: ToOptional<{
       [K in keyof GetSegmentImportJobsRequest & keyof GetSegmentImportJobsRequest]: (GetSegmentImportJobsRequest & GetSegmentImportJobsRequest)[K]
-    }>): GetSegmentImportJobsResponse {
+    }>): Request<GetSegmentImportJobsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getSegmentImportJobs(
-            this.ops["GetSegmentImportJobs"].apply(partialParams)
+          this.ops["GetSegmentImportJobs"].applicator.apply(partialParams)
         );
     }
 
     invokeGetSegmentVersion(partialParams: ToOptional<{
       [K in keyof GetSegmentVersionRequest & keyof GetSegmentVersionRequest]: (GetSegmentVersionRequest & GetSegmentVersionRequest)[K]
-    }>): GetSegmentVersionResponse {
+    }>): Request<GetSegmentVersionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getSegmentVersion(
-            this.ops["GetSegmentVersion"].apply(partialParams)
+          this.ops["GetSegmentVersion"].applicator.apply(partialParams)
         );
     }
 
     invokeGetSegmentVersions(partialParams: ToOptional<{
       [K in keyof GetSegmentVersionsRequest & keyof GetSegmentVersionsRequest]: (GetSegmentVersionsRequest & GetSegmentVersionsRequest)[K]
-    }>): GetSegmentVersionsResponse {
+    }>): Request<GetSegmentVersionsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getSegmentVersions(
-            this.ops["GetSegmentVersions"].apply(partialParams)
+          this.ops["GetSegmentVersions"].applicator.apply(partialParams)
         );
     }
 
     invokeGetSegments(partialParams: ToOptional<{
       [K in keyof GetSegmentsRequest & keyof GetSegmentsRequest]: (GetSegmentsRequest & GetSegmentsRequest)[K]
-    }>): GetSegmentsResponse {
+    }>): Request<GetSegmentsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getSegments(
-            this.ops["GetSegments"].apply(partialParams)
+          this.ops["GetSegments"].applicator.apply(partialParams)
         );
     }
 
     invokeGetSmsChannel(partialParams: ToOptional<{
       [K in keyof GetSmsChannelRequest & keyof GetSmsChannelRequest]: (GetSmsChannelRequest & GetSmsChannelRequest)[K]
-    }>): GetSmsChannelResponse {
+    }>): Request<GetSmsChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getSmsChannel(
-            this.ops["GetSmsChannel"].apply(partialParams)
+          this.ops["GetSmsChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeGetSmsTemplate(partialParams: ToOptional<{
       [K in keyof GetSmsTemplateRequest & keyof GetSmsTemplateRequest]: (GetSmsTemplateRequest & GetSmsTemplateRequest)[K]
-    }>): GetSmsTemplateResponse {
+    }>): Request<GetSmsTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getSmsTemplate(
-            this.ops["GetSmsTemplate"].apply(partialParams)
+          this.ops["GetSmsTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeGetUserEndpoints(partialParams: ToOptional<{
       [K in keyof GetUserEndpointsRequest & keyof GetUserEndpointsRequest]: (GetUserEndpointsRequest & GetUserEndpointsRequest)[K]
-    }>): GetUserEndpointsResponse {
+    }>): Request<GetUserEndpointsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getUserEndpoints(
-            this.ops["GetUserEndpoints"].apply(partialParams)
+          this.ops["GetUserEndpoints"].applicator.apply(partialParams)
         );
     }
 
     invokeGetVoiceChannel(partialParams: ToOptional<{
       [K in keyof GetVoiceChannelRequest & keyof GetVoiceChannelRequest]: (GetVoiceChannelRequest & GetVoiceChannelRequest)[K]
-    }>): GetVoiceChannelResponse {
+    }>): Request<GetVoiceChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getVoiceChannel(
-            this.ops["GetVoiceChannel"].apply(partialParams)
+          this.ops["GetVoiceChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeGetVoiceTemplate(partialParams: ToOptional<{
       [K in keyof GetVoiceTemplateRequest & keyof GetVoiceTemplateRequest]: (GetVoiceTemplateRequest & GetVoiceTemplateRequest)[K]
-    }>): GetVoiceTemplateResponse {
+    }>): Request<GetVoiceTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getVoiceTemplate(
-            this.ops["GetVoiceTemplate"].apply(partialParams)
+          this.ops["GetVoiceTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeListJourneys(partialParams: ToOptional<{
       [K in keyof ListJourneysRequest & keyof ListJourneysRequest]: (ListJourneysRequest & ListJourneysRequest)[K]
-    }>): ListJourneysResponse {
+    }>): Request<ListJourneysResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listJourneys(
-            this.ops["ListJourneys"].apply(partialParams)
+          this.ops["ListJourneys"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
-    }>): ListTagsForResourceResponse {
+    }>): Request<ListTagsForResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokeListTemplateVersions(partialParams: ToOptional<{
       [K in keyof ListTemplateVersionsRequest & keyof ListTemplateVersionsRequest]: (ListTemplateVersionsRequest & ListTemplateVersionsRequest)[K]
-    }>): ListTemplateVersionsResponse {
+    }>): Request<ListTemplateVersionsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTemplateVersions(
-            this.ops["ListTemplateVersions"].apply(partialParams)
+          this.ops["ListTemplateVersions"].applicator.apply(partialParams)
         );
     }
 
     invokePhoneNumberValidate(partialParams: ToOptional<{
       [K in keyof PhoneNumberValidateRequest & keyof PhoneNumberValidateRequest]: (PhoneNumberValidateRequest & PhoneNumberValidateRequest)[K]
-    }>): PhoneNumberValidateResponse {
+    }>): Request<PhoneNumberValidateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.phoneNumberValidate(
-            this.ops["PhoneNumberValidate"].apply(partialParams)
+          this.ops["PhoneNumberValidate"].applicator.apply(partialParams)
         );
     }
 
     invokePutEventStream(partialParams: ToOptional<{
       [K in keyof PutEventStreamRequest & keyof PutEventStreamRequest]: (PutEventStreamRequest & PutEventStreamRequest)[K]
-    }>): PutEventStreamResponse {
+    }>): Request<PutEventStreamResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putEventStream(
-            this.ops["PutEventStream"].apply(partialParams)
+          this.ops["PutEventStream"].applicator.apply(partialParams)
         );
     }
 
     invokePutEvents(partialParams: ToOptional<{
       [K in keyof PutEventsRequest & keyof PutEventsRequest]: (PutEventsRequest & PutEventsRequest)[K]
-    }>): PutEventsResponse {
+    }>): Request<PutEventsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putEvents(
-            this.ops["PutEvents"].apply(partialParams)
+          this.ops["PutEvents"].applicator.apply(partialParams)
         );
     }
 
     invokeRemoveAttributes(partialParams: ToOptional<{
       [K in keyof RemoveAttributesRequest & keyof RemoveAttributesRequest]: (RemoveAttributesRequest & RemoveAttributesRequest)[K]
-    }>): RemoveAttributesResponse {
+    }>): Request<RemoveAttributesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.removeAttributes(
-            this.ops["RemoveAttributes"].apply(partialParams)
+          this.ops["RemoveAttributes"].applicator.apply(partialParams)
         );
     }
 
     invokeSendMessages(partialParams: ToOptional<{
       [K in keyof SendMessagesRequest & keyof SendMessagesRequest]: (SendMessagesRequest & SendMessagesRequest)[K]
-    }>): SendMessagesResponse {
+    }>): Request<SendMessagesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.sendMessages(
-            this.ops["SendMessages"].apply(partialParams)
+          this.ops["SendMessages"].applicator.apply(partialParams)
         );
     }
 
     invokeSendOTPMessage(partialParams: ToOptional<{
       [K in keyof SendOTPMessageRequest & keyof SendOTPMessageRequest]: (SendOTPMessageRequest & SendOTPMessageRequest)[K]
-    }>): SendOTPMessageResponse {
+    }>): Request<SendOTPMessageResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.sendOTPMessage(
-            this.ops["SendOTPMessage"].apply(partialParams)
+          this.ops["SendOTPMessage"].applicator.apply(partialParams)
         );
     }
 
     invokeSendUsersMessages(partialParams: ToOptional<{
       [K in keyof SendUsersMessagesRequest & keyof SendUsersMessagesRequest]: (SendUsersMessagesRequest & SendUsersMessagesRequest)[K]
-    }>): SendUsersMessagesResponse {
+    }>): Request<SendUsersMessagesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.sendUsersMessages(
-            this.ops["SendUsersMessages"].apply(partialParams)
+          this.ops["SendUsersMessages"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateAdmChannel(partialParams: ToOptional<{
       [K in keyof UpdateAdmChannelRequest & keyof UpdateAdmChannelRequest]: (UpdateAdmChannelRequest & UpdateAdmChannelRequest)[K]
-    }>): UpdateAdmChannelResponse {
+    }>): Request<UpdateAdmChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateAdmChannel(
-            this.ops["UpdateAdmChannel"].apply(partialParams)
+          this.ops["UpdateAdmChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateApnsChannel(partialParams: ToOptional<{
       [K in keyof UpdateApnsChannelRequest & keyof UpdateApnsChannelRequest]: (UpdateApnsChannelRequest & UpdateApnsChannelRequest)[K]
-    }>): UpdateApnsChannelResponse {
+    }>): Request<UpdateApnsChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateApnsChannel(
-            this.ops["UpdateApnsChannel"].apply(partialParams)
+          this.ops["UpdateApnsChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateApnsSandboxChannel(partialParams: ToOptional<{
       [K in keyof UpdateApnsSandboxChannelRequest & keyof UpdateApnsSandboxChannelRequest]: (UpdateApnsSandboxChannelRequest & UpdateApnsSandboxChannelRequest)[K]
-    }>): UpdateApnsSandboxChannelResponse {
+    }>): Request<UpdateApnsSandboxChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateApnsSandboxChannel(
-            this.ops["UpdateApnsSandboxChannel"].apply(partialParams)
+          this.ops["UpdateApnsSandboxChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateApnsVoipChannel(partialParams: ToOptional<{
       [K in keyof UpdateApnsVoipChannelRequest & keyof UpdateApnsVoipChannelRequest]: (UpdateApnsVoipChannelRequest & UpdateApnsVoipChannelRequest)[K]
-    }>): UpdateApnsVoipChannelResponse {
+    }>): Request<UpdateApnsVoipChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateApnsVoipChannel(
-            this.ops["UpdateApnsVoipChannel"].apply(partialParams)
+          this.ops["UpdateApnsVoipChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateApnsVoipSandboxChannel(partialParams: ToOptional<{
       [K in keyof UpdateApnsVoipSandboxChannelRequest & keyof UpdateApnsVoipSandboxChannelRequest]: (UpdateApnsVoipSandboxChannelRequest & UpdateApnsVoipSandboxChannelRequest)[K]
-    }>): UpdateApnsVoipSandboxChannelResponse {
+    }>): Request<UpdateApnsVoipSandboxChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateApnsVoipSandboxChannel(
-            this.ops["UpdateApnsVoipSandboxChannel"].apply(partialParams)
+          this.ops["UpdateApnsVoipSandboxChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateApplicationSettings(partialParams: ToOptional<{
       [K in keyof UpdateApplicationSettingsRequest & keyof UpdateApplicationSettingsRequest]: (UpdateApplicationSettingsRequest & UpdateApplicationSettingsRequest)[K]
-    }>): UpdateApplicationSettingsResponse {
+    }>): Request<UpdateApplicationSettingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateApplicationSettings(
-            this.ops["UpdateApplicationSettings"].apply(partialParams)
+          this.ops["UpdateApplicationSettings"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateBaiduChannel(partialParams: ToOptional<{
       [K in keyof UpdateBaiduChannelRequest & keyof UpdateBaiduChannelRequest]: (UpdateBaiduChannelRequest & UpdateBaiduChannelRequest)[K]
-    }>): UpdateBaiduChannelResponse {
+    }>): Request<UpdateBaiduChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateBaiduChannel(
-            this.ops["UpdateBaiduChannel"].apply(partialParams)
+          this.ops["UpdateBaiduChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateCampaign(partialParams: ToOptional<{
       [K in keyof UpdateCampaignRequest & keyof UpdateCampaignRequest]: (UpdateCampaignRequest & UpdateCampaignRequest)[K]
-    }>): UpdateCampaignResponse {
+    }>): Request<UpdateCampaignResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateCampaign(
-            this.ops["UpdateCampaign"].apply(partialParams)
+          this.ops["UpdateCampaign"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateEmailChannel(partialParams: ToOptional<{
       [K in keyof UpdateEmailChannelRequest & keyof UpdateEmailChannelRequest]: (UpdateEmailChannelRequest & UpdateEmailChannelRequest)[K]
-    }>): UpdateEmailChannelResponse {
+    }>): Request<UpdateEmailChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateEmailChannel(
-            this.ops["UpdateEmailChannel"].apply(partialParams)
+          this.ops["UpdateEmailChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateEmailTemplate(partialParams: ToOptional<{
       [K in keyof UpdateEmailTemplateRequest & keyof UpdateEmailTemplateRequest]: (UpdateEmailTemplateRequest & UpdateEmailTemplateRequest)[K]
-    }>): UpdateEmailTemplateResponse {
+    }>): Request<UpdateEmailTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateEmailTemplate(
-            this.ops["UpdateEmailTemplate"].apply(partialParams)
+          this.ops["UpdateEmailTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateEndpoint(partialParams: ToOptional<{
       [K in keyof UpdateEndpointRequest & keyof UpdateEndpointRequest]: (UpdateEndpointRequest & UpdateEndpointRequest)[K]
-    }>): UpdateEndpointResponse {
+    }>): Request<UpdateEndpointResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateEndpoint(
-            this.ops["UpdateEndpoint"].apply(partialParams)
+          this.ops["UpdateEndpoint"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateEndpointsBatch(partialParams: ToOptional<{
       [K in keyof UpdateEndpointsBatchRequest & keyof UpdateEndpointsBatchRequest]: (UpdateEndpointsBatchRequest & UpdateEndpointsBatchRequest)[K]
-    }>): UpdateEndpointsBatchResponse {
+    }>): Request<UpdateEndpointsBatchResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateEndpointsBatch(
-            this.ops["UpdateEndpointsBatch"].apply(partialParams)
+          this.ops["UpdateEndpointsBatch"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateGcmChannel(partialParams: ToOptional<{
       [K in keyof UpdateGcmChannelRequest & keyof UpdateGcmChannelRequest]: (UpdateGcmChannelRequest & UpdateGcmChannelRequest)[K]
-    }>): UpdateGcmChannelResponse {
+    }>): Request<UpdateGcmChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateGcmChannel(
-            this.ops["UpdateGcmChannel"].apply(partialParams)
+          this.ops["UpdateGcmChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateInAppTemplate(partialParams: ToOptional<{
       [K in keyof UpdateInAppTemplateRequest & keyof UpdateInAppTemplateRequest]: (UpdateInAppTemplateRequest & UpdateInAppTemplateRequest)[K]
-    }>): UpdateInAppTemplateResponse {
+    }>): Request<UpdateInAppTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateInAppTemplate(
-            this.ops["UpdateInAppTemplate"].apply(partialParams)
+          this.ops["UpdateInAppTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateJourney(partialParams: ToOptional<{
       [K in keyof UpdateJourneyRequest & keyof UpdateJourneyRequest]: (UpdateJourneyRequest & UpdateJourneyRequest)[K]
-    }>): UpdateJourneyResponse {
+    }>): Request<UpdateJourneyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateJourney(
-            this.ops["UpdateJourney"].apply(partialParams)
+          this.ops["UpdateJourney"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateJourneyState(partialParams: ToOptional<{
       [K in keyof UpdateJourneyStateRequest & keyof UpdateJourneyStateRequest]: (UpdateJourneyStateRequest & UpdateJourneyStateRequest)[K]
-    }>): UpdateJourneyStateResponse {
+    }>): Request<UpdateJourneyStateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateJourneyState(
-            this.ops["UpdateJourneyState"].apply(partialParams)
+          this.ops["UpdateJourneyState"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdatePushTemplate(partialParams: ToOptional<{
       [K in keyof UpdatePushTemplateRequest & keyof UpdatePushTemplateRequest]: (UpdatePushTemplateRequest & UpdatePushTemplateRequest)[K]
-    }>): UpdatePushTemplateResponse {
+    }>): Request<UpdatePushTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updatePushTemplate(
-            this.ops["UpdatePushTemplate"].apply(partialParams)
+          this.ops["UpdatePushTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateRecommenderConfiguration(partialParams: ToOptional<{
       [K in keyof UpdateRecommenderConfigurationRequest & keyof UpdateRecommenderConfigurationRequest]: (UpdateRecommenderConfigurationRequest & UpdateRecommenderConfigurationRequest)[K]
-    }>): UpdateRecommenderConfigurationResponse {
+    }>): Request<UpdateRecommenderConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateRecommenderConfiguration(
-            this.ops["UpdateRecommenderConfiguration"].apply(partialParams)
+          this.ops["UpdateRecommenderConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateSegment(partialParams: ToOptional<{
       [K in keyof UpdateSegmentRequest & keyof UpdateSegmentRequest]: (UpdateSegmentRequest & UpdateSegmentRequest)[K]
-    }>): UpdateSegmentResponse {
+    }>): Request<UpdateSegmentResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateSegment(
-            this.ops["UpdateSegment"].apply(partialParams)
+          this.ops["UpdateSegment"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateSmsChannel(partialParams: ToOptional<{
       [K in keyof UpdateSmsChannelRequest & keyof UpdateSmsChannelRequest]: (UpdateSmsChannelRequest & UpdateSmsChannelRequest)[K]
-    }>): UpdateSmsChannelResponse {
+    }>): Request<UpdateSmsChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateSmsChannel(
-            this.ops["UpdateSmsChannel"].apply(partialParams)
+          this.ops["UpdateSmsChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateSmsTemplate(partialParams: ToOptional<{
       [K in keyof UpdateSmsTemplateRequest & keyof UpdateSmsTemplateRequest]: (UpdateSmsTemplateRequest & UpdateSmsTemplateRequest)[K]
-    }>): UpdateSmsTemplateResponse {
+    }>): Request<UpdateSmsTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateSmsTemplate(
-            this.ops["UpdateSmsTemplate"].apply(partialParams)
+          this.ops["UpdateSmsTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateTemplateActiveVersion(partialParams: ToOptional<{
       [K in keyof UpdateTemplateActiveVersionRequest & keyof UpdateTemplateActiveVersionRequest]: (UpdateTemplateActiveVersionRequest & UpdateTemplateActiveVersionRequest)[K]
-    }>): UpdateTemplateActiveVersionResponse {
+    }>): Request<UpdateTemplateActiveVersionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateTemplateActiveVersion(
-            this.ops["UpdateTemplateActiveVersion"].apply(partialParams)
+          this.ops["UpdateTemplateActiveVersion"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateVoiceChannel(partialParams: ToOptional<{
       [K in keyof UpdateVoiceChannelRequest & keyof UpdateVoiceChannelRequest]: (UpdateVoiceChannelRequest & UpdateVoiceChannelRequest)[K]
-    }>): UpdateVoiceChannelResponse {
+    }>): Request<UpdateVoiceChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateVoiceChannel(
-            this.ops["UpdateVoiceChannel"].apply(partialParams)
+          this.ops["UpdateVoiceChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateVoiceTemplate(partialParams: ToOptional<{
       [K in keyof UpdateVoiceTemplateRequest & keyof UpdateVoiceTemplateRequest]: (UpdateVoiceTemplateRequest & UpdateVoiceTemplateRequest)[K]
-    }>): UpdateVoiceTemplateResponse {
+    }>): Request<UpdateVoiceTemplateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateVoiceTemplate(
-            this.ops["UpdateVoiceTemplate"].apply(partialParams)
+          this.ops["UpdateVoiceTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeVerifyOTPMessage(partialParams: ToOptional<{
       [K in keyof VerifyOTPMessageRequest & keyof VerifyOTPMessageRequest]: (VerifyOTPMessageRequest & VerifyOTPMessageRequest)[K]
-    }>): VerifyOTPMessageResponse {
+    }>): Request<VerifyOTPMessageResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.verifyOTPMessage(
-            this.ops["VerifyOTPMessage"].apply(partialParams)
+          this.ops["VerifyOTPMessage"].applicator.apply(partialParams)
         );
     }
 }

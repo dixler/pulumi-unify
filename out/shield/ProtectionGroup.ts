@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     AssociateDRTLogBucketRequest,
     AssociateDRTRoleRequest,
@@ -43,8 +46,8 @@ import {
     UpdateApplicationLayerAutomaticResponseResponse,
     UpdateProtectionGroupResponse
 } from "aws-sdk/clients/shield";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/shield-2016-06-02.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -53,171 +56,253 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.shield.ProtectionGroup {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.shield.ProtectionGroup>) {
         super(...args)
         this.client = new awssdk.Shield()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/shield-2016-06-02.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeAssociateDRTLogBucket(partialParams: ToOptional<{
       [K in keyof AssociateDRTLogBucketRequest & keyof AssociateDRTLogBucketRequest & keyof AssociateDRTLogBucketRequest & keyof AssociateDRTLogBucketRequest & keyof AssociateDRTLogBucketRequest]: (AssociateDRTLogBucketRequest & AssociateDRTLogBucketRequest & AssociateDRTLogBucketRequest & AssociateDRTLogBucketRequest & AssociateDRTLogBucketRequest)[K]
-    }>): AssociateDRTLogBucketResponse {
+    }>): Request<AssociateDRTLogBucketResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.associateDRTLogBucket(
-            this.ops["AssociateDRTLogBucket"].apply(partialParams)
+          this.ops["AssociateDRTLogBucket"].applicator.apply(partialParams)
         );
     }
 
     invokeAssociateDRTRole(partialParams: ToOptional<{
       [K in keyof AssociateDRTRoleRequest & keyof AssociateDRTRoleRequest & keyof AssociateDRTRoleRequest & keyof AssociateDRTRoleRequest & keyof AssociateDRTRoleRequest]: (AssociateDRTRoleRequest & AssociateDRTRoleRequest & AssociateDRTRoleRequest & AssociateDRTRoleRequest & AssociateDRTRoleRequest)[K]
-    }>): AssociateDRTRoleResponse {
+    }>): Request<AssociateDRTRoleResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.associateDRTRole(
-            this.ops["AssociateDRTRole"].apply(partialParams)
+          this.ops["AssociateDRTRole"].applicator.apply(partialParams)
         );
     }
 
     invokeAssociateHealthCheck(partialParams: ToOptional<{
       [K in keyof AssociateHealthCheckRequest & keyof AssociateHealthCheckRequest & keyof AssociateHealthCheckRequest & keyof AssociateHealthCheckRequest & keyof AssociateHealthCheckRequest]: (AssociateHealthCheckRequest & AssociateHealthCheckRequest & AssociateHealthCheckRequest & AssociateHealthCheckRequest & AssociateHealthCheckRequest)[K]
-    }>): AssociateHealthCheckResponse {
+    }>): Request<AssociateHealthCheckResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.associateHealthCheck(
-            this.ops["AssociateHealthCheck"].apply(partialParams)
+          this.ops["AssociateHealthCheck"].applicator.apply(partialParams)
         );
     }
 
     invokeAssociateProactiveEngagementDetails(partialParams: ToOptional<{
       [K in keyof AssociateProactiveEngagementDetailsRequest & keyof AssociateProactiveEngagementDetailsRequest & keyof AssociateProactiveEngagementDetailsRequest & keyof AssociateProactiveEngagementDetailsRequest & keyof AssociateProactiveEngagementDetailsRequest]: (AssociateProactiveEngagementDetailsRequest & AssociateProactiveEngagementDetailsRequest & AssociateProactiveEngagementDetailsRequest & AssociateProactiveEngagementDetailsRequest & AssociateProactiveEngagementDetailsRequest)[K]
-    }>): AssociateProactiveEngagementDetailsResponse {
+    }>): Request<AssociateProactiveEngagementDetailsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.associateProactiveEngagementDetails(
-            this.ops["AssociateProactiveEngagementDetails"].apply(partialParams)
+          this.ops["AssociateProactiveEngagementDetails"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateProtection(partialParams: ToOptional<{
       [K in keyof CreateProtectionRequest & keyof CreateProtectionRequest & keyof CreateProtectionRequest & keyof CreateProtectionRequest & keyof CreateProtectionRequest]: (CreateProtectionRequest & CreateProtectionRequest & CreateProtectionRequest & CreateProtectionRequest & CreateProtectionRequest)[K]
-    }>): CreateProtectionResponse {
+    }>): Request<CreateProtectionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createProtection(
-            this.ops["CreateProtection"].apply(partialParams)
+          this.ops["CreateProtection"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateProtectionGroup(partialParams: ToOptional<{
       [K in keyof CreateProtectionGroupRequest & keyof CreateProtectionGroupRequest & keyof CreateProtectionGroupRequest & keyof CreateProtectionGroupRequest & keyof CreateProtectionGroupRequest]: (CreateProtectionGroupRequest & CreateProtectionGroupRequest & CreateProtectionGroupRequest & CreateProtectionGroupRequest & CreateProtectionGroupRequest)[K]
-    }>): CreateProtectionGroupResponse {
+    }>): Request<CreateProtectionGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createProtectionGroup(
-            this.ops["CreateProtectionGroup"].apply(partialParams)
+          this.ops["CreateProtectionGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteProtection(partialParams: ToOptional<{
       [K in keyof DeleteProtectionRequest & keyof DeleteProtectionRequest & keyof DeleteProtectionRequest & keyof DeleteProtectionRequest & keyof DeleteProtectionRequest]: (DeleteProtectionRequest & DeleteProtectionRequest & DeleteProtectionRequest & DeleteProtectionRequest & DeleteProtectionRequest)[K]
-    }>): DeleteProtectionResponse {
+    }>): Request<DeleteProtectionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteProtection(
-            this.ops["DeleteProtection"].apply(partialParams)
+          this.ops["DeleteProtection"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteProtectionGroup(partialParams: ToOptional<{
       [K in keyof DeleteProtectionGroupRequest & keyof DeleteProtectionGroupRequest & keyof DeleteProtectionGroupRequest & keyof DeleteProtectionGroupRequest & keyof DeleteProtectionGroupRequest]: (DeleteProtectionGroupRequest & DeleteProtectionGroupRequest & DeleteProtectionGroupRequest & DeleteProtectionGroupRequest & DeleteProtectionGroupRequest)[K]
-    }>): DeleteProtectionGroupResponse {
+    }>): Request<DeleteProtectionGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteProtectionGroup(
-            this.ops["DeleteProtectionGroup"].apply(partialParams)
+          this.ops["DeleteProtectionGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeAttack(partialParams: ToOptional<{
       [K in keyof DescribeAttackRequest & keyof DescribeAttackRequest & keyof DescribeAttackRequest & keyof DescribeAttackRequest & keyof DescribeAttackRequest]: (DescribeAttackRequest & DescribeAttackRequest & DescribeAttackRequest & DescribeAttackRequest & DescribeAttackRequest)[K]
-    }>): DescribeAttackResponse {
+    }>): Request<DescribeAttackResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeAttack(
-            this.ops["DescribeAttack"].apply(partialParams)
+          this.ops["DescribeAttack"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeProtectionGroup(partialParams: ToOptional<{
       [K in keyof DescribeProtectionGroupRequest & keyof DescribeProtectionGroupRequest & keyof DescribeProtectionGroupRequest & keyof DescribeProtectionGroupRequest & keyof DescribeProtectionGroupRequest]: (DescribeProtectionGroupRequest & DescribeProtectionGroupRequest & DescribeProtectionGroupRequest & DescribeProtectionGroupRequest & DescribeProtectionGroupRequest)[K]
-    }>): DescribeProtectionGroupResponse {
+    }>): Request<DescribeProtectionGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeProtectionGroup(
-            this.ops["DescribeProtectionGroup"].apply(partialParams)
+          this.ops["DescribeProtectionGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDisableApplicationLayerAutomaticResponse(partialParams: ToOptional<{
       [K in keyof DisableApplicationLayerAutomaticResponseRequest & keyof DisableApplicationLayerAutomaticResponseRequest & keyof DisableApplicationLayerAutomaticResponseRequest & keyof DisableApplicationLayerAutomaticResponseRequest & keyof DisableApplicationLayerAutomaticResponseRequest]: (DisableApplicationLayerAutomaticResponseRequest & DisableApplicationLayerAutomaticResponseRequest & DisableApplicationLayerAutomaticResponseRequest & DisableApplicationLayerAutomaticResponseRequest & DisableApplicationLayerAutomaticResponseRequest)[K]
-    }>): DisableApplicationLayerAutomaticResponseResponse {
+    }>): Request<DisableApplicationLayerAutomaticResponseResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disableApplicationLayerAutomaticResponse(
-            this.ops["DisableApplicationLayerAutomaticResponse"].apply(partialParams)
+          this.ops["DisableApplicationLayerAutomaticResponse"].applicator.apply(partialParams)
         );
     }
 
     invokeDisassociateDRTLogBucket(partialParams: ToOptional<{
       [K in keyof DisassociateDRTLogBucketRequest & keyof DisassociateDRTLogBucketRequest & keyof DisassociateDRTLogBucketRequest & keyof DisassociateDRTLogBucketRequest & keyof DisassociateDRTLogBucketRequest]: (DisassociateDRTLogBucketRequest & DisassociateDRTLogBucketRequest & DisassociateDRTLogBucketRequest & DisassociateDRTLogBucketRequest & DisassociateDRTLogBucketRequest)[K]
-    }>): DisassociateDRTLogBucketResponse {
+    }>): Request<DisassociateDRTLogBucketResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disassociateDRTLogBucket(
-            this.ops["DisassociateDRTLogBucket"].apply(partialParams)
+          this.ops["DisassociateDRTLogBucket"].applicator.apply(partialParams)
         );
     }
 
     invokeDisassociateHealthCheck(partialParams: ToOptional<{
       [K in keyof DisassociateHealthCheckRequest & keyof DisassociateHealthCheckRequest & keyof DisassociateHealthCheckRequest & keyof DisassociateHealthCheckRequest & keyof DisassociateHealthCheckRequest]: (DisassociateHealthCheckRequest & DisassociateHealthCheckRequest & DisassociateHealthCheckRequest & DisassociateHealthCheckRequest & DisassociateHealthCheckRequest)[K]
-    }>): DisassociateHealthCheckResponse {
+    }>): Request<DisassociateHealthCheckResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disassociateHealthCheck(
-            this.ops["DisassociateHealthCheck"].apply(partialParams)
+          this.ops["DisassociateHealthCheck"].applicator.apply(partialParams)
         );
     }
 
     invokeEnableApplicationLayerAutomaticResponse(partialParams: ToOptional<{
       [K in keyof EnableApplicationLayerAutomaticResponseRequest & keyof EnableApplicationLayerAutomaticResponseRequest & keyof EnableApplicationLayerAutomaticResponseRequest & keyof EnableApplicationLayerAutomaticResponseRequest & keyof EnableApplicationLayerAutomaticResponseRequest]: (EnableApplicationLayerAutomaticResponseRequest & EnableApplicationLayerAutomaticResponseRequest & EnableApplicationLayerAutomaticResponseRequest & EnableApplicationLayerAutomaticResponseRequest & EnableApplicationLayerAutomaticResponseRequest)[K]
-    }>): EnableApplicationLayerAutomaticResponseResponse {
+    }>): Request<EnableApplicationLayerAutomaticResponseResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.enableApplicationLayerAutomaticResponse(
-            this.ops["EnableApplicationLayerAutomaticResponse"].apply(partialParams)
+          this.ops["EnableApplicationLayerAutomaticResponse"].applicator.apply(partialParams)
         );
     }
 
     invokeListResourcesInProtectionGroup(partialParams: ToOptional<{
       [K in keyof ListResourcesInProtectionGroupRequest & keyof ListResourcesInProtectionGroupRequest & keyof ListResourcesInProtectionGroupRequest & keyof ListResourcesInProtectionGroupRequest & keyof ListResourcesInProtectionGroupRequest]: (ListResourcesInProtectionGroupRequest & ListResourcesInProtectionGroupRequest & ListResourcesInProtectionGroupRequest & ListResourcesInProtectionGroupRequest & ListResourcesInProtectionGroupRequest)[K]
-    }>): ListResourcesInProtectionGroupResponse {
+    }>): Request<ListResourcesInProtectionGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listResourcesInProtectionGroup(
-            this.ops["ListResourcesInProtectionGroup"].apply(partialParams)
+          this.ops["ListResourcesInProtectionGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
-    }>): ListTagsForResourceResponse {
+    }>): Request<ListTagsForResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
-    }>): TagResourceResponse {
+    }>): Request<TagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
-    }>): UntagResourceResponse {
+    }>): Request<UntagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateApplicationLayerAutomaticResponse(partialParams: ToOptional<{
       [K in keyof UpdateApplicationLayerAutomaticResponseRequest & keyof UpdateApplicationLayerAutomaticResponseRequest & keyof UpdateApplicationLayerAutomaticResponseRequest & keyof UpdateApplicationLayerAutomaticResponseRequest & keyof UpdateApplicationLayerAutomaticResponseRequest]: (UpdateApplicationLayerAutomaticResponseRequest & UpdateApplicationLayerAutomaticResponseRequest & UpdateApplicationLayerAutomaticResponseRequest & UpdateApplicationLayerAutomaticResponseRequest & UpdateApplicationLayerAutomaticResponseRequest)[K]
-    }>): UpdateApplicationLayerAutomaticResponseResponse {
+    }>): Request<UpdateApplicationLayerAutomaticResponseResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateApplicationLayerAutomaticResponse(
-            this.ops["UpdateApplicationLayerAutomaticResponse"].apply(partialParams)
+          this.ops["UpdateApplicationLayerAutomaticResponse"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateProtectionGroup(partialParams: ToOptional<{
       [K in keyof Omit<UpdateProtectionGroupRequest, "Aggregation"> & keyof Omit<UpdateProtectionGroupRequest, "Pattern"> & keyof UpdateProtectionGroupRequest & keyof Omit<UpdateProtectionGroupRequest, "ProtectionGroupId"> & keyof UpdateProtectionGroupRequest]: (Omit<UpdateProtectionGroupRequest, "Aggregation"> & Omit<UpdateProtectionGroupRequest, "Pattern"> & UpdateProtectionGroupRequest & Omit<UpdateProtectionGroupRequest, "ProtectionGroupId"> & UpdateProtectionGroupRequest)[K]
-    }>): UpdateProtectionGroupResponse {
+    }>): Request<UpdateProtectionGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateProtectionGroup(
-            this.ops["UpdateProtectionGroup"].apply(partialParams)
+          this.ops["UpdateProtectionGroup"].applicator.apply(partialParams)
         );
     }
 }

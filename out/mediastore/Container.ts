@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     CreateContainerInput,
     DeleteContainerInput,
@@ -41,8 +44,8 @@ import {
     TagResourceOutput,
     UntagResourceOutput
 } from "aws-sdk/clients/mediastore";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/mediastore-2017-09-01.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -51,163 +54,242 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.mediastore.Container {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.mediastore.Container>) {
         super(...args)
         this.client = new awssdk.MediaStore()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/mediastore-2017-09-01.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeCreateContainer(partialParams: ToOptional<{
       [K in keyof CreateContainerInput & keyof CreateContainerInput & keyof CreateContainerInput]: (CreateContainerInput & CreateContainerInput & CreateContainerInput)[K]
-    }>): CreateContainerOutput {
+    }>): Request<CreateContainerOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createContainer(
-            this.ops["CreateContainer"].apply(partialParams)
+          this.ops["CreateContainer"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteContainer(partialParams: ToOptional<{
       [K in keyof DeleteContainerInput & keyof DeleteContainerInput & keyof DeleteContainerInput]: (DeleteContainerInput & DeleteContainerInput & DeleteContainerInput)[K]
-    }>): DeleteContainerOutput {
+    }>): Request<DeleteContainerOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteContainer(
-            this.ops["DeleteContainer"].apply(partialParams)
+          this.ops["DeleteContainer"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteContainerPolicy(partialParams: ToOptional<{
       [K in keyof DeleteContainerPolicyInput & keyof DeleteContainerPolicyInput & keyof DeleteContainerPolicyInput]: (DeleteContainerPolicyInput & DeleteContainerPolicyInput & DeleteContainerPolicyInput)[K]
-    }>): DeleteContainerPolicyOutput {
+    }>): Request<DeleteContainerPolicyOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteContainerPolicy(
-            this.ops["DeleteContainerPolicy"].apply(partialParams)
+          this.ops["DeleteContainerPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteCorsPolicy(partialParams: ToOptional<{
       [K in keyof DeleteCorsPolicyInput & keyof DeleteCorsPolicyInput & keyof DeleteCorsPolicyInput]: (DeleteCorsPolicyInput & DeleteCorsPolicyInput & DeleteCorsPolicyInput)[K]
-    }>): DeleteCorsPolicyOutput {
+    }>): Request<DeleteCorsPolicyOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteCorsPolicy(
-            this.ops["DeleteCorsPolicy"].apply(partialParams)
+          this.ops["DeleteCorsPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteLifecyclePolicy(partialParams: ToOptional<{
       [K in keyof DeleteLifecyclePolicyInput & keyof DeleteLifecyclePolicyInput & keyof DeleteLifecyclePolicyInput]: (DeleteLifecyclePolicyInput & DeleteLifecyclePolicyInput & DeleteLifecyclePolicyInput)[K]
-    }>): DeleteLifecyclePolicyOutput {
+    }>): Request<DeleteLifecyclePolicyOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteLifecyclePolicy(
-            this.ops["DeleteLifecyclePolicy"].apply(partialParams)
+          this.ops["DeleteLifecyclePolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteMetricPolicy(partialParams: ToOptional<{
       [K in keyof DeleteMetricPolicyInput & keyof DeleteMetricPolicyInput & keyof DeleteMetricPolicyInput]: (DeleteMetricPolicyInput & DeleteMetricPolicyInput & DeleteMetricPolicyInput)[K]
-    }>): DeleteMetricPolicyOutput {
+    }>): Request<DeleteMetricPolicyOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteMetricPolicy(
-            this.ops["DeleteMetricPolicy"].apply(partialParams)
+          this.ops["DeleteMetricPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeGetContainerPolicy(partialParams: ToOptional<{
       [K in keyof GetContainerPolicyInput & keyof GetContainerPolicyInput & keyof GetContainerPolicyInput]: (GetContainerPolicyInput & GetContainerPolicyInput & GetContainerPolicyInput)[K]
-    }>): GetContainerPolicyOutput {
+    }>): Request<GetContainerPolicyOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getContainerPolicy(
-            this.ops["GetContainerPolicy"].apply(partialParams)
+          this.ops["GetContainerPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeGetCorsPolicy(partialParams: ToOptional<{
       [K in keyof GetCorsPolicyInput & keyof GetCorsPolicyInput & keyof GetCorsPolicyInput]: (GetCorsPolicyInput & GetCorsPolicyInput & GetCorsPolicyInput)[K]
-    }>): GetCorsPolicyOutput {
+    }>): Request<GetCorsPolicyOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getCorsPolicy(
-            this.ops["GetCorsPolicy"].apply(partialParams)
+          this.ops["GetCorsPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeGetLifecyclePolicy(partialParams: ToOptional<{
       [K in keyof GetLifecyclePolicyInput & keyof GetLifecyclePolicyInput & keyof GetLifecyclePolicyInput]: (GetLifecyclePolicyInput & GetLifecyclePolicyInput & GetLifecyclePolicyInput)[K]
-    }>): GetLifecyclePolicyOutput {
+    }>): Request<GetLifecyclePolicyOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getLifecyclePolicy(
-            this.ops["GetLifecyclePolicy"].apply(partialParams)
+          this.ops["GetLifecyclePolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeGetMetricPolicy(partialParams: ToOptional<{
       [K in keyof GetMetricPolicyInput & keyof GetMetricPolicyInput & keyof GetMetricPolicyInput]: (GetMetricPolicyInput & GetMetricPolicyInput & GetMetricPolicyInput)[K]
-    }>): GetMetricPolicyOutput {
+    }>): Request<GetMetricPolicyOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getMetricPolicy(
-            this.ops["GetMetricPolicy"].apply(partialParams)
+          this.ops["GetMetricPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput]: (ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput)[K]
-    }>): ListTagsForResourceOutput {
+    }>): Request<ListTagsForResourceOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokePutContainerPolicy(partialParams: ToOptional<{
       [K in keyof PutContainerPolicyInput & keyof PutContainerPolicyInput & keyof PutContainerPolicyInput]: (PutContainerPolicyInput & PutContainerPolicyInput & PutContainerPolicyInput)[K]
-    }>): PutContainerPolicyOutput {
+    }>): Request<PutContainerPolicyOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putContainerPolicy(
-            this.ops["PutContainerPolicy"].apply(partialParams)
+          this.ops["PutContainerPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokePutCorsPolicy(partialParams: ToOptional<{
       [K in keyof PutCorsPolicyInput & keyof PutCorsPolicyInput & keyof PutCorsPolicyInput]: (PutCorsPolicyInput & PutCorsPolicyInput & PutCorsPolicyInput)[K]
-    }>): PutCorsPolicyOutput {
+    }>): Request<PutCorsPolicyOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putCorsPolicy(
-            this.ops["PutCorsPolicy"].apply(partialParams)
+          this.ops["PutCorsPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokePutLifecyclePolicy(partialParams: ToOptional<{
       [K in keyof PutLifecyclePolicyInput & keyof PutLifecyclePolicyInput & keyof PutLifecyclePolicyInput]: (PutLifecyclePolicyInput & PutLifecyclePolicyInput & PutLifecyclePolicyInput)[K]
-    }>): PutLifecyclePolicyOutput {
+    }>): Request<PutLifecyclePolicyOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putLifecyclePolicy(
-            this.ops["PutLifecyclePolicy"].apply(partialParams)
+          this.ops["PutLifecyclePolicy"].applicator.apply(partialParams)
         );
     }
 
     invokePutMetricPolicy(partialParams: ToOptional<{
       [K in keyof PutMetricPolicyInput & keyof PutMetricPolicyInput & keyof PutMetricPolicyInput]: (PutMetricPolicyInput & PutMetricPolicyInput & PutMetricPolicyInput)[K]
-    }>): PutMetricPolicyOutput {
+    }>): Request<PutMetricPolicyOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putMetricPolicy(
-            this.ops["PutMetricPolicy"].apply(partialParams)
+          this.ops["PutMetricPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeStartAccessLogging(partialParams: ToOptional<{
       [K in keyof StartAccessLoggingInput & keyof StartAccessLoggingInput & keyof StartAccessLoggingInput]: (StartAccessLoggingInput & StartAccessLoggingInput & StartAccessLoggingInput)[K]
-    }>): StartAccessLoggingOutput {
+    }>): Request<StartAccessLoggingOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startAccessLogging(
-            this.ops["StartAccessLogging"].apply(partialParams)
+          this.ops["StartAccessLogging"].applicator.apply(partialParams)
         );
     }
 
     invokeStopAccessLogging(partialParams: ToOptional<{
       [K in keyof StopAccessLoggingInput & keyof StopAccessLoggingInput & keyof StopAccessLoggingInput]: (StopAccessLoggingInput & StopAccessLoggingInput & StopAccessLoggingInput)[K]
-    }>): StopAccessLoggingOutput {
+    }>): Request<StopAccessLoggingOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.stopAccessLogging(
-            this.ops["StopAccessLogging"].apply(partialParams)
+          this.ops["StopAccessLogging"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput]: (TagResourceInput & TagResourceInput & TagResourceInput)[K]
-    }>): TagResourceOutput {
+    }>): Request<TagResourceOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput]: (UntagResourceInput & UntagResourceInput & UntagResourceInput)[K]
-    }>): UntagResourceOutput {
+    }>): Request<UntagResourceOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 }

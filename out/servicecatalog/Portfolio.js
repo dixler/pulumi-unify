@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,216 +21,442 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/servicecatalog-2015-12-10.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.servicecatalog.Portfolio {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.ServiceCatalog();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/servicecatalog-2015-12-10.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeAcceptPortfolioShare(partialParams) {
-        return this.client.acceptPortfolioShare(this.ops["AcceptPortfolioShare"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.acceptPortfolioShare(this.ops["AcceptPortfolioShare"].applicator.apply(partialParams));
     }
     invokeAssociateBudgetWithResource(partialParams) {
-        return this.client.associateBudgetWithResource(this.ops["AssociateBudgetWithResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateBudgetWithResource(this.ops["AssociateBudgetWithResource"].applicator.apply(partialParams));
     }
     invokeAssociatePrincipalWithPortfolio(partialParams) {
-        return this.client.associatePrincipalWithPortfolio(this.ops["AssociatePrincipalWithPortfolio"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associatePrincipalWithPortfolio(this.ops["AssociatePrincipalWithPortfolio"].applicator.apply(partialParams));
     }
     invokeAssociateProductWithPortfolio(partialParams) {
-        return this.client.associateProductWithPortfolio(this.ops["AssociateProductWithPortfolio"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateProductWithPortfolio(this.ops["AssociateProductWithPortfolio"].applicator.apply(partialParams));
     }
     invokeAssociateServiceActionWithProvisioningArtifact(partialParams) {
-        return this.client.associateServiceActionWithProvisioningArtifact(this.ops["AssociateServiceActionWithProvisioningArtifact"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateServiceActionWithProvisioningArtifact(this.ops["AssociateServiceActionWithProvisioningArtifact"].applicator.apply(partialParams));
     }
     invokeAssociateTagOptionWithResource(partialParams) {
-        return this.client.associateTagOptionWithResource(this.ops["AssociateTagOptionWithResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateTagOptionWithResource(this.ops["AssociateTagOptionWithResource"].applicator.apply(partialParams));
     }
     invokeBatchAssociateServiceActionWithProvisioningArtifact(partialParams) {
-        return this.client.batchAssociateServiceActionWithProvisioningArtifact(this.ops["BatchAssociateServiceActionWithProvisioningArtifact"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchAssociateServiceActionWithProvisioningArtifact(this.ops["BatchAssociateServiceActionWithProvisioningArtifact"].applicator.apply(partialParams));
     }
     invokeBatchDisassociateServiceActionFromProvisioningArtifact(partialParams) {
-        return this.client.batchDisassociateServiceActionFromProvisioningArtifact(this.ops["BatchDisassociateServiceActionFromProvisioningArtifact"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchDisassociateServiceActionFromProvisioningArtifact(this.ops["BatchDisassociateServiceActionFromProvisioningArtifact"].applicator.apply(partialParams));
     }
     invokeCopyProduct(partialParams) {
-        return this.client.copyProduct(this.ops["CopyProduct"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.copyProduct(this.ops["CopyProduct"].applicator.apply(partialParams));
     }
     invokeCreateConstraint(partialParams) {
-        return this.client.createConstraint(this.ops["CreateConstraint"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createConstraint(this.ops["CreateConstraint"].applicator.apply(partialParams));
     }
     invokeCreatePortfolio(partialParams) {
-        return this.client.createPortfolio(this.ops["CreatePortfolio"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createPortfolio(this.ops["CreatePortfolio"].applicator.apply(partialParams));
     }
     invokeCreatePortfolioShare(partialParams) {
-        return this.client.createPortfolioShare(this.ops["CreatePortfolioShare"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createPortfolioShare(this.ops["CreatePortfolioShare"].applicator.apply(partialParams));
     }
     invokeCreateProduct(partialParams) {
-        return this.client.createProduct(this.ops["CreateProduct"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createProduct(this.ops["CreateProduct"].applicator.apply(partialParams));
     }
     invokeCreateProvisionedProductPlan(partialParams) {
-        return this.client.createProvisionedProductPlan(this.ops["CreateProvisionedProductPlan"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createProvisionedProductPlan(this.ops["CreateProvisionedProductPlan"].applicator.apply(partialParams));
     }
     invokeCreateProvisioningArtifact(partialParams) {
-        return this.client.createProvisioningArtifact(this.ops["CreateProvisioningArtifact"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createProvisioningArtifact(this.ops["CreateProvisioningArtifact"].applicator.apply(partialParams));
     }
     invokeCreateServiceAction(partialParams) {
-        return this.client.createServiceAction(this.ops["CreateServiceAction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createServiceAction(this.ops["CreateServiceAction"].applicator.apply(partialParams));
     }
     invokeCreateTagOption(partialParams) {
-        return this.client.createTagOption(this.ops["CreateTagOption"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createTagOption(this.ops["CreateTagOption"].applicator.apply(partialParams));
     }
     invokeDeleteConstraint(partialParams) {
-        return this.client.deleteConstraint(this.ops["DeleteConstraint"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteConstraint(this.ops["DeleteConstraint"].applicator.apply(partialParams));
     }
     invokeDeletePortfolio(partialParams) {
-        return this.client.deletePortfolio(this.ops["DeletePortfolio"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deletePortfolio(this.ops["DeletePortfolio"].applicator.apply(partialParams));
     }
     invokeDeletePortfolioShare(partialParams) {
-        return this.client.deletePortfolioShare(this.ops["DeletePortfolioShare"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deletePortfolioShare(this.ops["DeletePortfolioShare"].applicator.apply(partialParams));
     }
     invokeDeleteProduct(partialParams) {
-        return this.client.deleteProduct(this.ops["DeleteProduct"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteProduct(this.ops["DeleteProduct"].applicator.apply(partialParams));
     }
     invokeDeleteProvisionedProductPlan(partialParams) {
-        return this.client.deleteProvisionedProductPlan(this.ops["DeleteProvisionedProductPlan"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteProvisionedProductPlan(this.ops["DeleteProvisionedProductPlan"].applicator.apply(partialParams));
     }
     invokeDeleteProvisioningArtifact(partialParams) {
-        return this.client.deleteProvisioningArtifact(this.ops["DeleteProvisioningArtifact"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteProvisioningArtifact(this.ops["DeleteProvisioningArtifact"].applicator.apply(partialParams));
     }
     invokeDeleteServiceAction(partialParams) {
-        return this.client.deleteServiceAction(this.ops["DeleteServiceAction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteServiceAction(this.ops["DeleteServiceAction"].applicator.apply(partialParams));
     }
     invokeDeleteTagOption(partialParams) {
-        return this.client.deleteTagOption(this.ops["DeleteTagOption"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteTagOption(this.ops["DeleteTagOption"].applicator.apply(partialParams));
     }
     invokeDescribeConstraint(partialParams) {
-        return this.client.describeConstraint(this.ops["DescribeConstraint"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeConstraint(this.ops["DescribeConstraint"].applicator.apply(partialParams));
     }
     invokeDescribeCopyProductStatus(partialParams) {
-        return this.client.describeCopyProductStatus(this.ops["DescribeCopyProductStatus"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeCopyProductStatus(this.ops["DescribeCopyProductStatus"].applicator.apply(partialParams));
     }
     invokeDescribePortfolio(partialParams) {
-        return this.client.describePortfolio(this.ops["DescribePortfolio"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describePortfolio(this.ops["DescribePortfolio"].applicator.apply(partialParams));
     }
     invokeDescribePortfolioShareStatus(partialParams) {
-        return this.client.describePortfolioShareStatus(this.ops["DescribePortfolioShareStatus"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describePortfolioShareStatus(this.ops["DescribePortfolioShareStatus"].applicator.apply(partialParams));
     }
     invokeDescribePortfolioShares(partialParams) {
-        return this.client.describePortfolioShares(this.ops["DescribePortfolioShares"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describePortfolioShares(this.ops["DescribePortfolioShares"].applicator.apply(partialParams));
     }
     invokeDescribeProductView(partialParams) {
-        return this.client.describeProductView(this.ops["DescribeProductView"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeProductView(this.ops["DescribeProductView"].applicator.apply(partialParams));
     }
     invokeDescribeProvisionedProductPlan(partialParams) {
-        return this.client.describeProvisionedProductPlan(this.ops["DescribeProvisionedProductPlan"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeProvisionedProductPlan(this.ops["DescribeProvisionedProductPlan"].applicator.apply(partialParams));
     }
     invokeDescribeRecord(partialParams) {
-        return this.client.describeRecord(this.ops["DescribeRecord"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeRecord(this.ops["DescribeRecord"].applicator.apply(partialParams));
     }
     invokeDescribeServiceAction(partialParams) {
-        return this.client.describeServiceAction(this.ops["DescribeServiceAction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeServiceAction(this.ops["DescribeServiceAction"].applicator.apply(partialParams));
     }
     invokeDescribeServiceActionExecutionParameters(partialParams) {
-        return this.client.describeServiceActionExecutionParameters(this.ops["DescribeServiceActionExecutionParameters"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeServiceActionExecutionParameters(this.ops["DescribeServiceActionExecutionParameters"].applicator.apply(partialParams));
     }
     invokeDescribeTagOption(partialParams) {
-        return this.client.describeTagOption(this.ops["DescribeTagOption"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeTagOption(this.ops["DescribeTagOption"].applicator.apply(partialParams));
     }
     invokeDisassociateBudgetFromResource(partialParams) {
-        return this.client.disassociateBudgetFromResource(this.ops["DisassociateBudgetFromResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociateBudgetFromResource(this.ops["DisassociateBudgetFromResource"].applicator.apply(partialParams));
     }
     invokeDisassociatePrincipalFromPortfolio(partialParams) {
-        return this.client.disassociatePrincipalFromPortfolio(this.ops["DisassociatePrincipalFromPortfolio"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociatePrincipalFromPortfolio(this.ops["DisassociatePrincipalFromPortfolio"].applicator.apply(partialParams));
     }
     invokeDisassociateProductFromPortfolio(partialParams) {
-        return this.client.disassociateProductFromPortfolio(this.ops["DisassociateProductFromPortfolio"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociateProductFromPortfolio(this.ops["DisassociateProductFromPortfolio"].applicator.apply(partialParams));
     }
     invokeDisassociateServiceActionFromProvisioningArtifact(partialParams) {
-        return this.client.disassociateServiceActionFromProvisioningArtifact(this.ops["DisassociateServiceActionFromProvisioningArtifact"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociateServiceActionFromProvisioningArtifact(this.ops["DisassociateServiceActionFromProvisioningArtifact"].applicator.apply(partialParams));
     }
     invokeDisassociateTagOptionFromResource(partialParams) {
-        return this.client.disassociateTagOptionFromResource(this.ops["DisassociateTagOptionFromResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociateTagOptionFromResource(this.ops["DisassociateTagOptionFromResource"].applicator.apply(partialParams));
     }
     invokeExecuteProvisionedProductPlan(partialParams) {
-        return this.client.executeProvisionedProductPlan(this.ops["ExecuteProvisionedProductPlan"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.executeProvisionedProductPlan(this.ops["ExecuteProvisionedProductPlan"].applicator.apply(partialParams));
     }
     invokeExecuteProvisionedProductServiceAction(partialParams) {
-        return this.client.executeProvisionedProductServiceAction(this.ops["ExecuteProvisionedProductServiceAction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.executeProvisionedProductServiceAction(this.ops["ExecuteProvisionedProductServiceAction"].applicator.apply(partialParams));
     }
     invokeImportAsProvisionedProduct(partialParams) {
-        return this.client.importAsProvisionedProduct(this.ops["ImportAsProvisionedProduct"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.importAsProvisionedProduct(this.ops["ImportAsProvisionedProduct"].applicator.apply(partialParams));
     }
     invokeListBudgetsForResource(partialParams) {
-        return this.client.listBudgetsForResource(this.ops["ListBudgetsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listBudgetsForResource(this.ops["ListBudgetsForResource"].applicator.apply(partialParams));
     }
     invokeListConstraintsForPortfolio(partialParams) {
-        return this.client.listConstraintsForPortfolio(this.ops["ListConstraintsForPortfolio"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listConstraintsForPortfolio(this.ops["ListConstraintsForPortfolio"].applicator.apply(partialParams));
     }
     invokeListLaunchPaths(partialParams) {
-        return this.client.listLaunchPaths(this.ops["ListLaunchPaths"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listLaunchPaths(this.ops["ListLaunchPaths"].applicator.apply(partialParams));
     }
     invokeListOrganizationPortfolioAccess(partialParams) {
-        return this.client.listOrganizationPortfolioAccess(this.ops["ListOrganizationPortfolioAccess"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listOrganizationPortfolioAccess(this.ops["ListOrganizationPortfolioAccess"].applicator.apply(partialParams));
     }
     invokeListPortfolioAccess(partialParams) {
-        return this.client.listPortfolioAccess(this.ops["ListPortfolioAccess"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listPortfolioAccess(this.ops["ListPortfolioAccess"].applicator.apply(partialParams));
     }
     invokeListPortfoliosForProduct(partialParams) {
-        return this.client.listPortfoliosForProduct(this.ops["ListPortfoliosForProduct"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listPortfoliosForProduct(this.ops["ListPortfoliosForProduct"].applicator.apply(partialParams));
     }
     invokeListPrincipalsForPortfolio(partialParams) {
-        return this.client.listPrincipalsForPortfolio(this.ops["ListPrincipalsForPortfolio"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listPrincipalsForPortfolio(this.ops["ListPrincipalsForPortfolio"].applicator.apply(partialParams));
     }
     invokeListProvisioningArtifacts(partialParams) {
-        return this.client.listProvisioningArtifacts(this.ops["ListProvisioningArtifacts"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listProvisioningArtifacts(this.ops["ListProvisioningArtifacts"].applicator.apply(partialParams));
     }
     invokeListProvisioningArtifactsForServiceAction(partialParams) {
-        return this.client.listProvisioningArtifactsForServiceAction(this.ops["ListProvisioningArtifactsForServiceAction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listProvisioningArtifactsForServiceAction(this.ops["ListProvisioningArtifactsForServiceAction"].applicator.apply(partialParams));
     }
     invokeListResourcesForTagOption(partialParams) {
-        return this.client.listResourcesForTagOption(this.ops["ListResourcesForTagOption"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listResourcesForTagOption(this.ops["ListResourcesForTagOption"].applicator.apply(partialParams));
     }
     invokeListServiceActionsForProvisioningArtifact(partialParams) {
-        return this.client.listServiceActionsForProvisioningArtifact(this.ops["ListServiceActionsForProvisioningArtifact"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listServiceActionsForProvisioningArtifact(this.ops["ListServiceActionsForProvisioningArtifact"].applicator.apply(partialParams));
     }
     invokeListStackInstancesForProvisionedProduct(partialParams) {
-        return this.client.listStackInstancesForProvisionedProduct(this.ops["ListStackInstancesForProvisionedProduct"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listStackInstancesForProvisionedProduct(this.ops["ListStackInstancesForProvisionedProduct"].applicator.apply(partialParams));
     }
     invokeProvisionProduct(partialParams) {
-        return this.client.provisionProduct(this.ops["ProvisionProduct"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.provisionProduct(this.ops["ProvisionProduct"].applicator.apply(partialParams));
     }
     invokeRejectPortfolioShare(partialParams) {
-        return this.client.rejectPortfolioShare(this.ops["RejectPortfolioShare"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.rejectPortfolioShare(this.ops["RejectPortfolioShare"].applicator.apply(partialParams));
     }
     invokeTerminateProvisionedProduct(partialParams) {
-        return this.client.terminateProvisionedProduct(this.ops["TerminateProvisionedProduct"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.terminateProvisionedProduct(this.ops["TerminateProvisionedProduct"].applicator.apply(partialParams));
     }
     invokeUpdateConstraint(partialParams) {
-        return this.client.updateConstraint(this.ops["UpdateConstraint"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateConstraint(this.ops["UpdateConstraint"].applicator.apply(partialParams));
     }
     invokeUpdatePortfolio(partialParams) {
-        return this.client.updatePortfolio(this.ops["UpdatePortfolio"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updatePortfolio(this.ops["UpdatePortfolio"].applicator.apply(partialParams));
     }
     invokeUpdatePortfolioShare(partialParams) {
-        return this.client.updatePortfolioShare(this.ops["UpdatePortfolioShare"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updatePortfolioShare(this.ops["UpdatePortfolioShare"].applicator.apply(partialParams));
     }
     invokeUpdateProduct(partialParams) {
-        return this.client.updateProduct(this.ops["UpdateProduct"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateProduct(this.ops["UpdateProduct"].applicator.apply(partialParams));
     }
     invokeUpdateProvisionedProduct(partialParams) {
-        return this.client.updateProvisionedProduct(this.ops["UpdateProvisionedProduct"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateProvisionedProduct(this.ops["UpdateProvisionedProduct"].applicator.apply(partialParams));
     }
     invokeUpdateProvisionedProductProperties(partialParams) {
-        return this.client.updateProvisionedProductProperties(this.ops["UpdateProvisionedProductProperties"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateProvisionedProductProperties(this.ops["UpdateProvisionedProductProperties"].applicator.apply(partialParams));
     }
     invokeUpdateProvisioningArtifact(partialParams) {
-        return this.client.updateProvisioningArtifact(this.ops["UpdateProvisioningArtifact"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateProvisioningArtifact(this.ops["UpdateProvisioningArtifact"].applicator.apply(partialParams));
     }
     invokeUpdateServiceAction(partialParams) {
-        return this.client.updateServiceAction(this.ops["UpdateServiceAction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateServiceAction(this.ops["UpdateServiceAction"].applicator.apply(partialParams));
     }
     invokeUpdateTagOption(partialParams) {
-        return this.client.updateTagOption(this.ops["UpdateTagOption"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateTagOption(this.ops["UpdateTagOption"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

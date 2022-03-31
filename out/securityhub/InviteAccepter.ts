@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     AcceptAdministratorInvitationRequest,
     AcceptInvitationRequest,
@@ -73,8 +76,8 @@ import {
     UpdateOrganizationConfigurationResponse,
     UpdateStandardsControlResponse
 } from "aws-sdk/clients/securityhub";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/securityhub-2018-10-26.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -83,291 +86,418 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.securityhub.InviteAccepter {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.securityhub.InviteAccepter>) {
         super(...args)
         this.client = new awssdk.SecurityHub()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/securityhub-2018-10-26.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeAcceptAdministratorInvitation(partialParams: ToOptional<{
       [K in keyof AcceptAdministratorInvitationRequest & keyof AcceptAdministratorInvitationRequest]: (AcceptAdministratorInvitationRequest & AcceptAdministratorInvitationRequest)[K]
-    }>): AcceptAdministratorInvitationResponse {
+    }>): Request<AcceptAdministratorInvitationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.acceptAdministratorInvitation(
-            this.ops["AcceptAdministratorInvitation"].apply(partialParams)
+          this.ops["AcceptAdministratorInvitation"].applicator.apply(partialParams)
         );
     }
 
     invokeAcceptInvitation(partialParams: ToOptional<{
       [K in keyof AcceptInvitationRequest & keyof AcceptInvitationRequest]: (AcceptInvitationRequest & AcceptInvitationRequest)[K]
-    }>): AcceptInvitationResponse {
+    }>): Request<AcceptInvitationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.acceptInvitation(
-            this.ops["AcceptInvitation"].apply(partialParams)
+          this.ops["AcceptInvitation"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchDisableStandards(partialParams: ToOptional<{
       [K in keyof BatchDisableStandardsRequest & keyof BatchDisableStandardsRequest]: (BatchDisableStandardsRequest & BatchDisableStandardsRequest)[K]
-    }>): BatchDisableStandardsResponse {
+    }>): Request<BatchDisableStandardsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchDisableStandards(
-            this.ops["BatchDisableStandards"].apply(partialParams)
+          this.ops["BatchDisableStandards"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchEnableStandards(partialParams: ToOptional<{
       [K in keyof BatchEnableStandardsRequest & keyof BatchEnableStandardsRequest]: (BatchEnableStandardsRequest & BatchEnableStandardsRequest)[K]
-    }>): BatchEnableStandardsResponse {
+    }>): Request<BatchEnableStandardsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchEnableStandards(
-            this.ops["BatchEnableStandards"].apply(partialParams)
+          this.ops["BatchEnableStandards"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchImportFindings(partialParams: ToOptional<{
       [K in keyof BatchImportFindingsRequest & keyof BatchImportFindingsRequest]: (BatchImportFindingsRequest & BatchImportFindingsRequest)[K]
-    }>): BatchImportFindingsResponse {
+    }>): Request<BatchImportFindingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchImportFindings(
-            this.ops["BatchImportFindings"].apply(partialParams)
+          this.ops["BatchImportFindings"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchUpdateFindings(partialParams: ToOptional<{
       [K in keyof BatchUpdateFindingsRequest & keyof BatchUpdateFindingsRequest]: (BatchUpdateFindingsRequest & BatchUpdateFindingsRequest)[K]
-    }>): BatchUpdateFindingsResponse {
+    }>): Request<BatchUpdateFindingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchUpdateFindings(
-            this.ops["BatchUpdateFindings"].apply(partialParams)
+          this.ops["BatchUpdateFindings"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateActionTarget(partialParams: ToOptional<{
       [K in keyof CreateActionTargetRequest & keyof CreateActionTargetRequest]: (CreateActionTargetRequest & CreateActionTargetRequest)[K]
-    }>): CreateActionTargetResponse {
+    }>): Request<CreateActionTargetResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createActionTarget(
-            this.ops["CreateActionTarget"].apply(partialParams)
+          this.ops["CreateActionTarget"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateFindingAggregator(partialParams: ToOptional<{
       [K in keyof CreateFindingAggregatorRequest & keyof CreateFindingAggregatorRequest]: (CreateFindingAggregatorRequest & CreateFindingAggregatorRequest)[K]
-    }>): CreateFindingAggregatorResponse {
+    }>): Request<CreateFindingAggregatorResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createFindingAggregator(
-            this.ops["CreateFindingAggregator"].apply(partialParams)
+          this.ops["CreateFindingAggregator"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateInsight(partialParams: ToOptional<{
       [K in keyof CreateInsightRequest & keyof CreateInsightRequest]: (CreateInsightRequest & CreateInsightRequest)[K]
-    }>): CreateInsightResponse {
+    }>): Request<CreateInsightResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createInsight(
-            this.ops["CreateInsight"].apply(partialParams)
+          this.ops["CreateInsight"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateMembers(partialParams: ToOptional<{
       [K in keyof CreateMembersRequest & keyof CreateMembersRequest]: (CreateMembersRequest & CreateMembersRequest)[K]
-    }>): CreateMembersResponse {
+    }>): Request<CreateMembersResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createMembers(
-            this.ops["CreateMembers"].apply(partialParams)
+          this.ops["CreateMembers"].applicator.apply(partialParams)
         );
     }
 
     invokeDeclineInvitations(partialParams: ToOptional<{
       [K in keyof DeclineInvitationsRequest & keyof DeclineInvitationsRequest]: (DeclineInvitationsRequest & DeclineInvitationsRequest)[K]
-    }>): DeclineInvitationsResponse {
+    }>): Request<DeclineInvitationsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.declineInvitations(
-            this.ops["DeclineInvitations"].apply(partialParams)
+          this.ops["DeclineInvitations"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteActionTarget(partialParams: ToOptional<{
       [K in keyof DeleteActionTargetRequest & keyof DeleteActionTargetRequest]: (DeleteActionTargetRequest & DeleteActionTargetRequest)[K]
-    }>): DeleteActionTargetResponse {
+    }>): Request<DeleteActionTargetResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteActionTarget(
-            this.ops["DeleteActionTarget"].apply(partialParams)
+          this.ops["DeleteActionTarget"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteFindingAggregator(partialParams: ToOptional<{
       [K in keyof DeleteFindingAggregatorRequest & keyof DeleteFindingAggregatorRequest]: (DeleteFindingAggregatorRequest & DeleteFindingAggregatorRequest)[K]
-    }>): DeleteFindingAggregatorResponse {
+    }>): Request<DeleteFindingAggregatorResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteFindingAggregator(
-            this.ops["DeleteFindingAggregator"].apply(partialParams)
+          this.ops["DeleteFindingAggregator"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteInsight(partialParams: ToOptional<{
       [K in keyof DeleteInsightRequest & keyof DeleteInsightRequest]: (DeleteInsightRequest & DeleteInsightRequest)[K]
-    }>): DeleteInsightResponse {
+    }>): Request<DeleteInsightResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteInsight(
-            this.ops["DeleteInsight"].apply(partialParams)
+          this.ops["DeleteInsight"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteInvitations(partialParams: ToOptional<{
       [K in keyof DeleteInvitationsRequest & keyof DeleteInvitationsRequest]: (DeleteInvitationsRequest & DeleteInvitationsRequest)[K]
-    }>): DeleteInvitationsResponse {
+    }>): Request<DeleteInvitationsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteInvitations(
-            this.ops["DeleteInvitations"].apply(partialParams)
+          this.ops["DeleteInvitations"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteMembers(partialParams: ToOptional<{
       [K in keyof DeleteMembersRequest & keyof DeleteMembersRequest]: (DeleteMembersRequest & DeleteMembersRequest)[K]
-    }>): DeleteMembersResponse {
+    }>): Request<DeleteMembersResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteMembers(
-            this.ops["DeleteMembers"].apply(partialParams)
+          this.ops["DeleteMembers"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeStandardsControls(partialParams: ToOptional<{
       [K in keyof DescribeStandardsControlsRequest & keyof DescribeStandardsControlsRequest]: (DescribeStandardsControlsRequest & DescribeStandardsControlsRequest)[K]
-    }>): DescribeStandardsControlsResponse {
+    }>): Request<DescribeStandardsControlsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeStandardsControls(
-            this.ops["DescribeStandardsControls"].apply(partialParams)
+          this.ops["DescribeStandardsControls"].applicator.apply(partialParams)
         );
     }
 
     invokeDisableImportFindingsForProduct(partialParams: ToOptional<{
       [K in keyof DisableImportFindingsForProductRequest & keyof DisableImportFindingsForProductRequest]: (DisableImportFindingsForProductRequest & DisableImportFindingsForProductRequest)[K]
-    }>): DisableImportFindingsForProductResponse {
+    }>): Request<DisableImportFindingsForProductResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disableImportFindingsForProduct(
-            this.ops["DisableImportFindingsForProduct"].apply(partialParams)
+          this.ops["DisableImportFindingsForProduct"].applicator.apply(partialParams)
         );
     }
 
     invokeDisableOrganizationAdminAccount(partialParams: ToOptional<{
       [K in keyof DisableOrganizationAdminAccountRequest & keyof DisableOrganizationAdminAccountRequest]: (DisableOrganizationAdminAccountRequest & DisableOrganizationAdminAccountRequest)[K]
-    }>): DisableOrganizationAdminAccountResponse {
+    }>): Request<DisableOrganizationAdminAccountResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disableOrganizationAdminAccount(
-            this.ops["DisableOrganizationAdminAccount"].apply(partialParams)
+          this.ops["DisableOrganizationAdminAccount"].applicator.apply(partialParams)
         );
     }
 
     invokeDisassociateMembers(partialParams: ToOptional<{
       [K in keyof DisassociateMembersRequest & keyof DisassociateMembersRequest]: (DisassociateMembersRequest & DisassociateMembersRequest)[K]
-    }>): DisassociateMembersResponse {
+    }>): Request<DisassociateMembersResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disassociateMembers(
-            this.ops["DisassociateMembers"].apply(partialParams)
+          this.ops["DisassociateMembers"].applicator.apply(partialParams)
         );
     }
 
     invokeEnableImportFindingsForProduct(partialParams: ToOptional<{
       [K in keyof EnableImportFindingsForProductRequest & keyof EnableImportFindingsForProductRequest]: (EnableImportFindingsForProductRequest & EnableImportFindingsForProductRequest)[K]
-    }>): EnableImportFindingsForProductResponse {
+    }>): Request<EnableImportFindingsForProductResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.enableImportFindingsForProduct(
-            this.ops["EnableImportFindingsForProduct"].apply(partialParams)
+          this.ops["EnableImportFindingsForProduct"].applicator.apply(partialParams)
         );
     }
 
     invokeEnableOrganizationAdminAccount(partialParams: ToOptional<{
       [K in keyof EnableOrganizationAdminAccountRequest & keyof EnableOrganizationAdminAccountRequest]: (EnableOrganizationAdminAccountRequest & EnableOrganizationAdminAccountRequest)[K]
-    }>): EnableOrganizationAdminAccountResponse {
+    }>): Request<EnableOrganizationAdminAccountResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.enableOrganizationAdminAccount(
-            this.ops["EnableOrganizationAdminAccount"].apply(partialParams)
+          this.ops["EnableOrganizationAdminAccount"].applicator.apply(partialParams)
         );
     }
 
     invokeGetFindingAggregator(partialParams: ToOptional<{
       [K in keyof GetFindingAggregatorRequest & keyof GetFindingAggregatorRequest]: (GetFindingAggregatorRequest & GetFindingAggregatorRequest)[K]
-    }>): GetFindingAggregatorResponse {
+    }>): Request<GetFindingAggregatorResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getFindingAggregator(
-            this.ops["GetFindingAggregator"].apply(partialParams)
+          this.ops["GetFindingAggregator"].applicator.apply(partialParams)
         );
     }
 
     invokeGetInsightResults(partialParams: ToOptional<{
       [K in keyof GetInsightResultsRequest & keyof GetInsightResultsRequest]: (GetInsightResultsRequest & GetInsightResultsRequest)[K]
-    }>): GetInsightResultsResponse {
+    }>): Request<GetInsightResultsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getInsightResults(
-            this.ops["GetInsightResults"].apply(partialParams)
+          this.ops["GetInsightResults"].applicator.apply(partialParams)
         );
     }
 
     invokeGetMembers(partialParams: ToOptional<{
       [K in keyof GetMembersRequest & keyof GetMembersRequest]: (GetMembersRequest & GetMembersRequest)[K]
-    }>): GetMembersResponse {
+    }>): Request<GetMembersResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getMembers(
-            this.ops["GetMembers"].apply(partialParams)
+          this.ops["GetMembers"].applicator.apply(partialParams)
         );
     }
 
     invokeInviteMembers(partialParams: ToOptional<{
       [K in keyof InviteMembersRequest & keyof InviteMembersRequest]: (InviteMembersRequest & InviteMembersRequest)[K]
-    }>): InviteMembersResponse {
+    }>): Request<InviteMembersResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.inviteMembers(
-            this.ops["InviteMembers"].apply(partialParams)
+          this.ops["InviteMembers"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
-    }>): ListTagsForResourceResponse {
+    }>): Request<ListTagsForResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest)[K]
-    }>): TagResourceResponse {
+    }>): Request<TagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest)[K]
-    }>): UntagResourceResponse {
+    }>): Request<UntagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateActionTarget(partialParams: ToOptional<{
       [K in keyof UpdateActionTargetRequest & keyof UpdateActionTargetRequest]: (UpdateActionTargetRequest & UpdateActionTargetRequest)[K]
-    }>): UpdateActionTargetResponse {
+    }>): Request<UpdateActionTargetResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateActionTarget(
-            this.ops["UpdateActionTarget"].apply(partialParams)
+          this.ops["UpdateActionTarget"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateFindingAggregator(partialParams: ToOptional<{
       [K in keyof UpdateFindingAggregatorRequest & keyof UpdateFindingAggregatorRequest]: (UpdateFindingAggregatorRequest & UpdateFindingAggregatorRequest)[K]
-    }>): UpdateFindingAggregatorResponse {
+    }>): Request<UpdateFindingAggregatorResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateFindingAggregator(
-            this.ops["UpdateFindingAggregator"].apply(partialParams)
+          this.ops["UpdateFindingAggregator"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateFindings(partialParams: ToOptional<{
       [K in keyof UpdateFindingsRequest & keyof UpdateFindingsRequest]: (UpdateFindingsRequest & UpdateFindingsRequest)[K]
-    }>): UpdateFindingsResponse {
+    }>): Request<UpdateFindingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateFindings(
-            this.ops["UpdateFindings"].apply(partialParams)
+          this.ops["UpdateFindings"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateInsight(partialParams: ToOptional<{
       [K in keyof UpdateInsightRequest & keyof UpdateInsightRequest]: (UpdateInsightRequest & UpdateInsightRequest)[K]
-    }>): UpdateInsightResponse {
+    }>): Request<UpdateInsightResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateInsight(
-            this.ops["UpdateInsight"].apply(partialParams)
+          this.ops["UpdateInsight"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateOrganizationConfiguration(partialParams: ToOptional<{
       [K in keyof UpdateOrganizationConfigurationRequest & keyof UpdateOrganizationConfigurationRequest]: (UpdateOrganizationConfigurationRequest & UpdateOrganizationConfigurationRequest)[K]
-    }>): UpdateOrganizationConfigurationResponse {
+    }>): Request<UpdateOrganizationConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateOrganizationConfiguration(
-            this.ops["UpdateOrganizationConfiguration"].apply(partialParams)
+          this.ops["UpdateOrganizationConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateStandardsControl(partialParams: ToOptional<{
       [K in keyof UpdateStandardsControlRequest & keyof UpdateStandardsControlRequest]: (UpdateStandardsControlRequest & UpdateStandardsControlRequest)[K]
-    }>): UpdateStandardsControlResponse {
+    }>): Request<UpdateStandardsControlResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateStandardsControl(
-            this.ops["UpdateStandardsControl"].apply(partialParams)
+          this.ops["UpdateStandardsControl"].applicator.apply(partialParams)
         );
     }
 }

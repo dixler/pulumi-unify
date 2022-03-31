@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,123 +21,256 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/dms-2016-01-01.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.dms.Endpoint {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.DMS();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/dms-2016-01-01.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeAddTagsToResource(partialParams) {
-        return this.client.addTagsToResource(this.ops["AddTagsToResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.addTagsToResource(this.ops["AddTagsToResource"].applicator.apply(partialParams));
     }
     invokeApplyPendingMaintenanceAction(partialParams) {
-        return this.client.applyPendingMaintenanceAction(this.ops["ApplyPendingMaintenanceAction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.applyPendingMaintenanceAction(this.ops["ApplyPendingMaintenanceAction"].applicator.apply(partialParams));
     }
     invokeCancelReplicationTaskAssessmentRun(partialParams) {
-        return this.client.cancelReplicationTaskAssessmentRun(this.ops["CancelReplicationTaskAssessmentRun"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.cancelReplicationTaskAssessmentRun(this.ops["CancelReplicationTaskAssessmentRun"].applicator.apply(partialParams));
     }
     invokeCreateEndpoint(partialParams) {
-        return this.client.createEndpoint(this.ops["CreateEndpoint"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createEndpoint(this.ops["CreateEndpoint"].applicator.apply(partialParams));
     }
     invokeCreateEventSubscription(partialParams) {
-        return this.client.createEventSubscription(this.ops["CreateEventSubscription"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createEventSubscription(this.ops["CreateEventSubscription"].applicator.apply(partialParams));
     }
     invokeCreateReplicationInstance(partialParams) {
-        return this.client.createReplicationInstance(this.ops["CreateReplicationInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createReplicationInstance(this.ops["CreateReplicationInstance"].applicator.apply(partialParams));
     }
     invokeCreateReplicationSubnetGroup(partialParams) {
-        return this.client.createReplicationSubnetGroup(this.ops["CreateReplicationSubnetGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createReplicationSubnetGroup(this.ops["CreateReplicationSubnetGroup"].applicator.apply(partialParams));
     }
     invokeCreateReplicationTask(partialParams) {
-        return this.client.createReplicationTask(this.ops["CreateReplicationTask"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createReplicationTask(this.ops["CreateReplicationTask"].applicator.apply(partialParams));
     }
     invokeDeleteCertificate(partialParams) {
-        return this.client.deleteCertificate(this.ops["DeleteCertificate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteCertificate(this.ops["DeleteCertificate"].applicator.apply(partialParams));
     }
     invokeDeleteConnection(partialParams) {
-        return this.client.deleteConnection(this.ops["DeleteConnection"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteConnection(this.ops["DeleteConnection"].applicator.apply(partialParams));
     }
     invokeDeleteEndpoint(partialParams) {
-        return this.client.deleteEndpoint(this.ops["DeleteEndpoint"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteEndpoint(this.ops["DeleteEndpoint"].applicator.apply(partialParams));
     }
     invokeDeleteEventSubscription(partialParams) {
-        return this.client.deleteEventSubscription(this.ops["DeleteEventSubscription"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteEventSubscription(this.ops["DeleteEventSubscription"].applicator.apply(partialParams));
     }
     invokeDeleteReplicationInstance(partialParams) {
-        return this.client.deleteReplicationInstance(this.ops["DeleteReplicationInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteReplicationInstance(this.ops["DeleteReplicationInstance"].applicator.apply(partialParams));
     }
     invokeDeleteReplicationSubnetGroup(partialParams) {
-        return this.client.deleteReplicationSubnetGroup(this.ops["DeleteReplicationSubnetGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteReplicationSubnetGroup(this.ops["DeleteReplicationSubnetGroup"].applicator.apply(partialParams));
     }
     invokeDeleteReplicationTask(partialParams) {
-        return this.client.deleteReplicationTask(this.ops["DeleteReplicationTask"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteReplicationTask(this.ops["DeleteReplicationTask"].applicator.apply(partialParams));
     }
     invokeDeleteReplicationTaskAssessmentRun(partialParams) {
-        return this.client.deleteReplicationTaskAssessmentRun(this.ops["DeleteReplicationTaskAssessmentRun"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteReplicationTaskAssessmentRun(this.ops["DeleteReplicationTaskAssessmentRun"].applicator.apply(partialParams));
     }
     invokeDescribeEndpointSettings(partialParams) {
-        return this.client.describeEndpointSettings(this.ops["DescribeEndpointSettings"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeEndpointSettings(this.ops["DescribeEndpointSettings"].applicator.apply(partialParams));
     }
     invokeDescribeRefreshSchemasStatus(partialParams) {
-        return this.client.describeRefreshSchemasStatus(this.ops["DescribeRefreshSchemasStatus"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeRefreshSchemasStatus(this.ops["DescribeRefreshSchemasStatus"].applicator.apply(partialParams));
     }
     invokeDescribeReplicationInstanceTaskLogs(partialParams) {
-        return this.client.describeReplicationInstanceTaskLogs(this.ops["DescribeReplicationInstanceTaskLogs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeReplicationInstanceTaskLogs(this.ops["DescribeReplicationInstanceTaskLogs"].applicator.apply(partialParams));
     }
     invokeDescribeSchemas(partialParams) {
-        return this.client.describeSchemas(this.ops["DescribeSchemas"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeSchemas(this.ops["DescribeSchemas"].applicator.apply(partialParams));
     }
     invokeDescribeTableStatistics(partialParams) {
-        return this.client.describeTableStatistics(this.ops["DescribeTableStatistics"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeTableStatistics(this.ops["DescribeTableStatistics"].applicator.apply(partialParams));
     }
     invokeImportCertificate(partialParams) {
-        return this.client.importCertificate(this.ops["ImportCertificate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.importCertificate(this.ops["ImportCertificate"].applicator.apply(partialParams));
     }
     invokeModifyEndpoint(partialParams) {
-        return this.client.modifyEndpoint(this.ops["ModifyEndpoint"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyEndpoint(this.ops["ModifyEndpoint"].applicator.apply(partialParams));
     }
     invokeModifyEventSubscription(partialParams) {
-        return this.client.modifyEventSubscription(this.ops["ModifyEventSubscription"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyEventSubscription(this.ops["ModifyEventSubscription"].applicator.apply(partialParams));
     }
     invokeModifyReplicationInstance(partialParams) {
-        return this.client.modifyReplicationInstance(this.ops["ModifyReplicationInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyReplicationInstance(this.ops["ModifyReplicationInstance"].applicator.apply(partialParams));
     }
     invokeModifyReplicationSubnetGroup(partialParams) {
-        return this.client.modifyReplicationSubnetGroup(this.ops["ModifyReplicationSubnetGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyReplicationSubnetGroup(this.ops["ModifyReplicationSubnetGroup"].applicator.apply(partialParams));
     }
     invokeModifyReplicationTask(partialParams) {
-        return this.client.modifyReplicationTask(this.ops["ModifyReplicationTask"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyReplicationTask(this.ops["ModifyReplicationTask"].applicator.apply(partialParams));
     }
     invokeMoveReplicationTask(partialParams) {
-        return this.client.moveReplicationTask(this.ops["MoveReplicationTask"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.moveReplicationTask(this.ops["MoveReplicationTask"].applicator.apply(partialParams));
     }
     invokeRebootReplicationInstance(partialParams) {
-        return this.client.rebootReplicationInstance(this.ops["RebootReplicationInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.rebootReplicationInstance(this.ops["RebootReplicationInstance"].applicator.apply(partialParams));
     }
     invokeRefreshSchemas(partialParams) {
-        return this.client.refreshSchemas(this.ops["RefreshSchemas"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.refreshSchemas(this.ops["RefreshSchemas"].applicator.apply(partialParams));
     }
     invokeReloadTables(partialParams) {
-        return this.client.reloadTables(this.ops["ReloadTables"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.reloadTables(this.ops["ReloadTables"].applicator.apply(partialParams));
     }
     invokeRemoveTagsFromResource(partialParams) {
-        return this.client.removeTagsFromResource(this.ops["RemoveTagsFromResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.removeTagsFromResource(this.ops["RemoveTagsFromResource"].applicator.apply(partialParams));
     }
     invokeStartReplicationTask(partialParams) {
-        return this.client.startReplicationTask(this.ops["StartReplicationTask"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startReplicationTask(this.ops["StartReplicationTask"].applicator.apply(partialParams));
     }
     invokeStartReplicationTaskAssessment(partialParams) {
-        return this.client.startReplicationTaskAssessment(this.ops["StartReplicationTaskAssessment"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startReplicationTaskAssessment(this.ops["StartReplicationTaskAssessment"].applicator.apply(partialParams));
     }
     invokeStartReplicationTaskAssessmentRun(partialParams) {
-        return this.client.startReplicationTaskAssessmentRun(this.ops["StartReplicationTaskAssessmentRun"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startReplicationTaskAssessmentRun(this.ops["StartReplicationTaskAssessmentRun"].applicator.apply(partialParams));
     }
     invokeStopReplicationTask(partialParams) {
-        return this.client.stopReplicationTask(this.ops["StopReplicationTask"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.stopReplicationTask(this.ops["StopReplicationTask"].applicator.apply(partialParams));
     }
     invokeTestConnection(partialParams) {
-        return this.client.testConnection(this.ops["TestConnection"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.testConnection(this.ops["TestConnection"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,90 +21,190 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/memorydb-2021-01-01.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.memorydb.Snapshot {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.MemoryDB();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/memorydb-2021-01-01.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeBatchUpdateCluster(partialParams) {
-        return this.client.batchUpdateCluster(this.ops["BatchUpdateCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchUpdateCluster(this.ops["BatchUpdateCluster"].applicator.apply(partialParams));
     }
     invokeCopySnapshot(partialParams) {
-        return this.client.copySnapshot(this.ops["CopySnapshot"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.copySnapshot(this.ops["CopySnapshot"].applicator.apply(partialParams));
     }
     invokeCreateACL(partialParams) {
-        return this.client.createACL(this.ops["CreateACL"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createACL(this.ops["CreateACL"].applicator.apply(partialParams));
     }
     invokeCreateCluster(partialParams) {
-        return this.client.createCluster(this.ops["CreateCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createCluster(this.ops["CreateCluster"].applicator.apply(partialParams));
     }
     invokeCreateParameterGroup(partialParams) {
-        return this.client.createParameterGroup(this.ops["CreateParameterGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createParameterGroup(this.ops["CreateParameterGroup"].applicator.apply(partialParams));
     }
     invokeCreateSnapshot(partialParams) {
-        return this.client.createSnapshot(this.ops["CreateSnapshot"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createSnapshot(this.ops["CreateSnapshot"].applicator.apply(partialParams));
     }
     invokeCreateSubnetGroup(partialParams) {
-        return this.client.createSubnetGroup(this.ops["CreateSubnetGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createSubnetGroup(this.ops["CreateSubnetGroup"].applicator.apply(partialParams));
     }
     invokeCreateUser(partialParams) {
-        return this.client.createUser(this.ops["CreateUser"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createUser(this.ops["CreateUser"].applicator.apply(partialParams));
     }
     invokeDeleteACL(partialParams) {
-        return this.client.deleteACL(this.ops["DeleteACL"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteACL(this.ops["DeleteACL"].applicator.apply(partialParams));
     }
     invokeDeleteCluster(partialParams) {
-        return this.client.deleteCluster(this.ops["DeleteCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteCluster(this.ops["DeleteCluster"].applicator.apply(partialParams));
     }
     invokeDeleteParameterGroup(partialParams) {
-        return this.client.deleteParameterGroup(this.ops["DeleteParameterGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteParameterGroup(this.ops["DeleteParameterGroup"].applicator.apply(partialParams));
     }
     invokeDeleteSnapshot(partialParams) {
-        return this.client.deleteSnapshot(this.ops["DeleteSnapshot"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteSnapshot(this.ops["DeleteSnapshot"].applicator.apply(partialParams));
     }
     invokeDeleteSubnetGroup(partialParams) {
-        return this.client.deleteSubnetGroup(this.ops["DeleteSubnetGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteSubnetGroup(this.ops["DeleteSubnetGroup"].applicator.apply(partialParams));
     }
     invokeDeleteUser(partialParams) {
-        return this.client.deleteUser(this.ops["DeleteUser"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteUser(this.ops["DeleteUser"].applicator.apply(partialParams));
     }
     invokeDescribeParameters(partialParams) {
-        return this.client.describeParameters(this.ops["DescribeParameters"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeParameters(this.ops["DescribeParameters"].applicator.apply(partialParams));
     }
     invokeFailoverShard(partialParams) {
-        return this.client.failoverShard(this.ops["FailoverShard"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.failoverShard(this.ops["FailoverShard"].applicator.apply(partialParams));
     }
     invokeListAllowedNodeTypeUpdates(partialParams) {
-        return this.client.listAllowedNodeTypeUpdates(this.ops["ListAllowedNodeTypeUpdates"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listAllowedNodeTypeUpdates(this.ops["ListAllowedNodeTypeUpdates"].applicator.apply(partialParams));
     }
     invokeListTags(partialParams) {
-        return this.client.listTags(this.ops["ListTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTags(this.ops["ListTags"].applicator.apply(partialParams));
     }
     invokeResetParameterGroup(partialParams) {
-        return this.client.resetParameterGroup(this.ops["ResetParameterGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.resetParameterGroup(this.ops["ResetParameterGroup"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateACL(partialParams) {
-        return this.client.updateACL(this.ops["UpdateACL"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateACL(this.ops["UpdateACL"].applicator.apply(partialParams));
     }
     invokeUpdateCluster(partialParams) {
-        return this.client.updateCluster(this.ops["UpdateCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateCluster(this.ops["UpdateCluster"].applicator.apply(partialParams));
     }
     invokeUpdateParameterGroup(partialParams) {
-        return this.client.updateParameterGroup(this.ops["UpdateParameterGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateParameterGroup(this.ops["UpdateParameterGroup"].applicator.apply(partialParams));
     }
     invokeUpdateSubnetGroup(partialParams) {
-        return this.client.updateSubnetGroup(this.ops["UpdateSubnetGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateSubnetGroup(this.ops["UpdateSubnetGroup"].applicator.apply(partialParams));
     }
     invokeUpdateUser(partialParams) {
-        return this.client.updateUser(this.ops["UpdateUser"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateUser(this.ops["UpdateUser"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

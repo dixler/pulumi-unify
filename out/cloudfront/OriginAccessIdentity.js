@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,240 +21,490 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/cloudfront-2020-05-31.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.cloudfront.OriginAccessIdentity {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.CloudFront();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/cloudfront-2020-05-31.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeAssociateAlias(partialParams) {
-        return this.client.associateAlias(this.ops["AssociateAlias"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateAlias(this.ops["AssociateAlias"].applicator.apply(partialParams));
     }
     invokeCreateCachePolicy(partialParams) {
-        return this.client.createCachePolicy(this.ops["CreateCachePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createCachePolicy(this.ops["CreateCachePolicy"].applicator.apply(partialParams));
     }
     invokeCreateCloudFrontOriginAccessIdentity(partialParams) {
-        return this.client.createCloudFrontOriginAccessIdentity(this.ops["CreateCloudFrontOriginAccessIdentity"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createCloudFrontOriginAccessIdentity(this.ops["CreateCloudFrontOriginAccessIdentity"].applicator.apply(partialParams));
     }
     invokeCreateDistribution(partialParams) {
-        return this.client.createDistribution(this.ops["CreateDistribution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createDistribution(this.ops["CreateDistribution"].applicator.apply(partialParams));
     }
     invokeCreateDistributionWithTags(partialParams) {
-        return this.client.createDistributionWithTags(this.ops["CreateDistributionWithTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createDistributionWithTags(this.ops["CreateDistributionWithTags"].applicator.apply(partialParams));
     }
     invokeCreateFieldLevelEncryptionConfig(partialParams) {
-        return this.client.createFieldLevelEncryptionConfig(this.ops["CreateFieldLevelEncryptionConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createFieldLevelEncryptionConfig(this.ops["CreateFieldLevelEncryptionConfig"].applicator.apply(partialParams));
     }
     invokeCreateFieldLevelEncryptionProfile(partialParams) {
-        return this.client.createFieldLevelEncryptionProfile(this.ops["CreateFieldLevelEncryptionProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createFieldLevelEncryptionProfile(this.ops["CreateFieldLevelEncryptionProfile"].applicator.apply(partialParams));
     }
     invokeCreateFunction(partialParams) {
-        return this.client.createFunction(this.ops["CreateFunction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createFunction(this.ops["CreateFunction"].applicator.apply(partialParams));
     }
     invokeCreateInvalidation(partialParams) {
-        return this.client.createInvalidation(this.ops["CreateInvalidation"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createInvalidation(this.ops["CreateInvalidation"].applicator.apply(partialParams));
     }
     invokeCreateKeyGroup(partialParams) {
-        return this.client.createKeyGroup(this.ops["CreateKeyGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createKeyGroup(this.ops["CreateKeyGroup"].applicator.apply(partialParams));
     }
     invokeCreateMonitoringSubscription(partialParams) {
-        return this.client.createMonitoringSubscription(this.ops["CreateMonitoringSubscription"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createMonitoringSubscription(this.ops["CreateMonitoringSubscription"].applicator.apply(partialParams));
     }
     invokeCreateOriginRequestPolicy(partialParams) {
-        return this.client.createOriginRequestPolicy(this.ops["CreateOriginRequestPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createOriginRequestPolicy(this.ops["CreateOriginRequestPolicy"].applicator.apply(partialParams));
     }
     invokeCreatePublicKey(partialParams) {
-        return this.client.createPublicKey(this.ops["CreatePublicKey"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createPublicKey(this.ops["CreatePublicKey"].applicator.apply(partialParams));
     }
     invokeCreateRealtimeLogConfig(partialParams) {
-        return this.client.createRealtimeLogConfig(this.ops["CreateRealtimeLogConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createRealtimeLogConfig(this.ops["CreateRealtimeLogConfig"].applicator.apply(partialParams));
     }
     invokeCreateResponseHeadersPolicy(partialParams) {
-        return this.client.createResponseHeadersPolicy(this.ops["CreateResponseHeadersPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createResponseHeadersPolicy(this.ops["CreateResponseHeadersPolicy"].applicator.apply(partialParams));
     }
     invokeCreateStreamingDistribution(partialParams) {
-        return this.client.createStreamingDistribution(this.ops["CreateStreamingDistribution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createStreamingDistribution(this.ops["CreateStreamingDistribution"].applicator.apply(partialParams));
     }
     invokeCreateStreamingDistributionWithTags(partialParams) {
-        return this.client.createStreamingDistributionWithTags(this.ops["CreateStreamingDistributionWithTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createStreamingDistributionWithTags(this.ops["CreateStreamingDistributionWithTags"].applicator.apply(partialParams));
     }
     invokeDeleteCachePolicy(partialParams) {
-        return this.client.deleteCachePolicy(this.ops["DeleteCachePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteCachePolicy(this.ops["DeleteCachePolicy"].applicator.apply(partialParams));
     }
     invokeDeleteCloudFrontOriginAccessIdentity(partialParams) {
-        return this.client.deleteCloudFrontOriginAccessIdentity(this.ops["DeleteCloudFrontOriginAccessIdentity"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteCloudFrontOriginAccessIdentity(this.ops["DeleteCloudFrontOriginAccessIdentity"].applicator.apply(partialParams));
     }
     invokeDeleteDistribution(partialParams) {
-        return this.client.deleteDistribution(this.ops["DeleteDistribution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteDistribution(this.ops["DeleteDistribution"].applicator.apply(partialParams));
     }
     invokeDeleteFieldLevelEncryptionConfig(partialParams) {
-        return this.client.deleteFieldLevelEncryptionConfig(this.ops["DeleteFieldLevelEncryptionConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteFieldLevelEncryptionConfig(this.ops["DeleteFieldLevelEncryptionConfig"].applicator.apply(partialParams));
     }
     invokeDeleteFieldLevelEncryptionProfile(partialParams) {
-        return this.client.deleteFieldLevelEncryptionProfile(this.ops["DeleteFieldLevelEncryptionProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteFieldLevelEncryptionProfile(this.ops["DeleteFieldLevelEncryptionProfile"].applicator.apply(partialParams));
     }
     invokeDeleteFunction(partialParams) {
-        return this.client.deleteFunction(this.ops["DeleteFunction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteFunction(this.ops["DeleteFunction"].applicator.apply(partialParams));
     }
     invokeDeleteKeyGroup(partialParams) {
-        return this.client.deleteKeyGroup(this.ops["DeleteKeyGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteKeyGroup(this.ops["DeleteKeyGroup"].applicator.apply(partialParams));
     }
     invokeDeleteMonitoringSubscription(partialParams) {
-        return this.client.deleteMonitoringSubscription(this.ops["DeleteMonitoringSubscription"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteMonitoringSubscription(this.ops["DeleteMonitoringSubscription"].applicator.apply(partialParams));
     }
     invokeDeleteOriginRequestPolicy(partialParams) {
-        return this.client.deleteOriginRequestPolicy(this.ops["DeleteOriginRequestPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteOriginRequestPolicy(this.ops["DeleteOriginRequestPolicy"].applicator.apply(partialParams));
     }
     invokeDeletePublicKey(partialParams) {
-        return this.client.deletePublicKey(this.ops["DeletePublicKey"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deletePublicKey(this.ops["DeletePublicKey"].applicator.apply(partialParams));
     }
     invokeDeleteResponseHeadersPolicy(partialParams) {
-        return this.client.deleteResponseHeadersPolicy(this.ops["DeleteResponseHeadersPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteResponseHeadersPolicy(this.ops["DeleteResponseHeadersPolicy"].applicator.apply(partialParams));
     }
     invokeDeleteStreamingDistribution(partialParams) {
-        return this.client.deleteStreamingDistribution(this.ops["DeleteStreamingDistribution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteStreamingDistribution(this.ops["DeleteStreamingDistribution"].applicator.apply(partialParams));
     }
     invokeDescribeFunction(partialParams) {
-        return this.client.describeFunction(this.ops["DescribeFunction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeFunction(this.ops["DescribeFunction"].applicator.apply(partialParams));
     }
     invokeGetCachePolicy(partialParams) {
-        return this.client.getCachePolicy(this.ops["GetCachePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getCachePolicy(this.ops["GetCachePolicy"].applicator.apply(partialParams));
     }
     invokeGetCachePolicyConfig(partialParams) {
-        return this.client.getCachePolicyConfig(this.ops["GetCachePolicyConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getCachePolicyConfig(this.ops["GetCachePolicyConfig"].applicator.apply(partialParams));
     }
     invokeGetCloudFrontOriginAccessIdentity(partialParams) {
-        return this.client.getCloudFrontOriginAccessIdentity(this.ops["GetCloudFrontOriginAccessIdentity"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getCloudFrontOriginAccessIdentity(this.ops["GetCloudFrontOriginAccessIdentity"].applicator.apply(partialParams));
     }
     invokeGetCloudFrontOriginAccessIdentityConfig(partialParams) {
-        return this.client.getCloudFrontOriginAccessIdentityConfig(this.ops["GetCloudFrontOriginAccessIdentityConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getCloudFrontOriginAccessIdentityConfig(this.ops["GetCloudFrontOriginAccessIdentityConfig"].applicator.apply(partialParams));
     }
     invokeGetDistribution(partialParams) {
-        return this.client.getDistribution(this.ops["GetDistribution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getDistribution(this.ops["GetDistribution"].applicator.apply(partialParams));
     }
     invokeGetDistributionConfig(partialParams) {
-        return this.client.getDistributionConfig(this.ops["GetDistributionConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getDistributionConfig(this.ops["GetDistributionConfig"].applicator.apply(partialParams));
     }
     invokeGetFieldLevelEncryption(partialParams) {
-        return this.client.getFieldLevelEncryption(this.ops["GetFieldLevelEncryption"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getFieldLevelEncryption(this.ops["GetFieldLevelEncryption"].applicator.apply(partialParams));
     }
     invokeGetFieldLevelEncryptionConfig(partialParams) {
-        return this.client.getFieldLevelEncryptionConfig(this.ops["GetFieldLevelEncryptionConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getFieldLevelEncryptionConfig(this.ops["GetFieldLevelEncryptionConfig"].applicator.apply(partialParams));
     }
     invokeGetFieldLevelEncryptionProfile(partialParams) {
-        return this.client.getFieldLevelEncryptionProfile(this.ops["GetFieldLevelEncryptionProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getFieldLevelEncryptionProfile(this.ops["GetFieldLevelEncryptionProfile"].applicator.apply(partialParams));
     }
     invokeGetFieldLevelEncryptionProfileConfig(partialParams) {
-        return this.client.getFieldLevelEncryptionProfileConfig(this.ops["GetFieldLevelEncryptionProfileConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getFieldLevelEncryptionProfileConfig(this.ops["GetFieldLevelEncryptionProfileConfig"].applicator.apply(partialParams));
     }
     invokeGetFunction(partialParams) {
-        return this.client.getFunction(this.ops["GetFunction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getFunction(this.ops["GetFunction"].applicator.apply(partialParams));
     }
     invokeGetInvalidation(partialParams) {
-        return this.client.getInvalidation(this.ops["GetInvalidation"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getInvalidation(this.ops["GetInvalidation"].applicator.apply(partialParams));
     }
     invokeGetKeyGroup(partialParams) {
-        return this.client.getKeyGroup(this.ops["GetKeyGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getKeyGroup(this.ops["GetKeyGroup"].applicator.apply(partialParams));
     }
     invokeGetKeyGroupConfig(partialParams) {
-        return this.client.getKeyGroupConfig(this.ops["GetKeyGroupConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getKeyGroupConfig(this.ops["GetKeyGroupConfig"].applicator.apply(partialParams));
     }
     invokeGetMonitoringSubscription(partialParams) {
-        return this.client.getMonitoringSubscription(this.ops["GetMonitoringSubscription"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getMonitoringSubscription(this.ops["GetMonitoringSubscription"].applicator.apply(partialParams));
     }
     invokeGetOriginRequestPolicy(partialParams) {
-        return this.client.getOriginRequestPolicy(this.ops["GetOriginRequestPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getOriginRequestPolicy(this.ops["GetOriginRequestPolicy"].applicator.apply(partialParams));
     }
     invokeGetOriginRequestPolicyConfig(partialParams) {
-        return this.client.getOriginRequestPolicyConfig(this.ops["GetOriginRequestPolicyConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getOriginRequestPolicyConfig(this.ops["GetOriginRequestPolicyConfig"].applicator.apply(partialParams));
     }
     invokeGetPublicKey(partialParams) {
-        return this.client.getPublicKey(this.ops["GetPublicKey"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getPublicKey(this.ops["GetPublicKey"].applicator.apply(partialParams));
     }
     invokeGetPublicKeyConfig(partialParams) {
-        return this.client.getPublicKeyConfig(this.ops["GetPublicKeyConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getPublicKeyConfig(this.ops["GetPublicKeyConfig"].applicator.apply(partialParams));
     }
     invokeGetResponseHeadersPolicy(partialParams) {
-        return this.client.getResponseHeadersPolicy(this.ops["GetResponseHeadersPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getResponseHeadersPolicy(this.ops["GetResponseHeadersPolicy"].applicator.apply(partialParams));
     }
     invokeGetResponseHeadersPolicyConfig(partialParams) {
-        return this.client.getResponseHeadersPolicyConfig(this.ops["GetResponseHeadersPolicyConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getResponseHeadersPolicyConfig(this.ops["GetResponseHeadersPolicyConfig"].applicator.apply(partialParams));
     }
     invokeGetStreamingDistribution(partialParams) {
-        return this.client.getStreamingDistribution(this.ops["GetStreamingDistribution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getStreamingDistribution(this.ops["GetStreamingDistribution"].applicator.apply(partialParams));
     }
     invokeGetStreamingDistributionConfig(partialParams) {
-        return this.client.getStreamingDistributionConfig(this.ops["GetStreamingDistributionConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getStreamingDistributionConfig(this.ops["GetStreamingDistributionConfig"].applicator.apply(partialParams));
     }
     invokeListConflictingAliases(partialParams) {
-        return this.client.listConflictingAliases(this.ops["ListConflictingAliases"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listConflictingAliases(this.ops["ListConflictingAliases"].applicator.apply(partialParams));
     }
     invokeListDistributionsByCachePolicyId(partialParams) {
-        return this.client.listDistributionsByCachePolicyId(this.ops["ListDistributionsByCachePolicyId"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listDistributionsByCachePolicyId(this.ops["ListDistributionsByCachePolicyId"].applicator.apply(partialParams));
     }
     invokeListDistributionsByKeyGroup(partialParams) {
-        return this.client.listDistributionsByKeyGroup(this.ops["ListDistributionsByKeyGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listDistributionsByKeyGroup(this.ops["ListDistributionsByKeyGroup"].applicator.apply(partialParams));
     }
     invokeListDistributionsByOriginRequestPolicyId(partialParams) {
-        return this.client.listDistributionsByOriginRequestPolicyId(this.ops["ListDistributionsByOriginRequestPolicyId"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listDistributionsByOriginRequestPolicyId(this.ops["ListDistributionsByOriginRequestPolicyId"].applicator.apply(partialParams));
     }
     invokeListDistributionsByResponseHeadersPolicyId(partialParams) {
-        return this.client.listDistributionsByResponseHeadersPolicyId(this.ops["ListDistributionsByResponseHeadersPolicyId"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listDistributionsByResponseHeadersPolicyId(this.ops["ListDistributionsByResponseHeadersPolicyId"].applicator.apply(partialParams));
     }
     invokeListDistributionsByWebACLId(partialParams) {
-        return this.client.listDistributionsByWebACLId(this.ops["ListDistributionsByWebACLId"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listDistributionsByWebACLId(this.ops["ListDistributionsByWebACLId"].applicator.apply(partialParams));
     }
     invokeListInvalidations(partialParams) {
-        return this.client.listInvalidations(this.ops["ListInvalidations"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listInvalidations(this.ops["ListInvalidations"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokePublishFunction(partialParams) {
-        return this.client.publishFunction(this.ops["PublishFunction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.publishFunction(this.ops["PublishFunction"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeTestFunction(partialParams) {
-        return this.client.testFunction(this.ops["TestFunction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.testFunction(this.ops["TestFunction"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateCachePolicy(partialParams) {
-        return this.client.updateCachePolicy(this.ops["UpdateCachePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateCachePolicy(this.ops["UpdateCachePolicy"].applicator.apply(partialParams));
     }
     invokeUpdateCloudFrontOriginAccessIdentity(partialParams) {
-        return this.client.updateCloudFrontOriginAccessIdentity(this.ops["UpdateCloudFrontOriginAccessIdentity"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateCloudFrontOriginAccessIdentity(this.ops["UpdateCloudFrontOriginAccessIdentity"].applicator.apply(partialParams));
     }
     invokeUpdateDistribution(partialParams) {
-        return this.client.updateDistribution(this.ops["UpdateDistribution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateDistribution(this.ops["UpdateDistribution"].applicator.apply(partialParams));
     }
     invokeUpdateFieldLevelEncryptionConfig(partialParams) {
-        return this.client.updateFieldLevelEncryptionConfig(this.ops["UpdateFieldLevelEncryptionConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateFieldLevelEncryptionConfig(this.ops["UpdateFieldLevelEncryptionConfig"].applicator.apply(partialParams));
     }
     invokeUpdateFieldLevelEncryptionProfile(partialParams) {
-        return this.client.updateFieldLevelEncryptionProfile(this.ops["UpdateFieldLevelEncryptionProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateFieldLevelEncryptionProfile(this.ops["UpdateFieldLevelEncryptionProfile"].applicator.apply(partialParams));
     }
     invokeUpdateFunction(partialParams) {
-        return this.client.updateFunction(this.ops["UpdateFunction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateFunction(this.ops["UpdateFunction"].applicator.apply(partialParams));
     }
     invokeUpdateKeyGroup(partialParams) {
-        return this.client.updateKeyGroup(this.ops["UpdateKeyGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateKeyGroup(this.ops["UpdateKeyGroup"].applicator.apply(partialParams));
     }
     invokeUpdateOriginRequestPolicy(partialParams) {
-        return this.client.updateOriginRequestPolicy(this.ops["UpdateOriginRequestPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateOriginRequestPolicy(this.ops["UpdateOriginRequestPolicy"].applicator.apply(partialParams));
     }
     invokeUpdatePublicKey(partialParams) {
-        return this.client.updatePublicKey(this.ops["UpdatePublicKey"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updatePublicKey(this.ops["UpdatePublicKey"].applicator.apply(partialParams));
     }
     invokeUpdateResponseHeadersPolicy(partialParams) {
-        return this.client.updateResponseHeadersPolicy(this.ops["UpdateResponseHeadersPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateResponseHeadersPolicy(this.ops["UpdateResponseHeadersPolicy"].applicator.apply(partialParams));
     }
     invokeUpdateStreamingDistribution(partialParams) {
-        return this.client.updateStreamingDistribution(this.ops["UpdateStreamingDistribution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateStreamingDistribution(this.ops["UpdateStreamingDistribution"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

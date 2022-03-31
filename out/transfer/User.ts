@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     CreateAccessRequest,
     CreateUserRequest,
@@ -50,8 +53,8 @@ import {
     UpdateServerResponse,
     UpdateUserResponse
 } from "aws-sdk/clients/transfer";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/transfer-2018-11-05.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -60,235 +63,341 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.transfer.User {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.transfer.User>) {
         super(...args)
         this.client = new awssdk.Transfer()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/transfer-2018-11-05.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeCreateAccess(partialParams: ToOptional<{
       [K in keyof CreateAccessRequest & keyof CreateAccessRequest & keyof CreateAccessRequest & keyof CreateAccessRequest & keyof CreateAccessRequest & keyof CreateAccessRequest & keyof CreateAccessRequest]: (CreateAccessRequest & CreateAccessRequest & CreateAccessRequest & CreateAccessRequest & CreateAccessRequest & CreateAccessRequest & CreateAccessRequest)[K]
-    }>): CreateAccessResponse {
+    }>): Request<CreateAccessResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createAccess(
-            this.ops["CreateAccess"].apply(partialParams)
+          this.ops["CreateAccess"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateUser(partialParams: ToOptional<{
       [K in keyof CreateUserRequest & keyof CreateUserRequest & keyof CreateUserRequest & keyof CreateUserRequest & keyof CreateUserRequest & keyof CreateUserRequest & keyof CreateUserRequest]: (CreateUserRequest & CreateUserRequest & CreateUserRequest & CreateUserRequest & CreateUserRequest & CreateUserRequest & CreateUserRequest)[K]
-    }>): CreateUserResponse {
+    }>): Request<CreateUserResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createUser(
-            this.ops["CreateUser"].apply(partialParams)
+          this.ops["CreateUser"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateWorkflow(partialParams: ToOptional<{
       [K in keyof CreateWorkflowRequest & keyof CreateWorkflowRequest & keyof CreateWorkflowRequest & keyof CreateWorkflowRequest & keyof CreateWorkflowRequest & keyof CreateWorkflowRequest & keyof CreateWorkflowRequest]: (CreateWorkflowRequest & CreateWorkflowRequest & CreateWorkflowRequest & CreateWorkflowRequest & CreateWorkflowRequest & CreateWorkflowRequest & CreateWorkflowRequest)[K]
-    }>): CreateWorkflowResponse {
+    }>): Request<CreateWorkflowResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createWorkflow(
-            this.ops["CreateWorkflow"].apply(partialParams)
+          this.ops["CreateWorkflow"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteAccess(partialParams: ToOptional<{
       [K in keyof DeleteAccessRequest & keyof DeleteAccessRequest & keyof DeleteAccessRequest & keyof DeleteAccessRequest & keyof DeleteAccessRequest & keyof DeleteAccessRequest & keyof DeleteAccessRequest]: (DeleteAccessRequest & DeleteAccessRequest & DeleteAccessRequest & DeleteAccessRequest & DeleteAccessRequest & DeleteAccessRequest & DeleteAccessRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteAccess(
-            this.ops["DeleteAccess"].apply(partialParams)
+          this.ops["DeleteAccess"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteServer(partialParams: ToOptional<{
       [K in keyof DeleteServerRequest & keyof DeleteServerRequest & keyof DeleteServerRequest & keyof DeleteServerRequest & keyof DeleteServerRequest & keyof DeleteServerRequest & keyof DeleteServerRequest]: (DeleteServerRequest & DeleteServerRequest & DeleteServerRequest & DeleteServerRequest & DeleteServerRequest & DeleteServerRequest & DeleteServerRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteServer(
-            this.ops["DeleteServer"].apply(partialParams)
+          this.ops["DeleteServer"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteSshPublicKey(partialParams: ToOptional<{
       [K in keyof DeleteSshPublicKeyRequest & keyof DeleteSshPublicKeyRequest & keyof DeleteSshPublicKeyRequest & keyof DeleteSshPublicKeyRequest & keyof DeleteSshPublicKeyRequest & keyof DeleteSshPublicKeyRequest & keyof DeleteSshPublicKeyRequest]: (DeleteSshPublicKeyRequest & DeleteSshPublicKeyRequest & DeleteSshPublicKeyRequest & DeleteSshPublicKeyRequest & DeleteSshPublicKeyRequest & DeleteSshPublicKeyRequest & DeleteSshPublicKeyRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteSshPublicKey(
-            this.ops["DeleteSshPublicKey"].apply(partialParams)
+          this.ops["DeleteSshPublicKey"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteUser(partialParams: ToOptional<{
       [K in keyof DeleteUserRequest & keyof DeleteUserRequest & keyof DeleteUserRequest & keyof DeleteUserRequest & keyof DeleteUserRequest & keyof DeleteUserRequest & keyof DeleteUserRequest]: (DeleteUserRequest & DeleteUserRequest & DeleteUserRequest & DeleteUserRequest & DeleteUserRequest & DeleteUserRequest & DeleteUserRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteUser(
-            this.ops["DeleteUser"].apply(partialParams)
+          this.ops["DeleteUser"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteWorkflow(partialParams: ToOptional<{
       [K in keyof DeleteWorkflowRequest & keyof DeleteWorkflowRequest & keyof DeleteWorkflowRequest & keyof DeleteWorkflowRequest & keyof DeleteWorkflowRequest & keyof DeleteWorkflowRequest & keyof DeleteWorkflowRequest]: (DeleteWorkflowRequest & DeleteWorkflowRequest & DeleteWorkflowRequest & DeleteWorkflowRequest & DeleteWorkflowRequest & DeleteWorkflowRequest & DeleteWorkflowRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteWorkflow(
-            this.ops["DeleteWorkflow"].apply(partialParams)
+          this.ops["DeleteWorkflow"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeAccess(partialParams: ToOptional<{
       [K in keyof DescribeAccessRequest & keyof DescribeAccessRequest & keyof DescribeAccessRequest & keyof DescribeAccessRequest & keyof DescribeAccessRequest & keyof DescribeAccessRequest & keyof DescribeAccessRequest]: (DescribeAccessRequest & DescribeAccessRequest & DescribeAccessRequest & DescribeAccessRequest & DescribeAccessRequest & DescribeAccessRequest & DescribeAccessRequest)[K]
-    }>): DescribeAccessResponse {
+    }>): Request<DescribeAccessResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeAccess(
-            this.ops["DescribeAccess"].apply(partialParams)
+          this.ops["DescribeAccess"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeExecution(partialParams: ToOptional<{
       [K in keyof DescribeExecutionRequest & keyof DescribeExecutionRequest & keyof DescribeExecutionRequest & keyof DescribeExecutionRequest & keyof DescribeExecutionRequest & keyof DescribeExecutionRequest & keyof DescribeExecutionRequest]: (DescribeExecutionRequest & DescribeExecutionRequest & DescribeExecutionRequest & DescribeExecutionRequest & DescribeExecutionRequest & DescribeExecutionRequest & DescribeExecutionRequest)[K]
-    }>): DescribeExecutionResponse {
+    }>): Request<DescribeExecutionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeExecution(
-            this.ops["DescribeExecution"].apply(partialParams)
+          this.ops["DescribeExecution"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeSecurityPolicy(partialParams: ToOptional<{
       [K in keyof DescribeSecurityPolicyRequest & keyof DescribeSecurityPolicyRequest & keyof DescribeSecurityPolicyRequest & keyof DescribeSecurityPolicyRequest & keyof DescribeSecurityPolicyRequest & keyof DescribeSecurityPolicyRequest & keyof DescribeSecurityPolicyRequest]: (DescribeSecurityPolicyRequest & DescribeSecurityPolicyRequest & DescribeSecurityPolicyRequest & DescribeSecurityPolicyRequest & DescribeSecurityPolicyRequest & DescribeSecurityPolicyRequest & DescribeSecurityPolicyRequest)[K]
-    }>): DescribeSecurityPolicyResponse {
+    }>): Request<DescribeSecurityPolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeSecurityPolicy(
-            this.ops["DescribeSecurityPolicy"].apply(partialParams)
+          this.ops["DescribeSecurityPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeServer(partialParams: ToOptional<{
       [K in keyof DescribeServerRequest & keyof DescribeServerRequest & keyof DescribeServerRequest & keyof DescribeServerRequest & keyof DescribeServerRequest & keyof DescribeServerRequest & keyof DescribeServerRequest]: (DescribeServerRequest & DescribeServerRequest & DescribeServerRequest & DescribeServerRequest & DescribeServerRequest & DescribeServerRequest & DescribeServerRequest)[K]
-    }>): DescribeServerResponse {
+    }>): Request<DescribeServerResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeServer(
-            this.ops["DescribeServer"].apply(partialParams)
+          this.ops["DescribeServer"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeUser(partialParams: ToOptional<{
       [K in keyof DescribeUserRequest & keyof DescribeUserRequest & keyof DescribeUserRequest & keyof DescribeUserRequest & keyof DescribeUserRequest & keyof DescribeUserRequest & keyof DescribeUserRequest]: (DescribeUserRequest & DescribeUserRequest & DescribeUserRequest & DescribeUserRequest & DescribeUserRequest & DescribeUserRequest & DescribeUserRequest)[K]
-    }>): DescribeUserResponse {
+    }>): Request<DescribeUserResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeUser(
-            this.ops["DescribeUser"].apply(partialParams)
+          this.ops["DescribeUser"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeWorkflow(partialParams: ToOptional<{
       [K in keyof DescribeWorkflowRequest & keyof DescribeWorkflowRequest & keyof DescribeWorkflowRequest & keyof DescribeWorkflowRequest & keyof DescribeWorkflowRequest & keyof DescribeWorkflowRequest & keyof DescribeWorkflowRequest]: (DescribeWorkflowRequest & DescribeWorkflowRequest & DescribeWorkflowRequest & DescribeWorkflowRequest & DescribeWorkflowRequest & DescribeWorkflowRequest & DescribeWorkflowRequest)[K]
-    }>): DescribeWorkflowResponse {
+    }>): Request<DescribeWorkflowResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeWorkflow(
-            this.ops["DescribeWorkflow"].apply(partialParams)
+          this.ops["DescribeWorkflow"].applicator.apply(partialParams)
         );
     }
 
     invokeImportSshPublicKey(partialParams: ToOptional<{
       [K in keyof ImportSshPublicKeyRequest & keyof ImportSshPublicKeyRequest & keyof ImportSshPublicKeyRequest & keyof ImportSshPublicKeyRequest & keyof ImportSshPublicKeyRequest & keyof ImportSshPublicKeyRequest & keyof ImportSshPublicKeyRequest]: (ImportSshPublicKeyRequest & ImportSshPublicKeyRequest & ImportSshPublicKeyRequest & ImportSshPublicKeyRequest & ImportSshPublicKeyRequest & ImportSshPublicKeyRequest & ImportSshPublicKeyRequest)[K]
-    }>): ImportSshPublicKeyResponse {
+    }>): Request<ImportSshPublicKeyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.importSshPublicKey(
-            this.ops["ImportSshPublicKey"].apply(partialParams)
+          this.ops["ImportSshPublicKey"].applicator.apply(partialParams)
         );
     }
 
     invokeListAccesses(partialParams: ToOptional<{
       [K in keyof ListAccessesRequest & keyof ListAccessesRequest & keyof ListAccessesRequest & keyof ListAccessesRequest & keyof ListAccessesRequest & keyof ListAccessesRequest & keyof ListAccessesRequest]: (ListAccessesRequest & ListAccessesRequest & ListAccessesRequest & ListAccessesRequest & ListAccessesRequest & ListAccessesRequest & ListAccessesRequest)[K]
-    }>): ListAccessesResponse {
+    }>): Request<ListAccessesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listAccesses(
-            this.ops["ListAccesses"].apply(partialParams)
+          this.ops["ListAccesses"].applicator.apply(partialParams)
         );
     }
 
     invokeListExecutions(partialParams: ToOptional<{
       [K in keyof ListExecutionsRequest & keyof ListExecutionsRequest & keyof ListExecutionsRequest & keyof ListExecutionsRequest & keyof ListExecutionsRequest & keyof ListExecutionsRequest & keyof ListExecutionsRequest]: (ListExecutionsRequest & ListExecutionsRequest & ListExecutionsRequest & ListExecutionsRequest & ListExecutionsRequest & ListExecutionsRequest & ListExecutionsRequest)[K]
-    }>): ListExecutionsResponse {
+    }>): Request<ListExecutionsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listExecutions(
-            this.ops["ListExecutions"].apply(partialParams)
+          this.ops["ListExecutions"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof Omit<ListTagsForResourceRequest, "Arn"> & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (Omit<ListTagsForResourceRequest, "Arn"> & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
-    }>): ListTagsForResourceResponse {
+    }>): Request<ListTagsForResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokeListUsers(partialParams: ToOptional<{
       [K in keyof ListUsersRequest & keyof ListUsersRequest & keyof ListUsersRequest & keyof ListUsersRequest & keyof ListUsersRequest & keyof ListUsersRequest & keyof ListUsersRequest]: (ListUsersRequest & ListUsersRequest & ListUsersRequest & ListUsersRequest & ListUsersRequest & ListUsersRequest & ListUsersRequest)[K]
-    }>): ListUsersResponse {
+    }>): Request<ListUsersResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listUsers(
-            this.ops["ListUsers"].apply(partialParams)
+          this.ops["ListUsers"].applicator.apply(partialParams)
         );
     }
 
     invokeSendWorkflowStepState(partialParams: ToOptional<{
       [K in keyof SendWorkflowStepStateRequest & keyof SendWorkflowStepStateRequest & keyof SendWorkflowStepStateRequest & keyof SendWorkflowStepStateRequest & keyof SendWorkflowStepStateRequest & keyof SendWorkflowStepStateRequest & keyof SendWorkflowStepStateRequest]: (SendWorkflowStepStateRequest & SendWorkflowStepStateRequest & SendWorkflowStepStateRequest & SendWorkflowStepStateRequest & SendWorkflowStepStateRequest & SendWorkflowStepStateRequest & SendWorkflowStepStateRequest)[K]
-    }>): SendWorkflowStepStateResponse {
+    }>): Request<SendWorkflowStepStateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.sendWorkflowStepState(
-            this.ops["SendWorkflowStepState"].apply(partialParams)
+          this.ops["SendWorkflowStepState"].applicator.apply(partialParams)
         );
     }
 
     invokeStartServer(partialParams: ToOptional<{
       [K in keyof StartServerRequest & keyof StartServerRequest & keyof StartServerRequest & keyof StartServerRequest & keyof StartServerRequest & keyof Omit<StartServerRequest, "ServerId"> & keyof StartServerRequest]: (StartServerRequest & StartServerRequest & StartServerRequest & StartServerRequest & StartServerRequest & Omit<StartServerRequest, "ServerId"> & StartServerRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startServer(
-            this.ops["StartServer"].apply(partialParams)
+          this.ops["StartServer"].applicator.apply(partialParams)
         );
     }
 
     invokeStopServer(partialParams: ToOptional<{
       [K in keyof StopServerRequest & keyof StopServerRequest & keyof StopServerRequest & keyof StopServerRequest & keyof StopServerRequest & keyof Omit<StopServerRequest, "ServerId"> & keyof StopServerRequest]: (StopServerRequest & StopServerRequest & StopServerRequest & StopServerRequest & StopServerRequest & Omit<StopServerRequest, "ServerId"> & StopServerRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.stopServer(
-            this.ops["StopServer"].apply(partialParams)
+          this.ops["StopServer"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof Omit<TagResourceRequest, "Arn"> & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (Omit<TagResourceRequest, "Arn"> & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeTestIdentityProvider(partialParams: ToOptional<{
       [K in keyof TestIdentityProviderRequest & keyof TestIdentityProviderRequest & keyof TestIdentityProviderRequest & keyof TestIdentityProviderRequest & keyof TestIdentityProviderRequest & keyof Omit<TestIdentityProviderRequest, "ServerId"> & keyof TestIdentityProviderRequest]: (TestIdentityProviderRequest & TestIdentityProviderRequest & TestIdentityProviderRequest & TestIdentityProviderRequest & TestIdentityProviderRequest & Omit<TestIdentityProviderRequest, "ServerId"> & TestIdentityProviderRequest)[K]
-    }>): TestIdentityProviderResponse {
+    }>): Request<TestIdentityProviderResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.testIdentityProvider(
-            this.ops["TestIdentityProvider"].apply(partialParams)
+          this.ops["TestIdentityProvider"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof Omit<UntagResourceRequest, "Arn"> & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (Omit<UntagResourceRequest, "Arn"> & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateAccess(partialParams: ToOptional<{
       [K in keyof UpdateAccessRequest & keyof UpdateAccessRequest & keyof UpdateAccessRequest & keyof UpdateAccessRequest & keyof UpdateAccessRequest & keyof Omit<UpdateAccessRequest, "ServerId"> & keyof UpdateAccessRequest]: (UpdateAccessRequest & UpdateAccessRequest & UpdateAccessRequest & UpdateAccessRequest & UpdateAccessRequest & Omit<UpdateAccessRequest, "ServerId"> & UpdateAccessRequest)[K]
-    }>): UpdateAccessResponse {
+    }>): Request<UpdateAccessResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateAccess(
-            this.ops["UpdateAccess"].apply(partialParams)
+          this.ops["UpdateAccess"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateServer(partialParams: ToOptional<{
       [K in keyof UpdateServerRequest & keyof UpdateServerRequest & keyof UpdateServerRequest & keyof UpdateServerRequest & keyof UpdateServerRequest & keyof Omit<UpdateServerRequest, "ServerId"> & keyof UpdateServerRequest]: (UpdateServerRequest & UpdateServerRequest & UpdateServerRequest & UpdateServerRequest & UpdateServerRequest & Omit<UpdateServerRequest, "ServerId"> & UpdateServerRequest)[K]
-    }>): UpdateServerResponse {
+    }>): Request<UpdateServerResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateServer(
-            this.ops["UpdateServer"].apply(partialParams)
+          this.ops["UpdateServer"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateUser(partialParams: ToOptional<{
       [K in keyof UpdateUserRequest & keyof UpdateUserRequest & keyof UpdateUserRequest & keyof UpdateUserRequest & keyof UpdateUserRequest & keyof Omit<UpdateUserRequest, "ServerId"> & keyof UpdateUserRequest]: (UpdateUserRequest & UpdateUserRequest & UpdateUserRequest & UpdateUserRequest & UpdateUserRequest & Omit<UpdateUserRequest, "ServerId"> & UpdateUserRequest)[K]
-    }>): UpdateUserResponse {
+    }>): Request<UpdateUserResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateUser(
-            this.ops["UpdateUser"].apply(partialParams)
+          this.ops["UpdateUser"].applicator.apply(partialParams)
         );
     }
 }

@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,267 +21,544 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/redshift-2012-12-01.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.redshift.ParameterGroup {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.Redshift();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/redshift-2012-12-01.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeAcceptReservedNodeExchange(partialParams) {
-        return this.client.acceptReservedNodeExchange(this.ops["AcceptReservedNodeExchange"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.acceptReservedNodeExchange(this.ops["AcceptReservedNodeExchange"].applicator.apply(partialParams));
     }
     invokeAddPartner(partialParams) {
-        return this.client.addPartner(this.ops["AddPartner"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.addPartner(this.ops["AddPartner"].applicator.apply(partialParams));
     }
     invokeAssociateDataShareConsumer(partialParams) {
-        return this.client.associateDataShareConsumer(this.ops["AssociateDataShareConsumer"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateDataShareConsumer(this.ops["AssociateDataShareConsumer"].applicator.apply(partialParams));
     }
     invokeAuthorizeClusterSecurityGroupIngress(partialParams) {
-        return this.client.authorizeClusterSecurityGroupIngress(this.ops["AuthorizeClusterSecurityGroupIngress"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.authorizeClusterSecurityGroupIngress(this.ops["AuthorizeClusterSecurityGroupIngress"].applicator.apply(partialParams));
     }
     invokeAuthorizeDataShare(partialParams) {
-        return this.client.authorizeDataShare(this.ops["AuthorizeDataShare"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.authorizeDataShare(this.ops["AuthorizeDataShare"].applicator.apply(partialParams));
     }
     invokeAuthorizeEndpointAccess(partialParams) {
-        return this.client.authorizeEndpointAccess(this.ops["AuthorizeEndpointAccess"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.authorizeEndpointAccess(this.ops["AuthorizeEndpointAccess"].applicator.apply(partialParams));
     }
     invokeAuthorizeSnapshotAccess(partialParams) {
-        return this.client.authorizeSnapshotAccess(this.ops["AuthorizeSnapshotAccess"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.authorizeSnapshotAccess(this.ops["AuthorizeSnapshotAccess"].applicator.apply(partialParams));
     }
     invokeBatchDeleteClusterSnapshots(partialParams) {
-        return this.client.batchDeleteClusterSnapshots(this.ops["BatchDeleteClusterSnapshots"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchDeleteClusterSnapshots(this.ops["BatchDeleteClusterSnapshots"].applicator.apply(partialParams));
     }
     invokeBatchModifyClusterSnapshots(partialParams) {
-        return this.client.batchModifyClusterSnapshots(this.ops["BatchModifyClusterSnapshots"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchModifyClusterSnapshots(this.ops["BatchModifyClusterSnapshots"].applicator.apply(partialParams));
     }
     invokeCancelResize(partialParams) {
-        return this.client.cancelResize(this.ops["CancelResize"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.cancelResize(this.ops["CancelResize"].applicator.apply(partialParams));
     }
     invokeCopyClusterSnapshot(partialParams) {
-        return this.client.copyClusterSnapshot(this.ops["CopyClusterSnapshot"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.copyClusterSnapshot(this.ops["CopyClusterSnapshot"].applicator.apply(partialParams));
     }
     invokeCreateAuthenticationProfile(partialParams) {
-        return this.client.createAuthenticationProfile(this.ops["CreateAuthenticationProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createAuthenticationProfile(this.ops["CreateAuthenticationProfile"].applicator.apply(partialParams));
     }
     invokeCreateCluster(partialParams) {
-        return this.client.createCluster(this.ops["CreateCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createCluster(this.ops["CreateCluster"].applicator.apply(partialParams));
     }
     invokeCreateClusterParameterGroup(partialParams) {
-        return this.client.createClusterParameterGroup(this.ops["CreateClusterParameterGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createClusterParameterGroup(this.ops["CreateClusterParameterGroup"].applicator.apply(partialParams));
     }
     invokeCreateClusterSecurityGroup(partialParams) {
-        return this.client.createClusterSecurityGroup(this.ops["CreateClusterSecurityGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createClusterSecurityGroup(this.ops["CreateClusterSecurityGroup"].applicator.apply(partialParams));
     }
     invokeCreateClusterSnapshot(partialParams) {
-        return this.client.createClusterSnapshot(this.ops["CreateClusterSnapshot"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createClusterSnapshot(this.ops["CreateClusterSnapshot"].applicator.apply(partialParams));
     }
     invokeCreateClusterSubnetGroup(partialParams) {
-        return this.client.createClusterSubnetGroup(this.ops["CreateClusterSubnetGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createClusterSubnetGroup(this.ops["CreateClusterSubnetGroup"].applicator.apply(partialParams));
     }
     invokeCreateEndpointAccess(partialParams) {
-        return this.client.createEndpointAccess(this.ops["CreateEndpointAccess"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createEndpointAccess(this.ops["CreateEndpointAccess"].applicator.apply(partialParams));
     }
     invokeCreateEventSubscription(partialParams) {
-        return this.client.createEventSubscription(this.ops["CreateEventSubscription"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createEventSubscription(this.ops["CreateEventSubscription"].applicator.apply(partialParams));
     }
     invokeCreateHsmClientCertificate(partialParams) {
-        return this.client.createHsmClientCertificate(this.ops["CreateHsmClientCertificate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createHsmClientCertificate(this.ops["CreateHsmClientCertificate"].applicator.apply(partialParams));
     }
     invokeCreateHsmConfiguration(partialParams) {
-        return this.client.createHsmConfiguration(this.ops["CreateHsmConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createHsmConfiguration(this.ops["CreateHsmConfiguration"].applicator.apply(partialParams));
     }
     invokeCreateScheduledAction(partialParams) {
-        return this.client.createScheduledAction(this.ops["CreateScheduledAction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createScheduledAction(this.ops["CreateScheduledAction"].applicator.apply(partialParams));
     }
     invokeCreateSnapshotCopyGrant(partialParams) {
-        return this.client.createSnapshotCopyGrant(this.ops["CreateSnapshotCopyGrant"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createSnapshotCopyGrant(this.ops["CreateSnapshotCopyGrant"].applicator.apply(partialParams));
     }
     invokeCreateTags(partialParams) {
-        return this.client.createTags(this.ops["CreateTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createTags(this.ops["CreateTags"].applicator.apply(partialParams));
     }
     invokeCreateUsageLimit(partialParams) {
-        return this.client.createUsageLimit(this.ops["CreateUsageLimit"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createUsageLimit(this.ops["CreateUsageLimit"].applicator.apply(partialParams));
     }
     invokeDeauthorizeDataShare(partialParams) {
-        return this.client.deauthorizeDataShare(this.ops["DeauthorizeDataShare"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deauthorizeDataShare(this.ops["DeauthorizeDataShare"].applicator.apply(partialParams));
     }
     invokeDeleteAuthenticationProfile(partialParams) {
-        return this.client.deleteAuthenticationProfile(this.ops["DeleteAuthenticationProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteAuthenticationProfile(this.ops["DeleteAuthenticationProfile"].applicator.apply(partialParams));
     }
     invokeDeleteCluster(partialParams) {
-        return this.client.deleteCluster(this.ops["DeleteCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteCluster(this.ops["DeleteCluster"].applicator.apply(partialParams));
     }
     invokeDeleteClusterParameterGroup(partialParams) {
-        return this.client.deleteClusterParameterGroup(this.ops["DeleteClusterParameterGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteClusterParameterGroup(this.ops["DeleteClusterParameterGroup"].applicator.apply(partialParams));
     }
     invokeDeleteClusterSecurityGroup(partialParams) {
-        return this.client.deleteClusterSecurityGroup(this.ops["DeleteClusterSecurityGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteClusterSecurityGroup(this.ops["DeleteClusterSecurityGroup"].applicator.apply(partialParams));
     }
     invokeDeleteClusterSnapshot(partialParams) {
-        return this.client.deleteClusterSnapshot(this.ops["DeleteClusterSnapshot"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteClusterSnapshot(this.ops["DeleteClusterSnapshot"].applicator.apply(partialParams));
     }
     invokeDeleteClusterSubnetGroup(partialParams) {
-        return this.client.deleteClusterSubnetGroup(this.ops["DeleteClusterSubnetGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteClusterSubnetGroup(this.ops["DeleteClusterSubnetGroup"].applicator.apply(partialParams));
     }
     invokeDeleteEndpointAccess(partialParams) {
-        return this.client.deleteEndpointAccess(this.ops["DeleteEndpointAccess"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteEndpointAccess(this.ops["DeleteEndpointAccess"].applicator.apply(partialParams));
     }
     invokeDeleteEventSubscription(partialParams) {
-        return this.client.deleteEventSubscription(this.ops["DeleteEventSubscription"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteEventSubscription(this.ops["DeleteEventSubscription"].applicator.apply(partialParams));
     }
     invokeDeleteHsmClientCertificate(partialParams) {
-        return this.client.deleteHsmClientCertificate(this.ops["DeleteHsmClientCertificate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteHsmClientCertificate(this.ops["DeleteHsmClientCertificate"].applicator.apply(partialParams));
     }
     invokeDeleteHsmConfiguration(partialParams) {
-        return this.client.deleteHsmConfiguration(this.ops["DeleteHsmConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteHsmConfiguration(this.ops["DeleteHsmConfiguration"].applicator.apply(partialParams));
     }
     invokeDeletePartner(partialParams) {
-        return this.client.deletePartner(this.ops["DeletePartner"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deletePartner(this.ops["DeletePartner"].applicator.apply(partialParams));
     }
     invokeDeleteScheduledAction(partialParams) {
-        return this.client.deleteScheduledAction(this.ops["DeleteScheduledAction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteScheduledAction(this.ops["DeleteScheduledAction"].applicator.apply(partialParams));
     }
     invokeDeleteSnapshotCopyGrant(partialParams) {
-        return this.client.deleteSnapshotCopyGrant(this.ops["DeleteSnapshotCopyGrant"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteSnapshotCopyGrant(this.ops["DeleteSnapshotCopyGrant"].applicator.apply(partialParams));
     }
     invokeDeleteSnapshotSchedule(partialParams) {
-        return this.client.deleteSnapshotSchedule(this.ops["DeleteSnapshotSchedule"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteSnapshotSchedule(this.ops["DeleteSnapshotSchedule"].applicator.apply(partialParams));
     }
     invokeDeleteTags(partialParams) {
-        return this.client.deleteTags(this.ops["DeleteTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteTags(this.ops["DeleteTags"].applicator.apply(partialParams));
     }
     invokeDeleteUsageLimit(partialParams) {
-        return this.client.deleteUsageLimit(this.ops["DeleteUsageLimit"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteUsageLimit(this.ops["DeleteUsageLimit"].applicator.apply(partialParams));
     }
     invokeDescribeClusterParameters(partialParams) {
-        return this.client.describeClusterParameters(this.ops["DescribeClusterParameters"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeClusterParameters(this.ops["DescribeClusterParameters"].applicator.apply(partialParams));
     }
     invokeDescribeDefaultClusterParameters(partialParams) {
-        return this.client.describeDefaultClusterParameters(this.ops["DescribeDefaultClusterParameters"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeDefaultClusterParameters(this.ops["DescribeDefaultClusterParameters"].applicator.apply(partialParams));
     }
     invokeDescribeLoggingStatus(partialParams) {
-        return this.client.describeLoggingStatus(this.ops["DescribeLoggingStatus"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeLoggingStatus(this.ops["DescribeLoggingStatus"].applicator.apply(partialParams));
     }
     invokeDescribeNodeConfigurationOptions(partialParams) {
-        return this.client.describeNodeConfigurationOptions(this.ops["DescribeNodeConfigurationOptions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeNodeConfigurationOptions(this.ops["DescribeNodeConfigurationOptions"].applicator.apply(partialParams));
     }
     invokeDescribePartners(partialParams) {
-        return this.client.describePartners(this.ops["DescribePartners"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describePartners(this.ops["DescribePartners"].applicator.apply(partialParams));
     }
     invokeDescribeResize(partialParams) {
-        return this.client.describeResize(this.ops["DescribeResize"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeResize(this.ops["DescribeResize"].applicator.apply(partialParams));
     }
     invokeDisableLogging(partialParams) {
-        return this.client.disableLogging(this.ops["DisableLogging"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disableLogging(this.ops["DisableLogging"].applicator.apply(partialParams));
     }
     invokeDisableSnapshotCopy(partialParams) {
-        return this.client.disableSnapshotCopy(this.ops["DisableSnapshotCopy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disableSnapshotCopy(this.ops["DisableSnapshotCopy"].applicator.apply(partialParams));
     }
     invokeDisassociateDataShareConsumer(partialParams) {
-        return this.client.disassociateDataShareConsumer(this.ops["DisassociateDataShareConsumer"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociateDataShareConsumer(this.ops["DisassociateDataShareConsumer"].applicator.apply(partialParams));
     }
     invokeEnableLogging(partialParams) {
-        return this.client.enableLogging(this.ops["EnableLogging"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.enableLogging(this.ops["EnableLogging"].applicator.apply(partialParams));
     }
     invokeEnableSnapshotCopy(partialParams) {
-        return this.client.enableSnapshotCopy(this.ops["EnableSnapshotCopy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.enableSnapshotCopy(this.ops["EnableSnapshotCopy"].applicator.apply(partialParams));
     }
     invokeGetClusterCredentials(partialParams) {
-        return this.client.getClusterCredentials(this.ops["GetClusterCredentials"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getClusterCredentials(this.ops["GetClusterCredentials"].applicator.apply(partialParams));
     }
     invokeGetReservedNodeExchangeConfigurationOptions(partialParams) {
-        return this.client.getReservedNodeExchangeConfigurationOptions(this.ops["GetReservedNodeExchangeConfigurationOptions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getReservedNodeExchangeConfigurationOptions(this.ops["GetReservedNodeExchangeConfigurationOptions"].applicator.apply(partialParams));
     }
     invokeGetReservedNodeExchangeOfferings(partialParams) {
-        return this.client.getReservedNodeExchangeOfferings(this.ops["GetReservedNodeExchangeOfferings"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getReservedNodeExchangeOfferings(this.ops["GetReservedNodeExchangeOfferings"].applicator.apply(partialParams));
     }
     invokeModifyAquaConfiguration(partialParams) {
-        return this.client.modifyAquaConfiguration(this.ops["ModifyAquaConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyAquaConfiguration(this.ops["ModifyAquaConfiguration"].applicator.apply(partialParams));
     }
     invokeModifyAuthenticationProfile(partialParams) {
-        return this.client.modifyAuthenticationProfile(this.ops["ModifyAuthenticationProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyAuthenticationProfile(this.ops["ModifyAuthenticationProfile"].applicator.apply(partialParams));
     }
     invokeModifyCluster(partialParams) {
-        return this.client.modifyCluster(this.ops["ModifyCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyCluster(this.ops["ModifyCluster"].applicator.apply(partialParams));
     }
     invokeModifyClusterDbRevision(partialParams) {
-        return this.client.modifyClusterDbRevision(this.ops["ModifyClusterDbRevision"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyClusterDbRevision(this.ops["ModifyClusterDbRevision"].applicator.apply(partialParams));
     }
     invokeModifyClusterIamRoles(partialParams) {
-        return this.client.modifyClusterIamRoles(this.ops["ModifyClusterIamRoles"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyClusterIamRoles(this.ops["ModifyClusterIamRoles"].applicator.apply(partialParams));
     }
     invokeModifyClusterMaintenance(partialParams) {
-        return this.client.modifyClusterMaintenance(this.ops["ModifyClusterMaintenance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyClusterMaintenance(this.ops["ModifyClusterMaintenance"].applicator.apply(partialParams));
     }
     invokeModifyClusterParameterGroup(partialParams) {
-        return this.client.modifyClusterParameterGroup(this.ops["ModifyClusterParameterGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyClusterParameterGroup(this.ops["ModifyClusterParameterGroup"].applicator.apply(partialParams));
     }
     invokeModifyClusterSnapshot(partialParams) {
-        return this.client.modifyClusterSnapshot(this.ops["ModifyClusterSnapshot"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyClusterSnapshot(this.ops["ModifyClusterSnapshot"].applicator.apply(partialParams));
     }
     invokeModifyClusterSnapshotSchedule(partialParams) {
-        return this.client.modifyClusterSnapshotSchedule(this.ops["ModifyClusterSnapshotSchedule"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyClusterSnapshotSchedule(this.ops["ModifyClusterSnapshotSchedule"].applicator.apply(partialParams));
     }
     invokeModifyClusterSubnetGroup(partialParams) {
-        return this.client.modifyClusterSubnetGroup(this.ops["ModifyClusterSubnetGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyClusterSubnetGroup(this.ops["ModifyClusterSubnetGroup"].applicator.apply(partialParams));
     }
     invokeModifyEndpointAccess(partialParams) {
-        return this.client.modifyEndpointAccess(this.ops["ModifyEndpointAccess"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyEndpointAccess(this.ops["ModifyEndpointAccess"].applicator.apply(partialParams));
     }
     invokeModifyEventSubscription(partialParams) {
-        return this.client.modifyEventSubscription(this.ops["ModifyEventSubscription"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyEventSubscription(this.ops["ModifyEventSubscription"].applicator.apply(partialParams));
     }
     invokeModifyScheduledAction(partialParams) {
-        return this.client.modifyScheduledAction(this.ops["ModifyScheduledAction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyScheduledAction(this.ops["ModifyScheduledAction"].applicator.apply(partialParams));
     }
     invokeModifySnapshotCopyRetentionPeriod(partialParams) {
-        return this.client.modifySnapshotCopyRetentionPeriod(this.ops["ModifySnapshotCopyRetentionPeriod"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifySnapshotCopyRetentionPeriod(this.ops["ModifySnapshotCopyRetentionPeriod"].applicator.apply(partialParams));
     }
     invokeModifySnapshotSchedule(partialParams) {
-        return this.client.modifySnapshotSchedule(this.ops["ModifySnapshotSchedule"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifySnapshotSchedule(this.ops["ModifySnapshotSchedule"].applicator.apply(partialParams));
     }
     invokeModifyUsageLimit(partialParams) {
-        return this.client.modifyUsageLimit(this.ops["ModifyUsageLimit"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.modifyUsageLimit(this.ops["ModifyUsageLimit"].applicator.apply(partialParams));
     }
     invokePauseCluster(partialParams) {
-        return this.client.pauseCluster(this.ops["PauseCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.pauseCluster(this.ops["PauseCluster"].applicator.apply(partialParams));
     }
     invokePurchaseReservedNodeOffering(partialParams) {
-        return this.client.purchaseReservedNodeOffering(this.ops["PurchaseReservedNodeOffering"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.purchaseReservedNodeOffering(this.ops["PurchaseReservedNodeOffering"].applicator.apply(partialParams));
     }
     invokeRebootCluster(partialParams) {
-        return this.client.rebootCluster(this.ops["RebootCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.rebootCluster(this.ops["RebootCluster"].applicator.apply(partialParams));
     }
     invokeRejectDataShare(partialParams) {
-        return this.client.rejectDataShare(this.ops["RejectDataShare"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.rejectDataShare(this.ops["RejectDataShare"].applicator.apply(partialParams));
     }
     invokeResetClusterParameterGroup(partialParams) {
-        return this.client.resetClusterParameterGroup(this.ops["ResetClusterParameterGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.resetClusterParameterGroup(this.ops["ResetClusterParameterGroup"].applicator.apply(partialParams));
     }
     invokeResizeCluster(partialParams) {
-        return this.client.resizeCluster(this.ops["ResizeCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.resizeCluster(this.ops["ResizeCluster"].applicator.apply(partialParams));
     }
     invokeRestoreFromClusterSnapshot(partialParams) {
-        return this.client.restoreFromClusterSnapshot(this.ops["RestoreFromClusterSnapshot"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.restoreFromClusterSnapshot(this.ops["RestoreFromClusterSnapshot"].applicator.apply(partialParams));
     }
     invokeRestoreTableFromClusterSnapshot(partialParams) {
-        return this.client.restoreTableFromClusterSnapshot(this.ops["RestoreTableFromClusterSnapshot"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.restoreTableFromClusterSnapshot(this.ops["RestoreTableFromClusterSnapshot"].applicator.apply(partialParams));
     }
     invokeResumeCluster(partialParams) {
-        return this.client.resumeCluster(this.ops["ResumeCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.resumeCluster(this.ops["ResumeCluster"].applicator.apply(partialParams));
     }
     invokeRevokeClusterSecurityGroupIngress(partialParams) {
-        return this.client.revokeClusterSecurityGroupIngress(this.ops["RevokeClusterSecurityGroupIngress"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.revokeClusterSecurityGroupIngress(this.ops["RevokeClusterSecurityGroupIngress"].applicator.apply(partialParams));
     }
     invokeRevokeSnapshotAccess(partialParams) {
-        return this.client.revokeSnapshotAccess(this.ops["RevokeSnapshotAccess"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.revokeSnapshotAccess(this.ops["RevokeSnapshotAccess"].applicator.apply(partialParams));
     }
     invokeRotateEncryptionKey(partialParams) {
-        return this.client.rotateEncryptionKey(this.ops["RotateEncryptionKey"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.rotateEncryptionKey(this.ops["RotateEncryptionKey"].applicator.apply(partialParams));
     }
     invokeUpdatePartnerStatus(partialParams) {
-        return this.client.updatePartnerStatus(this.ops["UpdatePartnerStatus"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updatePartnerStatus(this.ops["UpdatePartnerStatus"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

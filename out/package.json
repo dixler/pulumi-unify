@@ -3,11 +3,15 @@
     "devDependencies": {
         "@types/node": "^17.0.17"
     },
+    "scripts": {
+        "build": "export NODE_OPTIONS='--max-old-space-size=8192'; ts-node parse.ts; cp -r aws-sdk-js/apis/ tsconfig.json package.json parse.ts parsedefs.ts out/; bash -c 'cd out && tsc'; rm -rf node_modules/out/; cp -r out/ node_modules/out/;"
+    },
     "dependencies": {
         "@pulumi/aws": "^4.0.0",
         "@pulumi/awsx": "^0.30.0",
         "@pulumi/pulumi": "^3.0.0",
         "aws-sdk": "^2.1073.0",
-        "typescript": "^4.5.5"
+        "typescript": "^4.5.5",
+        "out": "0.0.1"
     }
 }

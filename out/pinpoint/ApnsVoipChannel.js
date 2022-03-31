@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,360 +21,730 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/pinpoint-2016-12-01.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.pinpoint.ApnsVoipChannel {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.Pinpoint();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/pinpoint-2016-12-01.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeCreateApp(partialParams) {
-        return this.client.createApp(this.ops["CreateApp"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createApp(this.ops["CreateApp"].applicator.apply(partialParams));
     }
     invokeCreateCampaign(partialParams) {
-        return this.client.createCampaign(this.ops["CreateCampaign"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createCampaign(this.ops["CreateCampaign"].applicator.apply(partialParams));
     }
     invokeCreateEmailTemplate(partialParams) {
-        return this.client.createEmailTemplate(this.ops["CreateEmailTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createEmailTemplate(this.ops["CreateEmailTemplate"].applicator.apply(partialParams));
     }
     invokeCreateExportJob(partialParams) {
-        return this.client.createExportJob(this.ops["CreateExportJob"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createExportJob(this.ops["CreateExportJob"].applicator.apply(partialParams));
     }
     invokeCreateImportJob(partialParams) {
-        return this.client.createImportJob(this.ops["CreateImportJob"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createImportJob(this.ops["CreateImportJob"].applicator.apply(partialParams));
     }
     invokeCreateInAppTemplate(partialParams) {
-        return this.client.createInAppTemplate(this.ops["CreateInAppTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createInAppTemplate(this.ops["CreateInAppTemplate"].applicator.apply(partialParams));
     }
     invokeCreateJourney(partialParams) {
-        return this.client.createJourney(this.ops["CreateJourney"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createJourney(this.ops["CreateJourney"].applicator.apply(partialParams));
     }
     invokeCreatePushTemplate(partialParams) {
-        return this.client.createPushTemplate(this.ops["CreatePushTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createPushTemplate(this.ops["CreatePushTemplate"].applicator.apply(partialParams));
     }
     invokeCreateRecommenderConfiguration(partialParams) {
-        return this.client.createRecommenderConfiguration(this.ops["CreateRecommenderConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createRecommenderConfiguration(this.ops["CreateRecommenderConfiguration"].applicator.apply(partialParams));
     }
     invokeCreateSegment(partialParams) {
-        return this.client.createSegment(this.ops["CreateSegment"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createSegment(this.ops["CreateSegment"].applicator.apply(partialParams));
     }
     invokeCreateSmsTemplate(partialParams) {
-        return this.client.createSmsTemplate(this.ops["CreateSmsTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createSmsTemplate(this.ops["CreateSmsTemplate"].applicator.apply(partialParams));
     }
     invokeCreateVoiceTemplate(partialParams) {
-        return this.client.createVoiceTemplate(this.ops["CreateVoiceTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createVoiceTemplate(this.ops["CreateVoiceTemplate"].applicator.apply(partialParams));
     }
     invokeDeleteAdmChannel(partialParams) {
-        return this.client.deleteAdmChannel(this.ops["DeleteAdmChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteAdmChannel(this.ops["DeleteAdmChannel"].applicator.apply(partialParams));
     }
     invokeDeleteApnsChannel(partialParams) {
-        return this.client.deleteApnsChannel(this.ops["DeleteApnsChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteApnsChannel(this.ops["DeleteApnsChannel"].applicator.apply(partialParams));
     }
     invokeDeleteApnsSandboxChannel(partialParams) {
-        return this.client.deleteApnsSandboxChannel(this.ops["DeleteApnsSandboxChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteApnsSandboxChannel(this.ops["DeleteApnsSandboxChannel"].applicator.apply(partialParams));
     }
     invokeDeleteApnsVoipChannel(partialParams) {
-        return this.client.deleteApnsVoipChannel(this.ops["DeleteApnsVoipChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteApnsVoipChannel(this.ops["DeleteApnsVoipChannel"].applicator.apply(partialParams));
     }
     invokeDeleteApnsVoipSandboxChannel(partialParams) {
-        return this.client.deleteApnsVoipSandboxChannel(this.ops["DeleteApnsVoipSandboxChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteApnsVoipSandboxChannel(this.ops["DeleteApnsVoipSandboxChannel"].applicator.apply(partialParams));
     }
     invokeDeleteApp(partialParams) {
-        return this.client.deleteApp(this.ops["DeleteApp"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteApp(this.ops["DeleteApp"].applicator.apply(partialParams));
     }
     invokeDeleteBaiduChannel(partialParams) {
-        return this.client.deleteBaiduChannel(this.ops["DeleteBaiduChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteBaiduChannel(this.ops["DeleteBaiduChannel"].applicator.apply(partialParams));
     }
     invokeDeleteCampaign(partialParams) {
-        return this.client.deleteCampaign(this.ops["DeleteCampaign"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteCampaign(this.ops["DeleteCampaign"].applicator.apply(partialParams));
     }
     invokeDeleteEmailChannel(partialParams) {
-        return this.client.deleteEmailChannel(this.ops["DeleteEmailChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteEmailChannel(this.ops["DeleteEmailChannel"].applicator.apply(partialParams));
     }
     invokeDeleteEmailTemplate(partialParams) {
-        return this.client.deleteEmailTemplate(this.ops["DeleteEmailTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteEmailTemplate(this.ops["DeleteEmailTemplate"].applicator.apply(partialParams));
     }
     invokeDeleteEndpoint(partialParams) {
-        return this.client.deleteEndpoint(this.ops["DeleteEndpoint"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteEndpoint(this.ops["DeleteEndpoint"].applicator.apply(partialParams));
     }
     invokeDeleteEventStream(partialParams) {
-        return this.client.deleteEventStream(this.ops["DeleteEventStream"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteEventStream(this.ops["DeleteEventStream"].applicator.apply(partialParams));
     }
     invokeDeleteGcmChannel(partialParams) {
-        return this.client.deleteGcmChannel(this.ops["DeleteGcmChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteGcmChannel(this.ops["DeleteGcmChannel"].applicator.apply(partialParams));
     }
     invokeDeleteInAppTemplate(partialParams) {
-        return this.client.deleteInAppTemplate(this.ops["DeleteInAppTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteInAppTemplate(this.ops["DeleteInAppTemplate"].applicator.apply(partialParams));
     }
     invokeDeleteJourney(partialParams) {
-        return this.client.deleteJourney(this.ops["DeleteJourney"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteJourney(this.ops["DeleteJourney"].applicator.apply(partialParams));
     }
     invokeDeletePushTemplate(partialParams) {
-        return this.client.deletePushTemplate(this.ops["DeletePushTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deletePushTemplate(this.ops["DeletePushTemplate"].applicator.apply(partialParams));
     }
     invokeDeleteRecommenderConfiguration(partialParams) {
-        return this.client.deleteRecommenderConfiguration(this.ops["DeleteRecommenderConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteRecommenderConfiguration(this.ops["DeleteRecommenderConfiguration"].applicator.apply(partialParams));
     }
     invokeDeleteSegment(partialParams) {
-        return this.client.deleteSegment(this.ops["DeleteSegment"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteSegment(this.ops["DeleteSegment"].applicator.apply(partialParams));
     }
     invokeDeleteSmsChannel(partialParams) {
-        return this.client.deleteSmsChannel(this.ops["DeleteSmsChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteSmsChannel(this.ops["DeleteSmsChannel"].applicator.apply(partialParams));
     }
     invokeDeleteSmsTemplate(partialParams) {
-        return this.client.deleteSmsTemplate(this.ops["DeleteSmsTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteSmsTemplate(this.ops["DeleteSmsTemplate"].applicator.apply(partialParams));
     }
     invokeDeleteUserEndpoints(partialParams) {
-        return this.client.deleteUserEndpoints(this.ops["DeleteUserEndpoints"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteUserEndpoints(this.ops["DeleteUserEndpoints"].applicator.apply(partialParams));
     }
     invokeDeleteVoiceChannel(partialParams) {
-        return this.client.deleteVoiceChannel(this.ops["DeleteVoiceChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteVoiceChannel(this.ops["DeleteVoiceChannel"].applicator.apply(partialParams));
     }
     invokeDeleteVoiceTemplate(partialParams) {
-        return this.client.deleteVoiceTemplate(this.ops["DeleteVoiceTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteVoiceTemplate(this.ops["DeleteVoiceTemplate"].applicator.apply(partialParams));
     }
     invokeGetAdmChannel(partialParams) {
-        return this.client.getAdmChannel(this.ops["GetAdmChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getAdmChannel(this.ops["GetAdmChannel"].applicator.apply(partialParams));
     }
     invokeGetApnsChannel(partialParams) {
-        return this.client.getApnsChannel(this.ops["GetApnsChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getApnsChannel(this.ops["GetApnsChannel"].applicator.apply(partialParams));
     }
     invokeGetApnsSandboxChannel(partialParams) {
-        return this.client.getApnsSandboxChannel(this.ops["GetApnsSandboxChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getApnsSandboxChannel(this.ops["GetApnsSandboxChannel"].applicator.apply(partialParams));
     }
     invokeGetApnsVoipChannel(partialParams) {
-        return this.client.getApnsVoipChannel(this.ops["GetApnsVoipChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getApnsVoipChannel(this.ops["GetApnsVoipChannel"].applicator.apply(partialParams));
     }
     invokeGetApnsVoipSandboxChannel(partialParams) {
-        return this.client.getApnsVoipSandboxChannel(this.ops["GetApnsVoipSandboxChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getApnsVoipSandboxChannel(this.ops["GetApnsVoipSandboxChannel"].applicator.apply(partialParams));
     }
     invokeGetApp(partialParams) {
-        return this.client.getApp(this.ops["GetApp"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getApp(this.ops["GetApp"].applicator.apply(partialParams));
     }
     invokeGetApplicationDateRangeKpi(partialParams) {
-        return this.client.getApplicationDateRangeKpi(this.ops["GetApplicationDateRangeKpi"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getApplicationDateRangeKpi(this.ops["GetApplicationDateRangeKpi"].applicator.apply(partialParams));
     }
     invokeGetApplicationSettings(partialParams) {
-        return this.client.getApplicationSettings(this.ops["GetApplicationSettings"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getApplicationSettings(this.ops["GetApplicationSettings"].applicator.apply(partialParams));
     }
     invokeGetBaiduChannel(partialParams) {
-        return this.client.getBaiduChannel(this.ops["GetBaiduChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getBaiduChannel(this.ops["GetBaiduChannel"].applicator.apply(partialParams));
     }
     invokeGetCampaign(partialParams) {
-        return this.client.getCampaign(this.ops["GetCampaign"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getCampaign(this.ops["GetCampaign"].applicator.apply(partialParams));
     }
     invokeGetCampaignActivities(partialParams) {
-        return this.client.getCampaignActivities(this.ops["GetCampaignActivities"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getCampaignActivities(this.ops["GetCampaignActivities"].applicator.apply(partialParams));
     }
     invokeGetCampaignDateRangeKpi(partialParams) {
-        return this.client.getCampaignDateRangeKpi(this.ops["GetCampaignDateRangeKpi"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getCampaignDateRangeKpi(this.ops["GetCampaignDateRangeKpi"].applicator.apply(partialParams));
     }
     invokeGetCampaignVersion(partialParams) {
-        return this.client.getCampaignVersion(this.ops["GetCampaignVersion"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getCampaignVersion(this.ops["GetCampaignVersion"].applicator.apply(partialParams));
     }
     invokeGetCampaignVersions(partialParams) {
-        return this.client.getCampaignVersions(this.ops["GetCampaignVersions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getCampaignVersions(this.ops["GetCampaignVersions"].applicator.apply(partialParams));
     }
     invokeGetCampaigns(partialParams) {
-        return this.client.getCampaigns(this.ops["GetCampaigns"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getCampaigns(this.ops["GetCampaigns"].applicator.apply(partialParams));
     }
     invokeGetChannels(partialParams) {
-        return this.client.getChannels(this.ops["GetChannels"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getChannels(this.ops["GetChannels"].applicator.apply(partialParams));
     }
     invokeGetEmailChannel(partialParams) {
-        return this.client.getEmailChannel(this.ops["GetEmailChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getEmailChannel(this.ops["GetEmailChannel"].applicator.apply(partialParams));
     }
     invokeGetEmailTemplate(partialParams) {
-        return this.client.getEmailTemplate(this.ops["GetEmailTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getEmailTemplate(this.ops["GetEmailTemplate"].applicator.apply(partialParams));
     }
     invokeGetEndpoint(partialParams) {
-        return this.client.getEndpoint(this.ops["GetEndpoint"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getEndpoint(this.ops["GetEndpoint"].applicator.apply(partialParams));
     }
     invokeGetEventStream(partialParams) {
-        return this.client.getEventStream(this.ops["GetEventStream"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getEventStream(this.ops["GetEventStream"].applicator.apply(partialParams));
     }
     invokeGetExportJob(partialParams) {
-        return this.client.getExportJob(this.ops["GetExportJob"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getExportJob(this.ops["GetExportJob"].applicator.apply(partialParams));
     }
     invokeGetExportJobs(partialParams) {
-        return this.client.getExportJobs(this.ops["GetExportJobs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getExportJobs(this.ops["GetExportJobs"].applicator.apply(partialParams));
     }
     invokeGetGcmChannel(partialParams) {
-        return this.client.getGcmChannel(this.ops["GetGcmChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getGcmChannel(this.ops["GetGcmChannel"].applicator.apply(partialParams));
     }
     invokeGetImportJob(partialParams) {
-        return this.client.getImportJob(this.ops["GetImportJob"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getImportJob(this.ops["GetImportJob"].applicator.apply(partialParams));
     }
     invokeGetImportJobs(partialParams) {
-        return this.client.getImportJobs(this.ops["GetImportJobs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getImportJobs(this.ops["GetImportJobs"].applicator.apply(partialParams));
     }
     invokeGetInAppMessages(partialParams) {
-        return this.client.getInAppMessages(this.ops["GetInAppMessages"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getInAppMessages(this.ops["GetInAppMessages"].applicator.apply(partialParams));
     }
     invokeGetInAppTemplate(partialParams) {
-        return this.client.getInAppTemplate(this.ops["GetInAppTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getInAppTemplate(this.ops["GetInAppTemplate"].applicator.apply(partialParams));
     }
     invokeGetJourney(partialParams) {
-        return this.client.getJourney(this.ops["GetJourney"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getJourney(this.ops["GetJourney"].applicator.apply(partialParams));
     }
     invokeGetJourneyDateRangeKpi(partialParams) {
-        return this.client.getJourneyDateRangeKpi(this.ops["GetJourneyDateRangeKpi"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getJourneyDateRangeKpi(this.ops["GetJourneyDateRangeKpi"].applicator.apply(partialParams));
     }
     invokeGetJourneyExecutionActivityMetrics(partialParams) {
-        return this.client.getJourneyExecutionActivityMetrics(this.ops["GetJourneyExecutionActivityMetrics"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getJourneyExecutionActivityMetrics(this.ops["GetJourneyExecutionActivityMetrics"].applicator.apply(partialParams));
     }
     invokeGetJourneyExecutionMetrics(partialParams) {
-        return this.client.getJourneyExecutionMetrics(this.ops["GetJourneyExecutionMetrics"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getJourneyExecutionMetrics(this.ops["GetJourneyExecutionMetrics"].applicator.apply(partialParams));
     }
     invokeGetPushTemplate(partialParams) {
-        return this.client.getPushTemplate(this.ops["GetPushTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getPushTemplate(this.ops["GetPushTemplate"].applicator.apply(partialParams));
     }
     invokeGetRecommenderConfiguration(partialParams) {
-        return this.client.getRecommenderConfiguration(this.ops["GetRecommenderConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getRecommenderConfiguration(this.ops["GetRecommenderConfiguration"].applicator.apply(partialParams));
     }
     invokeGetSegment(partialParams) {
-        return this.client.getSegment(this.ops["GetSegment"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getSegment(this.ops["GetSegment"].applicator.apply(partialParams));
     }
     invokeGetSegmentExportJobs(partialParams) {
-        return this.client.getSegmentExportJobs(this.ops["GetSegmentExportJobs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getSegmentExportJobs(this.ops["GetSegmentExportJobs"].applicator.apply(partialParams));
     }
     invokeGetSegmentImportJobs(partialParams) {
-        return this.client.getSegmentImportJobs(this.ops["GetSegmentImportJobs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getSegmentImportJobs(this.ops["GetSegmentImportJobs"].applicator.apply(partialParams));
     }
     invokeGetSegmentVersion(partialParams) {
-        return this.client.getSegmentVersion(this.ops["GetSegmentVersion"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getSegmentVersion(this.ops["GetSegmentVersion"].applicator.apply(partialParams));
     }
     invokeGetSegmentVersions(partialParams) {
-        return this.client.getSegmentVersions(this.ops["GetSegmentVersions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getSegmentVersions(this.ops["GetSegmentVersions"].applicator.apply(partialParams));
     }
     invokeGetSegments(partialParams) {
-        return this.client.getSegments(this.ops["GetSegments"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getSegments(this.ops["GetSegments"].applicator.apply(partialParams));
     }
     invokeGetSmsChannel(partialParams) {
-        return this.client.getSmsChannel(this.ops["GetSmsChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getSmsChannel(this.ops["GetSmsChannel"].applicator.apply(partialParams));
     }
     invokeGetSmsTemplate(partialParams) {
-        return this.client.getSmsTemplate(this.ops["GetSmsTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getSmsTemplate(this.ops["GetSmsTemplate"].applicator.apply(partialParams));
     }
     invokeGetUserEndpoints(partialParams) {
-        return this.client.getUserEndpoints(this.ops["GetUserEndpoints"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getUserEndpoints(this.ops["GetUserEndpoints"].applicator.apply(partialParams));
     }
     invokeGetVoiceChannel(partialParams) {
-        return this.client.getVoiceChannel(this.ops["GetVoiceChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getVoiceChannel(this.ops["GetVoiceChannel"].applicator.apply(partialParams));
     }
     invokeGetVoiceTemplate(partialParams) {
-        return this.client.getVoiceTemplate(this.ops["GetVoiceTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getVoiceTemplate(this.ops["GetVoiceTemplate"].applicator.apply(partialParams));
     }
     invokeListJourneys(partialParams) {
-        return this.client.listJourneys(this.ops["ListJourneys"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listJourneys(this.ops["ListJourneys"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokeListTemplateVersions(partialParams) {
-        return this.client.listTemplateVersions(this.ops["ListTemplateVersions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTemplateVersions(this.ops["ListTemplateVersions"].applicator.apply(partialParams));
     }
     invokePhoneNumberValidate(partialParams) {
-        return this.client.phoneNumberValidate(this.ops["PhoneNumberValidate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.phoneNumberValidate(this.ops["PhoneNumberValidate"].applicator.apply(partialParams));
     }
     invokePutEventStream(partialParams) {
-        return this.client.putEventStream(this.ops["PutEventStream"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putEventStream(this.ops["PutEventStream"].applicator.apply(partialParams));
     }
     invokePutEvents(partialParams) {
-        return this.client.putEvents(this.ops["PutEvents"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putEvents(this.ops["PutEvents"].applicator.apply(partialParams));
     }
     invokeRemoveAttributes(partialParams) {
-        return this.client.removeAttributes(this.ops["RemoveAttributes"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.removeAttributes(this.ops["RemoveAttributes"].applicator.apply(partialParams));
     }
     invokeSendMessages(partialParams) {
-        return this.client.sendMessages(this.ops["SendMessages"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.sendMessages(this.ops["SendMessages"].applicator.apply(partialParams));
     }
     invokeSendOTPMessage(partialParams) {
-        return this.client.sendOTPMessage(this.ops["SendOTPMessage"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.sendOTPMessage(this.ops["SendOTPMessage"].applicator.apply(partialParams));
     }
     invokeSendUsersMessages(partialParams) {
-        return this.client.sendUsersMessages(this.ops["SendUsersMessages"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.sendUsersMessages(this.ops["SendUsersMessages"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateAdmChannel(partialParams) {
-        return this.client.updateAdmChannel(this.ops["UpdateAdmChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateAdmChannel(this.ops["UpdateAdmChannel"].applicator.apply(partialParams));
     }
     invokeUpdateApnsChannel(partialParams) {
-        return this.client.updateApnsChannel(this.ops["UpdateApnsChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateApnsChannel(this.ops["UpdateApnsChannel"].applicator.apply(partialParams));
     }
     invokeUpdateApnsSandboxChannel(partialParams) {
-        return this.client.updateApnsSandboxChannel(this.ops["UpdateApnsSandboxChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateApnsSandboxChannel(this.ops["UpdateApnsSandboxChannel"].applicator.apply(partialParams));
     }
     invokeUpdateApnsVoipChannel(partialParams) {
-        return this.client.updateApnsVoipChannel(this.ops["UpdateApnsVoipChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateApnsVoipChannel(this.ops["UpdateApnsVoipChannel"].applicator.apply(partialParams));
     }
     invokeUpdateApnsVoipSandboxChannel(partialParams) {
-        return this.client.updateApnsVoipSandboxChannel(this.ops["UpdateApnsVoipSandboxChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateApnsVoipSandboxChannel(this.ops["UpdateApnsVoipSandboxChannel"].applicator.apply(partialParams));
     }
     invokeUpdateApplicationSettings(partialParams) {
-        return this.client.updateApplicationSettings(this.ops["UpdateApplicationSettings"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateApplicationSettings(this.ops["UpdateApplicationSettings"].applicator.apply(partialParams));
     }
     invokeUpdateBaiduChannel(partialParams) {
-        return this.client.updateBaiduChannel(this.ops["UpdateBaiduChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateBaiduChannel(this.ops["UpdateBaiduChannel"].applicator.apply(partialParams));
     }
     invokeUpdateCampaign(partialParams) {
-        return this.client.updateCampaign(this.ops["UpdateCampaign"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateCampaign(this.ops["UpdateCampaign"].applicator.apply(partialParams));
     }
     invokeUpdateEmailChannel(partialParams) {
-        return this.client.updateEmailChannel(this.ops["UpdateEmailChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateEmailChannel(this.ops["UpdateEmailChannel"].applicator.apply(partialParams));
     }
     invokeUpdateEmailTemplate(partialParams) {
-        return this.client.updateEmailTemplate(this.ops["UpdateEmailTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateEmailTemplate(this.ops["UpdateEmailTemplate"].applicator.apply(partialParams));
     }
     invokeUpdateEndpoint(partialParams) {
-        return this.client.updateEndpoint(this.ops["UpdateEndpoint"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateEndpoint(this.ops["UpdateEndpoint"].applicator.apply(partialParams));
     }
     invokeUpdateEndpointsBatch(partialParams) {
-        return this.client.updateEndpointsBatch(this.ops["UpdateEndpointsBatch"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateEndpointsBatch(this.ops["UpdateEndpointsBatch"].applicator.apply(partialParams));
     }
     invokeUpdateGcmChannel(partialParams) {
-        return this.client.updateGcmChannel(this.ops["UpdateGcmChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateGcmChannel(this.ops["UpdateGcmChannel"].applicator.apply(partialParams));
     }
     invokeUpdateInAppTemplate(partialParams) {
-        return this.client.updateInAppTemplate(this.ops["UpdateInAppTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateInAppTemplate(this.ops["UpdateInAppTemplate"].applicator.apply(partialParams));
     }
     invokeUpdateJourney(partialParams) {
-        return this.client.updateJourney(this.ops["UpdateJourney"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateJourney(this.ops["UpdateJourney"].applicator.apply(partialParams));
     }
     invokeUpdateJourneyState(partialParams) {
-        return this.client.updateJourneyState(this.ops["UpdateJourneyState"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateJourneyState(this.ops["UpdateJourneyState"].applicator.apply(partialParams));
     }
     invokeUpdatePushTemplate(partialParams) {
-        return this.client.updatePushTemplate(this.ops["UpdatePushTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updatePushTemplate(this.ops["UpdatePushTemplate"].applicator.apply(partialParams));
     }
     invokeUpdateRecommenderConfiguration(partialParams) {
-        return this.client.updateRecommenderConfiguration(this.ops["UpdateRecommenderConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateRecommenderConfiguration(this.ops["UpdateRecommenderConfiguration"].applicator.apply(partialParams));
     }
     invokeUpdateSegment(partialParams) {
-        return this.client.updateSegment(this.ops["UpdateSegment"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateSegment(this.ops["UpdateSegment"].applicator.apply(partialParams));
     }
     invokeUpdateSmsChannel(partialParams) {
-        return this.client.updateSmsChannel(this.ops["UpdateSmsChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateSmsChannel(this.ops["UpdateSmsChannel"].applicator.apply(partialParams));
     }
     invokeUpdateSmsTemplate(partialParams) {
-        return this.client.updateSmsTemplate(this.ops["UpdateSmsTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateSmsTemplate(this.ops["UpdateSmsTemplate"].applicator.apply(partialParams));
     }
     invokeUpdateTemplateActiveVersion(partialParams) {
-        return this.client.updateTemplateActiveVersion(this.ops["UpdateTemplateActiveVersion"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateTemplateActiveVersion(this.ops["UpdateTemplateActiveVersion"].applicator.apply(partialParams));
     }
     invokeUpdateVoiceChannel(partialParams) {
-        return this.client.updateVoiceChannel(this.ops["UpdateVoiceChannel"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateVoiceChannel(this.ops["UpdateVoiceChannel"].applicator.apply(partialParams));
     }
     invokeUpdateVoiceTemplate(partialParams) {
-        return this.client.updateVoiceTemplate(this.ops["UpdateVoiceTemplate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateVoiceTemplate(this.ops["UpdateVoiceTemplate"].applicator.apply(partialParams));
     }
     invokeVerifyOTPMessage(partialParams) {
-        return this.client.verifyOTPMessage(this.ops["VerifyOTPMessage"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.verifyOTPMessage(this.ops["VerifyOTPMessage"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

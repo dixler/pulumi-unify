@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     CreateBackupPlanInput,
     CreateBackupSelectionInput,
@@ -90,8 +93,8 @@ import {
     UpdateRecoveryPointLifecycleOutput,
     UpdateReportPlanOutput
 } from "aws-sdk/clients/backup";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/backup-2018-11-15.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -100,419 +103,594 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.backup.VaultLockConfiguration {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.backup.VaultLockConfiguration>) {
         super(...args)
         this.client = new awssdk.Backup()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/backup-2018-11-15.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeCreateBackupPlan(partialParams: ToOptional<{
       [K in keyof CreateBackupPlanInput & keyof CreateBackupPlanInput]: (CreateBackupPlanInput & CreateBackupPlanInput)[K]
-    }>): CreateBackupPlanOutput {
+    }>): Request<CreateBackupPlanOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createBackupPlan(
-            this.ops["CreateBackupPlan"].apply(partialParams)
+          this.ops["CreateBackupPlan"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateBackupSelection(partialParams: ToOptional<{
       [K in keyof CreateBackupSelectionInput & keyof CreateBackupSelectionInput]: (CreateBackupSelectionInput & CreateBackupSelectionInput)[K]
-    }>): CreateBackupSelectionOutput {
+    }>): Request<CreateBackupSelectionOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createBackupSelection(
-            this.ops["CreateBackupSelection"].apply(partialParams)
+          this.ops["CreateBackupSelection"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateBackupVault(partialParams: ToOptional<{
       [K in keyof CreateBackupVaultInput & keyof Omit<CreateBackupVaultInput, "BackupVaultName">]: (CreateBackupVaultInput & Omit<CreateBackupVaultInput, "BackupVaultName">)[K]
-    }>): CreateBackupVaultOutput {
+    }>): Request<CreateBackupVaultOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createBackupVault(
-            this.ops["CreateBackupVault"].apply(partialParams)
+          this.ops["CreateBackupVault"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateFramework(partialParams: ToOptional<{
       [K in keyof CreateFrameworkInput & keyof CreateFrameworkInput]: (CreateFrameworkInput & CreateFrameworkInput)[K]
-    }>): CreateFrameworkOutput {
+    }>): Request<CreateFrameworkOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createFramework(
-            this.ops["CreateFramework"].apply(partialParams)
+          this.ops["CreateFramework"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateReportPlan(partialParams: ToOptional<{
       [K in keyof CreateReportPlanInput & keyof CreateReportPlanInput]: (CreateReportPlanInput & CreateReportPlanInput)[K]
-    }>): CreateReportPlanOutput {
+    }>): Request<CreateReportPlanOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createReportPlan(
-            this.ops["CreateReportPlan"].apply(partialParams)
+          this.ops["CreateReportPlan"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBackupPlan(partialParams: ToOptional<{
       [K in keyof DeleteBackupPlanInput & keyof DeleteBackupPlanInput]: (DeleteBackupPlanInput & DeleteBackupPlanInput)[K]
-    }>): DeleteBackupPlanOutput {
+    }>): Request<DeleteBackupPlanOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBackupPlan(
-            this.ops["DeleteBackupPlan"].apply(partialParams)
+          this.ops["DeleteBackupPlan"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBackupSelection(partialParams: ToOptional<{
       [K in keyof DeleteBackupSelectionInput & keyof DeleteBackupSelectionInput]: (DeleteBackupSelectionInput & DeleteBackupSelectionInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBackupSelection(
-            this.ops["DeleteBackupSelection"].apply(partialParams)
+          this.ops["DeleteBackupSelection"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBackupVault(partialParams: ToOptional<{
       [K in keyof DeleteBackupVaultInput & keyof DeleteBackupVaultInput]: (DeleteBackupVaultInput & DeleteBackupVaultInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBackupVault(
-            this.ops["DeleteBackupVault"].apply(partialParams)
+          this.ops["DeleteBackupVault"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBackupVaultAccessPolicy(partialParams: ToOptional<{
       [K in keyof DeleteBackupVaultAccessPolicyInput & keyof Omit<DeleteBackupVaultAccessPolicyInput, "BackupVaultName">]: (DeleteBackupVaultAccessPolicyInput & Omit<DeleteBackupVaultAccessPolicyInput, "BackupVaultName">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBackupVaultAccessPolicy(
-            this.ops["DeleteBackupVaultAccessPolicy"].apply(partialParams)
+          this.ops["DeleteBackupVaultAccessPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBackupVaultLockConfiguration(partialParams: ToOptional<{
       [K in keyof DeleteBackupVaultLockConfigurationInput & keyof Omit<DeleteBackupVaultLockConfigurationInput, "BackupVaultName">]: (DeleteBackupVaultLockConfigurationInput & Omit<DeleteBackupVaultLockConfigurationInput, "BackupVaultName">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBackupVaultLockConfiguration(
-            this.ops["DeleteBackupVaultLockConfiguration"].apply(partialParams)
+          this.ops["DeleteBackupVaultLockConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteBackupVaultNotifications(partialParams: ToOptional<{
       [K in keyof DeleteBackupVaultNotificationsInput & keyof Omit<DeleteBackupVaultNotificationsInput, "BackupVaultName">]: (DeleteBackupVaultNotificationsInput & Omit<DeleteBackupVaultNotificationsInput, "BackupVaultName">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteBackupVaultNotifications(
-            this.ops["DeleteBackupVaultNotifications"].apply(partialParams)
+          this.ops["DeleteBackupVaultNotifications"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteFramework(partialParams: ToOptional<{
       [K in keyof DeleteFrameworkInput & keyof DeleteFrameworkInput]: (DeleteFrameworkInput & DeleteFrameworkInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteFramework(
-            this.ops["DeleteFramework"].apply(partialParams)
+          this.ops["DeleteFramework"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteRecoveryPoint(partialParams: ToOptional<{
       [K in keyof DeleteRecoveryPointInput & keyof Omit<DeleteRecoveryPointInput, "BackupVaultName">]: (DeleteRecoveryPointInput & Omit<DeleteRecoveryPointInput, "BackupVaultName">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteRecoveryPoint(
-            this.ops["DeleteRecoveryPoint"].apply(partialParams)
+          this.ops["DeleteRecoveryPoint"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteReportPlan(partialParams: ToOptional<{
       [K in keyof DeleteReportPlanInput & keyof DeleteReportPlanInput]: (DeleteReportPlanInput & DeleteReportPlanInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteReportPlan(
-            this.ops["DeleteReportPlan"].apply(partialParams)
+          this.ops["DeleteReportPlan"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeBackupJob(partialParams: ToOptional<{
       [K in keyof DescribeBackupJobInput & keyof DescribeBackupJobInput]: (DescribeBackupJobInput & DescribeBackupJobInput)[K]
-    }>): DescribeBackupJobOutput {
+    }>): Request<DescribeBackupJobOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeBackupJob(
-            this.ops["DescribeBackupJob"].apply(partialParams)
+          this.ops["DescribeBackupJob"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeBackupVault(partialParams: ToOptional<{
       [K in keyof DescribeBackupVaultInput & keyof DescribeBackupVaultInput]: (DescribeBackupVaultInput & DescribeBackupVaultInput)[K]
-    }>): DescribeBackupVaultOutput {
+    }>): Request<DescribeBackupVaultOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeBackupVault(
-            this.ops["DescribeBackupVault"].apply(partialParams)
+          this.ops["DescribeBackupVault"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeCopyJob(partialParams: ToOptional<{
       [K in keyof DescribeCopyJobInput & keyof DescribeCopyJobInput]: (DescribeCopyJobInput & DescribeCopyJobInput)[K]
-    }>): DescribeCopyJobOutput {
+    }>): Request<DescribeCopyJobOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeCopyJob(
-            this.ops["DescribeCopyJob"].apply(partialParams)
+          this.ops["DescribeCopyJob"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeFramework(partialParams: ToOptional<{
       [K in keyof DescribeFrameworkInput & keyof DescribeFrameworkInput]: (DescribeFrameworkInput & DescribeFrameworkInput)[K]
-    }>): DescribeFrameworkOutput {
+    }>): Request<DescribeFrameworkOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeFramework(
-            this.ops["DescribeFramework"].apply(partialParams)
+          this.ops["DescribeFramework"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeProtectedResource(partialParams: ToOptional<{
       [K in keyof DescribeProtectedResourceInput & keyof DescribeProtectedResourceInput]: (DescribeProtectedResourceInput & DescribeProtectedResourceInput)[K]
-    }>): DescribeProtectedResourceOutput {
+    }>): Request<DescribeProtectedResourceOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeProtectedResource(
-            this.ops["DescribeProtectedResource"].apply(partialParams)
+          this.ops["DescribeProtectedResource"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeRecoveryPoint(partialParams: ToOptional<{
       [K in keyof DescribeRecoveryPointInput & keyof Omit<DescribeRecoveryPointInput, "BackupVaultName">]: (DescribeRecoveryPointInput & Omit<DescribeRecoveryPointInput, "BackupVaultName">)[K]
-    }>): DescribeRecoveryPointOutput {
+    }>): Request<DescribeRecoveryPointOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeRecoveryPoint(
-            this.ops["DescribeRecoveryPoint"].apply(partialParams)
+          this.ops["DescribeRecoveryPoint"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeReportJob(partialParams: ToOptional<{
       [K in keyof DescribeReportJobInput & keyof DescribeReportJobInput]: (DescribeReportJobInput & DescribeReportJobInput)[K]
-    }>): DescribeReportJobOutput {
+    }>): Request<DescribeReportJobOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeReportJob(
-            this.ops["DescribeReportJob"].apply(partialParams)
+          this.ops["DescribeReportJob"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeReportPlan(partialParams: ToOptional<{
       [K in keyof DescribeReportPlanInput & keyof DescribeReportPlanInput]: (DescribeReportPlanInput & DescribeReportPlanInput)[K]
-    }>): DescribeReportPlanOutput {
+    }>): Request<DescribeReportPlanOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeReportPlan(
-            this.ops["DescribeReportPlan"].apply(partialParams)
+          this.ops["DescribeReportPlan"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeRestoreJob(partialParams: ToOptional<{
       [K in keyof DescribeRestoreJobInput & keyof DescribeRestoreJobInput]: (DescribeRestoreJobInput & DescribeRestoreJobInput)[K]
-    }>): DescribeRestoreJobOutput {
+    }>): Request<DescribeRestoreJobOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeRestoreJob(
-            this.ops["DescribeRestoreJob"].apply(partialParams)
+          this.ops["DescribeRestoreJob"].applicator.apply(partialParams)
         );
     }
 
     invokeDisassociateRecoveryPoint(partialParams: ToOptional<{
       [K in keyof DisassociateRecoveryPointInput & keyof Omit<DisassociateRecoveryPointInput, "BackupVaultName">]: (DisassociateRecoveryPointInput & Omit<DisassociateRecoveryPointInput, "BackupVaultName">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disassociateRecoveryPoint(
-            this.ops["DisassociateRecoveryPoint"].apply(partialParams)
+          this.ops["DisassociateRecoveryPoint"].applicator.apply(partialParams)
         );
     }
 
     invokeExportBackupPlanTemplate(partialParams: ToOptional<{
       [K in keyof ExportBackupPlanTemplateInput & keyof ExportBackupPlanTemplateInput]: (ExportBackupPlanTemplateInput & ExportBackupPlanTemplateInput)[K]
-    }>): ExportBackupPlanTemplateOutput {
+    }>): Request<ExportBackupPlanTemplateOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.exportBackupPlanTemplate(
-            this.ops["ExportBackupPlanTemplate"].apply(partialParams)
+          this.ops["ExportBackupPlanTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBackupPlan(partialParams: ToOptional<{
       [K in keyof GetBackupPlanInput & keyof GetBackupPlanInput]: (GetBackupPlanInput & GetBackupPlanInput)[K]
-    }>): GetBackupPlanOutput {
+    }>): Request<GetBackupPlanOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBackupPlan(
-            this.ops["GetBackupPlan"].apply(partialParams)
+          this.ops["GetBackupPlan"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBackupPlanFromJSON(partialParams: ToOptional<{
       [K in keyof GetBackupPlanFromJSONInput & keyof GetBackupPlanFromJSONInput]: (GetBackupPlanFromJSONInput & GetBackupPlanFromJSONInput)[K]
-    }>): GetBackupPlanFromJSONOutput {
+    }>): Request<GetBackupPlanFromJSONOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBackupPlanFromJSON(
-            this.ops["GetBackupPlanFromJSON"].apply(partialParams)
+          this.ops["GetBackupPlanFromJSON"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBackupPlanFromTemplate(partialParams: ToOptional<{
       [K in keyof GetBackupPlanFromTemplateInput & keyof GetBackupPlanFromTemplateInput]: (GetBackupPlanFromTemplateInput & GetBackupPlanFromTemplateInput)[K]
-    }>): GetBackupPlanFromTemplateOutput {
+    }>): Request<GetBackupPlanFromTemplateOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBackupPlanFromTemplate(
-            this.ops["GetBackupPlanFromTemplate"].apply(partialParams)
+          this.ops["GetBackupPlanFromTemplate"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBackupSelection(partialParams: ToOptional<{
       [K in keyof GetBackupSelectionInput & keyof GetBackupSelectionInput]: (GetBackupSelectionInput & GetBackupSelectionInput)[K]
-    }>): GetBackupSelectionOutput {
+    }>): Request<GetBackupSelectionOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBackupSelection(
-            this.ops["GetBackupSelection"].apply(partialParams)
+          this.ops["GetBackupSelection"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBackupVaultAccessPolicy(partialParams: ToOptional<{
       [K in keyof GetBackupVaultAccessPolicyInput & keyof Omit<GetBackupVaultAccessPolicyInput, "BackupVaultName">]: (GetBackupVaultAccessPolicyInput & Omit<GetBackupVaultAccessPolicyInput, "BackupVaultName">)[K]
-    }>): GetBackupVaultAccessPolicyOutput {
+    }>): Request<GetBackupVaultAccessPolicyOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBackupVaultAccessPolicy(
-            this.ops["GetBackupVaultAccessPolicy"].apply(partialParams)
+          this.ops["GetBackupVaultAccessPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBackupVaultNotifications(partialParams: ToOptional<{
       [K in keyof GetBackupVaultNotificationsInput & keyof Omit<GetBackupVaultNotificationsInput, "BackupVaultName">]: (GetBackupVaultNotificationsInput & Omit<GetBackupVaultNotificationsInput, "BackupVaultName">)[K]
-    }>): GetBackupVaultNotificationsOutput {
+    }>): Request<GetBackupVaultNotificationsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBackupVaultNotifications(
-            this.ops["GetBackupVaultNotifications"].apply(partialParams)
+          this.ops["GetBackupVaultNotifications"].applicator.apply(partialParams)
         );
     }
 
     invokeGetRecoveryPointRestoreMetadata(partialParams: ToOptional<{
       [K in keyof GetRecoveryPointRestoreMetadataInput & keyof Omit<GetRecoveryPointRestoreMetadataInput, "BackupVaultName">]: (GetRecoveryPointRestoreMetadataInput & Omit<GetRecoveryPointRestoreMetadataInput, "BackupVaultName">)[K]
-    }>): GetRecoveryPointRestoreMetadataOutput {
+    }>): Request<GetRecoveryPointRestoreMetadataOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getRecoveryPointRestoreMetadata(
-            this.ops["GetRecoveryPointRestoreMetadata"].apply(partialParams)
+          this.ops["GetRecoveryPointRestoreMetadata"].applicator.apply(partialParams)
         );
     }
 
     invokeListBackupPlanVersions(partialParams: ToOptional<{
       [K in keyof ListBackupPlanVersionsInput & keyof ListBackupPlanVersionsInput]: (ListBackupPlanVersionsInput & ListBackupPlanVersionsInput)[K]
-    }>): ListBackupPlanVersionsOutput {
+    }>): Request<ListBackupPlanVersionsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listBackupPlanVersions(
-            this.ops["ListBackupPlanVersions"].apply(partialParams)
+          this.ops["ListBackupPlanVersions"].applicator.apply(partialParams)
         );
     }
 
     invokeListBackupSelections(partialParams: ToOptional<{
       [K in keyof ListBackupSelectionsInput & keyof ListBackupSelectionsInput]: (ListBackupSelectionsInput & ListBackupSelectionsInput)[K]
-    }>): ListBackupSelectionsOutput {
+    }>): Request<ListBackupSelectionsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listBackupSelections(
-            this.ops["ListBackupSelections"].apply(partialParams)
+          this.ops["ListBackupSelections"].applicator.apply(partialParams)
         );
     }
 
     invokeListRecoveryPointsByBackupVault(partialParams: ToOptional<{
       [K in keyof ListRecoveryPointsByBackupVaultInput & keyof Omit<ListRecoveryPointsByBackupVaultInput, "BackupVaultName">]: (ListRecoveryPointsByBackupVaultInput & Omit<ListRecoveryPointsByBackupVaultInput, "BackupVaultName">)[K]
-    }>): ListRecoveryPointsByBackupVaultOutput {
+    }>): Request<ListRecoveryPointsByBackupVaultOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listRecoveryPointsByBackupVault(
-            this.ops["ListRecoveryPointsByBackupVault"].apply(partialParams)
+          this.ops["ListRecoveryPointsByBackupVault"].applicator.apply(partialParams)
         );
     }
 
     invokeListRecoveryPointsByResource(partialParams: ToOptional<{
       [K in keyof ListRecoveryPointsByResourceInput & keyof ListRecoveryPointsByResourceInput]: (ListRecoveryPointsByResourceInput & ListRecoveryPointsByResourceInput)[K]
-    }>): ListRecoveryPointsByResourceOutput {
+    }>): Request<ListRecoveryPointsByResourceOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listRecoveryPointsByResource(
-            this.ops["ListRecoveryPointsByResource"].apply(partialParams)
+          this.ops["ListRecoveryPointsByResource"].applicator.apply(partialParams)
         );
     }
 
     invokeListTags(partialParams: ToOptional<{
       [K in keyof ListTagsInput & keyof ListTagsInput]: (ListTagsInput & ListTagsInput)[K]
-    }>): ListTagsOutput {
+    }>): Request<ListTagsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTags(
-            this.ops["ListTags"].apply(partialParams)
+          this.ops["ListTags"].applicator.apply(partialParams)
         );
     }
 
     invokePutBackupVaultAccessPolicy(partialParams: ToOptional<{
       [K in keyof PutBackupVaultAccessPolicyInput & keyof Omit<PutBackupVaultAccessPolicyInput, "BackupVaultName">]: (PutBackupVaultAccessPolicyInput & Omit<PutBackupVaultAccessPolicyInput, "BackupVaultName">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBackupVaultAccessPolicy(
-            this.ops["PutBackupVaultAccessPolicy"].apply(partialParams)
+          this.ops["PutBackupVaultAccessPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokePutBackupVaultLockConfiguration(partialParams: ToOptional<{
       [K in keyof PutBackupVaultLockConfigurationInput & keyof Omit<PutBackupVaultLockConfigurationInput, "BackupVaultName">]: (PutBackupVaultLockConfigurationInput & Omit<PutBackupVaultLockConfigurationInput, "BackupVaultName">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBackupVaultLockConfiguration(
-            this.ops["PutBackupVaultLockConfiguration"].apply(partialParams)
+          this.ops["PutBackupVaultLockConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokePutBackupVaultNotifications(partialParams: ToOptional<{
       [K in keyof PutBackupVaultNotificationsInput & keyof Omit<PutBackupVaultNotificationsInput, "BackupVaultName">]: (PutBackupVaultNotificationsInput & Omit<PutBackupVaultNotificationsInput, "BackupVaultName">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putBackupVaultNotifications(
-            this.ops["PutBackupVaultNotifications"].apply(partialParams)
+          this.ops["PutBackupVaultNotifications"].applicator.apply(partialParams)
         );
     }
 
     invokeStartBackupJob(partialParams: ToOptional<{
       [K in keyof StartBackupJobInput & keyof Omit<StartBackupJobInput, "BackupVaultName">]: (StartBackupJobInput & Omit<StartBackupJobInput, "BackupVaultName">)[K]
-    }>): StartBackupJobOutput {
+    }>): Request<StartBackupJobOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startBackupJob(
-            this.ops["StartBackupJob"].apply(partialParams)
+          this.ops["StartBackupJob"].applicator.apply(partialParams)
         );
     }
 
     invokeStartCopyJob(partialParams: ToOptional<{
       [K in keyof StartCopyJobInput & keyof Omit<StartCopyJobInput, "SourceBackupVaultName">]: (StartCopyJobInput & Omit<StartCopyJobInput, "SourceBackupVaultName">)[K]
-    }>): StartCopyJobOutput {
+    }>): Request<StartCopyJobOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startCopyJob(
-            this.ops["StartCopyJob"].apply(partialParams)
+          this.ops["StartCopyJob"].applicator.apply(partialParams)
         );
     }
 
     invokeStartReportJob(partialParams: ToOptional<{
       [K in keyof StartReportJobInput & keyof StartReportJobInput]: (StartReportJobInput & StartReportJobInput)[K]
-    }>): StartReportJobOutput {
+    }>): Request<StartReportJobOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startReportJob(
-            this.ops["StartReportJob"].apply(partialParams)
+          this.ops["StartReportJob"].applicator.apply(partialParams)
         );
     }
 
     invokeStartRestoreJob(partialParams: ToOptional<{
       [K in keyof StartRestoreJobInput & keyof StartRestoreJobInput]: (StartRestoreJobInput & StartRestoreJobInput)[K]
-    }>): StartRestoreJobOutput {
+    }>): Request<StartRestoreJobOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startRestoreJob(
-            this.ops["StartRestoreJob"].apply(partialParams)
+          this.ops["StartRestoreJob"].applicator.apply(partialParams)
         );
     }
 
     invokeStopBackupJob(partialParams: ToOptional<{
       [K in keyof StopBackupJobInput & keyof StopBackupJobInput]: (StopBackupJobInput & StopBackupJobInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.stopBackupJob(
-            this.ops["StopBackupJob"].apply(partialParams)
+          this.ops["StopBackupJob"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceInput & keyof TagResourceInput]: (TagResourceInput & TagResourceInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceInput & keyof UntagResourceInput]: (UntagResourceInput & UntagResourceInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateBackupPlan(partialParams: ToOptional<{
       [K in keyof UpdateBackupPlanInput & keyof UpdateBackupPlanInput]: (UpdateBackupPlanInput & UpdateBackupPlanInput)[K]
-    }>): UpdateBackupPlanOutput {
+    }>): Request<UpdateBackupPlanOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateBackupPlan(
-            this.ops["UpdateBackupPlan"].apply(partialParams)
+          this.ops["UpdateBackupPlan"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateFramework(partialParams: ToOptional<{
       [K in keyof UpdateFrameworkInput & keyof UpdateFrameworkInput]: (UpdateFrameworkInput & UpdateFrameworkInput)[K]
-    }>): UpdateFrameworkOutput {
+    }>): Request<UpdateFrameworkOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateFramework(
-            this.ops["UpdateFramework"].apply(partialParams)
+          this.ops["UpdateFramework"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateRecoveryPointLifecycle(partialParams: ToOptional<{
       [K in keyof UpdateRecoveryPointLifecycleInput & keyof Omit<UpdateRecoveryPointLifecycleInput, "BackupVaultName">]: (UpdateRecoveryPointLifecycleInput & Omit<UpdateRecoveryPointLifecycleInput, "BackupVaultName">)[K]
-    }>): UpdateRecoveryPointLifecycleOutput {
+    }>): Request<UpdateRecoveryPointLifecycleOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateRecoveryPointLifecycle(
-            this.ops["UpdateRecoveryPointLifecycle"].apply(partialParams)
+          this.ops["UpdateRecoveryPointLifecycle"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateReportPlan(partialParams: ToOptional<{
       [K in keyof UpdateReportPlanInput & keyof UpdateReportPlanInput]: (UpdateReportPlanInput & UpdateReportPlanInput)[K]
-    }>): UpdateReportPlanOutput {
+    }>): Request<UpdateReportPlanOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateReportPlan(
-            this.ops["UpdateReportPlan"].apply(partialParams)
+          this.ops["UpdateReportPlan"].applicator.apply(partialParams)
         );
     }
 }

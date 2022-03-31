@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,108 +21,226 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/eks-2017-11-01.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.eks.IdentityProviderConfig {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.EKS();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/eks-2017-11-01.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeAssociateEncryptionConfig(partialParams) {
-        return this.client.associateEncryptionConfig(this.ops["AssociateEncryptionConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateEncryptionConfig(this.ops["AssociateEncryptionConfig"].applicator.apply(partialParams));
     }
     invokeAssociateIdentityProviderConfig(partialParams) {
-        return this.client.associateIdentityProviderConfig(this.ops["AssociateIdentityProviderConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateIdentityProviderConfig(this.ops["AssociateIdentityProviderConfig"].applicator.apply(partialParams));
     }
     invokeCreateAddon(partialParams) {
-        return this.client.createAddon(this.ops["CreateAddon"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createAddon(this.ops["CreateAddon"].applicator.apply(partialParams));
     }
     invokeCreateCluster(partialParams) {
-        return this.client.createCluster(this.ops["CreateCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createCluster(this.ops["CreateCluster"].applicator.apply(partialParams));
     }
     invokeCreateFargateProfile(partialParams) {
-        return this.client.createFargateProfile(this.ops["CreateFargateProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createFargateProfile(this.ops["CreateFargateProfile"].applicator.apply(partialParams));
     }
     invokeCreateNodegroup(partialParams) {
-        return this.client.createNodegroup(this.ops["CreateNodegroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createNodegroup(this.ops["CreateNodegroup"].applicator.apply(partialParams));
     }
     invokeDeleteAddon(partialParams) {
-        return this.client.deleteAddon(this.ops["DeleteAddon"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteAddon(this.ops["DeleteAddon"].applicator.apply(partialParams));
     }
     invokeDeleteCluster(partialParams) {
-        return this.client.deleteCluster(this.ops["DeleteCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteCluster(this.ops["DeleteCluster"].applicator.apply(partialParams));
     }
     invokeDeleteFargateProfile(partialParams) {
-        return this.client.deleteFargateProfile(this.ops["DeleteFargateProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteFargateProfile(this.ops["DeleteFargateProfile"].applicator.apply(partialParams));
     }
     invokeDeleteNodegroup(partialParams) {
-        return this.client.deleteNodegroup(this.ops["DeleteNodegroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteNodegroup(this.ops["DeleteNodegroup"].applicator.apply(partialParams));
     }
     invokeDeregisterCluster(partialParams) {
-        return this.client.deregisterCluster(this.ops["DeregisterCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deregisterCluster(this.ops["DeregisterCluster"].applicator.apply(partialParams));
     }
     invokeDescribeAddon(partialParams) {
-        return this.client.describeAddon(this.ops["DescribeAddon"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeAddon(this.ops["DescribeAddon"].applicator.apply(partialParams));
     }
     invokeDescribeCluster(partialParams) {
-        return this.client.describeCluster(this.ops["DescribeCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeCluster(this.ops["DescribeCluster"].applicator.apply(partialParams));
     }
     invokeDescribeFargateProfile(partialParams) {
-        return this.client.describeFargateProfile(this.ops["DescribeFargateProfile"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeFargateProfile(this.ops["DescribeFargateProfile"].applicator.apply(partialParams));
     }
     invokeDescribeIdentityProviderConfig(partialParams) {
-        return this.client.describeIdentityProviderConfig(this.ops["DescribeIdentityProviderConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeIdentityProviderConfig(this.ops["DescribeIdentityProviderConfig"].applicator.apply(partialParams));
     }
     invokeDescribeNodegroup(partialParams) {
-        return this.client.describeNodegroup(this.ops["DescribeNodegroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeNodegroup(this.ops["DescribeNodegroup"].applicator.apply(partialParams));
     }
     invokeDescribeUpdate(partialParams) {
-        return this.client.describeUpdate(this.ops["DescribeUpdate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeUpdate(this.ops["DescribeUpdate"].applicator.apply(partialParams));
     }
     invokeDisassociateIdentityProviderConfig(partialParams) {
-        return this.client.disassociateIdentityProviderConfig(this.ops["DisassociateIdentityProviderConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociateIdentityProviderConfig(this.ops["DisassociateIdentityProviderConfig"].applicator.apply(partialParams));
     }
     invokeListAddons(partialParams) {
-        return this.client.listAddons(this.ops["ListAddons"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listAddons(this.ops["ListAddons"].applicator.apply(partialParams));
     }
     invokeListFargateProfiles(partialParams) {
-        return this.client.listFargateProfiles(this.ops["ListFargateProfiles"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listFargateProfiles(this.ops["ListFargateProfiles"].applicator.apply(partialParams));
     }
     invokeListIdentityProviderConfigs(partialParams) {
-        return this.client.listIdentityProviderConfigs(this.ops["ListIdentityProviderConfigs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listIdentityProviderConfigs(this.ops["ListIdentityProviderConfigs"].applicator.apply(partialParams));
     }
     invokeListNodegroups(partialParams) {
-        return this.client.listNodegroups(this.ops["ListNodegroups"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listNodegroups(this.ops["ListNodegroups"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokeListUpdates(partialParams) {
-        return this.client.listUpdates(this.ops["ListUpdates"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listUpdates(this.ops["ListUpdates"].applicator.apply(partialParams));
     }
     invokeRegisterCluster(partialParams) {
-        return this.client.registerCluster(this.ops["RegisterCluster"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.registerCluster(this.ops["RegisterCluster"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateAddon(partialParams) {
-        return this.client.updateAddon(this.ops["UpdateAddon"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateAddon(this.ops["UpdateAddon"].applicator.apply(partialParams));
     }
     invokeUpdateClusterConfig(partialParams) {
-        return this.client.updateClusterConfig(this.ops["UpdateClusterConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateClusterConfig(this.ops["UpdateClusterConfig"].applicator.apply(partialParams));
     }
     invokeUpdateClusterVersion(partialParams) {
-        return this.client.updateClusterVersion(this.ops["UpdateClusterVersion"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateClusterVersion(this.ops["UpdateClusterVersion"].applicator.apply(partialParams));
     }
     invokeUpdateNodegroupConfig(partialParams) {
-        return this.client.updateNodegroupConfig(this.ops["UpdateNodegroupConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateNodegroupConfig(this.ops["UpdateNodegroupConfig"].applicator.apply(partialParams));
     }
     invokeUpdateNodegroupVersion(partialParams) {
-        return this.client.updateNodegroupVersion(this.ops["UpdateNodegroupVersion"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateNodegroupVersion(this.ops["UpdateNodegroupVersion"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

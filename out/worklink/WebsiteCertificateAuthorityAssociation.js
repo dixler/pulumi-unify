@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,108 +21,226 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/worklink-2018-09-25.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.worklink.WebsiteCertificateAuthorityAssociation {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.WorkLink();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/worklink-2018-09-25.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeAssociateDomain(partialParams) {
-        return this.client.associateDomain(this.ops["AssociateDomain"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateDomain(this.ops["AssociateDomain"].applicator.apply(partialParams));
     }
     invokeAssociateWebsiteAuthorizationProvider(partialParams) {
-        return this.client.associateWebsiteAuthorizationProvider(this.ops["AssociateWebsiteAuthorizationProvider"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateWebsiteAuthorizationProvider(this.ops["AssociateWebsiteAuthorizationProvider"].applicator.apply(partialParams));
     }
     invokeAssociateWebsiteCertificateAuthority(partialParams) {
-        return this.client.associateWebsiteCertificateAuthority(this.ops["AssociateWebsiteCertificateAuthority"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateWebsiteCertificateAuthority(this.ops["AssociateWebsiteCertificateAuthority"].applicator.apply(partialParams));
     }
     invokeCreateFleet(partialParams) {
-        return this.client.createFleet(this.ops["CreateFleet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createFleet(this.ops["CreateFleet"].applicator.apply(partialParams));
     }
     invokeDeleteFleet(partialParams) {
-        return this.client.deleteFleet(this.ops["DeleteFleet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteFleet(this.ops["DeleteFleet"].applicator.apply(partialParams));
     }
     invokeDescribeAuditStreamConfiguration(partialParams) {
-        return this.client.describeAuditStreamConfiguration(this.ops["DescribeAuditStreamConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeAuditStreamConfiguration(this.ops["DescribeAuditStreamConfiguration"].applicator.apply(partialParams));
     }
     invokeDescribeCompanyNetworkConfiguration(partialParams) {
-        return this.client.describeCompanyNetworkConfiguration(this.ops["DescribeCompanyNetworkConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeCompanyNetworkConfiguration(this.ops["DescribeCompanyNetworkConfiguration"].applicator.apply(partialParams));
     }
     invokeDescribeDevice(partialParams) {
-        return this.client.describeDevice(this.ops["DescribeDevice"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeDevice(this.ops["DescribeDevice"].applicator.apply(partialParams));
     }
     invokeDescribeDevicePolicyConfiguration(partialParams) {
-        return this.client.describeDevicePolicyConfiguration(this.ops["DescribeDevicePolicyConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeDevicePolicyConfiguration(this.ops["DescribeDevicePolicyConfiguration"].applicator.apply(partialParams));
     }
     invokeDescribeDomain(partialParams) {
-        return this.client.describeDomain(this.ops["DescribeDomain"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeDomain(this.ops["DescribeDomain"].applicator.apply(partialParams));
     }
     invokeDescribeFleetMetadata(partialParams) {
-        return this.client.describeFleetMetadata(this.ops["DescribeFleetMetadata"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeFleetMetadata(this.ops["DescribeFleetMetadata"].applicator.apply(partialParams));
     }
     invokeDescribeIdentityProviderConfiguration(partialParams) {
-        return this.client.describeIdentityProviderConfiguration(this.ops["DescribeIdentityProviderConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeIdentityProviderConfiguration(this.ops["DescribeIdentityProviderConfiguration"].applicator.apply(partialParams));
     }
     invokeDescribeWebsiteCertificateAuthority(partialParams) {
-        return this.client.describeWebsiteCertificateAuthority(this.ops["DescribeWebsiteCertificateAuthority"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeWebsiteCertificateAuthority(this.ops["DescribeWebsiteCertificateAuthority"].applicator.apply(partialParams));
     }
     invokeDisassociateDomain(partialParams) {
-        return this.client.disassociateDomain(this.ops["DisassociateDomain"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociateDomain(this.ops["DisassociateDomain"].applicator.apply(partialParams));
     }
     invokeDisassociateWebsiteAuthorizationProvider(partialParams) {
-        return this.client.disassociateWebsiteAuthorizationProvider(this.ops["DisassociateWebsiteAuthorizationProvider"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociateWebsiteAuthorizationProvider(this.ops["DisassociateWebsiteAuthorizationProvider"].applicator.apply(partialParams));
     }
     invokeDisassociateWebsiteCertificateAuthority(partialParams) {
-        return this.client.disassociateWebsiteCertificateAuthority(this.ops["DisassociateWebsiteCertificateAuthority"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociateWebsiteCertificateAuthority(this.ops["DisassociateWebsiteCertificateAuthority"].applicator.apply(partialParams));
     }
     invokeListDevices(partialParams) {
-        return this.client.listDevices(this.ops["ListDevices"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listDevices(this.ops["ListDevices"].applicator.apply(partialParams));
     }
     invokeListDomains(partialParams) {
-        return this.client.listDomains(this.ops["ListDomains"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listDomains(this.ops["ListDomains"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokeListWebsiteAuthorizationProviders(partialParams) {
-        return this.client.listWebsiteAuthorizationProviders(this.ops["ListWebsiteAuthorizationProviders"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listWebsiteAuthorizationProviders(this.ops["ListWebsiteAuthorizationProviders"].applicator.apply(partialParams));
     }
     invokeListWebsiteCertificateAuthorities(partialParams) {
-        return this.client.listWebsiteCertificateAuthorities(this.ops["ListWebsiteCertificateAuthorities"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listWebsiteCertificateAuthorities(this.ops["ListWebsiteCertificateAuthorities"].applicator.apply(partialParams));
     }
     invokeRestoreDomainAccess(partialParams) {
-        return this.client.restoreDomainAccess(this.ops["RestoreDomainAccess"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.restoreDomainAccess(this.ops["RestoreDomainAccess"].applicator.apply(partialParams));
     }
     invokeRevokeDomainAccess(partialParams) {
-        return this.client.revokeDomainAccess(this.ops["RevokeDomainAccess"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.revokeDomainAccess(this.ops["RevokeDomainAccess"].applicator.apply(partialParams));
     }
     invokeSignOutUser(partialParams) {
-        return this.client.signOutUser(this.ops["SignOutUser"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.signOutUser(this.ops["SignOutUser"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateAuditStreamConfiguration(partialParams) {
-        return this.client.updateAuditStreamConfiguration(this.ops["UpdateAuditStreamConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateAuditStreamConfiguration(this.ops["UpdateAuditStreamConfiguration"].applicator.apply(partialParams));
     }
     invokeUpdateCompanyNetworkConfiguration(partialParams) {
-        return this.client.updateCompanyNetworkConfiguration(this.ops["UpdateCompanyNetworkConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateCompanyNetworkConfiguration(this.ops["UpdateCompanyNetworkConfiguration"].applicator.apply(partialParams));
     }
     invokeUpdateDevicePolicyConfiguration(partialParams) {
-        return this.client.updateDevicePolicyConfiguration(this.ops["UpdateDevicePolicyConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateDevicePolicyConfiguration(this.ops["UpdateDevicePolicyConfiguration"].applicator.apply(partialParams));
     }
     invokeUpdateDomainMetadata(partialParams) {
-        return this.client.updateDomainMetadata(this.ops["UpdateDomainMetadata"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateDomainMetadata(this.ops["UpdateDomainMetadata"].applicator.apply(partialParams));
     }
     invokeUpdateFleetMetadata(partialParams) {
-        return this.client.updateFleetMetadata(this.ops["UpdateFleetMetadata"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateFleetMetadata(this.ops["UpdateFleetMetadata"].applicator.apply(partialParams));
     }
     invokeUpdateIdentityProviderConfiguration(partialParams) {
-        return this.client.updateIdentityProviderConfiguration(this.ops["UpdateIdentityProviderConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateIdentityProviderConfiguration(this.ops["UpdateIdentityProviderConfiguration"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

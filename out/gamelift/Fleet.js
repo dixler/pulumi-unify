@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,237 +21,484 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/gamelift-2015-10-01.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.gamelift.Fleet {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.GameLift();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/gamelift-2015-10-01.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeAcceptMatch(partialParams) {
-        return this.client.acceptMatch(this.ops["AcceptMatch"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.acceptMatch(this.ops["AcceptMatch"].applicator.apply(partialParams));
     }
     invokeClaimGameServer(partialParams) {
-        return this.client.claimGameServer(this.ops["ClaimGameServer"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.claimGameServer(this.ops["ClaimGameServer"].applicator.apply(partialParams));
     }
     invokeCreateAlias(partialParams) {
-        return this.client.createAlias(this.ops["CreateAlias"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createAlias(this.ops["CreateAlias"].applicator.apply(partialParams));
     }
     invokeCreateFleet(partialParams) {
-        return this.client.createFleet(this.ops["CreateFleet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createFleet(this.ops["CreateFleet"].applicator.apply(partialParams));
     }
     invokeCreateFleetLocations(partialParams) {
-        return this.client.createFleetLocations(this.ops["CreateFleetLocations"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createFleetLocations(this.ops["CreateFleetLocations"].applicator.apply(partialParams));
     }
     invokeCreateGameServerGroup(partialParams) {
-        return this.client.createGameServerGroup(this.ops["CreateGameServerGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createGameServerGroup(this.ops["CreateGameServerGroup"].applicator.apply(partialParams));
     }
     invokeCreateGameSession(partialParams) {
-        return this.client.createGameSession(this.ops["CreateGameSession"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createGameSession(this.ops["CreateGameSession"].applicator.apply(partialParams));
     }
     invokeCreateGameSessionQueue(partialParams) {
-        return this.client.createGameSessionQueue(this.ops["CreateGameSessionQueue"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createGameSessionQueue(this.ops["CreateGameSessionQueue"].applicator.apply(partialParams));
     }
     invokeCreateMatchmakingConfiguration(partialParams) {
-        return this.client.createMatchmakingConfiguration(this.ops["CreateMatchmakingConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createMatchmakingConfiguration(this.ops["CreateMatchmakingConfiguration"].applicator.apply(partialParams));
     }
     invokeCreateMatchmakingRuleSet(partialParams) {
-        return this.client.createMatchmakingRuleSet(this.ops["CreateMatchmakingRuleSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createMatchmakingRuleSet(this.ops["CreateMatchmakingRuleSet"].applicator.apply(partialParams));
     }
     invokeCreatePlayerSession(partialParams) {
-        return this.client.createPlayerSession(this.ops["CreatePlayerSession"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createPlayerSession(this.ops["CreatePlayerSession"].applicator.apply(partialParams));
     }
     invokeCreatePlayerSessions(partialParams) {
-        return this.client.createPlayerSessions(this.ops["CreatePlayerSessions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createPlayerSessions(this.ops["CreatePlayerSessions"].applicator.apply(partialParams));
     }
     invokeCreateVpcPeeringAuthorization(partialParams) {
-        return this.client.createVpcPeeringAuthorization(this.ops["CreateVpcPeeringAuthorization"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createVpcPeeringAuthorization(this.ops["CreateVpcPeeringAuthorization"].applicator.apply(partialParams));
     }
     invokeCreateVpcPeeringConnection(partialParams) {
-        return this.client.createVpcPeeringConnection(this.ops["CreateVpcPeeringConnection"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createVpcPeeringConnection(this.ops["CreateVpcPeeringConnection"].applicator.apply(partialParams));
     }
     invokeDeleteAlias(partialParams) {
-        return this.client.deleteAlias(this.ops["DeleteAlias"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteAlias(this.ops["DeleteAlias"].applicator.apply(partialParams));
     }
     invokeDeleteBuild(partialParams) {
-        return this.client.deleteBuild(this.ops["DeleteBuild"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteBuild(this.ops["DeleteBuild"].applicator.apply(partialParams));
     }
     invokeDeleteFleet(partialParams) {
-        return this.client.deleteFleet(this.ops["DeleteFleet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteFleet(this.ops["DeleteFleet"].applicator.apply(partialParams));
     }
     invokeDeleteFleetLocations(partialParams) {
-        return this.client.deleteFleetLocations(this.ops["DeleteFleetLocations"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteFleetLocations(this.ops["DeleteFleetLocations"].applicator.apply(partialParams));
     }
     invokeDeleteGameServerGroup(partialParams) {
-        return this.client.deleteGameServerGroup(this.ops["DeleteGameServerGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteGameServerGroup(this.ops["DeleteGameServerGroup"].applicator.apply(partialParams));
     }
     invokeDeleteGameSessionQueue(partialParams) {
-        return this.client.deleteGameSessionQueue(this.ops["DeleteGameSessionQueue"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteGameSessionQueue(this.ops["DeleteGameSessionQueue"].applicator.apply(partialParams));
     }
     invokeDeleteMatchmakingConfiguration(partialParams) {
-        return this.client.deleteMatchmakingConfiguration(this.ops["DeleteMatchmakingConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteMatchmakingConfiguration(this.ops["DeleteMatchmakingConfiguration"].applicator.apply(partialParams));
     }
     invokeDeleteMatchmakingRuleSet(partialParams) {
-        return this.client.deleteMatchmakingRuleSet(this.ops["DeleteMatchmakingRuleSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteMatchmakingRuleSet(this.ops["DeleteMatchmakingRuleSet"].applicator.apply(partialParams));
     }
     invokeDeleteScalingPolicy(partialParams) {
-        return this.client.deleteScalingPolicy(this.ops["DeleteScalingPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteScalingPolicy(this.ops["DeleteScalingPolicy"].applicator.apply(partialParams));
     }
     invokeDeleteScript(partialParams) {
-        return this.client.deleteScript(this.ops["DeleteScript"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteScript(this.ops["DeleteScript"].applicator.apply(partialParams));
     }
     invokeDeleteVpcPeeringAuthorization(partialParams) {
-        return this.client.deleteVpcPeeringAuthorization(this.ops["DeleteVpcPeeringAuthorization"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteVpcPeeringAuthorization(this.ops["DeleteVpcPeeringAuthorization"].applicator.apply(partialParams));
     }
     invokeDeleteVpcPeeringConnection(partialParams) {
-        return this.client.deleteVpcPeeringConnection(this.ops["DeleteVpcPeeringConnection"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteVpcPeeringConnection(this.ops["DeleteVpcPeeringConnection"].applicator.apply(partialParams));
     }
     invokeDeregisterGameServer(partialParams) {
-        return this.client.deregisterGameServer(this.ops["DeregisterGameServer"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deregisterGameServer(this.ops["DeregisterGameServer"].applicator.apply(partialParams));
     }
     invokeDescribeAlias(partialParams) {
-        return this.client.describeAlias(this.ops["DescribeAlias"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeAlias(this.ops["DescribeAlias"].applicator.apply(partialParams));
     }
     invokeDescribeBuild(partialParams) {
-        return this.client.describeBuild(this.ops["DescribeBuild"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeBuild(this.ops["DescribeBuild"].applicator.apply(partialParams));
     }
     invokeDescribeFleetEvents(partialParams) {
-        return this.client.describeFleetEvents(this.ops["DescribeFleetEvents"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeFleetEvents(this.ops["DescribeFleetEvents"].applicator.apply(partialParams));
     }
     invokeDescribeFleetLocationAttributes(partialParams) {
-        return this.client.describeFleetLocationAttributes(this.ops["DescribeFleetLocationAttributes"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeFleetLocationAttributes(this.ops["DescribeFleetLocationAttributes"].applicator.apply(partialParams));
     }
     invokeDescribeFleetLocationCapacity(partialParams) {
-        return this.client.describeFleetLocationCapacity(this.ops["DescribeFleetLocationCapacity"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeFleetLocationCapacity(this.ops["DescribeFleetLocationCapacity"].applicator.apply(partialParams));
     }
     invokeDescribeFleetLocationUtilization(partialParams) {
-        return this.client.describeFleetLocationUtilization(this.ops["DescribeFleetLocationUtilization"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeFleetLocationUtilization(this.ops["DescribeFleetLocationUtilization"].applicator.apply(partialParams));
     }
     invokeDescribeFleetPortSettings(partialParams) {
-        return this.client.describeFleetPortSettings(this.ops["DescribeFleetPortSettings"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeFleetPortSettings(this.ops["DescribeFleetPortSettings"].applicator.apply(partialParams));
     }
     invokeDescribeGameServer(partialParams) {
-        return this.client.describeGameServer(this.ops["DescribeGameServer"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeGameServer(this.ops["DescribeGameServer"].applicator.apply(partialParams));
     }
     invokeDescribeGameServerGroup(partialParams) {
-        return this.client.describeGameServerGroup(this.ops["DescribeGameServerGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeGameServerGroup(this.ops["DescribeGameServerGroup"].applicator.apply(partialParams));
     }
     invokeDescribeGameServerInstances(partialParams) {
-        return this.client.describeGameServerInstances(this.ops["DescribeGameServerInstances"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeGameServerInstances(this.ops["DescribeGameServerInstances"].applicator.apply(partialParams));
     }
     invokeDescribeGameSessionPlacement(partialParams) {
-        return this.client.describeGameSessionPlacement(this.ops["DescribeGameSessionPlacement"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeGameSessionPlacement(this.ops["DescribeGameSessionPlacement"].applicator.apply(partialParams));
     }
     invokeDescribeInstances(partialParams) {
-        return this.client.describeInstances(this.ops["DescribeInstances"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeInstances(this.ops["DescribeInstances"].applicator.apply(partialParams));
     }
     invokeDescribeMatchmaking(partialParams) {
-        return this.client.describeMatchmaking(this.ops["DescribeMatchmaking"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeMatchmaking(this.ops["DescribeMatchmaking"].applicator.apply(partialParams));
     }
     invokeDescribeRuntimeConfiguration(partialParams) {
-        return this.client.describeRuntimeConfiguration(this.ops["DescribeRuntimeConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeRuntimeConfiguration(this.ops["DescribeRuntimeConfiguration"].applicator.apply(partialParams));
     }
     invokeDescribeScalingPolicies(partialParams) {
-        return this.client.describeScalingPolicies(this.ops["DescribeScalingPolicies"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeScalingPolicies(this.ops["DescribeScalingPolicies"].applicator.apply(partialParams));
     }
     invokeDescribeScript(partialParams) {
-        return this.client.describeScript(this.ops["DescribeScript"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeScript(this.ops["DescribeScript"].applicator.apply(partialParams));
     }
     invokeGetGameSessionLogUrl(partialParams) {
-        return this.client.getGameSessionLogUrl(this.ops["GetGameSessionLogUrl"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getGameSessionLogUrl(this.ops["GetGameSessionLogUrl"].applicator.apply(partialParams));
     }
     invokeGetInstanceAccess(partialParams) {
-        return this.client.getInstanceAccess(this.ops["GetInstanceAccess"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getInstanceAccess(this.ops["GetInstanceAccess"].applicator.apply(partialParams));
     }
     invokeListGameServers(partialParams) {
-        return this.client.listGameServers(this.ops["ListGameServers"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listGameServers(this.ops["ListGameServers"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokePutScalingPolicy(partialParams) {
-        return this.client.putScalingPolicy(this.ops["PutScalingPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putScalingPolicy(this.ops["PutScalingPolicy"].applicator.apply(partialParams));
     }
     invokeRegisterGameServer(partialParams) {
-        return this.client.registerGameServer(this.ops["RegisterGameServer"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.registerGameServer(this.ops["RegisterGameServer"].applicator.apply(partialParams));
     }
     invokeRequestUploadCredentials(partialParams) {
-        return this.client.requestUploadCredentials(this.ops["RequestUploadCredentials"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.requestUploadCredentials(this.ops["RequestUploadCredentials"].applicator.apply(partialParams));
     }
     invokeResolveAlias(partialParams) {
-        return this.client.resolveAlias(this.ops["ResolveAlias"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.resolveAlias(this.ops["ResolveAlias"].applicator.apply(partialParams));
     }
     invokeResumeGameServerGroup(partialParams) {
-        return this.client.resumeGameServerGroup(this.ops["ResumeGameServerGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.resumeGameServerGroup(this.ops["ResumeGameServerGroup"].applicator.apply(partialParams));
     }
     invokeStartFleetActions(partialParams) {
-        return this.client.startFleetActions(this.ops["StartFleetActions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startFleetActions(this.ops["StartFleetActions"].applicator.apply(partialParams));
     }
     invokeStartGameSessionPlacement(partialParams) {
-        return this.client.startGameSessionPlacement(this.ops["StartGameSessionPlacement"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startGameSessionPlacement(this.ops["StartGameSessionPlacement"].applicator.apply(partialParams));
     }
     invokeStartMatchBackfill(partialParams) {
-        return this.client.startMatchBackfill(this.ops["StartMatchBackfill"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startMatchBackfill(this.ops["StartMatchBackfill"].applicator.apply(partialParams));
     }
     invokeStartMatchmaking(partialParams) {
-        return this.client.startMatchmaking(this.ops["StartMatchmaking"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startMatchmaking(this.ops["StartMatchmaking"].applicator.apply(partialParams));
     }
     invokeStopFleetActions(partialParams) {
-        return this.client.stopFleetActions(this.ops["StopFleetActions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.stopFleetActions(this.ops["StopFleetActions"].applicator.apply(partialParams));
     }
     invokeStopGameSessionPlacement(partialParams) {
-        return this.client.stopGameSessionPlacement(this.ops["StopGameSessionPlacement"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.stopGameSessionPlacement(this.ops["StopGameSessionPlacement"].applicator.apply(partialParams));
     }
     invokeStopMatchmaking(partialParams) {
-        return this.client.stopMatchmaking(this.ops["StopMatchmaking"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.stopMatchmaking(this.ops["StopMatchmaking"].applicator.apply(partialParams));
     }
     invokeSuspendGameServerGroup(partialParams) {
-        return this.client.suspendGameServerGroup(this.ops["SuspendGameServerGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.suspendGameServerGroup(this.ops["SuspendGameServerGroup"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateAlias(partialParams) {
-        return this.client.updateAlias(this.ops["UpdateAlias"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateAlias(this.ops["UpdateAlias"].applicator.apply(partialParams));
     }
     invokeUpdateBuild(partialParams) {
-        return this.client.updateBuild(this.ops["UpdateBuild"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateBuild(this.ops["UpdateBuild"].applicator.apply(partialParams));
     }
     invokeUpdateFleetAttributes(partialParams) {
-        return this.client.updateFleetAttributes(this.ops["UpdateFleetAttributes"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateFleetAttributes(this.ops["UpdateFleetAttributes"].applicator.apply(partialParams));
     }
     invokeUpdateFleetCapacity(partialParams) {
-        return this.client.updateFleetCapacity(this.ops["UpdateFleetCapacity"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateFleetCapacity(this.ops["UpdateFleetCapacity"].applicator.apply(partialParams));
     }
     invokeUpdateFleetPortSettings(partialParams) {
-        return this.client.updateFleetPortSettings(this.ops["UpdateFleetPortSettings"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateFleetPortSettings(this.ops["UpdateFleetPortSettings"].applicator.apply(partialParams));
     }
     invokeUpdateGameServer(partialParams) {
-        return this.client.updateGameServer(this.ops["UpdateGameServer"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateGameServer(this.ops["UpdateGameServer"].applicator.apply(partialParams));
     }
     invokeUpdateGameServerGroup(partialParams) {
-        return this.client.updateGameServerGroup(this.ops["UpdateGameServerGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateGameServerGroup(this.ops["UpdateGameServerGroup"].applicator.apply(partialParams));
     }
     invokeUpdateGameSession(partialParams) {
-        return this.client.updateGameSession(this.ops["UpdateGameSession"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateGameSession(this.ops["UpdateGameSession"].applicator.apply(partialParams));
     }
     invokeUpdateGameSessionQueue(partialParams) {
-        return this.client.updateGameSessionQueue(this.ops["UpdateGameSessionQueue"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateGameSessionQueue(this.ops["UpdateGameSessionQueue"].applicator.apply(partialParams));
     }
     invokeUpdateMatchmakingConfiguration(partialParams) {
-        return this.client.updateMatchmakingConfiguration(this.ops["UpdateMatchmakingConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateMatchmakingConfiguration(this.ops["UpdateMatchmakingConfiguration"].applicator.apply(partialParams));
     }
     invokeUpdateRuntimeConfiguration(partialParams) {
-        return this.client.updateRuntimeConfiguration(this.ops["UpdateRuntimeConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateRuntimeConfiguration(this.ops["UpdateRuntimeConfiguration"].applicator.apply(partialParams));
     }
     invokeUpdateScript(partialParams) {
-        return this.client.updateScript(this.ops["UpdateScript"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateScript(this.ops["UpdateScript"].applicator.apply(partialParams));
     }
     invokeValidateMatchmakingRuleSet(partialParams) {
-        return this.client.validateMatchmakingRuleSet(this.ops["ValidateMatchmakingRuleSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.validateMatchmakingRuleSet(this.ops["ValidateMatchmakingRuleSet"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

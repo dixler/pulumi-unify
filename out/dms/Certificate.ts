@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     AddTagsToResourceMessage,
     ApplyPendingMaintenanceActionMessage,
@@ -77,8 +80,8 @@ import {
     StopReplicationTaskResponse,
     TestConnectionResponse
 } from "aws-sdk/clients/dms";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/dms-2016-01-01.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -87,307 +90,440 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.dms.Certificate {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.dms.Certificate>) {
         super(...args)
         this.client = new awssdk.DMS()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/dms-2016-01-01.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeAddTagsToResource(partialParams: ToOptional<{
       [K in keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage]: (AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage)[K]
-    }>): AddTagsToResourceResponse {
+    }>): Request<AddTagsToResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.addTagsToResource(
-            this.ops["AddTagsToResource"].apply(partialParams)
+          this.ops["AddTagsToResource"].applicator.apply(partialParams)
         );
     }
 
     invokeApplyPendingMaintenanceAction(partialParams: ToOptional<{
       [K in keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage]: (ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage)[K]
-    }>): ApplyPendingMaintenanceActionResponse {
+    }>): Request<ApplyPendingMaintenanceActionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.applyPendingMaintenanceAction(
-            this.ops["ApplyPendingMaintenanceAction"].apply(partialParams)
+          this.ops["ApplyPendingMaintenanceAction"].applicator.apply(partialParams)
         );
     }
 
     invokeCancelReplicationTaskAssessmentRun(partialParams: ToOptional<{
       [K in keyof CancelReplicationTaskAssessmentRunMessage & keyof CancelReplicationTaskAssessmentRunMessage & keyof CancelReplicationTaskAssessmentRunMessage & keyof CancelReplicationTaskAssessmentRunMessage]: (CancelReplicationTaskAssessmentRunMessage & CancelReplicationTaskAssessmentRunMessage & CancelReplicationTaskAssessmentRunMessage & CancelReplicationTaskAssessmentRunMessage)[K]
-    }>): CancelReplicationTaskAssessmentRunResponse {
+    }>): Request<CancelReplicationTaskAssessmentRunResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.cancelReplicationTaskAssessmentRun(
-            this.ops["CancelReplicationTaskAssessmentRun"].apply(partialParams)
+          this.ops["CancelReplicationTaskAssessmentRun"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateEndpoint(partialParams: ToOptional<{
       [K in keyof CreateEndpointMessage & keyof CreateEndpointMessage & keyof CreateEndpointMessage & keyof CreateEndpointMessage]: (CreateEndpointMessage & CreateEndpointMessage & CreateEndpointMessage & CreateEndpointMessage)[K]
-    }>): CreateEndpointResponse {
+    }>): Request<CreateEndpointResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createEndpoint(
-            this.ops["CreateEndpoint"].apply(partialParams)
+          this.ops["CreateEndpoint"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateEventSubscription(partialParams: ToOptional<{
       [K in keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage]: (CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage)[K]
-    }>): CreateEventSubscriptionResponse {
+    }>): Request<CreateEventSubscriptionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createEventSubscription(
-            this.ops["CreateEventSubscription"].apply(partialParams)
+          this.ops["CreateEventSubscription"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateReplicationInstance(partialParams: ToOptional<{
       [K in keyof CreateReplicationInstanceMessage & keyof CreateReplicationInstanceMessage & keyof CreateReplicationInstanceMessage & keyof CreateReplicationInstanceMessage]: (CreateReplicationInstanceMessage & CreateReplicationInstanceMessage & CreateReplicationInstanceMessage & CreateReplicationInstanceMessage)[K]
-    }>): CreateReplicationInstanceResponse {
+    }>): Request<CreateReplicationInstanceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createReplicationInstance(
-            this.ops["CreateReplicationInstance"].apply(partialParams)
+          this.ops["CreateReplicationInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateReplicationSubnetGroup(partialParams: ToOptional<{
       [K in keyof CreateReplicationSubnetGroupMessage & keyof CreateReplicationSubnetGroupMessage & keyof CreateReplicationSubnetGroupMessage & keyof CreateReplicationSubnetGroupMessage]: (CreateReplicationSubnetGroupMessage & CreateReplicationSubnetGroupMessage & CreateReplicationSubnetGroupMessage & CreateReplicationSubnetGroupMessage)[K]
-    }>): CreateReplicationSubnetGroupResponse {
+    }>): Request<CreateReplicationSubnetGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createReplicationSubnetGroup(
-            this.ops["CreateReplicationSubnetGroup"].apply(partialParams)
+          this.ops["CreateReplicationSubnetGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateReplicationTask(partialParams: ToOptional<{
       [K in keyof CreateReplicationTaskMessage & keyof CreateReplicationTaskMessage & keyof CreateReplicationTaskMessage & keyof CreateReplicationTaskMessage]: (CreateReplicationTaskMessage & CreateReplicationTaskMessage & CreateReplicationTaskMessage & CreateReplicationTaskMessage)[K]
-    }>): CreateReplicationTaskResponse {
+    }>): Request<CreateReplicationTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createReplicationTask(
-            this.ops["CreateReplicationTask"].apply(partialParams)
+          this.ops["CreateReplicationTask"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteCertificate(partialParams: ToOptional<{
       [K in keyof DeleteCertificateMessage & keyof DeleteCertificateMessage & keyof DeleteCertificateMessage & keyof DeleteCertificateMessage]: (DeleteCertificateMessage & DeleteCertificateMessage & DeleteCertificateMessage & DeleteCertificateMessage)[K]
-    }>): DeleteCertificateResponse {
+    }>): Request<DeleteCertificateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteCertificate(
-            this.ops["DeleteCertificate"].apply(partialParams)
+          this.ops["DeleteCertificate"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteConnection(partialParams: ToOptional<{
       [K in keyof DeleteConnectionMessage & keyof DeleteConnectionMessage & keyof DeleteConnectionMessage & keyof DeleteConnectionMessage]: (DeleteConnectionMessage & DeleteConnectionMessage & DeleteConnectionMessage & DeleteConnectionMessage)[K]
-    }>): DeleteConnectionResponse {
+    }>): Request<DeleteConnectionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteConnection(
-            this.ops["DeleteConnection"].apply(partialParams)
+          this.ops["DeleteConnection"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteEndpoint(partialParams: ToOptional<{
       [K in keyof DeleteEndpointMessage & keyof DeleteEndpointMessage & keyof DeleteEndpointMessage & keyof DeleteEndpointMessage]: (DeleteEndpointMessage & DeleteEndpointMessage & DeleteEndpointMessage & DeleteEndpointMessage)[K]
-    }>): DeleteEndpointResponse {
+    }>): Request<DeleteEndpointResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteEndpoint(
-            this.ops["DeleteEndpoint"].apply(partialParams)
+          this.ops["DeleteEndpoint"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteEventSubscription(partialParams: ToOptional<{
       [K in keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage]: (DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage)[K]
-    }>): DeleteEventSubscriptionResponse {
+    }>): Request<DeleteEventSubscriptionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteEventSubscription(
-            this.ops["DeleteEventSubscription"].apply(partialParams)
+          this.ops["DeleteEventSubscription"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteReplicationInstance(partialParams: ToOptional<{
       [K in keyof DeleteReplicationInstanceMessage & keyof DeleteReplicationInstanceMessage & keyof DeleteReplicationInstanceMessage & keyof DeleteReplicationInstanceMessage]: (DeleteReplicationInstanceMessage & DeleteReplicationInstanceMessage & DeleteReplicationInstanceMessage & DeleteReplicationInstanceMessage)[K]
-    }>): DeleteReplicationInstanceResponse {
+    }>): Request<DeleteReplicationInstanceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteReplicationInstance(
-            this.ops["DeleteReplicationInstance"].apply(partialParams)
+          this.ops["DeleteReplicationInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteReplicationSubnetGroup(partialParams: ToOptional<{
       [K in keyof DeleteReplicationSubnetGroupMessage & keyof DeleteReplicationSubnetGroupMessage & keyof DeleteReplicationSubnetGroupMessage & keyof DeleteReplicationSubnetGroupMessage]: (DeleteReplicationSubnetGroupMessage & DeleteReplicationSubnetGroupMessage & DeleteReplicationSubnetGroupMessage & DeleteReplicationSubnetGroupMessage)[K]
-    }>): DeleteReplicationSubnetGroupResponse {
+    }>): Request<DeleteReplicationSubnetGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteReplicationSubnetGroup(
-            this.ops["DeleteReplicationSubnetGroup"].apply(partialParams)
+          this.ops["DeleteReplicationSubnetGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteReplicationTask(partialParams: ToOptional<{
       [K in keyof DeleteReplicationTaskMessage & keyof DeleteReplicationTaskMessage & keyof DeleteReplicationTaskMessage & keyof DeleteReplicationTaskMessage]: (DeleteReplicationTaskMessage & DeleteReplicationTaskMessage & DeleteReplicationTaskMessage & DeleteReplicationTaskMessage)[K]
-    }>): DeleteReplicationTaskResponse {
+    }>): Request<DeleteReplicationTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteReplicationTask(
-            this.ops["DeleteReplicationTask"].apply(partialParams)
+          this.ops["DeleteReplicationTask"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteReplicationTaskAssessmentRun(partialParams: ToOptional<{
       [K in keyof DeleteReplicationTaskAssessmentRunMessage & keyof DeleteReplicationTaskAssessmentRunMessage & keyof DeleteReplicationTaskAssessmentRunMessage & keyof DeleteReplicationTaskAssessmentRunMessage]: (DeleteReplicationTaskAssessmentRunMessage & DeleteReplicationTaskAssessmentRunMessage & DeleteReplicationTaskAssessmentRunMessage & DeleteReplicationTaskAssessmentRunMessage)[K]
-    }>): DeleteReplicationTaskAssessmentRunResponse {
+    }>): Request<DeleteReplicationTaskAssessmentRunResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteReplicationTaskAssessmentRun(
-            this.ops["DeleteReplicationTaskAssessmentRun"].apply(partialParams)
+          this.ops["DeleteReplicationTaskAssessmentRun"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeEndpointSettings(partialParams: ToOptional<{
       [K in keyof DescribeEndpointSettingsMessage & keyof DescribeEndpointSettingsMessage & keyof DescribeEndpointSettingsMessage & keyof DescribeEndpointSettingsMessage]: (DescribeEndpointSettingsMessage & DescribeEndpointSettingsMessage & DescribeEndpointSettingsMessage & DescribeEndpointSettingsMessage)[K]
-    }>): DescribeEndpointSettingsResponse {
+    }>): Request<DescribeEndpointSettingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeEndpointSettings(
-            this.ops["DescribeEndpointSettings"].apply(partialParams)
+          this.ops["DescribeEndpointSettings"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeRefreshSchemasStatus(partialParams: ToOptional<{
       [K in keyof DescribeRefreshSchemasStatusMessage & keyof DescribeRefreshSchemasStatusMessage & keyof DescribeRefreshSchemasStatusMessage & keyof DescribeRefreshSchemasStatusMessage]: (DescribeRefreshSchemasStatusMessage & DescribeRefreshSchemasStatusMessage & DescribeRefreshSchemasStatusMessage & DescribeRefreshSchemasStatusMessage)[K]
-    }>): DescribeRefreshSchemasStatusResponse {
+    }>): Request<DescribeRefreshSchemasStatusResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeRefreshSchemasStatus(
-            this.ops["DescribeRefreshSchemasStatus"].apply(partialParams)
+          this.ops["DescribeRefreshSchemasStatus"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeReplicationInstanceTaskLogs(partialParams: ToOptional<{
       [K in keyof DescribeReplicationInstanceTaskLogsMessage & keyof DescribeReplicationInstanceTaskLogsMessage & keyof DescribeReplicationInstanceTaskLogsMessage & keyof DescribeReplicationInstanceTaskLogsMessage]: (DescribeReplicationInstanceTaskLogsMessage & DescribeReplicationInstanceTaskLogsMessage & DescribeReplicationInstanceTaskLogsMessage & DescribeReplicationInstanceTaskLogsMessage)[K]
-    }>): DescribeReplicationInstanceTaskLogsResponse {
+    }>): Request<DescribeReplicationInstanceTaskLogsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeReplicationInstanceTaskLogs(
-            this.ops["DescribeReplicationInstanceTaskLogs"].apply(partialParams)
+          this.ops["DescribeReplicationInstanceTaskLogs"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeSchemas(partialParams: ToOptional<{
       [K in keyof DescribeSchemasMessage & keyof DescribeSchemasMessage & keyof DescribeSchemasMessage & keyof DescribeSchemasMessage]: (DescribeSchemasMessage & DescribeSchemasMessage & DescribeSchemasMessage & DescribeSchemasMessage)[K]
-    }>): DescribeSchemasResponse {
+    }>): Request<DescribeSchemasResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeSchemas(
-            this.ops["DescribeSchemas"].apply(partialParams)
+          this.ops["DescribeSchemas"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeTableStatistics(partialParams: ToOptional<{
       [K in keyof DescribeTableStatisticsMessage & keyof DescribeTableStatisticsMessage & keyof DescribeTableStatisticsMessage & keyof DescribeTableStatisticsMessage]: (DescribeTableStatisticsMessage & DescribeTableStatisticsMessage & DescribeTableStatisticsMessage & DescribeTableStatisticsMessage)[K]
-    }>): DescribeTableStatisticsResponse {
+    }>): Request<DescribeTableStatisticsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeTableStatistics(
-            this.ops["DescribeTableStatistics"].apply(partialParams)
+          this.ops["DescribeTableStatistics"].applicator.apply(partialParams)
         );
     }
 
     invokeImportCertificate(partialParams: ToOptional<{
       [K in keyof ImportCertificateMessage & keyof ImportCertificateMessage & keyof ImportCertificateMessage & keyof ImportCertificateMessage]: (ImportCertificateMessage & ImportCertificateMessage & ImportCertificateMessage & ImportCertificateMessage)[K]
-    }>): ImportCertificateResponse {
+    }>): Request<ImportCertificateResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.importCertificate(
-            this.ops["ImportCertificate"].apply(partialParams)
+          this.ops["ImportCertificate"].applicator.apply(partialParams)
         );
     }
 
     invokeModifyEndpoint(partialParams: ToOptional<{
       [K in keyof ModifyEndpointMessage & keyof ModifyEndpointMessage & keyof ModifyEndpointMessage & keyof ModifyEndpointMessage]: (ModifyEndpointMessage & ModifyEndpointMessage & ModifyEndpointMessage & ModifyEndpointMessage)[K]
-    }>): ModifyEndpointResponse {
+    }>): Request<ModifyEndpointResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.modifyEndpoint(
-            this.ops["ModifyEndpoint"].apply(partialParams)
+          this.ops["ModifyEndpoint"].applicator.apply(partialParams)
         );
     }
 
     invokeModifyEventSubscription(partialParams: ToOptional<{
       [K in keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage]: (ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage)[K]
-    }>): ModifyEventSubscriptionResponse {
+    }>): Request<ModifyEventSubscriptionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.modifyEventSubscription(
-            this.ops["ModifyEventSubscription"].apply(partialParams)
+          this.ops["ModifyEventSubscription"].applicator.apply(partialParams)
         );
     }
 
     invokeModifyReplicationInstance(partialParams: ToOptional<{
       [K in keyof ModifyReplicationInstanceMessage & keyof ModifyReplicationInstanceMessage & keyof ModifyReplicationInstanceMessage & keyof ModifyReplicationInstanceMessage]: (ModifyReplicationInstanceMessage & ModifyReplicationInstanceMessage & ModifyReplicationInstanceMessage & ModifyReplicationInstanceMessage)[K]
-    }>): ModifyReplicationInstanceResponse {
+    }>): Request<ModifyReplicationInstanceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.modifyReplicationInstance(
-            this.ops["ModifyReplicationInstance"].apply(partialParams)
+          this.ops["ModifyReplicationInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeModifyReplicationSubnetGroup(partialParams: ToOptional<{
       [K in keyof ModifyReplicationSubnetGroupMessage & keyof ModifyReplicationSubnetGroupMessage & keyof ModifyReplicationSubnetGroupMessage & keyof ModifyReplicationSubnetGroupMessage]: (ModifyReplicationSubnetGroupMessage & ModifyReplicationSubnetGroupMessage & ModifyReplicationSubnetGroupMessage & ModifyReplicationSubnetGroupMessage)[K]
-    }>): ModifyReplicationSubnetGroupResponse {
+    }>): Request<ModifyReplicationSubnetGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.modifyReplicationSubnetGroup(
-            this.ops["ModifyReplicationSubnetGroup"].apply(partialParams)
+          this.ops["ModifyReplicationSubnetGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeModifyReplicationTask(partialParams: ToOptional<{
       [K in keyof ModifyReplicationTaskMessage & keyof ModifyReplicationTaskMessage & keyof ModifyReplicationTaskMessage & keyof ModifyReplicationTaskMessage]: (ModifyReplicationTaskMessage & ModifyReplicationTaskMessage & ModifyReplicationTaskMessage & ModifyReplicationTaskMessage)[K]
-    }>): ModifyReplicationTaskResponse {
+    }>): Request<ModifyReplicationTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.modifyReplicationTask(
-            this.ops["ModifyReplicationTask"].apply(partialParams)
+          this.ops["ModifyReplicationTask"].applicator.apply(partialParams)
         );
     }
 
     invokeMoveReplicationTask(partialParams: ToOptional<{
       [K in keyof MoveReplicationTaskMessage & keyof MoveReplicationTaskMessage & keyof MoveReplicationTaskMessage & keyof MoveReplicationTaskMessage]: (MoveReplicationTaskMessage & MoveReplicationTaskMessage & MoveReplicationTaskMessage & MoveReplicationTaskMessage)[K]
-    }>): MoveReplicationTaskResponse {
+    }>): Request<MoveReplicationTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.moveReplicationTask(
-            this.ops["MoveReplicationTask"].apply(partialParams)
+          this.ops["MoveReplicationTask"].applicator.apply(partialParams)
         );
     }
 
     invokeRebootReplicationInstance(partialParams: ToOptional<{
       [K in keyof RebootReplicationInstanceMessage & keyof RebootReplicationInstanceMessage & keyof RebootReplicationInstanceMessage & keyof RebootReplicationInstanceMessage]: (RebootReplicationInstanceMessage & RebootReplicationInstanceMessage & RebootReplicationInstanceMessage & RebootReplicationInstanceMessage)[K]
-    }>): RebootReplicationInstanceResponse {
+    }>): Request<RebootReplicationInstanceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.rebootReplicationInstance(
-            this.ops["RebootReplicationInstance"].apply(partialParams)
+          this.ops["RebootReplicationInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeRefreshSchemas(partialParams: ToOptional<{
       [K in keyof RefreshSchemasMessage & keyof RefreshSchemasMessage & keyof RefreshSchemasMessage & keyof RefreshSchemasMessage]: (RefreshSchemasMessage & RefreshSchemasMessage & RefreshSchemasMessage & RefreshSchemasMessage)[K]
-    }>): RefreshSchemasResponse {
+    }>): Request<RefreshSchemasResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.refreshSchemas(
-            this.ops["RefreshSchemas"].apply(partialParams)
+          this.ops["RefreshSchemas"].applicator.apply(partialParams)
         );
     }
 
     invokeReloadTables(partialParams: ToOptional<{
       [K in keyof ReloadTablesMessage & keyof ReloadTablesMessage & keyof ReloadTablesMessage & keyof ReloadTablesMessage]: (ReloadTablesMessage & ReloadTablesMessage & ReloadTablesMessage & ReloadTablesMessage)[K]
-    }>): ReloadTablesResponse {
+    }>): Request<ReloadTablesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.reloadTables(
-            this.ops["ReloadTables"].apply(partialParams)
+          this.ops["ReloadTables"].applicator.apply(partialParams)
         );
     }
 
     invokeRemoveTagsFromResource(partialParams: ToOptional<{
       [K in keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage]: (RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage)[K]
-    }>): RemoveTagsFromResourceResponse {
+    }>): Request<RemoveTagsFromResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.removeTagsFromResource(
-            this.ops["RemoveTagsFromResource"].apply(partialParams)
+          this.ops["RemoveTagsFromResource"].applicator.apply(partialParams)
         );
     }
 
     invokeStartReplicationTask(partialParams: ToOptional<{
       [K in keyof StartReplicationTaskMessage & keyof StartReplicationTaskMessage & keyof StartReplicationTaskMessage & keyof StartReplicationTaskMessage]: (StartReplicationTaskMessage & StartReplicationTaskMessage & StartReplicationTaskMessage & StartReplicationTaskMessage)[K]
-    }>): StartReplicationTaskResponse {
+    }>): Request<StartReplicationTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startReplicationTask(
-            this.ops["StartReplicationTask"].apply(partialParams)
+          this.ops["StartReplicationTask"].applicator.apply(partialParams)
         );
     }
 
     invokeStartReplicationTaskAssessment(partialParams: ToOptional<{
       [K in keyof StartReplicationTaskAssessmentMessage & keyof StartReplicationTaskAssessmentMessage & keyof StartReplicationTaskAssessmentMessage & keyof StartReplicationTaskAssessmentMessage]: (StartReplicationTaskAssessmentMessage & StartReplicationTaskAssessmentMessage & StartReplicationTaskAssessmentMessage & StartReplicationTaskAssessmentMessage)[K]
-    }>): StartReplicationTaskAssessmentResponse {
+    }>): Request<StartReplicationTaskAssessmentResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startReplicationTaskAssessment(
-            this.ops["StartReplicationTaskAssessment"].apply(partialParams)
+          this.ops["StartReplicationTaskAssessment"].applicator.apply(partialParams)
         );
     }
 
     invokeStartReplicationTaskAssessmentRun(partialParams: ToOptional<{
       [K in keyof StartReplicationTaskAssessmentRunMessage & keyof StartReplicationTaskAssessmentRunMessage & keyof StartReplicationTaskAssessmentRunMessage & keyof StartReplicationTaskAssessmentRunMessage]: (StartReplicationTaskAssessmentRunMessage & StartReplicationTaskAssessmentRunMessage & StartReplicationTaskAssessmentRunMessage & StartReplicationTaskAssessmentRunMessage)[K]
-    }>): StartReplicationTaskAssessmentRunResponse {
+    }>): Request<StartReplicationTaskAssessmentRunResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startReplicationTaskAssessmentRun(
-            this.ops["StartReplicationTaskAssessmentRun"].apply(partialParams)
+          this.ops["StartReplicationTaskAssessmentRun"].applicator.apply(partialParams)
         );
     }
 
     invokeStopReplicationTask(partialParams: ToOptional<{
       [K in keyof StopReplicationTaskMessage & keyof StopReplicationTaskMessage & keyof StopReplicationTaskMessage & keyof StopReplicationTaskMessage]: (StopReplicationTaskMessage & StopReplicationTaskMessage & StopReplicationTaskMessage & StopReplicationTaskMessage)[K]
-    }>): StopReplicationTaskResponse {
+    }>): Request<StopReplicationTaskResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.stopReplicationTask(
-            this.ops["StopReplicationTask"].apply(partialParams)
+          this.ops["StopReplicationTask"].applicator.apply(partialParams)
         );
     }
 
     invokeTestConnection(partialParams: ToOptional<{
       [K in keyof TestConnectionMessage & keyof TestConnectionMessage & keyof TestConnectionMessage & keyof TestConnectionMessage]: (TestConnectionMessage & TestConnectionMessage & TestConnectionMessage & TestConnectionMessage)[K]
-    }>): TestConnectionResponse {
+    }>): Request<TestConnectionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.testConnection(
-            this.ops["TestConnection"].apply(partialParams)
+          this.ops["TestConnection"].applicator.apply(partialParams)
         );
     }
 }

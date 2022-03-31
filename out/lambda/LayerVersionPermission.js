@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,171 +21,352 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/lambda-2015-03-31.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.lambda.LayerVersionPermission {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.Lambda();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/lambda-2015-03-31.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeAddLayerVersionPermission(partialParams) {
-        return this.client.addLayerVersionPermission(this.ops["AddLayerVersionPermission"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.addLayerVersionPermission(this.ops["AddLayerVersionPermission"].applicator.apply(partialParams));
     }
     invokeAddPermission(partialParams) {
-        return this.client.addPermission(this.ops["AddPermission"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.addPermission(this.ops["AddPermission"].applicator.apply(partialParams));
     }
     invokeCreateAlias(partialParams) {
-        return this.client.createAlias(this.ops["CreateAlias"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createAlias(this.ops["CreateAlias"].applicator.apply(partialParams));
     }
     invokeCreateCodeSigningConfig(partialParams) {
-        return this.client.createCodeSigningConfig(this.ops["CreateCodeSigningConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createCodeSigningConfig(this.ops["CreateCodeSigningConfig"].applicator.apply(partialParams));
     }
     invokeCreateEventSourceMapping(partialParams) {
-        return this.client.createEventSourceMapping(this.ops["CreateEventSourceMapping"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createEventSourceMapping(this.ops["CreateEventSourceMapping"].applicator.apply(partialParams));
     }
     invokeCreateFunction(partialParams) {
-        return this.client.createFunction(this.ops["CreateFunction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createFunction(this.ops["CreateFunction"].applicator.apply(partialParams));
     }
     invokeDeleteAlias(partialParams) {
-        return this.client.deleteAlias(this.ops["DeleteAlias"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteAlias(this.ops["DeleteAlias"].applicator.apply(partialParams));
     }
     invokeDeleteCodeSigningConfig(partialParams) {
-        return this.client.deleteCodeSigningConfig(this.ops["DeleteCodeSigningConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteCodeSigningConfig(this.ops["DeleteCodeSigningConfig"].applicator.apply(partialParams));
     }
     invokeDeleteEventSourceMapping(partialParams) {
-        return this.client.deleteEventSourceMapping(this.ops["DeleteEventSourceMapping"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteEventSourceMapping(this.ops["DeleteEventSourceMapping"].applicator.apply(partialParams));
     }
     invokeDeleteFunction(partialParams) {
-        return this.client.deleteFunction(this.ops["DeleteFunction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteFunction(this.ops["DeleteFunction"].applicator.apply(partialParams));
     }
     invokeDeleteFunctionCodeSigningConfig(partialParams) {
-        return this.client.deleteFunctionCodeSigningConfig(this.ops["DeleteFunctionCodeSigningConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteFunctionCodeSigningConfig(this.ops["DeleteFunctionCodeSigningConfig"].applicator.apply(partialParams));
     }
     invokeDeleteFunctionConcurrency(partialParams) {
-        return this.client.deleteFunctionConcurrency(this.ops["DeleteFunctionConcurrency"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteFunctionConcurrency(this.ops["DeleteFunctionConcurrency"].applicator.apply(partialParams));
     }
     invokeDeleteFunctionEventInvokeConfig(partialParams) {
-        return this.client.deleteFunctionEventInvokeConfig(this.ops["DeleteFunctionEventInvokeConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteFunctionEventInvokeConfig(this.ops["DeleteFunctionEventInvokeConfig"].applicator.apply(partialParams));
     }
     invokeDeleteLayerVersion(partialParams) {
-        return this.client.deleteLayerVersion(this.ops["DeleteLayerVersion"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteLayerVersion(this.ops["DeleteLayerVersion"].applicator.apply(partialParams));
     }
     invokeDeleteProvisionedConcurrencyConfig(partialParams) {
-        return this.client.deleteProvisionedConcurrencyConfig(this.ops["DeleteProvisionedConcurrencyConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteProvisionedConcurrencyConfig(this.ops["DeleteProvisionedConcurrencyConfig"].applicator.apply(partialParams));
     }
     invokeGetAlias(partialParams) {
-        return this.client.getAlias(this.ops["GetAlias"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getAlias(this.ops["GetAlias"].applicator.apply(partialParams));
     }
     invokeGetCodeSigningConfig(partialParams) {
-        return this.client.getCodeSigningConfig(this.ops["GetCodeSigningConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getCodeSigningConfig(this.ops["GetCodeSigningConfig"].applicator.apply(partialParams));
     }
     invokeGetEventSourceMapping(partialParams) {
-        return this.client.getEventSourceMapping(this.ops["GetEventSourceMapping"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getEventSourceMapping(this.ops["GetEventSourceMapping"].applicator.apply(partialParams));
     }
     invokeGetFunction(partialParams) {
-        return this.client.getFunction(this.ops["GetFunction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getFunction(this.ops["GetFunction"].applicator.apply(partialParams));
     }
     invokeGetFunctionCodeSigningConfig(partialParams) {
-        return this.client.getFunctionCodeSigningConfig(this.ops["GetFunctionCodeSigningConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getFunctionCodeSigningConfig(this.ops["GetFunctionCodeSigningConfig"].applicator.apply(partialParams));
     }
     invokeGetFunctionConcurrency(partialParams) {
-        return this.client.getFunctionConcurrency(this.ops["GetFunctionConcurrency"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getFunctionConcurrency(this.ops["GetFunctionConcurrency"].applicator.apply(partialParams));
     }
     invokeGetFunctionConfiguration(partialParams) {
-        return this.client.getFunctionConfiguration(this.ops["GetFunctionConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getFunctionConfiguration(this.ops["GetFunctionConfiguration"].applicator.apply(partialParams));
     }
     invokeGetFunctionEventInvokeConfig(partialParams) {
-        return this.client.getFunctionEventInvokeConfig(this.ops["GetFunctionEventInvokeConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getFunctionEventInvokeConfig(this.ops["GetFunctionEventInvokeConfig"].applicator.apply(partialParams));
     }
     invokeGetLayerVersion(partialParams) {
-        return this.client.getLayerVersion(this.ops["GetLayerVersion"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getLayerVersion(this.ops["GetLayerVersion"].applicator.apply(partialParams));
     }
     invokeGetLayerVersionByArn(partialParams) {
-        return this.client.getLayerVersionByArn(this.ops["GetLayerVersionByArn"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getLayerVersionByArn(this.ops["GetLayerVersionByArn"].applicator.apply(partialParams));
     }
     invokeGetLayerVersionPolicy(partialParams) {
-        return this.client.getLayerVersionPolicy(this.ops["GetLayerVersionPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getLayerVersionPolicy(this.ops["GetLayerVersionPolicy"].applicator.apply(partialParams));
     }
     invokeGetPolicy(partialParams) {
-        return this.client.getPolicy(this.ops["GetPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getPolicy(this.ops["GetPolicy"].applicator.apply(partialParams));
     }
     invokeGetProvisionedConcurrencyConfig(partialParams) {
-        return this.client.getProvisionedConcurrencyConfig(this.ops["GetProvisionedConcurrencyConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getProvisionedConcurrencyConfig(this.ops["GetProvisionedConcurrencyConfig"].applicator.apply(partialParams));
     }
     invokeInvoke(partialParams) {
-        return this.client.invoke(this.ops["Invoke"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.invoke(this.ops["Invoke"].applicator.apply(partialParams));
     }
     invokeInvokeAsync(partialParams) {
-        return this.client.invokeAsync(this.ops["InvokeAsync"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.invokeAsync(this.ops["InvokeAsync"].applicator.apply(partialParams));
     }
     invokeListAliases(partialParams) {
-        return this.client.listAliases(this.ops["ListAliases"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listAliases(this.ops["ListAliases"].applicator.apply(partialParams));
     }
     invokeListFunctionEventInvokeConfigs(partialParams) {
-        return this.client.listFunctionEventInvokeConfigs(this.ops["ListFunctionEventInvokeConfigs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listFunctionEventInvokeConfigs(this.ops["ListFunctionEventInvokeConfigs"].applicator.apply(partialParams));
     }
     invokeListFunctionsByCodeSigningConfig(partialParams) {
-        return this.client.listFunctionsByCodeSigningConfig(this.ops["ListFunctionsByCodeSigningConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listFunctionsByCodeSigningConfig(this.ops["ListFunctionsByCodeSigningConfig"].applicator.apply(partialParams));
     }
     invokeListLayerVersions(partialParams) {
-        return this.client.listLayerVersions(this.ops["ListLayerVersions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listLayerVersions(this.ops["ListLayerVersions"].applicator.apply(partialParams));
     }
     invokeListProvisionedConcurrencyConfigs(partialParams) {
-        return this.client.listProvisionedConcurrencyConfigs(this.ops["ListProvisionedConcurrencyConfigs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listProvisionedConcurrencyConfigs(this.ops["ListProvisionedConcurrencyConfigs"].applicator.apply(partialParams));
     }
     invokeListTags(partialParams) {
-        return this.client.listTags(this.ops["ListTags"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTags(this.ops["ListTags"].applicator.apply(partialParams));
     }
     invokeListVersionsByFunction(partialParams) {
-        return this.client.listVersionsByFunction(this.ops["ListVersionsByFunction"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listVersionsByFunction(this.ops["ListVersionsByFunction"].applicator.apply(partialParams));
     }
     invokePublishLayerVersion(partialParams) {
-        return this.client.publishLayerVersion(this.ops["PublishLayerVersion"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.publishLayerVersion(this.ops["PublishLayerVersion"].applicator.apply(partialParams));
     }
     invokePublishVersion(partialParams) {
-        return this.client.publishVersion(this.ops["PublishVersion"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.publishVersion(this.ops["PublishVersion"].applicator.apply(partialParams));
     }
     invokePutFunctionCodeSigningConfig(partialParams) {
-        return this.client.putFunctionCodeSigningConfig(this.ops["PutFunctionCodeSigningConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putFunctionCodeSigningConfig(this.ops["PutFunctionCodeSigningConfig"].applicator.apply(partialParams));
     }
     invokePutFunctionConcurrency(partialParams) {
-        return this.client.putFunctionConcurrency(this.ops["PutFunctionConcurrency"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putFunctionConcurrency(this.ops["PutFunctionConcurrency"].applicator.apply(partialParams));
     }
     invokePutFunctionEventInvokeConfig(partialParams) {
-        return this.client.putFunctionEventInvokeConfig(this.ops["PutFunctionEventInvokeConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putFunctionEventInvokeConfig(this.ops["PutFunctionEventInvokeConfig"].applicator.apply(partialParams));
     }
     invokePutProvisionedConcurrencyConfig(partialParams) {
-        return this.client.putProvisionedConcurrencyConfig(this.ops["PutProvisionedConcurrencyConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putProvisionedConcurrencyConfig(this.ops["PutProvisionedConcurrencyConfig"].applicator.apply(partialParams));
     }
     invokeRemoveLayerVersionPermission(partialParams) {
-        return this.client.removeLayerVersionPermission(this.ops["RemoveLayerVersionPermission"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.removeLayerVersionPermission(this.ops["RemoveLayerVersionPermission"].applicator.apply(partialParams));
     }
     invokeRemovePermission(partialParams) {
-        return this.client.removePermission(this.ops["RemovePermission"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.removePermission(this.ops["RemovePermission"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateAlias(partialParams) {
-        return this.client.updateAlias(this.ops["UpdateAlias"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateAlias(this.ops["UpdateAlias"].applicator.apply(partialParams));
     }
     invokeUpdateCodeSigningConfig(partialParams) {
-        return this.client.updateCodeSigningConfig(this.ops["UpdateCodeSigningConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateCodeSigningConfig(this.ops["UpdateCodeSigningConfig"].applicator.apply(partialParams));
     }
     invokeUpdateEventSourceMapping(partialParams) {
-        return this.client.updateEventSourceMapping(this.ops["UpdateEventSourceMapping"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateEventSourceMapping(this.ops["UpdateEventSourceMapping"].applicator.apply(partialParams));
     }
     invokeUpdateFunctionCode(partialParams) {
-        return this.client.updateFunctionCode(this.ops["UpdateFunctionCode"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateFunctionCode(this.ops["UpdateFunctionCode"].applicator.apply(partialParams));
     }
     invokeUpdateFunctionConfiguration(partialParams) {
-        return this.client.updateFunctionConfiguration(this.ops["UpdateFunctionConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateFunctionConfiguration(this.ops["UpdateFunctionConfiguration"].applicator.apply(partialParams));
     }
     invokeUpdateFunctionEventInvokeConfig(partialParams) {
-        return this.client.updateFunctionEventInvokeConfig(this.ops["UpdateFunctionEventInvokeConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateFunctionEventInvokeConfig(this.ops["UpdateFunctionEventInvokeConfig"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

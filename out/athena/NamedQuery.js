@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,99 +21,208 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/athena-2017-05-18.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.athena.NamedQuery {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.Athena();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/athena-2017-05-18.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeBatchGetNamedQuery(partialParams) {
-        return this.client.batchGetNamedQuery(this.ops["BatchGetNamedQuery"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchGetNamedQuery(this.ops["BatchGetNamedQuery"].applicator.apply(partialParams));
     }
     invokeBatchGetQueryExecution(partialParams) {
-        return this.client.batchGetQueryExecution(this.ops["BatchGetQueryExecution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchGetQueryExecution(this.ops["BatchGetQueryExecution"].applicator.apply(partialParams));
     }
     invokeCreateDataCatalog(partialParams) {
-        return this.client.createDataCatalog(this.ops["CreateDataCatalog"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createDataCatalog(this.ops["CreateDataCatalog"].applicator.apply(partialParams));
     }
     invokeCreateNamedQuery(partialParams) {
-        return this.client.createNamedQuery(this.ops["CreateNamedQuery"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createNamedQuery(this.ops["CreateNamedQuery"].applicator.apply(partialParams));
     }
     invokeCreatePreparedStatement(partialParams) {
-        return this.client.createPreparedStatement(this.ops["CreatePreparedStatement"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createPreparedStatement(this.ops["CreatePreparedStatement"].applicator.apply(partialParams));
     }
     invokeCreateWorkGroup(partialParams) {
-        return this.client.createWorkGroup(this.ops["CreateWorkGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createWorkGroup(this.ops["CreateWorkGroup"].applicator.apply(partialParams));
     }
     invokeDeleteDataCatalog(partialParams) {
-        return this.client.deleteDataCatalog(this.ops["DeleteDataCatalog"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteDataCatalog(this.ops["DeleteDataCatalog"].applicator.apply(partialParams));
     }
     invokeDeleteNamedQuery(partialParams) {
-        return this.client.deleteNamedQuery(this.ops["DeleteNamedQuery"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteNamedQuery(this.ops["DeleteNamedQuery"].applicator.apply(partialParams));
     }
     invokeDeletePreparedStatement(partialParams) {
-        return this.client.deletePreparedStatement(this.ops["DeletePreparedStatement"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deletePreparedStatement(this.ops["DeletePreparedStatement"].applicator.apply(partialParams));
     }
     invokeDeleteWorkGroup(partialParams) {
-        return this.client.deleteWorkGroup(this.ops["DeleteWorkGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteWorkGroup(this.ops["DeleteWorkGroup"].applicator.apply(partialParams));
     }
     invokeGetDataCatalog(partialParams) {
-        return this.client.getDataCatalog(this.ops["GetDataCatalog"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getDataCatalog(this.ops["GetDataCatalog"].applicator.apply(partialParams));
     }
     invokeGetDatabase(partialParams) {
-        return this.client.getDatabase(this.ops["GetDatabase"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getDatabase(this.ops["GetDatabase"].applicator.apply(partialParams));
     }
     invokeGetNamedQuery(partialParams) {
-        return this.client.getNamedQuery(this.ops["GetNamedQuery"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getNamedQuery(this.ops["GetNamedQuery"].applicator.apply(partialParams));
     }
     invokeGetPreparedStatement(partialParams) {
-        return this.client.getPreparedStatement(this.ops["GetPreparedStatement"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getPreparedStatement(this.ops["GetPreparedStatement"].applicator.apply(partialParams));
     }
     invokeGetQueryExecution(partialParams) {
-        return this.client.getQueryExecution(this.ops["GetQueryExecution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getQueryExecution(this.ops["GetQueryExecution"].applicator.apply(partialParams));
     }
     invokeGetQueryResults(partialParams) {
-        return this.client.getQueryResults(this.ops["GetQueryResults"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getQueryResults(this.ops["GetQueryResults"].applicator.apply(partialParams));
     }
     invokeGetTableMetadata(partialParams) {
-        return this.client.getTableMetadata(this.ops["GetTableMetadata"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getTableMetadata(this.ops["GetTableMetadata"].applicator.apply(partialParams));
     }
     invokeGetWorkGroup(partialParams) {
-        return this.client.getWorkGroup(this.ops["GetWorkGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getWorkGroup(this.ops["GetWorkGroup"].applicator.apply(partialParams));
     }
     invokeListDatabases(partialParams) {
-        return this.client.listDatabases(this.ops["ListDatabases"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listDatabases(this.ops["ListDatabases"].applicator.apply(partialParams));
     }
     invokeListPreparedStatements(partialParams) {
-        return this.client.listPreparedStatements(this.ops["ListPreparedStatements"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listPreparedStatements(this.ops["ListPreparedStatements"].applicator.apply(partialParams));
     }
     invokeListTableMetadata(partialParams) {
-        return this.client.listTableMetadata(this.ops["ListTableMetadata"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTableMetadata(this.ops["ListTableMetadata"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokeStartQueryExecution(partialParams) {
-        return this.client.startQueryExecution(this.ops["StartQueryExecution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.startQueryExecution(this.ops["StartQueryExecution"].applicator.apply(partialParams));
     }
     invokeStopQueryExecution(partialParams) {
-        return this.client.stopQueryExecution(this.ops["StopQueryExecution"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.stopQueryExecution(this.ops["StopQueryExecution"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateDataCatalog(partialParams) {
-        return this.client.updateDataCatalog(this.ops["UpdateDataCatalog"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateDataCatalog(this.ops["UpdateDataCatalog"].applicator.apply(partialParams));
     }
     invokeUpdatePreparedStatement(partialParams) {
-        return this.client.updatePreparedStatement(this.ops["UpdatePreparedStatement"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updatePreparedStatement(this.ops["UpdatePreparedStatement"].applicator.apply(partialParams));
     }
     invokeUpdateWorkGroup(partialParams) {
-        return this.client.updateWorkGroup(this.ops["UpdateWorkGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateWorkGroup(this.ops["UpdateWorkGroup"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

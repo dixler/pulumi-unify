@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,45 +21,100 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/cloud9-2017-09-23.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.cloud9.EnvironmentMembership {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.Cloud9();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/cloud9-2017-09-23.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeCreateEnvironmentEC2(partialParams) {
-        return this.client.createEnvironmentEC2(this.ops["CreateEnvironmentEC2"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createEnvironmentEC2(this.ops["CreateEnvironmentEC2"].applicator.apply(partialParams));
     }
     invokeCreateEnvironmentMembership(partialParams) {
-        return this.client.createEnvironmentMembership(this.ops["CreateEnvironmentMembership"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createEnvironmentMembership(this.ops["CreateEnvironmentMembership"].applicator.apply(partialParams));
     }
     invokeDeleteEnvironment(partialParams) {
-        return this.client.deleteEnvironment(this.ops["DeleteEnvironment"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteEnvironment(this.ops["DeleteEnvironment"].applicator.apply(partialParams));
     }
     invokeDeleteEnvironmentMembership(partialParams) {
-        return this.client.deleteEnvironmentMembership(this.ops["DeleteEnvironmentMembership"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteEnvironmentMembership(this.ops["DeleteEnvironmentMembership"].applicator.apply(partialParams));
     }
     invokeDescribeEnvironmentStatus(partialParams) {
-        return this.client.describeEnvironmentStatus(this.ops["DescribeEnvironmentStatus"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeEnvironmentStatus(this.ops["DescribeEnvironmentStatus"].applicator.apply(partialParams));
     }
     invokeDescribeEnvironments(partialParams) {
-        return this.client.describeEnvironments(this.ops["DescribeEnvironments"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeEnvironments(this.ops["DescribeEnvironments"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateEnvironment(partialParams) {
-        return this.client.updateEnvironment(this.ops["UpdateEnvironment"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateEnvironment(this.ops["UpdateEnvironment"].applicator.apply(partialParams));
     }
     invokeUpdateEnvironmentMembership(partialParams) {
-        return this.client.updateEnvironmentMembership(this.ops["UpdateEnvironmentMembership"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateEnvironmentMembership(this.ops["UpdateEnvironmentMembership"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

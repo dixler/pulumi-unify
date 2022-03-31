@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,72 +21,154 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/secretsmanager-2017-10-17.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.secretsmanager.SecretRotation {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.SecretsManager();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/secretsmanager-2017-10-17.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeCancelRotateSecret(partialParams) {
-        return this.client.cancelRotateSecret(this.ops["CancelRotateSecret"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.cancelRotateSecret(this.ops["CancelRotateSecret"].applicator.apply(partialParams));
     }
     invokeCreateSecret(partialParams) {
-        return this.client.createSecret(this.ops["CreateSecret"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createSecret(this.ops["CreateSecret"].applicator.apply(partialParams));
     }
     invokeDeleteResourcePolicy(partialParams) {
-        return this.client.deleteResourcePolicy(this.ops["DeleteResourcePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteResourcePolicy(this.ops["DeleteResourcePolicy"].applicator.apply(partialParams));
     }
     invokeDeleteSecret(partialParams) {
-        return this.client.deleteSecret(this.ops["DeleteSecret"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteSecret(this.ops["DeleteSecret"].applicator.apply(partialParams));
     }
     invokeDescribeSecret(partialParams) {
-        return this.client.describeSecret(this.ops["DescribeSecret"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeSecret(this.ops["DescribeSecret"].applicator.apply(partialParams));
     }
     invokeGetResourcePolicy(partialParams) {
-        return this.client.getResourcePolicy(this.ops["GetResourcePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getResourcePolicy(this.ops["GetResourcePolicy"].applicator.apply(partialParams));
     }
     invokeGetSecretValue(partialParams) {
-        return this.client.getSecretValue(this.ops["GetSecretValue"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getSecretValue(this.ops["GetSecretValue"].applicator.apply(partialParams));
     }
     invokeListSecretVersionIds(partialParams) {
-        return this.client.listSecretVersionIds(this.ops["ListSecretVersionIds"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listSecretVersionIds(this.ops["ListSecretVersionIds"].applicator.apply(partialParams));
     }
     invokePutResourcePolicy(partialParams) {
-        return this.client.putResourcePolicy(this.ops["PutResourcePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putResourcePolicy(this.ops["PutResourcePolicy"].applicator.apply(partialParams));
     }
     invokePutSecretValue(partialParams) {
-        return this.client.putSecretValue(this.ops["PutSecretValue"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putSecretValue(this.ops["PutSecretValue"].applicator.apply(partialParams));
     }
     invokeRemoveRegionsFromReplication(partialParams) {
-        return this.client.removeRegionsFromReplication(this.ops["RemoveRegionsFromReplication"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.removeRegionsFromReplication(this.ops["RemoveRegionsFromReplication"].applicator.apply(partialParams));
     }
     invokeReplicateSecretToRegions(partialParams) {
-        return this.client.replicateSecretToRegions(this.ops["ReplicateSecretToRegions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.replicateSecretToRegions(this.ops["ReplicateSecretToRegions"].applicator.apply(partialParams));
     }
     invokeRestoreSecret(partialParams) {
-        return this.client.restoreSecret(this.ops["RestoreSecret"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.restoreSecret(this.ops["RestoreSecret"].applicator.apply(partialParams));
     }
     invokeRotateSecret(partialParams) {
-        return this.client.rotateSecret(this.ops["RotateSecret"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.rotateSecret(this.ops["RotateSecret"].applicator.apply(partialParams));
     }
     invokeStopReplicationToReplica(partialParams) {
-        return this.client.stopReplicationToReplica(this.ops["StopReplicationToReplica"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.stopReplicationToReplica(this.ops["StopReplicationToReplica"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateSecret(partialParams) {
-        return this.client.updateSecret(this.ops["UpdateSecret"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateSecret(this.ops["UpdateSecret"].applicator.apply(partialParams));
     }
     invokeUpdateSecretVersionStage(partialParams) {
-        return this.client.updateSecretVersionStage(this.ops["UpdateSecretVersionStage"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateSecretVersionStage(this.ops["UpdateSecretVersionStage"].applicator.apply(partialParams));
     }
     invokeValidateResourcePolicy(partialParams) {
-        return this.client.validateResourcePolicy(this.ops["ValidateResourcePolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.validateResourcePolicy(this.ops["ValidateResourcePolicy"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

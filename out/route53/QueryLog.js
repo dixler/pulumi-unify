@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,165 +21,340 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/route53-2013-04-01.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.route53.QueryLog {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.Route53();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/route53-2013-04-01.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeActivateKeySigningKey(partialParams) {
-        return this.client.activateKeySigningKey(this.ops["ActivateKeySigningKey"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.activateKeySigningKey(this.ops["ActivateKeySigningKey"].applicator.apply(partialParams));
     }
     invokeAssociateVPCWithHostedZone(partialParams) {
-        return this.client.associateVPCWithHostedZone(this.ops["AssociateVPCWithHostedZone"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateVPCWithHostedZone(this.ops["AssociateVPCWithHostedZone"].applicator.apply(partialParams));
     }
     invokeChangeResourceRecordSets(partialParams) {
-        return this.client.changeResourceRecordSets(this.ops["ChangeResourceRecordSets"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.changeResourceRecordSets(this.ops["ChangeResourceRecordSets"].applicator.apply(partialParams));
     }
     invokeChangeTagsForResource(partialParams) {
-        return this.client.changeTagsForResource(this.ops["ChangeTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.changeTagsForResource(this.ops["ChangeTagsForResource"].applicator.apply(partialParams));
     }
     invokeCreateHealthCheck(partialParams) {
-        return this.client.createHealthCheck(this.ops["CreateHealthCheck"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createHealthCheck(this.ops["CreateHealthCheck"].applicator.apply(partialParams));
     }
     invokeCreateHostedZone(partialParams) {
-        return this.client.createHostedZone(this.ops["CreateHostedZone"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createHostedZone(this.ops["CreateHostedZone"].applicator.apply(partialParams));
     }
     invokeCreateKeySigningKey(partialParams) {
-        return this.client.createKeySigningKey(this.ops["CreateKeySigningKey"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createKeySigningKey(this.ops["CreateKeySigningKey"].applicator.apply(partialParams));
     }
     invokeCreateQueryLoggingConfig(partialParams) {
-        return this.client.createQueryLoggingConfig(this.ops["CreateQueryLoggingConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createQueryLoggingConfig(this.ops["CreateQueryLoggingConfig"].applicator.apply(partialParams));
     }
     invokeCreateReusableDelegationSet(partialParams) {
-        return this.client.createReusableDelegationSet(this.ops["CreateReusableDelegationSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createReusableDelegationSet(this.ops["CreateReusableDelegationSet"].applicator.apply(partialParams));
     }
     invokeCreateTrafficPolicy(partialParams) {
-        return this.client.createTrafficPolicy(this.ops["CreateTrafficPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createTrafficPolicy(this.ops["CreateTrafficPolicy"].applicator.apply(partialParams));
     }
     invokeCreateTrafficPolicyInstance(partialParams) {
-        return this.client.createTrafficPolicyInstance(this.ops["CreateTrafficPolicyInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createTrafficPolicyInstance(this.ops["CreateTrafficPolicyInstance"].applicator.apply(partialParams));
     }
     invokeCreateTrafficPolicyVersion(partialParams) {
-        return this.client.createTrafficPolicyVersion(this.ops["CreateTrafficPolicyVersion"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createTrafficPolicyVersion(this.ops["CreateTrafficPolicyVersion"].applicator.apply(partialParams));
     }
     invokeCreateVPCAssociationAuthorization(partialParams) {
-        return this.client.createVPCAssociationAuthorization(this.ops["CreateVPCAssociationAuthorization"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createVPCAssociationAuthorization(this.ops["CreateVPCAssociationAuthorization"].applicator.apply(partialParams));
     }
     invokeDeactivateKeySigningKey(partialParams) {
-        return this.client.deactivateKeySigningKey(this.ops["DeactivateKeySigningKey"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deactivateKeySigningKey(this.ops["DeactivateKeySigningKey"].applicator.apply(partialParams));
     }
     invokeDeleteHealthCheck(partialParams) {
-        return this.client.deleteHealthCheck(this.ops["DeleteHealthCheck"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteHealthCheck(this.ops["DeleteHealthCheck"].applicator.apply(partialParams));
     }
     invokeDeleteHostedZone(partialParams) {
-        return this.client.deleteHostedZone(this.ops["DeleteHostedZone"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteHostedZone(this.ops["DeleteHostedZone"].applicator.apply(partialParams));
     }
     invokeDeleteKeySigningKey(partialParams) {
-        return this.client.deleteKeySigningKey(this.ops["DeleteKeySigningKey"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteKeySigningKey(this.ops["DeleteKeySigningKey"].applicator.apply(partialParams));
     }
     invokeDeleteQueryLoggingConfig(partialParams) {
-        return this.client.deleteQueryLoggingConfig(this.ops["DeleteQueryLoggingConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteQueryLoggingConfig(this.ops["DeleteQueryLoggingConfig"].applicator.apply(partialParams));
     }
     invokeDeleteReusableDelegationSet(partialParams) {
-        return this.client.deleteReusableDelegationSet(this.ops["DeleteReusableDelegationSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteReusableDelegationSet(this.ops["DeleteReusableDelegationSet"].applicator.apply(partialParams));
     }
     invokeDeleteTrafficPolicy(partialParams) {
-        return this.client.deleteTrafficPolicy(this.ops["DeleteTrafficPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteTrafficPolicy(this.ops["DeleteTrafficPolicy"].applicator.apply(partialParams));
     }
     invokeDeleteTrafficPolicyInstance(partialParams) {
-        return this.client.deleteTrafficPolicyInstance(this.ops["DeleteTrafficPolicyInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteTrafficPolicyInstance(this.ops["DeleteTrafficPolicyInstance"].applicator.apply(partialParams));
     }
     invokeDeleteVPCAssociationAuthorization(partialParams) {
-        return this.client.deleteVPCAssociationAuthorization(this.ops["DeleteVPCAssociationAuthorization"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteVPCAssociationAuthorization(this.ops["DeleteVPCAssociationAuthorization"].applicator.apply(partialParams));
     }
     invokeDisableHostedZoneDNSSEC(partialParams) {
-        return this.client.disableHostedZoneDNSSEC(this.ops["DisableHostedZoneDNSSEC"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disableHostedZoneDNSSEC(this.ops["DisableHostedZoneDNSSEC"].applicator.apply(partialParams));
     }
     invokeDisassociateVPCFromHostedZone(partialParams) {
-        return this.client.disassociateVPCFromHostedZone(this.ops["DisassociateVPCFromHostedZone"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociateVPCFromHostedZone(this.ops["DisassociateVPCFromHostedZone"].applicator.apply(partialParams));
     }
     invokeEnableHostedZoneDNSSEC(partialParams) {
-        return this.client.enableHostedZoneDNSSEC(this.ops["EnableHostedZoneDNSSEC"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.enableHostedZoneDNSSEC(this.ops["EnableHostedZoneDNSSEC"].applicator.apply(partialParams));
     }
     invokeGetAccountLimit(partialParams) {
-        return this.client.getAccountLimit(this.ops["GetAccountLimit"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getAccountLimit(this.ops["GetAccountLimit"].applicator.apply(partialParams));
     }
     invokeGetChange(partialParams) {
-        return this.client.getChange(this.ops["GetChange"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getChange(this.ops["GetChange"].applicator.apply(partialParams));
     }
     invokeGetDNSSEC(partialParams) {
-        return this.client.getDNSSEC(this.ops["GetDNSSEC"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getDNSSEC(this.ops["GetDNSSEC"].applicator.apply(partialParams));
     }
     invokeGetHealthCheck(partialParams) {
-        return this.client.getHealthCheck(this.ops["GetHealthCheck"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getHealthCheck(this.ops["GetHealthCheck"].applicator.apply(partialParams));
     }
     invokeGetHealthCheckLastFailureReason(partialParams) {
-        return this.client.getHealthCheckLastFailureReason(this.ops["GetHealthCheckLastFailureReason"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getHealthCheckLastFailureReason(this.ops["GetHealthCheckLastFailureReason"].applicator.apply(partialParams));
     }
     invokeGetHealthCheckStatus(partialParams) {
-        return this.client.getHealthCheckStatus(this.ops["GetHealthCheckStatus"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getHealthCheckStatus(this.ops["GetHealthCheckStatus"].applicator.apply(partialParams));
     }
     invokeGetHostedZone(partialParams) {
-        return this.client.getHostedZone(this.ops["GetHostedZone"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getHostedZone(this.ops["GetHostedZone"].applicator.apply(partialParams));
     }
     invokeGetHostedZoneLimit(partialParams) {
-        return this.client.getHostedZoneLimit(this.ops["GetHostedZoneLimit"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getHostedZoneLimit(this.ops["GetHostedZoneLimit"].applicator.apply(partialParams));
     }
     invokeGetQueryLoggingConfig(partialParams) {
-        return this.client.getQueryLoggingConfig(this.ops["GetQueryLoggingConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getQueryLoggingConfig(this.ops["GetQueryLoggingConfig"].applicator.apply(partialParams));
     }
     invokeGetReusableDelegationSet(partialParams) {
-        return this.client.getReusableDelegationSet(this.ops["GetReusableDelegationSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getReusableDelegationSet(this.ops["GetReusableDelegationSet"].applicator.apply(partialParams));
     }
     invokeGetReusableDelegationSetLimit(partialParams) {
-        return this.client.getReusableDelegationSetLimit(this.ops["GetReusableDelegationSetLimit"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getReusableDelegationSetLimit(this.ops["GetReusableDelegationSetLimit"].applicator.apply(partialParams));
     }
     invokeGetTrafficPolicy(partialParams) {
-        return this.client.getTrafficPolicy(this.ops["GetTrafficPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getTrafficPolicy(this.ops["GetTrafficPolicy"].applicator.apply(partialParams));
     }
     invokeGetTrafficPolicyInstance(partialParams) {
-        return this.client.getTrafficPolicyInstance(this.ops["GetTrafficPolicyInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getTrafficPolicyInstance(this.ops["GetTrafficPolicyInstance"].applicator.apply(partialParams));
     }
     invokeListHostedZonesByVPC(partialParams) {
-        return this.client.listHostedZonesByVPC(this.ops["ListHostedZonesByVPC"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listHostedZonesByVPC(this.ops["ListHostedZonesByVPC"].applicator.apply(partialParams));
     }
     invokeListResourceRecordSets(partialParams) {
-        return this.client.listResourceRecordSets(this.ops["ListResourceRecordSets"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listResourceRecordSets(this.ops["ListResourceRecordSets"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokeListTagsForResources(partialParams) {
-        return this.client.listTagsForResources(this.ops["ListTagsForResources"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResources(this.ops["ListTagsForResources"].applicator.apply(partialParams));
     }
     invokeListTrafficPolicyInstancesByHostedZone(partialParams) {
-        return this.client.listTrafficPolicyInstancesByHostedZone(this.ops["ListTrafficPolicyInstancesByHostedZone"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTrafficPolicyInstancesByHostedZone(this.ops["ListTrafficPolicyInstancesByHostedZone"].applicator.apply(partialParams));
     }
     invokeListTrafficPolicyInstancesByPolicy(partialParams) {
-        return this.client.listTrafficPolicyInstancesByPolicy(this.ops["ListTrafficPolicyInstancesByPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTrafficPolicyInstancesByPolicy(this.ops["ListTrafficPolicyInstancesByPolicy"].applicator.apply(partialParams));
     }
     invokeListTrafficPolicyVersions(partialParams) {
-        return this.client.listTrafficPolicyVersions(this.ops["ListTrafficPolicyVersions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTrafficPolicyVersions(this.ops["ListTrafficPolicyVersions"].applicator.apply(partialParams));
     }
     invokeListVPCAssociationAuthorizations(partialParams) {
-        return this.client.listVPCAssociationAuthorizations(this.ops["ListVPCAssociationAuthorizations"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listVPCAssociationAuthorizations(this.ops["ListVPCAssociationAuthorizations"].applicator.apply(partialParams));
     }
     invokeTestDNSAnswer(partialParams) {
-        return this.client.testDNSAnswer(this.ops["TestDNSAnswer"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.testDNSAnswer(this.ops["TestDNSAnswer"].applicator.apply(partialParams));
     }
     invokeUpdateHealthCheck(partialParams) {
-        return this.client.updateHealthCheck(this.ops["UpdateHealthCheck"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateHealthCheck(this.ops["UpdateHealthCheck"].applicator.apply(partialParams));
     }
     invokeUpdateHostedZoneComment(partialParams) {
-        return this.client.updateHostedZoneComment(this.ops["UpdateHostedZoneComment"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateHostedZoneComment(this.ops["UpdateHostedZoneComment"].applicator.apply(partialParams));
     }
     invokeUpdateTrafficPolicyComment(partialParams) {
-        return this.client.updateTrafficPolicyComment(this.ops["UpdateTrafficPolicyComment"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateTrafficPolicyComment(this.ops["UpdateTrafficPolicyComment"].applicator.apply(partialParams));
     }
     invokeUpdateTrafficPolicyInstance(partialParams) {
-        return this.client.updateTrafficPolicyInstance(this.ops["UpdateTrafficPolicyInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateTrafficPolicyInstance(this.ops["UpdateTrafficPolicyInstance"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

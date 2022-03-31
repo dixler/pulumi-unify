@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,141 +21,292 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/cloudformation-2010-05-15.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.cloudformation.StackSet {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.CloudFormation();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/cloudformation-2010-05-15.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeBatchDescribeTypeConfigurations(partialParams) {
-        return this.client.batchDescribeTypeConfigurations(this.ops["BatchDescribeTypeConfigurations"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchDescribeTypeConfigurations(this.ops["BatchDescribeTypeConfigurations"].applicator.apply(partialParams));
     }
     invokeCancelUpdateStack(partialParams) {
-        return this.client.cancelUpdateStack(this.ops["CancelUpdateStack"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.cancelUpdateStack(this.ops["CancelUpdateStack"].applicator.apply(partialParams));
     }
     invokeContinueUpdateRollback(partialParams) {
-        return this.client.continueUpdateRollback(this.ops["ContinueUpdateRollback"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.continueUpdateRollback(this.ops["ContinueUpdateRollback"].applicator.apply(partialParams));
     }
     invokeCreateChangeSet(partialParams) {
-        return this.client.createChangeSet(this.ops["CreateChangeSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createChangeSet(this.ops["CreateChangeSet"].applicator.apply(partialParams));
     }
     invokeCreateStack(partialParams) {
-        return this.client.createStack(this.ops["CreateStack"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createStack(this.ops["CreateStack"].applicator.apply(partialParams));
     }
     invokeCreateStackInstances(partialParams) {
-        return this.client.createStackInstances(this.ops["CreateStackInstances"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createStackInstances(this.ops["CreateStackInstances"].applicator.apply(partialParams));
     }
     invokeCreateStackSet(partialParams) {
-        return this.client.createStackSet(this.ops["CreateStackSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createStackSet(this.ops["CreateStackSet"].applicator.apply(partialParams));
     }
     invokeDeleteChangeSet(partialParams) {
-        return this.client.deleteChangeSet(this.ops["DeleteChangeSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteChangeSet(this.ops["DeleteChangeSet"].applicator.apply(partialParams));
     }
     invokeDeleteStack(partialParams) {
-        return this.client.deleteStack(this.ops["DeleteStack"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteStack(this.ops["DeleteStack"].applicator.apply(partialParams));
     }
     invokeDeleteStackInstances(partialParams) {
-        return this.client.deleteStackInstances(this.ops["DeleteStackInstances"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteStackInstances(this.ops["DeleteStackInstances"].applicator.apply(partialParams));
     }
     invokeDeleteStackSet(partialParams) {
-        return this.client.deleteStackSet(this.ops["DeleteStackSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteStackSet(this.ops["DeleteStackSet"].applicator.apply(partialParams));
     }
     invokeDescribeChangeSet(partialParams) {
-        return this.client.describeChangeSet(this.ops["DescribeChangeSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeChangeSet(this.ops["DescribeChangeSet"].applicator.apply(partialParams));
     }
     invokeDescribeChangeSetHooks(partialParams) {
-        return this.client.describeChangeSetHooks(this.ops["DescribeChangeSetHooks"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeChangeSetHooks(this.ops["DescribeChangeSetHooks"].applicator.apply(partialParams));
     }
     invokeDescribeStackDriftDetectionStatus(partialParams) {
-        return this.client.describeStackDriftDetectionStatus(this.ops["DescribeStackDriftDetectionStatus"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeStackDriftDetectionStatus(this.ops["DescribeStackDriftDetectionStatus"].applicator.apply(partialParams));
     }
     invokeDescribeStackInstance(partialParams) {
-        return this.client.describeStackInstance(this.ops["DescribeStackInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeStackInstance(this.ops["DescribeStackInstance"].applicator.apply(partialParams));
     }
     invokeDescribeStackResource(partialParams) {
-        return this.client.describeStackResource(this.ops["DescribeStackResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeStackResource(this.ops["DescribeStackResource"].applicator.apply(partialParams));
     }
     invokeDescribeStackResourceDrifts(partialParams) {
-        return this.client.describeStackResourceDrifts(this.ops["DescribeStackResourceDrifts"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeStackResourceDrifts(this.ops["DescribeStackResourceDrifts"].applicator.apply(partialParams));
     }
     invokeDescribeStackSet(partialParams) {
-        return this.client.describeStackSet(this.ops["DescribeStackSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeStackSet(this.ops["DescribeStackSet"].applicator.apply(partialParams));
     }
     invokeDescribeStackSetOperation(partialParams) {
-        return this.client.describeStackSetOperation(this.ops["DescribeStackSetOperation"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeStackSetOperation(this.ops["DescribeStackSetOperation"].applicator.apply(partialParams));
     }
     invokeDescribeTypeRegistration(partialParams) {
-        return this.client.describeTypeRegistration(this.ops["DescribeTypeRegistration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeTypeRegistration(this.ops["DescribeTypeRegistration"].applicator.apply(partialParams));
     }
     invokeDetectStackDrift(partialParams) {
-        return this.client.detectStackDrift(this.ops["DetectStackDrift"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.detectStackDrift(this.ops["DetectStackDrift"].applicator.apply(partialParams));
     }
     invokeDetectStackResourceDrift(partialParams) {
-        return this.client.detectStackResourceDrift(this.ops["DetectStackResourceDrift"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.detectStackResourceDrift(this.ops["DetectStackResourceDrift"].applicator.apply(partialParams));
     }
     invokeDetectStackSetDrift(partialParams) {
-        return this.client.detectStackSetDrift(this.ops["DetectStackSetDrift"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.detectStackSetDrift(this.ops["DetectStackSetDrift"].applicator.apply(partialParams));
     }
     invokeExecuteChangeSet(partialParams) {
-        return this.client.executeChangeSet(this.ops["ExecuteChangeSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.executeChangeSet(this.ops["ExecuteChangeSet"].applicator.apply(partialParams));
     }
     invokeGetStackPolicy(partialParams) {
-        return this.client.getStackPolicy(this.ops["GetStackPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getStackPolicy(this.ops["GetStackPolicy"].applicator.apply(partialParams));
     }
     invokeImportStacksToStackSet(partialParams) {
-        return this.client.importStacksToStackSet(this.ops["ImportStacksToStackSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.importStacksToStackSet(this.ops["ImportStacksToStackSet"].applicator.apply(partialParams));
     }
     invokeListChangeSets(partialParams) {
-        return this.client.listChangeSets(this.ops["ListChangeSets"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listChangeSets(this.ops["ListChangeSets"].applicator.apply(partialParams));
     }
     invokeListImports(partialParams) {
-        return this.client.listImports(this.ops["ListImports"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listImports(this.ops["ListImports"].applicator.apply(partialParams));
     }
     invokeListStackInstances(partialParams) {
-        return this.client.listStackInstances(this.ops["ListStackInstances"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listStackInstances(this.ops["ListStackInstances"].applicator.apply(partialParams));
     }
     invokeListStackResources(partialParams) {
-        return this.client.listStackResources(this.ops["ListStackResources"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listStackResources(this.ops["ListStackResources"].applicator.apply(partialParams));
     }
     invokeListStackSetOperationResults(partialParams) {
-        return this.client.listStackSetOperationResults(this.ops["ListStackSetOperationResults"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listStackSetOperationResults(this.ops["ListStackSetOperationResults"].applicator.apply(partialParams));
     }
     invokeListStackSetOperations(partialParams) {
-        return this.client.listStackSetOperations(this.ops["ListStackSetOperations"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listStackSetOperations(this.ops["ListStackSetOperations"].applicator.apply(partialParams));
     }
     invokeRecordHandlerProgress(partialParams) {
-        return this.client.recordHandlerProgress(this.ops["RecordHandlerProgress"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.recordHandlerProgress(this.ops["RecordHandlerProgress"].applicator.apply(partialParams));
     }
     invokeRegisterType(partialParams) {
-        return this.client.registerType(this.ops["RegisterType"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.registerType(this.ops["RegisterType"].applicator.apply(partialParams));
     }
     invokeRollbackStack(partialParams) {
-        return this.client.rollbackStack(this.ops["RollbackStack"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.rollbackStack(this.ops["RollbackStack"].applicator.apply(partialParams));
     }
     invokeSetStackPolicy(partialParams) {
-        return this.client.setStackPolicy(this.ops["SetStackPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.setStackPolicy(this.ops["SetStackPolicy"].applicator.apply(partialParams));
     }
     invokeSetTypeConfiguration(partialParams) {
-        return this.client.setTypeConfiguration(this.ops["SetTypeConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.setTypeConfiguration(this.ops["SetTypeConfiguration"].applicator.apply(partialParams));
     }
     invokeSignalResource(partialParams) {
-        return this.client.signalResource(this.ops["SignalResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.signalResource(this.ops["SignalResource"].applicator.apply(partialParams));
     }
     invokeStopStackSetOperation(partialParams) {
-        return this.client.stopStackSetOperation(this.ops["StopStackSetOperation"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.stopStackSetOperation(this.ops["StopStackSetOperation"].applicator.apply(partialParams));
     }
     invokeUpdateStack(partialParams) {
-        return this.client.updateStack(this.ops["UpdateStack"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateStack(this.ops["UpdateStack"].applicator.apply(partialParams));
     }
     invokeUpdateStackInstances(partialParams) {
-        return this.client.updateStackInstances(this.ops["UpdateStackInstances"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateStackInstances(this.ops["UpdateStackInstances"].applicator.apply(partialParams));
     }
     invokeUpdateStackSet(partialParams) {
-        return this.client.updateStackSet(this.ops["UpdateStackSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateStackSet(this.ops["UpdateStackSet"].applicator.apply(partialParams));
     }
     invokeUpdateTerminationProtection(partialParams) {
-        return this.client.updateTerminationProtection(this.ops["UpdateTerminationProtection"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateTerminationProtection(this.ops["UpdateTerminationProtection"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     AssociatePhoneNumberWithUserRequest,
     AssociatePhoneNumbersWithVoiceConnectorRequest,
@@ -313,8 +316,8 @@ import {
     UpdateVoiceConnectorResponse,
     UpdateVoiceConnectorGroupResponse
 } from "aws-sdk/clients/chime";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/chime-2018-05-01.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -323,1395 +326,1936 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.chime.VoiceConnectorStreaming {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.chime.VoiceConnectorStreaming>) {
         super(...args)
         this.client = new awssdk.Chime()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/chime-2018-05-01.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeAssociatePhoneNumberWithUser(partialParams: ToOptional<{
       [K in keyof AssociatePhoneNumberWithUserRequest]: (AssociatePhoneNumberWithUserRequest)[K]
-    }>): AssociatePhoneNumberWithUserResponse {
+    }>): Request<AssociatePhoneNumberWithUserResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.associatePhoneNumberWithUser(
-            this.ops["AssociatePhoneNumberWithUser"].apply(partialParams)
+          this.ops["AssociatePhoneNumberWithUser"].applicator.apply(partialParams)
         );
     }
 
     invokeAssociatePhoneNumbersWithVoiceConnector(partialParams: ToOptional<{
       [K in keyof AssociatePhoneNumbersWithVoiceConnectorRequest]: (AssociatePhoneNumbersWithVoiceConnectorRequest)[K]
-    }>): AssociatePhoneNumbersWithVoiceConnectorResponse {
+    }>): Request<AssociatePhoneNumbersWithVoiceConnectorResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.associatePhoneNumbersWithVoiceConnector(
-            this.ops["AssociatePhoneNumbersWithVoiceConnector"].apply(partialParams)
+          this.ops["AssociatePhoneNumbersWithVoiceConnector"].applicator.apply(partialParams)
         );
     }
 
     invokeAssociatePhoneNumbersWithVoiceConnectorGroup(partialParams: ToOptional<{
       [K in keyof AssociatePhoneNumbersWithVoiceConnectorGroupRequest]: (AssociatePhoneNumbersWithVoiceConnectorGroupRequest)[K]
-    }>): AssociatePhoneNumbersWithVoiceConnectorGroupResponse {
+    }>): Request<AssociatePhoneNumbersWithVoiceConnectorGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.associatePhoneNumbersWithVoiceConnectorGroup(
-            this.ops["AssociatePhoneNumbersWithVoiceConnectorGroup"].apply(partialParams)
+          this.ops["AssociatePhoneNumbersWithVoiceConnectorGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeAssociateSigninDelegateGroupsWithAccount(partialParams: ToOptional<{
       [K in keyof AssociateSigninDelegateGroupsWithAccountRequest]: (AssociateSigninDelegateGroupsWithAccountRequest)[K]
-    }>): AssociateSigninDelegateGroupsWithAccountResponse {
+    }>): Request<AssociateSigninDelegateGroupsWithAccountResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.associateSigninDelegateGroupsWithAccount(
-            this.ops["AssociateSigninDelegateGroupsWithAccount"].apply(partialParams)
+          this.ops["AssociateSigninDelegateGroupsWithAccount"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchCreateAttendee(partialParams: ToOptional<{
       [K in keyof BatchCreateAttendeeRequest]: (BatchCreateAttendeeRequest)[K]
-    }>): BatchCreateAttendeeResponse {
+    }>): Request<BatchCreateAttendeeResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchCreateAttendee(
-            this.ops["BatchCreateAttendee"].apply(partialParams)
+          this.ops["BatchCreateAttendee"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchCreateChannelMembership(partialParams: ToOptional<{
       [K in keyof BatchCreateChannelMembershipRequest]: (BatchCreateChannelMembershipRequest)[K]
-    }>): BatchCreateChannelMembershipResponse {
+    }>): Request<BatchCreateChannelMembershipResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchCreateChannelMembership(
-            this.ops["BatchCreateChannelMembership"].apply(partialParams)
+          this.ops["BatchCreateChannelMembership"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchCreateRoomMembership(partialParams: ToOptional<{
       [K in keyof BatchCreateRoomMembershipRequest]: (BatchCreateRoomMembershipRequest)[K]
-    }>): BatchCreateRoomMembershipResponse {
+    }>): Request<BatchCreateRoomMembershipResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchCreateRoomMembership(
-            this.ops["BatchCreateRoomMembership"].apply(partialParams)
+          this.ops["BatchCreateRoomMembership"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchDeletePhoneNumber(partialParams: ToOptional<{
       [K in keyof BatchDeletePhoneNumberRequest]: (BatchDeletePhoneNumberRequest)[K]
-    }>): BatchDeletePhoneNumberResponse {
+    }>): Request<BatchDeletePhoneNumberResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchDeletePhoneNumber(
-            this.ops["BatchDeletePhoneNumber"].apply(partialParams)
+          this.ops["BatchDeletePhoneNumber"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchSuspendUser(partialParams: ToOptional<{
       [K in keyof BatchSuspendUserRequest]: (BatchSuspendUserRequest)[K]
-    }>): BatchSuspendUserResponse {
+    }>): Request<BatchSuspendUserResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchSuspendUser(
-            this.ops["BatchSuspendUser"].apply(partialParams)
+          this.ops["BatchSuspendUser"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchUnsuspendUser(partialParams: ToOptional<{
       [K in keyof BatchUnsuspendUserRequest]: (BatchUnsuspendUserRequest)[K]
-    }>): BatchUnsuspendUserResponse {
+    }>): Request<BatchUnsuspendUserResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchUnsuspendUser(
-            this.ops["BatchUnsuspendUser"].apply(partialParams)
+          this.ops["BatchUnsuspendUser"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchUpdatePhoneNumber(partialParams: ToOptional<{
       [K in keyof BatchUpdatePhoneNumberRequest]: (BatchUpdatePhoneNumberRequest)[K]
-    }>): BatchUpdatePhoneNumberResponse {
+    }>): Request<BatchUpdatePhoneNumberResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchUpdatePhoneNumber(
-            this.ops["BatchUpdatePhoneNumber"].apply(partialParams)
+          this.ops["BatchUpdatePhoneNumber"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchUpdateUser(partialParams: ToOptional<{
       [K in keyof BatchUpdateUserRequest]: (BatchUpdateUserRequest)[K]
-    }>): BatchUpdateUserResponse {
+    }>): Request<BatchUpdateUserResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchUpdateUser(
-            this.ops["BatchUpdateUser"].apply(partialParams)
+          this.ops["BatchUpdateUser"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateAccount(partialParams: ToOptional<{
       [K in keyof CreateAccountRequest]: (CreateAccountRequest)[K]
-    }>): CreateAccountResponse {
+    }>): Request<CreateAccountResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createAccount(
-            this.ops["CreateAccount"].apply(partialParams)
+          this.ops["CreateAccount"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateAppInstance(partialParams: ToOptional<{
       [K in keyof CreateAppInstanceRequest]: (CreateAppInstanceRequest)[K]
-    }>): CreateAppInstanceResponse {
+    }>): Request<CreateAppInstanceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createAppInstance(
-            this.ops["CreateAppInstance"].apply(partialParams)
+          this.ops["CreateAppInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateAppInstanceAdmin(partialParams: ToOptional<{
       [K in keyof CreateAppInstanceAdminRequest]: (CreateAppInstanceAdminRequest)[K]
-    }>): CreateAppInstanceAdminResponse {
+    }>): Request<CreateAppInstanceAdminResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createAppInstanceAdmin(
-            this.ops["CreateAppInstanceAdmin"].apply(partialParams)
+          this.ops["CreateAppInstanceAdmin"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateAppInstanceUser(partialParams: ToOptional<{
       [K in keyof CreateAppInstanceUserRequest]: (CreateAppInstanceUserRequest)[K]
-    }>): CreateAppInstanceUserResponse {
+    }>): Request<CreateAppInstanceUserResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createAppInstanceUser(
-            this.ops["CreateAppInstanceUser"].apply(partialParams)
+          this.ops["CreateAppInstanceUser"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateAttendee(partialParams: ToOptional<{
       [K in keyof CreateAttendeeRequest]: (CreateAttendeeRequest)[K]
-    }>): CreateAttendeeResponse {
+    }>): Request<CreateAttendeeResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createAttendee(
-            this.ops["CreateAttendee"].apply(partialParams)
+          this.ops["CreateAttendee"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateBot(partialParams: ToOptional<{
       [K in keyof CreateBotRequest]: (CreateBotRequest)[K]
-    }>): CreateBotResponse {
+    }>): Request<CreateBotResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createBot(
-            this.ops["CreateBot"].apply(partialParams)
+          this.ops["CreateBot"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateChannel(partialParams: ToOptional<{
       [K in keyof CreateChannelRequest]: (CreateChannelRequest)[K]
-    }>): CreateChannelResponse {
+    }>): Request<CreateChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createChannel(
-            this.ops["CreateChannel"].apply(partialParams)
+          this.ops["CreateChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateChannelBan(partialParams: ToOptional<{
       [K in keyof CreateChannelBanRequest]: (CreateChannelBanRequest)[K]
-    }>): CreateChannelBanResponse {
+    }>): Request<CreateChannelBanResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createChannelBan(
-            this.ops["CreateChannelBan"].apply(partialParams)
+          this.ops["CreateChannelBan"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateChannelMembership(partialParams: ToOptional<{
       [K in keyof CreateChannelMembershipRequest]: (CreateChannelMembershipRequest)[K]
-    }>): CreateChannelMembershipResponse {
+    }>): Request<CreateChannelMembershipResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createChannelMembership(
-            this.ops["CreateChannelMembership"].apply(partialParams)
+          this.ops["CreateChannelMembership"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateChannelModerator(partialParams: ToOptional<{
       [K in keyof CreateChannelModeratorRequest]: (CreateChannelModeratorRequest)[K]
-    }>): CreateChannelModeratorResponse {
+    }>): Request<CreateChannelModeratorResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createChannelModerator(
-            this.ops["CreateChannelModerator"].apply(partialParams)
+          this.ops["CreateChannelModerator"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateMediaCapturePipeline(partialParams: ToOptional<{
       [K in keyof CreateMediaCapturePipelineRequest]: (CreateMediaCapturePipelineRequest)[K]
-    }>): CreateMediaCapturePipelineResponse {
+    }>): Request<CreateMediaCapturePipelineResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createMediaCapturePipeline(
-            this.ops["CreateMediaCapturePipeline"].apply(partialParams)
+          this.ops["CreateMediaCapturePipeline"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateMeeting(partialParams: ToOptional<{
       [K in keyof CreateMeetingRequest]: (CreateMeetingRequest)[K]
-    }>): CreateMeetingResponse {
+    }>): Request<CreateMeetingResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createMeeting(
-            this.ops["CreateMeeting"].apply(partialParams)
+          this.ops["CreateMeeting"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateMeetingDialOut(partialParams: ToOptional<{
       [K in keyof CreateMeetingDialOutRequest]: (CreateMeetingDialOutRequest)[K]
-    }>): CreateMeetingDialOutResponse {
+    }>): Request<CreateMeetingDialOutResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createMeetingDialOut(
-            this.ops["CreateMeetingDialOut"].apply(partialParams)
+          this.ops["CreateMeetingDialOut"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateMeetingWithAttendees(partialParams: ToOptional<{
       [K in keyof CreateMeetingWithAttendeesRequest]: (CreateMeetingWithAttendeesRequest)[K]
-    }>): CreateMeetingWithAttendeesResponse {
+    }>): Request<CreateMeetingWithAttendeesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createMeetingWithAttendees(
-            this.ops["CreateMeetingWithAttendees"].apply(partialParams)
+          this.ops["CreateMeetingWithAttendees"].applicator.apply(partialParams)
         );
     }
 
     invokeCreatePhoneNumberOrder(partialParams: ToOptional<{
       [K in keyof CreatePhoneNumberOrderRequest]: (CreatePhoneNumberOrderRequest)[K]
-    }>): CreatePhoneNumberOrderResponse {
+    }>): Request<CreatePhoneNumberOrderResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createPhoneNumberOrder(
-            this.ops["CreatePhoneNumberOrder"].apply(partialParams)
+          this.ops["CreatePhoneNumberOrder"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateProxySession(partialParams: ToOptional<{
       [K in keyof CreateProxySessionRequest]: (CreateProxySessionRequest)[K]
-    }>): CreateProxySessionResponse {
+    }>): Request<CreateProxySessionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createProxySession(
-            this.ops["CreateProxySession"].apply(partialParams)
+          this.ops["CreateProxySession"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateRoom(partialParams: ToOptional<{
       [K in keyof CreateRoomRequest]: (CreateRoomRequest)[K]
-    }>): CreateRoomResponse {
+    }>): Request<CreateRoomResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createRoom(
-            this.ops["CreateRoom"].apply(partialParams)
+          this.ops["CreateRoom"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateRoomMembership(partialParams: ToOptional<{
       [K in keyof CreateRoomMembershipRequest]: (CreateRoomMembershipRequest)[K]
-    }>): CreateRoomMembershipResponse {
+    }>): Request<CreateRoomMembershipResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createRoomMembership(
-            this.ops["CreateRoomMembership"].apply(partialParams)
+          this.ops["CreateRoomMembership"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateSipMediaApplication(partialParams: ToOptional<{
       [K in keyof CreateSipMediaApplicationRequest]: (CreateSipMediaApplicationRequest)[K]
-    }>): CreateSipMediaApplicationResponse {
+    }>): Request<CreateSipMediaApplicationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createSipMediaApplication(
-            this.ops["CreateSipMediaApplication"].apply(partialParams)
+          this.ops["CreateSipMediaApplication"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateSipMediaApplicationCall(partialParams: ToOptional<{
       [K in keyof CreateSipMediaApplicationCallRequest]: (CreateSipMediaApplicationCallRequest)[K]
-    }>): CreateSipMediaApplicationCallResponse {
+    }>): Request<CreateSipMediaApplicationCallResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createSipMediaApplicationCall(
-            this.ops["CreateSipMediaApplicationCall"].apply(partialParams)
+          this.ops["CreateSipMediaApplicationCall"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateSipRule(partialParams: ToOptional<{
       [K in keyof CreateSipRuleRequest]: (CreateSipRuleRequest)[K]
-    }>): CreateSipRuleResponse {
+    }>): Request<CreateSipRuleResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createSipRule(
-            this.ops["CreateSipRule"].apply(partialParams)
+          this.ops["CreateSipRule"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateUser(partialParams: ToOptional<{
       [K in keyof CreateUserRequest]: (CreateUserRequest)[K]
-    }>): CreateUserResponse {
+    }>): Request<CreateUserResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createUser(
-            this.ops["CreateUser"].apply(partialParams)
+          this.ops["CreateUser"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateVoiceConnector(partialParams: ToOptional<{
       [K in keyof CreateVoiceConnectorRequest]: (CreateVoiceConnectorRequest)[K]
-    }>): CreateVoiceConnectorResponse {
+    }>): Request<CreateVoiceConnectorResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createVoiceConnector(
-            this.ops["CreateVoiceConnector"].apply(partialParams)
+          this.ops["CreateVoiceConnector"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateVoiceConnectorGroup(partialParams: ToOptional<{
       [K in keyof CreateVoiceConnectorGroupRequest]: (CreateVoiceConnectorGroupRequest)[K]
-    }>): CreateVoiceConnectorGroupResponse {
+    }>): Request<CreateVoiceConnectorGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createVoiceConnectorGroup(
-            this.ops["CreateVoiceConnectorGroup"].apply(partialParams)
+          this.ops["CreateVoiceConnectorGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteAccount(partialParams: ToOptional<{
       [K in keyof DeleteAccountRequest]: (DeleteAccountRequest)[K]
-    }>): DeleteAccountResponse {
+    }>): Request<DeleteAccountResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteAccount(
-            this.ops["DeleteAccount"].apply(partialParams)
+          this.ops["DeleteAccount"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteAppInstance(partialParams: ToOptional<{
       [K in keyof DeleteAppInstanceRequest]: (DeleteAppInstanceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteAppInstance(
-            this.ops["DeleteAppInstance"].apply(partialParams)
+          this.ops["DeleteAppInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteAppInstanceAdmin(partialParams: ToOptional<{
       [K in keyof DeleteAppInstanceAdminRequest]: (DeleteAppInstanceAdminRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteAppInstanceAdmin(
-            this.ops["DeleteAppInstanceAdmin"].apply(partialParams)
+          this.ops["DeleteAppInstanceAdmin"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteAppInstanceStreamingConfigurations(partialParams: ToOptional<{
       [K in keyof DeleteAppInstanceStreamingConfigurationsRequest]: (DeleteAppInstanceStreamingConfigurationsRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteAppInstanceStreamingConfigurations(
-            this.ops["DeleteAppInstanceStreamingConfigurations"].apply(partialParams)
+          this.ops["DeleteAppInstanceStreamingConfigurations"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteAppInstanceUser(partialParams: ToOptional<{
       [K in keyof DeleteAppInstanceUserRequest]: (DeleteAppInstanceUserRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteAppInstanceUser(
-            this.ops["DeleteAppInstanceUser"].apply(partialParams)
+          this.ops["DeleteAppInstanceUser"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteAttendee(partialParams: ToOptional<{
       [K in keyof DeleteAttendeeRequest]: (DeleteAttendeeRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteAttendee(
-            this.ops["DeleteAttendee"].apply(partialParams)
+          this.ops["DeleteAttendee"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteChannel(partialParams: ToOptional<{
       [K in keyof DeleteChannelRequest]: (DeleteChannelRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteChannel(
-            this.ops["DeleteChannel"].apply(partialParams)
+          this.ops["DeleteChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteChannelBan(partialParams: ToOptional<{
       [K in keyof DeleteChannelBanRequest]: (DeleteChannelBanRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteChannelBan(
-            this.ops["DeleteChannelBan"].apply(partialParams)
+          this.ops["DeleteChannelBan"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteChannelMembership(partialParams: ToOptional<{
       [K in keyof DeleteChannelMembershipRequest]: (DeleteChannelMembershipRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteChannelMembership(
-            this.ops["DeleteChannelMembership"].apply(partialParams)
+          this.ops["DeleteChannelMembership"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteChannelMessage(partialParams: ToOptional<{
       [K in keyof DeleteChannelMessageRequest]: (DeleteChannelMessageRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteChannelMessage(
-            this.ops["DeleteChannelMessage"].apply(partialParams)
+          this.ops["DeleteChannelMessage"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteChannelModerator(partialParams: ToOptional<{
       [K in keyof DeleteChannelModeratorRequest]: (DeleteChannelModeratorRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteChannelModerator(
-            this.ops["DeleteChannelModerator"].apply(partialParams)
+          this.ops["DeleteChannelModerator"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteEventsConfiguration(partialParams: ToOptional<{
       [K in keyof DeleteEventsConfigurationRequest]: (DeleteEventsConfigurationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteEventsConfiguration(
-            this.ops["DeleteEventsConfiguration"].apply(partialParams)
+          this.ops["DeleteEventsConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteMediaCapturePipeline(partialParams: ToOptional<{
       [K in keyof DeleteMediaCapturePipelineRequest]: (DeleteMediaCapturePipelineRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteMediaCapturePipeline(
-            this.ops["DeleteMediaCapturePipeline"].apply(partialParams)
+          this.ops["DeleteMediaCapturePipeline"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteMeeting(partialParams: ToOptional<{
       [K in keyof DeleteMeetingRequest]: (DeleteMeetingRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteMeeting(
-            this.ops["DeleteMeeting"].apply(partialParams)
+          this.ops["DeleteMeeting"].applicator.apply(partialParams)
         );
     }
 
     invokeDeletePhoneNumber(partialParams: ToOptional<{
       [K in keyof DeletePhoneNumberRequest]: (DeletePhoneNumberRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deletePhoneNumber(
-            this.ops["DeletePhoneNumber"].apply(partialParams)
+          this.ops["DeletePhoneNumber"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteProxySession(partialParams: ToOptional<{
       [K in keyof DeleteProxySessionRequest]: (DeleteProxySessionRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteProxySession(
-            this.ops["DeleteProxySession"].apply(partialParams)
+          this.ops["DeleteProxySession"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteRoom(partialParams: ToOptional<{
       [K in keyof DeleteRoomRequest]: (DeleteRoomRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteRoom(
-            this.ops["DeleteRoom"].apply(partialParams)
+          this.ops["DeleteRoom"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteRoomMembership(partialParams: ToOptional<{
       [K in keyof DeleteRoomMembershipRequest]: (DeleteRoomMembershipRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteRoomMembership(
-            this.ops["DeleteRoomMembership"].apply(partialParams)
+          this.ops["DeleteRoomMembership"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteSipMediaApplication(partialParams: ToOptional<{
       [K in keyof DeleteSipMediaApplicationRequest]: (DeleteSipMediaApplicationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteSipMediaApplication(
-            this.ops["DeleteSipMediaApplication"].apply(partialParams)
+          this.ops["DeleteSipMediaApplication"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteSipRule(partialParams: ToOptional<{
       [K in keyof DeleteSipRuleRequest]: (DeleteSipRuleRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteSipRule(
-            this.ops["DeleteSipRule"].apply(partialParams)
+          this.ops["DeleteSipRule"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteVoiceConnector(partialParams: ToOptional<{
       [K in keyof DeleteVoiceConnectorRequest]: (DeleteVoiceConnectorRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteVoiceConnector(
-            this.ops["DeleteVoiceConnector"].apply(partialParams)
+          this.ops["DeleteVoiceConnector"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteVoiceConnectorEmergencyCallingConfiguration(partialParams: ToOptional<{
       [K in keyof DeleteVoiceConnectorEmergencyCallingConfigurationRequest]: (DeleteVoiceConnectorEmergencyCallingConfigurationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteVoiceConnectorEmergencyCallingConfiguration(
-            this.ops["DeleteVoiceConnectorEmergencyCallingConfiguration"].apply(partialParams)
+          this.ops["DeleteVoiceConnectorEmergencyCallingConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteVoiceConnectorGroup(partialParams: ToOptional<{
       [K in keyof DeleteVoiceConnectorGroupRequest]: (DeleteVoiceConnectorGroupRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteVoiceConnectorGroup(
-            this.ops["DeleteVoiceConnectorGroup"].apply(partialParams)
+          this.ops["DeleteVoiceConnectorGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteVoiceConnectorOrigination(partialParams: ToOptional<{
       [K in keyof DeleteVoiceConnectorOriginationRequest]: (DeleteVoiceConnectorOriginationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteVoiceConnectorOrigination(
-            this.ops["DeleteVoiceConnectorOrigination"].apply(partialParams)
+          this.ops["DeleteVoiceConnectorOrigination"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteVoiceConnectorProxy(partialParams: ToOptional<{
       [K in keyof DeleteVoiceConnectorProxyRequest]: (DeleteVoiceConnectorProxyRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteVoiceConnectorProxy(
-            this.ops["DeleteVoiceConnectorProxy"].apply(partialParams)
+          this.ops["DeleteVoiceConnectorProxy"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteVoiceConnectorStreamingConfiguration(partialParams: ToOptional<{
       [K in keyof DeleteVoiceConnectorStreamingConfigurationRequest]: (DeleteVoiceConnectorStreamingConfigurationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteVoiceConnectorStreamingConfiguration(
-            this.ops["DeleteVoiceConnectorStreamingConfiguration"].apply(partialParams)
+          this.ops["DeleteVoiceConnectorStreamingConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteVoiceConnectorTermination(partialParams: ToOptional<{
       [K in keyof DeleteVoiceConnectorTerminationRequest]: (DeleteVoiceConnectorTerminationRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteVoiceConnectorTermination(
-            this.ops["DeleteVoiceConnectorTermination"].apply(partialParams)
+          this.ops["DeleteVoiceConnectorTermination"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteVoiceConnectorTerminationCredentials(partialParams: ToOptional<{
       [K in keyof DeleteVoiceConnectorTerminationCredentialsRequest]: (DeleteVoiceConnectorTerminationCredentialsRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteVoiceConnectorTerminationCredentials(
-            this.ops["DeleteVoiceConnectorTerminationCredentials"].apply(partialParams)
+          this.ops["DeleteVoiceConnectorTerminationCredentials"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeAppInstance(partialParams: ToOptional<{
       [K in keyof DescribeAppInstanceRequest]: (DescribeAppInstanceRequest)[K]
-    }>): DescribeAppInstanceResponse {
+    }>): Request<DescribeAppInstanceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeAppInstance(
-            this.ops["DescribeAppInstance"].apply(partialParams)
+          this.ops["DescribeAppInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeAppInstanceAdmin(partialParams: ToOptional<{
       [K in keyof DescribeAppInstanceAdminRequest]: (DescribeAppInstanceAdminRequest)[K]
-    }>): DescribeAppInstanceAdminResponse {
+    }>): Request<DescribeAppInstanceAdminResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeAppInstanceAdmin(
-            this.ops["DescribeAppInstanceAdmin"].apply(partialParams)
+          this.ops["DescribeAppInstanceAdmin"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeAppInstanceUser(partialParams: ToOptional<{
       [K in keyof DescribeAppInstanceUserRequest]: (DescribeAppInstanceUserRequest)[K]
-    }>): DescribeAppInstanceUserResponse {
+    }>): Request<DescribeAppInstanceUserResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeAppInstanceUser(
-            this.ops["DescribeAppInstanceUser"].apply(partialParams)
+          this.ops["DescribeAppInstanceUser"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeChannel(partialParams: ToOptional<{
       [K in keyof DescribeChannelRequest]: (DescribeChannelRequest)[K]
-    }>): DescribeChannelResponse {
+    }>): Request<DescribeChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeChannel(
-            this.ops["DescribeChannel"].apply(partialParams)
+          this.ops["DescribeChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeChannelBan(partialParams: ToOptional<{
       [K in keyof DescribeChannelBanRequest]: (DescribeChannelBanRequest)[K]
-    }>): DescribeChannelBanResponse {
+    }>): Request<DescribeChannelBanResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeChannelBan(
-            this.ops["DescribeChannelBan"].apply(partialParams)
+          this.ops["DescribeChannelBan"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeChannelMembership(partialParams: ToOptional<{
       [K in keyof DescribeChannelMembershipRequest]: (DescribeChannelMembershipRequest)[K]
-    }>): DescribeChannelMembershipResponse {
+    }>): Request<DescribeChannelMembershipResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeChannelMembership(
-            this.ops["DescribeChannelMembership"].apply(partialParams)
+          this.ops["DescribeChannelMembership"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeChannelMembershipForAppInstanceUser(partialParams: ToOptional<{
       [K in keyof DescribeChannelMembershipForAppInstanceUserRequest]: (DescribeChannelMembershipForAppInstanceUserRequest)[K]
-    }>): DescribeChannelMembershipForAppInstanceUserResponse {
+    }>): Request<DescribeChannelMembershipForAppInstanceUserResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeChannelMembershipForAppInstanceUser(
-            this.ops["DescribeChannelMembershipForAppInstanceUser"].apply(partialParams)
+          this.ops["DescribeChannelMembershipForAppInstanceUser"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeChannelModeratedByAppInstanceUser(partialParams: ToOptional<{
       [K in keyof DescribeChannelModeratedByAppInstanceUserRequest]: (DescribeChannelModeratedByAppInstanceUserRequest)[K]
-    }>): DescribeChannelModeratedByAppInstanceUserResponse {
+    }>): Request<DescribeChannelModeratedByAppInstanceUserResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeChannelModeratedByAppInstanceUser(
-            this.ops["DescribeChannelModeratedByAppInstanceUser"].apply(partialParams)
+          this.ops["DescribeChannelModeratedByAppInstanceUser"].applicator.apply(partialParams)
         );
     }
 
     invokeDescribeChannelModerator(partialParams: ToOptional<{
       [K in keyof DescribeChannelModeratorRequest]: (DescribeChannelModeratorRequest)[K]
-    }>): DescribeChannelModeratorResponse {
+    }>): Request<DescribeChannelModeratorResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.describeChannelModerator(
-            this.ops["DescribeChannelModerator"].apply(partialParams)
+          this.ops["DescribeChannelModerator"].applicator.apply(partialParams)
         );
     }
 
     invokeDisassociatePhoneNumberFromUser(partialParams: ToOptional<{
       [K in keyof DisassociatePhoneNumberFromUserRequest]: (DisassociatePhoneNumberFromUserRequest)[K]
-    }>): DisassociatePhoneNumberFromUserResponse {
+    }>): Request<DisassociatePhoneNumberFromUserResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disassociatePhoneNumberFromUser(
-            this.ops["DisassociatePhoneNumberFromUser"].apply(partialParams)
+          this.ops["DisassociatePhoneNumberFromUser"].applicator.apply(partialParams)
         );
     }
 
     invokeDisassociatePhoneNumbersFromVoiceConnector(partialParams: ToOptional<{
       [K in keyof DisassociatePhoneNumbersFromVoiceConnectorRequest]: (DisassociatePhoneNumbersFromVoiceConnectorRequest)[K]
-    }>): DisassociatePhoneNumbersFromVoiceConnectorResponse {
+    }>): Request<DisassociatePhoneNumbersFromVoiceConnectorResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disassociatePhoneNumbersFromVoiceConnector(
-            this.ops["DisassociatePhoneNumbersFromVoiceConnector"].apply(partialParams)
+          this.ops["DisassociatePhoneNumbersFromVoiceConnector"].applicator.apply(partialParams)
         );
     }
 
     invokeDisassociatePhoneNumbersFromVoiceConnectorGroup(partialParams: ToOptional<{
       [K in keyof DisassociatePhoneNumbersFromVoiceConnectorGroupRequest]: (DisassociatePhoneNumbersFromVoiceConnectorGroupRequest)[K]
-    }>): DisassociatePhoneNumbersFromVoiceConnectorGroupResponse {
+    }>): Request<DisassociatePhoneNumbersFromVoiceConnectorGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disassociatePhoneNumbersFromVoiceConnectorGroup(
-            this.ops["DisassociatePhoneNumbersFromVoiceConnectorGroup"].apply(partialParams)
+          this.ops["DisassociatePhoneNumbersFromVoiceConnectorGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDisassociateSigninDelegateGroupsFromAccount(partialParams: ToOptional<{
       [K in keyof DisassociateSigninDelegateGroupsFromAccountRequest]: (DisassociateSigninDelegateGroupsFromAccountRequest)[K]
-    }>): DisassociateSigninDelegateGroupsFromAccountResponse {
+    }>): Request<DisassociateSigninDelegateGroupsFromAccountResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disassociateSigninDelegateGroupsFromAccount(
-            this.ops["DisassociateSigninDelegateGroupsFromAccount"].apply(partialParams)
+          this.ops["DisassociateSigninDelegateGroupsFromAccount"].applicator.apply(partialParams)
         );
     }
 
     invokeGetAccount(partialParams: ToOptional<{
       [K in keyof GetAccountRequest]: (GetAccountRequest)[K]
-    }>): GetAccountResponse {
+    }>): Request<GetAccountResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getAccount(
-            this.ops["GetAccount"].apply(partialParams)
+          this.ops["GetAccount"].applicator.apply(partialParams)
         );
     }
 
     invokeGetAccountSettings(partialParams: ToOptional<{
       [K in keyof GetAccountSettingsRequest]: (GetAccountSettingsRequest)[K]
-    }>): GetAccountSettingsResponse {
+    }>): Request<GetAccountSettingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getAccountSettings(
-            this.ops["GetAccountSettings"].apply(partialParams)
+          this.ops["GetAccountSettings"].applicator.apply(partialParams)
         );
     }
 
     invokeGetAppInstanceRetentionSettings(partialParams: ToOptional<{
       [K in keyof GetAppInstanceRetentionSettingsRequest]: (GetAppInstanceRetentionSettingsRequest)[K]
-    }>): GetAppInstanceRetentionSettingsResponse {
+    }>): Request<GetAppInstanceRetentionSettingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getAppInstanceRetentionSettings(
-            this.ops["GetAppInstanceRetentionSettings"].apply(partialParams)
+          this.ops["GetAppInstanceRetentionSettings"].applicator.apply(partialParams)
         );
     }
 
     invokeGetAppInstanceStreamingConfigurations(partialParams: ToOptional<{
       [K in keyof GetAppInstanceStreamingConfigurationsRequest]: (GetAppInstanceStreamingConfigurationsRequest)[K]
-    }>): GetAppInstanceStreamingConfigurationsResponse {
+    }>): Request<GetAppInstanceStreamingConfigurationsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getAppInstanceStreamingConfigurations(
-            this.ops["GetAppInstanceStreamingConfigurations"].apply(partialParams)
+          this.ops["GetAppInstanceStreamingConfigurations"].applicator.apply(partialParams)
         );
     }
 
     invokeGetAttendee(partialParams: ToOptional<{
       [K in keyof GetAttendeeRequest]: (GetAttendeeRequest)[K]
-    }>): GetAttendeeResponse {
+    }>): Request<GetAttendeeResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getAttendee(
-            this.ops["GetAttendee"].apply(partialParams)
+          this.ops["GetAttendee"].applicator.apply(partialParams)
         );
     }
 
     invokeGetBot(partialParams: ToOptional<{
       [K in keyof GetBotRequest]: (GetBotRequest)[K]
-    }>): GetBotResponse {
+    }>): Request<GetBotResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getBot(
-            this.ops["GetBot"].apply(partialParams)
+          this.ops["GetBot"].applicator.apply(partialParams)
         );
     }
 
     invokeGetChannelMessage(partialParams: ToOptional<{
       [K in keyof GetChannelMessageRequest]: (GetChannelMessageRequest)[K]
-    }>): GetChannelMessageResponse {
+    }>): Request<GetChannelMessageResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getChannelMessage(
-            this.ops["GetChannelMessage"].apply(partialParams)
+          this.ops["GetChannelMessage"].applicator.apply(partialParams)
         );
     }
 
     invokeGetEventsConfiguration(partialParams: ToOptional<{
       [K in keyof GetEventsConfigurationRequest]: (GetEventsConfigurationRequest)[K]
-    }>): GetEventsConfigurationResponse {
+    }>): Request<GetEventsConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getEventsConfiguration(
-            this.ops["GetEventsConfiguration"].apply(partialParams)
+          this.ops["GetEventsConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeGetMediaCapturePipeline(partialParams: ToOptional<{
       [K in keyof GetMediaCapturePipelineRequest]: (GetMediaCapturePipelineRequest)[K]
-    }>): GetMediaCapturePipelineResponse {
+    }>): Request<GetMediaCapturePipelineResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getMediaCapturePipeline(
-            this.ops["GetMediaCapturePipeline"].apply(partialParams)
+          this.ops["GetMediaCapturePipeline"].applicator.apply(partialParams)
         );
     }
 
     invokeGetMeeting(partialParams: ToOptional<{
       [K in keyof GetMeetingRequest]: (GetMeetingRequest)[K]
-    }>): GetMeetingResponse {
+    }>): Request<GetMeetingResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getMeeting(
-            this.ops["GetMeeting"].apply(partialParams)
+          this.ops["GetMeeting"].applicator.apply(partialParams)
         );
     }
 
     invokeGetPhoneNumber(partialParams: ToOptional<{
       [K in keyof GetPhoneNumberRequest]: (GetPhoneNumberRequest)[K]
-    }>): GetPhoneNumberResponse {
+    }>): Request<GetPhoneNumberResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getPhoneNumber(
-            this.ops["GetPhoneNumber"].apply(partialParams)
+          this.ops["GetPhoneNumber"].applicator.apply(partialParams)
         );
     }
 
     invokeGetPhoneNumberOrder(partialParams: ToOptional<{
       [K in keyof GetPhoneNumberOrderRequest]: (GetPhoneNumberOrderRequest)[K]
-    }>): GetPhoneNumberOrderResponse {
+    }>): Request<GetPhoneNumberOrderResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getPhoneNumberOrder(
-            this.ops["GetPhoneNumberOrder"].apply(partialParams)
+          this.ops["GetPhoneNumberOrder"].applicator.apply(partialParams)
         );
     }
 
     invokeGetProxySession(partialParams: ToOptional<{
       [K in keyof GetProxySessionRequest]: (GetProxySessionRequest)[K]
-    }>): GetProxySessionResponse {
+    }>): Request<GetProxySessionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getProxySession(
-            this.ops["GetProxySession"].apply(partialParams)
+          this.ops["GetProxySession"].applicator.apply(partialParams)
         );
     }
 
     invokeGetRetentionSettings(partialParams: ToOptional<{
       [K in keyof GetRetentionSettingsRequest]: (GetRetentionSettingsRequest)[K]
-    }>): GetRetentionSettingsResponse {
+    }>): Request<GetRetentionSettingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getRetentionSettings(
-            this.ops["GetRetentionSettings"].apply(partialParams)
+          this.ops["GetRetentionSettings"].applicator.apply(partialParams)
         );
     }
 
     invokeGetRoom(partialParams: ToOptional<{
       [K in keyof GetRoomRequest]: (GetRoomRequest)[K]
-    }>): GetRoomResponse {
+    }>): Request<GetRoomResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getRoom(
-            this.ops["GetRoom"].apply(partialParams)
+          this.ops["GetRoom"].applicator.apply(partialParams)
         );
     }
 
     invokeGetSipMediaApplication(partialParams: ToOptional<{
       [K in keyof GetSipMediaApplicationRequest]: (GetSipMediaApplicationRequest)[K]
-    }>): GetSipMediaApplicationResponse {
+    }>): Request<GetSipMediaApplicationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getSipMediaApplication(
-            this.ops["GetSipMediaApplication"].apply(partialParams)
+          this.ops["GetSipMediaApplication"].applicator.apply(partialParams)
         );
     }
 
     invokeGetSipMediaApplicationLoggingConfiguration(partialParams: ToOptional<{
       [K in keyof GetSipMediaApplicationLoggingConfigurationRequest]: (GetSipMediaApplicationLoggingConfigurationRequest)[K]
-    }>): GetSipMediaApplicationLoggingConfigurationResponse {
+    }>): Request<GetSipMediaApplicationLoggingConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getSipMediaApplicationLoggingConfiguration(
-            this.ops["GetSipMediaApplicationLoggingConfiguration"].apply(partialParams)
+          this.ops["GetSipMediaApplicationLoggingConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeGetSipRule(partialParams: ToOptional<{
       [K in keyof GetSipRuleRequest]: (GetSipRuleRequest)[K]
-    }>): GetSipRuleResponse {
+    }>): Request<GetSipRuleResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getSipRule(
-            this.ops["GetSipRule"].apply(partialParams)
+          this.ops["GetSipRule"].applicator.apply(partialParams)
         );
     }
 
     invokeGetUser(partialParams: ToOptional<{
       [K in keyof GetUserRequest]: (GetUserRequest)[K]
-    }>): GetUserResponse {
+    }>): Request<GetUserResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getUser(
-            this.ops["GetUser"].apply(partialParams)
+          this.ops["GetUser"].applicator.apply(partialParams)
         );
     }
 
     invokeGetUserSettings(partialParams: ToOptional<{
       [K in keyof GetUserSettingsRequest]: (GetUserSettingsRequest)[K]
-    }>): GetUserSettingsResponse {
+    }>): Request<GetUserSettingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getUserSettings(
-            this.ops["GetUserSettings"].apply(partialParams)
+          this.ops["GetUserSettings"].applicator.apply(partialParams)
         );
     }
 
     invokeGetVoiceConnector(partialParams: ToOptional<{
       [K in keyof GetVoiceConnectorRequest]: (GetVoiceConnectorRequest)[K]
-    }>): GetVoiceConnectorResponse {
+    }>): Request<GetVoiceConnectorResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getVoiceConnector(
-            this.ops["GetVoiceConnector"].apply(partialParams)
+          this.ops["GetVoiceConnector"].applicator.apply(partialParams)
         );
     }
 
     invokeGetVoiceConnectorEmergencyCallingConfiguration(partialParams: ToOptional<{
       [K in keyof GetVoiceConnectorEmergencyCallingConfigurationRequest]: (GetVoiceConnectorEmergencyCallingConfigurationRequest)[K]
-    }>): GetVoiceConnectorEmergencyCallingConfigurationResponse {
+    }>): Request<GetVoiceConnectorEmergencyCallingConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getVoiceConnectorEmergencyCallingConfiguration(
-            this.ops["GetVoiceConnectorEmergencyCallingConfiguration"].apply(partialParams)
+          this.ops["GetVoiceConnectorEmergencyCallingConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeGetVoiceConnectorGroup(partialParams: ToOptional<{
       [K in keyof GetVoiceConnectorGroupRequest]: (GetVoiceConnectorGroupRequest)[K]
-    }>): GetVoiceConnectorGroupResponse {
+    }>): Request<GetVoiceConnectorGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getVoiceConnectorGroup(
-            this.ops["GetVoiceConnectorGroup"].apply(partialParams)
+          this.ops["GetVoiceConnectorGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeGetVoiceConnectorLoggingConfiguration(partialParams: ToOptional<{
       [K in keyof GetVoiceConnectorLoggingConfigurationRequest]: (GetVoiceConnectorLoggingConfigurationRequest)[K]
-    }>): GetVoiceConnectorLoggingConfigurationResponse {
+    }>): Request<GetVoiceConnectorLoggingConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getVoiceConnectorLoggingConfiguration(
-            this.ops["GetVoiceConnectorLoggingConfiguration"].apply(partialParams)
+          this.ops["GetVoiceConnectorLoggingConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeGetVoiceConnectorOrigination(partialParams: ToOptional<{
       [K in keyof GetVoiceConnectorOriginationRequest]: (GetVoiceConnectorOriginationRequest)[K]
-    }>): GetVoiceConnectorOriginationResponse {
+    }>): Request<GetVoiceConnectorOriginationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getVoiceConnectorOrigination(
-            this.ops["GetVoiceConnectorOrigination"].apply(partialParams)
+          this.ops["GetVoiceConnectorOrigination"].applicator.apply(partialParams)
         );
     }
 
     invokeGetVoiceConnectorProxy(partialParams: ToOptional<{
       [K in keyof GetVoiceConnectorProxyRequest]: (GetVoiceConnectorProxyRequest)[K]
-    }>): GetVoiceConnectorProxyResponse {
+    }>): Request<GetVoiceConnectorProxyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getVoiceConnectorProxy(
-            this.ops["GetVoiceConnectorProxy"].apply(partialParams)
+          this.ops["GetVoiceConnectorProxy"].applicator.apply(partialParams)
         );
     }
 
     invokeGetVoiceConnectorStreamingConfiguration(partialParams: ToOptional<{
       [K in keyof GetVoiceConnectorStreamingConfigurationRequest]: (GetVoiceConnectorStreamingConfigurationRequest)[K]
-    }>): GetVoiceConnectorStreamingConfigurationResponse {
+    }>): Request<GetVoiceConnectorStreamingConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getVoiceConnectorStreamingConfiguration(
-            this.ops["GetVoiceConnectorStreamingConfiguration"].apply(partialParams)
+          this.ops["GetVoiceConnectorStreamingConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokeGetVoiceConnectorTermination(partialParams: ToOptional<{
       [K in keyof GetVoiceConnectorTerminationRequest]: (GetVoiceConnectorTerminationRequest)[K]
-    }>): GetVoiceConnectorTerminationResponse {
+    }>): Request<GetVoiceConnectorTerminationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getVoiceConnectorTermination(
-            this.ops["GetVoiceConnectorTermination"].apply(partialParams)
+          this.ops["GetVoiceConnectorTermination"].applicator.apply(partialParams)
         );
     }
 
     invokeGetVoiceConnectorTerminationHealth(partialParams: ToOptional<{
       [K in keyof GetVoiceConnectorTerminationHealthRequest]: (GetVoiceConnectorTerminationHealthRequest)[K]
-    }>): GetVoiceConnectorTerminationHealthResponse {
+    }>): Request<GetVoiceConnectorTerminationHealthResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getVoiceConnectorTerminationHealth(
-            this.ops["GetVoiceConnectorTerminationHealth"].apply(partialParams)
+          this.ops["GetVoiceConnectorTerminationHealth"].applicator.apply(partialParams)
         );
     }
 
     invokeInviteUsers(partialParams: ToOptional<{
       [K in keyof InviteUsersRequest]: (InviteUsersRequest)[K]
-    }>): InviteUsersResponse {
+    }>): Request<InviteUsersResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.inviteUsers(
-            this.ops["InviteUsers"].apply(partialParams)
+          this.ops["InviteUsers"].applicator.apply(partialParams)
         );
     }
 
     invokeListAppInstanceAdmins(partialParams: ToOptional<{
       [K in keyof ListAppInstanceAdminsRequest]: (ListAppInstanceAdminsRequest)[K]
-    }>): ListAppInstanceAdminsResponse {
+    }>): Request<ListAppInstanceAdminsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listAppInstanceAdmins(
-            this.ops["ListAppInstanceAdmins"].apply(partialParams)
+          this.ops["ListAppInstanceAdmins"].applicator.apply(partialParams)
         );
     }
 
     invokeListAppInstanceUsers(partialParams: ToOptional<{
       [K in keyof ListAppInstanceUsersRequest]: (ListAppInstanceUsersRequest)[K]
-    }>): ListAppInstanceUsersResponse {
+    }>): Request<ListAppInstanceUsersResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listAppInstanceUsers(
-            this.ops["ListAppInstanceUsers"].apply(partialParams)
+          this.ops["ListAppInstanceUsers"].applicator.apply(partialParams)
         );
     }
 
     invokeListAttendeeTags(partialParams: ToOptional<{
       [K in keyof ListAttendeeTagsRequest]: (ListAttendeeTagsRequest)[K]
-    }>): ListAttendeeTagsResponse {
+    }>): Request<ListAttendeeTagsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listAttendeeTags(
-            this.ops["ListAttendeeTags"].apply(partialParams)
+          this.ops["ListAttendeeTags"].applicator.apply(partialParams)
         );
     }
 
     invokeListAttendees(partialParams: ToOptional<{
       [K in keyof ListAttendeesRequest]: (ListAttendeesRequest)[K]
-    }>): ListAttendeesResponse {
+    }>): Request<ListAttendeesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listAttendees(
-            this.ops["ListAttendees"].apply(partialParams)
+          this.ops["ListAttendees"].applicator.apply(partialParams)
         );
     }
 
     invokeListBots(partialParams: ToOptional<{
       [K in keyof ListBotsRequest]: (ListBotsRequest)[K]
-    }>): ListBotsResponse {
+    }>): Request<ListBotsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listBots(
-            this.ops["ListBots"].apply(partialParams)
+          this.ops["ListBots"].applicator.apply(partialParams)
         );
     }
 
     invokeListChannelBans(partialParams: ToOptional<{
       [K in keyof ListChannelBansRequest]: (ListChannelBansRequest)[K]
-    }>): ListChannelBansResponse {
+    }>): Request<ListChannelBansResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listChannelBans(
-            this.ops["ListChannelBans"].apply(partialParams)
+          this.ops["ListChannelBans"].applicator.apply(partialParams)
         );
     }
 
     invokeListChannelMemberships(partialParams: ToOptional<{
       [K in keyof ListChannelMembershipsRequest]: (ListChannelMembershipsRequest)[K]
-    }>): ListChannelMembershipsResponse {
+    }>): Request<ListChannelMembershipsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listChannelMemberships(
-            this.ops["ListChannelMemberships"].apply(partialParams)
+          this.ops["ListChannelMemberships"].applicator.apply(partialParams)
         );
     }
 
     invokeListChannelMessages(partialParams: ToOptional<{
       [K in keyof ListChannelMessagesRequest]: (ListChannelMessagesRequest)[K]
-    }>): ListChannelMessagesResponse {
+    }>): Request<ListChannelMessagesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listChannelMessages(
-            this.ops["ListChannelMessages"].apply(partialParams)
+          this.ops["ListChannelMessages"].applicator.apply(partialParams)
         );
     }
 
     invokeListChannelModerators(partialParams: ToOptional<{
       [K in keyof ListChannelModeratorsRequest]: (ListChannelModeratorsRequest)[K]
-    }>): ListChannelModeratorsResponse {
+    }>): Request<ListChannelModeratorsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listChannelModerators(
-            this.ops["ListChannelModerators"].apply(partialParams)
+          this.ops["ListChannelModerators"].applicator.apply(partialParams)
         );
     }
 
     invokeListChannels(partialParams: ToOptional<{
       [K in keyof ListChannelsRequest]: (ListChannelsRequest)[K]
-    }>): ListChannelsResponse {
+    }>): Request<ListChannelsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listChannels(
-            this.ops["ListChannels"].apply(partialParams)
+          this.ops["ListChannels"].applicator.apply(partialParams)
         );
     }
 
     invokeListMeetingTags(partialParams: ToOptional<{
       [K in keyof ListMeetingTagsRequest]: (ListMeetingTagsRequest)[K]
-    }>): ListMeetingTagsResponse {
+    }>): Request<ListMeetingTagsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listMeetingTags(
-            this.ops["ListMeetingTags"].apply(partialParams)
+          this.ops["ListMeetingTags"].applicator.apply(partialParams)
         );
     }
 
     invokeListProxySessions(partialParams: ToOptional<{
       [K in keyof ListProxySessionsRequest]: (ListProxySessionsRequest)[K]
-    }>): ListProxySessionsResponse {
+    }>): Request<ListProxySessionsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listProxySessions(
-            this.ops["ListProxySessions"].apply(partialParams)
+          this.ops["ListProxySessions"].applicator.apply(partialParams)
         );
     }
 
     invokeListRoomMemberships(partialParams: ToOptional<{
       [K in keyof ListRoomMembershipsRequest]: (ListRoomMembershipsRequest)[K]
-    }>): ListRoomMembershipsResponse {
+    }>): Request<ListRoomMembershipsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listRoomMemberships(
-            this.ops["ListRoomMemberships"].apply(partialParams)
+          this.ops["ListRoomMemberships"].applicator.apply(partialParams)
         );
     }
 
     invokeListRooms(partialParams: ToOptional<{
       [K in keyof ListRoomsRequest]: (ListRoomsRequest)[K]
-    }>): ListRoomsResponse {
+    }>): Request<ListRoomsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listRooms(
-            this.ops["ListRooms"].apply(partialParams)
+          this.ops["ListRooms"].applicator.apply(partialParams)
         );
     }
 
     invokeListSupportedPhoneNumberCountries(partialParams: ToOptional<{
       [K in keyof ListSupportedPhoneNumberCountriesRequest]: (ListSupportedPhoneNumberCountriesRequest)[K]
-    }>): ListSupportedPhoneNumberCountriesResponse {
+    }>): Request<ListSupportedPhoneNumberCountriesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listSupportedPhoneNumberCountries(
-            this.ops["ListSupportedPhoneNumberCountries"].apply(partialParams)
+          this.ops["ListSupportedPhoneNumberCountries"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
-    }>): ListTagsForResourceResponse {
+    }>): Request<ListTagsForResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokeListUsers(partialParams: ToOptional<{
       [K in keyof ListUsersRequest]: (ListUsersRequest)[K]
-    }>): ListUsersResponse {
+    }>): Request<ListUsersResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listUsers(
-            this.ops["ListUsers"].apply(partialParams)
+          this.ops["ListUsers"].applicator.apply(partialParams)
         );
     }
 
     invokeListVoiceConnectorTerminationCredentials(partialParams: ToOptional<{
       [K in keyof ListVoiceConnectorTerminationCredentialsRequest]: (ListVoiceConnectorTerminationCredentialsRequest)[K]
-    }>): ListVoiceConnectorTerminationCredentialsResponse {
+    }>): Request<ListVoiceConnectorTerminationCredentialsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listVoiceConnectorTerminationCredentials(
-            this.ops["ListVoiceConnectorTerminationCredentials"].apply(partialParams)
+          this.ops["ListVoiceConnectorTerminationCredentials"].applicator.apply(partialParams)
         );
     }
 
     invokeLogoutUser(partialParams: ToOptional<{
       [K in keyof LogoutUserRequest]: (LogoutUserRequest)[K]
-    }>): LogoutUserResponse {
+    }>): Request<LogoutUserResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.logoutUser(
-            this.ops["LogoutUser"].apply(partialParams)
+          this.ops["LogoutUser"].applicator.apply(partialParams)
         );
     }
 
     invokePutAppInstanceRetentionSettings(partialParams: ToOptional<{
       [K in keyof PutAppInstanceRetentionSettingsRequest]: (PutAppInstanceRetentionSettingsRequest)[K]
-    }>): PutAppInstanceRetentionSettingsResponse {
+    }>): Request<PutAppInstanceRetentionSettingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putAppInstanceRetentionSettings(
-            this.ops["PutAppInstanceRetentionSettings"].apply(partialParams)
+          this.ops["PutAppInstanceRetentionSettings"].applicator.apply(partialParams)
         );
     }
 
     invokePutAppInstanceStreamingConfigurations(partialParams: ToOptional<{
       [K in keyof PutAppInstanceStreamingConfigurationsRequest]: (PutAppInstanceStreamingConfigurationsRequest)[K]
-    }>): PutAppInstanceStreamingConfigurationsResponse {
+    }>): Request<PutAppInstanceStreamingConfigurationsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putAppInstanceStreamingConfigurations(
-            this.ops["PutAppInstanceStreamingConfigurations"].apply(partialParams)
+          this.ops["PutAppInstanceStreamingConfigurations"].applicator.apply(partialParams)
         );
     }
 
     invokePutEventsConfiguration(partialParams: ToOptional<{
       [K in keyof PutEventsConfigurationRequest]: (PutEventsConfigurationRequest)[K]
-    }>): PutEventsConfigurationResponse {
+    }>): Request<PutEventsConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putEventsConfiguration(
-            this.ops["PutEventsConfiguration"].apply(partialParams)
+          this.ops["PutEventsConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokePutRetentionSettings(partialParams: ToOptional<{
       [K in keyof PutRetentionSettingsRequest]: (PutRetentionSettingsRequest)[K]
-    }>): PutRetentionSettingsResponse {
+    }>): Request<PutRetentionSettingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putRetentionSettings(
-            this.ops["PutRetentionSettings"].apply(partialParams)
+          this.ops["PutRetentionSettings"].applicator.apply(partialParams)
         );
     }
 
     invokePutSipMediaApplicationLoggingConfiguration(partialParams: ToOptional<{
       [K in keyof PutSipMediaApplicationLoggingConfigurationRequest]: (PutSipMediaApplicationLoggingConfigurationRequest)[K]
-    }>): PutSipMediaApplicationLoggingConfigurationResponse {
+    }>): Request<PutSipMediaApplicationLoggingConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putSipMediaApplicationLoggingConfiguration(
-            this.ops["PutSipMediaApplicationLoggingConfiguration"].apply(partialParams)
+          this.ops["PutSipMediaApplicationLoggingConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokePutVoiceConnectorEmergencyCallingConfiguration(partialParams: ToOptional<{
       [K in keyof Omit<PutVoiceConnectorEmergencyCallingConfigurationRequest, "VoiceConnectorId">]: (Omit<PutVoiceConnectorEmergencyCallingConfigurationRequest, "VoiceConnectorId">)[K]
-    }>): PutVoiceConnectorEmergencyCallingConfigurationResponse {
+    }>): Request<PutVoiceConnectorEmergencyCallingConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putVoiceConnectorEmergencyCallingConfiguration(
-            this.ops["PutVoiceConnectorEmergencyCallingConfiguration"].apply(partialParams)
+          this.ops["PutVoiceConnectorEmergencyCallingConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokePutVoiceConnectorLoggingConfiguration(partialParams: ToOptional<{
       [K in keyof Omit<PutVoiceConnectorLoggingConfigurationRequest, "VoiceConnectorId">]: (Omit<PutVoiceConnectorLoggingConfigurationRequest, "VoiceConnectorId">)[K]
-    }>): PutVoiceConnectorLoggingConfigurationResponse {
+    }>): Request<PutVoiceConnectorLoggingConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putVoiceConnectorLoggingConfiguration(
-            this.ops["PutVoiceConnectorLoggingConfiguration"].apply(partialParams)
+          this.ops["PutVoiceConnectorLoggingConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokePutVoiceConnectorOrigination(partialParams: ToOptional<{
       [K in keyof Omit<PutVoiceConnectorOriginationRequest, "VoiceConnectorId">]: (Omit<PutVoiceConnectorOriginationRequest, "VoiceConnectorId">)[K]
-    }>): PutVoiceConnectorOriginationResponse {
+    }>): Request<PutVoiceConnectorOriginationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putVoiceConnectorOrigination(
-            this.ops["PutVoiceConnectorOrigination"].apply(partialParams)
+          this.ops["PutVoiceConnectorOrigination"].applicator.apply(partialParams)
         );
     }
 
     invokePutVoiceConnectorProxy(partialParams: ToOptional<{
       [K in keyof Omit<PutVoiceConnectorProxyRequest, "VoiceConnectorId">]: (Omit<PutVoiceConnectorProxyRequest, "VoiceConnectorId">)[K]
-    }>): PutVoiceConnectorProxyResponse {
+    }>): Request<PutVoiceConnectorProxyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putVoiceConnectorProxy(
-            this.ops["PutVoiceConnectorProxy"].apply(partialParams)
+          this.ops["PutVoiceConnectorProxy"].applicator.apply(partialParams)
         );
     }
 
     invokePutVoiceConnectorStreamingConfiguration(partialParams: ToOptional<{
       [K in keyof Omit<PutVoiceConnectorStreamingConfigurationRequest, "VoiceConnectorId">]: (Omit<PutVoiceConnectorStreamingConfigurationRequest, "VoiceConnectorId">)[K]
-    }>): PutVoiceConnectorStreamingConfigurationResponse {
+    }>): Request<PutVoiceConnectorStreamingConfigurationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putVoiceConnectorStreamingConfiguration(
-            this.ops["PutVoiceConnectorStreamingConfiguration"].apply(partialParams)
+          this.ops["PutVoiceConnectorStreamingConfiguration"].applicator.apply(partialParams)
         );
     }
 
     invokePutVoiceConnectorTermination(partialParams: ToOptional<{
       [K in keyof Omit<PutVoiceConnectorTerminationRequest, "VoiceConnectorId">]: (Omit<PutVoiceConnectorTerminationRequest, "VoiceConnectorId">)[K]
-    }>): PutVoiceConnectorTerminationResponse {
+    }>): Request<PutVoiceConnectorTerminationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putVoiceConnectorTermination(
-            this.ops["PutVoiceConnectorTermination"].apply(partialParams)
+          this.ops["PutVoiceConnectorTermination"].applicator.apply(partialParams)
         );
     }
 
     invokePutVoiceConnectorTerminationCredentials(partialParams: ToOptional<{
       [K in keyof Omit<PutVoiceConnectorTerminationCredentialsRequest, "VoiceConnectorId">]: (Omit<PutVoiceConnectorTerminationCredentialsRequest, "VoiceConnectorId">)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.putVoiceConnectorTerminationCredentials(
-            this.ops["PutVoiceConnectorTerminationCredentials"].apply(partialParams)
+          this.ops["PutVoiceConnectorTerminationCredentials"].applicator.apply(partialParams)
         );
     }
 
     invokeRedactChannelMessage(partialParams: ToOptional<{
       [K in keyof RedactChannelMessageRequest]: (RedactChannelMessageRequest)[K]
-    }>): RedactChannelMessageResponse {
+    }>): Request<RedactChannelMessageResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.redactChannelMessage(
-            this.ops["RedactChannelMessage"].apply(partialParams)
+          this.ops["RedactChannelMessage"].applicator.apply(partialParams)
         );
     }
 
     invokeRedactConversationMessage(partialParams: ToOptional<{
       [K in keyof RedactConversationMessageRequest]: (RedactConversationMessageRequest)[K]
-    }>): RedactConversationMessageResponse {
+    }>): Request<RedactConversationMessageResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.redactConversationMessage(
-            this.ops["RedactConversationMessage"].apply(partialParams)
+          this.ops["RedactConversationMessage"].applicator.apply(partialParams)
         );
     }
 
     invokeRedactRoomMessage(partialParams: ToOptional<{
       [K in keyof RedactRoomMessageRequest]: (RedactRoomMessageRequest)[K]
-    }>): RedactRoomMessageResponse {
+    }>): Request<RedactRoomMessageResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.redactRoomMessage(
-            this.ops["RedactRoomMessage"].apply(partialParams)
+          this.ops["RedactRoomMessage"].applicator.apply(partialParams)
         );
     }
 
     invokeRegenerateSecurityToken(partialParams: ToOptional<{
       [K in keyof RegenerateSecurityTokenRequest]: (RegenerateSecurityTokenRequest)[K]
-    }>): RegenerateSecurityTokenResponse {
+    }>): Request<RegenerateSecurityTokenResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.regenerateSecurityToken(
-            this.ops["RegenerateSecurityToken"].apply(partialParams)
+          this.ops["RegenerateSecurityToken"].applicator.apply(partialParams)
         );
     }
 
     invokeResetPersonalPIN(partialParams: ToOptional<{
       [K in keyof ResetPersonalPINRequest]: (ResetPersonalPINRequest)[K]
-    }>): ResetPersonalPINResponse {
+    }>): Request<ResetPersonalPINResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.resetPersonalPIN(
-            this.ops["ResetPersonalPIN"].apply(partialParams)
+          this.ops["ResetPersonalPIN"].applicator.apply(partialParams)
         );
     }
 
     invokeRestorePhoneNumber(partialParams: ToOptional<{
       [K in keyof RestorePhoneNumberRequest]: (RestorePhoneNumberRequest)[K]
-    }>): RestorePhoneNumberResponse {
+    }>): Request<RestorePhoneNumberResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.restorePhoneNumber(
-            this.ops["RestorePhoneNumber"].apply(partialParams)
+          this.ops["RestorePhoneNumber"].applicator.apply(partialParams)
         );
     }
 
     invokeSendChannelMessage(partialParams: ToOptional<{
       [K in keyof SendChannelMessageRequest]: (SendChannelMessageRequest)[K]
-    }>): SendChannelMessageResponse {
+    }>): Request<SendChannelMessageResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.sendChannelMessage(
-            this.ops["SendChannelMessage"].apply(partialParams)
+          this.ops["SendChannelMessage"].applicator.apply(partialParams)
         );
     }
 
     invokeStartMeetingTranscription(partialParams: ToOptional<{
       [K in keyof StartMeetingTranscriptionRequest]: (StartMeetingTranscriptionRequest)[K]
-    }>): StartMeetingTranscriptionResponse {
+    }>): Request<StartMeetingTranscriptionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startMeetingTranscription(
-            this.ops["StartMeetingTranscription"].apply(partialParams)
+          this.ops["StartMeetingTranscription"].applicator.apply(partialParams)
         );
     }
 
     invokeStopMeetingTranscription(partialParams: ToOptional<{
       [K in keyof StopMeetingTranscriptionRequest]: (StopMeetingTranscriptionRequest)[K]
-    }>): StopMeetingTranscriptionResponse {
+    }>): Request<StopMeetingTranscriptionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.stopMeetingTranscription(
-            this.ops["StopMeetingTranscription"].apply(partialParams)
+          this.ops["StopMeetingTranscription"].applicator.apply(partialParams)
         );
     }
 
     invokeTagAttendee(partialParams: ToOptional<{
       [K in keyof TagAttendeeRequest]: (TagAttendeeRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagAttendee(
-            this.ops["TagAttendee"].apply(partialParams)
+          this.ops["TagAttendee"].applicator.apply(partialParams)
         );
     }
 
     invokeTagMeeting(partialParams: ToOptional<{
       [K in keyof TagMeetingRequest]: (TagMeetingRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagMeeting(
-            this.ops["TagMeeting"].apply(partialParams)
+          this.ops["TagMeeting"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagAttendee(partialParams: ToOptional<{
       [K in keyof UntagAttendeeRequest]: (UntagAttendeeRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagAttendee(
-            this.ops["UntagAttendee"].apply(partialParams)
+          this.ops["UntagAttendee"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagMeeting(partialParams: ToOptional<{
       [K in keyof UntagMeetingRequest]: (UntagMeetingRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagMeeting(
-            this.ops["UntagMeeting"].apply(partialParams)
+          this.ops["UntagMeeting"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateAccount(partialParams: ToOptional<{
       [K in keyof UpdateAccountRequest]: (UpdateAccountRequest)[K]
-    }>): UpdateAccountResponse {
+    }>): Request<UpdateAccountResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateAccount(
-            this.ops["UpdateAccount"].apply(partialParams)
+          this.ops["UpdateAccount"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateAccountSettings(partialParams: ToOptional<{
       [K in keyof UpdateAccountSettingsRequest]: (UpdateAccountSettingsRequest)[K]
-    }>): UpdateAccountSettingsResponse {
+    }>): Request<UpdateAccountSettingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateAccountSettings(
-            this.ops["UpdateAccountSettings"].apply(partialParams)
+          this.ops["UpdateAccountSettings"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateAppInstance(partialParams: ToOptional<{
       [K in keyof UpdateAppInstanceRequest]: (UpdateAppInstanceRequest)[K]
-    }>): UpdateAppInstanceResponse {
+    }>): Request<UpdateAppInstanceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateAppInstance(
-            this.ops["UpdateAppInstance"].apply(partialParams)
+          this.ops["UpdateAppInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateAppInstanceUser(partialParams: ToOptional<{
       [K in keyof UpdateAppInstanceUserRequest]: (UpdateAppInstanceUserRequest)[K]
-    }>): UpdateAppInstanceUserResponse {
+    }>): Request<UpdateAppInstanceUserResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateAppInstanceUser(
-            this.ops["UpdateAppInstanceUser"].apply(partialParams)
+          this.ops["UpdateAppInstanceUser"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateBot(partialParams: ToOptional<{
       [K in keyof UpdateBotRequest]: (UpdateBotRequest)[K]
-    }>): UpdateBotResponse {
+    }>): Request<UpdateBotResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateBot(
-            this.ops["UpdateBot"].apply(partialParams)
+          this.ops["UpdateBot"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateChannel(partialParams: ToOptional<{
       [K in keyof UpdateChannelRequest]: (UpdateChannelRequest)[K]
-    }>): UpdateChannelResponse {
+    }>): Request<UpdateChannelResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateChannel(
-            this.ops["UpdateChannel"].apply(partialParams)
+          this.ops["UpdateChannel"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateChannelMessage(partialParams: ToOptional<{
       [K in keyof UpdateChannelMessageRequest]: (UpdateChannelMessageRequest)[K]
-    }>): UpdateChannelMessageResponse {
+    }>): Request<UpdateChannelMessageResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateChannelMessage(
-            this.ops["UpdateChannelMessage"].apply(partialParams)
+          this.ops["UpdateChannelMessage"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateChannelReadMarker(partialParams: ToOptional<{
       [K in keyof UpdateChannelReadMarkerRequest]: (UpdateChannelReadMarkerRequest)[K]
-    }>): UpdateChannelReadMarkerResponse {
+    }>): Request<UpdateChannelReadMarkerResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateChannelReadMarker(
-            this.ops["UpdateChannelReadMarker"].apply(partialParams)
+          this.ops["UpdateChannelReadMarker"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdatePhoneNumber(partialParams: ToOptional<{
       [K in keyof UpdatePhoneNumberRequest]: (UpdatePhoneNumberRequest)[K]
-    }>): UpdatePhoneNumberResponse {
+    }>): Request<UpdatePhoneNumberResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updatePhoneNumber(
-            this.ops["UpdatePhoneNumber"].apply(partialParams)
+          this.ops["UpdatePhoneNumber"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdatePhoneNumberSettings(partialParams: ToOptional<{
       [K in keyof UpdatePhoneNumberSettingsRequest]: (UpdatePhoneNumberSettingsRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updatePhoneNumberSettings(
-            this.ops["UpdatePhoneNumberSettings"].apply(partialParams)
+          this.ops["UpdatePhoneNumberSettings"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateProxySession(partialParams: ToOptional<{
       [K in keyof Omit<UpdateProxySessionRequest, "VoiceConnectorId">]: (Omit<UpdateProxySessionRequest, "VoiceConnectorId">)[K]
-    }>): UpdateProxySessionResponse {
+    }>): Request<UpdateProxySessionResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateProxySession(
-            this.ops["UpdateProxySession"].apply(partialParams)
+          this.ops["UpdateProxySession"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateRoom(partialParams: ToOptional<{
       [K in keyof UpdateRoomRequest]: (UpdateRoomRequest)[K]
-    }>): UpdateRoomResponse {
+    }>): Request<UpdateRoomResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateRoom(
-            this.ops["UpdateRoom"].apply(partialParams)
+          this.ops["UpdateRoom"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateRoomMembership(partialParams: ToOptional<{
       [K in keyof UpdateRoomMembershipRequest]: (UpdateRoomMembershipRequest)[K]
-    }>): UpdateRoomMembershipResponse {
+    }>): Request<UpdateRoomMembershipResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateRoomMembership(
-            this.ops["UpdateRoomMembership"].apply(partialParams)
+          this.ops["UpdateRoomMembership"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateSipMediaApplication(partialParams: ToOptional<{
       [K in keyof UpdateSipMediaApplicationRequest]: (UpdateSipMediaApplicationRequest)[K]
-    }>): UpdateSipMediaApplicationResponse {
+    }>): Request<UpdateSipMediaApplicationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateSipMediaApplication(
-            this.ops["UpdateSipMediaApplication"].apply(partialParams)
+          this.ops["UpdateSipMediaApplication"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateSipMediaApplicationCall(partialParams: ToOptional<{
       [K in keyof UpdateSipMediaApplicationCallRequest]: (UpdateSipMediaApplicationCallRequest)[K]
-    }>): UpdateSipMediaApplicationCallResponse {
+    }>): Request<UpdateSipMediaApplicationCallResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateSipMediaApplicationCall(
-            this.ops["UpdateSipMediaApplicationCall"].apply(partialParams)
+          this.ops["UpdateSipMediaApplicationCall"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateSipRule(partialParams: ToOptional<{
       [K in keyof UpdateSipRuleRequest]: (UpdateSipRuleRequest)[K]
-    }>): UpdateSipRuleResponse {
+    }>): Request<UpdateSipRuleResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateSipRule(
-            this.ops["UpdateSipRule"].apply(partialParams)
+          this.ops["UpdateSipRule"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateUser(partialParams: ToOptional<{
       [K in keyof UpdateUserRequest]: (UpdateUserRequest)[K]
-    }>): UpdateUserResponse {
+    }>): Request<UpdateUserResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateUser(
-            this.ops["UpdateUser"].apply(partialParams)
+          this.ops["UpdateUser"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateUserSettings(partialParams: ToOptional<{
       [K in keyof UpdateUserSettingsRequest]: (UpdateUserSettingsRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateUserSettings(
-            this.ops["UpdateUserSettings"].apply(partialParams)
+          this.ops["UpdateUserSettings"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateVoiceConnector(partialParams: ToOptional<{
       [K in keyof Omit<UpdateVoiceConnectorRequest, "VoiceConnectorId">]: (Omit<UpdateVoiceConnectorRequest, "VoiceConnectorId">)[K]
-    }>): UpdateVoiceConnectorResponse {
+    }>): Request<UpdateVoiceConnectorResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateVoiceConnector(
-            this.ops["UpdateVoiceConnector"].apply(partialParams)
+          this.ops["UpdateVoiceConnector"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateVoiceConnectorGroup(partialParams: ToOptional<{
       [K in keyof UpdateVoiceConnectorGroupRequest]: (UpdateVoiceConnectorGroupRequest)[K]
-    }>): UpdateVoiceConnectorGroupResponse {
+    }>): Request<UpdateVoiceConnectorGroupResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateVoiceConnectorGroup(
-            this.ops["UpdateVoiceConnectorGroup"].apply(partialParams)
+          this.ops["UpdateVoiceConnectorGroup"].applicator.apply(partialParams)
         );
     }
 }

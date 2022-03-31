@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,123 +21,256 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/appmesh-2019-01-25.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.appmesh.GatewayRoute {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.AppMesh();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/appmesh-2019-01-25.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeCreateGatewayRoute(partialParams) {
-        return this.client.createGatewayRoute(this.ops["CreateGatewayRoute"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createGatewayRoute(this.ops["CreateGatewayRoute"].applicator.apply(partialParams));
     }
     invokeCreateMesh(partialParams) {
-        return this.client.createMesh(this.ops["CreateMesh"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createMesh(this.ops["CreateMesh"].applicator.apply(partialParams));
     }
     invokeCreateRoute(partialParams) {
-        return this.client.createRoute(this.ops["CreateRoute"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createRoute(this.ops["CreateRoute"].applicator.apply(partialParams));
     }
     invokeCreateVirtualGateway(partialParams) {
-        return this.client.createVirtualGateway(this.ops["CreateVirtualGateway"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createVirtualGateway(this.ops["CreateVirtualGateway"].applicator.apply(partialParams));
     }
     invokeCreateVirtualNode(partialParams) {
-        return this.client.createVirtualNode(this.ops["CreateVirtualNode"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createVirtualNode(this.ops["CreateVirtualNode"].applicator.apply(partialParams));
     }
     invokeCreateVirtualRouter(partialParams) {
-        return this.client.createVirtualRouter(this.ops["CreateVirtualRouter"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createVirtualRouter(this.ops["CreateVirtualRouter"].applicator.apply(partialParams));
     }
     invokeCreateVirtualService(partialParams) {
-        return this.client.createVirtualService(this.ops["CreateVirtualService"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createVirtualService(this.ops["CreateVirtualService"].applicator.apply(partialParams));
     }
     invokeDeleteGatewayRoute(partialParams) {
-        return this.client.deleteGatewayRoute(this.ops["DeleteGatewayRoute"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteGatewayRoute(this.ops["DeleteGatewayRoute"].applicator.apply(partialParams));
     }
     invokeDeleteMesh(partialParams) {
-        return this.client.deleteMesh(this.ops["DeleteMesh"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteMesh(this.ops["DeleteMesh"].applicator.apply(partialParams));
     }
     invokeDeleteRoute(partialParams) {
-        return this.client.deleteRoute(this.ops["DeleteRoute"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteRoute(this.ops["DeleteRoute"].applicator.apply(partialParams));
     }
     invokeDeleteVirtualGateway(partialParams) {
-        return this.client.deleteVirtualGateway(this.ops["DeleteVirtualGateway"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteVirtualGateway(this.ops["DeleteVirtualGateway"].applicator.apply(partialParams));
     }
     invokeDeleteVirtualNode(partialParams) {
-        return this.client.deleteVirtualNode(this.ops["DeleteVirtualNode"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteVirtualNode(this.ops["DeleteVirtualNode"].applicator.apply(partialParams));
     }
     invokeDeleteVirtualRouter(partialParams) {
-        return this.client.deleteVirtualRouter(this.ops["DeleteVirtualRouter"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteVirtualRouter(this.ops["DeleteVirtualRouter"].applicator.apply(partialParams));
     }
     invokeDeleteVirtualService(partialParams) {
-        return this.client.deleteVirtualService(this.ops["DeleteVirtualService"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteVirtualService(this.ops["DeleteVirtualService"].applicator.apply(partialParams));
     }
     invokeDescribeGatewayRoute(partialParams) {
-        return this.client.describeGatewayRoute(this.ops["DescribeGatewayRoute"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeGatewayRoute(this.ops["DescribeGatewayRoute"].applicator.apply(partialParams));
     }
     invokeDescribeMesh(partialParams) {
-        return this.client.describeMesh(this.ops["DescribeMesh"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeMesh(this.ops["DescribeMesh"].applicator.apply(partialParams));
     }
     invokeDescribeRoute(partialParams) {
-        return this.client.describeRoute(this.ops["DescribeRoute"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeRoute(this.ops["DescribeRoute"].applicator.apply(partialParams));
     }
     invokeDescribeVirtualGateway(partialParams) {
-        return this.client.describeVirtualGateway(this.ops["DescribeVirtualGateway"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeVirtualGateway(this.ops["DescribeVirtualGateway"].applicator.apply(partialParams));
     }
     invokeDescribeVirtualNode(partialParams) {
-        return this.client.describeVirtualNode(this.ops["DescribeVirtualNode"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeVirtualNode(this.ops["DescribeVirtualNode"].applicator.apply(partialParams));
     }
     invokeDescribeVirtualRouter(partialParams) {
-        return this.client.describeVirtualRouter(this.ops["DescribeVirtualRouter"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeVirtualRouter(this.ops["DescribeVirtualRouter"].applicator.apply(partialParams));
     }
     invokeDescribeVirtualService(partialParams) {
-        return this.client.describeVirtualService(this.ops["DescribeVirtualService"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeVirtualService(this.ops["DescribeVirtualService"].applicator.apply(partialParams));
     }
     invokeListGatewayRoutes(partialParams) {
-        return this.client.listGatewayRoutes(this.ops["ListGatewayRoutes"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listGatewayRoutes(this.ops["ListGatewayRoutes"].applicator.apply(partialParams));
     }
     invokeListRoutes(partialParams) {
-        return this.client.listRoutes(this.ops["ListRoutes"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listRoutes(this.ops["ListRoutes"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokeListVirtualGateways(partialParams) {
-        return this.client.listVirtualGateways(this.ops["ListVirtualGateways"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listVirtualGateways(this.ops["ListVirtualGateways"].applicator.apply(partialParams));
     }
     invokeListVirtualNodes(partialParams) {
-        return this.client.listVirtualNodes(this.ops["ListVirtualNodes"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listVirtualNodes(this.ops["ListVirtualNodes"].applicator.apply(partialParams));
     }
     invokeListVirtualRouters(partialParams) {
-        return this.client.listVirtualRouters(this.ops["ListVirtualRouters"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listVirtualRouters(this.ops["ListVirtualRouters"].applicator.apply(partialParams));
     }
     invokeListVirtualServices(partialParams) {
-        return this.client.listVirtualServices(this.ops["ListVirtualServices"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listVirtualServices(this.ops["ListVirtualServices"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateGatewayRoute(partialParams) {
-        return this.client.updateGatewayRoute(this.ops["UpdateGatewayRoute"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateGatewayRoute(this.ops["UpdateGatewayRoute"].applicator.apply(partialParams));
     }
     invokeUpdateMesh(partialParams) {
-        return this.client.updateMesh(this.ops["UpdateMesh"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateMesh(this.ops["UpdateMesh"].applicator.apply(partialParams));
     }
     invokeUpdateRoute(partialParams) {
-        return this.client.updateRoute(this.ops["UpdateRoute"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateRoute(this.ops["UpdateRoute"].applicator.apply(partialParams));
     }
     invokeUpdateVirtualGateway(partialParams) {
-        return this.client.updateVirtualGateway(this.ops["UpdateVirtualGateway"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateVirtualGateway(this.ops["UpdateVirtualGateway"].applicator.apply(partialParams));
     }
     invokeUpdateVirtualNode(partialParams) {
-        return this.client.updateVirtualNode(this.ops["UpdateVirtualNode"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateVirtualNode(this.ops["UpdateVirtualNode"].applicator.apply(partialParams));
     }
     invokeUpdateVirtualRouter(partialParams) {
-        return this.client.updateVirtualRouter(this.ops["UpdateVirtualRouter"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateVirtualRouter(this.ops["UpdateVirtualRouter"].applicator.apply(partialParams));
     }
     invokeUpdateVirtualService(partialParams) {
-        return this.client.updateVirtualService(this.ops["UpdateVirtualService"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateVirtualService(this.ops["UpdateVirtualService"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

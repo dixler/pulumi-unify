@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     AssociateMemberAccountRequest,
     AssociateS3ResourcesRequest,
@@ -11,8 +14,8 @@ import {
     DisassociateS3ResourcesResult,
     UpdateS3ResourcesResult
 } from "aws-sdk/clients/macie";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/macie-2017-12-19.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -21,51 +24,88 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.macie.FindingsFilter {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.macie.FindingsFilter>) {
         super(...args)
         this.client = new awssdk.Macie()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/macie-2017-12-19.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeAssociateMemberAccount(partialParams: ToOptional<{
       [K in keyof AssociateMemberAccountRequest & keyof AssociateMemberAccountRequest & keyof AssociateMemberAccountRequest & keyof AssociateMemberAccountRequest & keyof AssociateMemberAccountRequest]: (AssociateMemberAccountRequest & AssociateMemberAccountRequest & AssociateMemberAccountRequest & AssociateMemberAccountRequest & AssociateMemberAccountRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.associateMemberAccount(
-            this.ops["AssociateMemberAccount"].apply(partialParams)
+          this.ops["AssociateMemberAccount"].applicator.apply(partialParams)
         );
     }
 
     invokeAssociateS3Resources(partialParams: ToOptional<{
       [K in keyof AssociateS3ResourcesRequest & keyof AssociateS3ResourcesRequest & keyof AssociateS3ResourcesRequest & keyof AssociateS3ResourcesRequest & keyof AssociateS3ResourcesRequest]: (AssociateS3ResourcesRequest & AssociateS3ResourcesRequest & AssociateS3ResourcesRequest & AssociateS3ResourcesRequest & AssociateS3ResourcesRequest)[K]
-    }>): AssociateS3ResourcesResult {
+    }>): Request<AssociateS3ResourcesResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.associateS3Resources(
-            this.ops["AssociateS3Resources"].apply(partialParams)
+          this.ops["AssociateS3Resources"].applicator.apply(partialParams)
         );
     }
 
     invokeDisassociateMemberAccount(partialParams: ToOptional<{
       [K in keyof DisassociateMemberAccountRequest & keyof DisassociateMemberAccountRequest & keyof DisassociateMemberAccountRequest & keyof DisassociateMemberAccountRequest & keyof DisassociateMemberAccountRequest]: (DisassociateMemberAccountRequest & DisassociateMemberAccountRequest & DisassociateMemberAccountRequest & DisassociateMemberAccountRequest & DisassociateMemberAccountRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disassociateMemberAccount(
-            this.ops["DisassociateMemberAccount"].apply(partialParams)
+          this.ops["DisassociateMemberAccount"].applicator.apply(partialParams)
         );
     }
 
     invokeDisassociateS3Resources(partialParams: ToOptional<{
       [K in keyof DisassociateS3ResourcesRequest & keyof DisassociateS3ResourcesRequest & keyof DisassociateS3ResourcesRequest & keyof DisassociateS3ResourcesRequest & keyof DisassociateS3ResourcesRequest]: (DisassociateS3ResourcesRequest & DisassociateS3ResourcesRequest & DisassociateS3ResourcesRequest & DisassociateS3ResourcesRequest & DisassociateS3ResourcesRequest)[K]
-    }>): DisassociateS3ResourcesResult {
+    }>): Request<DisassociateS3ResourcesResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.disassociateS3Resources(
-            this.ops["DisassociateS3Resources"].apply(partialParams)
+          this.ops["DisassociateS3Resources"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateS3Resources(partialParams: ToOptional<{
       [K in keyof UpdateS3ResourcesRequest & keyof UpdateS3ResourcesRequest & keyof UpdateS3ResourcesRequest & keyof UpdateS3ResourcesRequest & keyof UpdateS3ResourcesRequest]: (UpdateS3ResourcesRequest & UpdateS3ResourcesRequest & UpdateS3ResourcesRequest & UpdateS3ResourcesRequest & UpdateS3ResourcesRequest)[K]
-    }>): UpdateS3ResourcesResult {
+    }>): Request<UpdateS3ResourcesResult, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateS3Resources(
-            this.ops["UpdateS3Resources"].apply(partialParams)
+          this.ops["UpdateS3Resources"].applicator.apply(partialParams)
         );
     }
 }

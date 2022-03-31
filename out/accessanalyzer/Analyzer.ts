@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     ApplyArchiveRuleRequest,
     CancelPolicyGenerationRequest,
@@ -48,8 +51,8 @@ import {
     UntagResourceResponse,
     ValidatePolicyResponse
 } from "aws-sdk/clients/accessanalyzer";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/accessanalyzer-2019-11-01.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -58,219 +61,319 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.accessanalyzer.Analyzer {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.accessanalyzer.Analyzer>) {
         super(...args)
         this.client = new awssdk.AccessAnalyzer()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/accessanalyzer-2019-11-01.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeApplyArchiveRule(partialParams: ToOptional<{
       [K in keyof ApplyArchiveRuleRequest & keyof ApplyArchiveRuleRequest & keyof ApplyArchiveRuleRequest]: (ApplyArchiveRuleRequest & ApplyArchiveRuleRequest & ApplyArchiveRuleRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.applyArchiveRule(
-            this.ops["ApplyArchiveRule"].apply(partialParams)
+          this.ops["ApplyArchiveRule"].applicator.apply(partialParams)
         );
     }
 
     invokeCancelPolicyGeneration(partialParams: ToOptional<{
       [K in keyof CancelPolicyGenerationRequest & keyof CancelPolicyGenerationRequest & keyof CancelPolicyGenerationRequest]: (CancelPolicyGenerationRequest & CancelPolicyGenerationRequest & CancelPolicyGenerationRequest)[K]
-    }>): CancelPolicyGenerationResponse {
+    }>): Request<CancelPolicyGenerationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.cancelPolicyGeneration(
-            this.ops["CancelPolicyGeneration"].apply(partialParams)
+          this.ops["CancelPolicyGeneration"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateAccessPreview(partialParams: ToOptional<{
       [K in keyof CreateAccessPreviewRequest & keyof CreateAccessPreviewRequest & keyof CreateAccessPreviewRequest]: (CreateAccessPreviewRequest & CreateAccessPreviewRequest & CreateAccessPreviewRequest)[K]
-    }>): CreateAccessPreviewResponse {
+    }>): Request<CreateAccessPreviewResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createAccessPreview(
-            this.ops["CreateAccessPreview"].apply(partialParams)
+          this.ops["CreateAccessPreview"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateAnalyzer(partialParams: ToOptional<{
       [K in keyof CreateAnalyzerRequest & keyof CreateAnalyzerRequest & keyof CreateAnalyzerRequest]: (CreateAnalyzerRequest & CreateAnalyzerRequest & CreateAnalyzerRequest)[K]
-    }>): CreateAnalyzerResponse {
+    }>): Request<CreateAnalyzerResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createAnalyzer(
-            this.ops["CreateAnalyzer"].apply(partialParams)
+          this.ops["CreateAnalyzer"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateArchiveRule(partialParams: ToOptional<{
       [K in keyof CreateArchiveRuleRequest & keyof CreateArchiveRuleRequest & keyof CreateArchiveRuleRequest]: (CreateArchiveRuleRequest & CreateArchiveRuleRequest & CreateArchiveRuleRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createArchiveRule(
-            this.ops["CreateArchiveRule"].apply(partialParams)
+          this.ops["CreateArchiveRule"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteAnalyzer(partialParams: ToOptional<{
       [K in keyof DeleteAnalyzerRequest & keyof DeleteAnalyzerRequest & keyof DeleteAnalyzerRequest]: (DeleteAnalyzerRequest & DeleteAnalyzerRequest & DeleteAnalyzerRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteAnalyzer(
-            this.ops["DeleteAnalyzer"].apply(partialParams)
+          this.ops["DeleteAnalyzer"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteArchiveRule(partialParams: ToOptional<{
       [K in keyof DeleteArchiveRuleRequest & keyof DeleteArchiveRuleRequest & keyof DeleteArchiveRuleRequest]: (DeleteArchiveRuleRequest & DeleteArchiveRuleRequest & DeleteArchiveRuleRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteArchiveRule(
-            this.ops["DeleteArchiveRule"].apply(partialParams)
+          this.ops["DeleteArchiveRule"].applicator.apply(partialParams)
         );
     }
 
     invokeGetAccessPreview(partialParams: ToOptional<{
       [K in keyof GetAccessPreviewRequest & keyof GetAccessPreviewRequest & keyof GetAccessPreviewRequest]: (GetAccessPreviewRequest & GetAccessPreviewRequest & GetAccessPreviewRequest)[K]
-    }>): GetAccessPreviewResponse {
+    }>): Request<GetAccessPreviewResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getAccessPreview(
-            this.ops["GetAccessPreview"].apply(partialParams)
+          this.ops["GetAccessPreview"].applicator.apply(partialParams)
         );
     }
 
     invokeGetAnalyzedResource(partialParams: ToOptional<{
       [K in keyof GetAnalyzedResourceRequest & keyof GetAnalyzedResourceRequest & keyof GetAnalyzedResourceRequest]: (GetAnalyzedResourceRequest & GetAnalyzedResourceRequest & GetAnalyzedResourceRequest)[K]
-    }>): GetAnalyzedResourceResponse {
+    }>): Request<GetAnalyzedResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getAnalyzedResource(
-            this.ops["GetAnalyzedResource"].apply(partialParams)
+          this.ops["GetAnalyzedResource"].applicator.apply(partialParams)
         );
     }
 
     invokeGetAnalyzer(partialParams: ToOptional<{
       [K in keyof GetAnalyzerRequest & keyof GetAnalyzerRequest & keyof GetAnalyzerRequest]: (GetAnalyzerRequest & GetAnalyzerRequest & GetAnalyzerRequest)[K]
-    }>): GetAnalyzerResponse {
+    }>): Request<GetAnalyzerResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getAnalyzer(
-            this.ops["GetAnalyzer"].apply(partialParams)
+          this.ops["GetAnalyzer"].applicator.apply(partialParams)
         );
     }
 
     invokeGetArchiveRule(partialParams: ToOptional<{
       [K in keyof GetArchiveRuleRequest & keyof GetArchiveRuleRequest & keyof GetArchiveRuleRequest]: (GetArchiveRuleRequest & GetArchiveRuleRequest & GetArchiveRuleRequest)[K]
-    }>): GetArchiveRuleResponse {
+    }>): Request<GetArchiveRuleResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getArchiveRule(
-            this.ops["GetArchiveRule"].apply(partialParams)
+          this.ops["GetArchiveRule"].applicator.apply(partialParams)
         );
     }
 
     invokeGetFinding(partialParams: ToOptional<{
       [K in keyof GetFindingRequest & keyof GetFindingRequest & keyof GetFindingRequest]: (GetFindingRequest & GetFindingRequest & GetFindingRequest)[K]
-    }>): GetFindingResponse {
+    }>): Request<GetFindingResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getFinding(
-            this.ops["GetFinding"].apply(partialParams)
+          this.ops["GetFinding"].applicator.apply(partialParams)
         );
     }
 
     invokeGetGeneratedPolicy(partialParams: ToOptional<{
       [K in keyof GetGeneratedPolicyRequest & keyof GetGeneratedPolicyRequest & keyof GetGeneratedPolicyRequest]: (GetGeneratedPolicyRequest & GetGeneratedPolicyRequest & GetGeneratedPolicyRequest)[K]
-    }>): GetGeneratedPolicyResponse {
+    }>): Request<GetGeneratedPolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getGeneratedPolicy(
-            this.ops["GetGeneratedPolicy"].apply(partialParams)
+          this.ops["GetGeneratedPolicy"].applicator.apply(partialParams)
         );
     }
 
     invokeListAccessPreviewFindings(partialParams: ToOptional<{
       [K in keyof ListAccessPreviewFindingsRequest & keyof ListAccessPreviewFindingsRequest & keyof ListAccessPreviewFindingsRequest]: (ListAccessPreviewFindingsRequest & ListAccessPreviewFindingsRequest & ListAccessPreviewFindingsRequest)[K]
-    }>): ListAccessPreviewFindingsResponse {
+    }>): Request<ListAccessPreviewFindingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listAccessPreviewFindings(
-            this.ops["ListAccessPreviewFindings"].apply(partialParams)
+          this.ops["ListAccessPreviewFindings"].applicator.apply(partialParams)
         );
     }
 
     invokeListAccessPreviews(partialParams: ToOptional<{
       [K in keyof ListAccessPreviewsRequest & keyof ListAccessPreviewsRequest & keyof ListAccessPreviewsRequest]: (ListAccessPreviewsRequest & ListAccessPreviewsRequest & ListAccessPreviewsRequest)[K]
-    }>): ListAccessPreviewsResponse {
+    }>): Request<ListAccessPreviewsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listAccessPreviews(
-            this.ops["ListAccessPreviews"].apply(partialParams)
+          this.ops["ListAccessPreviews"].applicator.apply(partialParams)
         );
     }
 
     invokeListAnalyzedResources(partialParams: ToOptional<{
       [K in keyof ListAnalyzedResourcesRequest & keyof ListAnalyzedResourcesRequest & keyof ListAnalyzedResourcesRequest]: (ListAnalyzedResourcesRequest & ListAnalyzedResourcesRequest & ListAnalyzedResourcesRequest)[K]
-    }>): ListAnalyzedResourcesResponse {
+    }>): Request<ListAnalyzedResourcesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listAnalyzedResources(
-            this.ops["ListAnalyzedResources"].apply(partialParams)
+          this.ops["ListAnalyzedResources"].applicator.apply(partialParams)
         );
     }
 
     invokeListArchiveRules(partialParams: ToOptional<{
       [K in keyof ListArchiveRulesRequest & keyof ListArchiveRulesRequest & keyof ListArchiveRulesRequest]: (ListArchiveRulesRequest & ListArchiveRulesRequest & ListArchiveRulesRequest)[K]
-    }>): ListArchiveRulesResponse {
+    }>): Request<ListArchiveRulesResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listArchiveRules(
-            this.ops["ListArchiveRules"].apply(partialParams)
+          this.ops["ListArchiveRules"].applicator.apply(partialParams)
         );
     }
 
     invokeListFindings(partialParams: ToOptional<{
       [K in keyof ListFindingsRequest & keyof ListFindingsRequest & keyof ListFindingsRequest]: (ListFindingsRequest & ListFindingsRequest & ListFindingsRequest)[K]
-    }>): ListFindingsResponse {
+    }>): Request<ListFindingsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listFindings(
-            this.ops["ListFindings"].apply(partialParams)
+          this.ops["ListFindings"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
-    }>): ListTagsForResourceResponse {
+    }>): Request<ListTagsForResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokeStartPolicyGeneration(partialParams: ToOptional<{
       [K in keyof StartPolicyGenerationRequest & keyof StartPolicyGenerationRequest & keyof StartPolicyGenerationRequest]: (StartPolicyGenerationRequest & StartPolicyGenerationRequest & StartPolicyGenerationRequest)[K]
-    }>): StartPolicyGenerationResponse {
+    }>): Request<StartPolicyGenerationResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startPolicyGeneration(
-            this.ops["StartPolicyGeneration"].apply(partialParams)
+          this.ops["StartPolicyGeneration"].applicator.apply(partialParams)
         );
     }
 
     invokeStartResourceScan(partialParams: ToOptional<{
       [K in keyof StartResourceScanRequest & keyof StartResourceScanRequest & keyof StartResourceScanRequest]: (StartResourceScanRequest & StartResourceScanRequest & StartResourceScanRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.startResourceScan(
-            this.ops["StartResourceScan"].apply(partialParams)
+          this.ops["StartResourceScan"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
-    }>): TagResourceResponse {
+    }>): Request<TagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
-    }>): UntagResourceResponse {
+    }>): Request<UntagResourceResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateArchiveRule(partialParams: ToOptional<{
       [K in keyof Omit<UpdateArchiveRuleRequest, "analyzerName"> & keyof UpdateArchiveRuleRequest & keyof UpdateArchiveRuleRequest]: (Omit<UpdateArchiveRuleRequest, "analyzerName"> & UpdateArchiveRuleRequest & UpdateArchiveRuleRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateArchiveRule(
-            this.ops["UpdateArchiveRule"].apply(partialParams)
+          this.ops["UpdateArchiveRule"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateFindings(partialParams: ToOptional<{
       [K in keyof UpdateFindingsRequest & keyof UpdateFindingsRequest & keyof UpdateFindingsRequest]: (UpdateFindingsRequest & UpdateFindingsRequest & UpdateFindingsRequest)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateFindings(
-            this.ops["UpdateFindings"].apply(partialParams)
+          this.ops["UpdateFindings"].applicator.apply(partialParams)
         );
     }
 
     invokeValidatePolicy(partialParams: ToOptional<{
       [K in keyof ValidatePolicyRequest & keyof ValidatePolicyRequest & keyof ValidatePolicyRequest]: (ValidatePolicyRequest & ValidatePolicyRequest & ValidatePolicyRequest)[K]
-    }>): ValidatePolicyResponse {
+    }>): Request<ValidatePolicyResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.validatePolicy(
-            this.ops["ValidatePolicy"].apply(partialParams)
+          this.ops["ValidatePolicy"].applicator.apply(partialParams)
         );
     }
 }

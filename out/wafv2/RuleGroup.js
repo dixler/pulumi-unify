@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,153 +21,316 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/wafv2-2019-07-29.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.wafv2.RuleGroup {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.WAFV2();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/wafv2-2019-07-29.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeAssociateWebACL(partialParams) {
-        return this.client.associateWebACL(this.ops["AssociateWebACL"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.associateWebACL(this.ops["AssociateWebACL"].applicator.apply(partialParams));
     }
     invokeCheckCapacity(partialParams) {
-        return this.client.checkCapacity(this.ops["CheckCapacity"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.checkCapacity(this.ops["CheckCapacity"].applicator.apply(partialParams));
     }
     invokeCreateIPSet(partialParams) {
-        return this.client.createIPSet(this.ops["CreateIPSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createIPSet(this.ops["CreateIPSet"].applicator.apply(partialParams));
     }
     invokeCreateRegexPatternSet(partialParams) {
-        return this.client.createRegexPatternSet(this.ops["CreateRegexPatternSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createRegexPatternSet(this.ops["CreateRegexPatternSet"].applicator.apply(partialParams));
     }
     invokeCreateRuleGroup(partialParams) {
-        return this.client.createRuleGroup(this.ops["CreateRuleGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createRuleGroup(this.ops["CreateRuleGroup"].applicator.apply(partialParams));
     }
     invokeCreateWebACL(partialParams) {
-        return this.client.createWebACL(this.ops["CreateWebACL"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createWebACL(this.ops["CreateWebACL"].applicator.apply(partialParams));
     }
     invokeDeleteFirewallManagerRuleGroups(partialParams) {
-        return this.client.deleteFirewallManagerRuleGroups(this.ops["DeleteFirewallManagerRuleGroups"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteFirewallManagerRuleGroups(this.ops["DeleteFirewallManagerRuleGroups"].applicator.apply(partialParams));
     }
     invokeDeleteIPSet(partialParams) {
-        return this.client.deleteIPSet(this.ops["DeleteIPSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteIPSet(this.ops["DeleteIPSet"].applicator.apply(partialParams));
     }
     invokeDeleteLoggingConfiguration(partialParams) {
-        return this.client.deleteLoggingConfiguration(this.ops["DeleteLoggingConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteLoggingConfiguration(this.ops["DeleteLoggingConfiguration"].applicator.apply(partialParams));
     }
     invokeDeletePermissionPolicy(partialParams) {
-        return this.client.deletePermissionPolicy(this.ops["DeletePermissionPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deletePermissionPolicy(this.ops["DeletePermissionPolicy"].applicator.apply(partialParams));
     }
     invokeDeleteRegexPatternSet(partialParams) {
-        return this.client.deleteRegexPatternSet(this.ops["DeleteRegexPatternSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteRegexPatternSet(this.ops["DeleteRegexPatternSet"].applicator.apply(partialParams));
     }
     invokeDeleteRuleGroup(partialParams) {
-        return this.client.deleteRuleGroup(this.ops["DeleteRuleGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteRuleGroup(this.ops["DeleteRuleGroup"].applicator.apply(partialParams));
     }
     invokeDeleteWebACL(partialParams) {
-        return this.client.deleteWebACL(this.ops["DeleteWebACL"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteWebACL(this.ops["DeleteWebACL"].applicator.apply(partialParams));
     }
     invokeDescribeManagedRuleGroup(partialParams) {
-        return this.client.describeManagedRuleGroup(this.ops["DescribeManagedRuleGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.describeManagedRuleGroup(this.ops["DescribeManagedRuleGroup"].applicator.apply(partialParams));
     }
     invokeDisassociateWebACL(partialParams) {
-        return this.client.disassociateWebACL(this.ops["DisassociateWebACL"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.disassociateWebACL(this.ops["DisassociateWebACL"].applicator.apply(partialParams));
     }
     invokeGenerateMobileSdkReleaseUrl(partialParams) {
-        return this.client.generateMobileSdkReleaseUrl(this.ops["GenerateMobileSdkReleaseUrl"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.generateMobileSdkReleaseUrl(this.ops["GenerateMobileSdkReleaseUrl"].applicator.apply(partialParams));
     }
     invokeGetIPSet(partialParams) {
-        return this.client.getIPSet(this.ops["GetIPSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getIPSet(this.ops["GetIPSet"].applicator.apply(partialParams));
     }
     invokeGetLoggingConfiguration(partialParams) {
-        return this.client.getLoggingConfiguration(this.ops["GetLoggingConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getLoggingConfiguration(this.ops["GetLoggingConfiguration"].applicator.apply(partialParams));
     }
     invokeGetManagedRuleSet(partialParams) {
-        return this.client.getManagedRuleSet(this.ops["GetManagedRuleSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getManagedRuleSet(this.ops["GetManagedRuleSet"].applicator.apply(partialParams));
     }
     invokeGetMobileSdkRelease(partialParams) {
-        return this.client.getMobileSdkRelease(this.ops["GetMobileSdkRelease"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getMobileSdkRelease(this.ops["GetMobileSdkRelease"].applicator.apply(partialParams));
     }
     invokeGetPermissionPolicy(partialParams) {
-        return this.client.getPermissionPolicy(this.ops["GetPermissionPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getPermissionPolicy(this.ops["GetPermissionPolicy"].applicator.apply(partialParams));
     }
     invokeGetRateBasedStatementManagedKeys(partialParams) {
-        return this.client.getRateBasedStatementManagedKeys(this.ops["GetRateBasedStatementManagedKeys"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getRateBasedStatementManagedKeys(this.ops["GetRateBasedStatementManagedKeys"].applicator.apply(partialParams));
     }
     invokeGetRegexPatternSet(partialParams) {
-        return this.client.getRegexPatternSet(this.ops["GetRegexPatternSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getRegexPatternSet(this.ops["GetRegexPatternSet"].applicator.apply(partialParams));
     }
     invokeGetSampledRequests(partialParams) {
-        return this.client.getSampledRequests(this.ops["GetSampledRequests"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getSampledRequests(this.ops["GetSampledRequests"].applicator.apply(partialParams));
     }
     invokeGetWebACL(partialParams) {
-        return this.client.getWebACL(this.ops["GetWebACL"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getWebACL(this.ops["GetWebACL"].applicator.apply(partialParams));
     }
     invokeGetWebACLForResource(partialParams) {
-        return this.client.getWebACLForResource(this.ops["GetWebACLForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getWebACLForResource(this.ops["GetWebACLForResource"].applicator.apply(partialParams));
     }
     invokeListAvailableManagedRuleGroupVersions(partialParams) {
-        return this.client.listAvailableManagedRuleGroupVersions(this.ops["ListAvailableManagedRuleGroupVersions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listAvailableManagedRuleGroupVersions(this.ops["ListAvailableManagedRuleGroupVersions"].applicator.apply(partialParams));
     }
     invokeListAvailableManagedRuleGroups(partialParams) {
-        return this.client.listAvailableManagedRuleGroups(this.ops["ListAvailableManagedRuleGroups"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listAvailableManagedRuleGroups(this.ops["ListAvailableManagedRuleGroups"].applicator.apply(partialParams));
     }
     invokeListIPSets(partialParams) {
-        return this.client.listIPSets(this.ops["ListIPSets"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listIPSets(this.ops["ListIPSets"].applicator.apply(partialParams));
     }
     invokeListLoggingConfigurations(partialParams) {
-        return this.client.listLoggingConfigurations(this.ops["ListLoggingConfigurations"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listLoggingConfigurations(this.ops["ListLoggingConfigurations"].applicator.apply(partialParams));
     }
     invokeListManagedRuleSets(partialParams) {
-        return this.client.listManagedRuleSets(this.ops["ListManagedRuleSets"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listManagedRuleSets(this.ops["ListManagedRuleSets"].applicator.apply(partialParams));
     }
     invokeListMobileSdkReleases(partialParams) {
-        return this.client.listMobileSdkReleases(this.ops["ListMobileSdkReleases"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listMobileSdkReleases(this.ops["ListMobileSdkReleases"].applicator.apply(partialParams));
     }
     invokeListRegexPatternSets(partialParams) {
-        return this.client.listRegexPatternSets(this.ops["ListRegexPatternSets"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listRegexPatternSets(this.ops["ListRegexPatternSets"].applicator.apply(partialParams));
     }
     invokeListResourcesForWebACL(partialParams) {
-        return this.client.listResourcesForWebACL(this.ops["ListResourcesForWebACL"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listResourcesForWebACL(this.ops["ListResourcesForWebACL"].applicator.apply(partialParams));
     }
     invokeListRuleGroups(partialParams) {
-        return this.client.listRuleGroups(this.ops["ListRuleGroups"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listRuleGroups(this.ops["ListRuleGroups"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokeListWebACLs(partialParams) {
-        return this.client.listWebACLs(this.ops["ListWebACLs"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listWebACLs(this.ops["ListWebACLs"].applicator.apply(partialParams));
     }
     invokePutLoggingConfiguration(partialParams) {
-        return this.client.putLoggingConfiguration(this.ops["PutLoggingConfiguration"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putLoggingConfiguration(this.ops["PutLoggingConfiguration"].applicator.apply(partialParams));
     }
     invokePutManagedRuleSetVersions(partialParams) {
-        return this.client.putManagedRuleSetVersions(this.ops["PutManagedRuleSetVersions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putManagedRuleSetVersions(this.ops["PutManagedRuleSetVersions"].applicator.apply(partialParams));
     }
     invokePutPermissionPolicy(partialParams) {
-        return this.client.putPermissionPolicy(this.ops["PutPermissionPolicy"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.putPermissionPolicy(this.ops["PutPermissionPolicy"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateIPSet(partialParams) {
-        return this.client.updateIPSet(this.ops["UpdateIPSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateIPSet(this.ops["UpdateIPSet"].applicator.apply(partialParams));
     }
     invokeUpdateManagedRuleSetVersionExpiryDate(partialParams) {
-        return this.client.updateManagedRuleSetVersionExpiryDate(this.ops["UpdateManagedRuleSetVersionExpiryDate"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateManagedRuleSetVersionExpiryDate(this.ops["UpdateManagedRuleSetVersionExpiryDate"].applicator.apply(partialParams));
     }
     invokeUpdateRegexPatternSet(partialParams) {
-        return this.client.updateRegexPatternSet(this.ops["UpdateRegexPatternSet"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateRegexPatternSet(this.ops["UpdateRegexPatternSet"].applicator.apply(partialParams));
     }
     invokeUpdateRuleGroup(partialParams) {
-        return this.client.updateRuleGroup(this.ops["UpdateRuleGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateRuleGroup(this.ops["UpdateRuleGroup"].applicator.apply(partialParams));
     }
     invokeUpdateWebACL(partialParams) {
-        return this.client.updateWebACL(this.ops["UpdateWebACL"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateWebACL(this.ops["UpdateWebACL"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;

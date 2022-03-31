@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     AddTagsToOnPremisesInstancesInput,
     BatchGetApplicationRevisionsInput,
@@ -62,8 +65,8 @@ import {
     UntagResourceOutput,
     UpdateDeploymentGroupOutput
 } from "aws-sdk/clients/codedeploy";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/codedeploy-2014-10-06.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -72,275 +75,396 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.codedeploy.Application {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.codedeploy.Application>) {
         super(...args)
         this.client = new awssdk.CodeDeploy()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/codedeploy-2014-10-06.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeAddTagsToOnPremisesInstances(partialParams: ToOptional<{
       [K in keyof AddTagsToOnPremisesInstancesInput & keyof AddTagsToOnPremisesInstancesInput & keyof AddTagsToOnPremisesInstancesInput & keyof AddTagsToOnPremisesInstancesInput & keyof AddTagsToOnPremisesInstancesInput]: (AddTagsToOnPremisesInstancesInput & AddTagsToOnPremisesInstancesInput & AddTagsToOnPremisesInstancesInput & AddTagsToOnPremisesInstancesInput & AddTagsToOnPremisesInstancesInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.addTagsToOnPremisesInstances(
-            this.ops["AddTagsToOnPremisesInstances"].apply(partialParams)
+          this.ops["AddTagsToOnPremisesInstances"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchGetApplicationRevisions(partialParams: ToOptional<{
       [K in keyof BatchGetApplicationRevisionsInput & keyof BatchGetApplicationRevisionsInput & keyof BatchGetApplicationRevisionsInput & keyof BatchGetApplicationRevisionsInput & keyof BatchGetApplicationRevisionsInput]: (BatchGetApplicationRevisionsInput & BatchGetApplicationRevisionsInput & BatchGetApplicationRevisionsInput & BatchGetApplicationRevisionsInput & BatchGetApplicationRevisionsInput)[K]
-    }>): BatchGetApplicationRevisionsOutput {
+    }>): Request<BatchGetApplicationRevisionsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchGetApplicationRevisions(
-            this.ops["BatchGetApplicationRevisions"].apply(partialParams)
+          this.ops["BatchGetApplicationRevisions"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchGetApplications(partialParams: ToOptional<{
       [K in keyof BatchGetApplicationsInput & keyof BatchGetApplicationsInput & keyof BatchGetApplicationsInput & keyof BatchGetApplicationsInput & keyof BatchGetApplicationsInput]: (BatchGetApplicationsInput & BatchGetApplicationsInput & BatchGetApplicationsInput & BatchGetApplicationsInput & BatchGetApplicationsInput)[K]
-    }>): BatchGetApplicationsOutput {
+    }>): Request<BatchGetApplicationsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchGetApplications(
-            this.ops["BatchGetApplications"].apply(partialParams)
+          this.ops["BatchGetApplications"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchGetDeploymentGroups(partialParams: ToOptional<{
       [K in keyof BatchGetDeploymentGroupsInput & keyof BatchGetDeploymentGroupsInput & keyof BatchGetDeploymentGroupsInput & keyof BatchGetDeploymentGroupsInput & keyof BatchGetDeploymentGroupsInput]: (BatchGetDeploymentGroupsInput & BatchGetDeploymentGroupsInput & BatchGetDeploymentGroupsInput & BatchGetDeploymentGroupsInput & BatchGetDeploymentGroupsInput)[K]
-    }>): BatchGetDeploymentGroupsOutput {
+    }>): Request<BatchGetDeploymentGroupsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchGetDeploymentGroups(
-            this.ops["BatchGetDeploymentGroups"].apply(partialParams)
+          this.ops["BatchGetDeploymentGroups"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchGetDeploymentInstances(partialParams: ToOptional<{
       [K in keyof BatchGetDeploymentInstancesInput & keyof BatchGetDeploymentInstancesInput & keyof BatchGetDeploymentInstancesInput & keyof BatchGetDeploymentInstancesInput & keyof BatchGetDeploymentInstancesInput]: (BatchGetDeploymentInstancesInput & BatchGetDeploymentInstancesInput & BatchGetDeploymentInstancesInput & BatchGetDeploymentInstancesInput & BatchGetDeploymentInstancesInput)[K]
-    }>): BatchGetDeploymentInstancesOutput {
+    }>): Request<BatchGetDeploymentInstancesOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchGetDeploymentInstances(
-            this.ops["BatchGetDeploymentInstances"].apply(partialParams)
+          this.ops["BatchGetDeploymentInstances"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchGetDeployments(partialParams: ToOptional<{
       [K in keyof BatchGetDeploymentsInput & keyof BatchGetDeploymentsInput & keyof BatchGetDeploymentsInput & keyof BatchGetDeploymentsInput & keyof BatchGetDeploymentsInput]: (BatchGetDeploymentsInput & BatchGetDeploymentsInput & BatchGetDeploymentsInput & BatchGetDeploymentsInput & BatchGetDeploymentsInput)[K]
-    }>): BatchGetDeploymentsOutput {
+    }>): Request<BatchGetDeploymentsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchGetDeployments(
-            this.ops["BatchGetDeployments"].apply(partialParams)
+          this.ops["BatchGetDeployments"].applicator.apply(partialParams)
         );
     }
 
     invokeBatchGetOnPremisesInstances(partialParams: ToOptional<{
       [K in keyof BatchGetOnPremisesInstancesInput & keyof BatchGetOnPremisesInstancesInput & keyof BatchGetOnPremisesInstancesInput & keyof BatchGetOnPremisesInstancesInput & keyof BatchGetOnPremisesInstancesInput]: (BatchGetOnPremisesInstancesInput & BatchGetOnPremisesInstancesInput & BatchGetOnPremisesInstancesInput & BatchGetOnPremisesInstancesInput & BatchGetOnPremisesInstancesInput)[K]
-    }>): BatchGetOnPremisesInstancesOutput {
+    }>): Request<BatchGetOnPremisesInstancesOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.batchGetOnPremisesInstances(
-            this.ops["BatchGetOnPremisesInstances"].apply(partialParams)
+          this.ops["BatchGetOnPremisesInstances"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateApplication(partialParams: ToOptional<{
       [K in keyof CreateApplicationInput & keyof CreateApplicationInput & keyof CreateApplicationInput & keyof CreateApplicationInput & keyof CreateApplicationInput]: (CreateApplicationInput & CreateApplicationInput & CreateApplicationInput & CreateApplicationInput & CreateApplicationInput)[K]
-    }>): CreateApplicationOutput {
+    }>): Request<CreateApplicationOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createApplication(
-            this.ops["CreateApplication"].apply(partialParams)
+          this.ops["CreateApplication"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateDeployment(partialParams: ToOptional<{
       [K in keyof CreateDeploymentInput & keyof CreateDeploymentInput & keyof CreateDeploymentInput & keyof CreateDeploymentInput & keyof CreateDeploymentInput]: (CreateDeploymentInput & CreateDeploymentInput & CreateDeploymentInput & CreateDeploymentInput & CreateDeploymentInput)[K]
-    }>): CreateDeploymentOutput {
+    }>): Request<CreateDeploymentOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createDeployment(
-            this.ops["CreateDeployment"].apply(partialParams)
+          this.ops["CreateDeployment"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateDeploymentConfig(partialParams: ToOptional<{
       [K in keyof CreateDeploymentConfigInput & keyof CreateDeploymentConfigInput & keyof CreateDeploymentConfigInput & keyof CreateDeploymentConfigInput & keyof CreateDeploymentConfigInput]: (CreateDeploymentConfigInput & CreateDeploymentConfigInput & CreateDeploymentConfigInput & CreateDeploymentConfigInput & CreateDeploymentConfigInput)[K]
-    }>): CreateDeploymentConfigOutput {
+    }>): Request<CreateDeploymentConfigOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createDeploymentConfig(
-            this.ops["CreateDeploymentConfig"].apply(partialParams)
+          this.ops["CreateDeploymentConfig"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateDeploymentGroup(partialParams: ToOptional<{
       [K in keyof CreateDeploymentGroupInput & keyof CreateDeploymentGroupInput & keyof CreateDeploymentGroupInput & keyof CreateDeploymentGroupInput & keyof CreateDeploymentGroupInput]: (CreateDeploymentGroupInput & CreateDeploymentGroupInput & CreateDeploymentGroupInput & CreateDeploymentGroupInput & CreateDeploymentGroupInput)[K]
-    }>): CreateDeploymentGroupOutput {
+    }>): Request<CreateDeploymentGroupOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createDeploymentGroup(
-            this.ops["CreateDeploymentGroup"].apply(partialParams)
+          this.ops["CreateDeploymentGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteApplication(partialParams: ToOptional<{
       [K in keyof DeleteApplicationInput & keyof DeleteApplicationInput & keyof DeleteApplicationInput & keyof DeleteApplicationInput & keyof DeleteApplicationInput]: (DeleteApplicationInput & DeleteApplicationInput & DeleteApplicationInput & DeleteApplicationInput & DeleteApplicationInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteApplication(
-            this.ops["DeleteApplication"].apply(partialParams)
+          this.ops["DeleteApplication"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteDeploymentConfig(partialParams: ToOptional<{
       [K in keyof DeleteDeploymentConfigInput & keyof DeleteDeploymentConfigInput & keyof DeleteDeploymentConfigInput & keyof DeleteDeploymentConfigInput & keyof DeleteDeploymentConfigInput]: (DeleteDeploymentConfigInput & DeleteDeploymentConfigInput & DeleteDeploymentConfigInput & DeleteDeploymentConfigInput & DeleteDeploymentConfigInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteDeploymentConfig(
-            this.ops["DeleteDeploymentConfig"].apply(partialParams)
+          this.ops["DeleteDeploymentConfig"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteDeploymentGroup(partialParams: ToOptional<{
       [K in keyof DeleteDeploymentGroupInput & keyof DeleteDeploymentGroupInput & keyof DeleteDeploymentGroupInput & keyof DeleteDeploymentGroupInput & keyof DeleteDeploymentGroupInput]: (DeleteDeploymentGroupInput & DeleteDeploymentGroupInput & DeleteDeploymentGroupInput & DeleteDeploymentGroupInput & DeleteDeploymentGroupInput)[K]
-    }>): DeleteDeploymentGroupOutput {
+    }>): Request<DeleteDeploymentGroupOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteDeploymentGroup(
-            this.ops["DeleteDeploymentGroup"].apply(partialParams)
+          this.ops["DeleteDeploymentGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeDeregisterOnPremisesInstance(partialParams: ToOptional<{
       [K in keyof DeregisterOnPremisesInstanceInput & keyof DeregisterOnPremisesInstanceInput & keyof DeregisterOnPremisesInstanceInput & keyof DeregisterOnPremisesInstanceInput & keyof DeregisterOnPremisesInstanceInput]: (DeregisterOnPremisesInstanceInput & DeregisterOnPremisesInstanceInput & DeregisterOnPremisesInstanceInput & DeregisterOnPremisesInstanceInput & DeregisterOnPremisesInstanceInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deregisterOnPremisesInstance(
-            this.ops["DeregisterOnPremisesInstance"].apply(partialParams)
+          this.ops["DeregisterOnPremisesInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeGetApplication(partialParams: ToOptional<{
       [K in keyof GetApplicationInput & keyof GetApplicationInput & keyof GetApplicationInput & keyof GetApplicationInput & keyof GetApplicationInput]: (GetApplicationInput & GetApplicationInput & GetApplicationInput & GetApplicationInput & GetApplicationInput)[K]
-    }>): GetApplicationOutput {
+    }>): Request<GetApplicationOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getApplication(
-            this.ops["GetApplication"].apply(partialParams)
+          this.ops["GetApplication"].applicator.apply(partialParams)
         );
     }
 
     invokeGetApplicationRevision(partialParams: ToOptional<{
       [K in keyof GetApplicationRevisionInput & keyof GetApplicationRevisionInput & keyof GetApplicationRevisionInput & keyof GetApplicationRevisionInput & keyof GetApplicationRevisionInput]: (GetApplicationRevisionInput & GetApplicationRevisionInput & GetApplicationRevisionInput & GetApplicationRevisionInput & GetApplicationRevisionInput)[K]
-    }>): GetApplicationRevisionOutput {
+    }>): Request<GetApplicationRevisionOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getApplicationRevision(
-            this.ops["GetApplicationRevision"].apply(partialParams)
+          this.ops["GetApplicationRevision"].applicator.apply(partialParams)
         );
     }
 
     invokeGetDeployment(partialParams: ToOptional<{
       [K in keyof GetDeploymentInput & keyof GetDeploymentInput & keyof GetDeploymentInput & keyof GetDeploymentInput & keyof GetDeploymentInput]: (GetDeploymentInput & GetDeploymentInput & GetDeploymentInput & GetDeploymentInput & GetDeploymentInput)[K]
-    }>): GetDeploymentOutput {
+    }>): Request<GetDeploymentOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getDeployment(
-            this.ops["GetDeployment"].apply(partialParams)
+          this.ops["GetDeployment"].applicator.apply(partialParams)
         );
     }
 
     invokeGetDeploymentConfig(partialParams: ToOptional<{
       [K in keyof GetDeploymentConfigInput & keyof GetDeploymentConfigInput & keyof GetDeploymentConfigInput & keyof GetDeploymentConfigInput & keyof GetDeploymentConfigInput]: (GetDeploymentConfigInput & GetDeploymentConfigInput & GetDeploymentConfigInput & GetDeploymentConfigInput & GetDeploymentConfigInput)[K]
-    }>): GetDeploymentConfigOutput {
+    }>): Request<GetDeploymentConfigOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getDeploymentConfig(
-            this.ops["GetDeploymentConfig"].apply(partialParams)
+          this.ops["GetDeploymentConfig"].applicator.apply(partialParams)
         );
     }
 
     invokeGetDeploymentGroup(partialParams: ToOptional<{
       [K in keyof GetDeploymentGroupInput & keyof GetDeploymentGroupInput & keyof GetDeploymentGroupInput & keyof GetDeploymentGroupInput & keyof GetDeploymentGroupInput]: (GetDeploymentGroupInput & GetDeploymentGroupInput & GetDeploymentGroupInput & GetDeploymentGroupInput & GetDeploymentGroupInput)[K]
-    }>): GetDeploymentGroupOutput {
+    }>): Request<GetDeploymentGroupOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getDeploymentGroup(
-            this.ops["GetDeploymentGroup"].apply(partialParams)
+          this.ops["GetDeploymentGroup"].applicator.apply(partialParams)
         );
     }
 
     invokeGetDeploymentInstance(partialParams: ToOptional<{
       [K in keyof GetDeploymentInstanceInput & keyof GetDeploymentInstanceInput & keyof GetDeploymentInstanceInput & keyof GetDeploymentInstanceInput & keyof GetDeploymentInstanceInput]: (GetDeploymentInstanceInput & GetDeploymentInstanceInput & GetDeploymentInstanceInput & GetDeploymentInstanceInput & GetDeploymentInstanceInput)[K]
-    }>): GetDeploymentInstanceOutput {
+    }>): Request<GetDeploymentInstanceOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getDeploymentInstance(
-            this.ops["GetDeploymentInstance"].apply(partialParams)
+          this.ops["GetDeploymentInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeGetOnPremisesInstance(partialParams: ToOptional<{
       [K in keyof GetOnPremisesInstanceInput & keyof GetOnPremisesInstanceInput & keyof GetOnPremisesInstanceInput & keyof GetOnPremisesInstanceInput & keyof GetOnPremisesInstanceInput]: (GetOnPremisesInstanceInput & GetOnPremisesInstanceInput & GetOnPremisesInstanceInput & GetOnPremisesInstanceInput & GetOnPremisesInstanceInput)[K]
-    }>): GetOnPremisesInstanceOutput {
+    }>): Request<GetOnPremisesInstanceOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getOnPremisesInstance(
-            this.ops["GetOnPremisesInstance"].apply(partialParams)
+          this.ops["GetOnPremisesInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeListApplicationRevisions(partialParams: ToOptional<{
       [K in keyof ListApplicationRevisionsInput & keyof ListApplicationRevisionsInput & keyof ListApplicationRevisionsInput & keyof ListApplicationRevisionsInput & keyof ListApplicationRevisionsInput]: (ListApplicationRevisionsInput & ListApplicationRevisionsInput & ListApplicationRevisionsInput & ListApplicationRevisionsInput & ListApplicationRevisionsInput)[K]
-    }>): ListApplicationRevisionsOutput {
+    }>): Request<ListApplicationRevisionsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listApplicationRevisions(
-            this.ops["ListApplicationRevisions"].apply(partialParams)
+          this.ops["ListApplicationRevisions"].applicator.apply(partialParams)
         );
     }
 
     invokeListDeploymentGroups(partialParams: ToOptional<{
       [K in keyof ListDeploymentGroupsInput & keyof ListDeploymentGroupsInput & keyof ListDeploymentGroupsInput & keyof ListDeploymentGroupsInput & keyof ListDeploymentGroupsInput]: (ListDeploymentGroupsInput & ListDeploymentGroupsInput & ListDeploymentGroupsInput & ListDeploymentGroupsInput & ListDeploymentGroupsInput)[K]
-    }>): ListDeploymentGroupsOutput {
+    }>): Request<ListDeploymentGroupsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listDeploymentGroups(
-            this.ops["ListDeploymentGroups"].apply(partialParams)
+          this.ops["ListDeploymentGroups"].applicator.apply(partialParams)
         );
     }
 
     invokeListDeploymentInstances(partialParams: ToOptional<{
       [K in keyof ListDeploymentInstancesInput & keyof ListDeploymentInstancesInput & keyof ListDeploymentInstancesInput & keyof ListDeploymentInstancesInput & keyof ListDeploymentInstancesInput]: (ListDeploymentInstancesInput & ListDeploymentInstancesInput & ListDeploymentInstancesInput & ListDeploymentInstancesInput & ListDeploymentInstancesInput)[K]
-    }>): ListDeploymentInstancesOutput {
+    }>): Request<ListDeploymentInstancesOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listDeploymentInstances(
-            this.ops["ListDeploymentInstances"].apply(partialParams)
+          this.ops["ListDeploymentInstances"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceInput & keyof Omit<ListTagsForResourceInput, "ResourceArn"> & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput]: (ListTagsForResourceInput & Omit<ListTagsForResourceInput, "ResourceArn"> & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput)[K]
-    }>): ListTagsForResourceOutput {
+    }>): Request<ListTagsForResourceOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokeRegisterApplicationRevision(partialParams: ToOptional<{
       [K in keyof RegisterApplicationRevisionInput & keyof RegisterApplicationRevisionInput & keyof RegisterApplicationRevisionInput & keyof RegisterApplicationRevisionInput & keyof RegisterApplicationRevisionInput]: (RegisterApplicationRevisionInput & RegisterApplicationRevisionInput & RegisterApplicationRevisionInput & RegisterApplicationRevisionInput & RegisterApplicationRevisionInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.registerApplicationRevision(
-            this.ops["RegisterApplicationRevision"].apply(partialParams)
+          this.ops["RegisterApplicationRevision"].applicator.apply(partialParams)
         );
     }
 
     invokeRegisterOnPremisesInstance(partialParams: ToOptional<{
       [K in keyof RegisterOnPremisesInstanceInput & keyof RegisterOnPremisesInstanceInput & keyof RegisterOnPremisesInstanceInput & keyof RegisterOnPremisesInstanceInput & keyof RegisterOnPremisesInstanceInput]: (RegisterOnPremisesInstanceInput & RegisterOnPremisesInstanceInput & RegisterOnPremisesInstanceInput & RegisterOnPremisesInstanceInput & RegisterOnPremisesInstanceInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.registerOnPremisesInstance(
-            this.ops["RegisterOnPremisesInstance"].apply(partialParams)
+          this.ops["RegisterOnPremisesInstance"].applicator.apply(partialParams)
         );
     }
 
     invokeRemoveTagsFromOnPremisesInstances(partialParams: ToOptional<{
       [K in keyof RemoveTagsFromOnPremisesInstancesInput & keyof RemoveTagsFromOnPremisesInstancesInput & keyof RemoveTagsFromOnPremisesInstancesInput & keyof RemoveTagsFromOnPremisesInstancesInput & keyof RemoveTagsFromOnPremisesInstancesInput]: (RemoveTagsFromOnPremisesInstancesInput & RemoveTagsFromOnPremisesInstancesInput & RemoveTagsFromOnPremisesInstancesInput & RemoveTagsFromOnPremisesInstancesInput & RemoveTagsFromOnPremisesInstancesInput)[K]
-    }>): void {
+    }>): Request<void, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.removeTagsFromOnPremisesInstances(
-            this.ops["RemoveTagsFromOnPremisesInstances"].apply(partialParams)
+          this.ops["RemoveTagsFromOnPremisesInstances"].applicator.apply(partialParams)
         );
     }
 
     invokeStopDeployment(partialParams: ToOptional<{
       [K in keyof StopDeploymentInput & keyof StopDeploymentInput & keyof StopDeploymentInput & keyof StopDeploymentInput & keyof StopDeploymentInput]: (StopDeploymentInput & StopDeploymentInput & StopDeploymentInput & StopDeploymentInput & StopDeploymentInput)[K]
-    }>): StopDeploymentOutput {
+    }>): Request<StopDeploymentOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.stopDeployment(
-            this.ops["StopDeployment"].apply(partialParams)
+          this.ops["StopDeployment"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceInput & keyof Omit<TagResourceInput, "ResourceArn"> & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput]: (TagResourceInput & Omit<TagResourceInput, "ResourceArn"> & TagResourceInput & TagResourceInput & TagResourceInput)[K]
-    }>): TagResourceOutput {
+    }>): Request<TagResourceOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceInput & keyof Omit<UntagResourceInput, "ResourceArn"> & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput]: (UntagResourceInput & Omit<UntagResourceInput, "ResourceArn"> & UntagResourceInput & UntagResourceInput & UntagResourceInput)[K]
-    }>): UntagResourceOutput {
+    }>): Request<UntagResourceOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateDeploymentGroup(partialParams: ToOptional<{
       [K in keyof UpdateDeploymentGroupInput & keyof UpdateDeploymentGroupInput & keyof UpdateDeploymentGroupInput & keyof UpdateDeploymentGroupInput & keyof UpdateDeploymentGroupInput]: (UpdateDeploymentGroupInput & UpdateDeploymentGroupInput & UpdateDeploymentGroupInput & UpdateDeploymentGroupInput & UpdateDeploymentGroupInput)[K]
-    }>): UpdateDeploymentGroupOutput {
+    }>): Request<UpdateDeploymentGroupOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateDeploymentGroup(
-            this.ops["UpdateDeploymentGroup"].apply(partialParams)
+          this.ops["UpdateDeploymentGroup"].applicator.apply(partialParams)
         );
     }
 }

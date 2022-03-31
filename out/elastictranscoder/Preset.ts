@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     CancelJobRequest,
     CreateJobRequest,
@@ -33,8 +36,8 @@ import {
     UpdatePipelineNotificationsResponse,
     UpdatePipelineStatusResponse
 } from "aws-sdk/clients/elastictranscoder";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/elastictranscoder-2012-09-25.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -43,131 +46,198 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.elastictranscoder.Preset {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.elastictranscoder.Preset>) {
         super(...args)
         this.client = new awssdk.ElasticTranscoder()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/elastictranscoder-2012-09-25.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeCancelJob(partialParams: ToOptional<{
       [K in keyof CancelJobRequest & keyof CancelJobRequest & keyof CancelJobRequest & keyof CancelJobRequest & keyof CancelJobRequest]: (CancelJobRequest & CancelJobRequest & CancelJobRequest & CancelJobRequest & CancelJobRequest)[K]
-    }>): CancelJobResponse {
+    }>): Request<CancelJobResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.cancelJob(
-            this.ops["CancelJob"].apply(partialParams)
+          this.ops["CancelJob"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateJob(partialParams: ToOptional<{
       [K in keyof CreateJobRequest & keyof CreateJobRequest & keyof CreateJobRequest & keyof CreateJobRequest & keyof CreateJobRequest]: (CreateJobRequest & CreateJobRequest & CreateJobRequest & CreateJobRequest & CreateJobRequest)[K]
-    }>): CreateJobResponse {
+    }>): Request<CreateJobResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createJob(
-            this.ops["CreateJob"].apply(partialParams)
+          this.ops["CreateJob"].applicator.apply(partialParams)
         );
     }
 
     invokeCreatePipeline(partialParams: ToOptional<{
       [K in keyof CreatePipelineRequest & keyof CreatePipelineRequest & keyof CreatePipelineRequest & keyof CreatePipelineRequest & keyof CreatePipelineRequest]: (CreatePipelineRequest & CreatePipelineRequest & CreatePipelineRequest & CreatePipelineRequest & CreatePipelineRequest)[K]
-    }>): CreatePipelineResponse {
+    }>): Request<CreatePipelineResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createPipeline(
-            this.ops["CreatePipeline"].apply(partialParams)
+          this.ops["CreatePipeline"].applicator.apply(partialParams)
         );
     }
 
     invokeCreatePreset(partialParams: ToOptional<{
       [K in keyof CreatePresetRequest & keyof CreatePresetRequest & keyof CreatePresetRequest & keyof CreatePresetRequest & keyof CreatePresetRequest]: (CreatePresetRequest & CreatePresetRequest & CreatePresetRequest & CreatePresetRequest & CreatePresetRequest)[K]
-    }>): CreatePresetResponse {
+    }>): Request<CreatePresetResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createPreset(
-            this.ops["CreatePreset"].apply(partialParams)
+          this.ops["CreatePreset"].applicator.apply(partialParams)
         );
     }
 
     invokeDeletePipeline(partialParams: ToOptional<{
       [K in keyof DeletePipelineRequest & keyof DeletePipelineRequest & keyof DeletePipelineRequest & keyof DeletePipelineRequest & keyof DeletePipelineRequest]: (DeletePipelineRequest & DeletePipelineRequest & DeletePipelineRequest & DeletePipelineRequest & DeletePipelineRequest)[K]
-    }>): DeletePipelineResponse {
+    }>): Request<DeletePipelineResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deletePipeline(
-            this.ops["DeletePipeline"].apply(partialParams)
+          this.ops["DeletePipeline"].applicator.apply(partialParams)
         );
     }
 
     invokeDeletePreset(partialParams: ToOptional<{
       [K in keyof DeletePresetRequest & keyof DeletePresetRequest & keyof DeletePresetRequest & keyof DeletePresetRequest & keyof DeletePresetRequest]: (DeletePresetRequest & DeletePresetRequest & DeletePresetRequest & DeletePresetRequest & DeletePresetRequest)[K]
-    }>): DeletePresetResponse {
+    }>): Request<DeletePresetResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deletePreset(
-            this.ops["DeletePreset"].apply(partialParams)
+          this.ops["DeletePreset"].applicator.apply(partialParams)
         );
     }
 
     invokeListJobsByPipeline(partialParams: ToOptional<{
       [K in keyof ListJobsByPipelineRequest & keyof ListJobsByPipelineRequest & keyof ListJobsByPipelineRequest & keyof ListJobsByPipelineRequest & keyof ListJobsByPipelineRequest]: (ListJobsByPipelineRequest & ListJobsByPipelineRequest & ListJobsByPipelineRequest & ListJobsByPipelineRequest & ListJobsByPipelineRequest)[K]
-    }>): ListJobsByPipelineResponse {
+    }>): Request<ListJobsByPipelineResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listJobsByPipeline(
-            this.ops["ListJobsByPipeline"].apply(partialParams)
+          this.ops["ListJobsByPipeline"].applicator.apply(partialParams)
         );
     }
 
     invokeListJobsByStatus(partialParams: ToOptional<{
       [K in keyof ListJobsByStatusRequest & keyof ListJobsByStatusRequest & keyof ListJobsByStatusRequest & keyof ListJobsByStatusRequest & keyof ListJobsByStatusRequest]: (ListJobsByStatusRequest & ListJobsByStatusRequest & ListJobsByStatusRequest & ListJobsByStatusRequest & ListJobsByStatusRequest)[K]
-    }>): ListJobsByStatusResponse {
+    }>): Request<ListJobsByStatusResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listJobsByStatus(
-            this.ops["ListJobsByStatus"].apply(partialParams)
+          this.ops["ListJobsByStatus"].applicator.apply(partialParams)
         );
     }
 
     invokeReadJob(partialParams: ToOptional<{
       [K in keyof ReadJobRequest & keyof ReadJobRequest & keyof ReadJobRequest & keyof ReadJobRequest & keyof ReadJobRequest]: (ReadJobRequest & ReadJobRequest & ReadJobRequest & ReadJobRequest & ReadJobRequest)[K]
-    }>): ReadJobResponse {
+    }>): Request<ReadJobResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.readJob(
-            this.ops["ReadJob"].apply(partialParams)
+          this.ops["ReadJob"].applicator.apply(partialParams)
         );
     }
 
     invokeReadPipeline(partialParams: ToOptional<{
       [K in keyof ReadPipelineRequest & keyof ReadPipelineRequest & keyof ReadPipelineRequest & keyof ReadPipelineRequest & keyof ReadPipelineRequest]: (ReadPipelineRequest & ReadPipelineRequest & ReadPipelineRequest & ReadPipelineRequest & ReadPipelineRequest)[K]
-    }>): ReadPipelineResponse {
+    }>): Request<ReadPipelineResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.readPipeline(
-            this.ops["ReadPipeline"].apply(partialParams)
+          this.ops["ReadPipeline"].applicator.apply(partialParams)
         );
     }
 
     invokeReadPreset(partialParams: ToOptional<{
       [K in keyof ReadPresetRequest & keyof ReadPresetRequest & keyof ReadPresetRequest & keyof ReadPresetRequest & keyof ReadPresetRequest]: (ReadPresetRequest & ReadPresetRequest & ReadPresetRequest & ReadPresetRequest & ReadPresetRequest)[K]
-    }>): ReadPresetResponse {
+    }>): Request<ReadPresetResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.readPreset(
-            this.ops["ReadPreset"].apply(partialParams)
+          this.ops["ReadPreset"].applicator.apply(partialParams)
         );
     }
 
     invokeTestRole(partialParams: ToOptional<{
       [K in keyof TestRoleRequest & keyof TestRoleRequest & keyof TestRoleRequest & keyof TestRoleRequest & keyof TestRoleRequest]: (TestRoleRequest & TestRoleRequest & TestRoleRequest & TestRoleRequest & TestRoleRequest)[K]
-    }>): TestRoleResponse {
+    }>): Request<TestRoleResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.testRole(
-            this.ops["TestRole"].apply(partialParams)
+          this.ops["TestRole"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdatePipeline(partialParams: ToOptional<{
       [K in keyof UpdatePipelineRequest & keyof UpdatePipelineRequest & keyof UpdatePipelineRequest & keyof UpdatePipelineRequest & keyof UpdatePipelineRequest]: (UpdatePipelineRequest & UpdatePipelineRequest & UpdatePipelineRequest & UpdatePipelineRequest & UpdatePipelineRequest)[K]
-    }>): UpdatePipelineResponse {
+    }>): Request<UpdatePipelineResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updatePipeline(
-            this.ops["UpdatePipeline"].apply(partialParams)
+          this.ops["UpdatePipeline"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdatePipelineNotifications(partialParams: ToOptional<{
       [K in keyof UpdatePipelineNotificationsRequest & keyof UpdatePipelineNotificationsRequest & keyof UpdatePipelineNotificationsRequest & keyof UpdatePipelineNotificationsRequest & keyof UpdatePipelineNotificationsRequest]: (UpdatePipelineNotificationsRequest & UpdatePipelineNotificationsRequest & UpdatePipelineNotificationsRequest & UpdatePipelineNotificationsRequest & UpdatePipelineNotificationsRequest)[K]
-    }>): UpdatePipelineNotificationsResponse {
+    }>): Request<UpdatePipelineNotificationsResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updatePipelineNotifications(
-            this.ops["UpdatePipelineNotifications"].apply(partialParams)
+          this.ops["UpdatePipelineNotifications"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdatePipelineStatus(partialParams: ToOptional<{
       [K in keyof UpdatePipelineStatusRequest & keyof UpdatePipelineStatusRequest & keyof UpdatePipelineStatusRequest & keyof UpdatePipelineStatusRequest & keyof UpdatePipelineStatusRequest]: (UpdatePipelineStatusRequest & UpdatePipelineStatusRequest & UpdatePipelineStatusRequest & UpdatePipelineStatusRequest & UpdatePipelineStatusRequest)[K]
-    }>): UpdatePipelineStatusResponse {
+    }>): Request<UpdatePipelineStatusResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updatePipelineStatus(
-            this.ops["UpdatePipelineStatus"].apply(partialParams)
+          this.ops["UpdatePipelineStatus"].applicator.apply(partialParams)
         );
     }
 }

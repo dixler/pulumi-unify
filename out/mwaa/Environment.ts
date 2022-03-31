@@ -1,6 +1,9 @@
 
 import * as aws from "@pulumi/aws";
 import * as awssdk from "aws-sdk";
+import {Request} from 'aws-sdk/lib/request';
+import {AWSError} from 'aws-sdk/lib/error';
+
 import {
     CreateCliTokenRequest,
     CreateEnvironmentInput,
@@ -23,8 +26,8 @@ import {
     UntagResourceOutput,
     UpdateEnvironmentOutput
 } from "aws-sdk/clients/mwaa";
-
-import {getResourceOperations} from "../parse";
+const schema = require("../apis/mwaa-2020-07-01.normal.json")
+import {getResourceOperations, upperCamelCase} from "../parse";
 
 type UndefinedProperties<T> = {
     [P in keyof T]-?: undefined extends T[P] ? P : never
@@ -33,91 +36,143 @@ type UndefinedProperties<T> = {
 type ToOptional<T> = Partial<Pick<T, UndefinedProperties<T>>> & Pick<T, Exclude<keyof T, UndefinedProperties<T>>>
 
 export default class extends aws.mwaa.Environment {
-    private ops: any
+    public ops: any // TODO make private
     private client: any
+    capitalizedParams: {[key: string]: any}
     constructor(...args: ConstructorParameters<typeof aws.mwaa.Environment>) {
         super(...args)
         this.client = new awssdk.MWAA()
-        this.ops = getResourceOperations(this as any, require("../../aws-sdk-js/apis/mwaa-2020-07-01.normal.json"), this.client)
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
+          try {
+            this.capitalizedParams[upperCamelCase(key)] = value.value;
+            return;
+          } catch (e) {
+
+          }
+          this.capitalizedParams[upperCamelCase(key)] = value;
+        })
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
     }
 
     invokeCreateCliToken(partialParams: ToOptional<{
       [K in keyof CreateCliTokenRequest & keyof CreateCliTokenRequest & keyof CreateCliTokenRequest & keyof CreateCliTokenRequest & keyof CreateCliTokenRequest & keyof CreateCliTokenRequest & keyof CreateCliTokenRequest & keyof CreateCliTokenRequest & keyof CreateCliTokenRequest & keyof CreateCliTokenRequest & keyof CreateCliTokenRequest & keyof CreateCliTokenRequest & keyof CreateCliTokenRequest & keyof CreateCliTokenRequest & keyof CreateCliTokenRequest & keyof CreateCliTokenRequest & keyof CreateCliTokenRequest & keyof CreateCliTokenRequest]: (CreateCliTokenRequest & CreateCliTokenRequest & CreateCliTokenRequest & CreateCliTokenRequest & CreateCliTokenRequest & CreateCliTokenRequest & CreateCliTokenRequest & CreateCliTokenRequest & CreateCliTokenRequest & CreateCliTokenRequest & CreateCliTokenRequest & CreateCliTokenRequest & CreateCliTokenRequest & CreateCliTokenRequest & CreateCliTokenRequest & CreateCliTokenRequest & CreateCliTokenRequest & CreateCliTokenRequest)[K]
-    }>): CreateCliTokenResponse {
+    }>): Request<CreateCliTokenResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createCliToken(
-            this.ops["CreateCliToken"].apply(partialParams)
+          this.ops["CreateCliToken"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateEnvironment(partialParams: ToOptional<{
       [K in keyof CreateEnvironmentInput & keyof CreateEnvironmentInput & keyof CreateEnvironmentInput & keyof CreateEnvironmentInput & keyof CreateEnvironmentInput & keyof CreateEnvironmentInput & keyof CreateEnvironmentInput & keyof CreateEnvironmentInput & keyof CreateEnvironmentInput & keyof CreateEnvironmentInput & keyof CreateEnvironmentInput & keyof CreateEnvironmentInput & keyof CreateEnvironmentInput & keyof CreateEnvironmentInput & keyof CreateEnvironmentInput & keyof CreateEnvironmentInput & keyof CreateEnvironmentInput & keyof CreateEnvironmentInput]: (CreateEnvironmentInput & CreateEnvironmentInput & CreateEnvironmentInput & CreateEnvironmentInput & CreateEnvironmentInput & CreateEnvironmentInput & CreateEnvironmentInput & CreateEnvironmentInput & CreateEnvironmentInput & CreateEnvironmentInput & CreateEnvironmentInput & CreateEnvironmentInput & CreateEnvironmentInput & CreateEnvironmentInput & CreateEnvironmentInput & CreateEnvironmentInput & CreateEnvironmentInput & CreateEnvironmentInput)[K]
-    }>): CreateEnvironmentOutput {
+    }>): Request<CreateEnvironmentOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createEnvironment(
-            this.ops["CreateEnvironment"].apply(partialParams)
+          this.ops["CreateEnvironment"].applicator.apply(partialParams)
         );
     }
 
     invokeCreateWebLoginToken(partialParams: ToOptional<{
       [K in keyof CreateWebLoginTokenRequest & keyof CreateWebLoginTokenRequest & keyof CreateWebLoginTokenRequest & keyof CreateWebLoginTokenRequest & keyof CreateWebLoginTokenRequest & keyof CreateWebLoginTokenRequest & keyof CreateWebLoginTokenRequest & keyof CreateWebLoginTokenRequest & keyof CreateWebLoginTokenRequest & keyof CreateWebLoginTokenRequest & keyof CreateWebLoginTokenRequest & keyof CreateWebLoginTokenRequest & keyof CreateWebLoginTokenRequest & keyof CreateWebLoginTokenRequest & keyof CreateWebLoginTokenRequest & keyof CreateWebLoginTokenRequest & keyof CreateWebLoginTokenRequest & keyof CreateWebLoginTokenRequest]: (CreateWebLoginTokenRequest & CreateWebLoginTokenRequest & CreateWebLoginTokenRequest & CreateWebLoginTokenRequest & CreateWebLoginTokenRequest & CreateWebLoginTokenRequest & CreateWebLoginTokenRequest & CreateWebLoginTokenRequest & CreateWebLoginTokenRequest & CreateWebLoginTokenRequest & CreateWebLoginTokenRequest & CreateWebLoginTokenRequest & CreateWebLoginTokenRequest & CreateWebLoginTokenRequest & CreateWebLoginTokenRequest & CreateWebLoginTokenRequest & CreateWebLoginTokenRequest & CreateWebLoginTokenRequest)[K]
-    }>): CreateWebLoginTokenResponse {
+    }>): Request<CreateWebLoginTokenResponse, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.createWebLoginToken(
-            this.ops["CreateWebLoginToken"].apply(partialParams)
+          this.ops["CreateWebLoginToken"].applicator.apply(partialParams)
         );
     }
 
     invokeDeleteEnvironment(partialParams: ToOptional<{
       [K in keyof DeleteEnvironmentInput & keyof DeleteEnvironmentInput & keyof DeleteEnvironmentInput & keyof DeleteEnvironmentInput & keyof DeleteEnvironmentInput & keyof DeleteEnvironmentInput & keyof DeleteEnvironmentInput & keyof DeleteEnvironmentInput & keyof DeleteEnvironmentInput & keyof DeleteEnvironmentInput & keyof DeleteEnvironmentInput & keyof DeleteEnvironmentInput & keyof DeleteEnvironmentInput & keyof DeleteEnvironmentInput & keyof DeleteEnvironmentInput & keyof DeleteEnvironmentInput & keyof DeleteEnvironmentInput & keyof DeleteEnvironmentInput]: (DeleteEnvironmentInput & DeleteEnvironmentInput & DeleteEnvironmentInput & DeleteEnvironmentInput & DeleteEnvironmentInput & DeleteEnvironmentInput & DeleteEnvironmentInput & DeleteEnvironmentInput & DeleteEnvironmentInput & DeleteEnvironmentInput & DeleteEnvironmentInput & DeleteEnvironmentInput & DeleteEnvironmentInput & DeleteEnvironmentInput & DeleteEnvironmentInput & DeleteEnvironmentInput & DeleteEnvironmentInput & DeleteEnvironmentInput)[K]
-    }>): DeleteEnvironmentOutput {
+    }>): Request<DeleteEnvironmentOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.deleteEnvironment(
-            this.ops["DeleteEnvironment"].apply(partialParams)
+          this.ops["DeleteEnvironment"].applicator.apply(partialParams)
         );
     }
 
     invokeGetEnvironment(partialParams: ToOptional<{
       [K in keyof GetEnvironmentInput & keyof GetEnvironmentInput & keyof GetEnvironmentInput & keyof GetEnvironmentInput & keyof GetEnvironmentInput & keyof GetEnvironmentInput & keyof GetEnvironmentInput & keyof Omit<GetEnvironmentInput, "Name"> & keyof GetEnvironmentInput & keyof GetEnvironmentInput & keyof GetEnvironmentInput & keyof GetEnvironmentInput & keyof GetEnvironmentInput & keyof GetEnvironmentInput & keyof GetEnvironmentInput & keyof GetEnvironmentInput & keyof GetEnvironmentInput & keyof GetEnvironmentInput]: (GetEnvironmentInput & GetEnvironmentInput & GetEnvironmentInput & GetEnvironmentInput & GetEnvironmentInput & GetEnvironmentInput & GetEnvironmentInput & Omit<GetEnvironmentInput, "Name"> & GetEnvironmentInput & GetEnvironmentInput & GetEnvironmentInput & GetEnvironmentInput & GetEnvironmentInput & GetEnvironmentInput & GetEnvironmentInput & GetEnvironmentInput & GetEnvironmentInput & GetEnvironmentInput)[K]
-    }>): GetEnvironmentOutput {
+    }>): Request<GetEnvironmentOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.getEnvironment(
-            this.ops["GetEnvironment"].apply(partialParams)
+          this.ops["GetEnvironment"].applicator.apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput]: (ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput)[K]
-    }>): ListTagsForResourceOutput {
+    }>): Request<ListTagsForResourceOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.listTagsForResource(
-            this.ops["ListTagsForResource"].apply(partialParams)
+          this.ops["ListTagsForResource"].applicator.apply(partialParams)
         );
     }
 
     invokePublishMetrics(partialParams: ToOptional<{
       [K in keyof PublishMetricsInput & keyof PublishMetricsInput & keyof PublishMetricsInput & keyof PublishMetricsInput & keyof PublishMetricsInput & keyof PublishMetricsInput & keyof PublishMetricsInput & keyof PublishMetricsInput & keyof PublishMetricsInput & keyof PublishMetricsInput & keyof PublishMetricsInput & keyof PublishMetricsInput & keyof PublishMetricsInput & keyof PublishMetricsInput & keyof PublishMetricsInput & keyof PublishMetricsInput & keyof PublishMetricsInput & keyof PublishMetricsInput]: (PublishMetricsInput & PublishMetricsInput & PublishMetricsInput & PublishMetricsInput & PublishMetricsInput & PublishMetricsInput & PublishMetricsInput & PublishMetricsInput & PublishMetricsInput & PublishMetricsInput & PublishMetricsInput & PublishMetricsInput & PublishMetricsInput & PublishMetricsInput & PublishMetricsInput & PublishMetricsInput & PublishMetricsInput & PublishMetricsInput)[K]
-    }>): PublishMetricsOutput {
+    }>): Request<PublishMetricsOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.publishMetrics(
-            this.ops["PublishMetrics"].apply(partialParams)
+          this.ops["PublishMetrics"].applicator.apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput]: (TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput)[K]
-    }>): TagResourceOutput {
+    }>): Request<TagResourceOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.tagResource(
-            this.ops["TagResource"].apply(partialParams)
+          this.ops["TagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput]: (UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput)[K]
-    }>): UntagResourceOutput {
+    }>): Request<UntagResourceOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.untagResource(
-            this.ops["UntagResource"].apply(partialParams)
+          this.ops["UntagResource"].applicator.apply(partialParams)
         );
     }
 
     invokeUpdateEnvironment(partialParams: ToOptional<{
       [K in keyof UpdateEnvironmentInput & keyof UpdateEnvironmentInput & keyof UpdateEnvironmentInput & keyof UpdateEnvironmentInput & keyof UpdateEnvironmentInput & keyof UpdateEnvironmentInput & keyof UpdateEnvironmentInput & keyof Omit<UpdateEnvironmentInput, "Name"> & keyof UpdateEnvironmentInput & keyof UpdateEnvironmentInput & keyof UpdateEnvironmentInput & keyof UpdateEnvironmentInput & keyof UpdateEnvironmentInput & keyof UpdateEnvironmentInput & keyof UpdateEnvironmentInput & keyof UpdateEnvironmentInput & keyof UpdateEnvironmentInput & keyof UpdateEnvironmentInput]: (UpdateEnvironmentInput & UpdateEnvironmentInput & UpdateEnvironmentInput & UpdateEnvironmentInput & UpdateEnvironmentInput & UpdateEnvironmentInput & UpdateEnvironmentInput & Omit<UpdateEnvironmentInput, "Name"> & UpdateEnvironmentInput & UpdateEnvironmentInput & UpdateEnvironmentInput & UpdateEnvironmentInput & UpdateEnvironmentInput & UpdateEnvironmentInput & UpdateEnvironmentInput & UpdateEnvironmentInput & UpdateEnvironmentInput & UpdateEnvironmentInput)[K]
-    }>): UpdateEnvironmentOutput {
+    }>): Request<UpdateEnvironmentOutput, AWSError> {
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
         return this.client.updateEnvironment(
-            this.ops["UpdateEnvironment"].apply(partialParams)
+          this.ops["UpdateEnvironment"].applicator.apply(partialParams)
         );
     }
 }

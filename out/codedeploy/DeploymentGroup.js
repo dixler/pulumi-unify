@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -25,111 +21,232 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = __importStar(require("@pulumi/aws"));
 const awssdk = __importStar(require("aws-sdk"));
+const schema = require("../apis/codedeploy-2014-10-06.normal.json");
 const parse_1 = require("../parse");
 class default_1 extends aws.codedeploy.DeploymentGroup {
     constructor(...args) {
         super(...args);
         this.client = new awssdk.CodeDeploy();
-        this.ops = (0, parse_1.getResourceOperations)(this, require("../../aws-sdk-js/apis/codedeploy-2014-10-06.normal.json"), this.client);
+        this.capitalizedParams = {};
+        Object.entries(this).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+    }
+    boot() {
+        Object.entries(this.capitalizedParams).forEach(([key, value]) => {
+            try {
+                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
+                return;
+            }
+            catch (e) {
+            }
+            this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+        });
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
     }
     invokeAddTagsToOnPremisesInstances(partialParams) {
-        return this.client.addTagsToOnPremisesInstances(this.ops["AddTagsToOnPremisesInstances"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.addTagsToOnPremisesInstances(this.ops["AddTagsToOnPremisesInstances"].applicator.apply(partialParams));
     }
     invokeBatchGetApplicationRevisions(partialParams) {
-        return this.client.batchGetApplicationRevisions(this.ops["BatchGetApplicationRevisions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchGetApplicationRevisions(this.ops["BatchGetApplicationRevisions"].applicator.apply(partialParams));
     }
     invokeBatchGetApplications(partialParams) {
-        return this.client.batchGetApplications(this.ops["BatchGetApplications"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchGetApplications(this.ops["BatchGetApplications"].applicator.apply(partialParams));
     }
     invokeBatchGetDeploymentGroups(partialParams) {
-        return this.client.batchGetDeploymentGroups(this.ops["BatchGetDeploymentGroups"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchGetDeploymentGroups(this.ops["BatchGetDeploymentGroups"].applicator.apply(partialParams));
     }
     invokeBatchGetDeploymentInstances(partialParams) {
-        return this.client.batchGetDeploymentInstances(this.ops["BatchGetDeploymentInstances"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchGetDeploymentInstances(this.ops["BatchGetDeploymentInstances"].applicator.apply(partialParams));
     }
     invokeBatchGetDeployments(partialParams) {
-        return this.client.batchGetDeployments(this.ops["BatchGetDeployments"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchGetDeployments(this.ops["BatchGetDeployments"].applicator.apply(partialParams));
     }
     invokeBatchGetOnPremisesInstances(partialParams) {
-        return this.client.batchGetOnPremisesInstances(this.ops["BatchGetOnPremisesInstances"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.batchGetOnPremisesInstances(this.ops["BatchGetOnPremisesInstances"].applicator.apply(partialParams));
     }
     invokeCreateApplication(partialParams) {
-        return this.client.createApplication(this.ops["CreateApplication"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createApplication(this.ops["CreateApplication"].applicator.apply(partialParams));
     }
     invokeCreateDeployment(partialParams) {
-        return this.client.createDeployment(this.ops["CreateDeployment"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createDeployment(this.ops["CreateDeployment"].applicator.apply(partialParams));
     }
     invokeCreateDeploymentConfig(partialParams) {
-        return this.client.createDeploymentConfig(this.ops["CreateDeploymentConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createDeploymentConfig(this.ops["CreateDeploymentConfig"].applicator.apply(partialParams));
     }
     invokeCreateDeploymentGroup(partialParams) {
-        return this.client.createDeploymentGroup(this.ops["CreateDeploymentGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.createDeploymentGroup(this.ops["CreateDeploymentGroup"].applicator.apply(partialParams));
     }
     invokeDeleteApplication(partialParams) {
-        return this.client.deleteApplication(this.ops["DeleteApplication"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteApplication(this.ops["DeleteApplication"].applicator.apply(partialParams));
     }
     invokeDeleteDeploymentConfig(partialParams) {
-        return this.client.deleteDeploymentConfig(this.ops["DeleteDeploymentConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteDeploymentConfig(this.ops["DeleteDeploymentConfig"].applicator.apply(partialParams));
     }
     invokeDeleteDeploymentGroup(partialParams) {
-        return this.client.deleteDeploymentGroup(this.ops["DeleteDeploymentGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deleteDeploymentGroup(this.ops["DeleteDeploymentGroup"].applicator.apply(partialParams));
     }
     invokeDeregisterOnPremisesInstance(partialParams) {
-        return this.client.deregisterOnPremisesInstance(this.ops["DeregisterOnPremisesInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.deregisterOnPremisesInstance(this.ops["DeregisterOnPremisesInstance"].applicator.apply(partialParams));
     }
     invokeGetApplication(partialParams) {
-        return this.client.getApplication(this.ops["GetApplication"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getApplication(this.ops["GetApplication"].applicator.apply(partialParams));
     }
     invokeGetApplicationRevision(partialParams) {
-        return this.client.getApplicationRevision(this.ops["GetApplicationRevision"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getApplicationRevision(this.ops["GetApplicationRevision"].applicator.apply(partialParams));
     }
     invokeGetDeployment(partialParams) {
-        return this.client.getDeployment(this.ops["GetDeployment"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getDeployment(this.ops["GetDeployment"].applicator.apply(partialParams));
     }
     invokeGetDeploymentConfig(partialParams) {
-        return this.client.getDeploymentConfig(this.ops["GetDeploymentConfig"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getDeploymentConfig(this.ops["GetDeploymentConfig"].applicator.apply(partialParams));
     }
     invokeGetDeploymentGroup(partialParams) {
-        return this.client.getDeploymentGroup(this.ops["GetDeploymentGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getDeploymentGroup(this.ops["GetDeploymentGroup"].applicator.apply(partialParams));
     }
     invokeGetDeploymentInstance(partialParams) {
-        return this.client.getDeploymentInstance(this.ops["GetDeploymentInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getDeploymentInstance(this.ops["GetDeploymentInstance"].applicator.apply(partialParams));
     }
     invokeGetOnPremisesInstance(partialParams) {
-        return this.client.getOnPremisesInstance(this.ops["GetOnPremisesInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.getOnPremisesInstance(this.ops["GetOnPremisesInstance"].applicator.apply(partialParams));
     }
     invokeListApplicationRevisions(partialParams) {
-        return this.client.listApplicationRevisions(this.ops["ListApplicationRevisions"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listApplicationRevisions(this.ops["ListApplicationRevisions"].applicator.apply(partialParams));
     }
     invokeListDeploymentGroups(partialParams) {
-        return this.client.listDeploymentGroups(this.ops["ListDeploymentGroups"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listDeploymentGroups(this.ops["ListDeploymentGroups"].applicator.apply(partialParams));
     }
     invokeListDeploymentInstances(partialParams) {
-        return this.client.listDeploymentInstances(this.ops["ListDeploymentInstances"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listDeploymentInstances(this.ops["ListDeploymentInstances"].applicator.apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
     }
     invokeRegisterApplicationRevision(partialParams) {
-        return this.client.registerApplicationRevision(this.ops["RegisterApplicationRevision"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.registerApplicationRevision(this.ops["RegisterApplicationRevision"].applicator.apply(partialParams));
     }
     invokeRegisterOnPremisesInstance(partialParams) {
-        return this.client.registerOnPremisesInstance(this.ops["RegisterOnPremisesInstance"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.registerOnPremisesInstance(this.ops["RegisterOnPremisesInstance"].applicator.apply(partialParams));
     }
     invokeRemoveTagsFromOnPremisesInstances(partialParams) {
-        return this.client.removeTagsFromOnPremisesInstances(this.ops["RemoveTagsFromOnPremisesInstances"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.removeTagsFromOnPremisesInstances(this.ops["RemoveTagsFromOnPremisesInstances"].applicator.apply(partialParams));
     }
     invokeStopDeployment(partialParams) {
-        return this.client.stopDeployment(this.ops["StopDeployment"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.stopDeployment(this.ops["StopDeployment"].applicator.apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
     }
     invokeUpdateDeploymentGroup(partialParams) {
-        return this.client.updateDeploymentGroup(this.ops["UpdateDeploymentGroup"].apply(partialParams));
+        //console.log(this.capitalizedParams['Bucket'])
+        //console.log(this.capitalizedParams['Bucket'].value)
+        this.boot();
+        return this.client.updateDeploymentGroup(this.ops["UpdateDeploymentGroup"].applicator.apply(partialParams));
     }
 }
 exports.default = default_1;
