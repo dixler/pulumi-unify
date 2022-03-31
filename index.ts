@@ -8,8 +8,11 @@ const mybucket = new Bucket("myResource", {
 new aws.lambda.CallbackFunction("myfun", {
   callback: (event, context, cb): any => {
     try {
-      const val = mybucket.invokeGetBucketTagging({}).promise().then((val) => {
-        console.log('tagset is:', val.TagSet);
+      const val = mybucket.invokePutObject({
+        Key: "wew1",
+        Body: "yay",
+      }).promise().then((val) => {
+        console.log(val);
       });
       return val
     } catch(e) {
