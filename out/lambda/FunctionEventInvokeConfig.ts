@@ -11,15 +11,9 @@ import {
     CreateCodeSigningConfigRequest,
     CreateEventSourceMappingRequest,
     CreateFunctionRequest,
-    DeleteAliasRequest,
     DeleteCodeSigningConfigRequest,
     DeleteEventSourceMappingRequest,
-    DeleteFunctionRequest,
-    DeleteFunctionCodeSigningConfigRequest,
-    DeleteFunctionConcurrencyRequest,
-    DeleteFunctionEventInvokeConfigRequest,
-    DeleteLayerVersionRequest,
-    DeleteProvisionedConcurrencyConfigRequest,
+    GetAccountSettingsRequest,
     GetAliasRequest,
     GetCodeSigningConfigRequest,
     GetEventSourceMappingRequest,
@@ -36,9 +30,13 @@ import {
     InvocationRequest,
     InvokeAsyncRequest,
     ListAliasesRequest,
+    ListCodeSigningConfigsRequest,
+    ListEventSourceMappingsRequest,
     ListFunctionEventInvokeConfigsRequest,
+    ListFunctionsRequest,
     ListFunctionsByCodeSigningConfigRequest,
     ListLayerVersionsRequest,
+    ListLayersRequest,
     ListProvisionedConcurrencyConfigsRequest,
     ListTagsRequest,
     ListVersionsByFunctionRequest,
@@ -48,10 +46,6 @@ import {
     PutFunctionConcurrencyRequest,
     PutFunctionEventInvokeConfigRequest,
     PutProvisionedConcurrencyConfigRequest,
-    RemoveLayerVersionPermissionRequest,
-    RemovePermissionRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
     UpdateAliasRequest,
     UpdateCodeSigningConfigRequest,
     UpdateEventSourceMappingRequest,
@@ -65,6 +59,7 @@ import {
     EventSourceMappingConfiguration,
     FunctionConfiguration,
     DeleteCodeSigningConfigResponse,
+    GetAccountSettingsResponse,
     GetCodeSigningConfigResponse,
     GetFunctionResponse,
     GetFunctionCodeSigningConfigResponse,
@@ -77,9 +72,13 @@ import {
     InvocationResponse,
     InvokeAsyncResponse,
     ListAliasesResponse,
+    ListCodeSigningConfigsResponse,
+    ListEventSourceMappingsResponse,
     ListFunctionEventInvokeConfigsResponse,
+    ListFunctionsResponse,
     ListFunctionsByCodeSigningConfigResponse,
     ListLayerVersionsResponse,
+    ListLayersResponse,
     ListProvisionedConcurrencyConfigsResponse,
     ListTagsResponse,
     ListVersionsByFunctionResponse,
@@ -102,21 +101,24 @@ export default class extends aws.lambda.FunctionEventInvokeConfig {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.lambda.FunctionEventInvokeConfig>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.Lambda()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -126,589 +128,430 @@ export default class extends aws.lambda.FunctionEventInvokeConfig {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAddLayerVersionPermission(partialParams: ToOptional<{
-      [K in keyof AddLayerVersionPermissionRequest & keyof AddLayerVersionPermissionRequest]: (AddLayerVersionPermissionRequest & AddLayerVersionPermissionRequest)[K]
+      [K in keyof AddLayerVersionPermissionRequest]: (AddLayerVersionPermissionRequest)[K]
     }>): Request<AddLayerVersionPermissionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addLayerVersionPermission(
-          this.ops["AddLayerVersionPermission"].applicator.apply(partialParams)
+          this.ops["AddLayerVersionPermission"].apply(partialParams)
         );
     }
 
     invokeAddPermission(partialParams: ToOptional<{
-      [K in keyof AddPermissionRequest & keyof AddPermissionRequest]: (AddPermissionRequest & AddPermissionRequest)[K]
+      [K in keyof AddPermissionRequest & keyof Omit<AddPermissionRequest, "FunctionName">]: (AddPermissionRequest)[K]
     }>): Request<AddPermissionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addPermission(
-          this.ops["AddPermission"].applicator.apply(partialParams)
+          this.ops["AddPermission"].apply(partialParams)
         );
     }
 
     invokeCreateAlias(partialParams: ToOptional<{
-      [K in keyof CreateAliasRequest & keyof CreateAliasRequest]: (CreateAliasRequest & CreateAliasRequest)[K]
+      [K in keyof CreateAliasRequest & keyof Omit<CreateAliasRequest, "FunctionName">]: (CreateAliasRequest)[K]
     }>): Request<AliasConfiguration, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createAlias(
-          this.ops["CreateAlias"].applicator.apply(partialParams)
+          this.ops["CreateAlias"].apply(partialParams)
         );
     }
 
     invokeCreateCodeSigningConfig(partialParams: ToOptional<{
-      [K in keyof CreateCodeSigningConfigRequest & keyof CreateCodeSigningConfigRequest]: (CreateCodeSigningConfigRequest & CreateCodeSigningConfigRequest)[K]
+      [K in keyof CreateCodeSigningConfigRequest]: (CreateCodeSigningConfigRequest)[K]
     }>): Request<CreateCodeSigningConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createCodeSigningConfig(
-          this.ops["CreateCodeSigningConfig"].applicator.apply(partialParams)
+          this.ops["CreateCodeSigningConfig"].apply(partialParams)
         );
     }
 
     invokeCreateEventSourceMapping(partialParams: ToOptional<{
-      [K in keyof CreateEventSourceMappingRequest & keyof CreateEventSourceMappingRequest]: (CreateEventSourceMappingRequest & CreateEventSourceMappingRequest)[K]
+      [K in keyof CreateEventSourceMappingRequest & keyof Omit<CreateEventSourceMappingRequest, "FunctionName">]: (CreateEventSourceMappingRequest)[K]
     }>): Request<EventSourceMappingConfiguration, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createEventSourceMapping(
-          this.ops["CreateEventSourceMapping"].applicator.apply(partialParams)
+          this.ops["CreateEventSourceMapping"].apply(partialParams)
         );
     }
 
     invokeCreateFunction(partialParams: ToOptional<{
-      [K in keyof CreateFunctionRequest & keyof CreateFunctionRequest]: (CreateFunctionRequest & CreateFunctionRequest)[K]
+      [K in keyof CreateFunctionRequest & keyof Omit<CreateFunctionRequest, "FunctionName">]: (CreateFunctionRequest)[K]
     }>): Request<FunctionConfiguration, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createFunction(
-          this.ops["CreateFunction"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteAlias(partialParams: ToOptional<{
-      [K in keyof DeleteAliasRequest & keyof DeleteAliasRequest]: (DeleteAliasRequest & DeleteAliasRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteAlias(
-          this.ops["DeleteAlias"].applicator.apply(partialParams)
+          this.ops["CreateFunction"].apply(partialParams)
         );
     }
 
     invokeDeleteCodeSigningConfig(partialParams: ToOptional<{
-      [K in keyof DeleteCodeSigningConfigRequest & keyof DeleteCodeSigningConfigRequest]: (DeleteCodeSigningConfigRequest & DeleteCodeSigningConfigRequest)[K]
+      [K in keyof DeleteCodeSigningConfigRequest]: (DeleteCodeSigningConfigRequest)[K]
     }>): Request<DeleteCodeSigningConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteCodeSigningConfig(
-          this.ops["DeleteCodeSigningConfig"].applicator.apply(partialParams)
+          this.ops["DeleteCodeSigningConfig"].apply(partialParams)
         );
     }
 
     invokeDeleteEventSourceMapping(partialParams: ToOptional<{
-      [K in keyof DeleteEventSourceMappingRequest & keyof DeleteEventSourceMappingRequest]: (DeleteEventSourceMappingRequest & DeleteEventSourceMappingRequest)[K]
+      [K in keyof DeleteEventSourceMappingRequest]: (DeleteEventSourceMappingRequest)[K]
     }>): Request<EventSourceMappingConfiguration, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteEventSourceMapping(
-          this.ops["DeleteEventSourceMapping"].applicator.apply(partialParams)
+          this.ops["DeleteEventSourceMapping"].apply(partialParams)
         );
     }
 
-    invokeDeleteFunction(partialParams: ToOptional<{
-      [K in keyof DeleteFunctionRequest & keyof DeleteFunctionRequest]: (DeleteFunctionRequest & DeleteFunctionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeGetAccountSettings(partialParams: ToOptional<{
+      [K in keyof GetAccountSettingsRequest]: (GetAccountSettingsRequest)[K]
+    }>): Request<GetAccountSettingsResponse, AWSError> {
         this.boot();
-        return this.client.deleteFunction(
-          this.ops["DeleteFunction"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteFunctionCodeSigningConfig(partialParams: ToOptional<{
-      [K in keyof DeleteFunctionCodeSigningConfigRequest & keyof DeleteFunctionCodeSigningConfigRequest]: (DeleteFunctionCodeSigningConfigRequest & DeleteFunctionCodeSigningConfigRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteFunctionCodeSigningConfig(
-          this.ops["DeleteFunctionCodeSigningConfig"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteFunctionConcurrency(partialParams: ToOptional<{
-      [K in keyof DeleteFunctionConcurrencyRequest & keyof DeleteFunctionConcurrencyRequest]: (DeleteFunctionConcurrencyRequest & DeleteFunctionConcurrencyRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteFunctionConcurrency(
-          this.ops["DeleteFunctionConcurrency"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteFunctionEventInvokeConfig(partialParams: ToOptional<{
-      [K in keyof DeleteFunctionEventInvokeConfigRequest & keyof DeleteFunctionEventInvokeConfigRequest]: (DeleteFunctionEventInvokeConfigRequest & DeleteFunctionEventInvokeConfigRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteFunctionEventInvokeConfig(
-          this.ops["DeleteFunctionEventInvokeConfig"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteLayerVersion(partialParams: ToOptional<{
-      [K in keyof DeleteLayerVersionRequest & keyof DeleteLayerVersionRequest]: (DeleteLayerVersionRequest & DeleteLayerVersionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteLayerVersion(
-          this.ops["DeleteLayerVersion"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteProvisionedConcurrencyConfig(partialParams: ToOptional<{
-      [K in keyof DeleteProvisionedConcurrencyConfigRequest & keyof DeleteProvisionedConcurrencyConfigRequest]: (DeleteProvisionedConcurrencyConfigRequest & DeleteProvisionedConcurrencyConfigRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteProvisionedConcurrencyConfig(
-          this.ops["DeleteProvisionedConcurrencyConfig"].applicator.apply(partialParams)
+        return this.client.getAccountSettings(
+          this.ops["GetAccountSettings"].apply(partialParams)
         );
     }
 
     invokeGetAlias(partialParams: ToOptional<{
-      [K in keyof Omit<GetAliasRequest, "FunctionName"> & keyof GetAliasRequest]: (Omit<GetAliasRequest, "FunctionName"> & GetAliasRequest)[K]
+      [K in keyof GetAliasRequest & keyof Omit<GetAliasRequest, "FunctionName">]: (GetAliasRequest)[K]
     }>): Request<AliasConfiguration, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getAlias(
-          this.ops["GetAlias"].applicator.apply(partialParams)
+          this.ops["GetAlias"].apply(partialParams)
         );
     }
 
     invokeGetCodeSigningConfig(partialParams: ToOptional<{
-      [K in keyof GetCodeSigningConfigRequest & keyof GetCodeSigningConfigRequest]: (GetCodeSigningConfigRequest & GetCodeSigningConfigRequest)[K]
+      [K in keyof GetCodeSigningConfigRequest]: (GetCodeSigningConfigRequest)[K]
     }>): Request<GetCodeSigningConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getCodeSigningConfig(
-          this.ops["GetCodeSigningConfig"].applicator.apply(partialParams)
+          this.ops["GetCodeSigningConfig"].apply(partialParams)
         );
     }
 
     invokeGetEventSourceMapping(partialParams: ToOptional<{
-      [K in keyof GetEventSourceMappingRequest & keyof GetEventSourceMappingRequest]: (GetEventSourceMappingRequest & GetEventSourceMappingRequest)[K]
+      [K in keyof GetEventSourceMappingRequest]: (GetEventSourceMappingRequest)[K]
     }>): Request<EventSourceMappingConfiguration, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getEventSourceMapping(
-          this.ops["GetEventSourceMapping"].applicator.apply(partialParams)
+          this.ops["GetEventSourceMapping"].apply(partialParams)
         );
     }
 
     invokeGetFunction(partialParams: ToOptional<{
-      [K in keyof GetFunctionRequest & keyof GetFunctionRequest]: (GetFunctionRequest & GetFunctionRequest)[K]
+      [K in keyof GetFunctionRequest & keyof Omit<GetFunctionRequest, "FunctionName">]: (GetFunctionRequest)[K]
     }>): Request<GetFunctionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getFunction(
-          this.ops["GetFunction"].applicator.apply(partialParams)
+          this.ops["GetFunction"].apply(partialParams)
         );
     }
 
     invokeGetFunctionCodeSigningConfig(partialParams: ToOptional<{
-      [K in keyof Omit<GetFunctionCodeSigningConfigRequest, "FunctionName"> & keyof GetFunctionCodeSigningConfigRequest]: (Omit<GetFunctionCodeSigningConfigRequest, "FunctionName"> & GetFunctionCodeSigningConfigRequest)[K]
+      [K in keyof GetFunctionCodeSigningConfigRequest & keyof Omit<GetFunctionCodeSigningConfigRequest, "FunctionName">]: (GetFunctionCodeSigningConfigRequest)[K]
     }>): Request<GetFunctionCodeSigningConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getFunctionCodeSigningConfig(
-          this.ops["GetFunctionCodeSigningConfig"].applicator.apply(partialParams)
+          this.ops["GetFunctionCodeSigningConfig"].apply(partialParams)
         );
     }
 
     invokeGetFunctionConcurrency(partialParams: ToOptional<{
-      [K in keyof Omit<GetFunctionConcurrencyRequest, "FunctionName"> & keyof GetFunctionConcurrencyRequest]: (Omit<GetFunctionConcurrencyRequest, "FunctionName"> & GetFunctionConcurrencyRequest)[K]
+      [K in keyof GetFunctionConcurrencyRequest & keyof Omit<GetFunctionConcurrencyRequest, "FunctionName">]: (GetFunctionConcurrencyRequest)[K]
     }>): Request<GetFunctionConcurrencyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getFunctionConcurrency(
-          this.ops["GetFunctionConcurrency"].applicator.apply(partialParams)
+          this.ops["GetFunctionConcurrency"].apply(partialParams)
         );
     }
 
     invokeGetFunctionConfiguration(partialParams: ToOptional<{
-      [K in keyof GetFunctionConfigurationRequest & keyof GetFunctionConfigurationRequest]: (GetFunctionConfigurationRequest & GetFunctionConfigurationRequest)[K]
+      [K in keyof GetFunctionConfigurationRequest & keyof Omit<GetFunctionConfigurationRequest, "FunctionName">]: (GetFunctionConfigurationRequest)[K]
     }>): Request<FunctionConfiguration, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getFunctionConfiguration(
-          this.ops["GetFunctionConfiguration"].applicator.apply(partialParams)
+          this.ops["GetFunctionConfiguration"].apply(partialParams)
         );
     }
 
     invokeGetFunctionEventInvokeConfig(partialParams: ToOptional<{
-      [K in keyof Omit<GetFunctionEventInvokeConfigRequest, "FunctionName"> & keyof GetFunctionEventInvokeConfigRequest]: (Omit<GetFunctionEventInvokeConfigRequest, "FunctionName"> & GetFunctionEventInvokeConfigRequest)[K]
+      [K in keyof GetFunctionEventInvokeConfigRequest & keyof Omit<GetFunctionEventInvokeConfigRequest, "FunctionName">]: (GetFunctionEventInvokeConfigRequest)[K]
     }>): Request<FunctionEventInvokeConfig, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getFunctionEventInvokeConfig(
-          this.ops["GetFunctionEventInvokeConfig"].applicator.apply(partialParams)
+          this.ops["GetFunctionEventInvokeConfig"].apply(partialParams)
         );
     }
 
     invokeGetLayerVersion(partialParams: ToOptional<{
-      [K in keyof GetLayerVersionRequest & keyof GetLayerVersionRequest]: (GetLayerVersionRequest & GetLayerVersionRequest)[K]
+      [K in keyof GetLayerVersionRequest]: (GetLayerVersionRequest)[K]
     }>): Request<GetLayerVersionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getLayerVersion(
-          this.ops["GetLayerVersion"].applicator.apply(partialParams)
+          this.ops["GetLayerVersion"].apply(partialParams)
         );
     }
 
     invokeGetLayerVersionByArn(partialParams: ToOptional<{
-      [K in keyof GetLayerVersionByArnRequest & keyof GetLayerVersionByArnRequest]: (GetLayerVersionByArnRequest & GetLayerVersionByArnRequest)[K]
+      [K in keyof GetLayerVersionByArnRequest]: (GetLayerVersionByArnRequest)[K]
     }>): Request<GetLayerVersionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getLayerVersionByArn(
-          this.ops["GetLayerVersionByArn"].applicator.apply(partialParams)
+          this.ops["GetLayerVersionByArn"].apply(partialParams)
         );
     }
 
     invokeGetLayerVersionPolicy(partialParams: ToOptional<{
-      [K in keyof GetLayerVersionPolicyRequest & keyof GetLayerVersionPolicyRequest]: (GetLayerVersionPolicyRequest & GetLayerVersionPolicyRequest)[K]
+      [K in keyof GetLayerVersionPolicyRequest]: (GetLayerVersionPolicyRequest)[K]
     }>): Request<GetLayerVersionPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getLayerVersionPolicy(
-          this.ops["GetLayerVersionPolicy"].applicator.apply(partialParams)
+          this.ops["GetLayerVersionPolicy"].apply(partialParams)
         );
     }
 
     invokeGetPolicy(partialParams: ToOptional<{
-      [K in keyof GetPolicyRequest & keyof GetPolicyRequest]: (GetPolicyRequest & GetPolicyRequest)[K]
+      [K in keyof GetPolicyRequest & keyof Omit<GetPolicyRequest, "FunctionName">]: (GetPolicyRequest)[K]
     }>): Request<GetPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getPolicy(
-          this.ops["GetPolicy"].applicator.apply(partialParams)
+          this.ops["GetPolicy"].apply(partialParams)
         );
     }
 
     invokeGetProvisionedConcurrencyConfig(partialParams: ToOptional<{
-      [K in keyof Omit<GetProvisionedConcurrencyConfigRequest, "FunctionName"> & keyof GetProvisionedConcurrencyConfigRequest]: (Omit<GetProvisionedConcurrencyConfigRequest, "FunctionName"> & GetProvisionedConcurrencyConfigRequest)[K]
+      [K in keyof GetProvisionedConcurrencyConfigRequest & keyof Omit<GetProvisionedConcurrencyConfigRequest, "FunctionName" | "Qualifier">]: (GetProvisionedConcurrencyConfigRequest)[K]
     }>): Request<GetProvisionedConcurrencyConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getProvisionedConcurrencyConfig(
-          this.ops["GetProvisionedConcurrencyConfig"].applicator.apply(partialParams)
+          this.ops["GetProvisionedConcurrencyConfig"].apply(partialParams)
         );
     }
 
     invokeInvoke(partialParams: ToOptional<{
-      [K in keyof InvocationRequest & keyof InvocationRequest]: (InvocationRequest & InvocationRequest)[K]
+      [K in keyof InvocationRequest & keyof Omit<InvocationRequest, "FunctionName">]: (InvocationRequest)[K]
     }>): Request<InvocationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.invoke(
-          this.ops["Invoke"].applicator.apply(partialParams)
+          this.ops["Invoke"].apply(partialParams)
         );
     }
 
     invokeInvokeAsync(partialParams: ToOptional<{
-      [K in keyof InvokeAsyncRequest & keyof InvokeAsyncRequest]: (InvokeAsyncRequest & InvokeAsyncRequest)[K]
+      [K in keyof InvokeAsyncRequest & keyof Omit<InvokeAsyncRequest, "FunctionName">]: (InvokeAsyncRequest)[K]
     }>): Request<InvokeAsyncResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.invokeAsync(
-          this.ops["InvokeAsync"].applicator.apply(partialParams)
+          this.ops["InvokeAsync"].apply(partialParams)
         );
     }
 
     invokeListAliases(partialParams: ToOptional<{
-      [K in keyof Omit<ListAliasesRequest, "FunctionName"> & keyof ListAliasesRequest]: (Omit<ListAliasesRequest, "FunctionName"> & ListAliasesRequest)[K]
+      [K in keyof ListAliasesRequest & keyof Omit<ListAliasesRequest, "FunctionName">]: (ListAliasesRequest)[K]
     }>): Request<ListAliasesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listAliases(
-          this.ops["ListAliases"].applicator.apply(partialParams)
+          this.ops["ListAliases"].apply(partialParams)
+        );
+    }
+
+    invokeListCodeSigningConfigs(partialParams: ToOptional<{
+      [K in keyof ListCodeSigningConfigsRequest]: (ListCodeSigningConfigsRequest)[K]
+    }>): Request<ListCodeSigningConfigsResponse, AWSError> {
+        this.boot();
+        return this.client.listCodeSigningConfigs(
+          this.ops["ListCodeSigningConfigs"].apply(partialParams)
+        );
+    }
+
+    invokeListEventSourceMappings(partialParams: ToOptional<{
+      [K in keyof ListEventSourceMappingsRequest]: (ListEventSourceMappingsRequest)[K]
+    }>): Request<ListEventSourceMappingsResponse, AWSError> {
+        this.boot();
+        return this.client.listEventSourceMappings(
+          this.ops["ListEventSourceMappings"].apply(partialParams)
         );
     }
 
     invokeListFunctionEventInvokeConfigs(partialParams: ToOptional<{
-      [K in keyof Omit<ListFunctionEventInvokeConfigsRequest, "FunctionName"> & keyof ListFunctionEventInvokeConfigsRequest]: (Omit<ListFunctionEventInvokeConfigsRequest, "FunctionName"> & ListFunctionEventInvokeConfigsRequest)[K]
+      [K in keyof ListFunctionEventInvokeConfigsRequest & keyof Omit<ListFunctionEventInvokeConfigsRequest, "FunctionName">]: (ListFunctionEventInvokeConfigsRequest)[K]
     }>): Request<ListFunctionEventInvokeConfigsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listFunctionEventInvokeConfigs(
-          this.ops["ListFunctionEventInvokeConfigs"].applicator.apply(partialParams)
+          this.ops["ListFunctionEventInvokeConfigs"].apply(partialParams)
+        );
+    }
+
+    invokeListFunctions(partialParams: ToOptional<{
+      [K in keyof ListFunctionsRequest]: (ListFunctionsRequest)[K]
+    }>): Request<ListFunctionsResponse, AWSError> {
+        this.boot();
+        return this.client.listFunctions(
+          this.ops["ListFunctions"].apply(partialParams)
         );
     }
 
     invokeListFunctionsByCodeSigningConfig(partialParams: ToOptional<{
-      [K in keyof ListFunctionsByCodeSigningConfigRequest & keyof ListFunctionsByCodeSigningConfigRequest]: (ListFunctionsByCodeSigningConfigRequest & ListFunctionsByCodeSigningConfigRequest)[K]
+      [K in keyof ListFunctionsByCodeSigningConfigRequest]: (ListFunctionsByCodeSigningConfigRequest)[K]
     }>): Request<ListFunctionsByCodeSigningConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listFunctionsByCodeSigningConfig(
-          this.ops["ListFunctionsByCodeSigningConfig"].applicator.apply(partialParams)
+          this.ops["ListFunctionsByCodeSigningConfig"].apply(partialParams)
         );
     }
 
     invokeListLayerVersions(partialParams: ToOptional<{
-      [K in keyof ListLayerVersionsRequest & keyof ListLayerVersionsRequest]: (ListLayerVersionsRequest & ListLayerVersionsRequest)[K]
+      [K in keyof ListLayerVersionsRequest]: (ListLayerVersionsRequest)[K]
     }>): Request<ListLayerVersionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listLayerVersions(
-          this.ops["ListLayerVersions"].applicator.apply(partialParams)
+          this.ops["ListLayerVersions"].apply(partialParams)
+        );
+    }
+
+    invokeListLayers(partialParams: ToOptional<{
+      [K in keyof ListLayersRequest]: (ListLayersRequest)[K]
+    }>): Request<ListLayersResponse, AWSError> {
+        this.boot();
+        return this.client.listLayers(
+          this.ops["ListLayers"].apply(partialParams)
         );
     }
 
     invokeListProvisionedConcurrencyConfigs(partialParams: ToOptional<{
-      [K in keyof Omit<ListProvisionedConcurrencyConfigsRequest, "FunctionName"> & keyof ListProvisionedConcurrencyConfigsRequest]: (Omit<ListProvisionedConcurrencyConfigsRequest, "FunctionName"> & ListProvisionedConcurrencyConfigsRequest)[K]
+      [K in keyof ListProvisionedConcurrencyConfigsRequest & keyof Omit<ListProvisionedConcurrencyConfigsRequest, "FunctionName">]: (ListProvisionedConcurrencyConfigsRequest)[K]
     }>): Request<ListProvisionedConcurrencyConfigsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listProvisionedConcurrencyConfigs(
-          this.ops["ListProvisionedConcurrencyConfigs"].applicator.apply(partialParams)
+          this.ops["ListProvisionedConcurrencyConfigs"].apply(partialParams)
         );
     }
 
     invokeListTags(partialParams: ToOptional<{
-      [K in keyof ListTagsRequest & keyof ListTagsRequest]: (ListTagsRequest & ListTagsRequest)[K]
+      [K in keyof ListTagsRequest]: (ListTagsRequest)[K]
     }>): Request<ListTagsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTags(
-          this.ops["ListTags"].applicator.apply(partialParams)
+          this.ops["ListTags"].apply(partialParams)
         );
     }
 
     invokeListVersionsByFunction(partialParams: ToOptional<{
-      [K in keyof ListVersionsByFunctionRequest & keyof ListVersionsByFunctionRequest]: (ListVersionsByFunctionRequest & ListVersionsByFunctionRequest)[K]
+      [K in keyof ListVersionsByFunctionRequest & keyof Omit<ListVersionsByFunctionRequest, "FunctionName">]: (ListVersionsByFunctionRequest)[K]
     }>): Request<ListVersionsByFunctionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listVersionsByFunction(
-          this.ops["ListVersionsByFunction"].applicator.apply(partialParams)
+          this.ops["ListVersionsByFunction"].apply(partialParams)
         );
     }
 
     invokePublishLayerVersion(partialParams: ToOptional<{
-      [K in keyof PublishLayerVersionRequest & keyof PublishLayerVersionRequest]: (PublishLayerVersionRequest & PublishLayerVersionRequest)[K]
+      [K in keyof PublishLayerVersionRequest]: (PublishLayerVersionRequest)[K]
     }>): Request<PublishLayerVersionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.publishLayerVersion(
-          this.ops["PublishLayerVersion"].applicator.apply(partialParams)
+          this.ops["PublishLayerVersion"].apply(partialParams)
         );
     }
 
     invokePublishVersion(partialParams: ToOptional<{
-      [K in keyof Omit<PublishVersionRequest, "FunctionName"> & keyof PublishVersionRequest]: (Omit<PublishVersionRequest, "FunctionName"> & PublishVersionRequest)[K]
+      [K in keyof PublishVersionRequest & keyof Omit<PublishVersionRequest, "FunctionName">]: (PublishVersionRequest)[K]
     }>): Request<FunctionConfiguration, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.publishVersion(
-          this.ops["PublishVersion"].applicator.apply(partialParams)
+          this.ops["PublishVersion"].apply(partialParams)
         );
     }
 
     invokePutFunctionCodeSigningConfig(partialParams: ToOptional<{
-      [K in keyof Omit<PutFunctionCodeSigningConfigRequest, "FunctionName"> & keyof PutFunctionCodeSigningConfigRequest]: (Omit<PutFunctionCodeSigningConfigRequest, "FunctionName"> & PutFunctionCodeSigningConfigRequest)[K]
+      [K in keyof PutFunctionCodeSigningConfigRequest & keyof Omit<PutFunctionCodeSigningConfigRequest, "FunctionName">]: (PutFunctionCodeSigningConfigRequest)[K]
     }>): Request<PutFunctionCodeSigningConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putFunctionCodeSigningConfig(
-          this.ops["PutFunctionCodeSigningConfig"].applicator.apply(partialParams)
+          this.ops["PutFunctionCodeSigningConfig"].apply(partialParams)
         );
     }
 
     invokePutFunctionConcurrency(partialParams: ToOptional<{
-      [K in keyof Omit<PutFunctionConcurrencyRequest, "FunctionName"> & keyof PutFunctionConcurrencyRequest]: (Omit<PutFunctionConcurrencyRequest, "FunctionName"> & PutFunctionConcurrencyRequest)[K]
+      [K in keyof PutFunctionConcurrencyRequest & keyof Omit<PutFunctionConcurrencyRequest, "FunctionName">]: (PutFunctionConcurrencyRequest)[K]
     }>): Request<Concurrency, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putFunctionConcurrency(
-          this.ops["PutFunctionConcurrency"].applicator.apply(partialParams)
+          this.ops["PutFunctionConcurrency"].apply(partialParams)
         );
     }
 
     invokePutFunctionEventInvokeConfig(partialParams: ToOptional<{
-      [K in keyof Omit<PutFunctionEventInvokeConfigRequest, "FunctionName"> & keyof PutFunctionEventInvokeConfigRequest]: (Omit<PutFunctionEventInvokeConfigRequest, "FunctionName"> & PutFunctionEventInvokeConfigRequest)[K]
+      [K in keyof PutFunctionEventInvokeConfigRequest & keyof Omit<PutFunctionEventInvokeConfigRequest, "FunctionName">]: (PutFunctionEventInvokeConfigRequest)[K]
     }>): Request<FunctionEventInvokeConfig, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putFunctionEventInvokeConfig(
-          this.ops["PutFunctionEventInvokeConfig"].applicator.apply(partialParams)
+          this.ops["PutFunctionEventInvokeConfig"].apply(partialParams)
         );
     }
 
     invokePutProvisionedConcurrencyConfig(partialParams: ToOptional<{
-      [K in keyof Omit<PutProvisionedConcurrencyConfigRequest, "FunctionName"> & keyof PutProvisionedConcurrencyConfigRequest]: (Omit<PutProvisionedConcurrencyConfigRequest, "FunctionName"> & PutProvisionedConcurrencyConfigRequest)[K]
+      [K in keyof PutProvisionedConcurrencyConfigRequest & keyof Omit<PutProvisionedConcurrencyConfigRequest, "FunctionName" | "Qualifier">]: (PutProvisionedConcurrencyConfigRequest)[K]
     }>): Request<PutProvisionedConcurrencyConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putProvisionedConcurrencyConfig(
-          this.ops["PutProvisionedConcurrencyConfig"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeRemoveLayerVersionPermission(partialParams: ToOptional<{
-      [K in keyof RemoveLayerVersionPermissionRequest & keyof RemoveLayerVersionPermissionRequest]: (RemoveLayerVersionPermissionRequest & RemoveLayerVersionPermissionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.removeLayerVersionPermission(
-          this.ops["RemoveLayerVersionPermission"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeRemovePermission(partialParams: ToOptional<{
-      [K in keyof Omit<RemovePermissionRequest, "FunctionName"> & keyof RemovePermissionRequest]: (Omit<RemovePermissionRequest, "FunctionName"> & RemovePermissionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.removePermission(
-          this.ops["RemovePermission"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["PutProvisionedConcurrencyConfig"].apply(partialParams)
         );
     }
 
     invokeUpdateAlias(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateAliasRequest, "FunctionName"> & keyof UpdateAliasRequest]: (Omit<UpdateAliasRequest, "FunctionName"> & UpdateAliasRequest)[K]
+      [K in keyof UpdateAliasRequest & keyof Omit<UpdateAliasRequest, "FunctionName">]: (UpdateAliasRequest)[K]
     }>): Request<AliasConfiguration, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateAlias(
-          this.ops["UpdateAlias"].applicator.apply(partialParams)
+          this.ops["UpdateAlias"].apply(partialParams)
         );
     }
 
     invokeUpdateCodeSigningConfig(partialParams: ToOptional<{
-      [K in keyof UpdateCodeSigningConfigRequest & keyof UpdateCodeSigningConfigRequest]: (UpdateCodeSigningConfigRequest & UpdateCodeSigningConfigRequest)[K]
+      [K in keyof UpdateCodeSigningConfigRequest]: (UpdateCodeSigningConfigRequest)[K]
     }>): Request<UpdateCodeSigningConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateCodeSigningConfig(
-          this.ops["UpdateCodeSigningConfig"].applicator.apply(partialParams)
+          this.ops["UpdateCodeSigningConfig"].apply(partialParams)
         );
     }
 
     invokeUpdateEventSourceMapping(partialParams: ToOptional<{
-      [K in keyof UpdateEventSourceMappingRequest & keyof UpdateEventSourceMappingRequest]: (UpdateEventSourceMappingRequest & UpdateEventSourceMappingRequest)[K]
+      [K in keyof UpdateEventSourceMappingRequest]: (UpdateEventSourceMappingRequest)[K]
     }>): Request<EventSourceMappingConfiguration, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateEventSourceMapping(
-          this.ops["UpdateEventSourceMapping"].applicator.apply(partialParams)
+          this.ops["UpdateEventSourceMapping"].apply(partialParams)
         );
     }
 
     invokeUpdateFunctionCode(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateFunctionCodeRequest, "FunctionName"> & keyof UpdateFunctionCodeRequest]: (Omit<UpdateFunctionCodeRequest, "FunctionName"> & UpdateFunctionCodeRequest)[K]
+      [K in keyof UpdateFunctionCodeRequest & keyof Omit<UpdateFunctionCodeRequest, "FunctionName">]: (UpdateFunctionCodeRequest)[K]
     }>): Request<FunctionConfiguration, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateFunctionCode(
-          this.ops["UpdateFunctionCode"].applicator.apply(partialParams)
+          this.ops["UpdateFunctionCode"].apply(partialParams)
         );
     }
 
     invokeUpdateFunctionConfiguration(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateFunctionConfigurationRequest, "FunctionName"> & keyof UpdateFunctionConfigurationRequest]: (Omit<UpdateFunctionConfigurationRequest, "FunctionName"> & UpdateFunctionConfigurationRequest)[K]
+      [K in keyof UpdateFunctionConfigurationRequest & keyof Omit<UpdateFunctionConfigurationRequest, "FunctionName">]: (UpdateFunctionConfigurationRequest)[K]
     }>): Request<FunctionConfiguration, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateFunctionConfiguration(
-          this.ops["UpdateFunctionConfiguration"].applicator.apply(partialParams)
+          this.ops["UpdateFunctionConfiguration"].apply(partialParams)
         );
     }
 
     invokeUpdateFunctionEventInvokeConfig(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateFunctionEventInvokeConfigRequest, "FunctionName"> & keyof UpdateFunctionEventInvokeConfigRequest]: (Omit<UpdateFunctionEventInvokeConfigRequest, "FunctionName"> & UpdateFunctionEventInvokeConfigRequest)[K]
+      [K in keyof UpdateFunctionEventInvokeConfigRequest & keyof Omit<UpdateFunctionEventInvokeConfigRequest, "FunctionName">]: (UpdateFunctionEventInvokeConfigRequest)[K]
     }>): Request<FunctionEventInvokeConfig, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateFunctionEventInvokeConfig(
-          this.ops["UpdateFunctionEventInvokeConfig"].applicator.apply(partialParams)
+          this.ops["UpdateFunctionEventInvokeConfig"].apply(partialParams)
         );
     }
 }

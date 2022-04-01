@@ -20,6 +20,7 @@ import {
     CreateContactMethodRequest,
     CreateContainerServiceRequest,
     CreateContainerServiceDeploymentRequest,
+    CreateContainerServiceRegistryLoginRequest,
     CreateDiskRequest,
     CreateDiskFromSnapshotRequest,
     CreateDiskSnapshotRequest,
@@ -45,6 +46,7 @@ import {
     DeleteContainerServiceRequest,
     DeleteDiskRequest,
     DeleteDiskSnapshotRequest,
+    DeleteDistributionRequest,
     DeleteDomainRequest,
     DeleteDomainEntryRequest,
     DeleteInstanceRequest,
@@ -60,32 +62,60 @@ import {
     DetachInstancesFromLoadBalancerRequest,
     DetachStaticIpRequest,
     DisableAddOnRequest,
+    DownloadDefaultKeyPairRequest,
     EnableAddOnRequest,
     ExportSnapshotRequest,
+    GetActiveNamesRequest,
+    GetAlarmsRequest,
     GetAutoSnapshotsRequest,
+    GetBlueprintsRequest,
     GetBucketAccessKeysRequest,
+    GetBucketBundlesRequest,
     GetBucketMetricDataRequest,
+    GetBucketsRequest,
+    GetBundlesRequest,
+    GetCertificatesRequest,
+    GetCloudFormationStackRecordsRequest,
+    GetContactMethodsRequest,
+    GetContainerAPIMetadataRequest,
     GetContainerImagesRequest,
     GetContainerLogRequest,
     GetContainerServiceDeploymentsRequest,
     GetContainerServiceMetricDataRequest,
+    GetContainerServicePowersRequest,
+    GetContainerServicesRequest,
     GetDiskRequest,
     GetDiskSnapshotRequest,
+    GetDiskSnapshotsRequest,
+    GetDisksRequest,
+    GetDistributionBundlesRequest,
+    GetDistributionLatestCacheResetRequest,
     GetDistributionMetricDataRequest,
+    GetDistributionsRequest,
     GetDomainRequest,
+    GetDomainsRequest,
+    GetExportSnapshotRecordsRequest,
     GetInstanceRequest,
     GetInstanceAccessDetailsRequest,
     GetInstanceMetricDataRequest,
     GetInstancePortStatesRequest,
     GetInstanceSnapshotRequest,
+    GetInstanceSnapshotsRequest,
     GetInstanceStateRequest,
+    GetInstancesRequest,
     GetKeyPairRequest,
+    GetKeyPairsRequest,
     GetLoadBalancerRequest,
     GetLoadBalancerMetricDataRequest,
     GetLoadBalancerTlsCertificatesRequest,
+    GetLoadBalancersRequest,
     GetOperationRequest,
+    GetOperationsRequest,
     GetOperationsForResourceRequest,
+    GetRegionsRequest,
     GetRelationalDatabaseRequest,
+    GetRelationalDatabaseBlueprintsRequest,
+    GetRelationalDatabaseBundlesRequest,
     GetRelationalDatabaseEventsRequest,
     GetRelationalDatabaseLogEventsRequest,
     GetRelationalDatabaseLogStreamsRequest,
@@ -93,15 +123,21 @@ import {
     GetRelationalDatabaseMetricDataRequest,
     GetRelationalDatabaseParametersRequest,
     GetRelationalDatabaseSnapshotRequest,
+    GetRelationalDatabaseSnapshotsRequest,
+    GetRelationalDatabasesRequest,
     GetStaticIpRequest,
+    GetStaticIpsRequest,
     ImportKeyPairRequest,
+    IsVpcPeeredRequest,
     OpenInstancePublicPortsRequest,
+    PeerVpcRequest,
     PutAlarmRequest,
     PutInstancePublicPortsRequest,
     RebootInstanceRequest,
     RebootRelationalDatabaseRequest,
     RegisterContainerImageRequest,
     ReleaseStaticIpRequest,
+    ResetDistributionCacheRequest,
     SendContactMethodVerificationRequest,
     SetIpAddressTypeRequest,
     SetResourceAccessForBucketRequest,
@@ -111,11 +147,13 @@ import {
     StopRelationalDatabaseRequest,
     TagResourceRequest,
     TestAlarmRequest,
+    UnpeerVpcRequest,
     UntagResourceRequest,
     UpdateBucketRequest,
     UpdateBucketBundleRequest,
     UpdateContainerServiceRequest,
     UpdateDistributionRequest,
+    UpdateDistributionBundleRequest,
     UpdateDomainEntryRequest,
     UpdateLoadBalancerAttributeRequest,
     UpdateRelationalDatabaseRequest,
@@ -135,6 +173,7 @@ import {
     CreateContactMethodResult,
     CreateContainerServiceResult,
     CreateContainerServiceDeploymentResult,
+    CreateContainerServiceRegistryLoginResult,
     CreateDiskResult,
     CreateDiskFromSnapshotResult,
     CreateDiskSnapshotResult,
@@ -160,6 +199,7 @@ import {
     DeleteContainerServiceResult,
     DeleteDiskResult,
     DeleteDiskSnapshotResult,
+    DeleteDistributionResult,
     DeleteDomainResult,
     DeleteDomainEntryResult,
     DeleteInstanceResult,
@@ -175,32 +215,60 @@ import {
     DetachInstancesFromLoadBalancerResult,
     DetachStaticIpResult,
     DisableAddOnResult,
+    DownloadDefaultKeyPairResult,
     EnableAddOnResult,
     ExportSnapshotResult,
+    GetActiveNamesResult,
+    GetAlarmsResult,
     GetAutoSnapshotsResult,
+    GetBlueprintsResult,
     GetBucketAccessKeysResult,
+    GetBucketBundlesResult,
     GetBucketMetricDataResult,
+    GetBucketsResult,
+    GetBundlesResult,
+    GetCertificatesResult,
+    GetCloudFormationStackRecordsResult,
+    GetContactMethodsResult,
+    GetContainerAPIMetadataResult,
     GetContainerImagesResult,
     GetContainerLogResult,
     GetContainerServiceDeploymentsResult,
     GetContainerServiceMetricDataResult,
+    GetContainerServicePowersResult,
+    ContainerServicesListResult,
     GetDiskResult,
     GetDiskSnapshotResult,
+    GetDiskSnapshotsResult,
+    GetDisksResult,
+    GetDistributionBundlesResult,
+    GetDistributionLatestCacheResetResult,
     GetDistributionMetricDataResult,
+    GetDistributionsResult,
     GetDomainResult,
+    GetDomainsResult,
+    GetExportSnapshotRecordsResult,
     GetInstanceResult,
     GetInstanceAccessDetailsResult,
     GetInstanceMetricDataResult,
     GetInstancePortStatesResult,
     GetInstanceSnapshotResult,
+    GetInstanceSnapshotsResult,
     GetInstanceStateResult,
+    GetInstancesResult,
     GetKeyPairResult,
+    GetKeyPairsResult,
     GetLoadBalancerResult,
     GetLoadBalancerMetricDataResult,
     GetLoadBalancerTlsCertificatesResult,
+    GetLoadBalancersResult,
     GetOperationResult,
+    GetOperationsResult,
     GetOperationsForResourceResult,
+    GetRegionsResult,
     GetRelationalDatabaseResult,
+    GetRelationalDatabaseBlueprintsResult,
+    GetRelationalDatabaseBundlesResult,
     GetRelationalDatabaseEventsResult,
     GetRelationalDatabaseLogEventsResult,
     GetRelationalDatabaseLogStreamsResult,
@@ -208,15 +276,21 @@ import {
     GetRelationalDatabaseMetricDataResult,
     GetRelationalDatabaseParametersResult,
     GetRelationalDatabaseSnapshotResult,
+    GetRelationalDatabaseSnapshotsResult,
+    GetRelationalDatabasesResult,
     GetStaticIpResult,
+    GetStaticIpsResult,
     ImportKeyPairResult,
+    IsVpcPeeredResult,
     OpenInstancePublicPortsResult,
+    PeerVpcResult,
     PutAlarmResult,
     PutInstancePublicPortsResult,
     RebootInstanceResult,
     RebootRelationalDatabaseResult,
     RegisterContainerImageResult,
     ReleaseStaticIpResult,
+    ResetDistributionCacheResult,
     SendContactMethodVerificationResult,
     SetIpAddressTypeResult,
     SetResourceAccessForBucketResult,
@@ -226,11 +300,13 @@ import {
     StopRelationalDatabaseResult,
     TagResourceResult,
     TestAlarmResult,
+    UnpeerVpcResult,
     UntagResourceResult,
     UpdateBucketResult,
     UpdateBucketBundleResult,
     UpdateContainerServiceResult,
     UpdateDistributionResult,
+    UpdateDistributionBundleResult,
     UpdateDomainEntryResult,
     UpdateLoadBalancerAttributeResult,
     UpdateRelationalDatabaseResult,
@@ -249,21 +325,24 @@ export default class extends aws.lightsail.Instance {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.lightsail.Instance>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.Lightsail()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -273,1271 +352,1384 @@ export default class extends aws.lightsail.Instance {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAllocateStaticIp(partialParams: ToOptional<{
-      [K in keyof AllocateStaticIpRequest & keyof AllocateStaticIpRequest & keyof AllocateStaticIpRequest & keyof AllocateStaticIpRequest & keyof AllocateStaticIpRequest & keyof AllocateStaticIpRequest & keyof AllocateStaticIpRequest & keyof AllocateStaticIpRequest & keyof AllocateStaticIpRequest & keyof AllocateStaticIpRequest & keyof AllocateStaticIpRequest & keyof AllocateStaticIpRequest]: (AllocateStaticIpRequest & AllocateStaticIpRequest & AllocateStaticIpRequest & AllocateStaticIpRequest & AllocateStaticIpRequest & AllocateStaticIpRequest & AllocateStaticIpRequest & AllocateStaticIpRequest & AllocateStaticIpRequest & AllocateStaticIpRequest & AllocateStaticIpRequest & AllocateStaticIpRequest)[K]
+      [K in keyof AllocateStaticIpRequest]: (AllocateStaticIpRequest)[K]
     }>): Request<AllocateStaticIpResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.allocateStaticIp(
-          this.ops["AllocateStaticIp"].applicator.apply(partialParams)
+          this.ops["AllocateStaticIp"].apply(partialParams)
         );
     }
 
     invokeAttachCertificateToDistribution(partialParams: ToOptional<{
-      [K in keyof AttachCertificateToDistributionRequest & keyof AttachCertificateToDistributionRequest & keyof AttachCertificateToDistributionRequest & keyof AttachCertificateToDistributionRequest & keyof AttachCertificateToDistributionRequest & keyof AttachCertificateToDistributionRequest & keyof AttachCertificateToDistributionRequest & keyof AttachCertificateToDistributionRequest & keyof AttachCertificateToDistributionRequest & keyof AttachCertificateToDistributionRequest & keyof AttachCertificateToDistributionRequest & keyof AttachCertificateToDistributionRequest]: (AttachCertificateToDistributionRequest & AttachCertificateToDistributionRequest & AttachCertificateToDistributionRequest & AttachCertificateToDistributionRequest & AttachCertificateToDistributionRequest & AttachCertificateToDistributionRequest & AttachCertificateToDistributionRequest & AttachCertificateToDistributionRequest & AttachCertificateToDistributionRequest & AttachCertificateToDistributionRequest & AttachCertificateToDistributionRequest & AttachCertificateToDistributionRequest)[K]
+      [K in keyof AttachCertificateToDistributionRequest]: (AttachCertificateToDistributionRequest)[K]
     }>): Request<AttachCertificateToDistributionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.attachCertificateToDistribution(
-          this.ops["AttachCertificateToDistribution"].applicator.apply(partialParams)
+          this.ops["AttachCertificateToDistribution"].apply(partialParams)
         );
     }
 
     invokeAttachDisk(partialParams: ToOptional<{
-      [K in keyof AttachDiskRequest & keyof AttachDiskRequest & keyof AttachDiskRequest & keyof AttachDiskRequest & keyof AttachDiskRequest & keyof AttachDiskRequest & keyof AttachDiskRequest & keyof AttachDiskRequest & keyof AttachDiskRequest & keyof AttachDiskRequest & keyof AttachDiskRequest & keyof AttachDiskRequest]: (AttachDiskRequest & AttachDiskRequest & AttachDiskRequest & AttachDiskRequest & AttachDiskRequest & AttachDiskRequest & AttachDiskRequest & AttachDiskRequest & AttachDiskRequest & AttachDiskRequest & AttachDiskRequest & AttachDiskRequest)[K]
+      [K in keyof AttachDiskRequest]: (AttachDiskRequest)[K]
     }>): Request<AttachDiskResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.attachDisk(
-          this.ops["AttachDisk"].applicator.apply(partialParams)
+          this.ops["AttachDisk"].apply(partialParams)
         );
     }
 
     invokeAttachInstancesToLoadBalancer(partialParams: ToOptional<{
-      [K in keyof AttachInstancesToLoadBalancerRequest & keyof AttachInstancesToLoadBalancerRequest & keyof AttachInstancesToLoadBalancerRequest & keyof AttachInstancesToLoadBalancerRequest & keyof AttachInstancesToLoadBalancerRequest & keyof AttachInstancesToLoadBalancerRequest & keyof AttachInstancesToLoadBalancerRequest & keyof AttachInstancesToLoadBalancerRequest & keyof AttachInstancesToLoadBalancerRequest & keyof AttachInstancesToLoadBalancerRequest & keyof AttachInstancesToLoadBalancerRequest & keyof AttachInstancesToLoadBalancerRequest]: (AttachInstancesToLoadBalancerRequest & AttachInstancesToLoadBalancerRequest & AttachInstancesToLoadBalancerRequest & AttachInstancesToLoadBalancerRequest & AttachInstancesToLoadBalancerRequest & AttachInstancesToLoadBalancerRequest & AttachInstancesToLoadBalancerRequest & AttachInstancesToLoadBalancerRequest & AttachInstancesToLoadBalancerRequest & AttachInstancesToLoadBalancerRequest & AttachInstancesToLoadBalancerRequest & AttachInstancesToLoadBalancerRequest)[K]
+      [K in keyof AttachInstancesToLoadBalancerRequest]: (AttachInstancesToLoadBalancerRequest)[K]
     }>): Request<AttachInstancesToLoadBalancerResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.attachInstancesToLoadBalancer(
-          this.ops["AttachInstancesToLoadBalancer"].applicator.apply(partialParams)
+          this.ops["AttachInstancesToLoadBalancer"].apply(partialParams)
         );
     }
 
     invokeAttachLoadBalancerTlsCertificate(partialParams: ToOptional<{
-      [K in keyof AttachLoadBalancerTlsCertificateRequest & keyof AttachLoadBalancerTlsCertificateRequest & keyof AttachLoadBalancerTlsCertificateRequest & keyof AttachLoadBalancerTlsCertificateRequest & keyof AttachLoadBalancerTlsCertificateRequest & keyof AttachLoadBalancerTlsCertificateRequest & keyof AttachLoadBalancerTlsCertificateRequest & keyof AttachLoadBalancerTlsCertificateRequest & keyof AttachLoadBalancerTlsCertificateRequest & keyof AttachLoadBalancerTlsCertificateRequest & keyof AttachLoadBalancerTlsCertificateRequest & keyof AttachLoadBalancerTlsCertificateRequest]: (AttachLoadBalancerTlsCertificateRequest & AttachLoadBalancerTlsCertificateRequest & AttachLoadBalancerTlsCertificateRequest & AttachLoadBalancerTlsCertificateRequest & AttachLoadBalancerTlsCertificateRequest & AttachLoadBalancerTlsCertificateRequest & AttachLoadBalancerTlsCertificateRequest & AttachLoadBalancerTlsCertificateRequest & AttachLoadBalancerTlsCertificateRequest & AttachLoadBalancerTlsCertificateRequest & AttachLoadBalancerTlsCertificateRequest & AttachLoadBalancerTlsCertificateRequest)[K]
+      [K in keyof AttachLoadBalancerTlsCertificateRequest]: (AttachLoadBalancerTlsCertificateRequest)[K]
     }>): Request<AttachLoadBalancerTlsCertificateResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.attachLoadBalancerTlsCertificate(
-          this.ops["AttachLoadBalancerTlsCertificate"].applicator.apply(partialParams)
+          this.ops["AttachLoadBalancerTlsCertificate"].apply(partialParams)
         );
     }
 
     invokeAttachStaticIp(partialParams: ToOptional<{
-      [K in keyof AttachStaticIpRequest & keyof AttachStaticIpRequest & keyof AttachStaticIpRequest & keyof AttachStaticIpRequest & keyof AttachStaticIpRequest & keyof AttachStaticIpRequest & keyof AttachStaticIpRequest & keyof AttachStaticIpRequest & keyof AttachStaticIpRequest & keyof AttachStaticIpRequest & keyof AttachStaticIpRequest & keyof AttachStaticIpRequest]: (AttachStaticIpRequest & AttachStaticIpRequest & AttachStaticIpRequest & AttachStaticIpRequest & AttachStaticIpRequest & AttachStaticIpRequest & AttachStaticIpRequest & AttachStaticIpRequest & AttachStaticIpRequest & AttachStaticIpRequest & AttachStaticIpRequest & AttachStaticIpRequest)[K]
+      [K in keyof AttachStaticIpRequest]: (AttachStaticIpRequest)[K]
     }>): Request<AttachStaticIpResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.attachStaticIp(
-          this.ops["AttachStaticIp"].applicator.apply(partialParams)
+          this.ops["AttachStaticIp"].apply(partialParams)
         );
     }
 
     invokeCloseInstancePublicPorts(partialParams: ToOptional<{
-      [K in keyof CloseInstancePublicPortsRequest & keyof CloseInstancePublicPortsRequest & keyof CloseInstancePublicPortsRequest & keyof CloseInstancePublicPortsRequest & keyof CloseInstancePublicPortsRequest & keyof CloseInstancePublicPortsRequest & keyof CloseInstancePublicPortsRequest & keyof CloseInstancePublicPortsRequest & keyof CloseInstancePublicPortsRequest & keyof CloseInstancePublicPortsRequest & keyof CloseInstancePublicPortsRequest & keyof CloseInstancePublicPortsRequest]: (CloseInstancePublicPortsRequest & CloseInstancePublicPortsRequest & CloseInstancePublicPortsRequest & CloseInstancePublicPortsRequest & CloseInstancePublicPortsRequest & CloseInstancePublicPortsRequest & CloseInstancePublicPortsRequest & CloseInstancePublicPortsRequest & CloseInstancePublicPortsRequest & CloseInstancePublicPortsRequest & CloseInstancePublicPortsRequest & CloseInstancePublicPortsRequest)[K]
+      [K in keyof CloseInstancePublicPortsRequest]: (CloseInstancePublicPortsRequest)[K]
     }>): Request<CloseInstancePublicPortsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.closeInstancePublicPorts(
-          this.ops["CloseInstancePublicPorts"].applicator.apply(partialParams)
+          this.ops["CloseInstancePublicPorts"].apply(partialParams)
         );
     }
 
     invokeCopySnapshot(partialParams: ToOptional<{
-      [K in keyof CopySnapshotRequest & keyof CopySnapshotRequest & keyof CopySnapshotRequest & keyof CopySnapshotRequest & keyof CopySnapshotRequest & keyof CopySnapshotRequest & keyof CopySnapshotRequest & keyof CopySnapshotRequest & keyof CopySnapshotRequest & keyof CopySnapshotRequest & keyof CopySnapshotRequest & keyof CopySnapshotRequest]: (CopySnapshotRequest & CopySnapshotRequest & CopySnapshotRequest & CopySnapshotRequest & CopySnapshotRequest & CopySnapshotRequest & CopySnapshotRequest & CopySnapshotRequest & CopySnapshotRequest & CopySnapshotRequest & CopySnapshotRequest & CopySnapshotRequest)[K]
+      [K in keyof CopySnapshotRequest]: (CopySnapshotRequest)[K]
     }>): Request<CopySnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.copySnapshot(
-          this.ops["CopySnapshot"].applicator.apply(partialParams)
+          this.ops["CopySnapshot"].apply(partialParams)
         );
     }
 
     invokeCreateBucket(partialParams: ToOptional<{
-      [K in keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest & keyof CreateBucketRequest]: (CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest & CreateBucketRequest)[K]
+      [K in keyof CreateBucketRequest]: (CreateBucketRequest)[K]
     }>): Request<CreateBucketResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createBucket(
-          this.ops["CreateBucket"].applicator.apply(partialParams)
+          this.ops["CreateBucket"].apply(partialParams)
         );
     }
 
     invokeCreateBucketAccessKey(partialParams: ToOptional<{
-      [K in keyof CreateBucketAccessKeyRequest & keyof CreateBucketAccessKeyRequest & keyof CreateBucketAccessKeyRequest & keyof CreateBucketAccessKeyRequest & keyof CreateBucketAccessKeyRequest & keyof CreateBucketAccessKeyRequest & keyof CreateBucketAccessKeyRequest & keyof CreateBucketAccessKeyRequest & keyof CreateBucketAccessKeyRequest & keyof CreateBucketAccessKeyRequest & keyof CreateBucketAccessKeyRequest & keyof CreateBucketAccessKeyRequest]: (CreateBucketAccessKeyRequest & CreateBucketAccessKeyRequest & CreateBucketAccessKeyRequest & CreateBucketAccessKeyRequest & CreateBucketAccessKeyRequest & CreateBucketAccessKeyRequest & CreateBucketAccessKeyRequest & CreateBucketAccessKeyRequest & CreateBucketAccessKeyRequest & CreateBucketAccessKeyRequest & CreateBucketAccessKeyRequest & CreateBucketAccessKeyRequest)[K]
+      [K in keyof CreateBucketAccessKeyRequest]: (CreateBucketAccessKeyRequest)[K]
     }>): Request<CreateBucketAccessKeyResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createBucketAccessKey(
-          this.ops["CreateBucketAccessKey"].applicator.apply(partialParams)
+          this.ops["CreateBucketAccessKey"].apply(partialParams)
         );
     }
 
     invokeCreateCertificate(partialParams: ToOptional<{
-      [K in keyof CreateCertificateRequest & keyof CreateCertificateRequest & keyof CreateCertificateRequest & keyof CreateCertificateRequest & keyof CreateCertificateRequest & keyof CreateCertificateRequest & keyof CreateCertificateRequest & keyof CreateCertificateRequest & keyof CreateCertificateRequest & keyof CreateCertificateRequest & keyof CreateCertificateRequest & keyof CreateCertificateRequest]: (CreateCertificateRequest & CreateCertificateRequest & CreateCertificateRequest & CreateCertificateRequest & CreateCertificateRequest & CreateCertificateRequest & CreateCertificateRequest & CreateCertificateRequest & CreateCertificateRequest & CreateCertificateRequest & CreateCertificateRequest & CreateCertificateRequest)[K]
+      [K in keyof CreateCertificateRequest]: (CreateCertificateRequest)[K]
     }>): Request<CreateCertificateResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createCertificate(
-          this.ops["CreateCertificate"].applicator.apply(partialParams)
+          this.ops["CreateCertificate"].apply(partialParams)
         );
     }
 
     invokeCreateCloudFormationStack(partialParams: ToOptional<{
-      [K in keyof CreateCloudFormationStackRequest & keyof CreateCloudFormationStackRequest & keyof CreateCloudFormationStackRequest & keyof CreateCloudFormationStackRequest & keyof CreateCloudFormationStackRequest & keyof CreateCloudFormationStackRequest & keyof CreateCloudFormationStackRequest & keyof CreateCloudFormationStackRequest & keyof CreateCloudFormationStackRequest & keyof CreateCloudFormationStackRequest & keyof CreateCloudFormationStackRequest & keyof CreateCloudFormationStackRequest]: (CreateCloudFormationStackRequest & CreateCloudFormationStackRequest & CreateCloudFormationStackRequest & CreateCloudFormationStackRequest & CreateCloudFormationStackRequest & CreateCloudFormationStackRequest & CreateCloudFormationStackRequest & CreateCloudFormationStackRequest & CreateCloudFormationStackRequest & CreateCloudFormationStackRequest & CreateCloudFormationStackRequest & CreateCloudFormationStackRequest)[K]
+      [K in keyof CreateCloudFormationStackRequest]: (CreateCloudFormationStackRequest)[K]
     }>): Request<CreateCloudFormationStackResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createCloudFormationStack(
-          this.ops["CreateCloudFormationStack"].applicator.apply(partialParams)
+          this.ops["CreateCloudFormationStack"].apply(partialParams)
         );
     }
 
     invokeCreateContactMethod(partialParams: ToOptional<{
-      [K in keyof CreateContactMethodRequest & keyof CreateContactMethodRequest & keyof CreateContactMethodRequest & keyof CreateContactMethodRequest & keyof CreateContactMethodRequest & keyof CreateContactMethodRequest & keyof CreateContactMethodRequest & keyof CreateContactMethodRequest & keyof CreateContactMethodRequest & keyof CreateContactMethodRequest & keyof CreateContactMethodRequest & keyof CreateContactMethodRequest]: (CreateContactMethodRequest & CreateContactMethodRequest & CreateContactMethodRequest & CreateContactMethodRequest & CreateContactMethodRequest & CreateContactMethodRequest & CreateContactMethodRequest & CreateContactMethodRequest & CreateContactMethodRequest & CreateContactMethodRequest & CreateContactMethodRequest & CreateContactMethodRequest)[K]
+      [K in keyof CreateContactMethodRequest]: (CreateContactMethodRequest)[K]
     }>): Request<CreateContactMethodResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createContactMethod(
-          this.ops["CreateContactMethod"].applicator.apply(partialParams)
+          this.ops["CreateContactMethod"].apply(partialParams)
         );
     }
 
     invokeCreateContainerService(partialParams: ToOptional<{
-      [K in keyof CreateContainerServiceRequest & keyof CreateContainerServiceRequest & keyof CreateContainerServiceRequest & keyof CreateContainerServiceRequest & keyof CreateContainerServiceRequest & keyof CreateContainerServiceRequest & keyof CreateContainerServiceRequest & keyof CreateContainerServiceRequest & keyof CreateContainerServiceRequest & keyof CreateContainerServiceRequest & keyof CreateContainerServiceRequest & keyof CreateContainerServiceRequest]: (CreateContainerServiceRequest & CreateContainerServiceRequest & CreateContainerServiceRequest & CreateContainerServiceRequest & CreateContainerServiceRequest & CreateContainerServiceRequest & CreateContainerServiceRequest & CreateContainerServiceRequest & CreateContainerServiceRequest & CreateContainerServiceRequest & CreateContainerServiceRequest & CreateContainerServiceRequest)[K]
+      [K in keyof CreateContainerServiceRequest]: (CreateContainerServiceRequest)[K]
     }>): Request<CreateContainerServiceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createContainerService(
-          this.ops["CreateContainerService"].applicator.apply(partialParams)
+          this.ops["CreateContainerService"].apply(partialParams)
         );
     }
 
     invokeCreateContainerServiceDeployment(partialParams: ToOptional<{
-      [K in keyof CreateContainerServiceDeploymentRequest & keyof CreateContainerServiceDeploymentRequest & keyof CreateContainerServiceDeploymentRequest & keyof CreateContainerServiceDeploymentRequest & keyof CreateContainerServiceDeploymentRequest & keyof CreateContainerServiceDeploymentRequest & keyof CreateContainerServiceDeploymentRequest & keyof CreateContainerServiceDeploymentRequest & keyof CreateContainerServiceDeploymentRequest & keyof CreateContainerServiceDeploymentRequest & keyof CreateContainerServiceDeploymentRequest & keyof CreateContainerServiceDeploymentRequest]: (CreateContainerServiceDeploymentRequest & CreateContainerServiceDeploymentRequest & CreateContainerServiceDeploymentRequest & CreateContainerServiceDeploymentRequest & CreateContainerServiceDeploymentRequest & CreateContainerServiceDeploymentRequest & CreateContainerServiceDeploymentRequest & CreateContainerServiceDeploymentRequest & CreateContainerServiceDeploymentRequest & CreateContainerServiceDeploymentRequest & CreateContainerServiceDeploymentRequest & CreateContainerServiceDeploymentRequest)[K]
+      [K in keyof CreateContainerServiceDeploymentRequest]: (CreateContainerServiceDeploymentRequest)[K]
     }>): Request<CreateContainerServiceDeploymentResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createContainerServiceDeployment(
-          this.ops["CreateContainerServiceDeployment"].applicator.apply(partialParams)
+          this.ops["CreateContainerServiceDeployment"].apply(partialParams)
+        );
+    }
+
+    invokeCreateContainerServiceRegistryLogin(partialParams: ToOptional<{
+      [K in keyof CreateContainerServiceRegistryLoginRequest]: (CreateContainerServiceRegistryLoginRequest)[K]
+    }>): Request<CreateContainerServiceRegistryLoginResult, AWSError> {
+        this.boot();
+        return this.client.createContainerServiceRegistryLogin(
+          this.ops["CreateContainerServiceRegistryLogin"].apply(partialParams)
         );
     }
 
     invokeCreateDisk(partialParams: ToOptional<{
-      [K in keyof CreateDiskRequest & keyof CreateDiskRequest & keyof CreateDiskRequest & keyof CreateDiskRequest & keyof CreateDiskRequest & keyof CreateDiskRequest & keyof CreateDiskRequest & keyof CreateDiskRequest & keyof CreateDiskRequest & keyof CreateDiskRequest & keyof CreateDiskRequest & keyof CreateDiskRequest]: (CreateDiskRequest & CreateDiskRequest & CreateDiskRequest & CreateDiskRequest & CreateDiskRequest & CreateDiskRequest & CreateDiskRequest & CreateDiskRequest & CreateDiskRequest & CreateDiskRequest & CreateDiskRequest & CreateDiskRequest)[K]
+      [K in keyof CreateDiskRequest]: (CreateDiskRequest)[K]
     }>): Request<CreateDiskResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDisk(
-          this.ops["CreateDisk"].applicator.apply(partialParams)
+          this.ops["CreateDisk"].apply(partialParams)
         );
     }
 
     invokeCreateDiskFromSnapshot(partialParams: ToOptional<{
-      [K in keyof CreateDiskFromSnapshotRequest & keyof CreateDiskFromSnapshotRequest & keyof CreateDiskFromSnapshotRequest & keyof CreateDiskFromSnapshotRequest & keyof CreateDiskFromSnapshotRequest & keyof CreateDiskFromSnapshotRequest & keyof CreateDiskFromSnapshotRequest & keyof CreateDiskFromSnapshotRequest & keyof CreateDiskFromSnapshotRequest & keyof CreateDiskFromSnapshotRequest & keyof CreateDiskFromSnapshotRequest & keyof CreateDiskFromSnapshotRequest]: (CreateDiskFromSnapshotRequest & CreateDiskFromSnapshotRequest & CreateDiskFromSnapshotRequest & CreateDiskFromSnapshotRequest & CreateDiskFromSnapshotRequest & CreateDiskFromSnapshotRequest & CreateDiskFromSnapshotRequest & CreateDiskFromSnapshotRequest & CreateDiskFromSnapshotRequest & CreateDiskFromSnapshotRequest & CreateDiskFromSnapshotRequest & CreateDiskFromSnapshotRequest)[K]
+      [K in keyof CreateDiskFromSnapshotRequest]: (CreateDiskFromSnapshotRequest)[K]
     }>): Request<CreateDiskFromSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDiskFromSnapshot(
-          this.ops["CreateDiskFromSnapshot"].applicator.apply(partialParams)
+          this.ops["CreateDiskFromSnapshot"].apply(partialParams)
         );
     }
 
     invokeCreateDiskSnapshot(partialParams: ToOptional<{
-      [K in keyof CreateDiskSnapshotRequest & keyof CreateDiskSnapshotRequest & keyof CreateDiskSnapshotRequest & keyof CreateDiskSnapshotRequest & keyof CreateDiskSnapshotRequest & keyof CreateDiskSnapshotRequest & keyof CreateDiskSnapshotRequest & keyof CreateDiskSnapshotRequest & keyof CreateDiskSnapshotRequest & keyof CreateDiskSnapshotRequest & keyof CreateDiskSnapshotRequest & keyof CreateDiskSnapshotRequest]: (CreateDiskSnapshotRequest & CreateDiskSnapshotRequest & CreateDiskSnapshotRequest & CreateDiskSnapshotRequest & CreateDiskSnapshotRequest & CreateDiskSnapshotRequest & CreateDiskSnapshotRequest & CreateDiskSnapshotRequest & CreateDiskSnapshotRequest & CreateDiskSnapshotRequest & CreateDiskSnapshotRequest & CreateDiskSnapshotRequest)[K]
+      [K in keyof CreateDiskSnapshotRequest]: (CreateDiskSnapshotRequest)[K]
     }>): Request<CreateDiskSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDiskSnapshot(
-          this.ops["CreateDiskSnapshot"].applicator.apply(partialParams)
+          this.ops["CreateDiskSnapshot"].apply(partialParams)
         );
     }
 
     invokeCreateDistribution(partialParams: ToOptional<{
-      [K in keyof CreateDistributionRequest & keyof CreateDistributionRequest & keyof CreateDistributionRequest & keyof CreateDistributionRequest & keyof CreateDistributionRequest & keyof CreateDistributionRequest & keyof CreateDistributionRequest & keyof CreateDistributionRequest & keyof CreateDistributionRequest & keyof CreateDistributionRequest & keyof CreateDistributionRequest & keyof CreateDistributionRequest]: (CreateDistributionRequest & CreateDistributionRequest & CreateDistributionRequest & CreateDistributionRequest & CreateDistributionRequest & CreateDistributionRequest & CreateDistributionRequest & CreateDistributionRequest & CreateDistributionRequest & CreateDistributionRequest & CreateDistributionRequest & CreateDistributionRequest)[K]
+      [K in keyof CreateDistributionRequest]: (CreateDistributionRequest)[K]
     }>): Request<CreateDistributionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDistribution(
-          this.ops["CreateDistribution"].applicator.apply(partialParams)
+          this.ops["CreateDistribution"].apply(partialParams)
         );
     }
 
     invokeCreateDomain(partialParams: ToOptional<{
-      [K in keyof CreateDomainRequest & keyof CreateDomainRequest & keyof CreateDomainRequest & keyof CreateDomainRequest & keyof CreateDomainRequest & keyof CreateDomainRequest & keyof CreateDomainRequest & keyof CreateDomainRequest & keyof CreateDomainRequest & keyof CreateDomainRequest & keyof CreateDomainRequest & keyof CreateDomainRequest]: (CreateDomainRequest & CreateDomainRequest & CreateDomainRequest & CreateDomainRequest & CreateDomainRequest & CreateDomainRequest & CreateDomainRequest & CreateDomainRequest & CreateDomainRequest & CreateDomainRequest & CreateDomainRequest & CreateDomainRequest)[K]
+      [K in keyof CreateDomainRequest]: (CreateDomainRequest)[K]
     }>): Request<CreateDomainResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDomain(
-          this.ops["CreateDomain"].applicator.apply(partialParams)
+          this.ops["CreateDomain"].apply(partialParams)
         );
     }
 
     invokeCreateDomainEntry(partialParams: ToOptional<{
-      [K in keyof CreateDomainEntryRequest & keyof CreateDomainEntryRequest & keyof CreateDomainEntryRequest & keyof CreateDomainEntryRequest & keyof CreateDomainEntryRequest & keyof CreateDomainEntryRequest & keyof CreateDomainEntryRequest & keyof CreateDomainEntryRequest & keyof CreateDomainEntryRequest & keyof CreateDomainEntryRequest & keyof CreateDomainEntryRequest & keyof CreateDomainEntryRequest]: (CreateDomainEntryRequest & CreateDomainEntryRequest & CreateDomainEntryRequest & CreateDomainEntryRequest & CreateDomainEntryRequest & CreateDomainEntryRequest & CreateDomainEntryRequest & CreateDomainEntryRequest & CreateDomainEntryRequest & CreateDomainEntryRequest & CreateDomainEntryRequest & CreateDomainEntryRequest)[K]
+      [K in keyof CreateDomainEntryRequest]: (CreateDomainEntryRequest)[K]
     }>): Request<CreateDomainEntryResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDomainEntry(
-          this.ops["CreateDomainEntry"].applicator.apply(partialParams)
+          this.ops["CreateDomainEntry"].apply(partialParams)
         );
     }
 
     invokeCreateInstanceSnapshot(partialParams: ToOptional<{
-      [K in keyof CreateInstanceSnapshotRequest & keyof CreateInstanceSnapshotRequest & keyof CreateInstanceSnapshotRequest & keyof CreateInstanceSnapshotRequest & keyof CreateInstanceSnapshotRequest & keyof CreateInstanceSnapshotRequest & keyof CreateInstanceSnapshotRequest & keyof CreateInstanceSnapshotRequest & keyof CreateInstanceSnapshotRequest & keyof CreateInstanceSnapshotRequest & keyof CreateInstanceSnapshotRequest & keyof CreateInstanceSnapshotRequest]: (CreateInstanceSnapshotRequest & CreateInstanceSnapshotRequest & CreateInstanceSnapshotRequest & CreateInstanceSnapshotRequest & CreateInstanceSnapshotRequest & CreateInstanceSnapshotRequest & CreateInstanceSnapshotRequest & CreateInstanceSnapshotRequest & CreateInstanceSnapshotRequest & CreateInstanceSnapshotRequest & CreateInstanceSnapshotRequest & CreateInstanceSnapshotRequest)[K]
+      [K in keyof CreateInstanceSnapshotRequest]: (CreateInstanceSnapshotRequest)[K]
     }>): Request<CreateInstanceSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createInstanceSnapshot(
-          this.ops["CreateInstanceSnapshot"].applicator.apply(partialParams)
+          this.ops["CreateInstanceSnapshot"].apply(partialParams)
         );
     }
 
     invokeCreateInstances(partialParams: ToOptional<{
-      [K in keyof CreateInstancesRequest & keyof CreateInstancesRequest & keyof CreateInstancesRequest & keyof CreateInstancesRequest & keyof CreateInstancesRequest & keyof CreateInstancesRequest & keyof CreateInstancesRequest & keyof CreateInstancesRequest & keyof CreateInstancesRequest & keyof CreateInstancesRequest & keyof CreateInstancesRequest & keyof CreateInstancesRequest]: (CreateInstancesRequest & CreateInstancesRequest & CreateInstancesRequest & CreateInstancesRequest & CreateInstancesRequest & CreateInstancesRequest & CreateInstancesRequest & CreateInstancesRequest & CreateInstancesRequest & CreateInstancesRequest & CreateInstancesRequest & CreateInstancesRequest)[K]
+      [K in keyof CreateInstancesRequest]: (CreateInstancesRequest)[K]
     }>): Request<CreateInstancesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createInstances(
-          this.ops["CreateInstances"].applicator.apply(partialParams)
+          this.ops["CreateInstances"].apply(partialParams)
         );
     }
 
     invokeCreateInstancesFromSnapshot(partialParams: ToOptional<{
-      [K in keyof CreateInstancesFromSnapshotRequest & keyof CreateInstancesFromSnapshotRequest & keyof CreateInstancesFromSnapshotRequest & keyof CreateInstancesFromSnapshotRequest & keyof CreateInstancesFromSnapshotRequest & keyof CreateInstancesFromSnapshotRequest & keyof CreateInstancesFromSnapshotRequest & keyof CreateInstancesFromSnapshotRequest & keyof CreateInstancesFromSnapshotRequest & keyof CreateInstancesFromSnapshotRequest & keyof CreateInstancesFromSnapshotRequest & keyof CreateInstancesFromSnapshotRequest]: (CreateInstancesFromSnapshotRequest & CreateInstancesFromSnapshotRequest & CreateInstancesFromSnapshotRequest & CreateInstancesFromSnapshotRequest & CreateInstancesFromSnapshotRequest & CreateInstancesFromSnapshotRequest & CreateInstancesFromSnapshotRequest & CreateInstancesFromSnapshotRequest & CreateInstancesFromSnapshotRequest & CreateInstancesFromSnapshotRequest & CreateInstancesFromSnapshotRequest & CreateInstancesFromSnapshotRequest)[K]
+      [K in keyof CreateInstancesFromSnapshotRequest]: (CreateInstancesFromSnapshotRequest)[K]
     }>): Request<CreateInstancesFromSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createInstancesFromSnapshot(
-          this.ops["CreateInstancesFromSnapshot"].applicator.apply(partialParams)
+          this.ops["CreateInstancesFromSnapshot"].apply(partialParams)
         );
     }
 
     invokeCreateKeyPair(partialParams: ToOptional<{
-      [K in keyof CreateKeyPairRequest & keyof CreateKeyPairRequest & keyof CreateKeyPairRequest & keyof CreateKeyPairRequest & keyof CreateKeyPairRequest & keyof CreateKeyPairRequest & keyof CreateKeyPairRequest & keyof CreateKeyPairRequest & keyof CreateKeyPairRequest & keyof CreateKeyPairRequest & keyof CreateKeyPairRequest & keyof CreateKeyPairRequest]: (CreateKeyPairRequest & CreateKeyPairRequest & CreateKeyPairRequest & CreateKeyPairRequest & CreateKeyPairRequest & CreateKeyPairRequest & CreateKeyPairRequest & CreateKeyPairRequest & CreateKeyPairRequest & CreateKeyPairRequest & CreateKeyPairRequest & CreateKeyPairRequest)[K]
+      [K in keyof CreateKeyPairRequest]: (CreateKeyPairRequest)[K]
     }>): Request<CreateKeyPairResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createKeyPair(
-          this.ops["CreateKeyPair"].applicator.apply(partialParams)
+          this.ops["CreateKeyPair"].apply(partialParams)
         );
     }
 
     invokeCreateLoadBalancer(partialParams: ToOptional<{
-      [K in keyof CreateLoadBalancerRequest & keyof CreateLoadBalancerRequest & keyof CreateLoadBalancerRequest & keyof CreateLoadBalancerRequest & keyof CreateLoadBalancerRequest & keyof CreateLoadBalancerRequest & keyof CreateLoadBalancerRequest & keyof CreateLoadBalancerRequest & keyof CreateLoadBalancerRequest & keyof CreateLoadBalancerRequest & keyof CreateLoadBalancerRequest & keyof CreateLoadBalancerRequest]: (CreateLoadBalancerRequest & CreateLoadBalancerRequest & CreateLoadBalancerRequest & CreateLoadBalancerRequest & CreateLoadBalancerRequest & CreateLoadBalancerRequest & CreateLoadBalancerRequest & CreateLoadBalancerRequest & CreateLoadBalancerRequest & CreateLoadBalancerRequest & CreateLoadBalancerRequest & CreateLoadBalancerRequest)[K]
+      [K in keyof CreateLoadBalancerRequest]: (CreateLoadBalancerRequest)[K]
     }>): Request<CreateLoadBalancerResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createLoadBalancer(
-          this.ops["CreateLoadBalancer"].applicator.apply(partialParams)
+          this.ops["CreateLoadBalancer"].apply(partialParams)
         );
     }
 
     invokeCreateLoadBalancerTlsCertificate(partialParams: ToOptional<{
-      [K in keyof CreateLoadBalancerTlsCertificateRequest & keyof CreateLoadBalancerTlsCertificateRequest & keyof CreateLoadBalancerTlsCertificateRequest & keyof CreateLoadBalancerTlsCertificateRequest & keyof CreateLoadBalancerTlsCertificateRequest & keyof CreateLoadBalancerTlsCertificateRequest & keyof CreateLoadBalancerTlsCertificateRequest & keyof CreateLoadBalancerTlsCertificateRequest & keyof CreateLoadBalancerTlsCertificateRequest & keyof CreateLoadBalancerTlsCertificateRequest & keyof CreateLoadBalancerTlsCertificateRequest & keyof CreateLoadBalancerTlsCertificateRequest]: (CreateLoadBalancerTlsCertificateRequest & CreateLoadBalancerTlsCertificateRequest & CreateLoadBalancerTlsCertificateRequest & CreateLoadBalancerTlsCertificateRequest & CreateLoadBalancerTlsCertificateRequest & CreateLoadBalancerTlsCertificateRequest & CreateLoadBalancerTlsCertificateRequest & CreateLoadBalancerTlsCertificateRequest & CreateLoadBalancerTlsCertificateRequest & CreateLoadBalancerTlsCertificateRequest & CreateLoadBalancerTlsCertificateRequest & CreateLoadBalancerTlsCertificateRequest)[K]
+      [K in keyof CreateLoadBalancerTlsCertificateRequest]: (CreateLoadBalancerTlsCertificateRequest)[K]
     }>): Request<CreateLoadBalancerTlsCertificateResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createLoadBalancerTlsCertificate(
-          this.ops["CreateLoadBalancerTlsCertificate"].applicator.apply(partialParams)
+          this.ops["CreateLoadBalancerTlsCertificate"].apply(partialParams)
         );
     }
 
     invokeCreateRelationalDatabase(partialParams: ToOptional<{
-      [K in keyof CreateRelationalDatabaseRequest & keyof CreateRelationalDatabaseRequest & keyof CreateRelationalDatabaseRequest & keyof CreateRelationalDatabaseRequest & keyof CreateRelationalDatabaseRequest & keyof CreateRelationalDatabaseRequest & keyof CreateRelationalDatabaseRequest & keyof CreateRelationalDatabaseRequest & keyof CreateRelationalDatabaseRequest & keyof CreateRelationalDatabaseRequest & keyof CreateRelationalDatabaseRequest & keyof CreateRelationalDatabaseRequest]: (CreateRelationalDatabaseRequest & CreateRelationalDatabaseRequest & CreateRelationalDatabaseRequest & CreateRelationalDatabaseRequest & CreateRelationalDatabaseRequest & CreateRelationalDatabaseRequest & CreateRelationalDatabaseRequest & CreateRelationalDatabaseRequest & CreateRelationalDatabaseRequest & CreateRelationalDatabaseRequest & CreateRelationalDatabaseRequest & CreateRelationalDatabaseRequest)[K]
+      [K in keyof CreateRelationalDatabaseRequest]: (CreateRelationalDatabaseRequest)[K]
     }>): Request<CreateRelationalDatabaseResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createRelationalDatabase(
-          this.ops["CreateRelationalDatabase"].applicator.apply(partialParams)
+          this.ops["CreateRelationalDatabase"].apply(partialParams)
         );
     }
 
     invokeCreateRelationalDatabaseFromSnapshot(partialParams: ToOptional<{
-      [K in keyof CreateRelationalDatabaseFromSnapshotRequest & keyof CreateRelationalDatabaseFromSnapshotRequest & keyof CreateRelationalDatabaseFromSnapshotRequest & keyof CreateRelationalDatabaseFromSnapshotRequest & keyof CreateRelationalDatabaseFromSnapshotRequest & keyof CreateRelationalDatabaseFromSnapshotRequest & keyof CreateRelationalDatabaseFromSnapshotRequest & keyof CreateRelationalDatabaseFromSnapshotRequest & keyof CreateRelationalDatabaseFromSnapshotRequest & keyof CreateRelationalDatabaseFromSnapshotRequest & keyof CreateRelationalDatabaseFromSnapshotRequest & keyof CreateRelationalDatabaseFromSnapshotRequest]: (CreateRelationalDatabaseFromSnapshotRequest & CreateRelationalDatabaseFromSnapshotRequest & CreateRelationalDatabaseFromSnapshotRequest & CreateRelationalDatabaseFromSnapshotRequest & CreateRelationalDatabaseFromSnapshotRequest & CreateRelationalDatabaseFromSnapshotRequest & CreateRelationalDatabaseFromSnapshotRequest & CreateRelationalDatabaseFromSnapshotRequest & CreateRelationalDatabaseFromSnapshotRequest & CreateRelationalDatabaseFromSnapshotRequest & CreateRelationalDatabaseFromSnapshotRequest & CreateRelationalDatabaseFromSnapshotRequest)[K]
+      [K in keyof CreateRelationalDatabaseFromSnapshotRequest]: (CreateRelationalDatabaseFromSnapshotRequest)[K]
     }>): Request<CreateRelationalDatabaseFromSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createRelationalDatabaseFromSnapshot(
-          this.ops["CreateRelationalDatabaseFromSnapshot"].applicator.apply(partialParams)
+          this.ops["CreateRelationalDatabaseFromSnapshot"].apply(partialParams)
         );
     }
 
     invokeCreateRelationalDatabaseSnapshot(partialParams: ToOptional<{
-      [K in keyof CreateRelationalDatabaseSnapshotRequest & keyof CreateRelationalDatabaseSnapshotRequest & keyof CreateRelationalDatabaseSnapshotRequest & keyof CreateRelationalDatabaseSnapshotRequest & keyof CreateRelationalDatabaseSnapshotRequest & keyof CreateRelationalDatabaseSnapshotRequest & keyof CreateRelationalDatabaseSnapshotRequest & keyof CreateRelationalDatabaseSnapshotRequest & keyof CreateRelationalDatabaseSnapshotRequest & keyof CreateRelationalDatabaseSnapshotRequest & keyof CreateRelationalDatabaseSnapshotRequest & keyof CreateRelationalDatabaseSnapshotRequest]: (CreateRelationalDatabaseSnapshotRequest & CreateRelationalDatabaseSnapshotRequest & CreateRelationalDatabaseSnapshotRequest & CreateRelationalDatabaseSnapshotRequest & CreateRelationalDatabaseSnapshotRequest & CreateRelationalDatabaseSnapshotRequest & CreateRelationalDatabaseSnapshotRequest & CreateRelationalDatabaseSnapshotRequest & CreateRelationalDatabaseSnapshotRequest & CreateRelationalDatabaseSnapshotRequest & CreateRelationalDatabaseSnapshotRequest & CreateRelationalDatabaseSnapshotRequest)[K]
+      [K in keyof CreateRelationalDatabaseSnapshotRequest]: (CreateRelationalDatabaseSnapshotRequest)[K]
     }>): Request<CreateRelationalDatabaseSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createRelationalDatabaseSnapshot(
-          this.ops["CreateRelationalDatabaseSnapshot"].applicator.apply(partialParams)
+          this.ops["CreateRelationalDatabaseSnapshot"].apply(partialParams)
         );
     }
 
     invokeDeleteAlarm(partialParams: ToOptional<{
-      [K in keyof DeleteAlarmRequest & keyof DeleteAlarmRequest & keyof DeleteAlarmRequest & keyof DeleteAlarmRequest & keyof DeleteAlarmRequest & keyof DeleteAlarmRequest & keyof DeleteAlarmRequest & keyof DeleteAlarmRequest & keyof DeleteAlarmRequest & keyof DeleteAlarmRequest & keyof DeleteAlarmRequest & keyof DeleteAlarmRequest]: (DeleteAlarmRequest & DeleteAlarmRequest & DeleteAlarmRequest & DeleteAlarmRequest & DeleteAlarmRequest & DeleteAlarmRequest & DeleteAlarmRequest & DeleteAlarmRequest & DeleteAlarmRequest & DeleteAlarmRequest & DeleteAlarmRequest & DeleteAlarmRequest)[K]
+      [K in keyof DeleteAlarmRequest]: (DeleteAlarmRequest)[K]
     }>): Request<DeleteAlarmResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteAlarm(
-          this.ops["DeleteAlarm"].applicator.apply(partialParams)
+          this.ops["DeleteAlarm"].apply(partialParams)
         );
     }
 
     invokeDeleteAutoSnapshot(partialParams: ToOptional<{
-      [K in keyof DeleteAutoSnapshotRequest & keyof DeleteAutoSnapshotRequest & keyof DeleteAutoSnapshotRequest & keyof DeleteAutoSnapshotRequest & keyof DeleteAutoSnapshotRequest & keyof DeleteAutoSnapshotRequest & keyof DeleteAutoSnapshotRequest & keyof DeleteAutoSnapshotRequest & keyof DeleteAutoSnapshotRequest & keyof DeleteAutoSnapshotRequest & keyof DeleteAutoSnapshotRequest & keyof DeleteAutoSnapshotRequest]: (DeleteAutoSnapshotRequest & DeleteAutoSnapshotRequest & DeleteAutoSnapshotRequest & DeleteAutoSnapshotRequest & DeleteAutoSnapshotRequest & DeleteAutoSnapshotRequest & DeleteAutoSnapshotRequest & DeleteAutoSnapshotRequest & DeleteAutoSnapshotRequest & DeleteAutoSnapshotRequest & DeleteAutoSnapshotRequest & DeleteAutoSnapshotRequest)[K]
+      [K in keyof DeleteAutoSnapshotRequest]: (DeleteAutoSnapshotRequest)[K]
     }>): Request<DeleteAutoSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteAutoSnapshot(
-          this.ops["DeleteAutoSnapshot"].applicator.apply(partialParams)
+          this.ops["DeleteAutoSnapshot"].apply(partialParams)
         );
     }
 
     invokeDeleteBucket(partialParams: ToOptional<{
-      [K in keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest & keyof DeleteBucketRequest]: (DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest & DeleteBucketRequest)[K]
+      [K in keyof DeleteBucketRequest]: (DeleteBucketRequest)[K]
     }>): Request<DeleteBucketResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteBucket(
-          this.ops["DeleteBucket"].applicator.apply(partialParams)
+          this.ops["DeleteBucket"].apply(partialParams)
         );
     }
 
     invokeDeleteBucketAccessKey(partialParams: ToOptional<{
-      [K in keyof DeleteBucketAccessKeyRequest & keyof DeleteBucketAccessKeyRequest & keyof DeleteBucketAccessKeyRequest & keyof DeleteBucketAccessKeyRequest & keyof DeleteBucketAccessKeyRequest & keyof DeleteBucketAccessKeyRequest & keyof DeleteBucketAccessKeyRequest & keyof DeleteBucketAccessKeyRequest & keyof DeleteBucketAccessKeyRequest & keyof DeleteBucketAccessKeyRequest & keyof DeleteBucketAccessKeyRequest & keyof DeleteBucketAccessKeyRequest]: (DeleteBucketAccessKeyRequest & DeleteBucketAccessKeyRequest & DeleteBucketAccessKeyRequest & DeleteBucketAccessKeyRequest & DeleteBucketAccessKeyRequest & DeleteBucketAccessKeyRequest & DeleteBucketAccessKeyRequest & DeleteBucketAccessKeyRequest & DeleteBucketAccessKeyRequest & DeleteBucketAccessKeyRequest & DeleteBucketAccessKeyRequest & DeleteBucketAccessKeyRequest)[K]
+      [K in keyof DeleteBucketAccessKeyRequest]: (DeleteBucketAccessKeyRequest)[K]
     }>): Request<DeleteBucketAccessKeyResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteBucketAccessKey(
-          this.ops["DeleteBucketAccessKey"].applicator.apply(partialParams)
+          this.ops["DeleteBucketAccessKey"].apply(partialParams)
         );
     }
 
     invokeDeleteCertificate(partialParams: ToOptional<{
-      [K in keyof DeleteCertificateRequest & keyof DeleteCertificateRequest & keyof DeleteCertificateRequest & keyof DeleteCertificateRequest & keyof DeleteCertificateRequest & keyof DeleteCertificateRequest & keyof DeleteCertificateRequest & keyof DeleteCertificateRequest & keyof DeleteCertificateRequest & keyof DeleteCertificateRequest & keyof DeleteCertificateRequest & keyof DeleteCertificateRequest]: (DeleteCertificateRequest & DeleteCertificateRequest & DeleteCertificateRequest & DeleteCertificateRequest & DeleteCertificateRequest & DeleteCertificateRequest & DeleteCertificateRequest & DeleteCertificateRequest & DeleteCertificateRequest & DeleteCertificateRequest & DeleteCertificateRequest & DeleteCertificateRequest)[K]
+      [K in keyof DeleteCertificateRequest]: (DeleteCertificateRequest)[K]
     }>): Request<DeleteCertificateResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteCertificate(
-          this.ops["DeleteCertificate"].applicator.apply(partialParams)
+          this.ops["DeleteCertificate"].apply(partialParams)
         );
     }
 
     invokeDeleteContactMethod(partialParams: ToOptional<{
-      [K in keyof DeleteContactMethodRequest & keyof DeleteContactMethodRequest & keyof DeleteContactMethodRequest & keyof DeleteContactMethodRequest & keyof DeleteContactMethodRequest & keyof DeleteContactMethodRequest & keyof DeleteContactMethodRequest & keyof DeleteContactMethodRequest & keyof DeleteContactMethodRequest & keyof DeleteContactMethodRequest & keyof DeleteContactMethodRequest & keyof DeleteContactMethodRequest]: (DeleteContactMethodRequest & DeleteContactMethodRequest & DeleteContactMethodRequest & DeleteContactMethodRequest & DeleteContactMethodRequest & DeleteContactMethodRequest & DeleteContactMethodRequest & DeleteContactMethodRequest & DeleteContactMethodRequest & DeleteContactMethodRequest & DeleteContactMethodRequest & DeleteContactMethodRequest)[K]
+      [K in keyof DeleteContactMethodRequest]: (DeleteContactMethodRequest)[K]
     }>): Request<DeleteContactMethodResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteContactMethod(
-          this.ops["DeleteContactMethod"].applicator.apply(partialParams)
+          this.ops["DeleteContactMethod"].apply(partialParams)
         );
     }
 
     invokeDeleteContainerImage(partialParams: ToOptional<{
-      [K in keyof DeleteContainerImageRequest & keyof DeleteContainerImageRequest & keyof DeleteContainerImageRequest & keyof DeleteContainerImageRequest & keyof DeleteContainerImageRequest & keyof DeleteContainerImageRequest & keyof DeleteContainerImageRequest & keyof DeleteContainerImageRequest & keyof DeleteContainerImageRequest & keyof DeleteContainerImageRequest & keyof DeleteContainerImageRequest & keyof DeleteContainerImageRequest]: (DeleteContainerImageRequest & DeleteContainerImageRequest & DeleteContainerImageRequest & DeleteContainerImageRequest & DeleteContainerImageRequest & DeleteContainerImageRequest & DeleteContainerImageRequest & DeleteContainerImageRequest & DeleteContainerImageRequest & DeleteContainerImageRequest & DeleteContainerImageRequest & DeleteContainerImageRequest)[K]
+      [K in keyof DeleteContainerImageRequest]: (DeleteContainerImageRequest)[K]
     }>): Request<DeleteContainerImageResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteContainerImage(
-          this.ops["DeleteContainerImage"].applicator.apply(partialParams)
+          this.ops["DeleteContainerImage"].apply(partialParams)
         );
     }
 
     invokeDeleteContainerService(partialParams: ToOptional<{
-      [K in keyof DeleteContainerServiceRequest & keyof DeleteContainerServiceRequest & keyof DeleteContainerServiceRequest & keyof DeleteContainerServiceRequest & keyof DeleteContainerServiceRequest & keyof DeleteContainerServiceRequest & keyof DeleteContainerServiceRequest & keyof DeleteContainerServiceRequest & keyof DeleteContainerServiceRequest & keyof DeleteContainerServiceRequest & keyof DeleteContainerServiceRequest & keyof DeleteContainerServiceRequest]: (DeleteContainerServiceRequest & DeleteContainerServiceRequest & DeleteContainerServiceRequest & DeleteContainerServiceRequest & DeleteContainerServiceRequest & DeleteContainerServiceRequest & DeleteContainerServiceRequest & DeleteContainerServiceRequest & DeleteContainerServiceRequest & DeleteContainerServiceRequest & DeleteContainerServiceRequest & DeleteContainerServiceRequest)[K]
+      [K in keyof DeleteContainerServiceRequest]: (DeleteContainerServiceRequest)[K]
     }>): Request<DeleteContainerServiceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteContainerService(
-          this.ops["DeleteContainerService"].applicator.apply(partialParams)
+          this.ops["DeleteContainerService"].apply(partialParams)
         );
     }
 
     invokeDeleteDisk(partialParams: ToOptional<{
-      [K in keyof DeleteDiskRequest & keyof DeleteDiskRequest & keyof DeleteDiskRequest & keyof DeleteDiskRequest & keyof DeleteDiskRequest & keyof DeleteDiskRequest & keyof DeleteDiskRequest & keyof DeleteDiskRequest & keyof DeleteDiskRequest & keyof DeleteDiskRequest & keyof DeleteDiskRequest & keyof DeleteDiskRequest]: (DeleteDiskRequest & DeleteDiskRequest & DeleteDiskRequest & DeleteDiskRequest & DeleteDiskRequest & DeleteDiskRequest & DeleteDiskRequest & DeleteDiskRequest & DeleteDiskRequest & DeleteDiskRequest & DeleteDiskRequest & DeleteDiskRequest)[K]
+      [K in keyof DeleteDiskRequest]: (DeleteDiskRequest)[K]
     }>): Request<DeleteDiskResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDisk(
-          this.ops["DeleteDisk"].applicator.apply(partialParams)
+          this.ops["DeleteDisk"].apply(partialParams)
         );
     }
 
     invokeDeleteDiskSnapshot(partialParams: ToOptional<{
-      [K in keyof DeleteDiskSnapshotRequest & keyof DeleteDiskSnapshotRequest & keyof DeleteDiskSnapshotRequest & keyof DeleteDiskSnapshotRequest & keyof DeleteDiskSnapshotRequest & keyof DeleteDiskSnapshotRequest & keyof DeleteDiskSnapshotRequest & keyof DeleteDiskSnapshotRequest & keyof DeleteDiskSnapshotRequest & keyof DeleteDiskSnapshotRequest & keyof DeleteDiskSnapshotRequest & keyof DeleteDiskSnapshotRequest]: (DeleteDiskSnapshotRequest & DeleteDiskSnapshotRequest & DeleteDiskSnapshotRequest & DeleteDiskSnapshotRequest & DeleteDiskSnapshotRequest & DeleteDiskSnapshotRequest & DeleteDiskSnapshotRequest & DeleteDiskSnapshotRequest & DeleteDiskSnapshotRequest & DeleteDiskSnapshotRequest & DeleteDiskSnapshotRequest & DeleteDiskSnapshotRequest)[K]
+      [K in keyof DeleteDiskSnapshotRequest]: (DeleteDiskSnapshotRequest)[K]
     }>): Request<DeleteDiskSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDiskSnapshot(
-          this.ops["DeleteDiskSnapshot"].applicator.apply(partialParams)
+          this.ops["DeleteDiskSnapshot"].apply(partialParams)
+        );
+    }
+
+    invokeDeleteDistribution(partialParams: ToOptional<{
+      [K in keyof DeleteDistributionRequest]: (DeleteDistributionRequest)[K]
+    }>): Request<DeleteDistributionResult, AWSError> {
+        this.boot();
+        return this.client.deleteDistribution(
+          this.ops["DeleteDistribution"].apply(partialParams)
         );
     }
 
     invokeDeleteDomain(partialParams: ToOptional<{
-      [K in keyof DeleteDomainRequest & keyof DeleteDomainRequest & keyof DeleteDomainRequest & keyof DeleteDomainRequest & keyof DeleteDomainRequest & keyof DeleteDomainRequest & keyof DeleteDomainRequest & keyof DeleteDomainRequest & keyof DeleteDomainRequest & keyof DeleteDomainRequest & keyof DeleteDomainRequest & keyof DeleteDomainRequest]: (DeleteDomainRequest & DeleteDomainRequest & DeleteDomainRequest & DeleteDomainRequest & DeleteDomainRequest & DeleteDomainRequest & DeleteDomainRequest & DeleteDomainRequest & DeleteDomainRequest & DeleteDomainRequest & DeleteDomainRequest & DeleteDomainRequest)[K]
+      [K in keyof DeleteDomainRequest]: (DeleteDomainRequest)[K]
     }>): Request<DeleteDomainResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDomain(
-          this.ops["DeleteDomain"].applicator.apply(partialParams)
+          this.ops["DeleteDomain"].apply(partialParams)
         );
     }
 
     invokeDeleteDomainEntry(partialParams: ToOptional<{
-      [K in keyof DeleteDomainEntryRequest & keyof DeleteDomainEntryRequest & keyof DeleteDomainEntryRequest & keyof DeleteDomainEntryRequest & keyof DeleteDomainEntryRequest & keyof DeleteDomainEntryRequest & keyof DeleteDomainEntryRequest & keyof DeleteDomainEntryRequest & keyof DeleteDomainEntryRequest & keyof DeleteDomainEntryRequest & keyof DeleteDomainEntryRequest & keyof DeleteDomainEntryRequest]: (DeleteDomainEntryRequest & DeleteDomainEntryRequest & DeleteDomainEntryRequest & DeleteDomainEntryRequest & DeleteDomainEntryRequest & DeleteDomainEntryRequest & DeleteDomainEntryRequest & DeleteDomainEntryRequest & DeleteDomainEntryRequest & DeleteDomainEntryRequest & DeleteDomainEntryRequest & DeleteDomainEntryRequest)[K]
+      [K in keyof DeleteDomainEntryRequest]: (DeleteDomainEntryRequest)[K]
     }>): Request<DeleteDomainEntryResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDomainEntry(
-          this.ops["DeleteDomainEntry"].applicator.apply(partialParams)
+          this.ops["DeleteDomainEntry"].apply(partialParams)
         );
     }
 
     invokeDeleteInstance(partialParams: ToOptional<{
-      [K in keyof DeleteInstanceRequest & keyof DeleteInstanceRequest & keyof DeleteInstanceRequest & keyof DeleteInstanceRequest & keyof DeleteInstanceRequest & keyof DeleteInstanceRequest & keyof DeleteInstanceRequest & keyof DeleteInstanceRequest & keyof DeleteInstanceRequest & keyof DeleteInstanceRequest & keyof DeleteInstanceRequest & keyof DeleteInstanceRequest]: (DeleteInstanceRequest & DeleteInstanceRequest & DeleteInstanceRequest & DeleteInstanceRequest & DeleteInstanceRequest & DeleteInstanceRequest & DeleteInstanceRequest & DeleteInstanceRequest & DeleteInstanceRequest & DeleteInstanceRequest & DeleteInstanceRequest & DeleteInstanceRequest)[K]
+      [K in keyof DeleteInstanceRequest]: (DeleteInstanceRequest)[K]
     }>): Request<DeleteInstanceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteInstance(
-          this.ops["DeleteInstance"].applicator.apply(partialParams)
+          this.ops["DeleteInstance"].apply(partialParams)
         );
     }
 
     invokeDeleteInstanceSnapshot(partialParams: ToOptional<{
-      [K in keyof DeleteInstanceSnapshotRequest & keyof DeleteInstanceSnapshotRequest & keyof DeleteInstanceSnapshotRequest & keyof DeleteInstanceSnapshotRequest & keyof DeleteInstanceSnapshotRequest & keyof DeleteInstanceSnapshotRequest & keyof DeleteInstanceSnapshotRequest & keyof DeleteInstanceSnapshotRequest & keyof DeleteInstanceSnapshotRequest & keyof DeleteInstanceSnapshotRequest & keyof DeleteInstanceSnapshotRequest & keyof DeleteInstanceSnapshotRequest]: (DeleteInstanceSnapshotRequest & DeleteInstanceSnapshotRequest & DeleteInstanceSnapshotRequest & DeleteInstanceSnapshotRequest & DeleteInstanceSnapshotRequest & DeleteInstanceSnapshotRequest & DeleteInstanceSnapshotRequest & DeleteInstanceSnapshotRequest & DeleteInstanceSnapshotRequest & DeleteInstanceSnapshotRequest & DeleteInstanceSnapshotRequest & DeleteInstanceSnapshotRequest)[K]
+      [K in keyof DeleteInstanceSnapshotRequest]: (DeleteInstanceSnapshotRequest)[K]
     }>): Request<DeleteInstanceSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteInstanceSnapshot(
-          this.ops["DeleteInstanceSnapshot"].applicator.apply(partialParams)
+          this.ops["DeleteInstanceSnapshot"].apply(partialParams)
         );
     }
 
     invokeDeleteKeyPair(partialParams: ToOptional<{
-      [K in keyof DeleteKeyPairRequest & keyof DeleteKeyPairRequest & keyof DeleteKeyPairRequest & keyof DeleteKeyPairRequest & keyof DeleteKeyPairRequest & keyof DeleteKeyPairRequest & keyof DeleteKeyPairRequest & keyof DeleteKeyPairRequest & keyof DeleteKeyPairRequest & keyof DeleteKeyPairRequest & keyof DeleteKeyPairRequest & keyof DeleteKeyPairRequest]: (DeleteKeyPairRequest & DeleteKeyPairRequest & DeleteKeyPairRequest & DeleteKeyPairRequest & DeleteKeyPairRequest & DeleteKeyPairRequest & DeleteKeyPairRequest & DeleteKeyPairRequest & DeleteKeyPairRequest & DeleteKeyPairRequest & DeleteKeyPairRequest & DeleteKeyPairRequest)[K]
+      [K in keyof DeleteKeyPairRequest]: (DeleteKeyPairRequest)[K]
     }>): Request<DeleteKeyPairResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteKeyPair(
-          this.ops["DeleteKeyPair"].applicator.apply(partialParams)
+          this.ops["DeleteKeyPair"].apply(partialParams)
         );
     }
 
     invokeDeleteKnownHostKeys(partialParams: ToOptional<{
-      [K in keyof DeleteKnownHostKeysRequest & keyof DeleteKnownHostKeysRequest & keyof DeleteKnownHostKeysRequest & keyof DeleteKnownHostKeysRequest & keyof DeleteKnownHostKeysRequest & keyof DeleteKnownHostKeysRequest & keyof DeleteKnownHostKeysRequest & keyof DeleteKnownHostKeysRequest & keyof DeleteKnownHostKeysRequest & keyof DeleteKnownHostKeysRequest & keyof DeleteKnownHostKeysRequest & keyof DeleteKnownHostKeysRequest]: (DeleteKnownHostKeysRequest & DeleteKnownHostKeysRequest & DeleteKnownHostKeysRequest & DeleteKnownHostKeysRequest & DeleteKnownHostKeysRequest & DeleteKnownHostKeysRequest & DeleteKnownHostKeysRequest & DeleteKnownHostKeysRequest & DeleteKnownHostKeysRequest & DeleteKnownHostKeysRequest & DeleteKnownHostKeysRequest & DeleteKnownHostKeysRequest)[K]
+      [K in keyof DeleteKnownHostKeysRequest]: (DeleteKnownHostKeysRequest)[K]
     }>): Request<DeleteKnownHostKeysResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteKnownHostKeys(
-          this.ops["DeleteKnownHostKeys"].applicator.apply(partialParams)
+          this.ops["DeleteKnownHostKeys"].apply(partialParams)
         );
     }
 
     invokeDeleteLoadBalancer(partialParams: ToOptional<{
-      [K in keyof DeleteLoadBalancerRequest & keyof DeleteLoadBalancerRequest & keyof DeleteLoadBalancerRequest & keyof DeleteLoadBalancerRequest & keyof DeleteLoadBalancerRequest & keyof DeleteLoadBalancerRequest & keyof DeleteLoadBalancerRequest & keyof DeleteLoadBalancerRequest & keyof DeleteLoadBalancerRequest & keyof DeleteLoadBalancerRequest & keyof DeleteLoadBalancerRequest & keyof DeleteLoadBalancerRequest]: (DeleteLoadBalancerRequest & DeleteLoadBalancerRequest & DeleteLoadBalancerRequest & DeleteLoadBalancerRequest & DeleteLoadBalancerRequest & DeleteLoadBalancerRequest & DeleteLoadBalancerRequest & DeleteLoadBalancerRequest & DeleteLoadBalancerRequest & DeleteLoadBalancerRequest & DeleteLoadBalancerRequest & DeleteLoadBalancerRequest)[K]
+      [K in keyof DeleteLoadBalancerRequest]: (DeleteLoadBalancerRequest)[K]
     }>): Request<DeleteLoadBalancerResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteLoadBalancer(
-          this.ops["DeleteLoadBalancer"].applicator.apply(partialParams)
+          this.ops["DeleteLoadBalancer"].apply(partialParams)
         );
     }
 
     invokeDeleteLoadBalancerTlsCertificate(partialParams: ToOptional<{
-      [K in keyof DeleteLoadBalancerTlsCertificateRequest & keyof DeleteLoadBalancerTlsCertificateRequest & keyof DeleteLoadBalancerTlsCertificateRequest & keyof DeleteLoadBalancerTlsCertificateRequest & keyof DeleteLoadBalancerTlsCertificateRequest & keyof DeleteLoadBalancerTlsCertificateRequest & keyof DeleteLoadBalancerTlsCertificateRequest & keyof DeleteLoadBalancerTlsCertificateRequest & keyof DeleteLoadBalancerTlsCertificateRequest & keyof DeleteLoadBalancerTlsCertificateRequest & keyof DeleteLoadBalancerTlsCertificateRequest & keyof DeleteLoadBalancerTlsCertificateRequest]: (DeleteLoadBalancerTlsCertificateRequest & DeleteLoadBalancerTlsCertificateRequest & DeleteLoadBalancerTlsCertificateRequest & DeleteLoadBalancerTlsCertificateRequest & DeleteLoadBalancerTlsCertificateRequest & DeleteLoadBalancerTlsCertificateRequest & DeleteLoadBalancerTlsCertificateRequest & DeleteLoadBalancerTlsCertificateRequest & DeleteLoadBalancerTlsCertificateRequest & DeleteLoadBalancerTlsCertificateRequest & DeleteLoadBalancerTlsCertificateRequest & DeleteLoadBalancerTlsCertificateRequest)[K]
+      [K in keyof DeleteLoadBalancerTlsCertificateRequest]: (DeleteLoadBalancerTlsCertificateRequest)[K]
     }>): Request<DeleteLoadBalancerTlsCertificateResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteLoadBalancerTlsCertificate(
-          this.ops["DeleteLoadBalancerTlsCertificate"].applicator.apply(partialParams)
+          this.ops["DeleteLoadBalancerTlsCertificate"].apply(partialParams)
         );
     }
 
     invokeDeleteRelationalDatabase(partialParams: ToOptional<{
-      [K in keyof DeleteRelationalDatabaseRequest & keyof DeleteRelationalDatabaseRequest & keyof DeleteRelationalDatabaseRequest & keyof DeleteRelationalDatabaseRequest & keyof DeleteRelationalDatabaseRequest & keyof DeleteRelationalDatabaseRequest & keyof DeleteRelationalDatabaseRequest & keyof DeleteRelationalDatabaseRequest & keyof DeleteRelationalDatabaseRequest & keyof DeleteRelationalDatabaseRequest & keyof DeleteRelationalDatabaseRequest & keyof DeleteRelationalDatabaseRequest]: (DeleteRelationalDatabaseRequest & DeleteRelationalDatabaseRequest & DeleteRelationalDatabaseRequest & DeleteRelationalDatabaseRequest & DeleteRelationalDatabaseRequest & DeleteRelationalDatabaseRequest & DeleteRelationalDatabaseRequest & DeleteRelationalDatabaseRequest & DeleteRelationalDatabaseRequest & DeleteRelationalDatabaseRequest & DeleteRelationalDatabaseRequest & DeleteRelationalDatabaseRequest)[K]
+      [K in keyof DeleteRelationalDatabaseRequest]: (DeleteRelationalDatabaseRequest)[K]
     }>): Request<DeleteRelationalDatabaseResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteRelationalDatabase(
-          this.ops["DeleteRelationalDatabase"].applicator.apply(partialParams)
+          this.ops["DeleteRelationalDatabase"].apply(partialParams)
         );
     }
 
     invokeDeleteRelationalDatabaseSnapshot(partialParams: ToOptional<{
-      [K in keyof DeleteRelationalDatabaseSnapshotRequest & keyof DeleteRelationalDatabaseSnapshotRequest & keyof DeleteRelationalDatabaseSnapshotRequest & keyof DeleteRelationalDatabaseSnapshotRequest & keyof DeleteRelationalDatabaseSnapshotRequest & keyof DeleteRelationalDatabaseSnapshotRequest & keyof DeleteRelationalDatabaseSnapshotRequest & keyof DeleteRelationalDatabaseSnapshotRequest & keyof DeleteRelationalDatabaseSnapshotRequest & keyof DeleteRelationalDatabaseSnapshotRequest & keyof DeleteRelationalDatabaseSnapshotRequest & keyof DeleteRelationalDatabaseSnapshotRequest]: (DeleteRelationalDatabaseSnapshotRequest & DeleteRelationalDatabaseSnapshotRequest & DeleteRelationalDatabaseSnapshotRequest & DeleteRelationalDatabaseSnapshotRequest & DeleteRelationalDatabaseSnapshotRequest & DeleteRelationalDatabaseSnapshotRequest & DeleteRelationalDatabaseSnapshotRequest & DeleteRelationalDatabaseSnapshotRequest & DeleteRelationalDatabaseSnapshotRequest & DeleteRelationalDatabaseSnapshotRequest & DeleteRelationalDatabaseSnapshotRequest & DeleteRelationalDatabaseSnapshotRequest)[K]
+      [K in keyof DeleteRelationalDatabaseSnapshotRequest]: (DeleteRelationalDatabaseSnapshotRequest)[K]
     }>): Request<DeleteRelationalDatabaseSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteRelationalDatabaseSnapshot(
-          this.ops["DeleteRelationalDatabaseSnapshot"].applicator.apply(partialParams)
+          this.ops["DeleteRelationalDatabaseSnapshot"].apply(partialParams)
         );
     }
 
     invokeDetachCertificateFromDistribution(partialParams: ToOptional<{
-      [K in keyof DetachCertificateFromDistributionRequest & keyof DetachCertificateFromDistributionRequest & keyof DetachCertificateFromDistributionRequest & keyof DetachCertificateFromDistributionRequest & keyof DetachCertificateFromDistributionRequest & keyof DetachCertificateFromDistributionRequest & keyof DetachCertificateFromDistributionRequest & keyof DetachCertificateFromDistributionRequest & keyof DetachCertificateFromDistributionRequest & keyof DetachCertificateFromDistributionRequest & keyof DetachCertificateFromDistributionRequest & keyof DetachCertificateFromDistributionRequest]: (DetachCertificateFromDistributionRequest & DetachCertificateFromDistributionRequest & DetachCertificateFromDistributionRequest & DetachCertificateFromDistributionRequest & DetachCertificateFromDistributionRequest & DetachCertificateFromDistributionRequest & DetachCertificateFromDistributionRequest & DetachCertificateFromDistributionRequest & DetachCertificateFromDistributionRequest & DetachCertificateFromDistributionRequest & DetachCertificateFromDistributionRequest & DetachCertificateFromDistributionRequest)[K]
+      [K in keyof DetachCertificateFromDistributionRequest]: (DetachCertificateFromDistributionRequest)[K]
     }>): Request<DetachCertificateFromDistributionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.detachCertificateFromDistribution(
-          this.ops["DetachCertificateFromDistribution"].applicator.apply(partialParams)
+          this.ops["DetachCertificateFromDistribution"].apply(partialParams)
         );
     }
 
     invokeDetachDisk(partialParams: ToOptional<{
-      [K in keyof DetachDiskRequest & keyof DetachDiskRequest & keyof DetachDiskRequest & keyof DetachDiskRequest & keyof DetachDiskRequest & keyof DetachDiskRequest & keyof DetachDiskRequest & keyof DetachDiskRequest & keyof DetachDiskRequest & keyof DetachDiskRequest & keyof DetachDiskRequest & keyof DetachDiskRequest]: (DetachDiskRequest & DetachDiskRequest & DetachDiskRequest & DetachDiskRequest & DetachDiskRequest & DetachDiskRequest & DetachDiskRequest & DetachDiskRequest & DetachDiskRequest & DetachDiskRequest & DetachDiskRequest & DetachDiskRequest)[K]
+      [K in keyof DetachDiskRequest]: (DetachDiskRequest)[K]
     }>): Request<DetachDiskResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.detachDisk(
-          this.ops["DetachDisk"].applicator.apply(partialParams)
+          this.ops["DetachDisk"].apply(partialParams)
         );
     }
 
     invokeDetachInstancesFromLoadBalancer(partialParams: ToOptional<{
-      [K in keyof DetachInstancesFromLoadBalancerRequest & keyof DetachInstancesFromLoadBalancerRequest & keyof DetachInstancesFromLoadBalancerRequest & keyof DetachInstancesFromLoadBalancerRequest & keyof DetachInstancesFromLoadBalancerRequest & keyof DetachInstancesFromLoadBalancerRequest & keyof DetachInstancesFromLoadBalancerRequest & keyof DetachInstancesFromLoadBalancerRequest & keyof DetachInstancesFromLoadBalancerRequest & keyof DetachInstancesFromLoadBalancerRequest & keyof DetachInstancesFromLoadBalancerRequest & keyof DetachInstancesFromLoadBalancerRequest]: (DetachInstancesFromLoadBalancerRequest & DetachInstancesFromLoadBalancerRequest & DetachInstancesFromLoadBalancerRequest & DetachInstancesFromLoadBalancerRequest & DetachInstancesFromLoadBalancerRequest & DetachInstancesFromLoadBalancerRequest & DetachInstancesFromLoadBalancerRequest & DetachInstancesFromLoadBalancerRequest & DetachInstancesFromLoadBalancerRequest & DetachInstancesFromLoadBalancerRequest & DetachInstancesFromLoadBalancerRequest & DetachInstancesFromLoadBalancerRequest)[K]
+      [K in keyof DetachInstancesFromLoadBalancerRequest]: (DetachInstancesFromLoadBalancerRequest)[K]
     }>): Request<DetachInstancesFromLoadBalancerResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.detachInstancesFromLoadBalancer(
-          this.ops["DetachInstancesFromLoadBalancer"].applicator.apply(partialParams)
+          this.ops["DetachInstancesFromLoadBalancer"].apply(partialParams)
         );
     }
 
     invokeDetachStaticIp(partialParams: ToOptional<{
-      [K in keyof DetachStaticIpRequest & keyof DetachStaticIpRequest & keyof DetachStaticIpRequest & keyof DetachStaticIpRequest & keyof DetachStaticIpRequest & keyof DetachStaticIpRequest & keyof DetachStaticIpRequest & keyof DetachStaticIpRequest & keyof DetachStaticIpRequest & keyof DetachStaticIpRequest & keyof DetachStaticIpRequest & keyof DetachStaticIpRequest]: (DetachStaticIpRequest & DetachStaticIpRequest & DetachStaticIpRequest & DetachStaticIpRequest & DetachStaticIpRequest & DetachStaticIpRequest & DetachStaticIpRequest & DetachStaticIpRequest & DetachStaticIpRequest & DetachStaticIpRequest & DetachStaticIpRequest & DetachStaticIpRequest)[K]
+      [K in keyof DetachStaticIpRequest]: (DetachStaticIpRequest)[K]
     }>): Request<DetachStaticIpResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.detachStaticIp(
-          this.ops["DetachStaticIp"].applicator.apply(partialParams)
+          this.ops["DetachStaticIp"].apply(partialParams)
         );
     }
 
     invokeDisableAddOn(partialParams: ToOptional<{
-      [K in keyof DisableAddOnRequest & keyof DisableAddOnRequest & keyof DisableAddOnRequest & keyof DisableAddOnRequest & keyof DisableAddOnRequest & keyof DisableAddOnRequest & keyof DisableAddOnRequest & keyof DisableAddOnRequest & keyof DisableAddOnRequest & keyof DisableAddOnRequest & keyof DisableAddOnRequest & keyof DisableAddOnRequest]: (DisableAddOnRequest & DisableAddOnRequest & DisableAddOnRequest & DisableAddOnRequest & DisableAddOnRequest & DisableAddOnRequest & DisableAddOnRequest & DisableAddOnRequest & DisableAddOnRequest & DisableAddOnRequest & DisableAddOnRequest & DisableAddOnRequest)[K]
+      [K in keyof DisableAddOnRequest]: (DisableAddOnRequest)[K]
     }>): Request<DisableAddOnResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disableAddOn(
-          this.ops["DisableAddOn"].applicator.apply(partialParams)
+          this.ops["DisableAddOn"].apply(partialParams)
+        );
+    }
+
+    invokeDownloadDefaultKeyPair(partialParams: ToOptional<{
+      [K in keyof DownloadDefaultKeyPairRequest]: (DownloadDefaultKeyPairRequest)[K]
+    }>): Request<DownloadDefaultKeyPairResult, AWSError> {
+        this.boot();
+        return this.client.downloadDefaultKeyPair(
+          this.ops["DownloadDefaultKeyPair"].apply(partialParams)
         );
     }
 
     invokeEnableAddOn(partialParams: ToOptional<{
-      [K in keyof EnableAddOnRequest & keyof EnableAddOnRequest & keyof EnableAddOnRequest & keyof EnableAddOnRequest & keyof EnableAddOnRequest & keyof EnableAddOnRequest & keyof EnableAddOnRequest & keyof EnableAddOnRequest & keyof EnableAddOnRequest & keyof EnableAddOnRequest & keyof EnableAddOnRequest & keyof EnableAddOnRequest]: (EnableAddOnRequest & EnableAddOnRequest & EnableAddOnRequest & EnableAddOnRequest & EnableAddOnRequest & EnableAddOnRequest & EnableAddOnRequest & EnableAddOnRequest & EnableAddOnRequest & EnableAddOnRequest & EnableAddOnRequest & EnableAddOnRequest)[K]
+      [K in keyof EnableAddOnRequest]: (EnableAddOnRequest)[K]
     }>): Request<EnableAddOnResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.enableAddOn(
-          this.ops["EnableAddOn"].applicator.apply(partialParams)
+          this.ops["EnableAddOn"].apply(partialParams)
         );
     }
 
     invokeExportSnapshot(partialParams: ToOptional<{
-      [K in keyof ExportSnapshotRequest & keyof ExportSnapshotRequest & keyof ExportSnapshotRequest & keyof ExportSnapshotRequest & keyof ExportSnapshotRequest & keyof ExportSnapshotRequest & keyof ExportSnapshotRequest & keyof ExportSnapshotRequest & keyof ExportSnapshotRequest & keyof ExportSnapshotRequest & keyof ExportSnapshotRequest & keyof ExportSnapshotRequest]: (ExportSnapshotRequest & ExportSnapshotRequest & ExportSnapshotRequest & ExportSnapshotRequest & ExportSnapshotRequest & ExportSnapshotRequest & ExportSnapshotRequest & ExportSnapshotRequest & ExportSnapshotRequest & ExportSnapshotRequest & ExportSnapshotRequest & ExportSnapshotRequest)[K]
+      [K in keyof ExportSnapshotRequest]: (ExportSnapshotRequest)[K]
     }>): Request<ExportSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.exportSnapshot(
-          this.ops["ExportSnapshot"].applicator.apply(partialParams)
+          this.ops["ExportSnapshot"].apply(partialParams)
+        );
+    }
+
+    invokeGetActiveNames(partialParams: ToOptional<{
+      [K in keyof GetActiveNamesRequest]: (GetActiveNamesRequest)[K]
+    }>): Request<GetActiveNamesResult, AWSError> {
+        this.boot();
+        return this.client.getActiveNames(
+          this.ops["GetActiveNames"].apply(partialParams)
+        );
+    }
+
+    invokeGetAlarms(partialParams: ToOptional<{
+      [K in keyof GetAlarmsRequest]: (GetAlarmsRequest)[K]
+    }>): Request<GetAlarmsResult, AWSError> {
+        this.boot();
+        return this.client.getAlarms(
+          this.ops["GetAlarms"].apply(partialParams)
         );
     }
 
     invokeGetAutoSnapshots(partialParams: ToOptional<{
-      [K in keyof GetAutoSnapshotsRequest & keyof GetAutoSnapshotsRequest & keyof GetAutoSnapshotsRequest & keyof GetAutoSnapshotsRequest & keyof GetAutoSnapshotsRequest & keyof GetAutoSnapshotsRequest & keyof GetAutoSnapshotsRequest & keyof GetAutoSnapshotsRequest & keyof GetAutoSnapshotsRequest & keyof GetAutoSnapshotsRequest & keyof GetAutoSnapshotsRequest & keyof GetAutoSnapshotsRequest]: (GetAutoSnapshotsRequest & GetAutoSnapshotsRequest & GetAutoSnapshotsRequest & GetAutoSnapshotsRequest & GetAutoSnapshotsRequest & GetAutoSnapshotsRequest & GetAutoSnapshotsRequest & GetAutoSnapshotsRequest & GetAutoSnapshotsRequest & GetAutoSnapshotsRequest & GetAutoSnapshotsRequest & GetAutoSnapshotsRequest)[K]
+      [K in keyof GetAutoSnapshotsRequest]: (GetAutoSnapshotsRequest)[K]
     }>): Request<GetAutoSnapshotsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getAutoSnapshots(
-          this.ops["GetAutoSnapshots"].applicator.apply(partialParams)
+          this.ops["GetAutoSnapshots"].apply(partialParams)
+        );
+    }
+
+    invokeGetBlueprints(partialParams: ToOptional<{
+      [K in keyof GetBlueprintsRequest]: (GetBlueprintsRequest)[K]
+    }>): Request<GetBlueprintsResult, AWSError> {
+        this.boot();
+        return this.client.getBlueprints(
+          this.ops["GetBlueprints"].apply(partialParams)
         );
     }
 
     invokeGetBucketAccessKeys(partialParams: ToOptional<{
-      [K in keyof GetBucketAccessKeysRequest & keyof GetBucketAccessKeysRequest & keyof GetBucketAccessKeysRequest & keyof GetBucketAccessKeysRequest & keyof GetBucketAccessKeysRequest & keyof GetBucketAccessKeysRequest & keyof GetBucketAccessKeysRequest & keyof GetBucketAccessKeysRequest & keyof GetBucketAccessKeysRequest & keyof GetBucketAccessKeysRequest & keyof GetBucketAccessKeysRequest & keyof GetBucketAccessKeysRequest]: (GetBucketAccessKeysRequest & GetBucketAccessKeysRequest & GetBucketAccessKeysRequest & GetBucketAccessKeysRequest & GetBucketAccessKeysRequest & GetBucketAccessKeysRequest & GetBucketAccessKeysRequest & GetBucketAccessKeysRequest & GetBucketAccessKeysRequest & GetBucketAccessKeysRequest & GetBucketAccessKeysRequest & GetBucketAccessKeysRequest)[K]
+      [K in keyof GetBucketAccessKeysRequest]: (GetBucketAccessKeysRequest)[K]
     }>): Request<GetBucketAccessKeysResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getBucketAccessKeys(
-          this.ops["GetBucketAccessKeys"].applicator.apply(partialParams)
+          this.ops["GetBucketAccessKeys"].apply(partialParams)
+        );
+    }
+
+    invokeGetBucketBundles(partialParams: ToOptional<{
+      [K in keyof GetBucketBundlesRequest]: (GetBucketBundlesRequest)[K]
+    }>): Request<GetBucketBundlesResult, AWSError> {
+        this.boot();
+        return this.client.getBucketBundles(
+          this.ops["GetBucketBundles"].apply(partialParams)
         );
     }
 
     invokeGetBucketMetricData(partialParams: ToOptional<{
-      [K in keyof GetBucketMetricDataRequest & keyof GetBucketMetricDataRequest & keyof GetBucketMetricDataRequest & keyof GetBucketMetricDataRequest & keyof GetBucketMetricDataRequest & keyof GetBucketMetricDataRequest & keyof GetBucketMetricDataRequest & keyof GetBucketMetricDataRequest & keyof GetBucketMetricDataRequest & keyof GetBucketMetricDataRequest & keyof GetBucketMetricDataRequest & keyof GetBucketMetricDataRequest]: (GetBucketMetricDataRequest & GetBucketMetricDataRequest & GetBucketMetricDataRequest & GetBucketMetricDataRequest & GetBucketMetricDataRequest & GetBucketMetricDataRequest & GetBucketMetricDataRequest & GetBucketMetricDataRequest & GetBucketMetricDataRequest & GetBucketMetricDataRequest & GetBucketMetricDataRequest & GetBucketMetricDataRequest)[K]
+      [K in keyof GetBucketMetricDataRequest]: (GetBucketMetricDataRequest)[K]
     }>): Request<GetBucketMetricDataResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getBucketMetricData(
-          this.ops["GetBucketMetricData"].applicator.apply(partialParams)
+          this.ops["GetBucketMetricData"].apply(partialParams)
+        );
+    }
+
+    invokeGetBuckets(partialParams: ToOptional<{
+      [K in keyof GetBucketsRequest]: (GetBucketsRequest)[K]
+    }>): Request<GetBucketsResult, AWSError> {
+        this.boot();
+        return this.client.getBuckets(
+          this.ops["GetBuckets"].apply(partialParams)
+        );
+    }
+
+    invokeGetBundles(partialParams: ToOptional<{
+      [K in keyof GetBundlesRequest]: (GetBundlesRequest)[K]
+    }>): Request<GetBundlesResult, AWSError> {
+        this.boot();
+        return this.client.getBundles(
+          this.ops["GetBundles"].apply(partialParams)
+        );
+    }
+
+    invokeGetCertificates(partialParams: ToOptional<{
+      [K in keyof GetCertificatesRequest]: (GetCertificatesRequest)[K]
+    }>): Request<GetCertificatesResult, AWSError> {
+        this.boot();
+        return this.client.getCertificates(
+          this.ops["GetCertificates"].apply(partialParams)
+        );
+    }
+
+    invokeGetCloudFormationStackRecords(partialParams: ToOptional<{
+      [K in keyof GetCloudFormationStackRecordsRequest]: (GetCloudFormationStackRecordsRequest)[K]
+    }>): Request<GetCloudFormationStackRecordsResult, AWSError> {
+        this.boot();
+        return this.client.getCloudFormationStackRecords(
+          this.ops["GetCloudFormationStackRecords"].apply(partialParams)
+        );
+    }
+
+    invokeGetContactMethods(partialParams: ToOptional<{
+      [K in keyof GetContactMethodsRequest]: (GetContactMethodsRequest)[K]
+    }>): Request<GetContactMethodsResult, AWSError> {
+        this.boot();
+        return this.client.getContactMethods(
+          this.ops["GetContactMethods"].apply(partialParams)
+        );
+    }
+
+    invokeGetContainerAPIMetadata(partialParams: ToOptional<{
+      [K in keyof GetContainerAPIMetadataRequest]: (GetContainerAPIMetadataRequest)[K]
+    }>): Request<GetContainerAPIMetadataResult, AWSError> {
+        this.boot();
+        return this.client.getContainerAPIMetadata(
+          this.ops["GetContainerAPIMetadata"].apply(partialParams)
         );
     }
 
     invokeGetContainerImages(partialParams: ToOptional<{
-      [K in keyof GetContainerImagesRequest & keyof GetContainerImagesRequest & keyof GetContainerImagesRequest & keyof GetContainerImagesRequest & keyof GetContainerImagesRequest & keyof GetContainerImagesRequest & keyof GetContainerImagesRequest & keyof GetContainerImagesRequest & keyof GetContainerImagesRequest & keyof GetContainerImagesRequest & keyof GetContainerImagesRequest & keyof GetContainerImagesRequest]: (GetContainerImagesRequest & GetContainerImagesRequest & GetContainerImagesRequest & GetContainerImagesRequest & GetContainerImagesRequest & GetContainerImagesRequest & GetContainerImagesRequest & GetContainerImagesRequest & GetContainerImagesRequest & GetContainerImagesRequest & GetContainerImagesRequest & GetContainerImagesRequest)[K]
+      [K in keyof GetContainerImagesRequest]: (GetContainerImagesRequest)[K]
     }>): Request<GetContainerImagesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getContainerImages(
-          this.ops["GetContainerImages"].applicator.apply(partialParams)
+          this.ops["GetContainerImages"].apply(partialParams)
         );
     }
 
     invokeGetContainerLog(partialParams: ToOptional<{
-      [K in keyof GetContainerLogRequest & keyof GetContainerLogRequest & keyof GetContainerLogRequest & keyof GetContainerLogRequest & keyof GetContainerLogRequest & keyof GetContainerLogRequest & keyof GetContainerLogRequest & keyof GetContainerLogRequest & keyof GetContainerLogRequest & keyof GetContainerLogRequest & keyof GetContainerLogRequest & keyof GetContainerLogRequest]: (GetContainerLogRequest & GetContainerLogRequest & GetContainerLogRequest & GetContainerLogRequest & GetContainerLogRequest & GetContainerLogRequest & GetContainerLogRequest & GetContainerLogRequest & GetContainerLogRequest & GetContainerLogRequest & GetContainerLogRequest & GetContainerLogRequest)[K]
+      [K in keyof GetContainerLogRequest]: (GetContainerLogRequest)[K]
     }>): Request<GetContainerLogResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getContainerLog(
-          this.ops["GetContainerLog"].applicator.apply(partialParams)
+          this.ops["GetContainerLog"].apply(partialParams)
         );
     }
 
     invokeGetContainerServiceDeployments(partialParams: ToOptional<{
-      [K in keyof GetContainerServiceDeploymentsRequest & keyof GetContainerServiceDeploymentsRequest & keyof GetContainerServiceDeploymentsRequest & keyof GetContainerServiceDeploymentsRequest & keyof GetContainerServiceDeploymentsRequest & keyof GetContainerServiceDeploymentsRequest & keyof GetContainerServiceDeploymentsRequest & keyof GetContainerServiceDeploymentsRequest & keyof GetContainerServiceDeploymentsRequest & keyof GetContainerServiceDeploymentsRequest & keyof GetContainerServiceDeploymentsRequest & keyof GetContainerServiceDeploymentsRequest]: (GetContainerServiceDeploymentsRequest & GetContainerServiceDeploymentsRequest & GetContainerServiceDeploymentsRequest & GetContainerServiceDeploymentsRequest & GetContainerServiceDeploymentsRequest & GetContainerServiceDeploymentsRequest & GetContainerServiceDeploymentsRequest & GetContainerServiceDeploymentsRequest & GetContainerServiceDeploymentsRequest & GetContainerServiceDeploymentsRequest & GetContainerServiceDeploymentsRequest & GetContainerServiceDeploymentsRequest)[K]
+      [K in keyof GetContainerServiceDeploymentsRequest]: (GetContainerServiceDeploymentsRequest)[K]
     }>): Request<GetContainerServiceDeploymentsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getContainerServiceDeployments(
-          this.ops["GetContainerServiceDeployments"].applicator.apply(partialParams)
+          this.ops["GetContainerServiceDeployments"].apply(partialParams)
         );
     }
 
     invokeGetContainerServiceMetricData(partialParams: ToOptional<{
-      [K in keyof GetContainerServiceMetricDataRequest & keyof GetContainerServiceMetricDataRequest & keyof GetContainerServiceMetricDataRequest & keyof GetContainerServiceMetricDataRequest & keyof GetContainerServiceMetricDataRequest & keyof GetContainerServiceMetricDataRequest & keyof GetContainerServiceMetricDataRequest & keyof GetContainerServiceMetricDataRequest & keyof GetContainerServiceMetricDataRequest & keyof GetContainerServiceMetricDataRequest & keyof GetContainerServiceMetricDataRequest & keyof GetContainerServiceMetricDataRequest]: (GetContainerServiceMetricDataRequest & GetContainerServiceMetricDataRequest & GetContainerServiceMetricDataRequest & GetContainerServiceMetricDataRequest & GetContainerServiceMetricDataRequest & GetContainerServiceMetricDataRequest & GetContainerServiceMetricDataRequest & GetContainerServiceMetricDataRequest & GetContainerServiceMetricDataRequest & GetContainerServiceMetricDataRequest & GetContainerServiceMetricDataRequest & GetContainerServiceMetricDataRequest)[K]
+      [K in keyof GetContainerServiceMetricDataRequest]: (GetContainerServiceMetricDataRequest)[K]
     }>): Request<GetContainerServiceMetricDataResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getContainerServiceMetricData(
-          this.ops["GetContainerServiceMetricData"].applicator.apply(partialParams)
+          this.ops["GetContainerServiceMetricData"].apply(partialParams)
+        );
+    }
+
+    invokeGetContainerServicePowers(partialParams: ToOptional<{
+      [K in keyof GetContainerServicePowersRequest]: (GetContainerServicePowersRequest)[K]
+    }>): Request<GetContainerServicePowersResult, AWSError> {
+        this.boot();
+        return this.client.getContainerServicePowers(
+          this.ops["GetContainerServicePowers"].apply(partialParams)
+        );
+    }
+
+    invokeGetContainerServices(partialParams: ToOptional<{
+      [K in keyof GetContainerServicesRequest]: (GetContainerServicesRequest)[K]
+    }>): Request<ContainerServicesListResult, AWSError> {
+        this.boot();
+        return this.client.getContainerServices(
+          this.ops["GetContainerServices"].apply(partialParams)
         );
     }
 
     invokeGetDisk(partialParams: ToOptional<{
-      [K in keyof GetDiskRequest & keyof GetDiskRequest & keyof GetDiskRequest & keyof GetDiskRequest & keyof GetDiskRequest & keyof GetDiskRequest & keyof GetDiskRequest & keyof GetDiskRequest & keyof GetDiskRequest & keyof GetDiskRequest & keyof GetDiskRequest & keyof GetDiskRequest]: (GetDiskRequest & GetDiskRequest & GetDiskRequest & GetDiskRequest & GetDiskRequest & GetDiskRequest & GetDiskRequest & GetDiskRequest & GetDiskRequest & GetDiskRequest & GetDiskRequest & GetDiskRequest)[K]
+      [K in keyof GetDiskRequest]: (GetDiskRequest)[K]
     }>): Request<GetDiskResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDisk(
-          this.ops["GetDisk"].applicator.apply(partialParams)
+          this.ops["GetDisk"].apply(partialParams)
         );
     }
 
     invokeGetDiskSnapshot(partialParams: ToOptional<{
-      [K in keyof GetDiskSnapshotRequest & keyof GetDiskSnapshotRequest & keyof GetDiskSnapshotRequest & keyof GetDiskSnapshotRequest & keyof GetDiskSnapshotRequest & keyof GetDiskSnapshotRequest & keyof GetDiskSnapshotRequest & keyof GetDiskSnapshotRequest & keyof GetDiskSnapshotRequest & keyof GetDiskSnapshotRequest & keyof GetDiskSnapshotRequest & keyof GetDiskSnapshotRequest]: (GetDiskSnapshotRequest & GetDiskSnapshotRequest & GetDiskSnapshotRequest & GetDiskSnapshotRequest & GetDiskSnapshotRequest & GetDiskSnapshotRequest & GetDiskSnapshotRequest & GetDiskSnapshotRequest & GetDiskSnapshotRequest & GetDiskSnapshotRequest & GetDiskSnapshotRequest & GetDiskSnapshotRequest)[K]
+      [K in keyof GetDiskSnapshotRequest]: (GetDiskSnapshotRequest)[K]
     }>): Request<GetDiskSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDiskSnapshot(
-          this.ops["GetDiskSnapshot"].applicator.apply(partialParams)
+          this.ops["GetDiskSnapshot"].apply(partialParams)
+        );
+    }
+
+    invokeGetDiskSnapshots(partialParams: ToOptional<{
+      [K in keyof GetDiskSnapshotsRequest]: (GetDiskSnapshotsRequest)[K]
+    }>): Request<GetDiskSnapshotsResult, AWSError> {
+        this.boot();
+        return this.client.getDiskSnapshots(
+          this.ops["GetDiskSnapshots"].apply(partialParams)
+        );
+    }
+
+    invokeGetDisks(partialParams: ToOptional<{
+      [K in keyof GetDisksRequest]: (GetDisksRequest)[K]
+    }>): Request<GetDisksResult, AWSError> {
+        this.boot();
+        return this.client.getDisks(
+          this.ops["GetDisks"].apply(partialParams)
+        );
+    }
+
+    invokeGetDistributionBundles(partialParams: ToOptional<{
+      [K in keyof GetDistributionBundlesRequest]: (GetDistributionBundlesRequest)[K]
+    }>): Request<GetDistributionBundlesResult, AWSError> {
+        this.boot();
+        return this.client.getDistributionBundles(
+          this.ops["GetDistributionBundles"].apply(partialParams)
+        );
+    }
+
+    invokeGetDistributionLatestCacheReset(partialParams: ToOptional<{
+      [K in keyof GetDistributionLatestCacheResetRequest]: (GetDistributionLatestCacheResetRequest)[K]
+    }>): Request<GetDistributionLatestCacheResetResult, AWSError> {
+        this.boot();
+        return this.client.getDistributionLatestCacheReset(
+          this.ops["GetDistributionLatestCacheReset"].apply(partialParams)
         );
     }
 
     invokeGetDistributionMetricData(partialParams: ToOptional<{
-      [K in keyof GetDistributionMetricDataRequest & keyof GetDistributionMetricDataRequest & keyof GetDistributionMetricDataRequest & keyof GetDistributionMetricDataRequest & keyof GetDistributionMetricDataRequest & keyof GetDistributionMetricDataRequest & keyof GetDistributionMetricDataRequest & keyof GetDistributionMetricDataRequest & keyof GetDistributionMetricDataRequest & keyof GetDistributionMetricDataRequest & keyof GetDistributionMetricDataRequest & keyof GetDistributionMetricDataRequest]: (GetDistributionMetricDataRequest & GetDistributionMetricDataRequest & GetDistributionMetricDataRequest & GetDistributionMetricDataRequest & GetDistributionMetricDataRequest & GetDistributionMetricDataRequest & GetDistributionMetricDataRequest & GetDistributionMetricDataRequest & GetDistributionMetricDataRequest & GetDistributionMetricDataRequest & GetDistributionMetricDataRequest & GetDistributionMetricDataRequest)[K]
+      [K in keyof GetDistributionMetricDataRequest]: (GetDistributionMetricDataRequest)[K]
     }>): Request<GetDistributionMetricDataResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDistributionMetricData(
-          this.ops["GetDistributionMetricData"].applicator.apply(partialParams)
+          this.ops["GetDistributionMetricData"].apply(partialParams)
+        );
+    }
+
+    invokeGetDistributions(partialParams: ToOptional<{
+      [K in keyof GetDistributionsRequest]: (GetDistributionsRequest)[K]
+    }>): Request<GetDistributionsResult, AWSError> {
+        this.boot();
+        return this.client.getDistributions(
+          this.ops["GetDistributions"].apply(partialParams)
         );
     }
 
     invokeGetDomain(partialParams: ToOptional<{
-      [K in keyof GetDomainRequest & keyof GetDomainRequest & keyof GetDomainRequest & keyof GetDomainRequest & keyof GetDomainRequest & keyof GetDomainRequest & keyof GetDomainRequest & keyof GetDomainRequest & keyof GetDomainRequest & keyof GetDomainRequest & keyof GetDomainRequest & keyof GetDomainRequest]: (GetDomainRequest & GetDomainRequest & GetDomainRequest & GetDomainRequest & GetDomainRequest & GetDomainRequest & GetDomainRequest & GetDomainRequest & GetDomainRequest & GetDomainRequest & GetDomainRequest & GetDomainRequest)[K]
+      [K in keyof GetDomainRequest]: (GetDomainRequest)[K]
     }>): Request<GetDomainResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDomain(
-          this.ops["GetDomain"].applicator.apply(partialParams)
+          this.ops["GetDomain"].apply(partialParams)
+        );
+    }
+
+    invokeGetDomains(partialParams: ToOptional<{
+      [K in keyof GetDomainsRequest]: (GetDomainsRequest)[K]
+    }>): Request<GetDomainsResult, AWSError> {
+        this.boot();
+        return this.client.getDomains(
+          this.ops["GetDomains"].apply(partialParams)
+        );
+    }
+
+    invokeGetExportSnapshotRecords(partialParams: ToOptional<{
+      [K in keyof GetExportSnapshotRecordsRequest]: (GetExportSnapshotRecordsRequest)[K]
+    }>): Request<GetExportSnapshotRecordsResult, AWSError> {
+        this.boot();
+        return this.client.getExportSnapshotRecords(
+          this.ops["GetExportSnapshotRecords"].apply(partialParams)
         );
     }
 
     invokeGetInstance(partialParams: ToOptional<{
-      [K in keyof GetInstanceRequest & keyof GetInstanceRequest & keyof GetInstanceRequest & keyof GetInstanceRequest & keyof GetInstanceRequest & keyof GetInstanceRequest & keyof GetInstanceRequest & keyof GetInstanceRequest & keyof GetInstanceRequest & keyof GetInstanceRequest & keyof GetInstanceRequest & keyof GetInstanceRequest]: (GetInstanceRequest & GetInstanceRequest & GetInstanceRequest & GetInstanceRequest & GetInstanceRequest & GetInstanceRequest & GetInstanceRequest & GetInstanceRequest & GetInstanceRequest & GetInstanceRequest & GetInstanceRequest & GetInstanceRequest)[K]
+      [K in keyof GetInstanceRequest]: (GetInstanceRequest)[K]
     }>): Request<GetInstanceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getInstance(
-          this.ops["GetInstance"].applicator.apply(partialParams)
+          this.ops["GetInstance"].apply(partialParams)
         );
     }
 
     invokeGetInstanceAccessDetails(partialParams: ToOptional<{
-      [K in keyof GetInstanceAccessDetailsRequest & keyof GetInstanceAccessDetailsRequest & keyof GetInstanceAccessDetailsRequest & keyof GetInstanceAccessDetailsRequest & keyof GetInstanceAccessDetailsRequest & keyof GetInstanceAccessDetailsRequest & keyof GetInstanceAccessDetailsRequest & keyof GetInstanceAccessDetailsRequest & keyof GetInstanceAccessDetailsRequest & keyof GetInstanceAccessDetailsRequest & keyof GetInstanceAccessDetailsRequest & keyof GetInstanceAccessDetailsRequest]: (GetInstanceAccessDetailsRequest & GetInstanceAccessDetailsRequest & GetInstanceAccessDetailsRequest & GetInstanceAccessDetailsRequest & GetInstanceAccessDetailsRequest & GetInstanceAccessDetailsRequest & GetInstanceAccessDetailsRequest & GetInstanceAccessDetailsRequest & GetInstanceAccessDetailsRequest & GetInstanceAccessDetailsRequest & GetInstanceAccessDetailsRequest & GetInstanceAccessDetailsRequest)[K]
+      [K in keyof GetInstanceAccessDetailsRequest]: (GetInstanceAccessDetailsRequest)[K]
     }>): Request<GetInstanceAccessDetailsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getInstanceAccessDetails(
-          this.ops["GetInstanceAccessDetails"].applicator.apply(partialParams)
+          this.ops["GetInstanceAccessDetails"].apply(partialParams)
         );
     }
 
     invokeGetInstanceMetricData(partialParams: ToOptional<{
-      [K in keyof GetInstanceMetricDataRequest & keyof GetInstanceMetricDataRequest & keyof GetInstanceMetricDataRequest & keyof GetInstanceMetricDataRequest & keyof GetInstanceMetricDataRequest & keyof GetInstanceMetricDataRequest & keyof GetInstanceMetricDataRequest & keyof GetInstanceMetricDataRequest & keyof GetInstanceMetricDataRequest & keyof GetInstanceMetricDataRequest & keyof GetInstanceMetricDataRequest & keyof GetInstanceMetricDataRequest]: (GetInstanceMetricDataRequest & GetInstanceMetricDataRequest & GetInstanceMetricDataRequest & GetInstanceMetricDataRequest & GetInstanceMetricDataRequest & GetInstanceMetricDataRequest & GetInstanceMetricDataRequest & GetInstanceMetricDataRequest & GetInstanceMetricDataRequest & GetInstanceMetricDataRequest & GetInstanceMetricDataRequest & GetInstanceMetricDataRequest)[K]
+      [K in keyof GetInstanceMetricDataRequest]: (GetInstanceMetricDataRequest)[K]
     }>): Request<GetInstanceMetricDataResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getInstanceMetricData(
-          this.ops["GetInstanceMetricData"].applicator.apply(partialParams)
+          this.ops["GetInstanceMetricData"].apply(partialParams)
         );
     }
 
     invokeGetInstancePortStates(partialParams: ToOptional<{
-      [K in keyof GetInstancePortStatesRequest & keyof GetInstancePortStatesRequest & keyof GetInstancePortStatesRequest & keyof GetInstancePortStatesRequest & keyof GetInstancePortStatesRequest & keyof GetInstancePortStatesRequest & keyof GetInstancePortStatesRequest & keyof GetInstancePortStatesRequest & keyof GetInstancePortStatesRequest & keyof GetInstancePortStatesRequest & keyof GetInstancePortStatesRequest & keyof GetInstancePortStatesRequest]: (GetInstancePortStatesRequest & GetInstancePortStatesRequest & GetInstancePortStatesRequest & GetInstancePortStatesRequest & GetInstancePortStatesRequest & GetInstancePortStatesRequest & GetInstancePortStatesRequest & GetInstancePortStatesRequest & GetInstancePortStatesRequest & GetInstancePortStatesRequest & GetInstancePortStatesRequest & GetInstancePortStatesRequest)[K]
+      [K in keyof GetInstancePortStatesRequest]: (GetInstancePortStatesRequest)[K]
     }>): Request<GetInstancePortStatesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getInstancePortStates(
-          this.ops["GetInstancePortStates"].applicator.apply(partialParams)
+          this.ops["GetInstancePortStates"].apply(partialParams)
         );
     }
 
     invokeGetInstanceSnapshot(partialParams: ToOptional<{
-      [K in keyof GetInstanceSnapshotRequest & keyof GetInstanceSnapshotRequest & keyof GetInstanceSnapshotRequest & keyof GetInstanceSnapshotRequest & keyof GetInstanceSnapshotRequest & keyof GetInstanceSnapshotRequest & keyof GetInstanceSnapshotRequest & keyof GetInstanceSnapshotRequest & keyof GetInstanceSnapshotRequest & keyof GetInstanceSnapshotRequest & keyof GetInstanceSnapshotRequest & keyof GetInstanceSnapshotRequest]: (GetInstanceSnapshotRequest & GetInstanceSnapshotRequest & GetInstanceSnapshotRequest & GetInstanceSnapshotRequest & GetInstanceSnapshotRequest & GetInstanceSnapshotRequest & GetInstanceSnapshotRequest & GetInstanceSnapshotRequest & GetInstanceSnapshotRequest & GetInstanceSnapshotRequest & GetInstanceSnapshotRequest & GetInstanceSnapshotRequest)[K]
+      [K in keyof GetInstanceSnapshotRequest]: (GetInstanceSnapshotRequest)[K]
     }>): Request<GetInstanceSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getInstanceSnapshot(
-          this.ops["GetInstanceSnapshot"].applicator.apply(partialParams)
+          this.ops["GetInstanceSnapshot"].apply(partialParams)
+        );
+    }
+
+    invokeGetInstanceSnapshots(partialParams: ToOptional<{
+      [K in keyof GetInstanceSnapshotsRequest]: (GetInstanceSnapshotsRequest)[K]
+    }>): Request<GetInstanceSnapshotsResult, AWSError> {
+        this.boot();
+        return this.client.getInstanceSnapshots(
+          this.ops["GetInstanceSnapshots"].apply(partialParams)
         );
     }
 
     invokeGetInstanceState(partialParams: ToOptional<{
-      [K in keyof GetInstanceStateRequest & keyof GetInstanceStateRequest & keyof GetInstanceStateRequest & keyof GetInstanceStateRequest & keyof GetInstanceStateRequest & keyof GetInstanceStateRequest & keyof GetInstanceStateRequest & keyof GetInstanceStateRequest & keyof GetInstanceStateRequest & keyof GetInstanceStateRequest & keyof GetInstanceStateRequest & keyof GetInstanceStateRequest]: (GetInstanceStateRequest & GetInstanceStateRequest & GetInstanceStateRequest & GetInstanceStateRequest & GetInstanceStateRequest & GetInstanceStateRequest & GetInstanceStateRequest & GetInstanceStateRequest & GetInstanceStateRequest & GetInstanceStateRequest & GetInstanceStateRequest & GetInstanceStateRequest)[K]
+      [K in keyof GetInstanceStateRequest]: (GetInstanceStateRequest)[K]
     }>): Request<GetInstanceStateResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getInstanceState(
-          this.ops["GetInstanceState"].applicator.apply(partialParams)
+          this.ops["GetInstanceState"].apply(partialParams)
+        );
+    }
+
+    invokeGetInstances(partialParams: ToOptional<{
+      [K in keyof GetInstancesRequest]: (GetInstancesRequest)[K]
+    }>): Request<GetInstancesResult, AWSError> {
+        this.boot();
+        return this.client.getInstances(
+          this.ops["GetInstances"].apply(partialParams)
         );
     }
 
     invokeGetKeyPair(partialParams: ToOptional<{
-      [K in keyof GetKeyPairRequest & keyof GetKeyPairRequest & keyof GetKeyPairRequest & keyof GetKeyPairRequest & keyof GetKeyPairRequest & keyof GetKeyPairRequest & keyof GetKeyPairRequest & keyof GetKeyPairRequest & keyof GetKeyPairRequest & keyof GetKeyPairRequest & keyof GetKeyPairRequest & keyof GetKeyPairRequest]: (GetKeyPairRequest & GetKeyPairRequest & GetKeyPairRequest & GetKeyPairRequest & GetKeyPairRequest & GetKeyPairRequest & GetKeyPairRequest & GetKeyPairRequest & GetKeyPairRequest & GetKeyPairRequest & GetKeyPairRequest & GetKeyPairRequest)[K]
+      [K in keyof GetKeyPairRequest]: (GetKeyPairRequest)[K]
     }>): Request<GetKeyPairResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getKeyPair(
-          this.ops["GetKeyPair"].applicator.apply(partialParams)
+          this.ops["GetKeyPair"].apply(partialParams)
+        );
+    }
+
+    invokeGetKeyPairs(partialParams: ToOptional<{
+      [K in keyof GetKeyPairsRequest]: (GetKeyPairsRequest)[K]
+    }>): Request<GetKeyPairsResult, AWSError> {
+        this.boot();
+        return this.client.getKeyPairs(
+          this.ops["GetKeyPairs"].apply(partialParams)
         );
     }
 
     invokeGetLoadBalancer(partialParams: ToOptional<{
-      [K in keyof GetLoadBalancerRequest & keyof GetLoadBalancerRequest & keyof GetLoadBalancerRequest & keyof GetLoadBalancerRequest & keyof GetLoadBalancerRequest & keyof GetLoadBalancerRequest & keyof GetLoadBalancerRequest & keyof GetLoadBalancerRequest & keyof GetLoadBalancerRequest & keyof GetLoadBalancerRequest & keyof GetLoadBalancerRequest & keyof GetLoadBalancerRequest]: (GetLoadBalancerRequest & GetLoadBalancerRequest & GetLoadBalancerRequest & GetLoadBalancerRequest & GetLoadBalancerRequest & GetLoadBalancerRequest & GetLoadBalancerRequest & GetLoadBalancerRequest & GetLoadBalancerRequest & GetLoadBalancerRequest & GetLoadBalancerRequest & GetLoadBalancerRequest)[K]
+      [K in keyof GetLoadBalancerRequest]: (GetLoadBalancerRequest)[K]
     }>): Request<GetLoadBalancerResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getLoadBalancer(
-          this.ops["GetLoadBalancer"].applicator.apply(partialParams)
+          this.ops["GetLoadBalancer"].apply(partialParams)
         );
     }
 
     invokeGetLoadBalancerMetricData(partialParams: ToOptional<{
-      [K in keyof GetLoadBalancerMetricDataRequest & keyof GetLoadBalancerMetricDataRequest & keyof GetLoadBalancerMetricDataRequest & keyof GetLoadBalancerMetricDataRequest & keyof GetLoadBalancerMetricDataRequest & keyof GetLoadBalancerMetricDataRequest & keyof GetLoadBalancerMetricDataRequest & keyof GetLoadBalancerMetricDataRequest & keyof GetLoadBalancerMetricDataRequest & keyof GetLoadBalancerMetricDataRequest & keyof GetLoadBalancerMetricDataRequest & keyof GetLoadBalancerMetricDataRequest]: (GetLoadBalancerMetricDataRequest & GetLoadBalancerMetricDataRequest & GetLoadBalancerMetricDataRequest & GetLoadBalancerMetricDataRequest & GetLoadBalancerMetricDataRequest & GetLoadBalancerMetricDataRequest & GetLoadBalancerMetricDataRequest & GetLoadBalancerMetricDataRequest & GetLoadBalancerMetricDataRequest & GetLoadBalancerMetricDataRequest & GetLoadBalancerMetricDataRequest & GetLoadBalancerMetricDataRequest)[K]
+      [K in keyof GetLoadBalancerMetricDataRequest]: (GetLoadBalancerMetricDataRequest)[K]
     }>): Request<GetLoadBalancerMetricDataResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getLoadBalancerMetricData(
-          this.ops["GetLoadBalancerMetricData"].applicator.apply(partialParams)
+          this.ops["GetLoadBalancerMetricData"].apply(partialParams)
         );
     }
 
     invokeGetLoadBalancerTlsCertificates(partialParams: ToOptional<{
-      [K in keyof GetLoadBalancerTlsCertificatesRequest & keyof GetLoadBalancerTlsCertificatesRequest & keyof GetLoadBalancerTlsCertificatesRequest & keyof GetLoadBalancerTlsCertificatesRequest & keyof GetLoadBalancerTlsCertificatesRequest & keyof GetLoadBalancerTlsCertificatesRequest & keyof GetLoadBalancerTlsCertificatesRequest & keyof GetLoadBalancerTlsCertificatesRequest & keyof GetLoadBalancerTlsCertificatesRequest & keyof GetLoadBalancerTlsCertificatesRequest & keyof GetLoadBalancerTlsCertificatesRequest & keyof GetLoadBalancerTlsCertificatesRequest]: (GetLoadBalancerTlsCertificatesRequest & GetLoadBalancerTlsCertificatesRequest & GetLoadBalancerTlsCertificatesRequest & GetLoadBalancerTlsCertificatesRequest & GetLoadBalancerTlsCertificatesRequest & GetLoadBalancerTlsCertificatesRequest & GetLoadBalancerTlsCertificatesRequest & GetLoadBalancerTlsCertificatesRequest & GetLoadBalancerTlsCertificatesRequest & GetLoadBalancerTlsCertificatesRequest & GetLoadBalancerTlsCertificatesRequest & GetLoadBalancerTlsCertificatesRequest)[K]
+      [K in keyof GetLoadBalancerTlsCertificatesRequest]: (GetLoadBalancerTlsCertificatesRequest)[K]
     }>): Request<GetLoadBalancerTlsCertificatesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getLoadBalancerTlsCertificates(
-          this.ops["GetLoadBalancerTlsCertificates"].applicator.apply(partialParams)
+          this.ops["GetLoadBalancerTlsCertificates"].apply(partialParams)
+        );
+    }
+
+    invokeGetLoadBalancers(partialParams: ToOptional<{
+      [K in keyof GetLoadBalancersRequest]: (GetLoadBalancersRequest)[K]
+    }>): Request<GetLoadBalancersResult, AWSError> {
+        this.boot();
+        return this.client.getLoadBalancers(
+          this.ops["GetLoadBalancers"].apply(partialParams)
         );
     }
 
     invokeGetOperation(partialParams: ToOptional<{
-      [K in keyof GetOperationRequest & keyof GetOperationRequest & keyof GetOperationRequest & keyof GetOperationRequest & keyof GetOperationRequest & keyof GetOperationRequest & keyof GetOperationRequest & keyof GetOperationRequest & keyof GetOperationRequest & keyof GetOperationRequest & keyof GetOperationRequest & keyof GetOperationRequest]: (GetOperationRequest & GetOperationRequest & GetOperationRequest & GetOperationRequest & GetOperationRequest & GetOperationRequest & GetOperationRequest & GetOperationRequest & GetOperationRequest & GetOperationRequest & GetOperationRequest & GetOperationRequest)[K]
+      [K in keyof GetOperationRequest]: (GetOperationRequest)[K]
     }>): Request<GetOperationResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getOperation(
-          this.ops["GetOperation"].applicator.apply(partialParams)
+          this.ops["GetOperation"].apply(partialParams)
+        );
+    }
+
+    invokeGetOperations(partialParams: ToOptional<{
+      [K in keyof GetOperationsRequest]: (GetOperationsRequest)[K]
+    }>): Request<GetOperationsResult, AWSError> {
+        this.boot();
+        return this.client.getOperations(
+          this.ops["GetOperations"].apply(partialParams)
         );
     }
 
     invokeGetOperationsForResource(partialParams: ToOptional<{
-      [K in keyof GetOperationsForResourceRequest & keyof GetOperationsForResourceRequest & keyof GetOperationsForResourceRequest & keyof GetOperationsForResourceRequest & keyof GetOperationsForResourceRequest & keyof GetOperationsForResourceRequest & keyof GetOperationsForResourceRequest & keyof GetOperationsForResourceRequest & keyof GetOperationsForResourceRequest & keyof GetOperationsForResourceRequest & keyof GetOperationsForResourceRequest & keyof GetOperationsForResourceRequest]: (GetOperationsForResourceRequest & GetOperationsForResourceRequest & GetOperationsForResourceRequest & GetOperationsForResourceRequest & GetOperationsForResourceRequest & GetOperationsForResourceRequest & GetOperationsForResourceRequest & GetOperationsForResourceRequest & GetOperationsForResourceRequest & GetOperationsForResourceRequest & GetOperationsForResourceRequest & GetOperationsForResourceRequest)[K]
+      [K in keyof GetOperationsForResourceRequest]: (GetOperationsForResourceRequest)[K]
     }>): Request<GetOperationsForResourceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getOperationsForResource(
-          this.ops["GetOperationsForResource"].applicator.apply(partialParams)
+          this.ops["GetOperationsForResource"].apply(partialParams)
+        );
+    }
+
+    invokeGetRegions(partialParams: ToOptional<{
+      [K in keyof GetRegionsRequest]: (GetRegionsRequest)[K]
+    }>): Request<GetRegionsResult, AWSError> {
+        this.boot();
+        return this.client.getRegions(
+          this.ops["GetRegions"].apply(partialParams)
         );
     }
 
     invokeGetRelationalDatabase(partialParams: ToOptional<{
-      [K in keyof GetRelationalDatabaseRequest & keyof GetRelationalDatabaseRequest & keyof GetRelationalDatabaseRequest & keyof GetRelationalDatabaseRequest & keyof GetRelationalDatabaseRequest & keyof GetRelationalDatabaseRequest & keyof GetRelationalDatabaseRequest & keyof GetRelationalDatabaseRequest & keyof GetRelationalDatabaseRequest & keyof GetRelationalDatabaseRequest & keyof GetRelationalDatabaseRequest & keyof GetRelationalDatabaseRequest]: (GetRelationalDatabaseRequest & GetRelationalDatabaseRequest & GetRelationalDatabaseRequest & GetRelationalDatabaseRequest & GetRelationalDatabaseRequest & GetRelationalDatabaseRequest & GetRelationalDatabaseRequest & GetRelationalDatabaseRequest & GetRelationalDatabaseRequest & GetRelationalDatabaseRequest & GetRelationalDatabaseRequest & GetRelationalDatabaseRequest)[K]
+      [K in keyof GetRelationalDatabaseRequest]: (GetRelationalDatabaseRequest)[K]
     }>): Request<GetRelationalDatabaseResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRelationalDatabase(
-          this.ops["GetRelationalDatabase"].applicator.apply(partialParams)
+          this.ops["GetRelationalDatabase"].apply(partialParams)
+        );
+    }
+
+    invokeGetRelationalDatabaseBlueprints(partialParams: ToOptional<{
+      [K in keyof GetRelationalDatabaseBlueprintsRequest]: (GetRelationalDatabaseBlueprintsRequest)[K]
+    }>): Request<GetRelationalDatabaseBlueprintsResult, AWSError> {
+        this.boot();
+        return this.client.getRelationalDatabaseBlueprints(
+          this.ops["GetRelationalDatabaseBlueprints"].apply(partialParams)
+        );
+    }
+
+    invokeGetRelationalDatabaseBundles(partialParams: ToOptional<{
+      [K in keyof GetRelationalDatabaseBundlesRequest]: (GetRelationalDatabaseBundlesRequest)[K]
+    }>): Request<GetRelationalDatabaseBundlesResult, AWSError> {
+        this.boot();
+        return this.client.getRelationalDatabaseBundles(
+          this.ops["GetRelationalDatabaseBundles"].apply(partialParams)
         );
     }
 
     invokeGetRelationalDatabaseEvents(partialParams: ToOptional<{
-      [K in keyof GetRelationalDatabaseEventsRequest & keyof GetRelationalDatabaseEventsRequest & keyof GetRelationalDatabaseEventsRequest & keyof GetRelationalDatabaseEventsRequest & keyof GetRelationalDatabaseEventsRequest & keyof GetRelationalDatabaseEventsRequest & keyof GetRelationalDatabaseEventsRequest & keyof GetRelationalDatabaseEventsRequest & keyof GetRelationalDatabaseEventsRequest & keyof GetRelationalDatabaseEventsRequest & keyof GetRelationalDatabaseEventsRequest & keyof GetRelationalDatabaseEventsRequest]: (GetRelationalDatabaseEventsRequest & GetRelationalDatabaseEventsRequest & GetRelationalDatabaseEventsRequest & GetRelationalDatabaseEventsRequest & GetRelationalDatabaseEventsRequest & GetRelationalDatabaseEventsRequest & GetRelationalDatabaseEventsRequest & GetRelationalDatabaseEventsRequest & GetRelationalDatabaseEventsRequest & GetRelationalDatabaseEventsRequest & GetRelationalDatabaseEventsRequest & GetRelationalDatabaseEventsRequest)[K]
+      [K in keyof GetRelationalDatabaseEventsRequest]: (GetRelationalDatabaseEventsRequest)[K]
     }>): Request<GetRelationalDatabaseEventsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRelationalDatabaseEvents(
-          this.ops["GetRelationalDatabaseEvents"].applicator.apply(partialParams)
+          this.ops["GetRelationalDatabaseEvents"].apply(partialParams)
         );
     }
 
     invokeGetRelationalDatabaseLogEvents(partialParams: ToOptional<{
-      [K in keyof GetRelationalDatabaseLogEventsRequest & keyof GetRelationalDatabaseLogEventsRequest & keyof GetRelationalDatabaseLogEventsRequest & keyof GetRelationalDatabaseLogEventsRequest & keyof GetRelationalDatabaseLogEventsRequest & keyof GetRelationalDatabaseLogEventsRequest & keyof GetRelationalDatabaseLogEventsRequest & keyof GetRelationalDatabaseLogEventsRequest & keyof GetRelationalDatabaseLogEventsRequest & keyof GetRelationalDatabaseLogEventsRequest & keyof GetRelationalDatabaseLogEventsRequest & keyof GetRelationalDatabaseLogEventsRequest]: (GetRelationalDatabaseLogEventsRequest & GetRelationalDatabaseLogEventsRequest & GetRelationalDatabaseLogEventsRequest & GetRelationalDatabaseLogEventsRequest & GetRelationalDatabaseLogEventsRequest & GetRelationalDatabaseLogEventsRequest & GetRelationalDatabaseLogEventsRequest & GetRelationalDatabaseLogEventsRequest & GetRelationalDatabaseLogEventsRequest & GetRelationalDatabaseLogEventsRequest & GetRelationalDatabaseLogEventsRequest & GetRelationalDatabaseLogEventsRequest)[K]
+      [K in keyof GetRelationalDatabaseLogEventsRequest]: (GetRelationalDatabaseLogEventsRequest)[K]
     }>): Request<GetRelationalDatabaseLogEventsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRelationalDatabaseLogEvents(
-          this.ops["GetRelationalDatabaseLogEvents"].applicator.apply(partialParams)
+          this.ops["GetRelationalDatabaseLogEvents"].apply(partialParams)
         );
     }
 
     invokeGetRelationalDatabaseLogStreams(partialParams: ToOptional<{
-      [K in keyof GetRelationalDatabaseLogStreamsRequest & keyof GetRelationalDatabaseLogStreamsRequest & keyof GetRelationalDatabaseLogStreamsRequest & keyof GetRelationalDatabaseLogStreamsRequest & keyof GetRelationalDatabaseLogStreamsRequest & keyof GetRelationalDatabaseLogStreamsRequest & keyof GetRelationalDatabaseLogStreamsRequest & keyof GetRelationalDatabaseLogStreamsRequest & keyof GetRelationalDatabaseLogStreamsRequest & keyof GetRelationalDatabaseLogStreamsRequest & keyof GetRelationalDatabaseLogStreamsRequest & keyof GetRelationalDatabaseLogStreamsRequest]: (GetRelationalDatabaseLogStreamsRequest & GetRelationalDatabaseLogStreamsRequest & GetRelationalDatabaseLogStreamsRequest & GetRelationalDatabaseLogStreamsRequest & GetRelationalDatabaseLogStreamsRequest & GetRelationalDatabaseLogStreamsRequest & GetRelationalDatabaseLogStreamsRequest & GetRelationalDatabaseLogStreamsRequest & GetRelationalDatabaseLogStreamsRequest & GetRelationalDatabaseLogStreamsRequest & GetRelationalDatabaseLogStreamsRequest & GetRelationalDatabaseLogStreamsRequest)[K]
+      [K in keyof GetRelationalDatabaseLogStreamsRequest]: (GetRelationalDatabaseLogStreamsRequest)[K]
     }>): Request<GetRelationalDatabaseLogStreamsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRelationalDatabaseLogStreams(
-          this.ops["GetRelationalDatabaseLogStreams"].applicator.apply(partialParams)
+          this.ops["GetRelationalDatabaseLogStreams"].apply(partialParams)
         );
     }
 
     invokeGetRelationalDatabaseMasterUserPassword(partialParams: ToOptional<{
-      [K in keyof GetRelationalDatabaseMasterUserPasswordRequest & keyof GetRelationalDatabaseMasterUserPasswordRequest & keyof GetRelationalDatabaseMasterUserPasswordRequest & keyof GetRelationalDatabaseMasterUserPasswordRequest & keyof GetRelationalDatabaseMasterUserPasswordRequest & keyof GetRelationalDatabaseMasterUserPasswordRequest & keyof GetRelationalDatabaseMasterUserPasswordRequest & keyof GetRelationalDatabaseMasterUserPasswordRequest & keyof GetRelationalDatabaseMasterUserPasswordRequest & keyof GetRelationalDatabaseMasterUserPasswordRequest & keyof GetRelationalDatabaseMasterUserPasswordRequest & keyof GetRelationalDatabaseMasterUserPasswordRequest]: (GetRelationalDatabaseMasterUserPasswordRequest & GetRelationalDatabaseMasterUserPasswordRequest & GetRelationalDatabaseMasterUserPasswordRequest & GetRelationalDatabaseMasterUserPasswordRequest & GetRelationalDatabaseMasterUserPasswordRequest & GetRelationalDatabaseMasterUserPasswordRequest & GetRelationalDatabaseMasterUserPasswordRequest & GetRelationalDatabaseMasterUserPasswordRequest & GetRelationalDatabaseMasterUserPasswordRequest & GetRelationalDatabaseMasterUserPasswordRequest & GetRelationalDatabaseMasterUserPasswordRequest & GetRelationalDatabaseMasterUserPasswordRequest)[K]
+      [K in keyof GetRelationalDatabaseMasterUserPasswordRequest]: (GetRelationalDatabaseMasterUserPasswordRequest)[K]
     }>): Request<GetRelationalDatabaseMasterUserPasswordResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRelationalDatabaseMasterUserPassword(
-          this.ops["GetRelationalDatabaseMasterUserPassword"].applicator.apply(partialParams)
+          this.ops["GetRelationalDatabaseMasterUserPassword"].apply(partialParams)
         );
     }
 
     invokeGetRelationalDatabaseMetricData(partialParams: ToOptional<{
-      [K in keyof GetRelationalDatabaseMetricDataRequest & keyof GetRelationalDatabaseMetricDataRequest & keyof GetRelationalDatabaseMetricDataRequest & keyof GetRelationalDatabaseMetricDataRequest & keyof GetRelationalDatabaseMetricDataRequest & keyof GetRelationalDatabaseMetricDataRequest & keyof GetRelationalDatabaseMetricDataRequest & keyof GetRelationalDatabaseMetricDataRequest & keyof GetRelationalDatabaseMetricDataRequest & keyof GetRelationalDatabaseMetricDataRequest & keyof GetRelationalDatabaseMetricDataRequest & keyof GetRelationalDatabaseMetricDataRequest]: (GetRelationalDatabaseMetricDataRequest & GetRelationalDatabaseMetricDataRequest & GetRelationalDatabaseMetricDataRequest & GetRelationalDatabaseMetricDataRequest & GetRelationalDatabaseMetricDataRequest & GetRelationalDatabaseMetricDataRequest & GetRelationalDatabaseMetricDataRequest & GetRelationalDatabaseMetricDataRequest & GetRelationalDatabaseMetricDataRequest & GetRelationalDatabaseMetricDataRequest & GetRelationalDatabaseMetricDataRequest & GetRelationalDatabaseMetricDataRequest)[K]
+      [K in keyof GetRelationalDatabaseMetricDataRequest]: (GetRelationalDatabaseMetricDataRequest)[K]
     }>): Request<GetRelationalDatabaseMetricDataResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRelationalDatabaseMetricData(
-          this.ops["GetRelationalDatabaseMetricData"].applicator.apply(partialParams)
+          this.ops["GetRelationalDatabaseMetricData"].apply(partialParams)
         );
     }
 
     invokeGetRelationalDatabaseParameters(partialParams: ToOptional<{
-      [K in keyof GetRelationalDatabaseParametersRequest & keyof GetRelationalDatabaseParametersRequest & keyof GetRelationalDatabaseParametersRequest & keyof GetRelationalDatabaseParametersRequest & keyof GetRelationalDatabaseParametersRequest & keyof GetRelationalDatabaseParametersRequest & keyof GetRelationalDatabaseParametersRequest & keyof GetRelationalDatabaseParametersRequest & keyof GetRelationalDatabaseParametersRequest & keyof GetRelationalDatabaseParametersRequest & keyof GetRelationalDatabaseParametersRequest & keyof GetRelationalDatabaseParametersRequest]: (GetRelationalDatabaseParametersRequest & GetRelationalDatabaseParametersRequest & GetRelationalDatabaseParametersRequest & GetRelationalDatabaseParametersRequest & GetRelationalDatabaseParametersRequest & GetRelationalDatabaseParametersRequest & GetRelationalDatabaseParametersRequest & GetRelationalDatabaseParametersRequest & GetRelationalDatabaseParametersRequest & GetRelationalDatabaseParametersRequest & GetRelationalDatabaseParametersRequest & GetRelationalDatabaseParametersRequest)[K]
+      [K in keyof GetRelationalDatabaseParametersRequest]: (GetRelationalDatabaseParametersRequest)[K]
     }>): Request<GetRelationalDatabaseParametersResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRelationalDatabaseParameters(
-          this.ops["GetRelationalDatabaseParameters"].applicator.apply(partialParams)
+          this.ops["GetRelationalDatabaseParameters"].apply(partialParams)
         );
     }
 
     invokeGetRelationalDatabaseSnapshot(partialParams: ToOptional<{
-      [K in keyof GetRelationalDatabaseSnapshotRequest & keyof GetRelationalDatabaseSnapshotRequest & keyof GetRelationalDatabaseSnapshotRequest & keyof GetRelationalDatabaseSnapshotRequest & keyof GetRelationalDatabaseSnapshotRequest & keyof GetRelationalDatabaseSnapshotRequest & keyof GetRelationalDatabaseSnapshotRequest & keyof GetRelationalDatabaseSnapshotRequest & keyof GetRelationalDatabaseSnapshotRequest & keyof GetRelationalDatabaseSnapshotRequest & keyof GetRelationalDatabaseSnapshotRequest & keyof GetRelationalDatabaseSnapshotRequest]: (GetRelationalDatabaseSnapshotRequest & GetRelationalDatabaseSnapshotRequest & GetRelationalDatabaseSnapshotRequest & GetRelationalDatabaseSnapshotRequest & GetRelationalDatabaseSnapshotRequest & GetRelationalDatabaseSnapshotRequest & GetRelationalDatabaseSnapshotRequest & GetRelationalDatabaseSnapshotRequest & GetRelationalDatabaseSnapshotRequest & GetRelationalDatabaseSnapshotRequest & GetRelationalDatabaseSnapshotRequest & GetRelationalDatabaseSnapshotRequest)[K]
+      [K in keyof GetRelationalDatabaseSnapshotRequest]: (GetRelationalDatabaseSnapshotRequest)[K]
     }>): Request<GetRelationalDatabaseSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRelationalDatabaseSnapshot(
-          this.ops["GetRelationalDatabaseSnapshot"].applicator.apply(partialParams)
+          this.ops["GetRelationalDatabaseSnapshot"].apply(partialParams)
+        );
+    }
+
+    invokeGetRelationalDatabaseSnapshots(partialParams: ToOptional<{
+      [K in keyof GetRelationalDatabaseSnapshotsRequest]: (GetRelationalDatabaseSnapshotsRequest)[K]
+    }>): Request<GetRelationalDatabaseSnapshotsResult, AWSError> {
+        this.boot();
+        return this.client.getRelationalDatabaseSnapshots(
+          this.ops["GetRelationalDatabaseSnapshots"].apply(partialParams)
+        );
+    }
+
+    invokeGetRelationalDatabases(partialParams: ToOptional<{
+      [K in keyof GetRelationalDatabasesRequest]: (GetRelationalDatabasesRequest)[K]
+    }>): Request<GetRelationalDatabasesResult, AWSError> {
+        this.boot();
+        return this.client.getRelationalDatabases(
+          this.ops["GetRelationalDatabases"].apply(partialParams)
         );
     }
 
     invokeGetStaticIp(partialParams: ToOptional<{
-      [K in keyof GetStaticIpRequest & keyof GetStaticIpRequest & keyof GetStaticIpRequest & keyof GetStaticIpRequest & keyof GetStaticIpRequest & keyof GetStaticIpRequest & keyof GetStaticIpRequest & keyof GetStaticIpRequest & keyof GetStaticIpRequest & keyof GetStaticIpRequest & keyof GetStaticIpRequest & keyof GetStaticIpRequest]: (GetStaticIpRequest & GetStaticIpRequest & GetStaticIpRequest & GetStaticIpRequest & GetStaticIpRequest & GetStaticIpRequest & GetStaticIpRequest & GetStaticIpRequest & GetStaticIpRequest & GetStaticIpRequest & GetStaticIpRequest & GetStaticIpRequest)[K]
+      [K in keyof GetStaticIpRequest]: (GetStaticIpRequest)[K]
     }>): Request<GetStaticIpResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getStaticIp(
-          this.ops["GetStaticIp"].applicator.apply(partialParams)
+          this.ops["GetStaticIp"].apply(partialParams)
+        );
+    }
+
+    invokeGetStaticIps(partialParams: ToOptional<{
+      [K in keyof GetStaticIpsRequest]: (GetStaticIpsRequest)[K]
+    }>): Request<GetStaticIpsResult, AWSError> {
+        this.boot();
+        return this.client.getStaticIps(
+          this.ops["GetStaticIps"].apply(partialParams)
         );
     }
 
     invokeImportKeyPair(partialParams: ToOptional<{
-      [K in keyof ImportKeyPairRequest & keyof ImportKeyPairRequest & keyof ImportKeyPairRequest & keyof ImportKeyPairRequest & keyof ImportKeyPairRequest & keyof ImportKeyPairRequest & keyof ImportKeyPairRequest & keyof ImportKeyPairRequest & keyof ImportKeyPairRequest & keyof ImportKeyPairRequest & keyof ImportKeyPairRequest & keyof ImportKeyPairRequest]: (ImportKeyPairRequest & ImportKeyPairRequest & ImportKeyPairRequest & ImportKeyPairRequest & ImportKeyPairRequest & ImportKeyPairRequest & ImportKeyPairRequest & ImportKeyPairRequest & ImportKeyPairRequest & ImportKeyPairRequest & ImportKeyPairRequest & ImportKeyPairRequest)[K]
+      [K in keyof ImportKeyPairRequest]: (ImportKeyPairRequest)[K]
     }>): Request<ImportKeyPairResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.importKeyPair(
-          this.ops["ImportKeyPair"].applicator.apply(partialParams)
+          this.ops["ImportKeyPair"].apply(partialParams)
+        );
+    }
+
+    invokeIsVpcPeered(partialParams: ToOptional<{
+      [K in keyof IsVpcPeeredRequest]: (IsVpcPeeredRequest)[K]
+    }>): Request<IsVpcPeeredResult, AWSError> {
+        this.boot();
+        return this.client.isVpcPeered(
+          this.ops["IsVpcPeered"].apply(partialParams)
         );
     }
 
     invokeOpenInstancePublicPorts(partialParams: ToOptional<{
-      [K in keyof OpenInstancePublicPortsRequest & keyof OpenInstancePublicPortsRequest & keyof OpenInstancePublicPortsRequest & keyof OpenInstancePublicPortsRequest & keyof OpenInstancePublicPortsRequest & keyof OpenInstancePublicPortsRequest & keyof OpenInstancePublicPortsRequest & keyof OpenInstancePublicPortsRequest & keyof OpenInstancePublicPortsRequest & keyof OpenInstancePublicPortsRequest & keyof OpenInstancePublicPortsRequest & keyof OpenInstancePublicPortsRequest]: (OpenInstancePublicPortsRequest & OpenInstancePublicPortsRequest & OpenInstancePublicPortsRequest & OpenInstancePublicPortsRequest & OpenInstancePublicPortsRequest & OpenInstancePublicPortsRequest & OpenInstancePublicPortsRequest & OpenInstancePublicPortsRequest & OpenInstancePublicPortsRequest & OpenInstancePublicPortsRequest & OpenInstancePublicPortsRequest & OpenInstancePublicPortsRequest)[K]
+      [K in keyof OpenInstancePublicPortsRequest]: (OpenInstancePublicPortsRequest)[K]
     }>): Request<OpenInstancePublicPortsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.openInstancePublicPorts(
-          this.ops["OpenInstancePublicPorts"].applicator.apply(partialParams)
+          this.ops["OpenInstancePublicPorts"].apply(partialParams)
+        );
+    }
+
+    invokePeerVpc(partialParams: ToOptional<{
+      [K in keyof PeerVpcRequest]: (PeerVpcRequest)[K]
+    }>): Request<PeerVpcResult, AWSError> {
+        this.boot();
+        return this.client.peerVpc(
+          this.ops["PeerVpc"].apply(partialParams)
         );
     }
 
     invokePutAlarm(partialParams: ToOptional<{
-      [K in keyof PutAlarmRequest & keyof PutAlarmRequest & keyof PutAlarmRequest & keyof PutAlarmRequest & keyof PutAlarmRequest & keyof PutAlarmRequest & keyof PutAlarmRequest & keyof PutAlarmRequest & keyof PutAlarmRequest & keyof PutAlarmRequest & keyof PutAlarmRequest & keyof PutAlarmRequest]: (PutAlarmRequest & PutAlarmRequest & PutAlarmRequest & PutAlarmRequest & PutAlarmRequest & PutAlarmRequest & PutAlarmRequest & PutAlarmRequest & PutAlarmRequest & PutAlarmRequest & PutAlarmRequest & PutAlarmRequest)[K]
+      [K in keyof PutAlarmRequest]: (PutAlarmRequest)[K]
     }>): Request<PutAlarmResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putAlarm(
-          this.ops["PutAlarm"].applicator.apply(partialParams)
+          this.ops["PutAlarm"].apply(partialParams)
         );
     }
 
     invokePutInstancePublicPorts(partialParams: ToOptional<{
-      [K in keyof PutInstancePublicPortsRequest & keyof PutInstancePublicPortsRequest & keyof PutInstancePublicPortsRequest & keyof PutInstancePublicPortsRequest & keyof PutInstancePublicPortsRequest & keyof PutInstancePublicPortsRequest & keyof PutInstancePublicPortsRequest & keyof PutInstancePublicPortsRequest & keyof PutInstancePublicPortsRequest & keyof PutInstancePublicPortsRequest & keyof PutInstancePublicPortsRequest & keyof PutInstancePublicPortsRequest]: (PutInstancePublicPortsRequest & PutInstancePublicPortsRequest & PutInstancePublicPortsRequest & PutInstancePublicPortsRequest & PutInstancePublicPortsRequest & PutInstancePublicPortsRequest & PutInstancePublicPortsRequest & PutInstancePublicPortsRequest & PutInstancePublicPortsRequest & PutInstancePublicPortsRequest & PutInstancePublicPortsRequest & PutInstancePublicPortsRequest)[K]
+      [K in keyof PutInstancePublicPortsRequest]: (PutInstancePublicPortsRequest)[K]
     }>): Request<PutInstancePublicPortsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putInstancePublicPorts(
-          this.ops["PutInstancePublicPorts"].applicator.apply(partialParams)
+          this.ops["PutInstancePublicPorts"].apply(partialParams)
         );
     }
 
     invokeRebootInstance(partialParams: ToOptional<{
-      [K in keyof RebootInstanceRequest & keyof RebootInstanceRequest & keyof RebootInstanceRequest & keyof RebootInstanceRequest & keyof RebootInstanceRequest & keyof RebootInstanceRequest & keyof RebootInstanceRequest & keyof RebootInstanceRequest & keyof RebootInstanceRequest & keyof RebootInstanceRequest & keyof RebootInstanceRequest & keyof RebootInstanceRequest]: (RebootInstanceRequest & RebootInstanceRequest & RebootInstanceRequest & RebootInstanceRequest & RebootInstanceRequest & RebootInstanceRequest & RebootInstanceRequest & RebootInstanceRequest & RebootInstanceRequest & RebootInstanceRequest & RebootInstanceRequest & RebootInstanceRequest)[K]
+      [K in keyof RebootInstanceRequest]: (RebootInstanceRequest)[K]
     }>): Request<RebootInstanceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.rebootInstance(
-          this.ops["RebootInstance"].applicator.apply(partialParams)
+          this.ops["RebootInstance"].apply(partialParams)
         );
     }
 
     invokeRebootRelationalDatabase(partialParams: ToOptional<{
-      [K in keyof RebootRelationalDatabaseRequest & keyof RebootRelationalDatabaseRequest & keyof RebootRelationalDatabaseRequest & keyof RebootRelationalDatabaseRequest & keyof RebootRelationalDatabaseRequest & keyof RebootRelationalDatabaseRequest & keyof RebootRelationalDatabaseRequest & keyof RebootRelationalDatabaseRequest & keyof RebootRelationalDatabaseRequest & keyof RebootRelationalDatabaseRequest & keyof RebootRelationalDatabaseRequest & keyof RebootRelationalDatabaseRequest]: (RebootRelationalDatabaseRequest & RebootRelationalDatabaseRequest & RebootRelationalDatabaseRequest & RebootRelationalDatabaseRequest & RebootRelationalDatabaseRequest & RebootRelationalDatabaseRequest & RebootRelationalDatabaseRequest & RebootRelationalDatabaseRequest & RebootRelationalDatabaseRequest & RebootRelationalDatabaseRequest & RebootRelationalDatabaseRequest & RebootRelationalDatabaseRequest)[K]
+      [K in keyof RebootRelationalDatabaseRequest]: (RebootRelationalDatabaseRequest)[K]
     }>): Request<RebootRelationalDatabaseResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.rebootRelationalDatabase(
-          this.ops["RebootRelationalDatabase"].applicator.apply(partialParams)
+          this.ops["RebootRelationalDatabase"].apply(partialParams)
         );
     }
 
     invokeRegisterContainerImage(partialParams: ToOptional<{
-      [K in keyof RegisterContainerImageRequest & keyof RegisterContainerImageRequest & keyof RegisterContainerImageRequest & keyof RegisterContainerImageRequest & keyof RegisterContainerImageRequest & keyof RegisterContainerImageRequest & keyof RegisterContainerImageRequest & keyof RegisterContainerImageRequest & keyof RegisterContainerImageRequest & keyof RegisterContainerImageRequest & keyof RegisterContainerImageRequest & keyof RegisterContainerImageRequest]: (RegisterContainerImageRequest & RegisterContainerImageRequest & RegisterContainerImageRequest & RegisterContainerImageRequest & RegisterContainerImageRequest & RegisterContainerImageRequest & RegisterContainerImageRequest & RegisterContainerImageRequest & RegisterContainerImageRequest & RegisterContainerImageRequest & RegisterContainerImageRequest & RegisterContainerImageRequest)[K]
+      [K in keyof RegisterContainerImageRequest]: (RegisterContainerImageRequest)[K]
     }>): Request<RegisterContainerImageResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.registerContainerImage(
-          this.ops["RegisterContainerImage"].applicator.apply(partialParams)
+          this.ops["RegisterContainerImage"].apply(partialParams)
         );
     }
 
     invokeReleaseStaticIp(partialParams: ToOptional<{
-      [K in keyof ReleaseStaticIpRequest & keyof ReleaseStaticIpRequest & keyof ReleaseStaticIpRequest & keyof ReleaseStaticIpRequest & keyof ReleaseStaticIpRequest & keyof ReleaseStaticIpRequest & keyof ReleaseStaticIpRequest & keyof ReleaseStaticIpRequest & keyof ReleaseStaticIpRequest & keyof ReleaseStaticIpRequest & keyof ReleaseStaticIpRequest & keyof ReleaseStaticIpRequest]: (ReleaseStaticIpRequest & ReleaseStaticIpRequest & ReleaseStaticIpRequest & ReleaseStaticIpRequest & ReleaseStaticIpRequest & ReleaseStaticIpRequest & ReleaseStaticIpRequest & ReleaseStaticIpRequest & ReleaseStaticIpRequest & ReleaseStaticIpRequest & ReleaseStaticIpRequest & ReleaseStaticIpRequest)[K]
+      [K in keyof ReleaseStaticIpRequest]: (ReleaseStaticIpRequest)[K]
     }>): Request<ReleaseStaticIpResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.releaseStaticIp(
-          this.ops["ReleaseStaticIp"].applicator.apply(partialParams)
+          this.ops["ReleaseStaticIp"].apply(partialParams)
+        );
+    }
+
+    invokeResetDistributionCache(partialParams: ToOptional<{
+      [K in keyof ResetDistributionCacheRequest]: (ResetDistributionCacheRequest)[K]
+    }>): Request<ResetDistributionCacheResult, AWSError> {
+        this.boot();
+        return this.client.resetDistributionCache(
+          this.ops["ResetDistributionCache"].apply(partialParams)
         );
     }
 
     invokeSendContactMethodVerification(partialParams: ToOptional<{
-      [K in keyof SendContactMethodVerificationRequest & keyof SendContactMethodVerificationRequest & keyof SendContactMethodVerificationRequest & keyof SendContactMethodVerificationRequest & keyof SendContactMethodVerificationRequest & keyof SendContactMethodVerificationRequest & keyof SendContactMethodVerificationRequest & keyof SendContactMethodVerificationRequest & keyof SendContactMethodVerificationRequest & keyof SendContactMethodVerificationRequest & keyof SendContactMethodVerificationRequest & keyof SendContactMethodVerificationRequest]: (SendContactMethodVerificationRequest & SendContactMethodVerificationRequest & SendContactMethodVerificationRequest & SendContactMethodVerificationRequest & SendContactMethodVerificationRequest & SendContactMethodVerificationRequest & SendContactMethodVerificationRequest & SendContactMethodVerificationRequest & SendContactMethodVerificationRequest & SendContactMethodVerificationRequest & SendContactMethodVerificationRequest & SendContactMethodVerificationRequest)[K]
+      [K in keyof SendContactMethodVerificationRequest]: (SendContactMethodVerificationRequest)[K]
     }>): Request<SendContactMethodVerificationResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.sendContactMethodVerification(
-          this.ops["SendContactMethodVerification"].applicator.apply(partialParams)
+          this.ops["SendContactMethodVerification"].apply(partialParams)
         );
     }
 
     invokeSetIpAddressType(partialParams: ToOptional<{
-      [K in keyof SetIpAddressTypeRequest & keyof SetIpAddressTypeRequest & keyof SetIpAddressTypeRequest & keyof SetIpAddressTypeRequest & keyof SetIpAddressTypeRequest & keyof SetIpAddressTypeRequest & keyof SetIpAddressTypeRequest & keyof SetIpAddressTypeRequest & keyof SetIpAddressTypeRequest & keyof SetIpAddressTypeRequest & keyof SetIpAddressTypeRequest & keyof SetIpAddressTypeRequest]: (SetIpAddressTypeRequest & SetIpAddressTypeRequest & SetIpAddressTypeRequest & SetIpAddressTypeRequest & SetIpAddressTypeRequest & SetIpAddressTypeRequest & SetIpAddressTypeRequest & SetIpAddressTypeRequest & SetIpAddressTypeRequest & SetIpAddressTypeRequest & SetIpAddressTypeRequest & SetIpAddressTypeRequest)[K]
+      [K in keyof SetIpAddressTypeRequest]: (SetIpAddressTypeRequest)[K]
     }>): Request<SetIpAddressTypeResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.setIpAddressType(
-          this.ops["SetIpAddressType"].applicator.apply(partialParams)
+          this.ops["SetIpAddressType"].apply(partialParams)
         );
     }
 
     invokeSetResourceAccessForBucket(partialParams: ToOptional<{
-      [K in keyof SetResourceAccessForBucketRequest & keyof SetResourceAccessForBucketRequest & keyof SetResourceAccessForBucketRequest & keyof SetResourceAccessForBucketRequest & keyof SetResourceAccessForBucketRequest & keyof SetResourceAccessForBucketRequest & keyof SetResourceAccessForBucketRequest & keyof SetResourceAccessForBucketRequest & keyof SetResourceAccessForBucketRequest & keyof SetResourceAccessForBucketRequest & keyof SetResourceAccessForBucketRequest & keyof SetResourceAccessForBucketRequest]: (SetResourceAccessForBucketRequest & SetResourceAccessForBucketRequest & SetResourceAccessForBucketRequest & SetResourceAccessForBucketRequest & SetResourceAccessForBucketRequest & SetResourceAccessForBucketRequest & SetResourceAccessForBucketRequest & SetResourceAccessForBucketRequest & SetResourceAccessForBucketRequest & SetResourceAccessForBucketRequest & SetResourceAccessForBucketRequest & SetResourceAccessForBucketRequest)[K]
+      [K in keyof SetResourceAccessForBucketRequest]: (SetResourceAccessForBucketRequest)[K]
     }>): Request<SetResourceAccessForBucketResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.setResourceAccessForBucket(
-          this.ops["SetResourceAccessForBucket"].applicator.apply(partialParams)
+          this.ops["SetResourceAccessForBucket"].apply(partialParams)
         );
     }
 
     invokeStartInstance(partialParams: ToOptional<{
-      [K in keyof StartInstanceRequest & keyof StartInstanceRequest & keyof StartInstanceRequest & keyof StartInstanceRequest & keyof StartInstanceRequest & keyof StartInstanceRequest & keyof StartInstanceRequest & keyof StartInstanceRequest & keyof StartInstanceRequest & keyof StartInstanceRequest & keyof StartInstanceRequest & keyof StartInstanceRequest]: (StartInstanceRequest & StartInstanceRequest & StartInstanceRequest & StartInstanceRequest & StartInstanceRequest & StartInstanceRequest & StartInstanceRequest & StartInstanceRequest & StartInstanceRequest & StartInstanceRequest & StartInstanceRequest & StartInstanceRequest)[K]
+      [K in keyof StartInstanceRequest]: (StartInstanceRequest)[K]
     }>): Request<StartInstanceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startInstance(
-          this.ops["StartInstance"].applicator.apply(partialParams)
+          this.ops["StartInstance"].apply(partialParams)
         );
     }
 
     invokeStartRelationalDatabase(partialParams: ToOptional<{
-      [K in keyof StartRelationalDatabaseRequest & keyof StartRelationalDatabaseRequest & keyof StartRelationalDatabaseRequest & keyof StartRelationalDatabaseRequest & keyof StartRelationalDatabaseRequest & keyof StartRelationalDatabaseRequest & keyof StartRelationalDatabaseRequest & keyof StartRelationalDatabaseRequest & keyof StartRelationalDatabaseRequest & keyof StartRelationalDatabaseRequest & keyof StartRelationalDatabaseRequest & keyof StartRelationalDatabaseRequest]: (StartRelationalDatabaseRequest & StartRelationalDatabaseRequest & StartRelationalDatabaseRequest & StartRelationalDatabaseRequest & StartRelationalDatabaseRequest & StartRelationalDatabaseRequest & StartRelationalDatabaseRequest & StartRelationalDatabaseRequest & StartRelationalDatabaseRequest & StartRelationalDatabaseRequest & StartRelationalDatabaseRequest & StartRelationalDatabaseRequest)[K]
+      [K in keyof StartRelationalDatabaseRequest]: (StartRelationalDatabaseRequest)[K]
     }>): Request<StartRelationalDatabaseResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startRelationalDatabase(
-          this.ops["StartRelationalDatabase"].applicator.apply(partialParams)
+          this.ops["StartRelationalDatabase"].apply(partialParams)
         );
     }
 
     invokeStopInstance(partialParams: ToOptional<{
-      [K in keyof StopInstanceRequest & keyof StopInstanceRequest & keyof StopInstanceRequest & keyof StopInstanceRequest & keyof StopInstanceRequest & keyof StopInstanceRequest & keyof StopInstanceRequest & keyof StopInstanceRequest & keyof StopInstanceRequest & keyof StopInstanceRequest & keyof StopInstanceRequest & keyof StopInstanceRequest]: (StopInstanceRequest & StopInstanceRequest & StopInstanceRequest & StopInstanceRequest & StopInstanceRequest & StopInstanceRequest & StopInstanceRequest & StopInstanceRequest & StopInstanceRequest & StopInstanceRequest & StopInstanceRequest & StopInstanceRequest)[K]
+      [K in keyof StopInstanceRequest]: (StopInstanceRequest)[K]
     }>): Request<StopInstanceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopInstance(
-          this.ops["StopInstance"].applicator.apply(partialParams)
+          this.ops["StopInstance"].apply(partialParams)
         );
     }
 
     invokeStopRelationalDatabase(partialParams: ToOptional<{
-      [K in keyof StopRelationalDatabaseRequest & keyof StopRelationalDatabaseRequest & keyof StopRelationalDatabaseRequest & keyof StopRelationalDatabaseRequest & keyof StopRelationalDatabaseRequest & keyof StopRelationalDatabaseRequest & keyof StopRelationalDatabaseRequest & keyof StopRelationalDatabaseRequest & keyof StopRelationalDatabaseRequest & keyof StopRelationalDatabaseRequest & keyof StopRelationalDatabaseRequest & keyof StopRelationalDatabaseRequest]: (StopRelationalDatabaseRequest & StopRelationalDatabaseRequest & StopRelationalDatabaseRequest & StopRelationalDatabaseRequest & StopRelationalDatabaseRequest & StopRelationalDatabaseRequest & StopRelationalDatabaseRequest & StopRelationalDatabaseRequest & StopRelationalDatabaseRequest & StopRelationalDatabaseRequest & StopRelationalDatabaseRequest & StopRelationalDatabaseRequest)[K]
+      [K in keyof StopRelationalDatabaseRequest]: (StopRelationalDatabaseRequest)[K]
     }>): Request<StopRelationalDatabaseResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopRelationalDatabase(
-          this.ops["StopRelationalDatabase"].applicator.apply(partialParams)
+          this.ops["StopRelationalDatabase"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeTestAlarm(partialParams: ToOptional<{
-      [K in keyof TestAlarmRequest & keyof TestAlarmRequest & keyof TestAlarmRequest & keyof TestAlarmRequest & keyof TestAlarmRequest & keyof TestAlarmRequest & keyof TestAlarmRequest & keyof TestAlarmRequest & keyof TestAlarmRequest & keyof TestAlarmRequest & keyof TestAlarmRequest & keyof TestAlarmRequest]: (TestAlarmRequest & TestAlarmRequest & TestAlarmRequest & TestAlarmRequest & TestAlarmRequest & TestAlarmRequest & TestAlarmRequest & TestAlarmRequest & TestAlarmRequest & TestAlarmRequest & TestAlarmRequest & TestAlarmRequest)[K]
+      [K in keyof TestAlarmRequest]: (TestAlarmRequest)[K]
     }>): Request<TestAlarmResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.testAlarm(
-          this.ops["TestAlarm"].applicator.apply(partialParams)
+          this.ops["TestAlarm"].apply(partialParams)
+        );
+    }
+
+    invokeUnpeerVpc(partialParams: ToOptional<{
+      [K in keyof UnpeerVpcRequest]: (UnpeerVpcRequest)[K]
+    }>): Request<UnpeerVpcResult, AWSError> {
+        this.boot();
+        return this.client.unpeerVpc(
+          this.ops["UnpeerVpc"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateBucket(partialParams: ToOptional<{
-      [K in keyof UpdateBucketRequest & keyof UpdateBucketRequest & keyof UpdateBucketRequest & keyof UpdateBucketRequest & keyof UpdateBucketRequest & keyof UpdateBucketRequest & keyof UpdateBucketRequest & keyof UpdateBucketRequest & keyof UpdateBucketRequest & keyof UpdateBucketRequest & keyof UpdateBucketRequest & keyof UpdateBucketRequest]: (UpdateBucketRequest & UpdateBucketRequest & UpdateBucketRequest & UpdateBucketRequest & UpdateBucketRequest & UpdateBucketRequest & UpdateBucketRequest & UpdateBucketRequest & UpdateBucketRequest & UpdateBucketRequest & UpdateBucketRequest & UpdateBucketRequest)[K]
+      [K in keyof UpdateBucketRequest]: (UpdateBucketRequest)[K]
     }>): Request<UpdateBucketResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateBucket(
-          this.ops["UpdateBucket"].applicator.apply(partialParams)
+          this.ops["UpdateBucket"].apply(partialParams)
         );
     }
 
     invokeUpdateBucketBundle(partialParams: ToOptional<{
-      [K in keyof UpdateBucketBundleRequest & keyof UpdateBucketBundleRequest & keyof UpdateBucketBundleRequest & keyof Omit<UpdateBucketBundleRequest, "bundleId"> & keyof UpdateBucketBundleRequest & keyof UpdateBucketBundleRequest & keyof UpdateBucketBundleRequest & keyof UpdateBucketBundleRequest & keyof UpdateBucketBundleRequest & keyof UpdateBucketBundleRequest & keyof UpdateBucketBundleRequest & keyof UpdateBucketBundleRequest]: (UpdateBucketBundleRequest & UpdateBucketBundleRequest & UpdateBucketBundleRequest & Omit<UpdateBucketBundleRequest, "bundleId"> & UpdateBucketBundleRequest & UpdateBucketBundleRequest & UpdateBucketBundleRequest & UpdateBucketBundleRequest & UpdateBucketBundleRequest & UpdateBucketBundleRequest & UpdateBucketBundleRequest & UpdateBucketBundleRequest)[K]
+      [K in keyof UpdateBucketBundleRequest]: (UpdateBucketBundleRequest)[K]
     }>): Request<UpdateBucketBundleResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateBucketBundle(
-          this.ops["UpdateBucketBundle"].applicator.apply(partialParams)
+          this.ops["UpdateBucketBundle"].apply(partialParams)
         );
     }
 
     invokeUpdateContainerService(partialParams: ToOptional<{
-      [K in keyof UpdateContainerServiceRequest & keyof UpdateContainerServiceRequest & keyof UpdateContainerServiceRequest & keyof UpdateContainerServiceRequest & keyof UpdateContainerServiceRequest & keyof UpdateContainerServiceRequest & keyof UpdateContainerServiceRequest & keyof UpdateContainerServiceRequest & keyof UpdateContainerServiceRequest & keyof UpdateContainerServiceRequest & keyof UpdateContainerServiceRequest & keyof UpdateContainerServiceRequest]: (UpdateContainerServiceRequest & UpdateContainerServiceRequest & UpdateContainerServiceRequest & UpdateContainerServiceRequest & UpdateContainerServiceRequest & UpdateContainerServiceRequest & UpdateContainerServiceRequest & UpdateContainerServiceRequest & UpdateContainerServiceRequest & UpdateContainerServiceRequest & UpdateContainerServiceRequest & UpdateContainerServiceRequest)[K]
+      [K in keyof UpdateContainerServiceRequest]: (UpdateContainerServiceRequest)[K]
     }>): Request<UpdateContainerServiceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateContainerService(
-          this.ops["UpdateContainerService"].applicator.apply(partialParams)
+          this.ops["UpdateContainerService"].apply(partialParams)
         );
     }
 
     invokeUpdateDistribution(partialParams: ToOptional<{
-      [K in keyof UpdateDistributionRequest & keyof UpdateDistributionRequest & keyof UpdateDistributionRequest & keyof UpdateDistributionRequest & keyof UpdateDistributionRequest & keyof UpdateDistributionRequest & keyof UpdateDistributionRequest & keyof UpdateDistributionRequest & keyof UpdateDistributionRequest & keyof UpdateDistributionRequest & keyof UpdateDistributionRequest & keyof UpdateDistributionRequest]: (UpdateDistributionRequest & UpdateDistributionRequest & UpdateDistributionRequest & UpdateDistributionRequest & UpdateDistributionRequest & UpdateDistributionRequest & UpdateDistributionRequest & UpdateDistributionRequest & UpdateDistributionRequest & UpdateDistributionRequest & UpdateDistributionRequest & UpdateDistributionRequest)[K]
+      [K in keyof UpdateDistributionRequest]: (UpdateDistributionRequest)[K]
     }>): Request<UpdateDistributionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDistribution(
-          this.ops["UpdateDistribution"].applicator.apply(partialParams)
+          this.ops["UpdateDistribution"].apply(partialParams)
+        );
+    }
+
+    invokeUpdateDistributionBundle(partialParams: ToOptional<{
+      [K in keyof UpdateDistributionBundleRequest]: (UpdateDistributionBundleRequest)[K]
+    }>): Request<UpdateDistributionBundleResult, AWSError> {
+        this.boot();
+        return this.client.updateDistributionBundle(
+          this.ops["UpdateDistributionBundle"].apply(partialParams)
         );
     }
 
     invokeUpdateDomainEntry(partialParams: ToOptional<{
-      [K in keyof UpdateDomainEntryRequest & keyof UpdateDomainEntryRequest & keyof UpdateDomainEntryRequest & keyof UpdateDomainEntryRequest & keyof UpdateDomainEntryRequest & keyof UpdateDomainEntryRequest & keyof UpdateDomainEntryRequest & keyof UpdateDomainEntryRequest & keyof UpdateDomainEntryRequest & keyof UpdateDomainEntryRequest & keyof UpdateDomainEntryRequest & keyof UpdateDomainEntryRequest]: (UpdateDomainEntryRequest & UpdateDomainEntryRequest & UpdateDomainEntryRequest & UpdateDomainEntryRequest & UpdateDomainEntryRequest & UpdateDomainEntryRequest & UpdateDomainEntryRequest & UpdateDomainEntryRequest & UpdateDomainEntryRequest & UpdateDomainEntryRequest & UpdateDomainEntryRequest & UpdateDomainEntryRequest)[K]
+      [K in keyof UpdateDomainEntryRequest]: (UpdateDomainEntryRequest)[K]
     }>): Request<UpdateDomainEntryResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDomainEntry(
-          this.ops["UpdateDomainEntry"].applicator.apply(partialParams)
+          this.ops["UpdateDomainEntry"].apply(partialParams)
         );
     }
 
     invokeUpdateLoadBalancerAttribute(partialParams: ToOptional<{
-      [K in keyof UpdateLoadBalancerAttributeRequest & keyof UpdateLoadBalancerAttributeRequest & keyof UpdateLoadBalancerAttributeRequest & keyof UpdateLoadBalancerAttributeRequest & keyof UpdateLoadBalancerAttributeRequest & keyof UpdateLoadBalancerAttributeRequest & keyof UpdateLoadBalancerAttributeRequest & keyof UpdateLoadBalancerAttributeRequest & keyof UpdateLoadBalancerAttributeRequest & keyof UpdateLoadBalancerAttributeRequest & keyof UpdateLoadBalancerAttributeRequest & keyof UpdateLoadBalancerAttributeRequest]: (UpdateLoadBalancerAttributeRequest & UpdateLoadBalancerAttributeRequest & UpdateLoadBalancerAttributeRequest & UpdateLoadBalancerAttributeRequest & UpdateLoadBalancerAttributeRequest & UpdateLoadBalancerAttributeRequest & UpdateLoadBalancerAttributeRequest & UpdateLoadBalancerAttributeRequest & UpdateLoadBalancerAttributeRequest & UpdateLoadBalancerAttributeRequest & UpdateLoadBalancerAttributeRequest & UpdateLoadBalancerAttributeRequest)[K]
+      [K in keyof UpdateLoadBalancerAttributeRequest]: (UpdateLoadBalancerAttributeRequest)[K]
     }>): Request<UpdateLoadBalancerAttributeResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateLoadBalancerAttribute(
-          this.ops["UpdateLoadBalancerAttribute"].applicator.apply(partialParams)
+          this.ops["UpdateLoadBalancerAttribute"].apply(partialParams)
         );
     }
 
     invokeUpdateRelationalDatabase(partialParams: ToOptional<{
-      [K in keyof UpdateRelationalDatabaseRequest & keyof UpdateRelationalDatabaseRequest & keyof UpdateRelationalDatabaseRequest & keyof UpdateRelationalDatabaseRequest & keyof UpdateRelationalDatabaseRequest & keyof UpdateRelationalDatabaseRequest & keyof UpdateRelationalDatabaseRequest & keyof UpdateRelationalDatabaseRequest & keyof UpdateRelationalDatabaseRequest & keyof UpdateRelationalDatabaseRequest & keyof UpdateRelationalDatabaseRequest & keyof UpdateRelationalDatabaseRequest]: (UpdateRelationalDatabaseRequest & UpdateRelationalDatabaseRequest & UpdateRelationalDatabaseRequest & UpdateRelationalDatabaseRequest & UpdateRelationalDatabaseRequest & UpdateRelationalDatabaseRequest & UpdateRelationalDatabaseRequest & UpdateRelationalDatabaseRequest & UpdateRelationalDatabaseRequest & UpdateRelationalDatabaseRequest & UpdateRelationalDatabaseRequest & UpdateRelationalDatabaseRequest)[K]
+      [K in keyof UpdateRelationalDatabaseRequest]: (UpdateRelationalDatabaseRequest)[K]
     }>): Request<UpdateRelationalDatabaseResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateRelationalDatabase(
-          this.ops["UpdateRelationalDatabase"].applicator.apply(partialParams)
+          this.ops["UpdateRelationalDatabase"].apply(partialParams)
         );
     }
 
     invokeUpdateRelationalDatabaseParameters(partialParams: ToOptional<{
-      [K in keyof UpdateRelationalDatabaseParametersRequest & keyof UpdateRelationalDatabaseParametersRequest & keyof UpdateRelationalDatabaseParametersRequest & keyof UpdateRelationalDatabaseParametersRequest & keyof UpdateRelationalDatabaseParametersRequest & keyof UpdateRelationalDatabaseParametersRequest & keyof UpdateRelationalDatabaseParametersRequest & keyof UpdateRelationalDatabaseParametersRequest & keyof UpdateRelationalDatabaseParametersRequest & keyof UpdateRelationalDatabaseParametersRequest & keyof UpdateRelationalDatabaseParametersRequest & keyof UpdateRelationalDatabaseParametersRequest]: (UpdateRelationalDatabaseParametersRequest & UpdateRelationalDatabaseParametersRequest & UpdateRelationalDatabaseParametersRequest & UpdateRelationalDatabaseParametersRequest & UpdateRelationalDatabaseParametersRequest & UpdateRelationalDatabaseParametersRequest & UpdateRelationalDatabaseParametersRequest & UpdateRelationalDatabaseParametersRequest & UpdateRelationalDatabaseParametersRequest & UpdateRelationalDatabaseParametersRequest & UpdateRelationalDatabaseParametersRequest & UpdateRelationalDatabaseParametersRequest)[K]
+      [K in keyof UpdateRelationalDatabaseParametersRequest]: (UpdateRelationalDatabaseParametersRequest)[K]
     }>): Request<UpdateRelationalDatabaseParametersResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateRelationalDatabaseParameters(
-          this.ops["UpdateRelationalDatabaseParameters"].applicator.apply(partialParams)
+          this.ops["UpdateRelationalDatabaseParameters"].apply(partialParams)
         );
     }
 }

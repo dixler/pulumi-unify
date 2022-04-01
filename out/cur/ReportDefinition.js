@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.cur.ReportDefinition {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.CUR();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,19 +50,24 @@ class default_1 extends aws.cur.ReportDefinition {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
+    }
+    invokeDeleteReportDefinition(partialParams) {
+        this.boot();
+        return this.client.deleteReportDefinition(this.ops["DeleteReportDefinition"].apply(partialParams));
+    }
+    invokeDescribeReportDefinitions(partialParams) {
+        this.boot();
+        return this.client.describeReportDefinitions(this.ops["DescribeReportDefinitions"].apply(partialParams));
     }
     invokeModifyReportDefinition(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyReportDefinition(this.ops["ModifyReportDefinition"].applicator.apply(partialParams));
+        return this.client.modifyReportDefinition(this.ops["ModifyReportDefinition"].apply(partialParams));
     }
     invokePutReportDefinition(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putReportDefinition(this.ops["PutReportDefinition"].applicator.apply(partialParams));
+        return this.client.putReportDefinition(this.ops["PutReportDefinition"].apply(partialParams));
     }
 }
 exports.default = default_1;

@@ -7,7 +7,6 @@ import {AWSError} from 'aws-sdk/lib/error';
 import {
     CancelJournalKinesisStreamRequest,
     CreateLedgerRequest,
-    DeleteLedgerRequest,
     DescribeJournalKinesisStreamRequest,
     DescribeJournalS3ExportRequest,
     DescribeLedgerRequest,
@@ -16,7 +15,9 @@ import {
     GetDigestRequest,
     GetRevisionRequest,
     ListJournalKinesisStreamsForLedgerRequest,
+    ListJournalS3ExportsRequest,
     ListJournalS3ExportsForLedgerRequest,
+    ListLedgersRequest,
     ListTagsForResourceRequest,
     StreamJournalToKinesisRequest,
     TagResourceRequest,
@@ -33,7 +34,9 @@ import {
     GetDigestResponse,
     GetRevisionResponse,
     ListJournalKinesisStreamsForLedgerResponse,
+    ListJournalS3ExportsResponse,
     ListJournalS3ExportsForLedgerResponse,
+    ListLedgersResponse,
     ListTagsForResourceResponse,
     StreamJournalToKinesisResponse,
     TagResourceResponse,
@@ -54,21 +57,24 @@ export default class extends aws.qldb.Ledger {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.qldb.Ledger>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.QLDB()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -78,204 +84,178 @@ export default class extends aws.qldb.Ledger {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCancelJournalKinesisStream(partialParams: ToOptional<{
-      [K in keyof CancelJournalKinesisStreamRequest & keyof CancelJournalKinesisStreamRequest & keyof CancelJournalKinesisStreamRequest]: (CancelJournalKinesisStreamRequest & CancelJournalKinesisStreamRequest & CancelJournalKinesisStreamRequest)[K]
+      [K in keyof CancelJournalKinesisStreamRequest & keyof Omit<CancelJournalKinesisStreamRequest, "LedgerName">]: (CancelJournalKinesisStreamRequest)[K]
     }>): Request<CancelJournalKinesisStreamResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.cancelJournalKinesisStream(
-          this.ops["CancelJournalKinesisStream"].applicator.apply(partialParams)
+          this.ops["CancelJournalKinesisStream"].apply(partialParams)
         );
     }
 
     invokeCreateLedger(partialParams: ToOptional<{
-      [K in keyof CreateLedgerRequest & keyof CreateLedgerRequest & keyof CreateLedgerRequest]: (CreateLedgerRequest & CreateLedgerRequest & CreateLedgerRequest)[K]
+      [K in keyof CreateLedgerRequest & keyof Omit<CreateLedgerRequest, "Name" | "PermissionsMode">]: (CreateLedgerRequest)[K]
     }>): Request<CreateLedgerResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createLedger(
-          this.ops["CreateLedger"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteLedger(partialParams: ToOptional<{
-      [K in keyof DeleteLedgerRequest & keyof DeleteLedgerRequest & keyof DeleteLedgerRequest]: (DeleteLedgerRequest & DeleteLedgerRequest & DeleteLedgerRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteLedger(
-          this.ops["DeleteLedger"].applicator.apply(partialParams)
+          this.ops["CreateLedger"].apply(partialParams)
         );
     }
 
     invokeDescribeJournalKinesisStream(partialParams: ToOptional<{
-      [K in keyof DescribeJournalKinesisStreamRequest & keyof DescribeJournalKinesisStreamRequest & keyof DescribeJournalKinesisStreamRequest]: (DescribeJournalKinesisStreamRequest & DescribeJournalKinesisStreamRequest & DescribeJournalKinesisStreamRequest)[K]
+      [K in keyof DescribeJournalKinesisStreamRequest & keyof Omit<DescribeJournalKinesisStreamRequest, "LedgerName">]: (DescribeJournalKinesisStreamRequest)[K]
     }>): Request<DescribeJournalKinesisStreamResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeJournalKinesisStream(
-          this.ops["DescribeJournalKinesisStream"].applicator.apply(partialParams)
+          this.ops["DescribeJournalKinesisStream"].apply(partialParams)
         );
     }
 
     invokeDescribeJournalS3Export(partialParams: ToOptional<{
-      [K in keyof DescribeJournalS3ExportRequest & keyof DescribeJournalS3ExportRequest & keyof DescribeJournalS3ExportRequest]: (DescribeJournalS3ExportRequest & DescribeJournalS3ExportRequest & DescribeJournalS3ExportRequest)[K]
+      [K in keyof DescribeJournalS3ExportRequest & keyof Omit<DescribeJournalS3ExportRequest, "Name">]: (DescribeJournalS3ExportRequest)[K]
     }>): Request<DescribeJournalS3ExportResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeJournalS3Export(
-          this.ops["DescribeJournalS3Export"].applicator.apply(partialParams)
+          this.ops["DescribeJournalS3Export"].apply(partialParams)
         );
     }
 
     invokeDescribeLedger(partialParams: ToOptional<{
-      [K in keyof DescribeLedgerRequest & keyof DescribeLedgerRequest & keyof DescribeLedgerRequest]: (DescribeLedgerRequest & DescribeLedgerRequest & DescribeLedgerRequest)[K]
+      [K in keyof DescribeLedgerRequest & keyof Omit<DescribeLedgerRequest, "Name">]: (DescribeLedgerRequest)[K]
     }>): Request<DescribeLedgerResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeLedger(
-          this.ops["DescribeLedger"].applicator.apply(partialParams)
+          this.ops["DescribeLedger"].apply(partialParams)
         );
     }
 
     invokeExportJournalToS3(partialParams: ToOptional<{
-      [K in keyof Omit<ExportJournalToS3Request, "RoleArn"> & keyof ExportJournalToS3Request & keyof ExportJournalToS3Request]: (Omit<ExportJournalToS3Request, "RoleArn"> & ExportJournalToS3Request & ExportJournalToS3Request)[K]
+      [K in keyof ExportJournalToS3Request & keyof Omit<ExportJournalToS3Request, "Name">]: (ExportJournalToS3Request)[K]
     }>): Request<ExportJournalToS3Response, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.exportJournalToS3(
-          this.ops["ExportJournalToS3"].applicator.apply(partialParams)
+          this.ops["ExportJournalToS3"].apply(partialParams)
         );
     }
 
     invokeGetBlock(partialParams: ToOptional<{
-      [K in keyof GetBlockRequest & keyof GetBlockRequest & keyof GetBlockRequest]: (GetBlockRequest & GetBlockRequest & GetBlockRequest)[K]
+      [K in keyof GetBlockRequest & keyof Omit<GetBlockRequest, "Name">]: (GetBlockRequest)[K]
     }>): Request<GetBlockResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getBlock(
-          this.ops["GetBlock"].applicator.apply(partialParams)
+          this.ops["GetBlock"].apply(partialParams)
         );
     }
 
     invokeGetDigest(partialParams: ToOptional<{
-      [K in keyof GetDigestRequest & keyof GetDigestRequest & keyof GetDigestRequest]: (GetDigestRequest & GetDigestRequest & GetDigestRequest)[K]
+      [K in keyof GetDigestRequest & keyof Omit<GetDigestRequest, "Name">]: (GetDigestRequest)[K]
     }>): Request<GetDigestResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDigest(
-          this.ops["GetDigest"].applicator.apply(partialParams)
+          this.ops["GetDigest"].apply(partialParams)
         );
     }
 
     invokeGetRevision(partialParams: ToOptional<{
-      [K in keyof GetRevisionRequest & keyof GetRevisionRequest & keyof GetRevisionRequest]: (GetRevisionRequest & GetRevisionRequest & GetRevisionRequest)[K]
+      [K in keyof GetRevisionRequest & keyof Omit<GetRevisionRequest, "Name">]: (GetRevisionRequest)[K]
     }>): Request<GetRevisionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRevision(
-          this.ops["GetRevision"].applicator.apply(partialParams)
+          this.ops["GetRevision"].apply(partialParams)
         );
     }
 
     invokeListJournalKinesisStreamsForLedger(partialParams: ToOptional<{
-      [K in keyof ListJournalKinesisStreamsForLedgerRequest & keyof ListJournalKinesisStreamsForLedgerRequest & keyof ListJournalKinesisStreamsForLedgerRequest]: (ListJournalKinesisStreamsForLedgerRequest & ListJournalKinesisStreamsForLedgerRequest & ListJournalKinesisStreamsForLedgerRequest)[K]
+      [K in keyof ListJournalKinesisStreamsForLedgerRequest & keyof Omit<ListJournalKinesisStreamsForLedgerRequest, "LedgerName">]: (ListJournalKinesisStreamsForLedgerRequest)[K]
     }>): Request<ListJournalKinesisStreamsForLedgerResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listJournalKinesisStreamsForLedger(
-          this.ops["ListJournalKinesisStreamsForLedger"].applicator.apply(partialParams)
+          this.ops["ListJournalKinesisStreamsForLedger"].apply(partialParams)
+        );
+    }
+
+    invokeListJournalS3Exports(partialParams: ToOptional<{
+      [K in keyof ListJournalS3ExportsRequest]: (ListJournalS3ExportsRequest)[K]
+    }>): Request<ListJournalS3ExportsResponse, AWSError> {
+        this.boot();
+        return this.client.listJournalS3Exports(
+          this.ops["ListJournalS3Exports"].apply(partialParams)
         );
     }
 
     invokeListJournalS3ExportsForLedger(partialParams: ToOptional<{
-      [K in keyof ListJournalS3ExportsForLedgerRequest & keyof Omit<ListJournalS3ExportsForLedgerRequest, "Name"> & keyof ListJournalS3ExportsForLedgerRequest]: (ListJournalS3ExportsForLedgerRequest & Omit<ListJournalS3ExportsForLedgerRequest, "Name"> & ListJournalS3ExportsForLedgerRequest)[K]
+      [K in keyof ListJournalS3ExportsForLedgerRequest & keyof Omit<ListJournalS3ExportsForLedgerRequest, "Name">]: (ListJournalS3ExportsForLedgerRequest)[K]
     }>): Request<ListJournalS3ExportsForLedgerResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listJournalS3ExportsForLedger(
-          this.ops["ListJournalS3ExportsForLedger"].applicator.apply(partialParams)
+          this.ops["ListJournalS3ExportsForLedger"].apply(partialParams)
+        );
+    }
+
+    invokeListLedgers(partialParams: ToOptional<{
+      [K in keyof ListLedgersRequest]: (ListLedgersRequest)[K]
+    }>): Request<ListLedgersResponse, AWSError> {
+        this.boot();
+        return this.client.listLedgers(
+          this.ops["ListLedgers"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof Omit<ListTagsForResourceRequest, "ResourceArn"> & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (Omit<ListTagsForResourceRequest, "ResourceArn"> & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeStreamJournalToKinesis(partialParams: ToOptional<{
-      [K in keyof Omit<StreamJournalToKinesisRequest, "RoleArn"> & keyof StreamJournalToKinesisRequest & keyof StreamJournalToKinesisRequest]: (Omit<StreamJournalToKinesisRequest, "RoleArn"> & StreamJournalToKinesisRequest & StreamJournalToKinesisRequest)[K]
+      [K in keyof StreamJournalToKinesisRequest & keyof Omit<StreamJournalToKinesisRequest, "LedgerName">]: (StreamJournalToKinesisRequest)[K]
     }>): Request<StreamJournalToKinesisResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.streamJournalToKinesis(
-          this.ops["StreamJournalToKinesis"].applicator.apply(partialParams)
+          this.ops["StreamJournalToKinesis"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof Omit<TagResourceRequest, "ResourceArn"> & keyof TagResourceRequest & keyof TagResourceRequest]: (Omit<TagResourceRequest, "ResourceArn"> & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof Omit<UntagResourceRequest, "ResourceArn"> & keyof UntagResourceRequest & keyof UntagResourceRequest]: (Omit<UntagResourceRequest, "ResourceArn"> & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateLedger(partialParams: ToOptional<{
-      [K in keyof UpdateLedgerRequest & keyof Omit<UpdateLedgerRequest, "Name"> & keyof UpdateLedgerRequest]: (UpdateLedgerRequest & Omit<UpdateLedgerRequest, "Name"> & UpdateLedgerRequest)[K]
+      [K in keyof UpdateLedgerRequest & keyof Omit<UpdateLedgerRequest, "Name">]: (UpdateLedgerRequest)[K]
     }>): Request<UpdateLedgerResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateLedger(
-          this.ops["UpdateLedger"].applicator.apply(partialParams)
+          this.ops["UpdateLedger"].apply(partialParams)
         );
     }
 
     invokeUpdateLedgerPermissionsMode(partialParams: ToOptional<{
-      [K in keyof UpdateLedgerPermissionsModeRequest & keyof Omit<UpdateLedgerPermissionsModeRequest, "Name"> & keyof Omit<UpdateLedgerPermissionsModeRequest, "PermissionsMode">]: (UpdateLedgerPermissionsModeRequest & Omit<UpdateLedgerPermissionsModeRequest, "Name"> & Omit<UpdateLedgerPermissionsModeRequest, "PermissionsMode">)[K]
+      [K in keyof UpdateLedgerPermissionsModeRequest & keyof Omit<UpdateLedgerPermissionsModeRequest, "Name" | "PermissionsMode">]: (UpdateLedgerPermissionsModeRequest)[K]
     }>): Request<UpdateLedgerPermissionsModeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateLedgerPermissionsMode(
-          this.ops["UpdateLedgerPermissionsMode"].applicator.apply(partialParams)
+          this.ops["UpdateLedgerPermissionsMode"].apply(partialParams)
         );
     }
 }

@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.ecs.TaskSet {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.ECS();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,235 +50,216 @@ class default_1 extends aws.ecs.TaskSet {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeCreateCapacityProvider(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createCapacityProvider(this.ops["CreateCapacityProvider"].applicator.apply(partialParams));
+        return this.client.createCapacityProvider(this.ops["CreateCapacityProvider"].apply(partialParams));
+    }
+    invokeCreateCluster(partialParams) {
+        this.boot();
+        return this.client.createCluster(this.ops["CreateCluster"].apply(partialParams));
     }
     invokeCreateService(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createService(this.ops["CreateService"].applicator.apply(partialParams));
+        return this.client.createService(this.ops["CreateService"].apply(partialParams));
     }
     invokeCreateTaskSet(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createTaskSet(this.ops["CreateTaskSet"].applicator.apply(partialParams));
+        return this.client.createTaskSet(this.ops["CreateTaskSet"].apply(partialParams));
     }
     invokeDeleteAccountSetting(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteAccountSetting(this.ops["DeleteAccountSetting"].applicator.apply(partialParams));
+        return this.client.deleteAccountSetting(this.ops["DeleteAccountSetting"].apply(partialParams));
     }
     invokeDeleteAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteAttributes(this.ops["DeleteAttributes"].applicator.apply(partialParams));
+        return this.client.deleteAttributes(this.ops["DeleteAttributes"].apply(partialParams));
     }
     invokeDeleteCapacityProvider(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteCapacityProvider(this.ops["DeleteCapacityProvider"].applicator.apply(partialParams));
+        return this.client.deleteCapacityProvider(this.ops["DeleteCapacityProvider"].apply(partialParams));
     }
     invokeDeleteCluster(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteCluster(this.ops["DeleteCluster"].applicator.apply(partialParams));
+        return this.client.deleteCluster(this.ops["DeleteCluster"].apply(partialParams));
     }
     invokeDeleteService(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteService(this.ops["DeleteService"].applicator.apply(partialParams));
+        return this.client.deleteService(this.ops["DeleteService"].apply(partialParams));
     }
     invokeDeleteTaskSet(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteTaskSet(this.ops["DeleteTaskSet"].applicator.apply(partialParams));
+        return this.client.deleteTaskSet(this.ops["DeleteTaskSet"].apply(partialParams));
     }
     invokeDeregisterContainerInstance(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deregisterContainerInstance(this.ops["DeregisterContainerInstance"].applicator.apply(partialParams));
+        return this.client.deregisterContainerInstance(this.ops["DeregisterContainerInstance"].apply(partialParams));
     }
     invokeDeregisterTaskDefinition(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deregisterTaskDefinition(this.ops["DeregisterTaskDefinition"].applicator.apply(partialParams));
+        return this.client.deregisterTaskDefinition(this.ops["DeregisterTaskDefinition"].apply(partialParams));
+    }
+    invokeDescribeCapacityProviders(partialParams) {
+        this.boot();
+        return this.client.describeCapacityProviders(this.ops["DescribeCapacityProviders"].apply(partialParams));
+    }
+    invokeDescribeClusters(partialParams) {
+        this.boot();
+        return this.client.describeClusters(this.ops["DescribeClusters"].apply(partialParams));
     }
     invokeDescribeContainerInstances(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeContainerInstances(this.ops["DescribeContainerInstances"].applicator.apply(partialParams));
+        return this.client.describeContainerInstances(this.ops["DescribeContainerInstances"].apply(partialParams));
     }
     invokeDescribeServices(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeServices(this.ops["DescribeServices"].applicator.apply(partialParams));
+        return this.client.describeServices(this.ops["DescribeServices"].apply(partialParams));
     }
     invokeDescribeTaskDefinition(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeTaskDefinition(this.ops["DescribeTaskDefinition"].applicator.apply(partialParams));
+        return this.client.describeTaskDefinition(this.ops["DescribeTaskDefinition"].apply(partialParams));
     }
     invokeDescribeTaskSets(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeTaskSets(this.ops["DescribeTaskSets"].applicator.apply(partialParams));
+        return this.client.describeTaskSets(this.ops["DescribeTaskSets"].apply(partialParams));
     }
     invokeDescribeTasks(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeTasks(this.ops["DescribeTasks"].applicator.apply(partialParams));
+        return this.client.describeTasks(this.ops["DescribeTasks"].apply(partialParams));
+    }
+    invokeDiscoverPollEndpoint(partialParams) {
+        this.boot();
+        return this.client.discoverPollEndpoint(this.ops["DiscoverPollEndpoint"].apply(partialParams));
     }
     invokeExecuteCommand(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.executeCommand(this.ops["ExecuteCommand"].applicator.apply(partialParams));
+        return this.client.executeCommand(this.ops["ExecuteCommand"].apply(partialParams));
+    }
+    invokeListAccountSettings(partialParams) {
+        this.boot();
+        return this.client.listAccountSettings(this.ops["ListAccountSettings"].apply(partialParams));
     }
     invokeListAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listAttributes(this.ops["ListAttributes"].applicator.apply(partialParams));
+        return this.client.listAttributes(this.ops["ListAttributes"].apply(partialParams));
+    }
+    invokeListClusters(partialParams) {
+        this.boot();
+        return this.client.listClusters(this.ops["ListClusters"].apply(partialParams));
+    }
+    invokeListContainerInstances(partialParams) {
+        this.boot();
+        return this.client.listContainerInstances(this.ops["ListContainerInstances"].apply(partialParams));
+    }
+    invokeListServices(partialParams) {
+        this.boot();
+        return this.client.listServices(this.ops["ListServices"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+    }
+    invokeListTaskDefinitionFamilies(partialParams) {
+        this.boot();
+        return this.client.listTaskDefinitionFamilies(this.ops["ListTaskDefinitionFamilies"].apply(partialParams));
+    }
+    invokeListTaskDefinitions(partialParams) {
+        this.boot();
+        return this.client.listTaskDefinitions(this.ops["ListTaskDefinitions"].apply(partialParams));
+    }
+    invokeListTasks(partialParams) {
+        this.boot();
+        return this.client.listTasks(this.ops["ListTasks"].apply(partialParams));
     }
     invokePutAccountSetting(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putAccountSetting(this.ops["PutAccountSetting"].applicator.apply(partialParams));
+        return this.client.putAccountSetting(this.ops["PutAccountSetting"].apply(partialParams));
     }
     invokePutAccountSettingDefault(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putAccountSettingDefault(this.ops["PutAccountSettingDefault"].applicator.apply(partialParams));
+        return this.client.putAccountSettingDefault(this.ops["PutAccountSettingDefault"].apply(partialParams));
     }
     invokePutAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putAttributes(this.ops["PutAttributes"].applicator.apply(partialParams));
+        return this.client.putAttributes(this.ops["PutAttributes"].apply(partialParams));
     }
     invokePutClusterCapacityProviders(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putClusterCapacityProviders(this.ops["PutClusterCapacityProviders"].applicator.apply(partialParams));
+        return this.client.putClusterCapacityProviders(this.ops["PutClusterCapacityProviders"].apply(partialParams));
+    }
+    invokeRegisterContainerInstance(partialParams) {
+        this.boot();
+        return this.client.registerContainerInstance(this.ops["RegisterContainerInstance"].apply(partialParams));
     }
     invokeRegisterTaskDefinition(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.registerTaskDefinition(this.ops["RegisterTaskDefinition"].applicator.apply(partialParams));
+        return this.client.registerTaskDefinition(this.ops["RegisterTaskDefinition"].apply(partialParams));
     }
     invokeRunTask(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.runTask(this.ops["RunTask"].applicator.apply(partialParams));
+        return this.client.runTask(this.ops["RunTask"].apply(partialParams));
     }
     invokeStartTask(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startTask(this.ops["StartTask"].applicator.apply(partialParams));
+        return this.client.startTask(this.ops["StartTask"].apply(partialParams));
     }
     invokeStopTask(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.stopTask(this.ops["StopTask"].applicator.apply(partialParams));
+        return this.client.stopTask(this.ops["StopTask"].apply(partialParams));
     }
     invokeSubmitAttachmentStateChanges(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.submitAttachmentStateChanges(this.ops["SubmitAttachmentStateChanges"].applicator.apply(partialParams));
+        return this.client.submitAttachmentStateChanges(this.ops["SubmitAttachmentStateChanges"].apply(partialParams));
+    }
+    invokeSubmitContainerStateChange(partialParams) {
+        this.boot();
+        return this.client.submitContainerStateChange(this.ops["SubmitContainerStateChange"].apply(partialParams));
+    }
+    invokeSubmitTaskStateChange(partialParams) {
+        this.boot();
+        return this.client.submitTaskStateChange(this.ops["SubmitTaskStateChange"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateCapacityProvider(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateCapacityProvider(this.ops["UpdateCapacityProvider"].applicator.apply(partialParams));
+        return this.client.updateCapacityProvider(this.ops["UpdateCapacityProvider"].apply(partialParams));
     }
     invokeUpdateCluster(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateCluster(this.ops["UpdateCluster"].applicator.apply(partialParams));
+        return this.client.updateCluster(this.ops["UpdateCluster"].apply(partialParams));
     }
     invokeUpdateClusterSettings(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateClusterSettings(this.ops["UpdateClusterSettings"].applicator.apply(partialParams));
+        return this.client.updateClusterSettings(this.ops["UpdateClusterSettings"].apply(partialParams));
     }
     invokeUpdateContainerAgent(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateContainerAgent(this.ops["UpdateContainerAgent"].applicator.apply(partialParams));
+        return this.client.updateContainerAgent(this.ops["UpdateContainerAgent"].apply(partialParams));
     }
     invokeUpdateContainerInstancesState(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateContainerInstancesState(this.ops["UpdateContainerInstancesState"].applicator.apply(partialParams));
+        return this.client.updateContainerInstancesState(this.ops["UpdateContainerInstancesState"].apply(partialParams));
     }
     invokeUpdateService(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateService(this.ops["UpdateService"].applicator.apply(partialParams));
+        return this.client.updateService(this.ops["UpdateService"].apply(partialParams));
     }
     invokeUpdateServicePrimaryTaskSet(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateServicePrimaryTaskSet(this.ops["UpdateServicePrimaryTaskSet"].applicator.apply(partialParams));
+        return this.client.updateServicePrimaryTaskSet(this.ops["UpdateServicePrimaryTaskSet"].apply(partialParams));
     }
     invokeUpdateTaskSet(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateTaskSet(this.ops["UpdateTaskSet"].applicator.apply(partialParams));
+        return this.client.updateTaskSet(this.ops["UpdateTaskSet"].apply(partialParams));
     }
 }
 exports.default = default_1;

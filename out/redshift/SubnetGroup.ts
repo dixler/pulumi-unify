@@ -28,30 +28,49 @@ import {
     CreateHsmConfigurationMessage,
     CreateScheduledActionMessage,
     CreateSnapshotCopyGrantMessage,
-    CreateTagsMessage,
+    CreateSnapshotScheduleMessage,
     CreateUsageLimitMessage,
     DeauthorizeDataShareMessage,
     DeleteAuthenticationProfileMessage,
     DeleteClusterMessage,
-    DeleteClusterParameterGroupMessage,
-    DeleteClusterSecurityGroupMessage,
     DeleteClusterSnapshotMessage,
-    DeleteClusterSubnetGroupMessage,
     DeleteEndpointAccessMessage,
-    DeleteEventSubscriptionMessage,
-    DeleteHsmClientCertificateMessage,
-    DeleteHsmConfigurationMessage,
-    DeleteScheduledActionMessage,
-    DeleteSnapshotCopyGrantMessage,
-    DeleteSnapshotScheduleMessage,
-    DeleteTagsMessage,
-    DeleteUsageLimitMessage,
+    DescribeAccountAttributesMessage,
+    DescribeAuthenticationProfilesMessage,
+    DescribeClusterDbRevisionsMessage,
+    DescribeClusterParameterGroupsMessage,
     DescribeClusterParametersMessage,
+    DescribeClusterSecurityGroupsMessage,
+    DescribeClusterSnapshotsMessage,
+    DescribeClusterSubnetGroupsMessage,
+    DescribeClusterTracksMessage,
+    DescribeClusterVersionsMessage,
+    DescribeClustersMessage,
+    DescribeDataSharesMessage,
+    DescribeDataSharesForConsumerMessage,
+    DescribeDataSharesForProducerMessage,
     DescribeDefaultClusterParametersMessage,
+    DescribeEndpointAccessMessage,
+    DescribeEndpointAuthorizationMessage,
+    DescribeEventCategoriesMessage,
+    DescribeEventSubscriptionsMessage,
+    DescribeEventsMessage,
+    DescribeHsmClientCertificatesMessage,
+    DescribeHsmConfigurationsMessage,
     DescribeLoggingStatusMessage,
     DescribeNodeConfigurationOptionsMessage,
+    DescribeOrderableClusterOptionsMessage,
     DescribePartnersInputMessage,
+    DescribeReservedNodeExchangeStatusInputMessage,
+    DescribeReservedNodeOfferingsMessage,
+    DescribeReservedNodesMessage,
     DescribeResizeMessage,
+    DescribeScheduledActionsMessage,
+    DescribeSnapshotCopyGrantsMessage,
+    DescribeSnapshotSchedulesMessage,
+    DescribeTableRestoreStatusMessage,
+    DescribeTagsMessage,
+    DescribeUsageLimitsMessage,
     DisableLoggingMessage,
     DisableSnapshotCopyMessage,
     DisassociateDataShareConsumerMessage,
@@ -68,7 +87,6 @@ import {
     ModifyClusterMaintenanceMessage,
     ModifyClusterParameterGroupMessage,
     ModifyClusterSnapshotMessage,
-    ModifyClusterSnapshotScheduleMessage,
     ModifyClusterSubnetGroupMessage,
     ModifyEndpointAccessMessage,
     ModifyEventSubscriptionMessage,
@@ -86,6 +104,7 @@ import {
     RestoreTableFromClusterSnapshotMessage,
     ResumeClusterMessage,
     RevokeClusterSecurityGroupIngressMessage,
+    RevokeEndpointAccessMessage,
     RevokeSnapshotAccessMessage,
     RotateEncryptionKeyMessage,
     UpdatePartnerStatusInputMessage,
@@ -111,15 +130,46 @@ import {
     CreateHsmConfigurationResult,
     ScheduledAction,
     CreateSnapshotCopyGrantResult,
+    SnapshotSchedule,
     UsageLimit,
     DeleteAuthenticationProfileResult,
     DeleteClusterResult,
     DeleteClusterSnapshotResult,
+    AccountAttributeList,
+    DescribeAuthenticationProfilesResult,
+    ClusterDbRevisionsMessage,
+    ClusterParameterGroupsMessage,
     ClusterParameterGroupDetails,
+    ClusterSecurityGroupMessage,
+    SnapshotMessage,
+    ClusterSubnetGroupMessage,
+    TrackListMessage,
+    ClusterVersionsMessage,
+    ClustersMessage,
+    DescribeDataSharesResult,
+    DescribeDataSharesForConsumerResult,
+    DescribeDataSharesForProducerResult,
     DescribeDefaultClusterParametersResult,
+    EndpointAccessList,
+    EndpointAuthorizationList,
+    EventCategoriesMessage,
+    EventSubscriptionsMessage,
+    EventsMessage,
+    HsmClientCertificateMessage,
+    HsmConfigurationMessage,
     LoggingStatus,
     NodeConfigurationOptionsMessage,
+    OrderableClusterOptionsMessage,
     DescribePartnersOutputMessage,
+    DescribeReservedNodeExchangeStatusOutputMessage,
+    ReservedNodeOfferingsMessage,
+    ReservedNodesMessage,
+    ScheduledActionsMessage,
+    SnapshotCopyGrantMessage,
+    DescribeSnapshotSchedulesOutputMessage,
+    TableRestoreStatusMessage,
+    TaggedResourceListMessage,
+    UsageLimitList,
     DisableSnapshotCopyResult,
     EnableSnapshotCopyResult,
     ClusterCredentials,
@@ -136,7 +186,6 @@ import {
     ModifyClusterSubnetGroupResult,
     ModifyEventSubscriptionResult,
     ModifySnapshotCopyRetentionPeriodResult,
-    SnapshotSchedule,
     PauseClusterResult,
     PurchaseReservedNodeOfferingResult,
     RebootClusterResult,
@@ -161,21 +210,24 @@ export default class extends aws.redshift.SubnetGroup {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.redshift.SubnetGroup>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.Redshift()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -185,941 +237,943 @@ export default class extends aws.redshift.SubnetGroup {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAcceptReservedNodeExchange(partialParams: ToOptional<{
-      [K in keyof AcceptReservedNodeExchangeInputMessage & keyof AcceptReservedNodeExchangeInputMessage & keyof AcceptReservedNodeExchangeInputMessage]: (AcceptReservedNodeExchangeInputMessage & AcceptReservedNodeExchangeInputMessage & AcceptReservedNodeExchangeInputMessage)[K]
+      [K in keyof AcceptReservedNodeExchangeInputMessage]: (AcceptReservedNodeExchangeInputMessage)[K]
     }>): Request<AcceptReservedNodeExchangeOutputMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.acceptReservedNodeExchange(
-          this.ops["AcceptReservedNodeExchange"].applicator.apply(partialParams)
+          this.ops["AcceptReservedNodeExchange"].apply(partialParams)
         );
     }
 
     invokeAddPartner(partialParams: ToOptional<{
-      [K in keyof PartnerIntegrationInputMessage & keyof PartnerIntegrationInputMessage & keyof PartnerIntegrationInputMessage]: (PartnerIntegrationInputMessage & PartnerIntegrationInputMessage & PartnerIntegrationInputMessage)[K]
+      [K in keyof PartnerIntegrationInputMessage]: (PartnerIntegrationInputMessage)[K]
     }>): Request<PartnerIntegrationOutputMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addPartner(
-          this.ops["AddPartner"].applicator.apply(partialParams)
+          this.ops["AddPartner"].apply(partialParams)
         );
     }
 
     invokeAssociateDataShareConsumer(partialParams: ToOptional<{
-      [K in keyof AssociateDataShareConsumerMessage & keyof AssociateDataShareConsumerMessage & keyof AssociateDataShareConsumerMessage]: (AssociateDataShareConsumerMessage & AssociateDataShareConsumerMessage & AssociateDataShareConsumerMessage)[K]
+      [K in keyof AssociateDataShareConsumerMessage]: (AssociateDataShareConsumerMessage)[K]
     }>): Request<DataShare, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateDataShareConsumer(
-          this.ops["AssociateDataShareConsumer"].applicator.apply(partialParams)
+          this.ops["AssociateDataShareConsumer"].apply(partialParams)
         );
     }
 
     invokeAuthorizeClusterSecurityGroupIngress(partialParams: ToOptional<{
-      [K in keyof AuthorizeClusterSecurityGroupIngressMessage & keyof AuthorizeClusterSecurityGroupIngressMessage & keyof AuthorizeClusterSecurityGroupIngressMessage]: (AuthorizeClusterSecurityGroupIngressMessage & AuthorizeClusterSecurityGroupIngressMessage & AuthorizeClusterSecurityGroupIngressMessage)[K]
+      [K in keyof AuthorizeClusterSecurityGroupIngressMessage]: (AuthorizeClusterSecurityGroupIngressMessage)[K]
     }>): Request<AuthorizeClusterSecurityGroupIngressResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.authorizeClusterSecurityGroupIngress(
-          this.ops["AuthorizeClusterSecurityGroupIngress"].applicator.apply(partialParams)
+          this.ops["AuthorizeClusterSecurityGroupIngress"].apply(partialParams)
         );
     }
 
     invokeAuthorizeDataShare(partialParams: ToOptional<{
-      [K in keyof AuthorizeDataShareMessage & keyof AuthorizeDataShareMessage & keyof AuthorizeDataShareMessage]: (AuthorizeDataShareMessage & AuthorizeDataShareMessage & AuthorizeDataShareMessage)[K]
+      [K in keyof AuthorizeDataShareMessage]: (AuthorizeDataShareMessage)[K]
     }>): Request<DataShare, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.authorizeDataShare(
-          this.ops["AuthorizeDataShare"].applicator.apply(partialParams)
+          this.ops["AuthorizeDataShare"].apply(partialParams)
         );
     }
 
     invokeAuthorizeEndpointAccess(partialParams: ToOptional<{
-      [K in keyof AuthorizeEndpointAccessMessage & keyof AuthorizeEndpointAccessMessage & keyof AuthorizeEndpointAccessMessage]: (AuthorizeEndpointAccessMessage & AuthorizeEndpointAccessMessage & AuthorizeEndpointAccessMessage)[K]
+      [K in keyof AuthorizeEndpointAccessMessage]: (AuthorizeEndpointAccessMessage)[K]
     }>): Request<EndpointAuthorization, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.authorizeEndpointAccess(
-          this.ops["AuthorizeEndpointAccess"].applicator.apply(partialParams)
+          this.ops["AuthorizeEndpointAccess"].apply(partialParams)
         );
     }
 
     invokeAuthorizeSnapshotAccess(partialParams: ToOptional<{
-      [K in keyof AuthorizeSnapshotAccessMessage & keyof AuthorizeSnapshotAccessMessage & keyof AuthorizeSnapshotAccessMessage]: (AuthorizeSnapshotAccessMessage & AuthorizeSnapshotAccessMessage & AuthorizeSnapshotAccessMessage)[K]
+      [K in keyof AuthorizeSnapshotAccessMessage]: (AuthorizeSnapshotAccessMessage)[K]
     }>): Request<AuthorizeSnapshotAccessResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.authorizeSnapshotAccess(
-          this.ops["AuthorizeSnapshotAccess"].applicator.apply(partialParams)
+          this.ops["AuthorizeSnapshotAccess"].apply(partialParams)
         );
     }
 
     invokeBatchDeleteClusterSnapshots(partialParams: ToOptional<{
-      [K in keyof BatchDeleteClusterSnapshotsRequest & keyof BatchDeleteClusterSnapshotsRequest & keyof BatchDeleteClusterSnapshotsRequest]: (BatchDeleteClusterSnapshotsRequest & BatchDeleteClusterSnapshotsRequest & BatchDeleteClusterSnapshotsRequest)[K]
+      [K in keyof BatchDeleteClusterSnapshotsRequest]: (BatchDeleteClusterSnapshotsRequest)[K]
     }>): Request<BatchDeleteClusterSnapshotsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.batchDeleteClusterSnapshots(
-          this.ops["BatchDeleteClusterSnapshots"].applicator.apply(partialParams)
+          this.ops["BatchDeleteClusterSnapshots"].apply(partialParams)
         );
     }
 
     invokeBatchModifyClusterSnapshots(partialParams: ToOptional<{
-      [K in keyof BatchModifyClusterSnapshotsMessage & keyof BatchModifyClusterSnapshotsMessage & keyof BatchModifyClusterSnapshotsMessage]: (BatchModifyClusterSnapshotsMessage & BatchModifyClusterSnapshotsMessage & BatchModifyClusterSnapshotsMessage)[K]
+      [K in keyof BatchModifyClusterSnapshotsMessage]: (BatchModifyClusterSnapshotsMessage)[K]
     }>): Request<BatchModifyClusterSnapshotsOutputMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.batchModifyClusterSnapshots(
-          this.ops["BatchModifyClusterSnapshots"].applicator.apply(partialParams)
+          this.ops["BatchModifyClusterSnapshots"].apply(partialParams)
         );
     }
 
     invokeCancelResize(partialParams: ToOptional<{
-      [K in keyof CancelResizeMessage & keyof CancelResizeMessage & keyof CancelResizeMessage]: (CancelResizeMessage & CancelResizeMessage & CancelResizeMessage)[K]
+      [K in keyof CancelResizeMessage]: (CancelResizeMessage)[K]
     }>): Request<ResizeProgressMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.cancelResize(
-          this.ops["CancelResize"].applicator.apply(partialParams)
+          this.ops["CancelResize"].apply(partialParams)
         );
     }
 
     invokeCopyClusterSnapshot(partialParams: ToOptional<{
-      [K in keyof CopyClusterSnapshotMessage & keyof CopyClusterSnapshotMessage & keyof CopyClusterSnapshotMessage]: (CopyClusterSnapshotMessage & CopyClusterSnapshotMessage & CopyClusterSnapshotMessage)[K]
+      [K in keyof CopyClusterSnapshotMessage]: (CopyClusterSnapshotMessage)[K]
     }>): Request<CopyClusterSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.copyClusterSnapshot(
-          this.ops["CopyClusterSnapshot"].applicator.apply(partialParams)
+          this.ops["CopyClusterSnapshot"].apply(partialParams)
         );
     }
 
     invokeCreateAuthenticationProfile(partialParams: ToOptional<{
-      [K in keyof CreateAuthenticationProfileMessage & keyof CreateAuthenticationProfileMessage & keyof CreateAuthenticationProfileMessage]: (CreateAuthenticationProfileMessage & CreateAuthenticationProfileMessage & CreateAuthenticationProfileMessage)[K]
+      [K in keyof CreateAuthenticationProfileMessage]: (CreateAuthenticationProfileMessage)[K]
     }>): Request<CreateAuthenticationProfileResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createAuthenticationProfile(
-          this.ops["CreateAuthenticationProfile"].applicator.apply(partialParams)
+          this.ops["CreateAuthenticationProfile"].apply(partialParams)
         );
     }
 
     invokeCreateCluster(partialParams: ToOptional<{
-      [K in keyof CreateClusterMessage & keyof CreateClusterMessage & keyof CreateClusterMessage]: (CreateClusterMessage & CreateClusterMessage & CreateClusterMessage)[K]
+      [K in keyof CreateClusterMessage]: (CreateClusterMessage)[K]
     }>): Request<CreateClusterResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createCluster(
-          this.ops["CreateCluster"].applicator.apply(partialParams)
+          this.ops["CreateCluster"].apply(partialParams)
         );
     }
 
     invokeCreateClusterParameterGroup(partialParams: ToOptional<{
-      [K in keyof CreateClusterParameterGroupMessage & keyof CreateClusterParameterGroupMessage & keyof CreateClusterParameterGroupMessage]: (CreateClusterParameterGroupMessage & CreateClusterParameterGroupMessage & CreateClusterParameterGroupMessage)[K]
+      [K in keyof CreateClusterParameterGroupMessage & keyof Omit<CreateClusterParameterGroupMessage, "Description">]: (CreateClusterParameterGroupMessage)[K]
     }>): Request<CreateClusterParameterGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createClusterParameterGroup(
-          this.ops["CreateClusterParameterGroup"].applicator.apply(partialParams)
+          this.ops["CreateClusterParameterGroup"].apply(partialParams)
         );
     }
 
     invokeCreateClusterSecurityGroup(partialParams: ToOptional<{
-      [K in keyof CreateClusterSecurityGroupMessage & keyof CreateClusterSecurityGroupMessage & keyof CreateClusterSecurityGroupMessage]: (CreateClusterSecurityGroupMessage & CreateClusterSecurityGroupMessage & CreateClusterSecurityGroupMessage)[K]
+      [K in keyof CreateClusterSecurityGroupMessage & keyof Omit<CreateClusterSecurityGroupMessage, "Description">]: (CreateClusterSecurityGroupMessage)[K]
     }>): Request<CreateClusterSecurityGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createClusterSecurityGroup(
-          this.ops["CreateClusterSecurityGroup"].applicator.apply(partialParams)
+          this.ops["CreateClusterSecurityGroup"].apply(partialParams)
         );
     }
 
     invokeCreateClusterSnapshot(partialParams: ToOptional<{
-      [K in keyof CreateClusterSnapshotMessage & keyof CreateClusterSnapshotMessage & keyof CreateClusterSnapshotMessage]: (CreateClusterSnapshotMessage & CreateClusterSnapshotMessage & CreateClusterSnapshotMessage)[K]
+      [K in keyof CreateClusterSnapshotMessage]: (CreateClusterSnapshotMessage)[K]
     }>): Request<CreateClusterSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createClusterSnapshot(
-          this.ops["CreateClusterSnapshot"].applicator.apply(partialParams)
+          this.ops["CreateClusterSnapshot"].apply(partialParams)
         );
     }
 
     invokeCreateClusterSubnetGroup(partialParams: ToOptional<{
-      [K in keyof CreateClusterSubnetGroupMessage & keyof CreateClusterSubnetGroupMessage & keyof CreateClusterSubnetGroupMessage]: (CreateClusterSubnetGroupMessage & CreateClusterSubnetGroupMessage & CreateClusterSubnetGroupMessage)[K]
+      [K in keyof CreateClusterSubnetGroupMessage & keyof Omit<CreateClusterSubnetGroupMessage, "Description">]: (CreateClusterSubnetGroupMessage)[K]
     }>): Request<CreateClusterSubnetGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createClusterSubnetGroup(
-          this.ops["CreateClusterSubnetGroup"].applicator.apply(partialParams)
+          this.ops["CreateClusterSubnetGroup"].apply(partialParams)
         );
     }
 
     invokeCreateEndpointAccess(partialParams: ToOptional<{
-      [K in keyof CreateEndpointAccessMessage & keyof CreateEndpointAccessMessage & keyof CreateEndpointAccessMessage]: (CreateEndpointAccessMessage & CreateEndpointAccessMessage & CreateEndpointAccessMessage)[K]
+      [K in keyof CreateEndpointAccessMessage & keyof Omit<CreateEndpointAccessMessage, "SubnetGroupName">]: (CreateEndpointAccessMessage)[K]
     }>): Request<EndpointAccess, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createEndpointAccess(
-          this.ops["CreateEndpointAccess"].applicator.apply(partialParams)
+          this.ops["CreateEndpointAccess"].apply(partialParams)
         );
     }
 
     invokeCreateEventSubscription(partialParams: ToOptional<{
-      [K in keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage]: (CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage)[K]
+      [K in keyof CreateEventSubscriptionMessage]: (CreateEventSubscriptionMessage)[K]
     }>): Request<CreateEventSubscriptionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createEventSubscription(
-          this.ops["CreateEventSubscription"].applicator.apply(partialParams)
+          this.ops["CreateEventSubscription"].apply(partialParams)
         );
     }
 
     invokeCreateHsmClientCertificate(partialParams: ToOptional<{
-      [K in keyof CreateHsmClientCertificateMessage & keyof CreateHsmClientCertificateMessage & keyof CreateHsmClientCertificateMessage]: (CreateHsmClientCertificateMessage & CreateHsmClientCertificateMessage & CreateHsmClientCertificateMessage)[K]
+      [K in keyof CreateHsmClientCertificateMessage]: (CreateHsmClientCertificateMessage)[K]
     }>): Request<CreateHsmClientCertificateResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createHsmClientCertificate(
-          this.ops["CreateHsmClientCertificate"].applicator.apply(partialParams)
+          this.ops["CreateHsmClientCertificate"].apply(partialParams)
         );
     }
 
     invokeCreateHsmConfiguration(partialParams: ToOptional<{
-      [K in keyof CreateHsmConfigurationMessage & keyof CreateHsmConfigurationMessage & keyof CreateHsmConfigurationMessage]: (CreateHsmConfigurationMessage & CreateHsmConfigurationMessage & CreateHsmConfigurationMessage)[K]
+      [K in keyof CreateHsmConfigurationMessage & keyof Omit<CreateHsmConfigurationMessage, "Description">]: (CreateHsmConfigurationMessage)[K]
     }>): Request<CreateHsmConfigurationResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createHsmConfiguration(
-          this.ops["CreateHsmConfiguration"].applicator.apply(partialParams)
+          this.ops["CreateHsmConfiguration"].apply(partialParams)
         );
     }
 
     invokeCreateScheduledAction(partialParams: ToOptional<{
-      [K in keyof CreateScheduledActionMessage & keyof CreateScheduledActionMessage & keyof CreateScheduledActionMessage]: (CreateScheduledActionMessage & CreateScheduledActionMessage & CreateScheduledActionMessage)[K]
+      [K in keyof CreateScheduledActionMessage]: (CreateScheduledActionMessage)[K]
     }>): Request<ScheduledAction, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createScheduledAction(
-          this.ops["CreateScheduledAction"].applicator.apply(partialParams)
+          this.ops["CreateScheduledAction"].apply(partialParams)
         );
     }
 
     invokeCreateSnapshotCopyGrant(partialParams: ToOptional<{
-      [K in keyof CreateSnapshotCopyGrantMessage & keyof CreateSnapshotCopyGrantMessage & keyof CreateSnapshotCopyGrantMessage]: (CreateSnapshotCopyGrantMessage & CreateSnapshotCopyGrantMessage & CreateSnapshotCopyGrantMessage)[K]
+      [K in keyof CreateSnapshotCopyGrantMessage]: (CreateSnapshotCopyGrantMessage)[K]
     }>): Request<CreateSnapshotCopyGrantResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createSnapshotCopyGrant(
-          this.ops["CreateSnapshotCopyGrant"].applicator.apply(partialParams)
+          this.ops["CreateSnapshotCopyGrant"].apply(partialParams)
         );
     }
 
-    invokeCreateTags(partialParams: ToOptional<{
-      [K in keyof CreateTagsMessage & keyof CreateTagsMessage & keyof CreateTagsMessage]: (CreateTagsMessage & CreateTagsMessage & CreateTagsMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeCreateSnapshotSchedule(partialParams: ToOptional<{
+      [K in keyof CreateSnapshotScheduleMessage]: (CreateSnapshotScheduleMessage)[K]
+    }>): Request<SnapshotSchedule, AWSError> {
         this.boot();
-        return this.client.createTags(
-          this.ops["CreateTags"].applicator.apply(partialParams)
+        return this.client.createSnapshotSchedule(
+          this.ops["CreateSnapshotSchedule"].apply(partialParams)
         );
     }
 
     invokeCreateUsageLimit(partialParams: ToOptional<{
-      [K in keyof CreateUsageLimitMessage & keyof CreateUsageLimitMessage & keyof CreateUsageLimitMessage]: (CreateUsageLimitMessage & CreateUsageLimitMessage & CreateUsageLimitMessage)[K]
+      [K in keyof CreateUsageLimitMessage]: (CreateUsageLimitMessage)[K]
     }>): Request<UsageLimit, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createUsageLimit(
-          this.ops["CreateUsageLimit"].applicator.apply(partialParams)
+          this.ops["CreateUsageLimit"].apply(partialParams)
         );
     }
 
     invokeDeauthorizeDataShare(partialParams: ToOptional<{
-      [K in keyof DeauthorizeDataShareMessage & keyof DeauthorizeDataShareMessage & keyof DeauthorizeDataShareMessage]: (DeauthorizeDataShareMessage & DeauthorizeDataShareMessage & DeauthorizeDataShareMessage)[K]
+      [K in keyof DeauthorizeDataShareMessage]: (DeauthorizeDataShareMessage)[K]
     }>): Request<DataShare, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deauthorizeDataShare(
-          this.ops["DeauthorizeDataShare"].applicator.apply(partialParams)
+          this.ops["DeauthorizeDataShare"].apply(partialParams)
         );
     }
 
     invokeDeleteAuthenticationProfile(partialParams: ToOptional<{
-      [K in keyof DeleteAuthenticationProfileMessage & keyof DeleteAuthenticationProfileMessage & keyof DeleteAuthenticationProfileMessage]: (DeleteAuthenticationProfileMessage & DeleteAuthenticationProfileMessage & DeleteAuthenticationProfileMessage)[K]
+      [K in keyof DeleteAuthenticationProfileMessage]: (DeleteAuthenticationProfileMessage)[K]
     }>): Request<DeleteAuthenticationProfileResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteAuthenticationProfile(
-          this.ops["DeleteAuthenticationProfile"].applicator.apply(partialParams)
+          this.ops["DeleteAuthenticationProfile"].apply(partialParams)
         );
     }
 
     invokeDeleteCluster(partialParams: ToOptional<{
-      [K in keyof DeleteClusterMessage & keyof DeleteClusterMessage & keyof DeleteClusterMessage]: (DeleteClusterMessage & DeleteClusterMessage & DeleteClusterMessage)[K]
+      [K in keyof DeleteClusterMessage]: (DeleteClusterMessage)[K]
     }>): Request<DeleteClusterResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteCluster(
-          this.ops["DeleteCluster"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteClusterParameterGroup(partialParams: ToOptional<{
-      [K in keyof DeleteClusterParameterGroupMessage & keyof DeleteClusterParameterGroupMessage & keyof DeleteClusterParameterGroupMessage]: (DeleteClusterParameterGroupMessage & DeleteClusterParameterGroupMessage & DeleteClusterParameterGroupMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteClusterParameterGroup(
-          this.ops["DeleteClusterParameterGroup"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteClusterSecurityGroup(partialParams: ToOptional<{
-      [K in keyof DeleteClusterSecurityGroupMessage & keyof DeleteClusterSecurityGroupMessage & keyof DeleteClusterSecurityGroupMessage]: (DeleteClusterSecurityGroupMessage & DeleteClusterSecurityGroupMessage & DeleteClusterSecurityGroupMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteClusterSecurityGroup(
-          this.ops["DeleteClusterSecurityGroup"].applicator.apply(partialParams)
+          this.ops["DeleteCluster"].apply(partialParams)
         );
     }
 
     invokeDeleteClusterSnapshot(partialParams: ToOptional<{
-      [K in keyof DeleteClusterSnapshotMessage & keyof DeleteClusterSnapshotMessage & keyof DeleteClusterSnapshotMessage]: (DeleteClusterSnapshotMessage & DeleteClusterSnapshotMessage & DeleteClusterSnapshotMessage)[K]
+      [K in keyof DeleteClusterSnapshotMessage]: (DeleteClusterSnapshotMessage)[K]
     }>): Request<DeleteClusterSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteClusterSnapshot(
-          this.ops["DeleteClusterSnapshot"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteClusterSubnetGroup(partialParams: ToOptional<{
-      [K in keyof DeleteClusterSubnetGroupMessage & keyof DeleteClusterSubnetGroupMessage & keyof DeleteClusterSubnetGroupMessage]: (DeleteClusterSubnetGroupMessage & DeleteClusterSubnetGroupMessage & DeleteClusterSubnetGroupMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteClusterSubnetGroup(
-          this.ops["DeleteClusterSubnetGroup"].applicator.apply(partialParams)
+          this.ops["DeleteClusterSnapshot"].apply(partialParams)
         );
     }
 
     invokeDeleteEndpointAccess(partialParams: ToOptional<{
-      [K in keyof DeleteEndpointAccessMessage & keyof DeleteEndpointAccessMessage & keyof DeleteEndpointAccessMessage]: (DeleteEndpointAccessMessage & DeleteEndpointAccessMessage & DeleteEndpointAccessMessage)[K]
+      [K in keyof DeleteEndpointAccessMessage]: (DeleteEndpointAccessMessage)[K]
     }>): Request<EndpointAccess, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteEndpointAccess(
-          this.ops["DeleteEndpointAccess"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteEventSubscription(partialParams: ToOptional<{
-      [K in keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage]: (DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteEventSubscription(
-          this.ops["DeleteEventSubscription"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteHsmClientCertificate(partialParams: ToOptional<{
-      [K in keyof DeleteHsmClientCertificateMessage & keyof DeleteHsmClientCertificateMessage & keyof DeleteHsmClientCertificateMessage]: (DeleteHsmClientCertificateMessage & DeleteHsmClientCertificateMessage & DeleteHsmClientCertificateMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteHsmClientCertificate(
-          this.ops["DeleteHsmClientCertificate"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteHsmConfiguration(partialParams: ToOptional<{
-      [K in keyof DeleteHsmConfigurationMessage & keyof DeleteHsmConfigurationMessage & keyof DeleteHsmConfigurationMessage]: (DeleteHsmConfigurationMessage & DeleteHsmConfigurationMessage & DeleteHsmConfigurationMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteHsmConfiguration(
-          this.ops["DeleteHsmConfiguration"].applicator.apply(partialParams)
+          this.ops["DeleteEndpointAccess"].apply(partialParams)
         );
     }
 
     invokeDeletePartner(partialParams: ToOptional<{
-      [K in keyof PartnerIntegrationInputMessage & keyof PartnerIntegrationInputMessage & keyof PartnerIntegrationInputMessage]: (PartnerIntegrationInputMessage & PartnerIntegrationInputMessage & PartnerIntegrationInputMessage)[K]
+      [K in keyof PartnerIntegrationInputMessage]: (PartnerIntegrationInputMessage)[K]
     }>): Request<PartnerIntegrationOutputMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deletePartner(
-          this.ops["DeletePartner"].applicator.apply(partialParams)
+          this.ops["DeletePartner"].apply(partialParams)
         );
     }
 
-    invokeDeleteScheduledAction(partialParams: ToOptional<{
-      [K in keyof DeleteScheduledActionMessage & keyof DeleteScheduledActionMessage & keyof DeleteScheduledActionMessage]: (DeleteScheduledActionMessage & DeleteScheduledActionMessage & DeleteScheduledActionMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDescribeAccountAttributes(partialParams: ToOptional<{
+      [K in keyof DescribeAccountAttributesMessage]: (DescribeAccountAttributesMessage)[K]
+    }>): Request<AccountAttributeList, AWSError> {
         this.boot();
-        return this.client.deleteScheduledAction(
-          this.ops["DeleteScheduledAction"].applicator.apply(partialParams)
+        return this.client.describeAccountAttributes(
+          this.ops["DescribeAccountAttributes"].apply(partialParams)
         );
     }
 
-    invokeDeleteSnapshotCopyGrant(partialParams: ToOptional<{
-      [K in keyof DeleteSnapshotCopyGrantMessage & keyof DeleteSnapshotCopyGrantMessage & keyof DeleteSnapshotCopyGrantMessage]: (DeleteSnapshotCopyGrantMessage & DeleteSnapshotCopyGrantMessage & DeleteSnapshotCopyGrantMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDescribeAuthenticationProfiles(partialParams: ToOptional<{
+      [K in keyof DescribeAuthenticationProfilesMessage]: (DescribeAuthenticationProfilesMessage)[K]
+    }>): Request<DescribeAuthenticationProfilesResult, AWSError> {
         this.boot();
-        return this.client.deleteSnapshotCopyGrant(
-          this.ops["DeleteSnapshotCopyGrant"].applicator.apply(partialParams)
+        return this.client.describeAuthenticationProfiles(
+          this.ops["DescribeAuthenticationProfiles"].apply(partialParams)
         );
     }
 
-    invokeDeleteSnapshotSchedule(partialParams: ToOptional<{
-      [K in keyof DeleteSnapshotScheduleMessage & keyof DeleteSnapshotScheduleMessage & keyof DeleteSnapshotScheduleMessage]: (DeleteSnapshotScheduleMessage & DeleteSnapshotScheduleMessage & DeleteSnapshotScheduleMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDescribeClusterDbRevisions(partialParams: ToOptional<{
+      [K in keyof DescribeClusterDbRevisionsMessage]: (DescribeClusterDbRevisionsMessage)[K]
+    }>): Request<ClusterDbRevisionsMessage, AWSError> {
         this.boot();
-        return this.client.deleteSnapshotSchedule(
-          this.ops["DeleteSnapshotSchedule"].applicator.apply(partialParams)
+        return this.client.describeClusterDbRevisions(
+          this.ops["DescribeClusterDbRevisions"].apply(partialParams)
         );
     }
 
-    invokeDeleteTags(partialParams: ToOptional<{
-      [K in keyof DeleteTagsMessage & keyof DeleteTagsMessage & keyof DeleteTagsMessage]: (DeleteTagsMessage & DeleteTagsMessage & DeleteTagsMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDescribeClusterParameterGroups(partialParams: ToOptional<{
+      [K in keyof DescribeClusterParameterGroupsMessage]: (DescribeClusterParameterGroupsMessage)[K]
+    }>): Request<ClusterParameterGroupsMessage, AWSError> {
         this.boot();
-        return this.client.deleteTags(
-          this.ops["DeleteTags"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteUsageLimit(partialParams: ToOptional<{
-      [K in keyof DeleteUsageLimitMessage & keyof DeleteUsageLimitMessage & keyof DeleteUsageLimitMessage]: (DeleteUsageLimitMessage & DeleteUsageLimitMessage & DeleteUsageLimitMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteUsageLimit(
-          this.ops["DeleteUsageLimit"].applicator.apply(partialParams)
+        return this.client.describeClusterParameterGroups(
+          this.ops["DescribeClusterParameterGroups"].apply(partialParams)
         );
     }
 
     invokeDescribeClusterParameters(partialParams: ToOptional<{
-      [K in keyof DescribeClusterParametersMessage & keyof DescribeClusterParametersMessage & keyof DescribeClusterParametersMessage]: (DescribeClusterParametersMessage & DescribeClusterParametersMessage & DescribeClusterParametersMessage)[K]
+      [K in keyof DescribeClusterParametersMessage]: (DescribeClusterParametersMessage)[K]
     }>): Request<ClusterParameterGroupDetails, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeClusterParameters(
-          this.ops["DescribeClusterParameters"].applicator.apply(partialParams)
+          this.ops["DescribeClusterParameters"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeClusterSecurityGroups(partialParams: ToOptional<{
+      [K in keyof DescribeClusterSecurityGroupsMessage]: (DescribeClusterSecurityGroupsMessage)[K]
+    }>): Request<ClusterSecurityGroupMessage, AWSError> {
+        this.boot();
+        return this.client.describeClusterSecurityGroups(
+          this.ops["DescribeClusterSecurityGroups"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeClusterSnapshots(partialParams: ToOptional<{
+      [K in keyof DescribeClusterSnapshotsMessage]: (DescribeClusterSnapshotsMessage)[K]
+    }>): Request<SnapshotMessage, AWSError> {
+        this.boot();
+        return this.client.describeClusterSnapshots(
+          this.ops["DescribeClusterSnapshots"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeClusterSubnetGroups(partialParams: ToOptional<{
+      [K in keyof DescribeClusterSubnetGroupsMessage]: (DescribeClusterSubnetGroupsMessage)[K]
+    }>): Request<ClusterSubnetGroupMessage, AWSError> {
+        this.boot();
+        return this.client.describeClusterSubnetGroups(
+          this.ops["DescribeClusterSubnetGroups"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeClusterTracks(partialParams: ToOptional<{
+      [K in keyof DescribeClusterTracksMessage]: (DescribeClusterTracksMessage)[K]
+    }>): Request<TrackListMessage, AWSError> {
+        this.boot();
+        return this.client.describeClusterTracks(
+          this.ops["DescribeClusterTracks"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeClusterVersions(partialParams: ToOptional<{
+      [K in keyof DescribeClusterVersionsMessage]: (DescribeClusterVersionsMessage)[K]
+    }>): Request<ClusterVersionsMessage, AWSError> {
+        this.boot();
+        return this.client.describeClusterVersions(
+          this.ops["DescribeClusterVersions"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeClusters(partialParams: ToOptional<{
+      [K in keyof DescribeClustersMessage]: (DescribeClustersMessage)[K]
+    }>): Request<ClustersMessage, AWSError> {
+        this.boot();
+        return this.client.describeClusters(
+          this.ops["DescribeClusters"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDataShares(partialParams: ToOptional<{
+      [K in keyof DescribeDataSharesMessage]: (DescribeDataSharesMessage)[K]
+    }>): Request<DescribeDataSharesResult, AWSError> {
+        this.boot();
+        return this.client.describeDataShares(
+          this.ops["DescribeDataShares"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDataSharesForConsumer(partialParams: ToOptional<{
+      [K in keyof DescribeDataSharesForConsumerMessage]: (DescribeDataSharesForConsumerMessage)[K]
+    }>): Request<DescribeDataSharesForConsumerResult, AWSError> {
+        this.boot();
+        return this.client.describeDataSharesForConsumer(
+          this.ops["DescribeDataSharesForConsumer"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDataSharesForProducer(partialParams: ToOptional<{
+      [K in keyof DescribeDataSharesForProducerMessage]: (DescribeDataSharesForProducerMessage)[K]
+    }>): Request<DescribeDataSharesForProducerResult, AWSError> {
+        this.boot();
+        return this.client.describeDataSharesForProducer(
+          this.ops["DescribeDataSharesForProducer"].apply(partialParams)
         );
     }
 
     invokeDescribeDefaultClusterParameters(partialParams: ToOptional<{
-      [K in keyof DescribeDefaultClusterParametersMessage & keyof DescribeDefaultClusterParametersMessage & keyof DescribeDefaultClusterParametersMessage]: (DescribeDefaultClusterParametersMessage & DescribeDefaultClusterParametersMessage & DescribeDefaultClusterParametersMessage)[K]
+      [K in keyof DescribeDefaultClusterParametersMessage]: (DescribeDefaultClusterParametersMessage)[K]
     }>): Request<DescribeDefaultClusterParametersResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDefaultClusterParameters(
-          this.ops["DescribeDefaultClusterParameters"].applicator.apply(partialParams)
+          this.ops["DescribeDefaultClusterParameters"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeEndpointAccess(partialParams: ToOptional<{
+      [K in keyof DescribeEndpointAccessMessage]: (DescribeEndpointAccessMessage)[K]
+    }>): Request<EndpointAccessList, AWSError> {
+        this.boot();
+        return this.client.describeEndpointAccess(
+          this.ops["DescribeEndpointAccess"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeEndpointAuthorization(partialParams: ToOptional<{
+      [K in keyof DescribeEndpointAuthorizationMessage]: (DescribeEndpointAuthorizationMessage)[K]
+    }>): Request<EndpointAuthorizationList, AWSError> {
+        this.boot();
+        return this.client.describeEndpointAuthorization(
+          this.ops["DescribeEndpointAuthorization"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeEventCategories(partialParams: ToOptional<{
+      [K in keyof DescribeEventCategoriesMessage]: (DescribeEventCategoriesMessage)[K]
+    }>): Request<EventCategoriesMessage, AWSError> {
+        this.boot();
+        return this.client.describeEventCategories(
+          this.ops["DescribeEventCategories"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeEventSubscriptions(partialParams: ToOptional<{
+      [K in keyof DescribeEventSubscriptionsMessage]: (DescribeEventSubscriptionsMessage)[K]
+    }>): Request<EventSubscriptionsMessage, AWSError> {
+        this.boot();
+        return this.client.describeEventSubscriptions(
+          this.ops["DescribeEventSubscriptions"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeEvents(partialParams: ToOptional<{
+      [K in keyof DescribeEventsMessage]: (DescribeEventsMessage)[K]
+    }>): Request<EventsMessage, AWSError> {
+        this.boot();
+        return this.client.describeEvents(
+          this.ops["DescribeEvents"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeHsmClientCertificates(partialParams: ToOptional<{
+      [K in keyof DescribeHsmClientCertificatesMessage]: (DescribeHsmClientCertificatesMessage)[K]
+    }>): Request<HsmClientCertificateMessage, AWSError> {
+        this.boot();
+        return this.client.describeHsmClientCertificates(
+          this.ops["DescribeHsmClientCertificates"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeHsmConfigurations(partialParams: ToOptional<{
+      [K in keyof DescribeHsmConfigurationsMessage]: (DescribeHsmConfigurationsMessage)[K]
+    }>): Request<HsmConfigurationMessage, AWSError> {
+        this.boot();
+        return this.client.describeHsmConfigurations(
+          this.ops["DescribeHsmConfigurations"].apply(partialParams)
         );
     }
 
     invokeDescribeLoggingStatus(partialParams: ToOptional<{
-      [K in keyof DescribeLoggingStatusMessage & keyof DescribeLoggingStatusMessage & keyof DescribeLoggingStatusMessage]: (DescribeLoggingStatusMessage & DescribeLoggingStatusMessage & DescribeLoggingStatusMessage)[K]
+      [K in keyof DescribeLoggingStatusMessage]: (DescribeLoggingStatusMessage)[K]
     }>): Request<LoggingStatus, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeLoggingStatus(
-          this.ops["DescribeLoggingStatus"].applicator.apply(partialParams)
+          this.ops["DescribeLoggingStatus"].apply(partialParams)
         );
     }
 
     invokeDescribeNodeConfigurationOptions(partialParams: ToOptional<{
-      [K in keyof DescribeNodeConfigurationOptionsMessage & keyof DescribeNodeConfigurationOptionsMessage & keyof DescribeNodeConfigurationOptionsMessage]: (DescribeNodeConfigurationOptionsMessage & DescribeNodeConfigurationOptionsMessage & DescribeNodeConfigurationOptionsMessage)[K]
+      [K in keyof DescribeNodeConfigurationOptionsMessage]: (DescribeNodeConfigurationOptionsMessage)[K]
     }>): Request<NodeConfigurationOptionsMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeNodeConfigurationOptions(
-          this.ops["DescribeNodeConfigurationOptions"].applicator.apply(partialParams)
+          this.ops["DescribeNodeConfigurationOptions"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeOrderableClusterOptions(partialParams: ToOptional<{
+      [K in keyof DescribeOrderableClusterOptionsMessage]: (DescribeOrderableClusterOptionsMessage)[K]
+    }>): Request<OrderableClusterOptionsMessage, AWSError> {
+        this.boot();
+        return this.client.describeOrderableClusterOptions(
+          this.ops["DescribeOrderableClusterOptions"].apply(partialParams)
         );
     }
 
     invokeDescribePartners(partialParams: ToOptional<{
-      [K in keyof DescribePartnersInputMessage & keyof DescribePartnersInputMessage & keyof DescribePartnersInputMessage]: (DescribePartnersInputMessage & DescribePartnersInputMessage & DescribePartnersInputMessage)[K]
+      [K in keyof DescribePartnersInputMessage]: (DescribePartnersInputMessage)[K]
     }>): Request<DescribePartnersOutputMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describePartners(
-          this.ops["DescribePartners"].applicator.apply(partialParams)
+          this.ops["DescribePartners"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeReservedNodeExchangeStatus(partialParams: ToOptional<{
+      [K in keyof DescribeReservedNodeExchangeStatusInputMessage]: (DescribeReservedNodeExchangeStatusInputMessage)[K]
+    }>): Request<DescribeReservedNodeExchangeStatusOutputMessage, AWSError> {
+        this.boot();
+        return this.client.describeReservedNodeExchangeStatus(
+          this.ops["DescribeReservedNodeExchangeStatus"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeReservedNodeOfferings(partialParams: ToOptional<{
+      [K in keyof DescribeReservedNodeOfferingsMessage]: (DescribeReservedNodeOfferingsMessage)[K]
+    }>): Request<ReservedNodeOfferingsMessage, AWSError> {
+        this.boot();
+        return this.client.describeReservedNodeOfferings(
+          this.ops["DescribeReservedNodeOfferings"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeReservedNodes(partialParams: ToOptional<{
+      [K in keyof DescribeReservedNodesMessage]: (DescribeReservedNodesMessage)[K]
+    }>): Request<ReservedNodesMessage, AWSError> {
+        this.boot();
+        return this.client.describeReservedNodes(
+          this.ops["DescribeReservedNodes"].apply(partialParams)
         );
     }
 
     invokeDescribeResize(partialParams: ToOptional<{
-      [K in keyof DescribeResizeMessage & keyof DescribeResizeMessage & keyof DescribeResizeMessage]: (DescribeResizeMessage & DescribeResizeMessage & DescribeResizeMessage)[K]
+      [K in keyof DescribeResizeMessage]: (DescribeResizeMessage)[K]
     }>): Request<ResizeProgressMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeResize(
-          this.ops["DescribeResize"].applicator.apply(partialParams)
+          this.ops["DescribeResize"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeScheduledActions(partialParams: ToOptional<{
+      [K in keyof DescribeScheduledActionsMessage]: (DescribeScheduledActionsMessage)[K]
+    }>): Request<ScheduledActionsMessage, AWSError> {
+        this.boot();
+        return this.client.describeScheduledActions(
+          this.ops["DescribeScheduledActions"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeSnapshotCopyGrants(partialParams: ToOptional<{
+      [K in keyof DescribeSnapshotCopyGrantsMessage]: (DescribeSnapshotCopyGrantsMessage)[K]
+    }>): Request<SnapshotCopyGrantMessage, AWSError> {
+        this.boot();
+        return this.client.describeSnapshotCopyGrants(
+          this.ops["DescribeSnapshotCopyGrants"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeSnapshotSchedules(partialParams: ToOptional<{
+      [K in keyof DescribeSnapshotSchedulesMessage]: (DescribeSnapshotSchedulesMessage)[K]
+    }>): Request<DescribeSnapshotSchedulesOutputMessage, AWSError> {
+        this.boot();
+        return this.client.describeSnapshotSchedules(
+          this.ops["DescribeSnapshotSchedules"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeTableRestoreStatus(partialParams: ToOptional<{
+      [K in keyof DescribeTableRestoreStatusMessage]: (DescribeTableRestoreStatusMessage)[K]
+    }>): Request<TableRestoreStatusMessage, AWSError> {
+        this.boot();
+        return this.client.describeTableRestoreStatus(
+          this.ops["DescribeTableRestoreStatus"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeTags(partialParams: ToOptional<{
+      [K in keyof DescribeTagsMessage]: (DescribeTagsMessage)[K]
+    }>): Request<TaggedResourceListMessage, AWSError> {
+        this.boot();
+        return this.client.describeTags(
+          this.ops["DescribeTags"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeUsageLimits(partialParams: ToOptional<{
+      [K in keyof DescribeUsageLimitsMessage]: (DescribeUsageLimitsMessage)[K]
+    }>): Request<UsageLimitList, AWSError> {
+        this.boot();
+        return this.client.describeUsageLimits(
+          this.ops["DescribeUsageLimits"].apply(partialParams)
         );
     }
 
     invokeDisableLogging(partialParams: ToOptional<{
-      [K in keyof DisableLoggingMessage & keyof DisableLoggingMessage & keyof DisableLoggingMessage]: (DisableLoggingMessage & DisableLoggingMessage & DisableLoggingMessage)[K]
+      [K in keyof DisableLoggingMessage]: (DisableLoggingMessage)[K]
     }>): Request<LoggingStatus, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disableLogging(
-          this.ops["DisableLogging"].applicator.apply(partialParams)
+          this.ops["DisableLogging"].apply(partialParams)
         );
     }
 
     invokeDisableSnapshotCopy(partialParams: ToOptional<{
-      [K in keyof DisableSnapshotCopyMessage & keyof DisableSnapshotCopyMessage & keyof DisableSnapshotCopyMessage]: (DisableSnapshotCopyMessage & DisableSnapshotCopyMessage & DisableSnapshotCopyMessage)[K]
+      [K in keyof DisableSnapshotCopyMessage]: (DisableSnapshotCopyMessage)[K]
     }>): Request<DisableSnapshotCopyResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disableSnapshotCopy(
-          this.ops["DisableSnapshotCopy"].applicator.apply(partialParams)
+          this.ops["DisableSnapshotCopy"].apply(partialParams)
         );
     }
 
     invokeDisassociateDataShareConsumer(partialParams: ToOptional<{
-      [K in keyof DisassociateDataShareConsumerMessage & keyof DisassociateDataShareConsumerMessage & keyof DisassociateDataShareConsumerMessage]: (DisassociateDataShareConsumerMessage & DisassociateDataShareConsumerMessage & DisassociateDataShareConsumerMessage)[K]
+      [K in keyof DisassociateDataShareConsumerMessage]: (DisassociateDataShareConsumerMessage)[K]
     }>): Request<DataShare, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateDataShareConsumer(
-          this.ops["DisassociateDataShareConsumer"].applicator.apply(partialParams)
+          this.ops["DisassociateDataShareConsumer"].apply(partialParams)
         );
     }
 
     invokeEnableLogging(partialParams: ToOptional<{
-      [K in keyof EnableLoggingMessage & keyof EnableLoggingMessage & keyof EnableLoggingMessage]: (EnableLoggingMessage & EnableLoggingMessage & EnableLoggingMessage)[K]
+      [K in keyof EnableLoggingMessage]: (EnableLoggingMessage)[K]
     }>): Request<LoggingStatus, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.enableLogging(
-          this.ops["EnableLogging"].applicator.apply(partialParams)
+          this.ops["EnableLogging"].apply(partialParams)
         );
     }
 
     invokeEnableSnapshotCopy(partialParams: ToOptional<{
-      [K in keyof EnableSnapshotCopyMessage & keyof EnableSnapshotCopyMessage & keyof EnableSnapshotCopyMessage]: (EnableSnapshotCopyMessage & EnableSnapshotCopyMessage & EnableSnapshotCopyMessage)[K]
+      [K in keyof EnableSnapshotCopyMessage]: (EnableSnapshotCopyMessage)[K]
     }>): Request<EnableSnapshotCopyResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.enableSnapshotCopy(
-          this.ops["EnableSnapshotCopy"].applicator.apply(partialParams)
+          this.ops["EnableSnapshotCopy"].apply(partialParams)
         );
     }
 
     invokeGetClusterCredentials(partialParams: ToOptional<{
-      [K in keyof GetClusterCredentialsMessage & keyof GetClusterCredentialsMessage & keyof GetClusterCredentialsMessage]: (GetClusterCredentialsMessage & GetClusterCredentialsMessage & GetClusterCredentialsMessage)[K]
+      [K in keyof GetClusterCredentialsMessage]: (GetClusterCredentialsMessage)[K]
     }>): Request<ClusterCredentials, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getClusterCredentials(
-          this.ops["GetClusterCredentials"].applicator.apply(partialParams)
+          this.ops["GetClusterCredentials"].apply(partialParams)
         );
     }
 
     invokeGetReservedNodeExchangeConfigurationOptions(partialParams: ToOptional<{
-      [K in keyof GetReservedNodeExchangeConfigurationOptionsInputMessage & keyof GetReservedNodeExchangeConfigurationOptionsInputMessage & keyof GetReservedNodeExchangeConfigurationOptionsInputMessage]: (GetReservedNodeExchangeConfigurationOptionsInputMessage & GetReservedNodeExchangeConfigurationOptionsInputMessage & GetReservedNodeExchangeConfigurationOptionsInputMessage)[K]
+      [K in keyof GetReservedNodeExchangeConfigurationOptionsInputMessage]: (GetReservedNodeExchangeConfigurationOptionsInputMessage)[K]
     }>): Request<GetReservedNodeExchangeConfigurationOptionsOutputMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getReservedNodeExchangeConfigurationOptions(
-          this.ops["GetReservedNodeExchangeConfigurationOptions"].applicator.apply(partialParams)
+          this.ops["GetReservedNodeExchangeConfigurationOptions"].apply(partialParams)
         );
     }
 
     invokeGetReservedNodeExchangeOfferings(partialParams: ToOptional<{
-      [K in keyof GetReservedNodeExchangeOfferingsInputMessage & keyof GetReservedNodeExchangeOfferingsInputMessage & keyof GetReservedNodeExchangeOfferingsInputMessage]: (GetReservedNodeExchangeOfferingsInputMessage & GetReservedNodeExchangeOfferingsInputMessage & GetReservedNodeExchangeOfferingsInputMessage)[K]
+      [K in keyof GetReservedNodeExchangeOfferingsInputMessage]: (GetReservedNodeExchangeOfferingsInputMessage)[K]
     }>): Request<GetReservedNodeExchangeOfferingsOutputMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getReservedNodeExchangeOfferings(
-          this.ops["GetReservedNodeExchangeOfferings"].applicator.apply(partialParams)
+          this.ops["GetReservedNodeExchangeOfferings"].apply(partialParams)
         );
     }
 
     invokeModifyAquaConfiguration(partialParams: ToOptional<{
-      [K in keyof ModifyAquaInputMessage & keyof ModifyAquaInputMessage & keyof ModifyAquaInputMessage]: (ModifyAquaInputMessage & ModifyAquaInputMessage & ModifyAquaInputMessage)[K]
+      [K in keyof ModifyAquaInputMessage]: (ModifyAquaInputMessage)[K]
     }>): Request<ModifyAquaOutputMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyAquaConfiguration(
-          this.ops["ModifyAquaConfiguration"].applicator.apply(partialParams)
+          this.ops["ModifyAquaConfiguration"].apply(partialParams)
         );
     }
 
     invokeModifyAuthenticationProfile(partialParams: ToOptional<{
-      [K in keyof ModifyAuthenticationProfileMessage & keyof ModifyAuthenticationProfileMessage & keyof ModifyAuthenticationProfileMessage]: (ModifyAuthenticationProfileMessage & ModifyAuthenticationProfileMessage & ModifyAuthenticationProfileMessage)[K]
+      [K in keyof ModifyAuthenticationProfileMessage]: (ModifyAuthenticationProfileMessage)[K]
     }>): Request<ModifyAuthenticationProfileResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyAuthenticationProfile(
-          this.ops["ModifyAuthenticationProfile"].applicator.apply(partialParams)
+          this.ops["ModifyAuthenticationProfile"].apply(partialParams)
         );
     }
 
     invokeModifyCluster(partialParams: ToOptional<{
-      [K in keyof ModifyClusterMessage & keyof ModifyClusterMessage & keyof ModifyClusterMessage]: (ModifyClusterMessage & ModifyClusterMessage & ModifyClusterMessage)[K]
+      [K in keyof ModifyClusterMessage]: (ModifyClusterMessage)[K]
     }>): Request<ModifyClusterResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyCluster(
-          this.ops["ModifyCluster"].applicator.apply(partialParams)
+          this.ops["ModifyCluster"].apply(partialParams)
         );
     }
 
     invokeModifyClusterDbRevision(partialParams: ToOptional<{
-      [K in keyof ModifyClusterDbRevisionMessage & keyof ModifyClusterDbRevisionMessage & keyof ModifyClusterDbRevisionMessage]: (ModifyClusterDbRevisionMessage & ModifyClusterDbRevisionMessage & ModifyClusterDbRevisionMessage)[K]
+      [K in keyof ModifyClusterDbRevisionMessage]: (ModifyClusterDbRevisionMessage)[K]
     }>): Request<ModifyClusterDbRevisionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyClusterDbRevision(
-          this.ops["ModifyClusterDbRevision"].applicator.apply(partialParams)
+          this.ops["ModifyClusterDbRevision"].apply(partialParams)
         );
     }
 
     invokeModifyClusterIamRoles(partialParams: ToOptional<{
-      [K in keyof ModifyClusterIamRolesMessage & keyof ModifyClusterIamRolesMessage & keyof ModifyClusterIamRolesMessage]: (ModifyClusterIamRolesMessage & ModifyClusterIamRolesMessage & ModifyClusterIamRolesMessage)[K]
+      [K in keyof ModifyClusterIamRolesMessage]: (ModifyClusterIamRolesMessage)[K]
     }>): Request<ModifyClusterIamRolesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyClusterIamRoles(
-          this.ops["ModifyClusterIamRoles"].applicator.apply(partialParams)
+          this.ops["ModifyClusterIamRoles"].apply(partialParams)
         );
     }
 
     invokeModifyClusterMaintenance(partialParams: ToOptional<{
-      [K in keyof ModifyClusterMaintenanceMessage & keyof ModifyClusterMaintenanceMessage & keyof ModifyClusterMaintenanceMessage]: (ModifyClusterMaintenanceMessage & ModifyClusterMaintenanceMessage & ModifyClusterMaintenanceMessage)[K]
+      [K in keyof ModifyClusterMaintenanceMessage]: (ModifyClusterMaintenanceMessage)[K]
     }>): Request<ModifyClusterMaintenanceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyClusterMaintenance(
-          this.ops["ModifyClusterMaintenance"].applicator.apply(partialParams)
+          this.ops["ModifyClusterMaintenance"].apply(partialParams)
         );
     }
 
     invokeModifyClusterParameterGroup(partialParams: ToOptional<{
-      [K in keyof ModifyClusterParameterGroupMessage & keyof ModifyClusterParameterGroupMessage & keyof ModifyClusterParameterGroupMessage]: (ModifyClusterParameterGroupMessage & ModifyClusterParameterGroupMessage & ModifyClusterParameterGroupMessage)[K]
+      [K in keyof ModifyClusterParameterGroupMessage]: (ModifyClusterParameterGroupMessage)[K]
     }>): Request<ClusterParameterGroupNameMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyClusterParameterGroup(
-          this.ops["ModifyClusterParameterGroup"].applicator.apply(partialParams)
+          this.ops["ModifyClusterParameterGroup"].apply(partialParams)
         );
     }
 
     invokeModifyClusterSnapshot(partialParams: ToOptional<{
-      [K in keyof ModifyClusterSnapshotMessage & keyof ModifyClusterSnapshotMessage & keyof ModifyClusterSnapshotMessage]: (ModifyClusterSnapshotMessage & ModifyClusterSnapshotMessage & ModifyClusterSnapshotMessage)[K]
+      [K in keyof ModifyClusterSnapshotMessage]: (ModifyClusterSnapshotMessage)[K]
     }>): Request<ModifyClusterSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyClusterSnapshot(
-          this.ops["ModifyClusterSnapshot"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeModifyClusterSnapshotSchedule(partialParams: ToOptional<{
-      [K in keyof ModifyClusterSnapshotScheduleMessage & keyof ModifyClusterSnapshotScheduleMessage & keyof ModifyClusterSnapshotScheduleMessage]: (ModifyClusterSnapshotScheduleMessage & ModifyClusterSnapshotScheduleMessage & ModifyClusterSnapshotScheduleMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.modifyClusterSnapshotSchedule(
-          this.ops["ModifyClusterSnapshotSchedule"].applicator.apply(partialParams)
+          this.ops["ModifyClusterSnapshot"].apply(partialParams)
         );
     }
 
     invokeModifyClusterSubnetGroup(partialParams: ToOptional<{
-      [K in keyof ModifyClusterSubnetGroupMessage & keyof ModifyClusterSubnetGroupMessage & keyof ModifyClusterSubnetGroupMessage]: (ModifyClusterSubnetGroupMessage & ModifyClusterSubnetGroupMessage & ModifyClusterSubnetGroupMessage)[K]
+      [K in keyof ModifyClusterSubnetGroupMessage]: (ModifyClusterSubnetGroupMessage)[K]
     }>): Request<ModifyClusterSubnetGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyClusterSubnetGroup(
-          this.ops["ModifyClusterSubnetGroup"].applicator.apply(partialParams)
+          this.ops["ModifyClusterSubnetGroup"].apply(partialParams)
         );
     }
 
     invokeModifyEndpointAccess(partialParams: ToOptional<{
-      [K in keyof ModifyEndpointAccessMessage & keyof ModifyEndpointAccessMessage & keyof ModifyEndpointAccessMessage]: (ModifyEndpointAccessMessage & ModifyEndpointAccessMessage & ModifyEndpointAccessMessage)[K]
+      [K in keyof ModifyEndpointAccessMessage]: (ModifyEndpointAccessMessage)[K]
     }>): Request<EndpointAccess, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyEndpointAccess(
-          this.ops["ModifyEndpointAccess"].applicator.apply(partialParams)
+          this.ops["ModifyEndpointAccess"].apply(partialParams)
         );
     }
 
     invokeModifyEventSubscription(partialParams: ToOptional<{
-      [K in keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage]: (ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage)[K]
+      [K in keyof ModifyEventSubscriptionMessage]: (ModifyEventSubscriptionMessage)[K]
     }>): Request<ModifyEventSubscriptionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyEventSubscription(
-          this.ops["ModifyEventSubscription"].applicator.apply(partialParams)
+          this.ops["ModifyEventSubscription"].apply(partialParams)
         );
     }
 
     invokeModifyScheduledAction(partialParams: ToOptional<{
-      [K in keyof ModifyScheduledActionMessage & keyof ModifyScheduledActionMessage & keyof ModifyScheduledActionMessage]: (ModifyScheduledActionMessage & ModifyScheduledActionMessage & ModifyScheduledActionMessage)[K]
+      [K in keyof ModifyScheduledActionMessage]: (ModifyScheduledActionMessage)[K]
     }>): Request<ScheduledAction, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyScheduledAction(
-          this.ops["ModifyScheduledAction"].applicator.apply(partialParams)
+          this.ops["ModifyScheduledAction"].apply(partialParams)
         );
     }
 
     invokeModifySnapshotCopyRetentionPeriod(partialParams: ToOptional<{
-      [K in keyof ModifySnapshotCopyRetentionPeriodMessage & keyof ModifySnapshotCopyRetentionPeriodMessage & keyof ModifySnapshotCopyRetentionPeriodMessage]: (ModifySnapshotCopyRetentionPeriodMessage & ModifySnapshotCopyRetentionPeriodMessage & ModifySnapshotCopyRetentionPeriodMessage)[K]
+      [K in keyof ModifySnapshotCopyRetentionPeriodMessage]: (ModifySnapshotCopyRetentionPeriodMessage)[K]
     }>): Request<ModifySnapshotCopyRetentionPeriodResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifySnapshotCopyRetentionPeriod(
-          this.ops["ModifySnapshotCopyRetentionPeriod"].applicator.apply(partialParams)
+          this.ops["ModifySnapshotCopyRetentionPeriod"].apply(partialParams)
         );
     }
 
     invokeModifySnapshotSchedule(partialParams: ToOptional<{
-      [K in keyof ModifySnapshotScheduleMessage & keyof ModifySnapshotScheduleMessage & keyof ModifySnapshotScheduleMessage]: (ModifySnapshotScheduleMessage & ModifySnapshotScheduleMessage & ModifySnapshotScheduleMessage)[K]
+      [K in keyof ModifySnapshotScheduleMessage]: (ModifySnapshotScheduleMessage)[K]
     }>): Request<SnapshotSchedule, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifySnapshotSchedule(
-          this.ops["ModifySnapshotSchedule"].applicator.apply(partialParams)
+          this.ops["ModifySnapshotSchedule"].apply(partialParams)
         );
     }
 
     invokeModifyUsageLimit(partialParams: ToOptional<{
-      [K in keyof ModifyUsageLimitMessage & keyof ModifyUsageLimitMessage & keyof ModifyUsageLimitMessage]: (ModifyUsageLimitMessage & ModifyUsageLimitMessage & ModifyUsageLimitMessage)[K]
+      [K in keyof ModifyUsageLimitMessage]: (ModifyUsageLimitMessage)[K]
     }>): Request<UsageLimit, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyUsageLimit(
-          this.ops["ModifyUsageLimit"].applicator.apply(partialParams)
+          this.ops["ModifyUsageLimit"].apply(partialParams)
         );
     }
 
     invokePauseCluster(partialParams: ToOptional<{
-      [K in keyof PauseClusterMessage & keyof PauseClusterMessage & keyof PauseClusterMessage]: (PauseClusterMessage & PauseClusterMessage & PauseClusterMessage)[K]
+      [K in keyof PauseClusterMessage]: (PauseClusterMessage)[K]
     }>): Request<PauseClusterResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.pauseCluster(
-          this.ops["PauseCluster"].applicator.apply(partialParams)
+          this.ops["PauseCluster"].apply(partialParams)
         );
     }
 
     invokePurchaseReservedNodeOffering(partialParams: ToOptional<{
-      [K in keyof PurchaseReservedNodeOfferingMessage & keyof PurchaseReservedNodeOfferingMessage & keyof PurchaseReservedNodeOfferingMessage]: (PurchaseReservedNodeOfferingMessage & PurchaseReservedNodeOfferingMessage & PurchaseReservedNodeOfferingMessage)[K]
+      [K in keyof PurchaseReservedNodeOfferingMessage]: (PurchaseReservedNodeOfferingMessage)[K]
     }>): Request<PurchaseReservedNodeOfferingResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.purchaseReservedNodeOffering(
-          this.ops["PurchaseReservedNodeOffering"].applicator.apply(partialParams)
+          this.ops["PurchaseReservedNodeOffering"].apply(partialParams)
         );
     }
 
     invokeRebootCluster(partialParams: ToOptional<{
-      [K in keyof RebootClusterMessage & keyof RebootClusterMessage & keyof RebootClusterMessage]: (RebootClusterMessage & RebootClusterMessage & RebootClusterMessage)[K]
+      [K in keyof RebootClusterMessage]: (RebootClusterMessage)[K]
     }>): Request<RebootClusterResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.rebootCluster(
-          this.ops["RebootCluster"].applicator.apply(partialParams)
+          this.ops["RebootCluster"].apply(partialParams)
         );
     }
 
     invokeRejectDataShare(partialParams: ToOptional<{
-      [K in keyof RejectDataShareMessage & keyof RejectDataShareMessage & keyof RejectDataShareMessage]: (RejectDataShareMessage & RejectDataShareMessage & RejectDataShareMessage)[K]
+      [K in keyof RejectDataShareMessage]: (RejectDataShareMessage)[K]
     }>): Request<DataShare, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.rejectDataShare(
-          this.ops["RejectDataShare"].applicator.apply(partialParams)
+          this.ops["RejectDataShare"].apply(partialParams)
         );
     }
 
     invokeResetClusterParameterGroup(partialParams: ToOptional<{
-      [K in keyof ResetClusterParameterGroupMessage & keyof ResetClusterParameterGroupMessage & keyof ResetClusterParameterGroupMessage]: (ResetClusterParameterGroupMessage & ResetClusterParameterGroupMessage & ResetClusterParameterGroupMessage)[K]
+      [K in keyof ResetClusterParameterGroupMessage]: (ResetClusterParameterGroupMessage)[K]
     }>): Request<ClusterParameterGroupNameMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.resetClusterParameterGroup(
-          this.ops["ResetClusterParameterGroup"].applicator.apply(partialParams)
+          this.ops["ResetClusterParameterGroup"].apply(partialParams)
         );
     }
 
     invokeResizeCluster(partialParams: ToOptional<{
-      [K in keyof ResizeClusterMessage & keyof ResizeClusterMessage & keyof ResizeClusterMessage]: (ResizeClusterMessage & ResizeClusterMessage & ResizeClusterMessage)[K]
+      [K in keyof ResizeClusterMessage]: (ResizeClusterMessage)[K]
     }>): Request<ResizeClusterResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.resizeCluster(
-          this.ops["ResizeCluster"].applicator.apply(partialParams)
+          this.ops["ResizeCluster"].apply(partialParams)
         );
     }
 
     invokeRestoreFromClusterSnapshot(partialParams: ToOptional<{
-      [K in keyof RestoreFromClusterSnapshotMessage & keyof RestoreFromClusterSnapshotMessage & keyof RestoreFromClusterSnapshotMessage]: (RestoreFromClusterSnapshotMessage & RestoreFromClusterSnapshotMessage & RestoreFromClusterSnapshotMessage)[K]
+      [K in keyof RestoreFromClusterSnapshotMessage]: (RestoreFromClusterSnapshotMessage)[K]
     }>): Request<RestoreFromClusterSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.restoreFromClusterSnapshot(
-          this.ops["RestoreFromClusterSnapshot"].applicator.apply(partialParams)
+          this.ops["RestoreFromClusterSnapshot"].apply(partialParams)
         );
     }
 
     invokeRestoreTableFromClusterSnapshot(partialParams: ToOptional<{
-      [K in keyof RestoreTableFromClusterSnapshotMessage & keyof RestoreTableFromClusterSnapshotMessage & keyof RestoreTableFromClusterSnapshotMessage]: (RestoreTableFromClusterSnapshotMessage & RestoreTableFromClusterSnapshotMessage & RestoreTableFromClusterSnapshotMessage)[K]
+      [K in keyof RestoreTableFromClusterSnapshotMessage]: (RestoreTableFromClusterSnapshotMessage)[K]
     }>): Request<RestoreTableFromClusterSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.restoreTableFromClusterSnapshot(
-          this.ops["RestoreTableFromClusterSnapshot"].applicator.apply(partialParams)
+          this.ops["RestoreTableFromClusterSnapshot"].apply(partialParams)
         );
     }
 
     invokeResumeCluster(partialParams: ToOptional<{
-      [K in keyof ResumeClusterMessage & keyof ResumeClusterMessage & keyof ResumeClusterMessage]: (ResumeClusterMessage & ResumeClusterMessage & ResumeClusterMessage)[K]
+      [K in keyof ResumeClusterMessage]: (ResumeClusterMessage)[K]
     }>): Request<ResumeClusterResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.resumeCluster(
-          this.ops["ResumeCluster"].applicator.apply(partialParams)
+          this.ops["ResumeCluster"].apply(partialParams)
         );
     }
 
     invokeRevokeClusterSecurityGroupIngress(partialParams: ToOptional<{
-      [K in keyof RevokeClusterSecurityGroupIngressMessage & keyof RevokeClusterSecurityGroupIngressMessage & keyof RevokeClusterSecurityGroupIngressMessage]: (RevokeClusterSecurityGroupIngressMessage & RevokeClusterSecurityGroupIngressMessage & RevokeClusterSecurityGroupIngressMessage)[K]
+      [K in keyof RevokeClusterSecurityGroupIngressMessage]: (RevokeClusterSecurityGroupIngressMessage)[K]
     }>): Request<RevokeClusterSecurityGroupIngressResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.revokeClusterSecurityGroupIngress(
-          this.ops["RevokeClusterSecurityGroupIngress"].applicator.apply(partialParams)
+          this.ops["RevokeClusterSecurityGroupIngress"].apply(partialParams)
+        );
+    }
+
+    invokeRevokeEndpointAccess(partialParams: ToOptional<{
+      [K in keyof RevokeEndpointAccessMessage]: (RevokeEndpointAccessMessage)[K]
+    }>): Request<EndpointAuthorization, AWSError> {
+        this.boot();
+        return this.client.revokeEndpointAccess(
+          this.ops["RevokeEndpointAccess"].apply(partialParams)
         );
     }
 
     invokeRevokeSnapshotAccess(partialParams: ToOptional<{
-      [K in keyof RevokeSnapshotAccessMessage & keyof RevokeSnapshotAccessMessage & keyof RevokeSnapshotAccessMessage]: (RevokeSnapshotAccessMessage & RevokeSnapshotAccessMessage & RevokeSnapshotAccessMessage)[K]
+      [K in keyof RevokeSnapshotAccessMessage]: (RevokeSnapshotAccessMessage)[K]
     }>): Request<RevokeSnapshotAccessResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.revokeSnapshotAccess(
-          this.ops["RevokeSnapshotAccess"].applicator.apply(partialParams)
+          this.ops["RevokeSnapshotAccess"].apply(partialParams)
         );
     }
 
     invokeRotateEncryptionKey(partialParams: ToOptional<{
-      [K in keyof RotateEncryptionKeyMessage & keyof RotateEncryptionKeyMessage & keyof RotateEncryptionKeyMessage]: (RotateEncryptionKeyMessage & RotateEncryptionKeyMessage & RotateEncryptionKeyMessage)[K]
+      [K in keyof RotateEncryptionKeyMessage]: (RotateEncryptionKeyMessage)[K]
     }>): Request<RotateEncryptionKeyResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.rotateEncryptionKey(
-          this.ops["RotateEncryptionKey"].applicator.apply(partialParams)
+          this.ops["RotateEncryptionKey"].apply(partialParams)
         );
     }
 
     invokeUpdatePartnerStatus(partialParams: ToOptional<{
-      [K in keyof UpdatePartnerStatusInputMessage & keyof UpdatePartnerStatusInputMessage & keyof UpdatePartnerStatusInputMessage]: (UpdatePartnerStatusInputMessage & UpdatePartnerStatusInputMessage & UpdatePartnerStatusInputMessage)[K]
+      [K in keyof UpdatePartnerStatusInputMessage]: (UpdatePartnerStatusInputMessage)[K]
     }>): Request<PartnerIntegrationOutputMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updatePartnerStatus(
-          this.ops["UpdatePartnerStatus"].applicator.apply(partialParams)
+          this.ops["UpdatePartnerStatus"].apply(partialParams)
         );
     }
 }

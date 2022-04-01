@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.account.AlternativeContact {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.Account();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,25 +50,12 @@ class default_1 extends aws.account.AlternativeContact {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
-    }
-    invokeDeleteAlternateContact(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteAlternateContact(this.ops["DeleteAlternateContact"].applicator.apply(partialParams));
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeGetAlternateContact(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getAlternateContact(this.ops["GetAlternateContact"].applicator.apply(partialParams));
-    }
-    invokePutAlternateContact(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.putAlternateContact(this.ops["PutAlternateContact"].applicator.apply(partialParams));
+        return this.client.getAlternateContact(this.ops["GetAlternateContact"].apply(partialParams));
     }
 }
 exports.default = default_1;

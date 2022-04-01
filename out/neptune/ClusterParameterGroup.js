@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.neptune.ClusterParameterGroup {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.Neptune();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,307 +50,232 @@ class default_1 extends aws.neptune.ClusterParameterGroup {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
-    }
-    invokeAddRoleToDBCluster(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.addRoleToDBCluster(this.ops["AddRoleToDBCluster"].applicator.apply(partialParams));
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAddSourceIdentifierToSubscription(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.addSourceIdentifierToSubscription(this.ops["AddSourceIdentifierToSubscription"].applicator.apply(partialParams));
-    }
-    invokeAddTagsToResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.addTagsToResource(this.ops["AddTagsToResource"].applicator.apply(partialParams));
+        return this.client.addSourceIdentifierToSubscription(this.ops["AddSourceIdentifierToSubscription"].apply(partialParams));
     }
     invokeApplyPendingMaintenanceAction(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.applyPendingMaintenanceAction(this.ops["ApplyPendingMaintenanceAction"].applicator.apply(partialParams));
+        return this.client.applyPendingMaintenanceAction(this.ops["ApplyPendingMaintenanceAction"].apply(partialParams));
     }
     invokeCopyDBClusterParameterGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.copyDBClusterParameterGroup(this.ops["CopyDBClusterParameterGroup"].applicator.apply(partialParams));
+        return this.client.copyDBClusterParameterGroup(this.ops["CopyDBClusterParameterGroup"].apply(partialParams));
     }
     invokeCopyDBClusterSnapshot(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.copyDBClusterSnapshot(this.ops["CopyDBClusterSnapshot"].applicator.apply(partialParams));
+        return this.client.copyDBClusterSnapshot(this.ops["CopyDBClusterSnapshot"].apply(partialParams));
     }
     invokeCopyDBParameterGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.copyDBParameterGroup(this.ops["CopyDBParameterGroup"].applicator.apply(partialParams));
+        return this.client.copyDBParameterGroup(this.ops["CopyDBParameterGroup"].apply(partialParams));
     }
     invokeCreateDBCluster(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDBCluster(this.ops["CreateDBCluster"].applicator.apply(partialParams));
+        return this.client.createDBCluster(this.ops["CreateDBCluster"].apply(partialParams));
     }
     invokeCreateDBClusterEndpoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDBClusterEndpoint(this.ops["CreateDBClusterEndpoint"].applicator.apply(partialParams));
+        return this.client.createDBClusterEndpoint(this.ops["CreateDBClusterEndpoint"].apply(partialParams));
     }
     invokeCreateDBClusterParameterGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDBClusterParameterGroup(this.ops["CreateDBClusterParameterGroup"].applicator.apply(partialParams));
+        return this.client.createDBClusterParameterGroup(this.ops["CreateDBClusterParameterGroup"].apply(partialParams));
     }
     invokeCreateDBClusterSnapshot(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDBClusterSnapshot(this.ops["CreateDBClusterSnapshot"].applicator.apply(partialParams));
+        return this.client.createDBClusterSnapshot(this.ops["CreateDBClusterSnapshot"].apply(partialParams));
     }
     invokeCreateDBInstance(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDBInstance(this.ops["CreateDBInstance"].applicator.apply(partialParams));
+        return this.client.createDBInstance(this.ops["CreateDBInstance"].apply(partialParams));
     }
     invokeCreateDBParameterGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDBParameterGroup(this.ops["CreateDBParameterGroup"].applicator.apply(partialParams));
+        return this.client.createDBParameterGroup(this.ops["CreateDBParameterGroup"].apply(partialParams));
     }
     invokeCreateDBSubnetGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDBSubnetGroup(this.ops["CreateDBSubnetGroup"].applicator.apply(partialParams));
+        return this.client.createDBSubnetGroup(this.ops["CreateDBSubnetGroup"].apply(partialParams));
     }
     invokeCreateEventSubscription(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createEventSubscription(this.ops["CreateEventSubscription"].applicator.apply(partialParams));
+        return this.client.createEventSubscription(this.ops["CreateEventSubscription"].apply(partialParams));
     }
     invokeDeleteDBCluster(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteDBCluster(this.ops["DeleteDBCluster"].applicator.apply(partialParams));
+        return this.client.deleteDBCluster(this.ops["DeleteDBCluster"].apply(partialParams));
     }
     invokeDeleteDBClusterEndpoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteDBClusterEndpoint(this.ops["DeleteDBClusterEndpoint"].applicator.apply(partialParams));
-    }
-    invokeDeleteDBClusterParameterGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteDBClusterParameterGroup(this.ops["DeleteDBClusterParameterGroup"].applicator.apply(partialParams));
+        return this.client.deleteDBClusterEndpoint(this.ops["DeleteDBClusterEndpoint"].apply(partialParams));
     }
     invokeDeleteDBClusterSnapshot(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteDBClusterSnapshot(this.ops["DeleteDBClusterSnapshot"].applicator.apply(partialParams));
+        return this.client.deleteDBClusterSnapshot(this.ops["DeleteDBClusterSnapshot"].apply(partialParams));
     }
     invokeDeleteDBInstance(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteDBInstance(this.ops["DeleteDBInstance"].applicator.apply(partialParams));
-    }
-    invokeDeleteDBParameterGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteDBParameterGroup(this.ops["DeleteDBParameterGroup"].applicator.apply(partialParams));
-    }
-    invokeDeleteDBSubnetGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteDBSubnetGroup(this.ops["DeleteDBSubnetGroup"].applicator.apply(partialParams));
+        return this.client.deleteDBInstance(this.ops["DeleteDBInstance"].apply(partialParams));
     }
     invokeDeleteEventSubscription(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteEventSubscription(this.ops["DeleteEventSubscription"].applicator.apply(partialParams));
+        return this.client.deleteEventSubscription(this.ops["DeleteEventSubscription"].apply(partialParams));
+    }
+    invokeDescribeDBClusterEndpoints(partialParams) {
+        this.boot();
+        return this.client.describeDBClusterEndpoints(this.ops["DescribeDBClusterEndpoints"].apply(partialParams));
+    }
+    invokeDescribeDBClusterParameterGroups(partialParams) {
+        this.boot();
+        return this.client.describeDBClusterParameterGroups(this.ops["DescribeDBClusterParameterGroups"].apply(partialParams));
     }
     invokeDescribeDBClusterParameters(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeDBClusterParameters(this.ops["DescribeDBClusterParameters"].applicator.apply(partialParams));
+        return this.client.describeDBClusterParameters(this.ops["DescribeDBClusterParameters"].apply(partialParams));
     }
     invokeDescribeDBClusterSnapshotAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeDBClusterSnapshotAttributes(this.ops["DescribeDBClusterSnapshotAttributes"].applicator.apply(partialParams));
+        return this.client.describeDBClusterSnapshotAttributes(this.ops["DescribeDBClusterSnapshotAttributes"].apply(partialParams));
+    }
+    invokeDescribeDBClusterSnapshots(partialParams) {
+        this.boot();
+        return this.client.describeDBClusterSnapshots(this.ops["DescribeDBClusterSnapshots"].apply(partialParams));
+    }
+    invokeDescribeDBClusters(partialParams) {
+        this.boot();
+        return this.client.describeDBClusters(this.ops["DescribeDBClusters"].apply(partialParams));
+    }
+    invokeDescribeDBEngineVersions(partialParams) {
+        this.boot();
+        return this.client.describeDBEngineVersions(this.ops["DescribeDBEngineVersions"].apply(partialParams));
+    }
+    invokeDescribeDBInstances(partialParams) {
+        this.boot();
+        return this.client.describeDBInstances(this.ops["DescribeDBInstances"].apply(partialParams));
+    }
+    invokeDescribeDBParameterGroups(partialParams) {
+        this.boot();
+        return this.client.describeDBParameterGroups(this.ops["DescribeDBParameterGroups"].apply(partialParams));
     }
     invokeDescribeDBParameters(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeDBParameters(this.ops["DescribeDBParameters"].applicator.apply(partialParams));
+        return this.client.describeDBParameters(this.ops["DescribeDBParameters"].apply(partialParams));
+    }
+    invokeDescribeDBSubnetGroups(partialParams) {
+        this.boot();
+        return this.client.describeDBSubnetGroups(this.ops["DescribeDBSubnetGroups"].apply(partialParams));
     }
     invokeDescribeEngineDefaultClusterParameters(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeEngineDefaultClusterParameters(this.ops["DescribeEngineDefaultClusterParameters"].applicator.apply(partialParams));
+        return this.client.describeEngineDefaultClusterParameters(this.ops["DescribeEngineDefaultClusterParameters"].apply(partialParams));
     }
     invokeDescribeEngineDefaultParameters(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeEngineDefaultParameters(this.ops["DescribeEngineDefaultParameters"].applicator.apply(partialParams));
+        return this.client.describeEngineDefaultParameters(this.ops["DescribeEngineDefaultParameters"].apply(partialParams));
+    }
+    invokeDescribeEventCategories(partialParams) {
+        this.boot();
+        return this.client.describeEventCategories(this.ops["DescribeEventCategories"].apply(partialParams));
+    }
+    invokeDescribeEventSubscriptions(partialParams) {
+        this.boot();
+        return this.client.describeEventSubscriptions(this.ops["DescribeEventSubscriptions"].apply(partialParams));
+    }
+    invokeDescribeEvents(partialParams) {
+        this.boot();
+        return this.client.describeEvents(this.ops["DescribeEvents"].apply(partialParams));
     }
     invokeDescribeOrderableDBInstanceOptions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeOrderableDBInstanceOptions(this.ops["DescribeOrderableDBInstanceOptions"].applicator.apply(partialParams));
+        return this.client.describeOrderableDBInstanceOptions(this.ops["DescribeOrderableDBInstanceOptions"].apply(partialParams));
+    }
+    invokeDescribePendingMaintenanceActions(partialParams) {
+        this.boot();
+        return this.client.describePendingMaintenanceActions(this.ops["DescribePendingMaintenanceActions"].apply(partialParams));
     }
     invokeDescribeValidDBInstanceModifications(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeValidDBInstanceModifications(this.ops["DescribeValidDBInstanceModifications"].applicator.apply(partialParams));
+        return this.client.describeValidDBInstanceModifications(this.ops["DescribeValidDBInstanceModifications"].apply(partialParams));
+    }
+    invokeFailoverDBCluster(partialParams) {
+        this.boot();
+        return this.client.failoverDBCluster(this.ops["FailoverDBCluster"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeModifyDBCluster(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyDBCluster(this.ops["ModifyDBCluster"].applicator.apply(partialParams));
+        return this.client.modifyDBCluster(this.ops["ModifyDBCluster"].apply(partialParams));
     }
     invokeModifyDBClusterEndpoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyDBClusterEndpoint(this.ops["ModifyDBClusterEndpoint"].applicator.apply(partialParams));
+        return this.client.modifyDBClusterEndpoint(this.ops["ModifyDBClusterEndpoint"].apply(partialParams));
     }
     invokeModifyDBClusterParameterGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyDBClusterParameterGroup(this.ops["ModifyDBClusterParameterGroup"].applicator.apply(partialParams));
+        return this.client.modifyDBClusterParameterGroup(this.ops["ModifyDBClusterParameterGroup"].apply(partialParams));
     }
     invokeModifyDBClusterSnapshotAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyDBClusterSnapshotAttribute(this.ops["ModifyDBClusterSnapshotAttribute"].applicator.apply(partialParams));
+        return this.client.modifyDBClusterSnapshotAttribute(this.ops["ModifyDBClusterSnapshotAttribute"].apply(partialParams));
     }
     invokeModifyDBInstance(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyDBInstance(this.ops["ModifyDBInstance"].applicator.apply(partialParams));
+        return this.client.modifyDBInstance(this.ops["ModifyDBInstance"].apply(partialParams));
     }
     invokeModifyDBParameterGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyDBParameterGroup(this.ops["ModifyDBParameterGroup"].applicator.apply(partialParams));
+        return this.client.modifyDBParameterGroup(this.ops["ModifyDBParameterGroup"].apply(partialParams));
     }
     invokeModifyDBSubnetGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyDBSubnetGroup(this.ops["ModifyDBSubnetGroup"].applicator.apply(partialParams));
+        return this.client.modifyDBSubnetGroup(this.ops["ModifyDBSubnetGroup"].apply(partialParams));
     }
     invokeModifyEventSubscription(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyEventSubscription(this.ops["ModifyEventSubscription"].applicator.apply(partialParams));
+        return this.client.modifyEventSubscription(this.ops["ModifyEventSubscription"].apply(partialParams));
     }
     invokePromoteReadReplicaDBCluster(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.promoteReadReplicaDBCluster(this.ops["PromoteReadReplicaDBCluster"].applicator.apply(partialParams));
+        return this.client.promoteReadReplicaDBCluster(this.ops["PromoteReadReplicaDBCluster"].apply(partialParams));
     }
     invokeRebootDBInstance(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.rebootDBInstance(this.ops["RebootDBInstance"].applicator.apply(partialParams));
-    }
-    invokeRemoveRoleFromDBCluster(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.removeRoleFromDBCluster(this.ops["RemoveRoleFromDBCluster"].applicator.apply(partialParams));
+        return this.client.rebootDBInstance(this.ops["RebootDBInstance"].apply(partialParams));
     }
     invokeRemoveSourceIdentifierFromSubscription(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.removeSourceIdentifierFromSubscription(this.ops["RemoveSourceIdentifierFromSubscription"].applicator.apply(partialParams));
-    }
-    invokeRemoveTagsFromResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.removeTagsFromResource(this.ops["RemoveTagsFromResource"].applicator.apply(partialParams));
+        return this.client.removeSourceIdentifierFromSubscription(this.ops["RemoveSourceIdentifierFromSubscription"].apply(partialParams));
     }
     invokeResetDBClusterParameterGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.resetDBClusterParameterGroup(this.ops["ResetDBClusterParameterGroup"].applicator.apply(partialParams));
+        return this.client.resetDBClusterParameterGroup(this.ops["ResetDBClusterParameterGroup"].apply(partialParams));
     }
     invokeResetDBParameterGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.resetDBParameterGroup(this.ops["ResetDBParameterGroup"].applicator.apply(partialParams));
+        return this.client.resetDBParameterGroup(this.ops["ResetDBParameterGroup"].apply(partialParams));
     }
     invokeRestoreDBClusterFromSnapshot(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.restoreDBClusterFromSnapshot(this.ops["RestoreDBClusterFromSnapshot"].applicator.apply(partialParams));
+        return this.client.restoreDBClusterFromSnapshot(this.ops["RestoreDBClusterFromSnapshot"].apply(partialParams));
     }
     invokeRestoreDBClusterToPointInTime(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.restoreDBClusterToPointInTime(this.ops["RestoreDBClusterToPointInTime"].applicator.apply(partialParams));
+        return this.client.restoreDBClusterToPointInTime(this.ops["RestoreDBClusterToPointInTime"].apply(partialParams));
     }
     invokeStartDBCluster(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startDBCluster(this.ops["StartDBCluster"].applicator.apply(partialParams));
+        return this.client.startDBCluster(this.ops["StartDBCluster"].apply(partialParams));
     }
     invokeStopDBCluster(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.stopDBCluster(this.ops["StopDBCluster"].applicator.apply(partialParams));
+        return this.client.stopDBCluster(this.ops["StopDBCluster"].apply(partialParams));
     }
 }
 exports.default = default_1;

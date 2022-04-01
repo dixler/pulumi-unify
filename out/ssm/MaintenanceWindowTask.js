@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.ssm.MaintenanceWindowTask {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.SSM();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,649 +50,548 @@ class default_1 extends aws.ssm.MaintenanceWindowTask {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAddTagsToResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.addTagsToResource(this.ops["AddTagsToResource"].applicator.apply(partialParams));
+        return this.client.addTagsToResource(this.ops["AddTagsToResource"].apply(partialParams));
     }
     invokeAssociateOpsItemRelatedItem(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateOpsItemRelatedItem(this.ops["AssociateOpsItemRelatedItem"].applicator.apply(partialParams));
+        return this.client.associateOpsItemRelatedItem(this.ops["AssociateOpsItemRelatedItem"].apply(partialParams));
     }
     invokeCancelCommand(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.cancelCommand(this.ops["CancelCommand"].applicator.apply(partialParams));
+        return this.client.cancelCommand(this.ops["CancelCommand"].apply(partialParams));
     }
     invokeCancelMaintenanceWindowExecution(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.cancelMaintenanceWindowExecution(this.ops["CancelMaintenanceWindowExecution"].applicator.apply(partialParams));
+        return this.client.cancelMaintenanceWindowExecution(this.ops["CancelMaintenanceWindowExecution"].apply(partialParams));
     }
     invokeCreateActivation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createActivation(this.ops["CreateActivation"].applicator.apply(partialParams));
+        return this.client.createActivation(this.ops["CreateActivation"].apply(partialParams));
     }
     invokeCreateAssociation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createAssociation(this.ops["CreateAssociation"].applicator.apply(partialParams));
+        return this.client.createAssociation(this.ops["CreateAssociation"].apply(partialParams));
     }
     invokeCreateAssociationBatch(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createAssociationBatch(this.ops["CreateAssociationBatch"].applicator.apply(partialParams));
+        return this.client.createAssociationBatch(this.ops["CreateAssociationBatch"].apply(partialParams));
     }
     invokeCreateDocument(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDocument(this.ops["CreateDocument"].applicator.apply(partialParams));
+        return this.client.createDocument(this.ops["CreateDocument"].apply(partialParams));
     }
     invokeCreateMaintenanceWindow(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createMaintenanceWindow(this.ops["CreateMaintenanceWindow"].applicator.apply(partialParams));
+        return this.client.createMaintenanceWindow(this.ops["CreateMaintenanceWindow"].apply(partialParams));
     }
     invokeCreateOpsItem(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createOpsItem(this.ops["CreateOpsItem"].applicator.apply(partialParams));
+        return this.client.createOpsItem(this.ops["CreateOpsItem"].apply(partialParams));
     }
     invokeCreateOpsMetadata(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createOpsMetadata(this.ops["CreateOpsMetadata"].applicator.apply(partialParams));
+        return this.client.createOpsMetadata(this.ops["CreateOpsMetadata"].apply(partialParams));
     }
     invokeCreatePatchBaseline(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createPatchBaseline(this.ops["CreatePatchBaseline"].applicator.apply(partialParams));
+        return this.client.createPatchBaseline(this.ops["CreatePatchBaseline"].apply(partialParams));
     }
     invokeCreateResourceDataSync(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createResourceDataSync(this.ops["CreateResourceDataSync"].applicator.apply(partialParams));
+        return this.client.createResourceDataSync(this.ops["CreateResourceDataSync"].apply(partialParams));
     }
     invokeDeleteActivation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteActivation(this.ops["DeleteActivation"].applicator.apply(partialParams));
+        return this.client.deleteActivation(this.ops["DeleteActivation"].apply(partialParams));
+    }
+    invokeDeleteAssociation(partialParams) {
+        this.boot();
+        return this.client.deleteAssociation(this.ops["DeleteAssociation"].apply(partialParams));
     }
     invokeDeleteDocument(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteDocument(this.ops["DeleteDocument"].applicator.apply(partialParams));
+        return this.client.deleteDocument(this.ops["DeleteDocument"].apply(partialParams));
     }
     invokeDeleteInventory(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteInventory(this.ops["DeleteInventory"].applicator.apply(partialParams));
+        return this.client.deleteInventory(this.ops["DeleteInventory"].apply(partialParams));
     }
     invokeDeleteMaintenanceWindow(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteMaintenanceWindow(this.ops["DeleteMaintenanceWindow"].applicator.apply(partialParams));
+        return this.client.deleteMaintenanceWindow(this.ops["DeleteMaintenanceWindow"].apply(partialParams));
     }
     invokeDeleteOpsMetadata(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteOpsMetadata(this.ops["DeleteOpsMetadata"].applicator.apply(partialParams));
+        return this.client.deleteOpsMetadata(this.ops["DeleteOpsMetadata"].apply(partialParams));
     }
     invokeDeleteParameter(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteParameter(this.ops["DeleteParameter"].applicator.apply(partialParams));
+        return this.client.deleteParameter(this.ops["DeleteParameter"].apply(partialParams));
     }
     invokeDeleteParameters(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteParameters(this.ops["DeleteParameters"].applicator.apply(partialParams));
+        return this.client.deleteParameters(this.ops["DeleteParameters"].apply(partialParams));
     }
     invokeDeletePatchBaseline(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deletePatchBaseline(this.ops["DeletePatchBaseline"].applicator.apply(partialParams));
+        return this.client.deletePatchBaseline(this.ops["DeletePatchBaseline"].apply(partialParams));
     }
     invokeDeleteResourceDataSync(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteResourceDataSync(this.ops["DeleteResourceDataSync"].applicator.apply(partialParams));
+        return this.client.deleteResourceDataSync(this.ops["DeleteResourceDataSync"].apply(partialParams));
     }
     invokeDeregisterManagedInstance(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deregisterManagedInstance(this.ops["DeregisterManagedInstance"].applicator.apply(partialParams));
+        return this.client.deregisterManagedInstance(this.ops["DeregisterManagedInstance"].apply(partialParams));
     }
     invokeDeregisterPatchBaselineForPatchGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deregisterPatchBaselineForPatchGroup(this.ops["DeregisterPatchBaselineForPatchGroup"].applicator.apply(partialParams));
+        return this.client.deregisterPatchBaselineForPatchGroup(this.ops["DeregisterPatchBaselineForPatchGroup"].apply(partialParams));
     }
     invokeDeregisterTargetFromMaintenanceWindow(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deregisterTargetFromMaintenanceWindow(this.ops["DeregisterTargetFromMaintenanceWindow"].applicator.apply(partialParams));
+        return this.client.deregisterTargetFromMaintenanceWindow(this.ops["DeregisterTargetFromMaintenanceWindow"].apply(partialParams));
     }
     invokeDeregisterTaskFromMaintenanceWindow(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deregisterTaskFromMaintenanceWindow(this.ops["DeregisterTaskFromMaintenanceWindow"].applicator.apply(partialParams));
+        return this.client.deregisterTaskFromMaintenanceWindow(this.ops["DeregisterTaskFromMaintenanceWindow"].apply(partialParams));
+    }
+    invokeDescribeActivations(partialParams) {
+        this.boot();
+        return this.client.describeActivations(this.ops["DescribeActivations"].apply(partialParams));
+    }
+    invokeDescribeAssociation(partialParams) {
+        this.boot();
+        return this.client.describeAssociation(this.ops["DescribeAssociation"].apply(partialParams));
     }
     invokeDescribeAssociationExecutionTargets(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeAssociationExecutionTargets(this.ops["DescribeAssociationExecutionTargets"].applicator.apply(partialParams));
+        return this.client.describeAssociationExecutionTargets(this.ops["DescribeAssociationExecutionTargets"].apply(partialParams));
     }
     invokeDescribeAssociationExecutions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeAssociationExecutions(this.ops["DescribeAssociationExecutions"].applicator.apply(partialParams));
+        return this.client.describeAssociationExecutions(this.ops["DescribeAssociationExecutions"].apply(partialParams));
+    }
+    invokeDescribeAutomationExecutions(partialParams) {
+        this.boot();
+        return this.client.describeAutomationExecutions(this.ops["DescribeAutomationExecutions"].apply(partialParams));
     }
     invokeDescribeAutomationStepExecutions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeAutomationStepExecutions(this.ops["DescribeAutomationStepExecutions"].applicator.apply(partialParams));
+        return this.client.describeAutomationStepExecutions(this.ops["DescribeAutomationStepExecutions"].apply(partialParams));
+    }
+    invokeDescribeAvailablePatches(partialParams) {
+        this.boot();
+        return this.client.describeAvailablePatches(this.ops["DescribeAvailablePatches"].apply(partialParams));
     }
     invokeDescribeDocument(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeDocument(this.ops["DescribeDocument"].applicator.apply(partialParams));
+        return this.client.describeDocument(this.ops["DescribeDocument"].apply(partialParams));
     }
     invokeDescribeDocumentPermission(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeDocumentPermission(this.ops["DescribeDocumentPermission"].applicator.apply(partialParams));
+        return this.client.describeDocumentPermission(this.ops["DescribeDocumentPermission"].apply(partialParams));
     }
     invokeDescribeEffectiveInstanceAssociations(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeEffectiveInstanceAssociations(this.ops["DescribeEffectiveInstanceAssociations"].applicator.apply(partialParams));
+        return this.client.describeEffectiveInstanceAssociations(this.ops["DescribeEffectiveInstanceAssociations"].apply(partialParams));
     }
     invokeDescribeEffectivePatchesForPatchBaseline(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeEffectivePatchesForPatchBaseline(this.ops["DescribeEffectivePatchesForPatchBaseline"].applicator.apply(partialParams));
+        return this.client.describeEffectivePatchesForPatchBaseline(this.ops["DescribeEffectivePatchesForPatchBaseline"].apply(partialParams));
     }
     invokeDescribeInstanceAssociationsStatus(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeInstanceAssociationsStatus(this.ops["DescribeInstanceAssociationsStatus"].applicator.apply(partialParams));
+        return this.client.describeInstanceAssociationsStatus(this.ops["DescribeInstanceAssociationsStatus"].apply(partialParams));
+    }
+    invokeDescribeInstanceInformation(partialParams) {
+        this.boot();
+        return this.client.describeInstanceInformation(this.ops["DescribeInstanceInformation"].apply(partialParams));
     }
     invokeDescribeInstancePatchStates(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeInstancePatchStates(this.ops["DescribeInstancePatchStates"].applicator.apply(partialParams));
+        return this.client.describeInstancePatchStates(this.ops["DescribeInstancePatchStates"].apply(partialParams));
     }
     invokeDescribeInstancePatchStatesForPatchGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeInstancePatchStatesForPatchGroup(this.ops["DescribeInstancePatchStatesForPatchGroup"].applicator.apply(partialParams));
+        return this.client.describeInstancePatchStatesForPatchGroup(this.ops["DescribeInstancePatchStatesForPatchGroup"].apply(partialParams));
     }
     invokeDescribeInstancePatches(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeInstancePatches(this.ops["DescribeInstancePatches"].applicator.apply(partialParams));
+        return this.client.describeInstancePatches(this.ops["DescribeInstancePatches"].apply(partialParams));
+    }
+    invokeDescribeInventoryDeletions(partialParams) {
+        this.boot();
+        return this.client.describeInventoryDeletions(this.ops["DescribeInventoryDeletions"].apply(partialParams));
     }
     invokeDescribeMaintenanceWindowExecutionTaskInvocations(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeMaintenanceWindowExecutionTaskInvocations(this.ops["DescribeMaintenanceWindowExecutionTaskInvocations"].applicator.apply(partialParams));
+        return this.client.describeMaintenanceWindowExecutionTaskInvocations(this.ops["DescribeMaintenanceWindowExecutionTaskInvocations"].apply(partialParams));
     }
     invokeDescribeMaintenanceWindowExecutionTasks(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeMaintenanceWindowExecutionTasks(this.ops["DescribeMaintenanceWindowExecutionTasks"].applicator.apply(partialParams));
+        return this.client.describeMaintenanceWindowExecutionTasks(this.ops["DescribeMaintenanceWindowExecutionTasks"].apply(partialParams));
     }
     invokeDescribeMaintenanceWindowExecutions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeMaintenanceWindowExecutions(this.ops["DescribeMaintenanceWindowExecutions"].applicator.apply(partialParams));
+        return this.client.describeMaintenanceWindowExecutions(this.ops["DescribeMaintenanceWindowExecutions"].apply(partialParams));
+    }
+    invokeDescribeMaintenanceWindowSchedule(partialParams) {
+        this.boot();
+        return this.client.describeMaintenanceWindowSchedule(this.ops["DescribeMaintenanceWindowSchedule"].apply(partialParams));
     }
     invokeDescribeMaintenanceWindowTargets(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeMaintenanceWindowTargets(this.ops["DescribeMaintenanceWindowTargets"].applicator.apply(partialParams));
+        return this.client.describeMaintenanceWindowTargets(this.ops["DescribeMaintenanceWindowTargets"].apply(partialParams));
     }
     invokeDescribeMaintenanceWindowTasks(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeMaintenanceWindowTasks(this.ops["DescribeMaintenanceWindowTasks"].applicator.apply(partialParams));
+        return this.client.describeMaintenanceWindowTasks(this.ops["DescribeMaintenanceWindowTasks"].apply(partialParams));
+    }
+    invokeDescribeMaintenanceWindows(partialParams) {
+        this.boot();
+        return this.client.describeMaintenanceWindows(this.ops["DescribeMaintenanceWindows"].apply(partialParams));
     }
     invokeDescribeMaintenanceWindowsForTarget(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeMaintenanceWindowsForTarget(this.ops["DescribeMaintenanceWindowsForTarget"].applicator.apply(partialParams));
+        return this.client.describeMaintenanceWindowsForTarget(this.ops["DescribeMaintenanceWindowsForTarget"].apply(partialParams));
+    }
+    invokeDescribeOpsItems(partialParams) {
+        this.boot();
+        return this.client.describeOpsItems(this.ops["DescribeOpsItems"].apply(partialParams));
+    }
+    invokeDescribeParameters(partialParams) {
+        this.boot();
+        return this.client.describeParameters(this.ops["DescribeParameters"].apply(partialParams));
+    }
+    invokeDescribePatchBaselines(partialParams) {
+        this.boot();
+        return this.client.describePatchBaselines(this.ops["DescribePatchBaselines"].apply(partialParams));
     }
     invokeDescribePatchGroupState(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describePatchGroupState(this.ops["DescribePatchGroupState"].applicator.apply(partialParams));
+        return this.client.describePatchGroupState(this.ops["DescribePatchGroupState"].apply(partialParams));
+    }
+    invokeDescribePatchGroups(partialParams) {
+        this.boot();
+        return this.client.describePatchGroups(this.ops["DescribePatchGroups"].apply(partialParams));
     }
     invokeDescribePatchProperties(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describePatchProperties(this.ops["DescribePatchProperties"].applicator.apply(partialParams));
+        return this.client.describePatchProperties(this.ops["DescribePatchProperties"].apply(partialParams));
     }
     invokeDescribeSessions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeSessions(this.ops["DescribeSessions"].applicator.apply(partialParams));
+        return this.client.describeSessions(this.ops["DescribeSessions"].apply(partialParams));
     }
     invokeDisassociateOpsItemRelatedItem(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateOpsItemRelatedItem(this.ops["DisassociateOpsItemRelatedItem"].applicator.apply(partialParams));
+        return this.client.disassociateOpsItemRelatedItem(this.ops["DisassociateOpsItemRelatedItem"].apply(partialParams));
     }
     invokeGetAutomationExecution(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getAutomationExecution(this.ops["GetAutomationExecution"].applicator.apply(partialParams));
+        return this.client.getAutomationExecution(this.ops["GetAutomationExecution"].apply(partialParams));
     }
     invokeGetCalendarState(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getCalendarState(this.ops["GetCalendarState"].applicator.apply(partialParams));
+        return this.client.getCalendarState(this.ops["GetCalendarState"].apply(partialParams));
     }
     invokeGetCommandInvocation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getCommandInvocation(this.ops["GetCommandInvocation"].applicator.apply(partialParams));
+        return this.client.getCommandInvocation(this.ops["GetCommandInvocation"].apply(partialParams));
     }
     invokeGetConnectionStatus(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getConnectionStatus(this.ops["GetConnectionStatus"].applicator.apply(partialParams));
+        return this.client.getConnectionStatus(this.ops["GetConnectionStatus"].apply(partialParams));
+    }
+    invokeGetDefaultPatchBaseline(partialParams) {
+        this.boot();
+        return this.client.getDefaultPatchBaseline(this.ops["GetDefaultPatchBaseline"].apply(partialParams));
     }
     invokeGetDeployablePatchSnapshotForInstance(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getDeployablePatchSnapshotForInstance(this.ops["GetDeployablePatchSnapshotForInstance"].applicator.apply(partialParams));
+        return this.client.getDeployablePatchSnapshotForInstance(this.ops["GetDeployablePatchSnapshotForInstance"].apply(partialParams));
     }
     invokeGetDocument(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getDocument(this.ops["GetDocument"].applicator.apply(partialParams));
+        return this.client.getDocument(this.ops["GetDocument"].apply(partialParams));
+    }
+    invokeGetInventory(partialParams) {
+        this.boot();
+        return this.client.getInventory(this.ops["GetInventory"].apply(partialParams));
+    }
+    invokeGetInventorySchema(partialParams) {
+        this.boot();
+        return this.client.getInventorySchema(this.ops["GetInventorySchema"].apply(partialParams));
     }
     invokeGetMaintenanceWindow(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getMaintenanceWindow(this.ops["GetMaintenanceWindow"].applicator.apply(partialParams));
+        return this.client.getMaintenanceWindow(this.ops["GetMaintenanceWindow"].apply(partialParams));
     }
     invokeGetMaintenanceWindowExecution(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getMaintenanceWindowExecution(this.ops["GetMaintenanceWindowExecution"].applicator.apply(partialParams));
+        return this.client.getMaintenanceWindowExecution(this.ops["GetMaintenanceWindowExecution"].apply(partialParams));
     }
     invokeGetMaintenanceWindowExecutionTask(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getMaintenanceWindowExecutionTask(this.ops["GetMaintenanceWindowExecutionTask"].applicator.apply(partialParams));
+        return this.client.getMaintenanceWindowExecutionTask(this.ops["GetMaintenanceWindowExecutionTask"].apply(partialParams));
     }
     invokeGetMaintenanceWindowExecutionTaskInvocation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getMaintenanceWindowExecutionTaskInvocation(this.ops["GetMaintenanceWindowExecutionTaskInvocation"].applicator.apply(partialParams));
+        return this.client.getMaintenanceWindowExecutionTaskInvocation(this.ops["GetMaintenanceWindowExecutionTaskInvocation"].apply(partialParams));
     }
     invokeGetMaintenanceWindowTask(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getMaintenanceWindowTask(this.ops["GetMaintenanceWindowTask"].applicator.apply(partialParams));
+        return this.client.getMaintenanceWindowTask(this.ops["GetMaintenanceWindowTask"].apply(partialParams));
     }
     invokeGetOpsItem(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getOpsItem(this.ops["GetOpsItem"].applicator.apply(partialParams));
+        return this.client.getOpsItem(this.ops["GetOpsItem"].apply(partialParams));
     }
     invokeGetOpsMetadata(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getOpsMetadata(this.ops["GetOpsMetadata"].applicator.apply(partialParams));
+        return this.client.getOpsMetadata(this.ops["GetOpsMetadata"].apply(partialParams));
+    }
+    invokeGetOpsSummary(partialParams) {
+        this.boot();
+        return this.client.getOpsSummary(this.ops["GetOpsSummary"].apply(partialParams));
     }
     invokeGetParameter(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getParameter(this.ops["GetParameter"].applicator.apply(partialParams));
+        return this.client.getParameter(this.ops["GetParameter"].apply(partialParams));
     }
     invokeGetParameterHistory(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getParameterHistory(this.ops["GetParameterHistory"].applicator.apply(partialParams));
+        return this.client.getParameterHistory(this.ops["GetParameterHistory"].apply(partialParams));
     }
     invokeGetParameters(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getParameters(this.ops["GetParameters"].applicator.apply(partialParams));
+        return this.client.getParameters(this.ops["GetParameters"].apply(partialParams));
     }
     invokeGetParametersByPath(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getParametersByPath(this.ops["GetParametersByPath"].applicator.apply(partialParams));
+        return this.client.getParametersByPath(this.ops["GetParametersByPath"].apply(partialParams));
     }
     invokeGetPatchBaseline(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getPatchBaseline(this.ops["GetPatchBaseline"].applicator.apply(partialParams));
+        return this.client.getPatchBaseline(this.ops["GetPatchBaseline"].apply(partialParams));
     }
     invokeGetPatchBaselineForPatchGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getPatchBaselineForPatchGroup(this.ops["GetPatchBaselineForPatchGroup"].applicator.apply(partialParams));
+        return this.client.getPatchBaselineForPatchGroup(this.ops["GetPatchBaselineForPatchGroup"].apply(partialParams));
     }
     invokeGetServiceSetting(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getServiceSetting(this.ops["GetServiceSetting"].applicator.apply(partialParams));
+        return this.client.getServiceSetting(this.ops["GetServiceSetting"].apply(partialParams));
     }
     invokeLabelParameterVersion(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.labelParameterVersion(this.ops["LabelParameterVersion"].applicator.apply(partialParams));
+        return this.client.labelParameterVersion(this.ops["LabelParameterVersion"].apply(partialParams));
     }
     invokeListAssociationVersions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listAssociationVersions(this.ops["ListAssociationVersions"].applicator.apply(partialParams));
+        return this.client.listAssociationVersions(this.ops["ListAssociationVersions"].apply(partialParams));
+    }
+    invokeListAssociations(partialParams) {
+        this.boot();
+        return this.client.listAssociations(this.ops["ListAssociations"].apply(partialParams));
+    }
+    invokeListCommandInvocations(partialParams) {
+        this.boot();
+        return this.client.listCommandInvocations(this.ops["ListCommandInvocations"].apply(partialParams));
+    }
+    invokeListCommands(partialParams) {
+        this.boot();
+        return this.client.listCommands(this.ops["ListCommands"].apply(partialParams));
+    }
+    invokeListComplianceItems(partialParams) {
+        this.boot();
+        return this.client.listComplianceItems(this.ops["ListComplianceItems"].apply(partialParams));
+    }
+    invokeListComplianceSummaries(partialParams) {
+        this.boot();
+        return this.client.listComplianceSummaries(this.ops["ListComplianceSummaries"].apply(partialParams));
     }
     invokeListDocumentMetadataHistory(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listDocumentMetadataHistory(this.ops["ListDocumentMetadataHistory"].applicator.apply(partialParams));
+        return this.client.listDocumentMetadataHistory(this.ops["ListDocumentMetadataHistory"].apply(partialParams));
     }
     invokeListDocumentVersions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listDocumentVersions(this.ops["ListDocumentVersions"].applicator.apply(partialParams));
+        return this.client.listDocumentVersions(this.ops["ListDocumentVersions"].apply(partialParams));
+    }
+    invokeListDocuments(partialParams) {
+        this.boot();
+        return this.client.listDocuments(this.ops["ListDocuments"].apply(partialParams));
     }
     invokeListInventoryEntries(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listInventoryEntries(this.ops["ListInventoryEntries"].applicator.apply(partialParams));
+        return this.client.listInventoryEntries(this.ops["ListInventoryEntries"].apply(partialParams));
+    }
+    invokeListOpsItemEvents(partialParams) {
+        this.boot();
+        return this.client.listOpsItemEvents(this.ops["ListOpsItemEvents"].apply(partialParams));
+    }
+    invokeListOpsItemRelatedItems(partialParams) {
+        this.boot();
+        return this.client.listOpsItemRelatedItems(this.ops["ListOpsItemRelatedItems"].apply(partialParams));
+    }
+    invokeListOpsMetadata(partialParams) {
+        this.boot();
+        return this.client.listOpsMetadata(this.ops["ListOpsMetadata"].apply(partialParams));
+    }
+    invokeListResourceComplianceSummaries(partialParams) {
+        this.boot();
+        return this.client.listResourceComplianceSummaries(this.ops["ListResourceComplianceSummaries"].apply(partialParams));
+    }
+    invokeListResourceDataSync(partialParams) {
+        this.boot();
+        return this.client.listResourceDataSync(this.ops["ListResourceDataSync"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeModifyDocumentPermission(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyDocumentPermission(this.ops["ModifyDocumentPermission"].applicator.apply(partialParams));
+        return this.client.modifyDocumentPermission(this.ops["ModifyDocumentPermission"].apply(partialParams));
     }
     invokePutComplianceItems(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putComplianceItems(this.ops["PutComplianceItems"].applicator.apply(partialParams));
+        return this.client.putComplianceItems(this.ops["PutComplianceItems"].apply(partialParams));
     }
     invokePutInventory(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putInventory(this.ops["PutInventory"].applicator.apply(partialParams));
+        return this.client.putInventory(this.ops["PutInventory"].apply(partialParams));
     }
     invokePutParameter(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putParameter(this.ops["PutParameter"].applicator.apply(partialParams));
+        return this.client.putParameter(this.ops["PutParameter"].apply(partialParams));
     }
     invokeRegisterDefaultPatchBaseline(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.registerDefaultPatchBaseline(this.ops["RegisterDefaultPatchBaseline"].applicator.apply(partialParams));
+        return this.client.registerDefaultPatchBaseline(this.ops["RegisterDefaultPatchBaseline"].apply(partialParams));
     }
     invokeRegisterPatchBaselineForPatchGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.registerPatchBaselineForPatchGroup(this.ops["RegisterPatchBaselineForPatchGroup"].applicator.apply(partialParams));
+        return this.client.registerPatchBaselineForPatchGroup(this.ops["RegisterPatchBaselineForPatchGroup"].apply(partialParams));
     }
     invokeRegisterTargetWithMaintenanceWindow(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.registerTargetWithMaintenanceWindow(this.ops["RegisterTargetWithMaintenanceWindow"].applicator.apply(partialParams));
+        return this.client.registerTargetWithMaintenanceWindow(this.ops["RegisterTargetWithMaintenanceWindow"].apply(partialParams));
     }
     invokeRegisterTaskWithMaintenanceWindow(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.registerTaskWithMaintenanceWindow(this.ops["RegisterTaskWithMaintenanceWindow"].applicator.apply(partialParams));
+        return this.client.registerTaskWithMaintenanceWindow(this.ops["RegisterTaskWithMaintenanceWindow"].apply(partialParams));
     }
     invokeRemoveTagsFromResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.removeTagsFromResource(this.ops["RemoveTagsFromResource"].applicator.apply(partialParams));
+        return this.client.removeTagsFromResource(this.ops["RemoveTagsFromResource"].apply(partialParams));
     }
     invokeResetServiceSetting(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.resetServiceSetting(this.ops["ResetServiceSetting"].applicator.apply(partialParams));
+        return this.client.resetServiceSetting(this.ops["ResetServiceSetting"].apply(partialParams));
     }
     invokeResumeSession(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.resumeSession(this.ops["ResumeSession"].applicator.apply(partialParams));
+        return this.client.resumeSession(this.ops["ResumeSession"].apply(partialParams));
     }
     invokeSendAutomationSignal(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.sendAutomationSignal(this.ops["SendAutomationSignal"].applicator.apply(partialParams));
+        return this.client.sendAutomationSignal(this.ops["SendAutomationSignal"].apply(partialParams));
     }
     invokeSendCommand(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.sendCommand(this.ops["SendCommand"].applicator.apply(partialParams));
+        return this.client.sendCommand(this.ops["SendCommand"].apply(partialParams));
     }
     invokeStartAssociationsOnce(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startAssociationsOnce(this.ops["StartAssociationsOnce"].applicator.apply(partialParams));
+        return this.client.startAssociationsOnce(this.ops["StartAssociationsOnce"].apply(partialParams));
     }
     invokeStartAutomationExecution(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startAutomationExecution(this.ops["StartAutomationExecution"].applicator.apply(partialParams));
+        return this.client.startAutomationExecution(this.ops["StartAutomationExecution"].apply(partialParams));
     }
     invokeStartChangeRequestExecution(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startChangeRequestExecution(this.ops["StartChangeRequestExecution"].applicator.apply(partialParams));
+        return this.client.startChangeRequestExecution(this.ops["StartChangeRequestExecution"].apply(partialParams));
     }
     invokeStartSession(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startSession(this.ops["StartSession"].applicator.apply(partialParams));
+        return this.client.startSession(this.ops["StartSession"].apply(partialParams));
     }
     invokeStopAutomationExecution(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.stopAutomationExecution(this.ops["StopAutomationExecution"].applicator.apply(partialParams));
+        return this.client.stopAutomationExecution(this.ops["StopAutomationExecution"].apply(partialParams));
     }
     invokeTerminateSession(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.terminateSession(this.ops["TerminateSession"].applicator.apply(partialParams));
+        return this.client.terminateSession(this.ops["TerminateSession"].apply(partialParams));
     }
     invokeUnlabelParameterVersion(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.unlabelParameterVersion(this.ops["UnlabelParameterVersion"].applicator.apply(partialParams));
+        return this.client.unlabelParameterVersion(this.ops["UnlabelParameterVersion"].apply(partialParams));
     }
     invokeUpdateAssociation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateAssociation(this.ops["UpdateAssociation"].applicator.apply(partialParams));
+        return this.client.updateAssociation(this.ops["UpdateAssociation"].apply(partialParams));
     }
     invokeUpdateAssociationStatus(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateAssociationStatus(this.ops["UpdateAssociationStatus"].applicator.apply(partialParams));
+        return this.client.updateAssociationStatus(this.ops["UpdateAssociationStatus"].apply(partialParams));
     }
     invokeUpdateDocument(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateDocument(this.ops["UpdateDocument"].applicator.apply(partialParams));
+        return this.client.updateDocument(this.ops["UpdateDocument"].apply(partialParams));
     }
     invokeUpdateDocumentDefaultVersion(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateDocumentDefaultVersion(this.ops["UpdateDocumentDefaultVersion"].applicator.apply(partialParams));
+        return this.client.updateDocumentDefaultVersion(this.ops["UpdateDocumentDefaultVersion"].apply(partialParams));
     }
     invokeUpdateDocumentMetadata(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateDocumentMetadata(this.ops["UpdateDocumentMetadata"].applicator.apply(partialParams));
+        return this.client.updateDocumentMetadata(this.ops["UpdateDocumentMetadata"].apply(partialParams));
     }
     invokeUpdateMaintenanceWindow(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateMaintenanceWindow(this.ops["UpdateMaintenanceWindow"].applicator.apply(partialParams));
+        return this.client.updateMaintenanceWindow(this.ops["UpdateMaintenanceWindow"].apply(partialParams));
     }
     invokeUpdateMaintenanceWindowTarget(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateMaintenanceWindowTarget(this.ops["UpdateMaintenanceWindowTarget"].applicator.apply(partialParams));
+        return this.client.updateMaintenanceWindowTarget(this.ops["UpdateMaintenanceWindowTarget"].apply(partialParams));
     }
     invokeUpdateMaintenanceWindowTask(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateMaintenanceWindowTask(this.ops["UpdateMaintenanceWindowTask"].applicator.apply(partialParams));
+        return this.client.updateMaintenanceWindowTask(this.ops["UpdateMaintenanceWindowTask"].apply(partialParams));
     }
     invokeUpdateManagedInstanceRole(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateManagedInstanceRole(this.ops["UpdateManagedInstanceRole"].applicator.apply(partialParams));
+        return this.client.updateManagedInstanceRole(this.ops["UpdateManagedInstanceRole"].apply(partialParams));
     }
     invokeUpdateOpsItem(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateOpsItem(this.ops["UpdateOpsItem"].applicator.apply(partialParams));
+        return this.client.updateOpsItem(this.ops["UpdateOpsItem"].apply(partialParams));
     }
     invokeUpdateOpsMetadata(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateOpsMetadata(this.ops["UpdateOpsMetadata"].applicator.apply(partialParams));
+        return this.client.updateOpsMetadata(this.ops["UpdateOpsMetadata"].apply(partialParams));
     }
     invokeUpdatePatchBaseline(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updatePatchBaseline(this.ops["UpdatePatchBaseline"].applicator.apply(partialParams));
+        return this.client.updatePatchBaseline(this.ops["UpdatePatchBaseline"].apply(partialParams));
     }
     invokeUpdateResourceDataSync(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateResourceDataSync(this.ops["UpdateResourceDataSync"].applicator.apply(partialParams));
+        return this.client.updateResourceDataSync(this.ops["UpdateResourceDataSync"].apply(partialParams));
     }
     invokeUpdateServiceSetting(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateServiceSetting(this.ops["UpdateServiceSetting"].applicator.apply(partialParams));
+        return this.client.updateServiceSetting(this.ops["UpdateServiceSetting"].apply(partialParams));
     }
 }
 exports.default = default_1;

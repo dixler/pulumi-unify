@@ -17,32 +17,18 @@ import {
     CreateRouteResponseRequest,
     CreateStageRequest,
     CreateVpcLinkRequest,
-    DeleteAccessLogSettingsRequest,
-    DeleteApiRequest,
-    DeleteApiMappingRequest,
-    DeleteAuthorizerRequest,
-    DeleteCorsConfigurationRequest,
-    DeleteDeploymentRequest,
-    DeleteDomainNameRequest,
-    DeleteIntegrationRequest,
-    DeleteIntegrationResponseRequest,
-    DeleteModelRequest,
-    DeleteRouteRequest,
-    DeleteRouteRequestParameterRequest,
-    DeleteRouteResponseRequest,
-    DeleteRouteSettingsRequest,
-    DeleteStageRequest,
     DeleteVpcLinkRequest,
     ExportApiRequest,
-    ResetAuthorizersCacheRequest,
     GetApiRequest,
     GetApiMappingRequest,
     GetApiMappingsRequest,
+    GetApisRequest,
     GetAuthorizerRequest,
     GetAuthorizersRequest,
     GetDeploymentRequest,
     GetDeploymentsRequest,
     GetDomainNameRequest,
+    GetDomainNamesRequest,
     GetIntegrationRequest,
     GetIntegrationResponseRequest,
     GetIntegrationResponsesRequest,
@@ -58,10 +44,10 @@ import {
     GetStagesRequest,
     GetTagsRequest,
     GetVpcLinkRequest,
+    GetVpcLinksRequest,
     ImportApiRequest,
     ReimportApiRequest,
     TagResourceRequest,
-    UntagResourceRequest,
     UpdateApiRequest,
     UpdateApiMappingRequest,
     UpdateAuthorizerRequest,
@@ -91,11 +77,13 @@ import {
     GetApiResponse,
     GetApiMappingResponse,
     GetApiMappingsResponse,
+    GetApisResponse,
     GetAuthorizerResponse,
     GetAuthorizersResponse,
     GetDeploymentResponse,
     GetDeploymentsResponse,
     GetDomainNameResponse,
+    GetDomainNamesResponse,
     GetIntegrationResult,
     GetIntegrationResponseResponse,
     GetIntegrationResponsesResponse,
@@ -111,6 +99,7 @@ import {
     GetStagesResponse,
     GetTagsResponse,
     GetVpcLinkResponse,
+    GetVpcLinksResponse,
     ImportApiResponse,
     ReimportApiResponse,
     TagResourceResponse,
@@ -140,21 +129,24 @@ export default class extends aws.apigatewayv2.DomainName {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.apigatewayv2.DomainName>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.ApiGatewayV2()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -164,765 +156,502 @@ export default class extends aws.apigatewayv2.DomainName {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCreateApi(partialParams: ToOptional<{
-      [K in keyof CreateApiRequest & keyof CreateApiRequest & keyof CreateApiRequest]: (CreateApiRequest & CreateApiRequest & CreateApiRequest)[K]
+      [K in keyof CreateApiRequest]: (CreateApiRequest)[K]
     }>): Request<CreateApiResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createApi(
-          this.ops["CreateApi"].applicator.apply(partialParams)
+          this.ops["CreateApi"].apply(partialParams)
         );
     }
 
     invokeCreateApiMapping(partialParams: ToOptional<{
-      [K in keyof CreateApiMappingRequest & keyof CreateApiMappingRequest & keyof CreateApiMappingRequest]: (CreateApiMappingRequest & CreateApiMappingRequest & CreateApiMappingRequest)[K]
+      [K in keyof CreateApiMappingRequest & keyof Omit<CreateApiMappingRequest, "DomainName">]: (CreateApiMappingRequest)[K]
     }>): Request<CreateApiMappingResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createApiMapping(
-          this.ops["CreateApiMapping"].applicator.apply(partialParams)
+          this.ops["CreateApiMapping"].apply(partialParams)
         );
     }
 
     invokeCreateAuthorizer(partialParams: ToOptional<{
-      [K in keyof CreateAuthorizerRequest & keyof CreateAuthorizerRequest & keyof CreateAuthorizerRequest]: (CreateAuthorizerRequest & CreateAuthorizerRequest & CreateAuthorizerRequest)[K]
+      [K in keyof CreateAuthorizerRequest]: (CreateAuthorizerRequest)[K]
     }>): Request<CreateAuthorizerResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createAuthorizer(
-          this.ops["CreateAuthorizer"].applicator.apply(partialParams)
+          this.ops["CreateAuthorizer"].apply(partialParams)
         );
     }
 
     invokeCreateDeployment(partialParams: ToOptional<{
-      [K in keyof CreateDeploymentRequest & keyof CreateDeploymentRequest & keyof CreateDeploymentRequest]: (CreateDeploymentRequest & CreateDeploymentRequest & CreateDeploymentRequest)[K]
+      [K in keyof CreateDeploymentRequest]: (CreateDeploymentRequest)[K]
     }>): Request<CreateDeploymentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDeployment(
-          this.ops["CreateDeployment"].applicator.apply(partialParams)
+          this.ops["CreateDeployment"].apply(partialParams)
         );
     }
 
     invokeCreateDomainName(partialParams: ToOptional<{
-      [K in keyof CreateDomainNameRequest & keyof CreateDomainNameRequest & keyof CreateDomainNameRequest]: (CreateDomainNameRequest & CreateDomainNameRequest & CreateDomainNameRequest)[K]
+      [K in keyof CreateDomainNameRequest & keyof Omit<CreateDomainNameRequest, "DomainName">]: (CreateDomainNameRequest)[K]
     }>): Request<CreateDomainNameResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDomainName(
-          this.ops["CreateDomainName"].applicator.apply(partialParams)
+          this.ops["CreateDomainName"].apply(partialParams)
         );
     }
 
     invokeCreateIntegration(partialParams: ToOptional<{
-      [K in keyof CreateIntegrationRequest & keyof CreateIntegrationRequest & keyof CreateIntegrationRequest]: (CreateIntegrationRequest & CreateIntegrationRequest & CreateIntegrationRequest)[K]
+      [K in keyof CreateIntegrationRequest]: (CreateIntegrationRequest)[K]
     }>): Request<CreateIntegrationResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createIntegration(
-          this.ops["CreateIntegration"].applicator.apply(partialParams)
+          this.ops["CreateIntegration"].apply(partialParams)
         );
     }
 
     invokeCreateIntegrationResponse(partialParams: ToOptional<{
-      [K in keyof CreateIntegrationResponseRequest & keyof CreateIntegrationResponseRequest & keyof CreateIntegrationResponseRequest]: (CreateIntegrationResponseRequest & CreateIntegrationResponseRequest & CreateIntegrationResponseRequest)[K]
+      [K in keyof CreateIntegrationResponseRequest]: (CreateIntegrationResponseRequest)[K]
     }>): Request<CreateIntegrationResponseResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createIntegrationResponse(
-          this.ops["CreateIntegrationResponse"].applicator.apply(partialParams)
+          this.ops["CreateIntegrationResponse"].apply(partialParams)
         );
     }
 
     invokeCreateModel(partialParams: ToOptional<{
-      [K in keyof CreateModelRequest & keyof CreateModelRequest & keyof CreateModelRequest]: (CreateModelRequest & CreateModelRequest & CreateModelRequest)[K]
+      [K in keyof CreateModelRequest]: (CreateModelRequest)[K]
     }>): Request<CreateModelResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createModel(
-          this.ops["CreateModel"].applicator.apply(partialParams)
+          this.ops["CreateModel"].apply(partialParams)
         );
     }
 
     invokeCreateRoute(partialParams: ToOptional<{
-      [K in keyof CreateRouteRequest & keyof CreateRouteRequest & keyof CreateRouteRequest]: (CreateRouteRequest & CreateRouteRequest & CreateRouteRequest)[K]
+      [K in keyof CreateRouteRequest]: (CreateRouteRequest)[K]
     }>): Request<CreateRouteResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createRoute(
-          this.ops["CreateRoute"].applicator.apply(partialParams)
+          this.ops["CreateRoute"].apply(partialParams)
         );
     }
 
     invokeCreateRouteResponse(partialParams: ToOptional<{
-      [K in keyof CreateRouteResponseRequest & keyof CreateRouteResponseRequest & keyof CreateRouteResponseRequest]: (CreateRouteResponseRequest & CreateRouteResponseRequest & CreateRouteResponseRequest)[K]
+      [K in keyof CreateRouteResponseRequest]: (CreateRouteResponseRequest)[K]
     }>): Request<CreateRouteResponseResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createRouteResponse(
-          this.ops["CreateRouteResponse"].applicator.apply(partialParams)
+          this.ops["CreateRouteResponse"].apply(partialParams)
         );
     }
 
     invokeCreateStage(partialParams: ToOptional<{
-      [K in keyof CreateStageRequest & keyof CreateStageRequest & keyof CreateStageRequest]: (CreateStageRequest & CreateStageRequest & CreateStageRequest)[K]
+      [K in keyof CreateStageRequest]: (CreateStageRequest)[K]
     }>): Request<CreateStageResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createStage(
-          this.ops["CreateStage"].applicator.apply(partialParams)
+          this.ops["CreateStage"].apply(partialParams)
         );
     }
 
     invokeCreateVpcLink(partialParams: ToOptional<{
-      [K in keyof CreateVpcLinkRequest & keyof CreateVpcLinkRequest & keyof CreateVpcLinkRequest]: (CreateVpcLinkRequest & CreateVpcLinkRequest & CreateVpcLinkRequest)[K]
+      [K in keyof CreateVpcLinkRequest]: (CreateVpcLinkRequest)[K]
     }>): Request<CreateVpcLinkResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createVpcLink(
-          this.ops["CreateVpcLink"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteAccessLogSettings(partialParams: ToOptional<{
-      [K in keyof DeleteAccessLogSettingsRequest & keyof DeleteAccessLogSettingsRequest & keyof DeleteAccessLogSettingsRequest]: (DeleteAccessLogSettingsRequest & DeleteAccessLogSettingsRequest & DeleteAccessLogSettingsRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteAccessLogSettings(
-          this.ops["DeleteAccessLogSettings"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteApi(partialParams: ToOptional<{
-      [K in keyof DeleteApiRequest & keyof DeleteApiRequest & keyof DeleteApiRequest]: (DeleteApiRequest & DeleteApiRequest & DeleteApiRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteApi(
-          this.ops["DeleteApi"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteApiMapping(partialParams: ToOptional<{
-      [K in keyof DeleteApiMappingRequest & keyof DeleteApiMappingRequest & keyof DeleteApiMappingRequest]: (DeleteApiMappingRequest & DeleteApiMappingRequest & DeleteApiMappingRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteApiMapping(
-          this.ops["DeleteApiMapping"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteAuthorizer(partialParams: ToOptional<{
-      [K in keyof DeleteAuthorizerRequest & keyof DeleteAuthorizerRequest & keyof DeleteAuthorizerRequest]: (DeleteAuthorizerRequest & DeleteAuthorizerRequest & DeleteAuthorizerRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteAuthorizer(
-          this.ops["DeleteAuthorizer"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteCorsConfiguration(partialParams: ToOptional<{
-      [K in keyof DeleteCorsConfigurationRequest & keyof DeleteCorsConfigurationRequest & keyof DeleteCorsConfigurationRequest]: (DeleteCorsConfigurationRequest & DeleteCorsConfigurationRequest & DeleteCorsConfigurationRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteCorsConfiguration(
-          this.ops["DeleteCorsConfiguration"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteDeployment(partialParams: ToOptional<{
-      [K in keyof DeleteDeploymentRequest & keyof DeleteDeploymentRequest & keyof DeleteDeploymentRequest]: (DeleteDeploymentRequest & DeleteDeploymentRequest & DeleteDeploymentRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteDeployment(
-          this.ops["DeleteDeployment"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteDomainName(partialParams: ToOptional<{
-      [K in keyof DeleteDomainNameRequest & keyof DeleteDomainNameRequest & keyof DeleteDomainNameRequest]: (DeleteDomainNameRequest & DeleteDomainNameRequest & DeleteDomainNameRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteDomainName(
-          this.ops["DeleteDomainName"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteIntegration(partialParams: ToOptional<{
-      [K in keyof DeleteIntegrationRequest & keyof DeleteIntegrationRequest & keyof DeleteIntegrationRequest]: (DeleteIntegrationRequest & DeleteIntegrationRequest & DeleteIntegrationRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteIntegration(
-          this.ops["DeleteIntegration"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteIntegrationResponse(partialParams: ToOptional<{
-      [K in keyof DeleteIntegrationResponseRequest & keyof DeleteIntegrationResponseRequest & keyof DeleteIntegrationResponseRequest]: (DeleteIntegrationResponseRequest & DeleteIntegrationResponseRequest & DeleteIntegrationResponseRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteIntegrationResponse(
-          this.ops["DeleteIntegrationResponse"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteModel(partialParams: ToOptional<{
-      [K in keyof DeleteModelRequest & keyof DeleteModelRequest & keyof DeleteModelRequest]: (DeleteModelRequest & DeleteModelRequest & DeleteModelRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteModel(
-          this.ops["DeleteModel"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteRoute(partialParams: ToOptional<{
-      [K in keyof DeleteRouteRequest & keyof DeleteRouteRequest & keyof DeleteRouteRequest]: (DeleteRouteRequest & DeleteRouteRequest & DeleteRouteRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteRoute(
-          this.ops["DeleteRoute"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteRouteRequestParameter(partialParams: ToOptional<{
-      [K in keyof DeleteRouteRequestParameterRequest & keyof DeleteRouteRequestParameterRequest & keyof DeleteRouteRequestParameterRequest]: (DeleteRouteRequestParameterRequest & DeleteRouteRequestParameterRequest & DeleteRouteRequestParameterRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteRouteRequestParameter(
-          this.ops["DeleteRouteRequestParameter"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteRouteResponse(partialParams: ToOptional<{
-      [K in keyof DeleteRouteResponseRequest & keyof DeleteRouteResponseRequest & keyof DeleteRouteResponseRequest]: (DeleteRouteResponseRequest & DeleteRouteResponseRequest & DeleteRouteResponseRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteRouteResponse(
-          this.ops["DeleteRouteResponse"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteRouteSettings(partialParams: ToOptional<{
-      [K in keyof DeleteRouteSettingsRequest & keyof DeleteRouteSettingsRequest & keyof DeleteRouteSettingsRequest]: (DeleteRouteSettingsRequest & DeleteRouteSettingsRequest & DeleteRouteSettingsRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteRouteSettings(
-          this.ops["DeleteRouteSettings"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteStage(partialParams: ToOptional<{
-      [K in keyof DeleteStageRequest & keyof DeleteStageRequest & keyof DeleteStageRequest]: (DeleteStageRequest & DeleteStageRequest & DeleteStageRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteStage(
-          this.ops["DeleteStage"].applicator.apply(partialParams)
+          this.ops["CreateVpcLink"].apply(partialParams)
         );
     }
 
     invokeDeleteVpcLink(partialParams: ToOptional<{
-      [K in keyof DeleteVpcLinkRequest & keyof DeleteVpcLinkRequest & keyof DeleteVpcLinkRequest]: (DeleteVpcLinkRequest & DeleteVpcLinkRequest & DeleteVpcLinkRequest)[K]
+      [K in keyof DeleteVpcLinkRequest]: (DeleteVpcLinkRequest)[K]
     }>): Request<DeleteVpcLinkResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteVpcLink(
-          this.ops["DeleteVpcLink"].applicator.apply(partialParams)
+          this.ops["DeleteVpcLink"].apply(partialParams)
         );
     }
 
     invokeExportApi(partialParams: ToOptional<{
-      [K in keyof ExportApiRequest & keyof ExportApiRequest & keyof ExportApiRequest]: (ExportApiRequest & ExportApiRequest & ExportApiRequest)[K]
+      [K in keyof ExportApiRequest]: (ExportApiRequest)[K]
     }>): Request<ExportApiResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.exportApi(
-          this.ops["ExportApi"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeResetAuthorizersCache(partialParams: ToOptional<{
-      [K in keyof ResetAuthorizersCacheRequest & keyof ResetAuthorizersCacheRequest & keyof ResetAuthorizersCacheRequest]: (ResetAuthorizersCacheRequest & ResetAuthorizersCacheRequest & ResetAuthorizersCacheRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.resetAuthorizersCache(
-          this.ops["ResetAuthorizersCache"].applicator.apply(partialParams)
+          this.ops["ExportApi"].apply(partialParams)
         );
     }
 
     invokeGetApi(partialParams: ToOptional<{
-      [K in keyof GetApiRequest & keyof GetApiRequest & keyof GetApiRequest]: (GetApiRequest & GetApiRequest & GetApiRequest)[K]
+      [K in keyof GetApiRequest]: (GetApiRequest)[K]
     }>): Request<GetApiResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getApi(
-          this.ops["GetApi"].applicator.apply(partialParams)
+          this.ops["GetApi"].apply(partialParams)
         );
     }
 
     invokeGetApiMapping(partialParams: ToOptional<{
-      [K in keyof GetApiMappingRequest & keyof GetApiMappingRequest & keyof GetApiMappingRequest]: (GetApiMappingRequest & GetApiMappingRequest & GetApiMappingRequest)[K]
+      [K in keyof GetApiMappingRequest & keyof Omit<GetApiMappingRequest, "DomainName">]: (GetApiMappingRequest)[K]
     }>): Request<GetApiMappingResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getApiMapping(
-          this.ops["GetApiMapping"].applicator.apply(partialParams)
+          this.ops["GetApiMapping"].apply(partialParams)
         );
     }
 
     invokeGetApiMappings(partialParams: ToOptional<{
-      [K in keyof GetApiMappingsRequest & keyof GetApiMappingsRequest & keyof GetApiMappingsRequest]: (GetApiMappingsRequest & GetApiMappingsRequest & GetApiMappingsRequest)[K]
+      [K in keyof GetApiMappingsRequest & keyof Omit<GetApiMappingsRequest, "DomainName">]: (GetApiMappingsRequest)[K]
     }>): Request<GetApiMappingsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getApiMappings(
-          this.ops["GetApiMappings"].applicator.apply(partialParams)
+          this.ops["GetApiMappings"].apply(partialParams)
+        );
+    }
+
+    invokeGetApis(partialParams: ToOptional<{
+      [K in keyof GetApisRequest]: (GetApisRequest)[K]
+    }>): Request<GetApisResponse, AWSError> {
+        this.boot();
+        return this.client.getApis(
+          this.ops["GetApis"].apply(partialParams)
         );
     }
 
     invokeGetAuthorizer(partialParams: ToOptional<{
-      [K in keyof GetAuthorizerRequest & keyof GetAuthorizerRequest & keyof GetAuthorizerRequest]: (GetAuthorizerRequest & GetAuthorizerRequest & GetAuthorizerRequest)[K]
+      [K in keyof GetAuthorizerRequest]: (GetAuthorizerRequest)[K]
     }>): Request<GetAuthorizerResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getAuthorizer(
-          this.ops["GetAuthorizer"].applicator.apply(partialParams)
+          this.ops["GetAuthorizer"].apply(partialParams)
         );
     }
 
     invokeGetAuthorizers(partialParams: ToOptional<{
-      [K in keyof GetAuthorizersRequest & keyof GetAuthorizersRequest & keyof GetAuthorizersRequest]: (GetAuthorizersRequest & GetAuthorizersRequest & GetAuthorizersRequest)[K]
+      [K in keyof GetAuthorizersRequest]: (GetAuthorizersRequest)[K]
     }>): Request<GetAuthorizersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getAuthorizers(
-          this.ops["GetAuthorizers"].applicator.apply(partialParams)
+          this.ops["GetAuthorizers"].apply(partialParams)
         );
     }
 
     invokeGetDeployment(partialParams: ToOptional<{
-      [K in keyof GetDeploymentRequest & keyof GetDeploymentRequest & keyof GetDeploymentRequest]: (GetDeploymentRequest & GetDeploymentRequest & GetDeploymentRequest)[K]
+      [K in keyof GetDeploymentRequest]: (GetDeploymentRequest)[K]
     }>): Request<GetDeploymentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDeployment(
-          this.ops["GetDeployment"].applicator.apply(partialParams)
+          this.ops["GetDeployment"].apply(partialParams)
         );
     }
 
     invokeGetDeployments(partialParams: ToOptional<{
-      [K in keyof GetDeploymentsRequest & keyof GetDeploymentsRequest & keyof GetDeploymentsRequest]: (GetDeploymentsRequest & GetDeploymentsRequest & GetDeploymentsRequest)[K]
+      [K in keyof GetDeploymentsRequest]: (GetDeploymentsRequest)[K]
     }>): Request<GetDeploymentsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDeployments(
-          this.ops["GetDeployments"].applicator.apply(partialParams)
+          this.ops["GetDeployments"].apply(partialParams)
         );
     }
 
     invokeGetDomainName(partialParams: ToOptional<{
-      [K in keyof GetDomainNameRequest & keyof GetDomainNameRequest & keyof GetDomainNameRequest]: (GetDomainNameRequest & GetDomainNameRequest & GetDomainNameRequest)[K]
+      [K in keyof GetDomainNameRequest & keyof Omit<GetDomainNameRequest, "DomainName">]: (GetDomainNameRequest)[K]
     }>): Request<GetDomainNameResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDomainName(
-          this.ops["GetDomainName"].applicator.apply(partialParams)
+          this.ops["GetDomainName"].apply(partialParams)
+        );
+    }
+
+    invokeGetDomainNames(partialParams: ToOptional<{
+      [K in keyof GetDomainNamesRequest]: (GetDomainNamesRequest)[K]
+    }>): Request<GetDomainNamesResponse, AWSError> {
+        this.boot();
+        return this.client.getDomainNames(
+          this.ops["GetDomainNames"].apply(partialParams)
         );
     }
 
     invokeGetIntegration(partialParams: ToOptional<{
-      [K in keyof GetIntegrationRequest & keyof GetIntegrationRequest & keyof GetIntegrationRequest]: (GetIntegrationRequest & GetIntegrationRequest & GetIntegrationRequest)[K]
+      [K in keyof GetIntegrationRequest]: (GetIntegrationRequest)[K]
     }>): Request<GetIntegrationResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getIntegration(
-          this.ops["GetIntegration"].applicator.apply(partialParams)
+          this.ops["GetIntegration"].apply(partialParams)
         );
     }
 
     invokeGetIntegrationResponse(partialParams: ToOptional<{
-      [K in keyof GetIntegrationResponseRequest & keyof GetIntegrationResponseRequest & keyof GetIntegrationResponseRequest]: (GetIntegrationResponseRequest & GetIntegrationResponseRequest & GetIntegrationResponseRequest)[K]
+      [K in keyof GetIntegrationResponseRequest]: (GetIntegrationResponseRequest)[K]
     }>): Request<GetIntegrationResponseResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getIntegrationResponse(
-          this.ops["GetIntegrationResponse"].applicator.apply(partialParams)
+          this.ops["GetIntegrationResponse"].apply(partialParams)
         );
     }
 
     invokeGetIntegrationResponses(partialParams: ToOptional<{
-      [K in keyof GetIntegrationResponsesRequest & keyof GetIntegrationResponsesRequest & keyof GetIntegrationResponsesRequest]: (GetIntegrationResponsesRequest & GetIntegrationResponsesRequest & GetIntegrationResponsesRequest)[K]
+      [K in keyof GetIntegrationResponsesRequest]: (GetIntegrationResponsesRequest)[K]
     }>): Request<GetIntegrationResponsesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getIntegrationResponses(
-          this.ops["GetIntegrationResponses"].applicator.apply(partialParams)
+          this.ops["GetIntegrationResponses"].apply(partialParams)
         );
     }
 
     invokeGetIntegrations(partialParams: ToOptional<{
-      [K in keyof GetIntegrationsRequest & keyof GetIntegrationsRequest & keyof GetIntegrationsRequest]: (GetIntegrationsRequest & GetIntegrationsRequest & GetIntegrationsRequest)[K]
+      [K in keyof GetIntegrationsRequest]: (GetIntegrationsRequest)[K]
     }>): Request<GetIntegrationsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getIntegrations(
-          this.ops["GetIntegrations"].applicator.apply(partialParams)
+          this.ops["GetIntegrations"].apply(partialParams)
         );
     }
 
     invokeGetModel(partialParams: ToOptional<{
-      [K in keyof GetModelRequest & keyof GetModelRequest & keyof GetModelRequest]: (GetModelRequest & GetModelRequest & GetModelRequest)[K]
+      [K in keyof GetModelRequest]: (GetModelRequest)[K]
     }>): Request<GetModelResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getModel(
-          this.ops["GetModel"].applicator.apply(partialParams)
+          this.ops["GetModel"].apply(partialParams)
         );
     }
 
     invokeGetModelTemplate(partialParams: ToOptional<{
-      [K in keyof GetModelTemplateRequest & keyof GetModelTemplateRequest & keyof GetModelTemplateRequest]: (GetModelTemplateRequest & GetModelTemplateRequest & GetModelTemplateRequest)[K]
+      [K in keyof GetModelTemplateRequest]: (GetModelTemplateRequest)[K]
     }>): Request<GetModelTemplateResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getModelTemplate(
-          this.ops["GetModelTemplate"].applicator.apply(partialParams)
+          this.ops["GetModelTemplate"].apply(partialParams)
         );
     }
 
     invokeGetModels(partialParams: ToOptional<{
-      [K in keyof GetModelsRequest & keyof GetModelsRequest & keyof GetModelsRequest]: (GetModelsRequest & GetModelsRequest & GetModelsRequest)[K]
+      [K in keyof GetModelsRequest]: (GetModelsRequest)[K]
     }>): Request<GetModelsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getModels(
-          this.ops["GetModels"].applicator.apply(partialParams)
+          this.ops["GetModels"].apply(partialParams)
         );
     }
 
     invokeGetRoute(partialParams: ToOptional<{
-      [K in keyof GetRouteRequest & keyof GetRouteRequest & keyof GetRouteRequest]: (GetRouteRequest & GetRouteRequest & GetRouteRequest)[K]
+      [K in keyof GetRouteRequest]: (GetRouteRequest)[K]
     }>): Request<GetRouteResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRoute(
-          this.ops["GetRoute"].applicator.apply(partialParams)
+          this.ops["GetRoute"].apply(partialParams)
         );
     }
 
     invokeGetRouteResponse(partialParams: ToOptional<{
-      [K in keyof GetRouteResponseRequest & keyof GetRouteResponseRequest & keyof GetRouteResponseRequest]: (GetRouteResponseRequest & GetRouteResponseRequest & GetRouteResponseRequest)[K]
+      [K in keyof GetRouteResponseRequest]: (GetRouteResponseRequest)[K]
     }>): Request<GetRouteResponseResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRouteResponse(
-          this.ops["GetRouteResponse"].applicator.apply(partialParams)
+          this.ops["GetRouteResponse"].apply(partialParams)
         );
     }
 
     invokeGetRouteResponses(partialParams: ToOptional<{
-      [K in keyof GetRouteResponsesRequest & keyof GetRouteResponsesRequest & keyof GetRouteResponsesRequest]: (GetRouteResponsesRequest & GetRouteResponsesRequest & GetRouteResponsesRequest)[K]
+      [K in keyof GetRouteResponsesRequest]: (GetRouteResponsesRequest)[K]
     }>): Request<GetRouteResponsesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRouteResponses(
-          this.ops["GetRouteResponses"].applicator.apply(partialParams)
+          this.ops["GetRouteResponses"].apply(partialParams)
         );
     }
 
     invokeGetRoutes(partialParams: ToOptional<{
-      [K in keyof GetRoutesRequest & keyof GetRoutesRequest & keyof GetRoutesRequest]: (GetRoutesRequest & GetRoutesRequest & GetRoutesRequest)[K]
+      [K in keyof GetRoutesRequest]: (GetRoutesRequest)[K]
     }>): Request<GetRoutesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRoutes(
-          this.ops["GetRoutes"].applicator.apply(partialParams)
+          this.ops["GetRoutes"].apply(partialParams)
         );
     }
 
     invokeGetStage(partialParams: ToOptional<{
-      [K in keyof GetStageRequest & keyof GetStageRequest & keyof GetStageRequest]: (GetStageRequest & GetStageRequest & GetStageRequest)[K]
+      [K in keyof GetStageRequest]: (GetStageRequest)[K]
     }>): Request<GetStageResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getStage(
-          this.ops["GetStage"].applicator.apply(partialParams)
+          this.ops["GetStage"].apply(partialParams)
         );
     }
 
     invokeGetStages(partialParams: ToOptional<{
-      [K in keyof GetStagesRequest & keyof GetStagesRequest & keyof GetStagesRequest]: (GetStagesRequest & GetStagesRequest & GetStagesRequest)[K]
+      [K in keyof GetStagesRequest]: (GetStagesRequest)[K]
     }>): Request<GetStagesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getStages(
-          this.ops["GetStages"].applicator.apply(partialParams)
+          this.ops["GetStages"].apply(partialParams)
         );
     }
 
     invokeGetTags(partialParams: ToOptional<{
-      [K in keyof GetTagsRequest & keyof GetTagsRequest & keyof GetTagsRequest]: (GetTagsRequest & GetTagsRequest & GetTagsRequest)[K]
+      [K in keyof GetTagsRequest]: (GetTagsRequest)[K]
     }>): Request<GetTagsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getTags(
-          this.ops["GetTags"].applicator.apply(partialParams)
+          this.ops["GetTags"].apply(partialParams)
         );
     }
 
     invokeGetVpcLink(partialParams: ToOptional<{
-      [K in keyof GetVpcLinkRequest & keyof GetVpcLinkRequest & keyof GetVpcLinkRequest]: (GetVpcLinkRequest & GetVpcLinkRequest & GetVpcLinkRequest)[K]
+      [K in keyof GetVpcLinkRequest]: (GetVpcLinkRequest)[K]
     }>): Request<GetVpcLinkResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getVpcLink(
-          this.ops["GetVpcLink"].applicator.apply(partialParams)
+          this.ops["GetVpcLink"].apply(partialParams)
+        );
+    }
+
+    invokeGetVpcLinks(partialParams: ToOptional<{
+      [K in keyof GetVpcLinksRequest]: (GetVpcLinksRequest)[K]
+    }>): Request<GetVpcLinksResponse, AWSError> {
+        this.boot();
+        return this.client.getVpcLinks(
+          this.ops["GetVpcLinks"].apply(partialParams)
         );
     }
 
     invokeImportApi(partialParams: ToOptional<{
-      [K in keyof ImportApiRequest & keyof ImportApiRequest & keyof ImportApiRequest]: (ImportApiRequest & ImportApiRequest & ImportApiRequest)[K]
+      [K in keyof ImportApiRequest]: (ImportApiRequest)[K]
     }>): Request<ImportApiResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.importApi(
-          this.ops["ImportApi"].applicator.apply(partialParams)
+          this.ops["ImportApi"].apply(partialParams)
         );
     }
 
     invokeReimportApi(partialParams: ToOptional<{
-      [K in keyof ReimportApiRequest & keyof ReimportApiRequest & keyof ReimportApiRequest]: (ReimportApiRequest & ReimportApiRequest & ReimportApiRequest)[K]
+      [K in keyof ReimportApiRequest]: (ReimportApiRequest)[K]
     }>): Request<ReimportApiResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.reimportApi(
-          this.ops["ReimportApi"].applicator.apply(partialParams)
+          this.ops["ReimportApi"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateApi(partialParams: ToOptional<{
-      [K in keyof UpdateApiRequest & keyof UpdateApiRequest & keyof UpdateApiRequest]: (UpdateApiRequest & UpdateApiRequest & UpdateApiRequest)[K]
+      [K in keyof UpdateApiRequest]: (UpdateApiRequest)[K]
     }>): Request<UpdateApiResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateApi(
-          this.ops["UpdateApi"].applicator.apply(partialParams)
+          this.ops["UpdateApi"].apply(partialParams)
         );
     }
 
     invokeUpdateApiMapping(partialParams: ToOptional<{
-      [K in keyof UpdateApiMappingRequest & keyof UpdateApiMappingRequest & keyof UpdateApiMappingRequest]: (UpdateApiMappingRequest & UpdateApiMappingRequest & UpdateApiMappingRequest)[K]
+      [K in keyof UpdateApiMappingRequest & keyof Omit<UpdateApiMappingRequest, "DomainName">]: (UpdateApiMappingRequest)[K]
     }>): Request<UpdateApiMappingResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateApiMapping(
-          this.ops["UpdateApiMapping"].applicator.apply(partialParams)
+          this.ops["UpdateApiMapping"].apply(partialParams)
         );
     }
 
     invokeUpdateAuthorizer(partialParams: ToOptional<{
-      [K in keyof UpdateAuthorizerRequest & keyof UpdateAuthorizerRequest & keyof UpdateAuthorizerRequest]: (UpdateAuthorizerRequest & UpdateAuthorizerRequest & UpdateAuthorizerRequest)[K]
+      [K in keyof UpdateAuthorizerRequest]: (UpdateAuthorizerRequest)[K]
     }>): Request<UpdateAuthorizerResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateAuthorizer(
-          this.ops["UpdateAuthorizer"].applicator.apply(partialParams)
+          this.ops["UpdateAuthorizer"].apply(partialParams)
         );
     }
 
     invokeUpdateDeployment(partialParams: ToOptional<{
-      [K in keyof UpdateDeploymentRequest & keyof UpdateDeploymentRequest & keyof UpdateDeploymentRequest]: (UpdateDeploymentRequest & UpdateDeploymentRequest & UpdateDeploymentRequest)[K]
+      [K in keyof UpdateDeploymentRequest]: (UpdateDeploymentRequest)[K]
     }>): Request<UpdateDeploymentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDeployment(
-          this.ops["UpdateDeployment"].applicator.apply(partialParams)
+          this.ops["UpdateDeployment"].apply(partialParams)
         );
     }
 
     invokeUpdateDomainName(partialParams: ToOptional<{
-      [K in keyof UpdateDomainNameRequest & keyof UpdateDomainNameRequest & keyof UpdateDomainNameRequest]: (UpdateDomainNameRequest & UpdateDomainNameRequest & UpdateDomainNameRequest)[K]
+      [K in keyof UpdateDomainNameRequest & keyof Omit<UpdateDomainNameRequest, "DomainName">]: (UpdateDomainNameRequest)[K]
     }>): Request<UpdateDomainNameResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDomainName(
-          this.ops["UpdateDomainName"].applicator.apply(partialParams)
+          this.ops["UpdateDomainName"].apply(partialParams)
         );
     }
 
     invokeUpdateIntegration(partialParams: ToOptional<{
-      [K in keyof UpdateIntegrationRequest & keyof UpdateIntegrationRequest & keyof UpdateIntegrationRequest]: (UpdateIntegrationRequest & UpdateIntegrationRequest & UpdateIntegrationRequest)[K]
+      [K in keyof UpdateIntegrationRequest]: (UpdateIntegrationRequest)[K]
     }>): Request<UpdateIntegrationResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateIntegration(
-          this.ops["UpdateIntegration"].applicator.apply(partialParams)
+          this.ops["UpdateIntegration"].apply(partialParams)
         );
     }
 
     invokeUpdateIntegrationResponse(partialParams: ToOptional<{
-      [K in keyof UpdateIntegrationResponseRequest & keyof UpdateIntegrationResponseRequest & keyof UpdateIntegrationResponseRequest]: (UpdateIntegrationResponseRequest & UpdateIntegrationResponseRequest & UpdateIntegrationResponseRequest)[K]
+      [K in keyof UpdateIntegrationResponseRequest]: (UpdateIntegrationResponseRequest)[K]
     }>): Request<UpdateIntegrationResponseResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateIntegrationResponse(
-          this.ops["UpdateIntegrationResponse"].applicator.apply(partialParams)
+          this.ops["UpdateIntegrationResponse"].apply(partialParams)
         );
     }
 
     invokeUpdateModel(partialParams: ToOptional<{
-      [K in keyof UpdateModelRequest & keyof UpdateModelRequest & keyof UpdateModelRequest]: (UpdateModelRequest & UpdateModelRequest & UpdateModelRequest)[K]
+      [K in keyof UpdateModelRequest]: (UpdateModelRequest)[K]
     }>): Request<UpdateModelResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateModel(
-          this.ops["UpdateModel"].applicator.apply(partialParams)
+          this.ops["UpdateModel"].apply(partialParams)
         );
     }
 
     invokeUpdateRoute(partialParams: ToOptional<{
-      [K in keyof UpdateRouteRequest & keyof UpdateRouteRequest & keyof UpdateRouteRequest]: (UpdateRouteRequest & UpdateRouteRequest & UpdateRouteRequest)[K]
+      [K in keyof UpdateRouteRequest]: (UpdateRouteRequest)[K]
     }>): Request<UpdateRouteResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateRoute(
-          this.ops["UpdateRoute"].applicator.apply(partialParams)
+          this.ops["UpdateRoute"].apply(partialParams)
         );
     }
 
     invokeUpdateRouteResponse(partialParams: ToOptional<{
-      [K in keyof UpdateRouteResponseRequest & keyof UpdateRouteResponseRequest & keyof UpdateRouteResponseRequest]: (UpdateRouteResponseRequest & UpdateRouteResponseRequest & UpdateRouteResponseRequest)[K]
+      [K in keyof UpdateRouteResponseRequest]: (UpdateRouteResponseRequest)[K]
     }>): Request<UpdateRouteResponseResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateRouteResponse(
-          this.ops["UpdateRouteResponse"].applicator.apply(partialParams)
+          this.ops["UpdateRouteResponse"].apply(partialParams)
         );
     }
 
     invokeUpdateStage(partialParams: ToOptional<{
-      [K in keyof UpdateStageRequest & keyof UpdateStageRequest & keyof UpdateStageRequest]: (UpdateStageRequest & UpdateStageRequest & UpdateStageRequest)[K]
+      [K in keyof UpdateStageRequest]: (UpdateStageRequest)[K]
     }>): Request<UpdateStageResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateStage(
-          this.ops["UpdateStage"].applicator.apply(partialParams)
+          this.ops["UpdateStage"].apply(partialParams)
         );
     }
 
     invokeUpdateVpcLink(partialParams: ToOptional<{
-      [K in keyof UpdateVpcLinkRequest & keyof UpdateVpcLinkRequest & keyof UpdateVpcLinkRequest]: (UpdateVpcLinkRequest & UpdateVpcLinkRequest & UpdateVpcLinkRequest)[K]
+      [K in keyof UpdateVpcLinkRequest]: (UpdateVpcLinkRequest)[K]
     }>): Request<UpdateVpcLinkResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateVpcLink(
-          this.ops["UpdateVpcLink"].applicator.apply(partialParams)
+          this.ops["UpdateVpcLink"].apply(partialParams)
         );
     }
 }

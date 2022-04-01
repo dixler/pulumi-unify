@@ -12,14 +12,18 @@ import {
     DeleteResourceShareRequest,
     DisassociateResourceShareRequest,
     DisassociateResourceSharePermissionRequest,
+    EnableSharingWithAwsOrganizationRequest,
     GetPermissionRequest,
     GetResourcePoliciesRequest,
     GetResourceShareAssociationsRequest,
+    GetResourceShareInvitationsRequest,
     GetResourceSharesRequest,
     ListPendingInvitationResourcesRequest,
     ListPermissionVersionsRequest,
+    ListPermissionsRequest,
     ListPrincipalsRequest,
     ListResourceSharePermissionsRequest,
+    ListResourceTypesRequest,
     ListResourcesRequest,
     PromoteResourceShareCreatedFromPolicyRequest,
     RejectResourceShareInvitationRequest,
@@ -33,14 +37,18 @@ import {
     DeleteResourceShareResponse,
     DisassociateResourceShareResponse,
     DisassociateResourceSharePermissionResponse,
+    EnableSharingWithAwsOrganizationResponse,
     GetPermissionResponse,
     GetResourcePoliciesResponse,
     GetResourceShareAssociationsResponse,
+    GetResourceShareInvitationsResponse,
     GetResourceSharesResponse,
     ListPendingInvitationResourcesResponse,
     ListPermissionVersionsResponse,
+    ListPermissionsResponse,
     ListPrincipalsResponse,
     ListResourceSharePermissionsResponse,
+    ListResourceTypesResponse,
     ListResourcesResponse,
     PromoteResourceShareCreatedFromPolicyResponse,
     RejectResourceShareInvitationResponse,
@@ -61,21 +69,24 @@ export default class extends aws.ram.PrincipalAssociation {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.ram.PrincipalAssociation>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.RAM()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -85,237 +96,232 @@ export default class extends aws.ram.PrincipalAssociation {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAcceptResourceShareInvitation(partialParams: ToOptional<{
-      [K in keyof AcceptResourceShareInvitationRequest & keyof AcceptResourceShareInvitationRequest]: (AcceptResourceShareInvitationRequest & AcceptResourceShareInvitationRequest)[K]
+      [K in keyof AcceptResourceShareInvitationRequest]: (AcceptResourceShareInvitationRequest)[K]
     }>): Request<AcceptResourceShareInvitationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.acceptResourceShareInvitation(
-          this.ops["AcceptResourceShareInvitation"].applicator.apply(partialParams)
+          this.ops["AcceptResourceShareInvitation"].apply(partialParams)
         );
     }
 
     invokeAssociateResourceShare(partialParams: ToOptional<{
-      [K in keyof AssociateResourceShareRequest & keyof AssociateResourceShareRequest]: (AssociateResourceShareRequest & AssociateResourceShareRequest)[K]
+      [K in keyof AssociateResourceShareRequest]: (AssociateResourceShareRequest)[K]
     }>): Request<AssociateResourceShareResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateResourceShare(
-          this.ops["AssociateResourceShare"].applicator.apply(partialParams)
+          this.ops["AssociateResourceShare"].apply(partialParams)
         );
     }
 
     invokeAssociateResourceSharePermission(partialParams: ToOptional<{
-      [K in keyof AssociateResourceSharePermissionRequest & keyof AssociateResourceSharePermissionRequest]: (AssociateResourceSharePermissionRequest & AssociateResourceSharePermissionRequest)[K]
+      [K in keyof AssociateResourceSharePermissionRequest]: (AssociateResourceSharePermissionRequest)[K]
     }>): Request<AssociateResourceSharePermissionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateResourceSharePermission(
-          this.ops["AssociateResourceSharePermission"].applicator.apply(partialParams)
+          this.ops["AssociateResourceSharePermission"].apply(partialParams)
         );
     }
 
     invokeCreateResourceShare(partialParams: ToOptional<{
-      [K in keyof CreateResourceShareRequest & keyof CreateResourceShareRequest]: (CreateResourceShareRequest & CreateResourceShareRequest)[K]
+      [K in keyof CreateResourceShareRequest]: (CreateResourceShareRequest)[K]
     }>): Request<CreateResourceShareResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createResourceShare(
-          this.ops["CreateResourceShare"].applicator.apply(partialParams)
+          this.ops["CreateResourceShare"].apply(partialParams)
         );
     }
 
     invokeDeleteResourceShare(partialParams: ToOptional<{
-      [K in keyof DeleteResourceShareRequest & keyof DeleteResourceShareRequest]: (DeleteResourceShareRequest & DeleteResourceShareRequest)[K]
+      [K in keyof DeleteResourceShareRequest]: (DeleteResourceShareRequest)[K]
     }>): Request<DeleteResourceShareResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteResourceShare(
-          this.ops["DeleteResourceShare"].applicator.apply(partialParams)
+          this.ops["DeleteResourceShare"].apply(partialParams)
         );
     }
 
     invokeDisassociateResourceShare(partialParams: ToOptional<{
-      [K in keyof DisassociateResourceShareRequest & keyof DisassociateResourceShareRequest]: (DisassociateResourceShareRequest & DisassociateResourceShareRequest)[K]
+      [K in keyof DisassociateResourceShareRequest]: (DisassociateResourceShareRequest)[K]
     }>): Request<DisassociateResourceShareResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateResourceShare(
-          this.ops["DisassociateResourceShare"].applicator.apply(partialParams)
+          this.ops["DisassociateResourceShare"].apply(partialParams)
         );
     }
 
     invokeDisassociateResourceSharePermission(partialParams: ToOptional<{
-      [K in keyof DisassociateResourceSharePermissionRequest & keyof DisassociateResourceSharePermissionRequest]: (DisassociateResourceSharePermissionRequest & DisassociateResourceSharePermissionRequest)[K]
+      [K in keyof DisassociateResourceSharePermissionRequest]: (DisassociateResourceSharePermissionRequest)[K]
     }>): Request<DisassociateResourceSharePermissionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateResourceSharePermission(
-          this.ops["DisassociateResourceSharePermission"].applicator.apply(partialParams)
+          this.ops["DisassociateResourceSharePermission"].apply(partialParams)
+        );
+    }
+
+    invokeEnableSharingWithAwsOrganization(partialParams: ToOptional<{
+      [K in keyof EnableSharingWithAwsOrganizationRequest]: (EnableSharingWithAwsOrganizationRequest)[K]
+    }>): Request<EnableSharingWithAwsOrganizationResponse, AWSError> {
+        this.boot();
+        return this.client.enableSharingWithAwsOrganization(
+          this.ops["EnableSharingWithAwsOrganization"].apply(partialParams)
         );
     }
 
     invokeGetPermission(partialParams: ToOptional<{
-      [K in keyof GetPermissionRequest & keyof GetPermissionRequest]: (GetPermissionRequest & GetPermissionRequest)[K]
+      [K in keyof GetPermissionRequest]: (GetPermissionRequest)[K]
     }>): Request<GetPermissionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getPermission(
-          this.ops["GetPermission"].applicator.apply(partialParams)
+          this.ops["GetPermission"].apply(partialParams)
         );
     }
 
     invokeGetResourcePolicies(partialParams: ToOptional<{
-      [K in keyof GetResourcePoliciesRequest & keyof GetResourcePoliciesRequest]: (GetResourcePoliciesRequest & GetResourcePoliciesRequest)[K]
+      [K in keyof GetResourcePoliciesRequest]: (GetResourcePoliciesRequest)[K]
     }>): Request<GetResourcePoliciesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getResourcePolicies(
-          this.ops["GetResourcePolicies"].applicator.apply(partialParams)
+          this.ops["GetResourcePolicies"].apply(partialParams)
         );
     }
 
     invokeGetResourceShareAssociations(partialParams: ToOptional<{
-      [K in keyof GetResourceShareAssociationsRequest & keyof GetResourceShareAssociationsRequest]: (GetResourceShareAssociationsRequest & GetResourceShareAssociationsRequest)[K]
+      [K in keyof GetResourceShareAssociationsRequest]: (GetResourceShareAssociationsRequest)[K]
     }>): Request<GetResourceShareAssociationsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getResourceShareAssociations(
-          this.ops["GetResourceShareAssociations"].applicator.apply(partialParams)
+          this.ops["GetResourceShareAssociations"].apply(partialParams)
+        );
+    }
+
+    invokeGetResourceShareInvitations(partialParams: ToOptional<{
+      [K in keyof GetResourceShareInvitationsRequest]: (GetResourceShareInvitationsRequest)[K]
+    }>): Request<GetResourceShareInvitationsResponse, AWSError> {
+        this.boot();
+        return this.client.getResourceShareInvitations(
+          this.ops["GetResourceShareInvitations"].apply(partialParams)
         );
     }
 
     invokeGetResourceShares(partialParams: ToOptional<{
-      [K in keyof GetResourceSharesRequest & keyof GetResourceSharesRequest]: (GetResourceSharesRequest & GetResourceSharesRequest)[K]
+      [K in keyof GetResourceSharesRequest]: (GetResourceSharesRequest)[K]
     }>): Request<GetResourceSharesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getResourceShares(
-          this.ops["GetResourceShares"].applicator.apply(partialParams)
+          this.ops["GetResourceShares"].apply(partialParams)
         );
     }
 
     invokeListPendingInvitationResources(partialParams: ToOptional<{
-      [K in keyof ListPendingInvitationResourcesRequest & keyof ListPendingInvitationResourcesRequest]: (ListPendingInvitationResourcesRequest & ListPendingInvitationResourcesRequest)[K]
+      [K in keyof ListPendingInvitationResourcesRequest]: (ListPendingInvitationResourcesRequest)[K]
     }>): Request<ListPendingInvitationResourcesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listPendingInvitationResources(
-          this.ops["ListPendingInvitationResources"].applicator.apply(partialParams)
+          this.ops["ListPendingInvitationResources"].apply(partialParams)
         );
     }
 
     invokeListPermissionVersions(partialParams: ToOptional<{
-      [K in keyof ListPermissionVersionsRequest & keyof ListPermissionVersionsRequest]: (ListPermissionVersionsRequest & ListPermissionVersionsRequest)[K]
+      [K in keyof ListPermissionVersionsRequest]: (ListPermissionVersionsRequest)[K]
     }>): Request<ListPermissionVersionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listPermissionVersions(
-          this.ops["ListPermissionVersions"].applicator.apply(partialParams)
+          this.ops["ListPermissionVersions"].apply(partialParams)
+        );
+    }
+
+    invokeListPermissions(partialParams: ToOptional<{
+      [K in keyof ListPermissionsRequest]: (ListPermissionsRequest)[K]
+    }>): Request<ListPermissionsResponse, AWSError> {
+        this.boot();
+        return this.client.listPermissions(
+          this.ops["ListPermissions"].apply(partialParams)
         );
     }
 
     invokeListPrincipals(partialParams: ToOptional<{
-      [K in keyof ListPrincipalsRequest & keyof ListPrincipalsRequest]: (ListPrincipalsRequest & ListPrincipalsRequest)[K]
+      [K in keyof ListPrincipalsRequest]: (ListPrincipalsRequest)[K]
     }>): Request<ListPrincipalsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listPrincipals(
-          this.ops["ListPrincipals"].applicator.apply(partialParams)
+          this.ops["ListPrincipals"].apply(partialParams)
         );
     }
 
     invokeListResourceSharePermissions(partialParams: ToOptional<{
-      [K in keyof ListResourceSharePermissionsRequest & keyof ListResourceSharePermissionsRequest]: (ListResourceSharePermissionsRequest & ListResourceSharePermissionsRequest)[K]
+      [K in keyof ListResourceSharePermissionsRequest]: (ListResourceSharePermissionsRequest)[K]
     }>): Request<ListResourceSharePermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listResourceSharePermissions(
-          this.ops["ListResourceSharePermissions"].applicator.apply(partialParams)
+          this.ops["ListResourceSharePermissions"].apply(partialParams)
+        );
+    }
+
+    invokeListResourceTypes(partialParams: ToOptional<{
+      [K in keyof ListResourceTypesRequest]: (ListResourceTypesRequest)[K]
+    }>): Request<ListResourceTypesResponse, AWSError> {
+        this.boot();
+        return this.client.listResourceTypes(
+          this.ops["ListResourceTypes"].apply(partialParams)
         );
     }
 
     invokeListResources(partialParams: ToOptional<{
-      [K in keyof ListResourcesRequest & keyof ListResourcesRequest]: (ListResourcesRequest & ListResourcesRequest)[K]
+      [K in keyof ListResourcesRequest]: (ListResourcesRequest)[K]
     }>): Request<ListResourcesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listResources(
-          this.ops["ListResources"].applicator.apply(partialParams)
+          this.ops["ListResources"].apply(partialParams)
         );
     }
 
     invokePromoteResourceShareCreatedFromPolicy(partialParams: ToOptional<{
-      [K in keyof PromoteResourceShareCreatedFromPolicyRequest & keyof PromoteResourceShareCreatedFromPolicyRequest]: (PromoteResourceShareCreatedFromPolicyRequest & PromoteResourceShareCreatedFromPolicyRequest)[K]
+      [K in keyof PromoteResourceShareCreatedFromPolicyRequest]: (PromoteResourceShareCreatedFromPolicyRequest)[K]
     }>): Request<PromoteResourceShareCreatedFromPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.promoteResourceShareCreatedFromPolicy(
-          this.ops["PromoteResourceShareCreatedFromPolicy"].applicator.apply(partialParams)
+          this.ops["PromoteResourceShareCreatedFromPolicy"].apply(partialParams)
         );
     }
 
     invokeRejectResourceShareInvitation(partialParams: ToOptional<{
-      [K in keyof RejectResourceShareInvitationRequest & keyof RejectResourceShareInvitationRequest]: (RejectResourceShareInvitationRequest & RejectResourceShareInvitationRequest)[K]
+      [K in keyof RejectResourceShareInvitationRequest]: (RejectResourceShareInvitationRequest)[K]
     }>): Request<RejectResourceShareInvitationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.rejectResourceShareInvitation(
-          this.ops["RejectResourceShareInvitation"].applicator.apply(partialParams)
+          this.ops["RejectResourceShareInvitation"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof Omit<TagResourceRequest, "resourceShareArn">]: (TagResourceRequest & Omit<TagResourceRequest, "resourceShareArn">)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof Omit<UntagResourceRequest, "resourceShareArn">]: (UntagResourceRequest & Omit<UntagResourceRequest, "resourceShareArn">)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateResourceShare(partialParams: ToOptional<{
-      [K in keyof UpdateResourceShareRequest & keyof Omit<UpdateResourceShareRequest, "resourceShareArn">]: (UpdateResourceShareRequest & Omit<UpdateResourceShareRequest, "resourceShareArn">)[K]
+      [K in keyof UpdateResourceShareRequest]: (UpdateResourceShareRequest)[K]
     }>): Request<UpdateResourceShareResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateResourceShare(
-          this.ops["UpdateResourceShare"].applicator.apply(partialParams)
+          this.ops["UpdateResourceShare"].apply(partialParams)
         );
     }
 }

@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.ram.ResourceShare {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.RAM();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,133 +50,108 @@ class default_1 extends aws.ram.ResourceShare {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAcceptResourceShareInvitation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.acceptResourceShareInvitation(this.ops["AcceptResourceShareInvitation"].applicator.apply(partialParams));
+        return this.client.acceptResourceShareInvitation(this.ops["AcceptResourceShareInvitation"].apply(partialParams));
     }
     invokeAssociateResourceShare(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateResourceShare(this.ops["AssociateResourceShare"].applicator.apply(partialParams));
+        return this.client.associateResourceShare(this.ops["AssociateResourceShare"].apply(partialParams));
     }
     invokeAssociateResourceSharePermission(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateResourceSharePermission(this.ops["AssociateResourceSharePermission"].applicator.apply(partialParams));
+        return this.client.associateResourceSharePermission(this.ops["AssociateResourceSharePermission"].apply(partialParams));
     }
     invokeCreateResourceShare(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createResourceShare(this.ops["CreateResourceShare"].applicator.apply(partialParams));
+        return this.client.createResourceShare(this.ops["CreateResourceShare"].apply(partialParams));
     }
     invokeDeleteResourceShare(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteResourceShare(this.ops["DeleteResourceShare"].applicator.apply(partialParams));
+        return this.client.deleteResourceShare(this.ops["DeleteResourceShare"].apply(partialParams));
     }
     invokeDisassociateResourceShare(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateResourceShare(this.ops["DisassociateResourceShare"].applicator.apply(partialParams));
+        return this.client.disassociateResourceShare(this.ops["DisassociateResourceShare"].apply(partialParams));
     }
     invokeDisassociateResourceSharePermission(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateResourceSharePermission(this.ops["DisassociateResourceSharePermission"].applicator.apply(partialParams));
+        return this.client.disassociateResourceSharePermission(this.ops["DisassociateResourceSharePermission"].apply(partialParams));
+    }
+    invokeEnableSharingWithAwsOrganization(partialParams) {
+        this.boot();
+        return this.client.enableSharingWithAwsOrganization(this.ops["EnableSharingWithAwsOrganization"].apply(partialParams));
     }
     invokeGetPermission(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getPermission(this.ops["GetPermission"].applicator.apply(partialParams));
+        return this.client.getPermission(this.ops["GetPermission"].apply(partialParams));
     }
     invokeGetResourcePolicies(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getResourcePolicies(this.ops["GetResourcePolicies"].applicator.apply(partialParams));
+        return this.client.getResourcePolicies(this.ops["GetResourcePolicies"].apply(partialParams));
     }
     invokeGetResourceShareAssociations(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getResourceShareAssociations(this.ops["GetResourceShareAssociations"].applicator.apply(partialParams));
+        return this.client.getResourceShareAssociations(this.ops["GetResourceShareAssociations"].apply(partialParams));
+    }
+    invokeGetResourceShareInvitations(partialParams) {
+        this.boot();
+        return this.client.getResourceShareInvitations(this.ops["GetResourceShareInvitations"].apply(partialParams));
     }
     invokeGetResourceShares(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getResourceShares(this.ops["GetResourceShares"].applicator.apply(partialParams));
+        return this.client.getResourceShares(this.ops["GetResourceShares"].apply(partialParams));
     }
     invokeListPendingInvitationResources(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listPendingInvitationResources(this.ops["ListPendingInvitationResources"].applicator.apply(partialParams));
+        return this.client.listPendingInvitationResources(this.ops["ListPendingInvitationResources"].apply(partialParams));
     }
     invokeListPermissionVersions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listPermissionVersions(this.ops["ListPermissionVersions"].applicator.apply(partialParams));
+        return this.client.listPermissionVersions(this.ops["ListPermissionVersions"].apply(partialParams));
+    }
+    invokeListPermissions(partialParams) {
+        this.boot();
+        return this.client.listPermissions(this.ops["ListPermissions"].apply(partialParams));
     }
     invokeListPrincipals(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listPrincipals(this.ops["ListPrincipals"].applicator.apply(partialParams));
+        return this.client.listPrincipals(this.ops["ListPrincipals"].apply(partialParams));
     }
     invokeListResourceSharePermissions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listResourceSharePermissions(this.ops["ListResourceSharePermissions"].applicator.apply(partialParams));
+        return this.client.listResourceSharePermissions(this.ops["ListResourceSharePermissions"].apply(partialParams));
+    }
+    invokeListResourceTypes(partialParams) {
+        this.boot();
+        return this.client.listResourceTypes(this.ops["ListResourceTypes"].apply(partialParams));
     }
     invokeListResources(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listResources(this.ops["ListResources"].applicator.apply(partialParams));
+        return this.client.listResources(this.ops["ListResources"].apply(partialParams));
     }
     invokePromoteResourceShareCreatedFromPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.promoteResourceShareCreatedFromPolicy(this.ops["PromoteResourceShareCreatedFromPolicy"].applicator.apply(partialParams));
+        return this.client.promoteResourceShareCreatedFromPolicy(this.ops["PromoteResourceShareCreatedFromPolicy"].apply(partialParams));
     }
     invokeRejectResourceShareInvitation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.rejectResourceShareInvitation(this.ops["RejectResourceShareInvitation"].applicator.apply(partialParams));
+        return this.client.rejectResourceShareInvitation(this.ops["RejectResourceShareInvitation"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateResourceShare(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateResourceShare(this.ops["UpdateResourceShare"].applicator.apply(partialParams));
+        return this.client.updateResourceShare(this.ops["UpdateResourceShare"].apply(partialParams));
     }
 }
 exports.default = default_1;

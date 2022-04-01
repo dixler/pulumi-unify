@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.ec2.VpcEndpointServiceAllowedPrinciple {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.EC2();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,2107 +50,1868 @@ class default_1 extends aws.ec2.VpcEndpointServiceAllowedPrinciple {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAcceptReservedInstancesExchangeQuote(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.acceptReservedInstancesExchangeQuote(this.ops["AcceptReservedInstancesExchangeQuote"].applicator.apply(partialParams));
+        return this.client.acceptReservedInstancesExchangeQuote(this.ops["AcceptReservedInstancesExchangeQuote"].apply(partialParams));
+    }
+    invokeAcceptTransitGatewayMulticastDomainAssociations(partialParams) {
+        this.boot();
+        return this.client.acceptTransitGatewayMulticastDomainAssociations(this.ops["AcceptTransitGatewayMulticastDomainAssociations"].apply(partialParams));
     }
     invokeAcceptTransitGatewayPeeringAttachment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.acceptTransitGatewayPeeringAttachment(this.ops["AcceptTransitGatewayPeeringAttachment"].applicator.apply(partialParams));
+        return this.client.acceptTransitGatewayPeeringAttachment(this.ops["AcceptTransitGatewayPeeringAttachment"].apply(partialParams));
     }
     invokeAcceptTransitGatewayVpcAttachment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.acceptTransitGatewayVpcAttachment(this.ops["AcceptTransitGatewayVpcAttachment"].applicator.apply(partialParams));
+        return this.client.acceptTransitGatewayVpcAttachment(this.ops["AcceptTransitGatewayVpcAttachment"].apply(partialParams));
     }
     invokeAcceptVpcEndpointConnections(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.acceptVpcEndpointConnections(this.ops["AcceptVpcEndpointConnections"].applicator.apply(partialParams));
+        return this.client.acceptVpcEndpointConnections(this.ops["AcceptVpcEndpointConnections"].apply(partialParams));
+    }
+    invokeAcceptVpcPeeringConnection(partialParams) {
+        this.boot();
+        return this.client.acceptVpcPeeringConnection(this.ops["AcceptVpcPeeringConnection"].apply(partialParams));
     }
     invokeAdvertiseByoipCidr(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.advertiseByoipCidr(this.ops["AdvertiseByoipCidr"].applicator.apply(partialParams));
+        return this.client.advertiseByoipCidr(this.ops["AdvertiseByoipCidr"].apply(partialParams));
+    }
+    invokeAllocateAddress(partialParams) {
+        this.boot();
+        return this.client.allocateAddress(this.ops["AllocateAddress"].apply(partialParams));
     }
     invokeAllocateHosts(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.allocateHosts(this.ops["AllocateHosts"].applicator.apply(partialParams));
+        return this.client.allocateHosts(this.ops["AllocateHosts"].apply(partialParams));
     }
     invokeAllocateIpamPoolCidr(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.allocateIpamPoolCidr(this.ops["AllocateIpamPoolCidr"].applicator.apply(partialParams));
+        return this.client.allocateIpamPoolCidr(this.ops["AllocateIpamPoolCidr"].apply(partialParams));
     }
     invokeApplySecurityGroupsToClientVpnTargetNetwork(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.applySecurityGroupsToClientVpnTargetNetwork(this.ops["ApplySecurityGroupsToClientVpnTargetNetwork"].applicator.apply(partialParams));
+        return this.client.applySecurityGroupsToClientVpnTargetNetwork(this.ops["ApplySecurityGroupsToClientVpnTargetNetwork"].apply(partialParams));
     }
     invokeAssignIpv6Addresses(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.assignIpv6Addresses(this.ops["AssignIpv6Addresses"].applicator.apply(partialParams));
+        return this.client.assignIpv6Addresses(this.ops["AssignIpv6Addresses"].apply(partialParams));
     }
     invokeAssignPrivateIpAddresses(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.assignPrivateIpAddresses(this.ops["AssignPrivateIpAddresses"].applicator.apply(partialParams));
+        return this.client.assignPrivateIpAddresses(this.ops["AssignPrivateIpAddresses"].apply(partialParams));
+    }
+    invokeAssociateAddress(partialParams) {
+        this.boot();
+        return this.client.associateAddress(this.ops["AssociateAddress"].apply(partialParams));
     }
     invokeAssociateClientVpnTargetNetwork(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateClientVpnTargetNetwork(this.ops["AssociateClientVpnTargetNetwork"].applicator.apply(partialParams));
+        return this.client.associateClientVpnTargetNetwork(this.ops["AssociateClientVpnTargetNetwork"].apply(partialParams));
     }
-    invokeAssociateDhcpOptions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeAssociateEnclaveCertificateIamRole(partialParams) {
         this.boot();
-        return this.client.associateDhcpOptions(this.ops["AssociateDhcpOptions"].applicator.apply(partialParams));
+        return this.client.associateEnclaveCertificateIamRole(this.ops["AssociateEnclaveCertificateIamRole"].apply(partialParams));
     }
     invokeAssociateIamInstanceProfile(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateIamInstanceProfile(this.ops["AssociateIamInstanceProfile"].applicator.apply(partialParams));
+        return this.client.associateIamInstanceProfile(this.ops["AssociateIamInstanceProfile"].apply(partialParams));
     }
     invokeAssociateInstanceEventWindow(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateInstanceEventWindow(this.ops["AssociateInstanceEventWindow"].applicator.apply(partialParams));
+        return this.client.associateInstanceEventWindow(this.ops["AssociateInstanceEventWindow"].apply(partialParams));
     }
     invokeAssociateRouteTable(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateRouteTable(this.ops["AssociateRouteTable"].applicator.apply(partialParams));
+        return this.client.associateRouteTable(this.ops["AssociateRouteTable"].apply(partialParams));
     }
     invokeAssociateSubnetCidrBlock(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateSubnetCidrBlock(this.ops["AssociateSubnetCidrBlock"].applicator.apply(partialParams));
+        return this.client.associateSubnetCidrBlock(this.ops["AssociateSubnetCidrBlock"].apply(partialParams));
+    }
+    invokeAssociateTransitGatewayMulticastDomain(partialParams) {
+        this.boot();
+        return this.client.associateTransitGatewayMulticastDomain(this.ops["AssociateTransitGatewayMulticastDomain"].apply(partialParams));
     }
     invokeAssociateTransitGatewayRouteTable(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateTransitGatewayRouteTable(this.ops["AssociateTransitGatewayRouteTable"].applicator.apply(partialParams));
+        return this.client.associateTransitGatewayRouteTable(this.ops["AssociateTransitGatewayRouteTable"].apply(partialParams));
     }
     invokeAssociateTrunkInterface(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateTrunkInterface(this.ops["AssociateTrunkInterface"].applicator.apply(partialParams));
+        return this.client.associateTrunkInterface(this.ops["AssociateTrunkInterface"].apply(partialParams));
     }
     invokeAssociateVpcCidrBlock(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateVpcCidrBlock(this.ops["AssociateVpcCidrBlock"].applicator.apply(partialParams));
+        return this.client.associateVpcCidrBlock(this.ops["AssociateVpcCidrBlock"].apply(partialParams));
     }
     invokeAttachClassicLinkVpc(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.attachClassicLinkVpc(this.ops["AttachClassicLinkVpc"].applicator.apply(partialParams));
-    }
-    invokeAttachInternetGateway(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.attachInternetGateway(this.ops["AttachInternetGateway"].applicator.apply(partialParams));
+        return this.client.attachClassicLinkVpc(this.ops["AttachClassicLinkVpc"].apply(partialParams));
     }
     invokeAttachNetworkInterface(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.attachNetworkInterface(this.ops["AttachNetworkInterface"].applicator.apply(partialParams));
+        return this.client.attachNetworkInterface(this.ops["AttachNetworkInterface"].apply(partialParams));
     }
     invokeAttachVolume(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.attachVolume(this.ops["AttachVolume"].applicator.apply(partialParams));
+        return this.client.attachVolume(this.ops["AttachVolume"].apply(partialParams));
     }
     invokeAttachVpnGateway(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.attachVpnGateway(this.ops["AttachVpnGateway"].applicator.apply(partialParams));
+        return this.client.attachVpnGateway(this.ops["AttachVpnGateway"].apply(partialParams));
     }
     invokeAuthorizeClientVpnIngress(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.authorizeClientVpnIngress(this.ops["AuthorizeClientVpnIngress"].applicator.apply(partialParams));
+        return this.client.authorizeClientVpnIngress(this.ops["AuthorizeClientVpnIngress"].apply(partialParams));
     }
     invokeAuthorizeSecurityGroupEgress(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.authorizeSecurityGroupEgress(this.ops["AuthorizeSecurityGroupEgress"].applicator.apply(partialParams));
+        return this.client.authorizeSecurityGroupEgress(this.ops["AuthorizeSecurityGroupEgress"].apply(partialParams));
+    }
+    invokeAuthorizeSecurityGroupIngress(partialParams) {
+        this.boot();
+        return this.client.authorizeSecurityGroupIngress(this.ops["AuthorizeSecurityGroupIngress"].apply(partialParams));
     }
     invokeBundleInstance(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.bundleInstance(this.ops["BundleInstance"].applicator.apply(partialParams));
+        return this.client.bundleInstance(this.ops["BundleInstance"].apply(partialParams));
     }
     invokeCancelBundleTask(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.cancelBundleTask(this.ops["CancelBundleTask"].applicator.apply(partialParams));
+        return this.client.cancelBundleTask(this.ops["CancelBundleTask"].apply(partialParams));
     }
     invokeCancelCapacityReservation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.cancelCapacityReservation(this.ops["CancelCapacityReservation"].applicator.apply(partialParams));
+        return this.client.cancelCapacityReservation(this.ops["CancelCapacityReservation"].apply(partialParams));
     }
     invokeCancelCapacityReservationFleets(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.cancelCapacityReservationFleets(this.ops["CancelCapacityReservationFleets"].applicator.apply(partialParams));
+        return this.client.cancelCapacityReservationFleets(this.ops["CancelCapacityReservationFleets"].apply(partialParams));
     }
-    invokeCancelConversionTask(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeCancelImportTask(partialParams) {
         this.boot();
-        return this.client.cancelConversionTask(this.ops["CancelConversionTask"].applicator.apply(partialParams));
-    }
-    invokeCancelExportTask(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.cancelExportTask(this.ops["CancelExportTask"].applicator.apply(partialParams));
+        return this.client.cancelImportTask(this.ops["CancelImportTask"].apply(partialParams));
     }
     invokeCancelReservedInstancesListing(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.cancelReservedInstancesListing(this.ops["CancelReservedInstancesListing"].applicator.apply(partialParams));
+        return this.client.cancelReservedInstancesListing(this.ops["CancelReservedInstancesListing"].apply(partialParams));
     }
     invokeCancelSpotFleetRequests(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.cancelSpotFleetRequests(this.ops["CancelSpotFleetRequests"].applicator.apply(partialParams));
+        return this.client.cancelSpotFleetRequests(this.ops["CancelSpotFleetRequests"].apply(partialParams));
     }
     invokeCancelSpotInstanceRequests(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.cancelSpotInstanceRequests(this.ops["CancelSpotInstanceRequests"].applicator.apply(partialParams));
+        return this.client.cancelSpotInstanceRequests(this.ops["CancelSpotInstanceRequests"].apply(partialParams));
     }
     invokeConfirmProductInstance(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.confirmProductInstance(this.ops["ConfirmProductInstance"].applicator.apply(partialParams));
+        return this.client.confirmProductInstance(this.ops["ConfirmProductInstance"].apply(partialParams));
     }
     invokeCopyFpgaImage(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.copyFpgaImage(this.ops["CopyFpgaImage"].applicator.apply(partialParams));
+        return this.client.copyFpgaImage(this.ops["CopyFpgaImage"].apply(partialParams));
     }
     invokeCopyImage(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.copyImage(this.ops["CopyImage"].applicator.apply(partialParams));
+        return this.client.copyImage(this.ops["CopyImage"].apply(partialParams));
     }
     invokeCopySnapshot(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.copySnapshot(this.ops["CopySnapshot"].applicator.apply(partialParams));
+        return this.client.copySnapshot(this.ops["CopySnapshot"].apply(partialParams));
     }
     invokeCreateCapacityReservation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createCapacityReservation(this.ops["CreateCapacityReservation"].applicator.apply(partialParams));
+        return this.client.createCapacityReservation(this.ops["CreateCapacityReservation"].apply(partialParams));
     }
     invokeCreateCapacityReservationFleet(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createCapacityReservationFleet(this.ops["CreateCapacityReservationFleet"].applicator.apply(partialParams));
+        return this.client.createCapacityReservationFleet(this.ops["CreateCapacityReservationFleet"].apply(partialParams));
     }
     invokeCreateCarrierGateway(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createCarrierGateway(this.ops["CreateCarrierGateway"].applicator.apply(partialParams));
+        return this.client.createCarrierGateway(this.ops["CreateCarrierGateway"].apply(partialParams));
     }
     invokeCreateClientVpnEndpoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createClientVpnEndpoint(this.ops["CreateClientVpnEndpoint"].applicator.apply(partialParams));
+        return this.client.createClientVpnEndpoint(this.ops["CreateClientVpnEndpoint"].apply(partialParams));
     }
     invokeCreateClientVpnRoute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createClientVpnRoute(this.ops["CreateClientVpnRoute"].applicator.apply(partialParams));
+        return this.client.createClientVpnRoute(this.ops["CreateClientVpnRoute"].apply(partialParams));
     }
     invokeCreateCustomerGateway(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createCustomerGateway(this.ops["CreateCustomerGateway"].applicator.apply(partialParams));
+        return this.client.createCustomerGateway(this.ops["CreateCustomerGateway"].apply(partialParams));
     }
     invokeCreateDefaultSubnet(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDefaultSubnet(this.ops["CreateDefaultSubnet"].applicator.apply(partialParams));
+        return this.client.createDefaultSubnet(this.ops["CreateDefaultSubnet"].apply(partialParams));
+    }
+    invokeCreateDefaultVpc(partialParams) {
+        this.boot();
+        return this.client.createDefaultVpc(this.ops["CreateDefaultVpc"].apply(partialParams));
     }
     invokeCreateDhcpOptions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDhcpOptions(this.ops["CreateDhcpOptions"].applicator.apply(partialParams));
+        return this.client.createDhcpOptions(this.ops["CreateDhcpOptions"].apply(partialParams));
     }
     invokeCreateEgressOnlyInternetGateway(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createEgressOnlyInternetGateway(this.ops["CreateEgressOnlyInternetGateway"].applicator.apply(partialParams));
+        return this.client.createEgressOnlyInternetGateway(this.ops["CreateEgressOnlyInternetGateway"].apply(partialParams));
     }
     invokeCreateFleet(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createFleet(this.ops["CreateFleet"].applicator.apply(partialParams));
+        return this.client.createFleet(this.ops["CreateFleet"].apply(partialParams));
     }
     invokeCreateFlowLogs(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createFlowLogs(this.ops["CreateFlowLogs"].applicator.apply(partialParams));
+        return this.client.createFlowLogs(this.ops["CreateFlowLogs"].apply(partialParams));
     }
     invokeCreateFpgaImage(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createFpgaImage(this.ops["CreateFpgaImage"].applicator.apply(partialParams));
+        return this.client.createFpgaImage(this.ops["CreateFpgaImage"].apply(partialParams));
     }
     invokeCreateImage(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createImage(this.ops["CreateImage"].applicator.apply(partialParams));
+        return this.client.createImage(this.ops["CreateImage"].apply(partialParams));
+    }
+    invokeCreateInstanceEventWindow(partialParams) {
+        this.boot();
+        return this.client.createInstanceEventWindow(this.ops["CreateInstanceEventWindow"].apply(partialParams));
     }
     invokeCreateInstanceExportTask(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createInstanceExportTask(this.ops["CreateInstanceExportTask"].applicator.apply(partialParams));
+        return this.client.createInstanceExportTask(this.ops["CreateInstanceExportTask"].apply(partialParams));
+    }
+    invokeCreateInternetGateway(partialParams) {
+        this.boot();
+        return this.client.createInternetGateway(this.ops["CreateInternetGateway"].apply(partialParams));
+    }
+    invokeCreateIpam(partialParams) {
+        this.boot();
+        return this.client.createIpam(this.ops["CreateIpam"].apply(partialParams));
     }
     invokeCreateIpamPool(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createIpamPool(this.ops["CreateIpamPool"].applicator.apply(partialParams));
+        return this.client.createIpamPool(this.ops["CreateIpamPool"].apply(partialParams));
     }
     invokeCreateIpamScope(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createIpamScope(this.ops["CreateIpamScope"].applicator.apply(partialParams));
+        return this.client.createIpamScope(this.ops["CreateIpamScope"].apply(partialParams));
     }
     invokeCreateKeyPair(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createKeyPair(this.ops["CreateKeyPair"].applicator.apply(partialParams));
+        return this.client.createKeyPair(this.ops["CreateKeyPair"].apply(partialParams));
     }
     invokeCreateLaunchTemplate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createLaunchTemplate(this.ops["CreateLaunchTemplate"].applicator.apply(partialParams));
+        return this.client.createLaunchTemplate(this.ops["CreateLaunchTemplate"].apply(partialParams));
     }
     invokeCreateLaunchTemplateVersion(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createLaunchTemplateVersion(this.ops["CreateLaunchTemplateVersion"].applicator.apply(partialParams));
+        return this.client.createLaunchTemplateVersion(this.ops["CreateLaunchTemplateVersion"].apply(partialParams));
     }
     invokeCreateLocalGatewayRoute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createLocalGatewayRoute(this.ops["CreateLocalGatewayRoute"].applicator.apply(partialParams));
+        return this.client.createLocalGatewayRoute(this.ops["CreateLocalGatewayRoute"].apply(partialParams));
     }
     invokeCreateLocalGatewayRouteTableVpcAssociation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createLocalGatewayRouteTableVpcAssociation(this.ops["CreateLocalGatewayRouteTableVpcAssociation"].applicator.apply(partialParams));
+        return this.client.createLocalGatewayRouteTableVpcAssociation(this.ops["CreateLocalGatewayRouteTableVpcAssociation"].apply(partialParams));
     }
     invokeCreateManagedPrefixList(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createManagedPrefixList(this.ops["CreateManagedPrefixList"].applicator.apply(partialParams));
+        return this.client.createManagedPrefixList(this.ops["CreateManagedPrefixList"].apply(partialParams));
     }
     invokeCreateNatGateway(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createNatGateway(this.ops["CreateNatGateway"].applicator.apply(partialParams));
+        return this.client.createNatGateway(this.ops["CreateNatGateway"].apply(partialParams));
     }
     invokeCreateNetworkAcl(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createNetworkAcl(this.ops["CreateNetworkAcl"].applicator.apply(partialParams));
-    }
-    invokeCreateNetworkAclEntry(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.createNetworkAclEntry(this.ops["CreateNetworkAclEntry"].applicator.apply(partialParams));
+        return this.client.createNetworkAcl(this.ops["CreateNetworkAcl"].apply(partialParams));
     }
     invokeCreateNetworkInsightsAccessScope(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createNetworkInsightsAccessScope(this.ops["CreateNetworkInsightsAccessScope"].applicator.apply(partialParams));
+        return this.client.createNetworkInsightsAccessScope(this.ops["CreateNetworkInsightsAccessScope"].apply(partialParams));
     }
     invokeCreateNetworkInsightsPath(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createNetworkInsightsPath(this.ops["CreateNetworkInsightsPath"].applicator.apply(partialParams));
+        return this.client.createNetworkInsightsPath(this.ops["CreateNetworkInsightsPath"].apply(partialParams));
     }
     invokeCreateNetworkInterface(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createNetworkInterface(this.ops["CreateNetworkInterface"].applicator.apply(partialParams));
+        return this.client.createNetworkInterface(this.ops["CreateNetworkInterface"].apply(partialParams));
     }
     invokeCreateNetworkInterfacePermission(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createNetworkInterfacePermission(this.ops["CreateNetworkInterfacePermission"].applicator.apply(partialParams));
+        return this.client.createNetworkInterfacePermission(this.ops["CreateNetworkInterfacePermission"].apply(partialParams));
+    }
+    invokeCreatePlacementGroup(partialParams) {
+        this.boot();
+        return this.client.createPlacementGroup(this.ops["CreatePlacementGroup"].apply(partialParams));
+    }
+    invokeCreatePublicIpv4Pool(partialParams) {
+        this.boot();
+        return this.client.createPublicIpv4Pool(this.ops["CreatePublicIpv4Pool"].apply(partialParams));
     }
     invokeCreateReplaceRootVolumeTask(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createReplaceRootVolumeTask(this.ops["CreateReplaceRootVolumeTask"].applicator.apply(partialParams));
+        return this.client.createReplaceRootVolumeTask(this.ops["CreateReplaceRootVolumeTask"].apply(partialParams));
     }
     invokeCreateReservedInstancesListing(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createReservedInstancesListing(this.ops["CreateReservedInstancesListing"].applicator.apply(partialParams));
+        return this.client.createReservedInstancesListing(this.ops["CreateReservedInstancesListing"].apply(partialParams));
     }
     invokeCreateRestoreImageTask(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createRestoreImageTask(this.ops["CreateRestoreImageTask"].applicator.apply(partialParams));
+        return this.client.createRestoreImageTask(this.ops["CreateRestoreImageTask"].apply(partialParams));
     }
     invokeCreateRoute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createRoute(this.ops["CreateRoute"].applicator.apply(partialParams));
+        return this.client.createRoute(this.ops["CreateRoute"].apply(partialParams));
     }
     invokeCreateRouteTable(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createRouteTable(this.ops["CreateRouteTable"].applicator.apply(partialParams));
+        return this.client.createRouteTable(this.ops["CreateRouteTable"].apply(partialParams));
     }
     invokeCreateSecurityGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createSecurityGroup(this.ops["CreateSecurityGroup"].applicator.apply(partialParams));
+        return this.client.createSecurityGroup(this.ops["CreateSecurityGroup"].apply(partialParams));
     }
     invokeCreateSnapshot(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createSnapshot(this.ops["CreateSnapshot"].applicator.apply(partialParams));
+        return this.client.createSnapshot(this.ops["CreateSnapshot"].apply(partialParams));
     }
     invokeCreateSnapshots(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createSnapshots(this.ops["CreateSnapshots"].applicator.apply(partialParams));
+        return this.client.createSnapshots(this.ops["CreateSnapshots"].apply(partialParams));
     }
     invokeCreateSpotDatafeedSubscription(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createSpotDatafeedSubscription(this.ops["CreateSpotDatafeedSubscription"].applicator.apply(partialParams));
+        return this.client.createSpotDatafeedSubscription(this.ops["CreateSpotDatafeedSubscription"].apply(partialParams));
     }
     invokeCreateStoreImageTask(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createStoreImageTask(this.ops["CreateStoreImageTask"].applicator.apply(partialParams));
+        return this.client.createStoreImageTask(this.ops["CreateStoreImageTask"].apply(partialParams));
     }
     invokeCreateSubnet(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createSubnet(this.ops["CreateSubnet"].applicator.apply(partialParams));
+        return this.client.createSubnet(this.ops["CreateSubnet"].apply(partialParams));
     }
     invokeCreateSubnetCidrReservation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createSubnetCidrReservation(this.ops["CreateSubnetCidrReservation"].applicator.apply(partialParams));
+        return this.client.createSubnetCidrReservation(this.ops["CreateSubnetCidrReservation"].apply(partialParams));
     }
-    invokeCreateTags(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeCreateTrafficMirrorFilter(partialParams) {
         this.boot();
-        return this.client.createTags(this.ops["CreateTags"].applicator.apply(partialParams));
+        return this.client.createTrafficMirrorFilter(this.ops["CreateTrafficMirrorFilter"].apply(partialParams));
     }
     invokeCreateTrafficMirrorFilterRule(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createTrafficMirrorFilterRule(this.ops["CreateTrafficMirrorFilterRule"].applicator.apply(partialParams));
+        return this.client.createTrafficMirrorFilterRule(this.ops["CreateTrafficMirrorFilterRule"].apply(partialParams));
     }
     invokeCreateTrafficMirrorSession(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createTrafficMirrorSession(this.ops["CreateTrafficMirrorSession"].applicator.apply(partialParams));
+        return this.client.createTrafficMirrorSession(this.ops["CreateTrafficMirrorSession"].apply(partialParams));
+    }
+    invokeCreateTrafficMirrorTarget(partialParams) {
+        this.boot();
+        return this.client.createTrafficMirrorTarget(this.ops["CreateTrafficMirrorTarget"].apply(partialParams));
+    }
+    invokeCreateTransitGateway(partialParams) {
+        this.boot();
+        return this.client.createTransitGateway(this.ops["CreateTransitGateway"].apply(partialParams));
     }
     invokeCreateTransitGatewayConnect(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createTransitGatewayConnect(this.ops["CreateTransitGatewayConnect"].applicator.apply(partialParams));
+        return this.client.createTransitGatewayConnect(this.ops["CreateTransitGatewayConnect"].apply(partialParams));
     }
     invokeCreateTransitGatewayConnectPeer(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createTransitGatewayConnectPeer(this.ops["CreateTransitGatewayConnectPeer"].applicator.apply(partialParams));
+        return this.client.createTransitGatewayConnectPeer(this.ops["CreateTransitGatewayConnectPeer"].apply(partialParams));
     }
     invokeCreateTransitGatewayMulticastDomain(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createTransitGatewayMulticastDomain(this.ops["CreateTransitGatewayMulticastDomain"].applicator.apply(partialParams));
+        return this.client.createTransitGatewayMulticastDomain(this.ops["CreateTransitGatewayMulticastDomain"].apply(partialParams));
     }
     invokeCreateTransitGatewayPeeringAttachment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createTransitGatewayPeeringAttachment(this.ops["CreateTransitGatewayPeeringAttachment"].applicator.apply(partialParams));
+        return this.client.createTransitGatewayPeeringAttachment(this.ops["CreateTransitGatewayPeeringAttachment"].apply(partialParams));
     }
     invokeCreateTransitGatewayPrefixListReference(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createTransitGatewayPrefixListReference(this.ops["CreateTransitGatewayPrefixListReference"].applicator.apply(partialParams));
+        return this.client.createTransitGatewayPrefixListReference(this.ops["CreateTransitGatewayPrefixListReference"].apply(partialParams));
     }
     invokeCreateTransitGatewayRoute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createTransitGatewayRoute(this.ops["CreateTransitGatewayRoute"].applicator.apply(partialParams));
+        return this.client.createTransitGatewayRoute(this.ops["CreateTransitGatewayRoute"].apply(partialParams));
     }
     invokeCreateTransitGatewayRouteTable(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createTransitGatewayRouteTable(this.ops["CreateTransitGatewayRouteTable"].applicator.apply(partialParams));
+        return this.client.createTransitGatewayRouteTable(this.ops["CreateTransitGatewayRouteTable"].apply(partialParams));
     }
     invokeCreateTransitGatewayVpcAttachment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createTransitGatewayVpcAttachment(this.ops["CreateTransitGatewayVpcAttachment"].applicator.apply(partialParams));
+        return this.client.createTransitGatewayVpcAttachment(this.ops["CreateTransitGatewayVpcAttachment"].apply(partialParams));
     }
     invokeCreateVolume(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createVolume(this.ops["CreateVolume"].applicator.apply(partialParams));
+        return this.client.createVolume(this.ops["CreateVolume"].apply(partialParams));
+    }
+    invokeCreateVpc(partialParams) {
+        this.boot();
+        return this.client.createVpc(this.ops["CreateVpc"].apply(partialParams));
     }
     invokeCreateVpcEndpoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createVpcEndpoint(this.ops["CreateVpcEndpoint"].applicator.apply(partialParams));
+        return this.client.createVpcEndpoint(this.ops["CreateVpcEndpoint"].apply(partialParams));
     }
     invokeCreateVpcEndpointConnectionNotification(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createVpcEndpointConnectionNotification(this.ops["CreateVpcEndpointConnectionNotification"].applicator.apply(partialParams));
+        return this.client.createVpcEndpointConnectionNotification(this.ops["CreateVpcEndpointConnectionNotification"].apply(partialParams));
+    }
+    invokeCreateVpcEndpointServiceConfiguration(partialParams) {
+        this.boot();
+        return this.client.createVpcEndpointServiceConfiguration(this.ops["CreateVpcEndpointServiceConfiguration"].apply(partialParams));
+    }
+    invokeCreateVpcPeeringConnection(partialParams) {
+        this.boot();
+        return this.client.createVpcPeeringConnection(this.ops["CreateVpcPeeringConnection"].apply(partialParams));
     }
     invokeCreateVpnConnection(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createVpnConnection(this.ops["CreateVpnConnection"].applicator.apply(partialParams));
-    }
-    invokeCreateVpnConnectionRoute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.createVpnConnectionRoute(this.ops["CreateVpnConnectionRoute"].applicator.apply(partialParams));
+        return this.client.createVpnConnection(this.ops["CreateVpnConnection"].apply(partialParams));
     }
     invokeCreateVpnGateway(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createVpnGateway(this.ops["CreateVpnGateway"].applicator.apply(partialParams));
+        return this.client.createVpnGateway(this.ops["CreateVpnGateway"].apply(partialParams));
     }
     invokeDeleteCarrierGateway(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteCarrierGateway(this.ops["DeleteCarrierGateway"].applicator.apply(partialParams));
+        return this.client.deleteCarrierGateway(this.ops["DeleteCarrierGateway"].apply(partialParams));
     }
     invokeDeleteClientVpnEndpoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteClientVpnEndpoint(this.ops["DeleteClientVpnEndpoint"].applicator.apply(partialParams));
+        return this.client.deleteClientVpnEndpoint(this.ops["DeleteClientVpnEndpoint"].apply(partialParams));
     }
     invokeDeleteClientVpnRoute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteClientVpnRoute(this.ops["DeleteClientVpnRoute"].applicator.apply(partialParams));
-    }
-    invokeDeleteCustomerGateway(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteCustomerGateway(this.ops["DeleteCustomerGateway"].applicator.apply(partialParams));
-    }
-    invokeDeleteDhcpOptions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteDhcpOptions(this.ops["DeleteDhcpOptions"].applicator.apply(partialParams));
+        return this.client.deleteClientVpnRoute(this.ops["DeleteClientVpnRoute"].apply(partialParams));
     }
     invokeDeleteEgressOnlyInternetGateway(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteEgressOnlyInternetGateway(this.ops["DeleteEgressOnlyInternetGateway"].applicator.apply(partialParams));
+        return this.client.deleteEgressOnlyInternetGateway(this.ops["DeleteEgressOnlyInternetGateway"].apply(partialParams));
     }
     invokeDeleteFleets(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteFleets(this.ops["DeleteFleets"].applicator.apply(partialParams));
+        return this.client.deleteFleets(this.ops["DeleteFleets"].apply(partialParams));
     }
     invokeDeleteFlowLogs(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteFlowLogs(this.ops["DeleteFlowLogs"].applicator.apply(partialParams));
+        return this.client.deleteFlowLogs(this.ops["DeleteFlowLogs"].apply(partialParams));
     }
     invokeDeleteFpgaImage(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteFpgaImage(this.ops["DeleteFpgaImage"].applicator.apply(partialParams));
+        return this.client.deleteFpgaImage(this.ops["DeleteFpgaImage"].apply(partialParams));
     }
     invokeDeleteInstanceEventWindow(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteInstanceEventWindow(this.ops["DeleteInstanceEventWindow"].applicator.apply(partialParams));
-    }
-    invokeDeleteInternetGateway(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteInternetGateway(this.ops["DeleteInternetGateway"].applicator.apply(partialParams));
+        return this.client.deleteInstanceEventWindow(this.ops["DeleteInstanceEventWindow"].apply(partialParams));
     }
     invokeDeleteIpam(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteIpam(this.ops["DeleteIpam"].applicator.apply(partialParams));
+        return this.client.deleteIpam(this.ops["DeleteIpam"].apply(partialParams));
     }
     invokeDeleteIpamPool(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteIpamPool(this.ops["DeleteIpamPool"].applicator.apply(partialParams));
+        return this.client.deleteIpamPool(this.ops["DeleteIpamPool"].apply(partialParams));
     }
     invokeDeleteIpamScope(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteIpamScope(this.ops["DeleteIpamScope"].applicator.apply(partialParams));
+        return this.client.deleteIpamScope(this.ops["DeleteIpamScope"].apply(partialParams));
+    }
+    invokeDeleteLaunchTemplate(partialParams) {
+        this.boot();
+        return this.client.deleteLaunchTemplate(this.ops["DeleteLaunchTemplate"].apply(partialParams));
     }
     invokeDeleteLaunchTemplateVersions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteLaunchTemplateVersions(this.ops["DeleteLaunchTemplateVersions"].applicator.apply(partialParams));
+        return this.client.deleteLaunchTemplateVersions(this.ops["DeleteLaunchTemplateVersions"].apply(partialParams));
     }
     invokeDeleteLocalGatewayRoute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteLocalGatewayRoute(this.ops["DeleteLocalGatewayRoute"].applicator.apply(partialParams));
+        return this.client.deleteLocalGatewayRoute(this.ops["DeleteLocalGatewayRoute"].apply(partialParams));
     }
     invokeDeleteLocalGatewayRouteTableVpcAssociation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteLocalGatewayRouteTableVpcAssociation(this.ops["DeleteLocalGatewayRouteTableVpcAssociation"].applicator.apply(partialParams));
+        return this.client.deleteLocalGatewayRouteTableVpcAssociation(this.ops["DeleteLocalGatewayRouteTableVpcAssociation"].apply(partialParams));
     }
     invokeDeleteManagedPrefixList(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteManagedPrefixList(this.ops["DeleteManagedPrefixList"].applicator.apply(partialParams));
+        return this.client.deleteManagedPrefixList(this.ops["DeleteManagedPrefixList"].apply(partialParams));
     }
     invokeDeleteNatGateway(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteNatGateway(this.ops["DeleteNatGateway"].applicator.apply(partialParams));
-    }
-    invokeDeleteNetworkAcl(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteNetworkAcl(this.ops["DeleteNetworkAcl"].applicator.apply(partialParams));
-    }
-    invokeDeleteNetworkAclEntry(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteNetworkAclEntry(this.ops["DeleteNetworkAclEntry"].applicator.apply(partialParams));
+        return this.client.deleteNatGateway(this.ops["DeleteNatGateway"].apply(partialParams));
     }
     invokeDeleteNetworkInsightsAccessScope(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteNetworkInsightsAccessScope(this.ops["DeleteNetworkInsightsAccessScope"].applicator.apply(partialParams));
+        return this.client.deleteNetworkInsightsAccessScope(this.ops["DeleteNetworkInsightsAccessScope"].apply(partialParams));
     }
     invokeDeleteNetworkInsightsAccessScopeAnalysis(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteNetworkInsightsAccessScopeAnalysis(this.ops["DeleteNetworkInsightsAccessScopeAnalysis"].applicator.apply(partialParams));
+        return this.client.deleteNetworkInsightsAccessScopeAnalysis(this.ops["DeleteNetworkInsightsAccessScopeAnalysis"].apply(partialParams));
     }
     invokeDeleteNetworkInsightsAnalysis(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteNetworkInsightsAnalysis(this.ops["DeleteNetworkInsightsAnalysis"].applicator.apply(partialParams));
+        return this.client.deleteNetworkInsightsAnalysis(this.ops["DeleteNetworkInsightsAnalysis"].apply(partialParams));
     }
     invokeDeleteNetworkInsightsPath(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteNetworkInsightsPath(this.ops["DeleteNetworkInsightsPath"].applicator.apply(partialParams));
-    }
-    invokeDeleteNetworkInterface(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteNetworkInterface(this.ops["DeleteNetworkInterface"].applicator.apply(partialParams));
+        return this.client.deleteNetworkInsightsPath(this.ops["DeleteNetworkInsightsPath"].apply(partialParams));
     }
     invokeDeleteNetworkInterfacePermission(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteNetworkInterfacePermission(this.ops["DeleteNetworkInterfacePermission"].applicator.apply(partialParams));
-    }
-    invokeDeletePlacementGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deletePlacementGroup(this.ops["DeletePlacementGroup"].applicator.apply(partialParams));
+        return this.client.deleteNetworkInterfacePermission(this.ops["DeleteNetworkInterfacePermission"].apply(partialParams));
     }
     invokeDeletePublicIpv4Pool(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deletePublicIpv4Pool(this.ops["DeletePublicIpv4Pool"].applicator.apply(partialParams));
+        return this.client.deletePublicIpv4Pool(this.ops["DeletePublicIpv4Pool"].apply(partialParams));
     }
     invokeDeleteQueuedReservedInstances(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteQueuedReservedInstances(this.ops["DeleteQueuedReservedInstances"].applicator.apply(partialParams));
-    }
-    invokeDeleteRoute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteRoute(this.ops["DeleteRoute"].applicator.apply(partialParams));
-    }
-    invokeDeleteRouteTable(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteRouteTable(this.ops["DeleteRouteTable"].applicator.apply(partialParams));
-    }
-    invokeDeleteSnapshot(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteSnapshot(this.ops["DeleteSnapshot"].applicator.apply(partialParams));
-    }
-    invokeDeleteSubnet(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteSubnet(this.ops["DeleteSubnet"].applicator.apply(partialParams));
+        return this.client.deleteQueuedReservedInstances(this.ops["DeleteQueuedReservedInstances"].apply(partialParams));
     }
     invokeDeleteSubnetCidrReservation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteSubnetCidrReservation(this.ops["DeleteSubnetCidrReservation"].applicator.apply(partialParams));
-    }
-    invokeDeleteTags(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteTags(this.ops["DeleteTags"].applicator.apply(partialParams));
+        return this.client.deleteSubnetCidrReservation(this.ops["DeleteSubnetCidrReservation"].apply(partialParams));
     }
     invokeDeleteTrafficMirrorFilter(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteTrafficMirrorFilter(this.ops["DeleteTrafficMirrorFilter"].applicator.apply(partialParams));
+        return this.client.deleteTrafficMirrorFilter(this.ops["DeleteTrafficMirrorFilter"].apply(partialParams));
     }
     invokeDeleteTrafficMirrorFilterRule(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteTrafficMirrorFilterRule(this.ops["DeleteTrafficMirrorFilterRule"].applicator.apply(partialParams));
+        return this.client.deleteTrafficMirrorFilterRule(this.ops["DeleteTrafficMirrorFilterRule"].apply(partialParams));
     }
     invokeDeleteTrafficMirrorSession(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteTrafficMirrorSession(this.ops["DeleteTrafficMirrorSession"].applicator.apply(partialParams));
+        return this.client.deleteTrafficMirrorSession(this.ops["DeleteTrafficMirrorSession"].apply(partialParams));
     }
     invokeDeleteTrafficMirrorTarget(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteTrafficMirrorTarget(this.ops["DeleteTrafficMirrorTarget"].applicator.apply(partialParams));
+        return this.client.deleteTrafficMirrorTarget(this.ops["DeleteTrafficMirrorTarget"].apply(partialParams));
     }
     invokeDeleteTransitGateway(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteTransitGateway(this.ops["DeleteTransitGateway"].applicator.apply(partialParams));
+        return this.client.deleteTransitGateway(this.ops["DeleteTransitGateway"].apply(partialParams));
     }
     invokeDeleteTransitGatewayConnect(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteTransitGatewayConnect(this.ops["DeleteTransitGatewayConnect"].applicator.apply(partialParams));
+        return this.client.deleteTransitGatewayConnect(this.ops["DeleteTransitGatewayConnect"].apply(partialParams));
     }
     invokeDeleteTransitGatewayConnectPeer(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteTransitGatewayConnectPeer(this.ops["DeleteTransitGatewayConnectPeer"].applicator.apply(partialParams));
+        return this.client.deleteTransitGatewayConnectPeer(this.ops["DeleteTransitGatewayConnectPeer"].apply(partialParams));
     }
     invokeDeleteTransitGatewayMulticastDomain(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteTransitGatewayMulticastDomain(this.ops["DeleteTransitGatewayMulticastDomain"].applicator.apply(partialParams));
+        return this.client.deleteTransitGatewayMulticastDomain(this.ops["DeleteTransitGatewayMulticastDomain"].apply(partialParams));
     }
     invokeDeleteTransitGatewayPeeringAttachment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteTransitGatewayPeeringAttachment(this.ops["DeleteTransitGatewayPeeringAttachment"].applicator.apply(partialParams));
+        return this.client.deleteTransitGatewayPeeringAttachment(this.ops["DeleteTransitGatewayPeeringAttachment"].apply(partialParams));
     }
     invokeDeleteTransitGatewayPrefixListReference(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteTransitGatewayPrefixListReference(this.ops["DeleteTransitGatewayPrefixListReference"].applicator.apply(partialParams));
+        return this.client.deleteTransitGatewayPrefixListReference(this.ops["DeleteTransitGatewayPrefixListReference"].apply(partialParams));
     }
     invokeDeleteTransitGatewayRoute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteTransitGatewayRoute(this.ops["DeleteTransitGatewayRoute"].applicator.apply(partialParams));
+        return this.client.deleteTransitGatewayRoute(this.ops["DeleteTransitGatewayRoute"].apply(partialParams));
     }
     invokeDeleteTransitGatewayRouteTable(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteTransitGatewayRouteTable(this.ops["DeleteTransitGatewayRouteTable"].applicator.apply(partialParams));
+        return this.client.deleteTransitGatewayRouteTable(this.ops["DeleteTransitGatewayRouteTable"].apply(partialParams));
     }
     invokeDeleteTransitGatewayVpcAttachment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteTransitGatewayVpcAttachment(this.ops["DeleteTransitGatewayVpcAttachment"].applicator.apply(partialParams));
-    }
-    invokeDeleteVolume(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteVolume(this.ops["DeleteVolume"].applicator.apply(partialParams));
-    }
-    invokeDeleteVpc(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteVpc(this.ops["DeleteVpc"].applicator.apply(partialParams));
+        return this.client.deleteTransitGatewayVpcAttachment(this.ops["DeleteTransitGatewayVpcAttachment"].apply(partialParams));
     }
     invokeDeleteVpcEndpointConnectionNotifications(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteVpcEndpointConnectionNotifications(this.ops["DeleteVpcEndpointConnectionNotifications"].applicator.apply(partialParams));
+        return this.client.deleteVpcEndpointConnectionNotifications(this.ops["DeleteVpcEndpointConnectionNotifications"].apply(partialParams));
     }
     invokeDeleteVpcEndpointServiceConfigurations(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteVpcEndpointServiceConfigurations(this.ops["DeleteVpcEndpointServiceConfigurations"].applicator.apply(partialParams));
+        return this.client.deleteVpcEndpointServiceConfigurations(this.ops["DeleteVpcEndpointServiceConfigurations"].apply(partialParams));
     }
     invokeDeleteVpcEndpoints(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteVpcEndpoints(this.ops["DeleteVpcEndpoints"].applicator.apply(partialParams));
+        return this.client.deleteVpcEndpoints(this.ops["DeleteVpcEndpoints"].apply(partialParams));
     }
     invokeDeleteVpcPeeringConnection(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteVpcPeeringConnection(this.ops["DeleteVpcPeeringConnection"].applicator.apply(partialParams));
-    }
-    invokeDeleteVpnConnection(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteVpnConnection(this.ops["DeleteVpnConnection"].applicator.apply(partialParams));
-    }
-    invokeDeleteVpnConnectionRoute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteVpnConnectionRoute(this.ops["DeleteVpnConnectionRoute"].applicator.apply(partialParams));
-    }
-    invokeDeleteVpnGateway(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteVpnGateway(this.ops["DeleteVpnGateway"].applicator.apply(partialParams));
+        return this.client.deleteVpcPeeringConnection(this.ops["DeleteVpcPeeringConnection"].apply(partialParams));
     }
     invokeDeprovisionByoipCidr(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deprovisionByoipCidr(this.ops["DeprovisionByoipCidr"].applicator.apply(partialParams));
+        return this.client.deprovisionByoipCidr(this.ops["DeprovisionByoipCidr"].apply(partialParams));
     }
     invokeDeprovisionIpamPoolCidr(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deprovisionIpamPoolCidr(this.ops["DeprovisionIpamPoolCidr"].applicator.apply(partialParams));
+        return this.client.deprovisionIpamPoolCidr(this.ops["DeprovisionIpamPoolCidr"].apply(partialParams));
     }
     invokeDeprovisionPublicIpv4PoolCidr(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deprovisionPublicIpv4PoolCidr(this.ops["DeprovisionPublicIpv4PoolCidr"].applicator.apply(partialParams));
+        return this.client.deprovisionPublicIpv4PoolCidr(this.ops["DeprovisionPublicIpv4PoolCidr"].apply(partialParams));
     }
-    invokeDeregisterImage(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDeregisterInstanceEventNotificationAttributes(partialParams) {
         this.boot();
-        return this.client.deregisterImage(this.ops["DeregisterImage"].applicator.apply(partialParams));
+        return this.client.deregisterInstanceEventNotificationAttributes(this.ops["DeregisterInstanceEventNotificationAttributes"].apply(partialParams));
+    }
+    invokeDeregisterTransitGatewayMulticastGroupMembers(partialParams) {
+        this.boot();
+        return this.client.deregisterTransitGatewayMulticastGroupMembers(this.ops["DeregisterTransitGatewayMulticastGroupMembers"].apply(partialParams));
+    }
+    invokeDeregisterTransitGatewayMulticastGroupSources(partialParams) {
+        this.boot();
+        return this.client.deregisterTransitGatewayMulticastGroupSources(this.ops["DeregisterTransitGatewayMulticastGroupSources"].apply(partialParams));
+    }
+    invokeDescribeAccountAttributes(partialParams) {
+        this.boot();
+        return this.client.describeAccountAttributes(this.ops["DescribeAccountAttributes"].apply(partialParams));
+    }
+    invokeDescribeAddresses(partialParams) {
+        this.boot();
+        return this.client.describeAddresses(this.ops["DescribeAddresses"].apply(partialParams));
+    }
+    invokeDescribeAddressesAttribute(partialParams) {
+        this.boot();
+        return this.client.describeAddressesAttribute(this.ops["DescribeAddressesAttribute"].apply(partialParams));
+    }
+    invokeDescribeAggregateIdFormat(partialParams) {
+        this.boot();
+        return this.client.describeAggregateIdFormat(this.ops["DescribeAggregateIdFormat"].apply(partialParams));
+    }
+    invokeDescribeAvailabilityZones(partialParams) {
+        this.boot();
+        return this.client.describeAvailabilityZones(this.ops["DescribeAvailabilityZones"].apply(partialParams));
+    }
+    invokeDescribeBundleTasks(partialParams) {
+        this.boot();
+        return this.client.describeBundleTasks(this.ops["DescribeBundleTasks"].apply(partialParams));
     }
     invokeDescribeByoipCidrs(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeByoipCidrs(this.ops["DescribeByoipCidrs"].applicator.apply(partialParams));
+        return this.client.describeByoipCidrs(this.ops["DescribeByoipCidrs"].apply(partialParams));
+    }
+    invokeDescribeCapacityReservationFleets(partialParams) {
+        this.boot();
+        return this.client.describeCapacityReservationFleets(this.ops["DescribeCapacityReservationFleets"].apply(partialParams));
+    }
+    invokeDescribeCapacityReservations(partialParams) {
+        this.boot();
+        return this.client.describeCapacityReservations(this.ops["DescribeCapacityReservations"].apply(partialParams));
+    }
+    invokeDescribeCarrierGateways(partialParams) {
+        this.boot();
+        return this.client.describeCarrierGateways(this.ops["DescribeCarrierGateways"].apply(partialParams));
+    }
+    invokeDescribeClassicLinkInstances(partialParams) {
+        this.boot();
+        return this.client.describeClassicLinkInstances(this.ops["DescribeClassicLinkInstances"].apply(partialParams));
     }
     invokeDescribeClientVpnAuthorizationRules(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeClientVpnAuthorizationRules(this.ops["DescribeClientVpnAuthorizationRules"].applicator.apply(partialParams));
+        return this.client.describeClientVpnAuthorizationRules(this.ops["DescribeClientVpnAuthorizationRules"].apply(partialParams));
     }
     invokeDescribeClientVpnConnections(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeClientVpnConnections(this.ops["DescribeClientVpnConnections"].applicator.apply(partialParams));
+        return this.client.describeClientVpnConnections(this.ops["DescribeClientVpnConnections"].apply(partialParams));
+    }
+    invokeDescribeClientVpnEndpoints(partialParams) {
+        this.boot();
+        return this.client.describeClientVpnEndpoints(this.ops["DescribeClientVpnEndpoints"].apply(partialParams));
     }
     invokeDescribeClientVpnRoutes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeClientVpnRoutes(this.ops["DescribeClientVpnRoutes"].applicator.apply(partialParams));
+        return this.client.describeClientVpnRoutes(this.ops["DescribeClientVpnRoutes"].apply(partialParams));
     }
     invokeDescribeClientVpnTargetNetworks(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeClientVpnTargetNetworks(this.ops["DescribeClientVpnTargetNetworks"].applicator.apply(partialParams));
+        return this.client.describeClientVpnTargetNetworks(this.ops["DescribeClientVpnTargetNetworks"].apply(partialParams));
+    }
+    invokeDescribeCoipPools(partialParams) {
+        this.boot();
+        return this.client.describeCoipPools(this.ops["DescribeCoipPools"].apply(partialParams));
+    }
+    invokeDescribeConversionTasks(partialParams) {
+        this.boot();
+        return this.client.describeConversionTasks(this.ops["DescribeConversionTasks"].apply(partialParams));
+    }
+    invokeDescribeCustomerGateways(partialParams) {
+        this.boot();
+        return this.client.describeCustomerGateways(this.ops["DescribeCustomerGateways"].apply(partialParams));
+    }
+    invokeDescribeDhcpOptions(partialParams) {
+        this.boot();
+        return this.client.describeDhcpOptions(this.ops["DescribeDhcpOptions"].apply(partialParams));
+    }
+    invokeDescribeEgressOnlyInternetGateways(partialParams) {
+        this.boot();
+        return this.client.describeEgressOnlyInternetGateways(this.ops["DescribeEgressOnlyInternetGateways"].apply(partialParams));
+    }
+    invokeDescribeElasticGpus(partialParams) {
+        this.boot();
+        return this.client.describeElasticGpus(this.ops["DescribeElasticGpus"].apply(partialParams));
+    }
+    invokeDescribeExportImageTasks(partialParams) {
+        this.boot();
+        return this.client.describeExportImageTasks(this.ops["DescribeExportImageTasks"].apply(partialParams));
+    }
+    invokeDescribeExportTasks(partialParams) {
+        this.boot();
+        return this.client.describeExportTasks(this.ops["DescribeExportTasks"].apply(partialParams));
+    }
+    invokeDescribeFastLaunchImages(partialParams) {
+        this.boot();
+        return this.client.describeFastLaunchImages(this.ops["DescribeFastLaunchImages"].apply(partialParams));
+    }
+    invokeDescribeFastSnapshotRestores(partialParams) {
+        this.boot();
+        return this.client.describeFastSnapshotRestores(this.ops["DescribeFastSnapshotRestores"].apply(partialParams));
     }
     invokeDescribeFleetHistory(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeFleetHistory(this.ops["DescribeFleetHistory"].applicator.apply(partialParams));
+        return this.client.describeFleetHistory(this.ops["DescribeFleetHistory"].apply(partialParams));
     }
     invokeDescribeFleetInstances(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeFleetInstances(this.ops["DescribeFleetInstances"].applicator.apply(partialParams));
+        return this.client.describeFleetInstances(this.ops["DescribeFleetInstances"].apply(partialParams));
+    }
+    invokeDescribeFleets(partialParams) {
+        this.boot();
+        return this.client.describeFleets(this.ops["DescribeFleets"].apply(partialParams));
+    }
+    invokeDescribeFlowLogs(partialParams) {
+        this.boot();
+        return this.client.describeFlowLogs(this.ops["DescribeFlowLogs"].apply(partialParams));
     }
     invokeDescribeFpgaImageAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeFpgaImageAttribute(this.ops["DescribeFpgaImageAttribute"].applicator.apply(partialParams));
+        return this.client.describeFpgaImageAttribute(this.ops["DescribeFpgaImageAttribute"].apply(partialParams));
+    }
+    invokeDescribeFpgaImages(partialParams) {
+        this.boot();
+        return this.client.describeFpgaImages(this.ops["DescribeFpgaImages"].apply(partialParams));
+    }
+    invokeDescribeHostReservationOfferings(partialParams) {
+        this.boot();
+        return this.client.describeHostReservationOfferings(this.ops["DescribeHostReservationOfferings"].apply(partialParams));
+    }
+    invokeDescribeHostReservations(partialParams) {
+        this.boot();
+        return this.client.describeHostReservations(this.ops["DescribeHostReservations"].apply(partialParams));
+    }
+    invokeDescribeHosts(partialParams) {
+        this.boot();
+        return this.client.describeHosts(this.ops["DescribeHosts"].apply(partialParams));
+    }
+    invokeDescribeIamInstanceProfileAssociations(partialParams) {
+        this.boot();
+        return this.client.describeIamInstanceProfileAssociations(this.ops["DescribeIamInstanceProfileAssociations"].apply(partialParams));
+    }
+    invokeDescribeIdFormat(partialParams) {
+        this.boot();
+        return this.client.describeIdFormat(this.ops["DescribeIdFormat"].apply(partialParams));
     }
     invokeDescribeIdentityIdFormat(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeIdentityIdFormat(this.ops["DescribeIdentityIdFormat"].applicator.apply(partialParams));
+        return this.client.describeIdentityIdFormat(this.ops["DescribeIdentityIdFormat"].apply(partialParams));
     }
     invokeDescribeImageAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeImageAttribute(this.ops["DescribeImageAttribute"].applicator.apply(partialParams));
+        return this.client.describeImageAttribute(this.ops["DescribeImageAttribute"].apply(partialParams));
+    }
+    invokeDescribeImages(partialParams) {
+        this.boot();
+        return this.client.describeImages(this.ops["DescribeImages"].apply(partialParams));
+    }
+    invokeDescribeImportImageTasks(partialParams) {
+        this.boot();
+        return this.client.describeImportImageTasks(this.ops["DescribeImportImageTasks"].apply(partialParams));
+    }
+    invokeDescribeImportSnapshotTasks(partialParams) {
+        this.boot();
+        return this.client.describeImportSnapshotTasks(this.ops["DescribeImportSnapshotTasks"].apply(partialParams));
     }
     invokeDescribeInstanceAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeInstanceAttribute(this.ops["DescribeInstanceAttribute"].applicator.apply(partialParams));
+        return this.client.describeInstanceAttribute(this.ops["DescribeInstanceAttribute"].apply(partialParams));
+    }
+    invokeDescribeInstanceCreditSpecifications(partialParams) {
+        this.boot();
+        return this.client.describeInstanceCreditSpecifications(this.ops["DescribeInstanceCreditSpecifications"].apply(partialParams));
+    }
+    invokeDescribeInstanceEventNotificationAttributes(partialParams) {
+        this.boot();
+        return this.client.describeInstanceEventNotificationAttributes(this.ops["DescribeInstanceEventNotificationAttributes"].apply(partialParams));
+    }
+    invokeDescribeInstanceEventWindows(partialParams) {
+        this.boot();
+        return this.client.describeInstanceEventWindows(this.ops["DescribeInstanceEventWindows"].apply(partialParams));
+    }
+    invokeDescribeInstanceStatus(partialParams) {
+        this.boot();
+        return this.client.describeInstanceStatus(this.ops["DescribeInstanceStatus"].apply(partialParams));
+    }
+    invokeDescribeInstanceTypeOfferings(partialParams) {
+        this.boot();
+        return this.client.describeInstanceTypeOfferings(this.ops["DescribeInstanceTypeOfferings"].apply(partialParams));
+    }
+    invokeDescribeInstanceTypes(partialParams) {
+        this.boot();
+        return this.client.describeInstanceTypes(this.ops["DescribeInstanceTypes"].apply(partialParams));
+    }
+    invokeDescribeInstances(partialParams) {
+        this.boot();
+        return this.client.describeInstances(this.ops["DescribeInstances"].apply(partialParams));
+    }
+    invokeDescribeInternetGateways(partialParams) {
+        this.boot();
+        return this.client.describeInternetGateways(this.ops["DescribeInternetGateways"].apply(partialParams));
+    }
+    invokeDescribeIpamPools(partialParams) {
+        this.boot();
+        return this.client.describeIpamPools(this.ops["DescribeIpamPools"].apply(partialParams));
+    }
+    invokeDescribeIpamScopes(partialParams) {
+        this.boot();
+        return this.client.describeIpamScopes(this.ops["DescribeIpamScopes"].apply(partialParams));
+    }
+    invokeDescribeIpams(partialParams) {
+        this.boot();
+        return this.client.describeIpams(this.ops["DescribeIpams"].apply(partialParams));
+    }
+    invokeDescribeIpv6Pools(partialParams) {
+        this.boot();
+        return this.client.describeIpv6Pools(this.ops["DescribeIpv6Pools"].apply(partialParams));
+    }
+    invokeDescribeKeyPairs(partialParams) {
+        this.boot();
+        return this.client.describeKeyPairs(this.ops["DescribeKeyPairs"].apply(partialParams));
+    }
+    invokeDescribeLaunchTemplateVersions(partialParams) {
+        this.boot();
+        return this.client.describeLaunchTemplateVersions(this.ops["DescribeLaunchTemplateVersions"].apply(partialParams));
+    }
+    invokeDescribeLaunchTemplates(partialParams) {
+        this.boot();
+        return this.client.describeLaunchTemplates(this.ops["DescribeLaunchTemplates"].apply(partialParams));
+    }
+    invokeDescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations(partialParams) {
+        this.boot();
+        return this.client.describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations(this.ops["DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations"].apply(partialParams));
+    }
+    invokeDescribeLocalGatewayRouteTableVpcAssociations(partialParams) {
+        this.boot();
+        return this.client.describeLocalGatewayRouteTableVpcAssociations(this.ops["DescribeLocalGatewayRouteTableVpcAssociations"].apply(partialParams));
+    }
+    invokeDescribeLocalGatewayRouteTables(partialParams) {
+        this.boot();
+        return this.client.describeLocalGatewayRouteTables(this.ops["DescribeLocalGatewayRouteTables"].apply(partialParams));
+    }
+    invokeDescribeLocalGatewayVirtualInterfaceGroups(partialParams) {
+        this.boot();
+        return this.client.describeLocalGatewayVirtualInterfaceGroups(this.ops["DescribeLocalGatewayVirtualInterfaceGroups"].apply(partialParams));
+    }
+    invokeDescribeLocalGatewayVirtualInterfaces(partialParams) {
+        this.boot();
+        return this.client.describeLocalGatewayVirtualInterfaces(this.ops["DescribeLocalGatewayVirtualInterfaces"].apply(partialParams));
+    }
+    invokeDescribeLocalGateways(partialParams) {
+        this.boot();
+        return this.client.describeLocalGateways(this.ops["DescribeLocalGateways"].apply(partialParams));
+    }
+    invokeDescribeManagedPrefixLists(partialParams) {
+        this.boot();
+        return this.client.describeManagedPrefixLists(this.ops["DescribeManagedPrefixLists"].apply(partialParams));
+    }
+    invokeDescribeMovingAddresses(partialParams) {
+        this.boot();
+        return this.client.describeMovingAddresses(this.ops["DescribeMovingAddresses"].apply(partialParams));
+    }
+    invokeDescribeNatGateways(partialParams) {
+        this.boot();
+        return this.client.describeNatGateways(this.ops["DescribeNatGateways"].apply(partialParams));
+    }
+    invokeDescribeNetworkAcls(partialParams) {
+        this.boot();
+        return this.client.describeNetworkAcls(this.ops["DescribeNetworkAcls"].apply(partialParams));
+    }
+    invokeDescribeNetworkInsightsAccessScopeAnalyses(partialParams) {
+        this.boot();
+        return this.client.describeNetworkInsightsAccessScopeAnalyses(this.ops["DescribeNetworkInsightsAccessScopeAnalyses"].apply(partialParams));
+    }
+    invokeDescribeNetworkInsightsAccessScopes(partialParams) {
+        this.boot();
+        return this.client.describeNetworkInsightsAccessScopes(this.ops["DescribeNetworkInsightsAccessScopes"].apply(partialParams));
+    }
+    invokeDescribeNetworkInsightsAnalyses(partialParams) {
+        this.boot();
+        return this.client.describeNetworkInsightsAnalyses(this.ops["DescribeNetworkInsightsAnalyses"].apply(partialParams));
+    }
+    invokeDescribeNetworkInsightsPaths(partialParams) {
+        this.boot();
+        return this.client.describeNetworkInsightsPaths(this.ops["DescribeNetworkInsightsPaths"].apply(partialParams));
     }
     invokeDescribeNetworkInterfaceAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeNetworkInterfaceAttribute(this.ops["DescribeNetworkInterfaceAttribute"].applicator.apply(partialParams));
+        return this.client.describeNetworkInterfaceAttribute(this.ops["DescribeNetworkInterfaceAttribute"].apply(partialParams));
+    }
+    invokeDescribeNetworkInterfacePermissions(partialParams) {
+        this.boot();
+        return this.client.describeNetworkInterfacePermissions(this.ops["DescribeNetworkInterfacePermissions"].apply(partialParams));
+    }
+    invokeDescribeNetworkInterfaces(partialParams) {
+        this.boot();
+        return this.client.describeNetworkInterfaces(this.ops["DescribeNetworkInterfaces"].apply(partialParams));
+    }
+    invokeDescribePlacementGroups(partialParams) {
+        this.boot();
+        return this.client.describePlacementGroups(this.ops["DescribePlacementGroups"].apply(partialParams));
+    }
+    invokeDescribePrefixLists(partialParams) {
+        this.boot();
+        return this.client.describePrefixLists(this.ops["DescribePrefixLists"].apply(partialParams));
+    }
+    invokeDescribePrincipalIdFormat(partialParams) {
+        this.boot();
+        return this.client.describePrincipalIdFormat(this.ops["DescribePrincipalIdFormat"].apply(partialParams));
+    }
+    invokeDescribePublicIpv4Pools(partialParams) {
+        this.boot();
+        return this.client.describePublicIpv4Pools(this.ops["DescribePublicIpv4Pools"].apply(partialParams));
+    }
+    invokeDescribeRegions(partialParams) {
+        this.boot();
+        return this.client.describeRegions(this.ops["DescribeRegions"].apply(partialParams));
+    }
+    invokeDescribeReplaceRootVolumeTasks(partialParams) {
+        this.boot();
+        return this.client.describeReplaceRootVolumeTasks(this.ops["DescribeReplaceRootVolumeTasks"].apply(partialParams));
+    }
+    invokeDescribeReservedInstances(partialParams) {
+        this.boot();
+        return this.client.describeReservedInstances(this.ops["DescribeReservedInstances"].apply(partialParams));
+    }
+    invokeDescribeReservedInstancesListings(partialParams) {
+        this.boot();
+        return this.client.describeReservedInstancesListings(this.ops["DescribeReservedInstancesListings"].apply(partialParams));
+    }
+    invokeDescribeReservedInstancesModifications(partialParams) {
+        this.boot();
+        return this.client.describeReservedInstancesModifications(this.ops["DescribeReservedInstancesModifications"].apply(partialParams));
+    }
+    invokeDescribeReservedInstancesOfferings(partialParams) {
+        this.boot();
+        return this.client.describeReservedInstancesOfferings(this.ops["DescribeReservedInstancesOfferings"].apply(partialParams));
+    }
+    invokeDescribeRouteTables(partialParams) {
+        this.boot();
+        return this.client.describeRouteTables(this.ops["DescribeRouteTables"].apply(partialParams));
     }
     invokeDescribeScheduledInstanceAvailability(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeScheduledInstanceAvailability(this.ops["DescribeScheduledInstanceAvailability"].applicator.apply(partialParams));
+        return this.client.describeScheduledInstanceAvailability(this.ops["DescribeScheduledInstanceAvailability"].apply(partialParams));
+    }
+    invokeDescribeScheduledInstances(partialParams) {
+        this.boot();
+        return this.client.describeScheduledInstances(this.ops["DescribeScheduledInstances"].apply(partialParams));
     }
     invokeDescribeSecurityGroupReferences(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeSecurityGroupReferences(this.ops["DescribeSecurityGroupReferences"].applicator.apply(partialParams));
+        return this.client.describeSecurityGroupReferences(this.ops["DescribeSecurityGroupReferences"].apply(partialParams));
+    }
+    invokeDescribeSecurityGroupRules(partialParams) {
+        this.boot();
+        return this.client.describeSecurityGroupRules(this.ops["DescribeSecurityGroupRules"].apply(partialParams));
+    }
+    invokeDescribeSecurityGroups(partialParams) {
+        this.boot();
+        return this.client.describeSecurityGroups(this.ops["DescribeSecurityGroups"].apply(partialParams));
     }
     invokeDescribeSnapshotAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeSnapshotAttribute(this.ops["DescribeSnapshotAttribute"].applicator.apply(partialParams));
+        return this.client.describeSnapshotAttribute(this.ops["DescribeSnapshotAttribute"].apply(partialParams));
+    }
+    invokeDescribeSnapshotTierStatus(partialParams) {
+        this.boot();
+        return this.client.describeSnapshotTierStatus(this.ops["DescribeSnapshotTierStatus"].apply(partialParams));
+    }
+    invokeDescribeSnapshots(partialParams) {
+        this.boot();
+        return this.client.describeSnapshots(this.ops["DescribeSnapshots"].apply(partialParams));
+    }
+    invokeDescribeSpotDatafeedSubscription(partialParams) {
+        this.boot();
+        return this.client.describeSpotDatafeedSubscription(this.ops["DescribeSpotDatafeedSubscription"].apply(partialParams));
     }
     invokeDescribeSpotFleetInstances(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeSpotFleetInstances(this.ops["DescribeSpotFleetInstances"].applicator.apply(partialParams));
+        return this.client.describeSpotFleetInstances(this.ops["DescribeSpotFleetInstances"].apply(partialParams));
     }
     invokeDescribeSpotFleetRequestHistory(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeSpotFleetRequestHistory(this.ops["DescribeSpotFleetRequestHistory"].applicator.apply(partialParams));
+        return this.client.describeSpotFleetRequestHistory(this.ops["DescribeSpotFleetRequestHistory"].apply(partialParams));
+    }
+    invokeDescribeSpotFleetRequests(partialParams) {
+        this.boot();
+        return this.client.describeSpotFleetRequests(this.ops["DescribeSpotFleetRequests"].apply(partialParams));
+    }
+    invokeDescribeSpotInstanceRequests(partialParams) {
+        this.boot();
+        return this.client.describeSpotInstanceRequests(this.ops["DescribeSpotInstanceRequests"].apply(partialParams));
+    }
+    invokeDescribeSpotPriceHistory(partialParams) {
+        this.boot();
+        return this.client.describeSpotPriceHistory(this.ops["DescribeSpotPriceHistory"].apply(partialParams));
     }
     invokeDescribeStaleSecurityGroups(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeStaleSecurityGroups(this.ops["DescribeStaleSecurityGroups"].applicator.apply(partialParams));
+        return this.client.describeStaleSecurityGroups(this.ops["DescribeStaleSecurityGroups"].apply(partialParams));
+    }
+    invokeDescribeStoreImageTasks(partialParams) {
+        this.boot();
+        return this.client.describeStoreImageTasks(this.ops["DescribeStoreImageTasks"].apply(partialParams));
+    }
+    invokeDescribeSubnets(partialParams) {
+        this.boot();
+        return this.client.describeSubnets(this.ops["DescribeSubnets"].apply(partialParams));
+    }
+    invokeDescribeTags(partialParams) {
+        this.boot();
+        return this.client.describeTags(this.ops["DescribeTags"].apply(partialParams));
+    }
+    invokeDescribeTrafficMirrorFilters(partialParams) {
+        this.boot();
+        return this.client.describeTrafficMirrorFilters(this.ops["DescribeTrafficMirrorFilters"].apply(partialParams));
+    }
+    invokeDescribeTrafficMirrorSessions(partialParams) {
+        this.boot();
+        return this.client.describeTrafficMirrorSessions(this.ops["DescribeTrafficMirrorSessions"].apply(partialParams));
+    }
+    invokeDescribeTrafficMirrorTargets(partialParams) {
+        this.boot();
+        return this.client.describeTrafficMirrorTargets(this.ops["DescribeTrafficMirrorTargets"].apply(partialParams));
+    }
+    invokeDescribeTransitGatewayAttachments(partialParams) {
+        this.boot();
+        return this.client.describeTransitGatewayAttachments(this.ops["DescribeTransitGatewayAttachments"].apply(partialParams));
+    }
+    invokeDescribeTransitGatewayConnectPeers(partialParams) {
+        this.boot();
+        return this.client.describeTransitGatewayConnectPeers(this.ops["DescribeTransitGatewayConnectPeers"].apply(partialParams));
+    }
+    invokeDescribeTransitGatewayConnects(partialParams) {
+        this.boot();
+        return this.client.describeTransitGatewayConnects(this.ops["DescribeTransitGatewayConnects"].apply(partialParams));
+    }
+    invokeDescribeTransitGatewayMulticastDomains(partialParams) {
+        this.boot();
+        return this.client.describeTransitGatewayMulticastDomains(this.ops["DescribeTransitGatewayMulticastDomains"].apply(partialParams));
+    }
+    invokeDescribeTransitGatewayPeeringAttachments(partialParams) {
+        this.boot();
+        return this.client.describeTransitGatewayPeeringAttachments(this.ops["DescribeTransitGatewayPeeringAttachments"].apply(partialParams));
+    }
+    invokeDescribeTransitGatewayRouteTables(partialParams) {
+        this.boot();
+        return this.client.describeTransitGatewayRouteTables(this.ops["DescribeTransitGatewayRouteTables"].apply(partialParams));
+    }
+    invokeDescribeTransitGatewayVpcAttachments(partialParams) {
+        this.boot();
+        return this.client.describeTransitGatewayVpcAttachments(this.ops["DescribeTransitGatewayVpcAttachments"].apply(partialParams));
+    }
+    invokeDescribeTransitGateways(partialParams) {
+        this.boot();
+        return this.client.describeTransitGateways(this.ops["DescribeTransitGateways"].apply(partialParams));
+    }
+    invokeDescribeTrunkInterfaceAssociations(partialParams) {
+        this.boot();
+        return this.client.describeTrunkInterfaceAssociations(this.ops["DescribeTrunkInterfaceAssociations"].apply(partialParams));
     }
     invokeDescribeVolumeAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeVolumeAttribute(this.ops["DescribeVolumeAttribute"].applicator.apply(partialParams));
+        return this.client.describeVolumeAttribute(this.ops["DescribeVolumeAttribute"].apply(partialParams));
+    }
+    invokeDescribeVolumeStatus(partialParams) {
+        this.boot();
+        return this.client.describeVolumeStatus(this.ops["DescribeVolumeStatus"].apply(partialParams));
+    }
+    invokeDescribeVolumes(partialParams) {
+        this.boot();
+        return this.client.describeVolumes(this.ops["DescribeVolumes"].apply(partialParams));
+    }
+    invokeDescribeVolumesModifications(partialParams) {
+        this.boot();
+        return this.client.describeVolumesModifications(this.ops["DescribeVolumesModifications"].apply(partialParams));
     }
     invokeDescribeVpcAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeVpcAttribute(this.ops["DescribeVpcAttribute"].applicator.apply(partialParams));
+        return this.client.describeVpcAttribute(this.ops["DescribeVpcAttribute"].apply(partialParams));
+    }
+    invokeDescribeVpcClassicLink(partialParams) {
+        this.boot();
+        return this.client.describeVpcClassicLink(this.ops["DescribeVpcClassicLink"].apply(partialParams));
+    }
+    invokeDescribeVpcClassicLinkDnsSupport(partialParams) {
+        this.boot();
+        return this.client.describeVpcClassicLinkDnsSupport(this.ops["DescribeVpcClassicLinkDnsSupport"].apply(partialParams));
+    }
+    invokeDescribeVpcEndpointConnectionNotifications(partialParams) {
+        this.boot();
+        return this.client.describeVpcEndpointConnectionNotifications(this.ops["DescribeVpcEndpointConnectionNotifications"].apply(partialParams));
+    }
+    invokeDescribeVpcEndpointConnections(partialParams) {
+        this.boot();
+        return this.client.describeVpcEndpointConnections(this.ops["DescribeVpcEndpointConnections"].apply(partialParams));
+    }
+    invokeDescribeVpcEndpointServiceConfigurations(partialParams) {
+        this.boot();
+        return this.client.describeVpcEndpointServiceConfigurations(this.ops["DescribeVpcEndpointServiceConfigurations"].apply(partialParams));
     }
     invokeDescribeVpcEndpointServicePermissions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeVpcEndpointServicePermissions(this.ops["DescribeVpcEndpointServicePermissions"].applicator.apply(partialParams));
+        return this.client.describeVpcEndpointServicePermissions(this.ops["DescribeVpcEndpointServicePermissions"].apply(partialParams));
+    }
+    invokeDescribeVpcEndpointServices(partialParams) {
+        this.boot();
+        return this.client.describeVpcEndpointServices(this.ops["DescribeVpcEndpointServices"].apply(partialParams));
+    }
+    invokeDescribeVpcEndpoints(partialParams) {
+        this.boot();
+        return this.client.describeVpcEndpoints(this.ops["DescribeVpcEndpoints"].apply(partialParams));
+    }
+    invokeDescribeVpcPeeringConnections(partialParams) {
+        this.boot();
+        return this.client.describeVpcPeeringConnections(this.ops["DescribeVpcPeeringConnections"].apply(partialParams));
+    }
+    invokeDescribeVpcs(partialParams) {
+        this.boot();
+        return this.client.describeVpcs(this.ops["DescribeVpcs"].apply(partialParams));
+    }
+    invokeDescribeVpnConnections(partialParams) {
+        this.boot();
+        return this.client.describeVpnConnections(this.ops["DescribeVpnConnections"].apply(partialParams));
+    }
+    invokeDescribeVpnGateways(partialParams) {
+        this.boot();
+        return this.client.describeVpnGateways(this.ops["DescribeVpnGateways"].apply(partialParams));
     }
     invokeDetachClassicLinkVpc(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.detachClassicLinkVpc(this.ops["DetachClassicLinkVpc"].applicator.apply(partialParams));
-    }
-    invokeDetachInternetGateway(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.detachInternetGateway(this.ops["DetachInternetGateway"].applicator.apply(partialParams));
-    }
-    invokeDetachNetworkInterface(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.detachNetworkInterface(this.ops["DetachNetworkInterface"].applicator.apply(partialParams));
+        return this.client.detachClassicLinkVpc(this.ops["DetachClassicLinkVpc"].apply(partialParams));
     }
     invokeDetachVolume(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.detachVolume(this.ops["DetachVolume"].applicator.apply(partialParams));
+        return this.client.detachVolume(this.ops["DetachVolume"].apply(partialParams));
     }
-    invokeDetachVpnGateway(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDisableEbsEncryptionByDefault(partialParams) {
         this.boot();
-        return this.client.detachVpnGateway(this.ops["DetachVpnGateway"].applicator.apply(partialParams));
+        return this.client.disableEbsEncryptionByDefault(this.ops["DisableEbsEncryptionByDefault"].apply(partialParams));
     }
     invokeDisableFastLaunch(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disableFastLaunch(this.ops["DisableFastLaunch"].applicator.apply(partialParams));
+        return this.client.disableFastLaunch(this.ops["DisableFastLaunch"].apply(partialParams));
     }
     invokeDisableFastSnapshotRestores(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disableFastSnapshotRestores(this.ops["DisableFastSnapshotRestores"].applicator.apply(partialParams));
+        return this.client.disableFastSnapshotRestores(this.ops["DisableFastSnapshotRestores"].apply(partialParams));
     }
     invokeDisableImageDeprecation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disableImageDeprecation(this.ops["DisableImageDeprecation"].applicator.apply(partialParams));
+        return this.client.disableImageDeprecation(this.ops["DisableImageDeprecation"].apply(partialParams));
     }
     invokeDisableIpamOrganizationAdminAccount(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disableIpamOrganizationAdminAccount(this.ops["DisableIpamOrganizationAdminAccount"].applicator.apply(partialParams));
+        return this.client.disableIpamOrganizationAdminAccount(this.ops["DisableIpamOrganizationAdminAccount"].apply(partialParams));
+    }
+    invokeDisableSerialConsoleAccess(partialParams) {
+        this.boot();
+        return this.client.disableSerialConsoleAccess(this.ops["DisableSerialConsoleAccess"].apply(partialParams));
     }
     invokeDisableTransitGatewayRouteTablePropagation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disableTransitGatewayRouteTablePropagation(this.ops["DisableTransitGatewayRouteTablePropagation"].applicator.apply(partialParams));
-    }
-    invokeDisableVgwRoutePropagation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disableVgwRoutePropagation(this.ops["DisableVgwRoutePropagation"].applicator.apply(partialParams));
+        return this.client.disableTransitGatewayRouteTablePropagation(this.ops["DisableTransitGatewayRouteTablePropagation"].apply(partialParams));
     }
     invokeDisableVpcClassicLink(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disableVpcClassicLink(this.ops["DisableVpcClassicLink"].applicator.apply(partialParams));
+        return this.client.disableVpcClassicLink(this.ops["DisableVpcClassicLink"].apply(partialParams));
+    }
+    invokeDisableVpcClassicLinkDnsSupport(partialParams) {
+        this.boot();
+        return this.client.disableVpcClassicLinkDnsSupport(this.ops["DisableVpcClassicLinkDnsSupport"].apply(partialParams));
     }
     invokeDisassociateClientVpnTargetNetwork(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateClientVpnTargetNetwork(this.ops["DisassociateClientVpnTargetNetwork"].applicator.apply(partialParams));
+        return this.client.disassociateClientVpnTargetNetwork(this.ops["DisassociateClientVpnTargetNetwork"].apply(partialParams));
+    }
+    invokeDisassociateEnclaveCertificateIamRole(partialParams) {
+        this.boot();
+        return this.client.disassociateEnclaveCertificateIamRole(this.ops["DisassociateEnclaveCertificateIamRole"].apply(partialParams));
     }
     invokeDisassociateIamInstanceProfile(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateIamInstanceProfile(this.ops["DisassociateIamInstanceProfile"].applicator.apply(partialParams));
+        return this.client.disassociateIamInstanceProfile(this.ops["DisassociateIamInstanceProfile"].apply(partialParams));
     }
     invokeDisassociateInstanceEventWindow(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateInstanceEventWindow(this.ops["DisassociateInstanceEventWindow"].applicator.apply(partialParams));
-    }
-    invokeDisassociateRouteTable(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disassociateRouteTable(this.ops["DisassociateRouteTable"].applicator.apply(partialParams));
+        return this.client.disassociateInstanceEventWindow(this.ops["DisassociateInstanceEventWindow"].apply(partialParams));
     }
     invokeDisassociateSubnetCidrBlock(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateSubnetCidrBlock(this.ops["DisassociateSubnetCidrBlock"].applicator.apply(partialParams));
+        return this.client.disassociateSubnetCidrBlock(this.ops["DisassociateSubnetCidrBlock"].apply(partialParams));
+    }
+    invokeDisassociateTransitGatewayMulticastDomain(partialParams) {
+        this.boot();
+        return this.client.disassociateTransitGatewayMulticastDomain(this.ops["DisassociateTransitGatewayMulticastDomain"].apply(partialParams));
     }
     invokeDisassociateTransitGatewayRouteTable(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateTransitGatewayRouteTable(this.ops["DisassociateTransitGatewayRouteTable"].applicator.apply(partialParams));
+        return this.client.disassociateTransitGatewayRouteTable(this.ops["DisassociateTransitGatewayRouteTable"].apply(partialParams));
     }
     invokeDisassociateTrunkInterface(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateTrunkInterface(this.ops["DisassociateTrunkInterface"].applicator.apply(partialParams));
+        return this.client.disassociateTrunkInterface(this.ops["DisassociateTrunkInterface"].apply(partialParams));
     }
     invokeDisassociateVpcCidrBlock(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateVpcCidrBlock(this.ops["DisassociateVpcCidrBlock"].applicator.apply(partialParams));
+        return this.client.disassociateVpcCidrBlock(this.ops["DisassociateVpcCidrBlock"].apply(partialParams));
+    }
+    invokeEnableEbsEncryptionByDefault(partialParams) {
+        this.boot();
+        return this.client.enableEbsEncryptionByDefault(this.ops["EnableEbsEncryptionByDefault"].apply(partialParams));
     }
     invokeEnableFastLaunch(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.enableFastLaunch(this.ops["EnableFastLaunch"].applicator.apply(partialParams));
+        return this.client.enableFastLaunch(this.ops["EnableFastLaunch"].apply(partialParams));
     }
     invokeEnableFastSnapshotRestores(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.enableFastSnapshotRestores(this.ops["EnableFastSnapshotRestores"].applicator.apply(partialParams));
+        return this.client.enableFastSnapshotRestores(this.ops["EnableFastSnapshotRestores"].apply(partialParams));
     }
     invokeEnableImageDeprecation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.enableImageDeprecation(this.ops["EnableImageDeprecation"].applicator.apply(partialParams));
+        return this.client.enableImageDeprecation(this.ops["EnableImageDeprecation"].apply(partialParams));
     }
     invokeEnableIpamOrganizationAdminAccount(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.enableIpamOrganizationAdminAccount(this.ops["EnableIpamOrganizationAdminAccount"].applicator.apply(partialParams));
+        return this.client.enableIpamOrganizationAdminAccount(this.ops["EnableIpamOrganizationAdminAccount"].apply(partialParams));
+    }
+    invokeEnableSerialConsoleAccess(partialParams) {
+        this.boot();
+        return this.client.enableSerialConsoleAccess(this.ops["EnableSerialConsoleAccess"].apply(partialParams));
     }
     invokeEnableTransitGatewayRouteTablePropagation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.enableTransitGatewayRouteTablePropagation(this.ops["EnableTransitGatewayRouteTablePropagation"].applicator.apply(partialParams));
-    }
-    invokeEnableVgwRoutePropagation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.enableVgwRoutePropagation(this.ops["EnableVgwRoutePropagation"].applicator.apply(partialParams));
-    }
-    invokeEnableVolumeIO(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.enableVolumeIO(this.ops["EnableVolumeIO"].applicator.apply(partialParams));
+        return this.client.enableTransitGatewayRouteTablePropagation(this.ops["EnableTransitGatewayRouteTablePropagation"].apply(partialParams));
     }
     invokeEnableVpcClassicLink(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.enableVpcClassicLink(this.ops["EnableVpcClassicLink"].applicator.apply(partialParams));
+        return this.client.enableVpcClassicLink(this.ops["EnableVpcClassicLink"].apply(partialParams));
+    }
+    invokeEnableVpcClassicLinkDnsSupport(partialParams) {
+        this.boot();
+        return this.client.enableVpcClassicLinkDnsSupport(this.ops["EnableVpcClassicLinkDnsSupport"].apply(partialParams));
     }
     invokeExportClientVpnClientCertificateRevocationList(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.exportClientVpnClientCertificateRevocationList(this.ops["ExportClientVpnClientCertificateRevocationList"].applicator.apply(partialParams));
+        return this.client.exportClientVpnClientCertificateRevocationList(this.ops["ExportClientVpnClientCertificateRevocationList"].apply(partialParams));
     }
     invokeExportClientVpnClientConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.exportClientVpnClientConfiguration(this.ops["ExportClientVpnClientConfiguration"].applicator.apply(partialParams));
+        return this.client.exportClientVpnClientConfiguration(this.ops["ExportClientVpnClientConfiguration"].apply(partialParams));
     }
     invokeExportImage(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.exportImage(this.ops["ExportImage"].applicator.apply(partialParams));
+        return this.client.exportImage(this.ops["ExportImage"].apply(partialParams));
     }
     invokeExportTransitGatewayRoutes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.exportTransitGatewayRoutes(this.ops["ExportTransitGatewayRoutes"].applicator.apply(partialParams));
+        return this.client.exportTransitGatewayRoutes(this.ops["ExportTransitGatewayRoutes"].apply(partialParams));
+    }
+    invokeGetAssociatedEnclaveCertificateIamRoles(partialParams) {
+        this.boot();
+        return this.client.getAssociatedEnclaveCertificateIamRoles(this.ops["GetAssociatedEnclaveCertificateIamRoles"].apply(partialParams));
     }
     invokeGetAssociatedIpv6PoolCidrs(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getAssociatedIpv6PoolCidrs(this.ops["GetAssociatedIpv6PoolCidrs"].applicator.apply(partialParams));
+        return this.client.getAssociatedIpv6PoolCidrs(this.ops["GetAssociatedIpv6PoolCidrs"].apply(partialParams));
     }
     invokeGetCapacityReservationUsage(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getCapacityReservationUsage(this.ops["GetCapacityReservationUsage"].applicator.apply(partialParams));
+        return this.client.getCapacityReservationUsage(this.ops["GetCapacityReservationUsage"].apply(partialParams));
     }
     invokeGetCoipPoolUsage(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getCoipPoolUsage(this.ops["GetCoipPoolUsage"].applicator.apply(partialParams));
+        return this.client.getCoipPoolUsage(this.ops["GetCoipPoolUsage"].apply(partialParams));
     }
     invokeGetConsoleOutput(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getConsoleOutput(this.ops["GetConsoleOutput"].applicator.apply(partialParams));
+        return this.client.getConsoleOutput(this.ops["GetConsoleOutput"].apply(partialParams));
     }
     invokeGetConsoleScreenshot(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getConsoleScreenshot(this.ops["GetConsoleScreenshot"].applicator.apply(partialParams));
+        return this.client.getConsoleScreenshot(this.ops["GetConsoleScreenshot"].apply(partialParams));
     }
     invokeGetDefaultCreditSpecification(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getDefaultCreditSpecification(this.ops["GetDefaultCreditSpecification"].applicator.apply(partialParams));
+        return this.client.getDefaultCreditSpecification(this.ops["GetDefaultCreditSpecification"].apply(partialParams));
+    }
+    invokeGetEbsDefaultKmsKeyId(partialParams) {
+        this.boot();
+        return this.client.getEbsDefaultKmsKeyId(this.ops["GetEbsDefaultKmsKeyId"].apply(partialParams));
+    }
+    invokeGetEbsEncryptionByDefault(partialParams) {
+        this.boot();
+        return this.client.getEbsEncryptionByDefault(this.ops["GetEbsEncryptionByDefault"].apply(partialParams));
     }
     invokeGetFlowLogsIntegrationTemplate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getFlowLogsIntegrationTemplate(this.ops["GetFlowLogsIntegrationTemplate"].applicator.apply(partialParams));
+        return this.client.getFlowLogsIntegrationTemplate(this.ops["GetFlowLogsIntegrationTemplate"].apply(partialParams));
     }
     invokeGetGroupsForCapacityReservation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getGroupsForCapacityReservation(this.ops["GetGroupsForCapacityReservation"].applicator.apply(partialParams));
+        return this.client.getGroupsForCapacityReservation(this.ops["GetGroupsForCapacityReservation"].apply(partialParams));
     }
     invokeGetHostReservationPurchasePreview(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getHostReservationPurchasePreview(this.ops["GetHostReservationPurchasePreview"].applicator.apply(partialParams));
+        return this.client.getHostReservationPurchasePreview(this.ops["GetHostReservationPurchasePreview"].apply(partialParams));
     }
     invokeGetInstanceTypesFromInstanceRequirements(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getInstanceTypesFromInstanceRequirements(this.ops["GetInstanceTypesFromInstanceRequirements"].applicator.apply(partialParams));
+        return this.client.getInstanceTypesFromInstanceRequirements(this.ops["GetInstanceTypesFromInstanceRequirements"].apply(partialParams));
     }
     invokeGetIpamAddressHistory(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getIpamAddressHistory(this.ops["GetIpamAddressHistory"].applicator.apply(partialParams));
+        return this.client.getIpamAddressHistory(this.ops["GetIpamAddressHistory"].apply(partialParams));
     }
     invokeGetIpamPoolAllocations(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getIpamPoolAllocations(this.ops["GetIpamPoolAllocations"].applicator.apply(partialParams));
+        return this.client.getIpamPoolAllocations(this.ops["GetIpamPoolAllocations"].apply(partialParams));
     }
     invokeGetIpamPoolCidrs(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getIpamPoolCidrs(this.ops["GetIpamPoolCidrs"].applicator.apply(partialParams));
+        return this.client.getIpamPoolCidrs(this.ops["GetIpamPoolCidrs"].apply(partialParams));
     }
     invokeGetIpamResourceCidrs(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getIpamResourceCidrs(this.ops["GetIpamResourceCidrs"].applicator.apply(partialParams));
+        return this.client.getIpamResourceCidrs(this.ops["GetIpamResourceCidrs"].apply(partialParams));
     }
     invokeGetLaunchTemplateData(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getLaunchTemplateData(this.ops["GetLaunchTemplateData"].applicator.apply(partialParams));
+        return this.client.getLaunchTemplateData(this.ops["GetLaunchTemplateData"].apply(partialParams));
     }
     invokeGetManagedPrefixListAssociations(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getManagedPrefixListAssociations(this.ops["GetManagedPrefixListAssociations"].applicator.apply(partialParams));
+        return this.client.getManagedPrefixListAssociations(this.ops["GetManagedPrefixListAssociations"].apply(partialParams));
     }
     invokeGetManagedPrefixListEntries(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getManagedPrefixListEntries(this.ops["GetManagedPrefixListEntries"].applicator.apply(partialParams));
+        return this.client.getManagedPrefixListEntries(this.ops["GetManagedPrefixListEntries"].apply(partialParams));
     }
     invokeGetNetworkInsightsAccessScopeAnalysisFindings(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getNetworkInsightsAccessScopeAnalysisFindings(this.ops["GetNetworkInsightsAccessScopeAnalysisFindings"].applicator.apply(partialParams));
+        return this.client.getNetworkInsightsAccessScopeAnalysisFindings(this.ops["GetNetworkInsightsAccessScopeAnalysisFindings"].apply(partialParams));
     }
     invokeGetNetworkInsightsAccessScopeContent(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getNetworkInsightsAccessScopeContent(this.ops["GetNetworkInsightsAccessScopeContent"].applicator.apply(partialParams));
+        return this.client.getNetworkInsightsAccessScopeContent(this.ops["GetNetworkInsightsAccessScopeContent"].apply(partialParams));
     }
     invokeGetPasswordData(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getPasswordData(this.ops["GetPasswordData"].applicator.apply(partialParams));
+        return this.client.getPasswordData(this.ops["GetPasswordData"].apply(partialParams));
     }
     invokeGetReservedInstancesExchangeQuote(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getReservedInstancesExchangeQuote(this.ops["GetReservedInstancesExchangeQuote"].applicator.apply(partialParams));
+        return this.client.getReservedInstancesExchangeQuote(this.ops["GetReservedInstancesExchangeQuote"].apply(partialParams));
+    }
+    invokeGetSerialConsoleAccessStatus(partialParams) {
+        this.boot();
+        return this.client.getSerialConsoleAccessStatus(this.ops["GetSerialConsoleAccessStatus"].apply(partialParams));
     }
     invokeGetSpotPlacementScores(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getSpotPlacementScores(this.ops["GetSpotPlacementScores"].applicator.apply(partialParams));
+        return this.client.getSpotPlacementScores(this.ops["GetSpotPlacementScores"].apply(partialParams));
     }
     invokeGetSubnetCidrReservations(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getSubnetCidrReservations(this.ops["GetSubnetCidrReservations"].applicator.apply(partialParams));
+        return this.client.getSubnetCidrReservations(this.ops["GetSubnetCidrReservations"].apply(partialParams));
     }
     invokeGetTransitGatewayAttachmentPropagations(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getTransitGatewayAttachmentPropagations(this.ops["GetTransitGatewayAttachmentPropagations"].applicator.apply(partialParams));
+        return this.client.getTransitGatewayAttachmentPropagations(this.ops["GetTransitGatewayAttachmentPropagations"].apply(partialParams));
+    }
+    invokeGetTransitGatewayMulticastDomainAssociations(partialParams) {
+        this.boot();
+        return this.client.getTransitGatewayMulticastDomainAssociations(this.ops["GetTransitGatewayMulticastDomainAssociations"].apply(partialParams));
     }
     invokeGetTransitGatewayPrefixListReferences(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getTransitGatewayPrefixListReferences(this.ops["GetTransitGatewayPrefixListReferences"].applicator.apply(partialParams));
+        return this.client.getTransitGatewayPrefixListReferences(this.ops["GetTransitGatewayPrefixListReferences"].apply(partialParams));
     }
     invokeGetTransitGatewayRouteTableAssociations(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getTransitGatewayRouteTableAssociations(this.ops["GetTransitGatewayRouteTableAssociations"].applicator.apply(partialParams));
+        return this.client.getTransitGatewayRouteTableAssociations(this.ops["GetTransitGatewayRouteTableAssociations"].apply(partialParams));
     }
     invokeGetTransitGatewayRouteTablePropagations(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getTransitGatewayRouteTablePropagations(this.ops["GetTransitGatewayRouteTablePropagations"].applicator.apply(partialParams));
+        return this.client.getTransitGatewayRouteTablePropagations(this.ops["GetTransitGatewayRouteTablePropagations"].apply(partialParams));
     }
     invokeGetVpnConnectionDeviceSampleConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getVpnConnectionDeviceSampleConfiguration(this.ops["GetVpnConnectionDeviceSampleConfiguration"].applicator.apply(partialParams));
+        return this.client.getVpnConnectionDeviceSampleConfiguration(this.ops["GetVpnConnectionDeviceSampleConfiguration"].apply(partialParams));
+    }
+    invokeGetVpnConnectionDeviceTypes(partialParams) {
+        this.boot();
+        return this.client.getVpnConnectionDeviceTypes(this.ops["GetVpnConnectionDeviceTypes"].apply(partialParams));
     }
     invokeImportClientVpnClientCertificateRevocationList(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.importClientVpnClientCertificateRevocationList(this.ops["ImportClientVpnClientCertificateRevocationList"].applicator.apply(partialParams));
+        return this.client.importClientVpnClientCertificateRevocationList(this.ops["ImportClientVpnClientCertificateRevocationList"].apply(partialParams));
+    }
+    invokeImportImage(partialParams) {
+        this.boot();
+        return this.client.importImage(this.ops["ImportImage"].apply(partialParams));
     }
     invokeImportInstance(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.importInstance(this.ops["ImportInstance"].applicator.apply(partialParams));
+        return this.client.importInstance(this.ops["ImportInstance"].apply(partialParams));
     }
     invokeImportKeyPair(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.importKeyPair(this.ops["ImportKeyPair"].applicator.apply(partialParams));
+        return this.client.importKeyPair(this.ops["ImportKeyPair"].apply(partialParams));
+    }
+    invokeImportSnapshot(partialParams) {
+        this.boot();
+        return this.client.importSnapshot(this.ops["ImportSnapshot"].apply(partialParams));
     }
     invokeImportVolume(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.importVolume(this.ops["ImportVolume"].applicator.apply(partialParams));
+        return this.client.importVolume(this.ops["ImportVolume"].apply(partialParams));
+    }
+    invokeListImagesInRecycleBin(partialParams) {
+        this.boot();
+        return this.client.listImagesInRecycleBin(this.ops["ListImagesInRecycleBin"].apply(partialParams));
+    }
+    invokeListSnapshotsInRecycleBin(partialParams) {
+        this.boot();
+        return this.client.listSnapshotsInRecycleBin(this.ops["ListSnapshotsInRecycleBin"].apply(partialParams));
     }
     invokeModifyAddressAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyAddressAttribute(this.ops["ModifyAddressAttribute"].applicator.apply(partialParams));
+        return this.client.modifyAddressAttribute(this.ops["ModifyAddressAttribute"].apply(partialParams));
     }
     invokeModifyAvailabilityZoneGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyAvailabilityZoneGroup(this.ops["ModifyAvailabilityZoneGroup"].applicator.apply(partialParams));
+        return this.client.modifyAvailabilityZoneGroup(this.ops["ModifyAvailabilityZoneGroup"].apply(partialParams));
     }
     invokeModifyCapacityReservation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyCapacityReservation(this.ops["ModifyCapacityReservation"].applicator.apply(partialParams));
+        return this.client.modifyCapacityReservation(this.ops["ModifyCapacityReservation"].apply(partialParams));
     }
     invokeModifyCapacityReservationFleet(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyCapacityReservationFleet(this.ops["ModifyCapacityReservationFleet"].applicator.apply(partialParams));
+        return this.client.modifyCapacityReservationFleet(this.ops["ModifyCapacityReservationFleet"].apply(partialParams));
     }
     invokeModifyClientVpnEndpoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyClientVpnEndpoint(this.ops["ModifyClientVpnEndpoint"].applicator.apply(partialParams));
+        return this.client.modifyClientVpnEndpoint(this.ops["ModifyClientVpnEndpoint"].apply(partialParams));
     }
     invokeModifyDefaultCreditSpecification(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyDefaultCreditSpecification(this.ops["ModifyDefaultCreditSpecification"].applicator.apply(partialParams));
+        return this.client.modifyDefaultCreditSpecification(this.ops["ModifyDefaultCreditSpecification"].apply(partialParams));
     }
     invokeModifyEbsDefaultKmsKeyId(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyEbsDefaultKmsKeyId(this.ops["ModifyEbsDefaultKmsKeyId"].applicator.apply(partialParams));
+        return this.client.modifyEbsDefaultKmsKeyId(this.ops["ModifyEbsDefaultKmsKeyId"].apply(partialParams));
     }
     invokeModifyFleet(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyFleet(this.ops["ModifyFleet"].applicator.apply(partialParams));
+        return this.client.modifyFleet(this.ops["ModifyFleet"].apply(partialParams));
     }
     invokeModifyFpgaImageAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyFpgaImageAttribute(this.ops["ModifyFpgaImageAttribute"].applicator.apply(partialParams));
+        return this.client.modifyFpgaImageAttribute(this.ops["ModifyFpgaImageAttribute"].apply(partialParams));
     }
     invokeModifyHosts(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyHosts(this.ops["ModifyHosts"].applicator.apply(partialParams));
-    }
-    invokeModifyIdFormat(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.modifyIdFormat(this.ops["ModifyIdFormat"].applicator.apply(partialParams));
-    }
-    invokeModifyIdentityIdFormat(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.modifyIdentityIdFormat(this.ops["ModifyIdentityIdFormat"].applicator.apply(partialParams));
-    }
-    invokeModifyImageAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.modifyImageAttribute(this.ops["ModifyImageAttribute"].applicator.apply(partialParams));
-    }
-    invokeModifyInstanceAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.modifyInstanceAttribute(this.ops["ModifyInstanceAttribute"].applicator.apply(partialParams));
+        return this.client.modifyHosts(this.ops["ModifyHosts"].apply(partialParams));
     }
     invokeModifyInstanceCapacityReservationAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyInstanceCapacityReservationAttributes(this.ops["ModifyInstanceCapacityReservationAttributes"].applicator.apply(partialParams));
+        return this.client.modifyInstanceCapacityReservationAttributes(this.ops["ModifyInstanceCapacityReservationAttributes"].apply(partialParams));
     }
     invokeModifyInstanceCreditSpecification(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyInstanceCreditSpecification(this.ops["ModifyInstanceCreditSpecification"].applicator.apply(partialParams));
+        return this.client.modifyInstanceCreditSpecification(this.ops["ModifyInstanceCreditSpecification"].apply(partialParams));
     }
     invokeModifyInstanceEventStartTime(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyInstanceEventStartTime(this.ops["ModifyInstanceEventStartTime"].applicator.apply(partialParams));
+        return this.client.modifyInstanceEventStartTime(this.ops["ModifyInstanceEventStartTime"].apply(partialParams));
     }
     invokeModifyInstanceEventWindow(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyInstanceEventWindow(this.ops["ModifyInstanceEventWindow"].applicator.apply(partialParams));
+        return this.client.modifyInstanceEventWindow(this.ops["ModifyInstanceEventWindow"].apply(partialParams));
     }
     invokeModifyInstanceMetadataOptions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyInstanceMetadataOptions(this.ops["ModifyInstanceMetadataOptions"].applicator.apply(partialParams));
+        return this.client.modifyInstanceMetadataOptions(this.ops["ModifyInstanceMetadataOptions"].apply(partialParams));
     }
     invokeModifyInstancePlacement(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyInstancePlacement(this.ops["ModifyInstancePlacement"].applicator.apply(partialParams));
+        return this.client.modifyInstancePlacement(this.ops["ModifyInstancePlacement"].apply(partialParams));
     }
     invokeModifyIpam(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyIpam(this.ops["ModifyIpam"].applicator.apply(partialParams));
+        return this.client.modifyIpam(this.ops["ModifyIpam"].apply(partialParams));
     }
     invokeModifyIpamPool(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyIpamPool(this.ops["ModifyIpamPool"].applicator.apply(partialParams));
+        return this.client.modifyIpamPool(this.ops["ModifyIpamPool"].apply(partialParams));
     }
     invokeModifyIpamResourceCidr(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyIpamResourceCidr(this.ops["ModifyIpamResourceCidr"].applicator.apply(partialParams));
+        return this.client.modifyIpamResourceCidr(this.ops["ModifyIpamResourceCidr"].apply(partialParams));
     }
     invokeModifyIpamScope(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyIpamScope(this.ops["ModifyIpamScope"].applicator.apply(partialParams));
+        return this.client.modifyIpamScope(this.ops["ModifyIpamScope"].apply(partialParams));
+    }
+    invokeModifyLaunchTemplate(partialParams) {
+        this.boot();
+        return this.client.modifyLaunchTemplate(this.ops["ModifyLaunchTemplate"].apply(partialParams));
     }
     invokeModifyManagedPrefixList(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyManagedPrefixList(this.ops["ModifyManagedPrefixList"].applicator.apply(partialParams));
+        return this.client.modifyManagedPrefixList(this.ops["ModifyManagedPrefixList"].apply(partialParams));
     }
-    invokeModifyNetworkInterfaceAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeModifyPrivateDnsNameOptions(partialParams) {
         this.boot();
-        return this.client.modifyNetworkInterfaceAttribute(this.ops["ModifyNetworkInterfaceAttribute"].applicator.apply(partialParams));
+        return this.client.modifyPrivateDnsNameOptions(this.ops["ModifyPrivateDnsNameOptions"].apply(partialParams));
     }
     invokeModifyReservedInstances(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyReservedInstances(this.ops["ModifyReservedInstances"].applicator.apply(partialParams));
+        return this.client.modifyReservedInstances(this.ops["ModifyReservedInstances"].apply(partialParams));
     }
     invokeModifySecurityGroupRules(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifySecurityGroupRules(this.ops["ModifySecurityGroupRules"].applicator.apply(partialParams));
-    }
-    invokeModifySnapshotAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.modifySnapshotAttribute(this.ops["ModifySnapshotAttribute"].applicator.apply(partialParams));
+        return this.client.modifySecurityGroupRules(this.ops["ModifySecurityGroupRules"].apply(partialParams));
     }
     invokeModifySnapshotTier(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifySnapshotTier(this.ops["ModifySnapshotTier"].applicator.apply(partialParams));
+        return this.client.modifySnapshotTier(this.ops["ModifySnapshotTier"].apply(partialParams));
     }
     invokeModifySpotFleetRequest(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifySpotFleetRequest(this.ops["ModifySpotFleetRequest"].applicator.apply(partialParams));
-    }
-    invokeModifySubnetAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.modifySubnetAttribute(this.ops["ModifySubnetAttribute"].applicator.apply(partialParams));
+        return this.client.modifySpotFleetRequest(this.ops["ModifySpotFleetRequest"].apply(partialParams));
     }
     invokeModifyTrafficMirrorFilterNetworkServices(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyTrafficMirrorFilterNetworkServices(this.ops["ModifyTrafficMirrorFilterNetworkServices"].applicator.apply(partialParams));
+        return this.client.modifyTrafficMirrorFilterNetworkServices(this.ops["ModifyTrafficMirrorFilterNetworkServices"].apply(partialParams));
     }
     invokeModifyTrafficMirrorFilterRule(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyTrafficMirrorFilterRule(this.ops["ModifyTrafficMirrorFilterRule"].applicator.apply(partialParams));
+        return this.client.modifyTrafficMirrorFilterRule(this.ops["ModifyTrafficMirrorFilterRule"].apply(partialParams));
     }
     invokeModifyTrafficMirrorSession(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyTrafficMirrorSession(this.ops["ModifyTrafficMirrorSession"].applicator.apply(partialParams));
+        return this.client.modifyTrafficMirrorSession(this.ops["ModifyTrafficMirrorSession"].apply(partialParams));
     }
     invokeModifyTransitGateway(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyTransitGateway(this.ops["ModifyTransitGateway"].applicator.apply(partialParams));
+        return this.client.modifyTransitGateway(this.ops["ModifyTransitGateway"].apply(partialParams));
     }
     invokeModifyTransitGatewayPrefixListReference(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyTransitGatewayPrefixListReference(this.ops["ModifyTransitGatewayPrefixListReference"].applicator.apply(partialParams));
+        return this.client.modifyTransitGatewayPrefixListReference(this.ops["ModifyTransitGatewayPrefixListReference"].apply(partialParams));
     }
     invokeModifyTransitGatewayVpcAttachment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyTransitGatewayVpcAttachment(this.ops["ModifyTransitGatewayVpcAttachment"].applicator.apply(partialParams));
+        return this.client.modifyTransitGatewayVpcAttachment(this.ops["ModifyTransitGatewayVpcAttachment"].apply(partialParams));
     }
     invokeModifyVolume(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyVolume(this.ops["ModifyVolume"].applicator.apply(partialParams));
-    }
-    invokeModifyVolumeAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.modifyVolumeAttribute(this.ops["ModifyVolumeAttribute"].applicator.apply(partialParams));
-    }
-    invokeModifyVpcAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.modifyVpcAttribute(this.ops["ModifyVpcAttribute"].applicator.apply(partialParams));
+        return this.client.modifyVolume(this.ops["ModifyVolume"].apply(partialParams));
     }
     invokeModifyVpcEndpoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyVpcEndpoint(this.ops["ModifyVpcEndpoint"].applicator.apply(partialParams));
+        return this.client.modifyVpcEndpoint(this.ops["ModifyVpcEndpoint"].apply(partialParams));
     }
     invokeModifyVpcEndpointConnectionNotification(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyVpcEndpointConnectionNotification(this.ops["ModifyVpcEndpointConnectionNotification"].applicator.apply(partialParams));
+        return this.client.modifyVpcEndpointConnectionNotification(this.ops["ModifyVpcEndpointConnectionNotification"].apply(partialParams));
     }
     invokeModifyVpcEndpointServiceConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyVpcEndpointServiceConfiguration(this.ops["ModifyVpcEndpointServiceConfiguration"].applicator.apply(partialParams));
+        return this.client.modifyVpcEndpointServiceConfiguration(this.ops["ModifyVpcEndpointServiceConfiguration"].apply(partialParams));
     }
     invokeModifyVpcEndpointServicePayerResponsibility(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyVpcEndpointServicePayerResponsibility(this.ops["ModifyVpcEndpointServicePayerResponsibility"].applicator.apply(partialParams));
+        return this.client.modifyVpcEndpointServicePayerResponsibility(this.ops["ModifyVpcEndpointServicePayerResponsibility"].apply(partialParams));
     }
     invokeModifyVpcEndpointServicePermissions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyVpcEndpointServicePermissions(this.ops["ModifyVpcEndpointServicePermissions"].applicator.apply(partialParams));
+        return this.client.modifyVpcEndpointServicePermissions(this.ops["ModifyVpcEndpointServicePermissions"].apply(partialParams));
     }
     invokeModifyVpcPeeringConnectionOptions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyVpcPeeringConnectionOptions(this.ops["ModifyVpcPeeringConnectionOptions"].applicator.apply(partialParams));
+        return this.client.modifyVpcPeeringConnectionOptions(this.ops["ModifyVpcPeeringConnectionOptions"].apply(partialParams));
     }
     invokeModifyVpcTenancy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyVpcTenancy(this.ops["ModifyVpcTenancy"].applicator.apply(partialParams));
+        return this.client.modifyVpcTenancy(this.ops["ModifyVpcTenancy"].apply(partialParams));
     }
     invokeModifyVpnConnection(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyVpnConnection(this.ops["ModifyVpnConnection"].applicator.apply(partialParams));
+        return this.client.modifyVpnConnection(this.ops["ModifyVpnConnection"].apply(partialParams));
     }
     invokeModifyVpnConnectionOptions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyVpnConnectionOptions(this.ops["ModifyVpnConnectionOptions"].applicator.apply(partialParams));
+        return this.client.modifyVpnConnectionOptions(this.ops["ModifyVpnConnectionOptions"].apply(partialParams));
     }
     invokeModifyVpnTunnelCertificate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyVpnTunnelCertificate(this.ops["ModifyVpnTunnelCertificate"].applicator.apply(partialParams));
+        return this.client.modifyVpnTunnelCertificate(this.ops["ModifyVpnTunnelCertificate"].apply(partialParams));
     }
     invokeModifyVpnTunnelOptions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyVpnTunnelOptions(this.ops["ModifyVpnTunnelOptions"].applicator.apply(partialParams));
+        return this.client.modifyVpnTunnelOptions(this.ops["ModifyVpnTunnelOptions"].apply(partialParams));
     }
     invokeMonitorInstances(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.monitorInstances(this.ops["MonitorInstances"].applicator.apply(partialParams));
+        return this.client.monitorInstances(this.ops["MonitorInstances"].apply(partialParams));
     }
     invokeMoveAddressToVpc(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.moveAddressToVpc(this.ops["MoveAddressToVpc"].applicator.apply(partialParams));
+        return this.client.moveAddressToVpc(this.ops["MoveAddressToVpc"].apply(partialParams));
     }
     invokeMoveByoipCidrToIpam(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.moveByoipCidrToIpam(this.ops["MoveByoipCidrToIpam"].applicator.apply(partialParams));
+        return this.client.moveByoipCidrToIpam(this.ops["MoveByoipCidrToIpam"].apply(partialParams));
     }
     invokeProvisionByoipCidr(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.provisionByoipCidr(this.ops["ProvisionByoipCidr"].applicator.apply(partialParams));
+        return this.client.provisionByoipCidr(this.ops["ProvisionByoipCidr"].apply(partialParams));
     }
     invokeProvisionIpamPoolCidr(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.provisionIpamPoolCidr(this.ops["ProvisionIpamPoolCidr"].applicator.apply(partialParams));
+        return this.client.provisionIpamPoolCidr(this.ops["ProvisionIpamPoolCidr"].apply(partialParams));
     }
     invokeProvisionPublicIpv4PoolCidr(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.provisionPublicIpv4PoolCidr(this.ops["ProvisionPublicIpv4PoolCidr"].applicator.apply(partialParams));
+        return this.client.provisionPublicIpv4PoolCidr(this.ops["ProvisionPublicIpv4PoolCidr"].apply(partialParams));
     }
     invokePurchaseHostReservation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.purchaseHostReservation(this.ops["PurchaseHostReservation"].applicator.apply(partialParams));
+        return this.client.purchaseHostReservation(this.ops["PurchaseHostReservation"].apply(partialParams));
     }
     invokePurchaseReservedInstancesOffering(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.purchaseReservedInstancesOffering(this.ops["PurchaseReservedInstancesOffering"].applicator.apply(partialParams));
+        return this.client.purchaseReservedInstancesOffering(this.ops["PurchaseReservedInstancesOffering"].apply(partialParams));
     }
     invokePurchaseScheduledInstances(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.purchaseScheduledInstances(this.ops["PurchaseScheduledInstances"].applicator.apply(partialParams));
-    }
-    invokeRebootInstances(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.rebootInstances(this.ops["RebootInstances"].applicator.apply(partialParams));
+        return this.client.purchaseScheduledInstances(this.ops["PurchaseScheduledInstances"].apply(partialParams));
     }
     invokeRegisterImage(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.registerImage(this.ops["RegisterImage"].applicator.apply(partialParams));
+        return this.client.registerImage(this.ops["RegisterImage"].apply(partialParams));
+    }
+    invokeRegisterInstanceEventNotificationAttributes(partialParams) {
+        this.boot();
+        return this.client.registerInstanceEventNotificationAttributes(this.ops["RegisterInstanceEventNotificationAttributes"].apply(partialParams));
+    }
+    invokeRegisterTransitGatewayMulticastGroupMembers(partialParams) {
+        this.boot();
+        return this.client.registerTransitGatewayMulticastGroupMembers(this.ops["RegisterTransitGatewayMulticastGroupMembers"].apply(partialParams));
+    }
+    invokeRegisterTransitGatewayMulticastGroupSources(partialParams) {
+        this.boot();
+        return this.client.registerTransitGatewayMulticastGroupSources(this.ops["RegisterTransitGatewayMulticastGroupSources"].apply(partialParams));
+    }
+    invokeRejectTransitGatewayMulticastDomainAssociations(partialParams) {
+        this.boot();
+        return this.client.rejectTransitGatewayMulticastDomainAssociations(this.ops["RejectTransitGatewayMulticastDomainAssociations"].apply(partialParams));
     }
     invokeRejectTransitGatewayPeeringAttachment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.rejectTransitGatewayPeeringAttachment(this.ops["RejectTransitGatewayPeeringAttachment"].applicator.apply(partialParams));
+        return this.client.rejectTransitGatewayPeeringAttachment(this.ops["RejectTransitGatewayPeeringAttachment"].apply(partialParams));
     }
     invokeRejectTransitGatewayVpcAttachment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.rejectTransitGatewayVpcAttachment(this.ops["RejectTransitGatewayVpcAttachment"].applicator.apply(partialParams));
+        return this.client.rejectTransitGatewayVpcAttachment(this.ops["RejectTransitGatewayVpcAttachment"].apply(partialParams));
     }
     invokeRejectVpcEndpointConnections(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.rejectVpcEndpointConnections(this.ops["RejectVpcEndpointConnections"].applicator.apply(partialParams));
+        return this.client.rejectVpcEndpointConnections(this.ops["RejectVpcEndpointConnections"].apply(partialParams));
     }
     invokeRejectVpcPeeringConnection(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.rejectVpcPeeringConnection(this.ops["RejectVpcPeeringConnection"].applicator.apply(partialParams));
+        return this.client.rejectVpcPeeringConnection(this.ops["RejectVpcPeeringConnection"].apply(partialParams));
     }
     invokeReleaseHosts(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.releaseHosts(this.ops["ReleaseHosts"].applicator.apply(partialParams));
+        return this.client.releaseHosts(this.ops["ReleaseHosts"].apply(partialParams));
     }
     invokeReleaseIpamPoolAllocation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.releaseIpamPoolAllocation(this.ops["ReleaseIpamPoolAllocation"].applicator.apply(partialParams));
+        return this.client.releaseIpamPoolAllocation(this.ops["ReleaseIpamPoolAllocation"].apply(partialParams));
     }
     invokeReplaceIamInstanceProfileAssociation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.replaceIamInstanceProfileAssociation(this.ops["ReplaceIamInstanceProfileAssociation"].applicator.apply(partialParams));
+        return this.client.replaceIamInstanceProfileAssociation(this.ops["ReplaceIamInstanceProfileAssociation"].apply(partialParams));
     }
     invokeReplaceNetworkAclAssociation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.replaceNetworkAclAssociation(this.ops["ReplaceNetworkAclAssociation"].applicator.apply(partialParams));
-    }
-    invokeReplaceNetworkAclEntry(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.replaceNetworkAclEntry(this.ops["ReplaceNetworkAclEntry"].applicator.apply(partialParams));
-    }
-    invokeReplaceRoute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.replaceRoute(this.ops["ReplaceRoute"].applicator.apply(partialParams));
+        return this.client.replaceNetworkAclAssociation(this.ops["ReplaceNetworkAclAssociation"].apply(partialParams));
     }
     invokeReplaceRouteTableAssociation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.replaceRouteTableAssociation(this.ops["ReplaceRouteTableAssociation"].applicator.apply(partialParams));
+        return this.client.replaceRouteTableAssociation(this.ops["ReplaceRouteTableAssociation"].apply(partialParams));
     }
     invokeReplaceTransitGatewayRoute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.replaceTransitGatewayRoute(this.ops["ReplaceTransitGatewayRoute"].applicator.apply(partialParams));
-    }
-    invokeReportInstanceStatus(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.reportInstanceStatus(this.ops["ReportInstanceStatus"].applicator.apply(partialParams));
+        return this.client.replaceTransitGatewayRoute(this.ops["ReplaceTransitGatewayRoute"].apply(partialParams));
     }
     invokeRequestSpotFleet(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.requestSpotFleet(this.ops["RequestSpotFleet"].applicator.apply(partialParams));
+        return this.client.requestSpotFleet(this.ops["RequestSpotFleet"].apply(partialParams));
+    }
+    invokeRequestSpotInstances(partialParams) {
+        this.boot();
+        return this.client.requestSpotInstances(this.ops["RequestSpotInstances"].apply(partialParams));
     }
     invokeResetAddressAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.resetAddressAttribute(this.ops["ResetAddressAttribute"].applicator.apply(partialParams));
+        return this.client.resetAddressAttribute(this.ops["ResetAddressAttribute"].apply(partialParams));
+    }
+    invokeResetEbsDefaultKmsKeyId(partialParams) {
+        this.boot();
+        return this.client.resetEbsDefaultKmsKeyId(this.ops["ResetEbsDefaultKmsKeyId"].apply(partialParams));
     }
     invokeResetFpgaImageAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.resetFpgaImageAttribute(this.ops["ResetFpgaImageAttribute"].applicator.apply(partialParams));
-    }
-    invokeResetImageAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.resetImageAttribute(this.ops["ResetImageAttribute"].applicator.apply(partialParams));
-    }
-    invokeResetInstanceAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.resetInstanceAttribute(this.ops["ResetInstanceAttribute"].applicator.apply(partialParams));
-    }
-    invokeResetNetworkInterfaceAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.resetNetworkInterfaceAttribute(this.ops["ResetNetworkInterfaceAttribute"].applicator.apply(partialParams));
-    }
-    invokeResetSnapshotAttribute(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.resetSnapshotAttribute(this.ops["ResetSnapshotAttribute"].applicator.apply(partialParams));
+        return this.client.resetFpgaImageAttribute(this.ops["ResetFpgaImageAttribute"].apply(partialParams));
     }
     invokeRestoreAddressToClassic(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.restoreAddressToClassic(this.ops["RestoreAddressToClassic"].applicator.apply(partialParams));
+        return this.client.restoreAddressToClassic(this.ops["RestoreAddressToClassic"].apply(partialParams));
     }
     invokeRestoreImageFromRecycleBin(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.restoreImageFromRecycleBin(this.ops["RestoreImageFromRecycleBin"].applicator.apply(partialParams));
+        return this.client.restoreImageFromRecycleBin(this.ops["RestoreImageFromRecycleBin"].apply(partialParams));
     }
     invokeRestoreManagedPrefixListVersion(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.restoreManagedPrefixListVersion(this.ops["RestoreManagedPrefixListVersion"].applicator.apply(partialParams));
+        return this.client.restoreManagedPrefixListVersion(this.ops["RestoreManagedPrefixListVersion"].apply(partialParams));
     }
     invokeRestoreSnapshotFromRecycleBin(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.restoreSnapshotFromRecycleBin(this.ops["RestoreSnapshotFromRecycleBin"].applicator.apply(partialParams));
+        return this.client.restoreSnapshotFromRecycleBin(this.ops["RestoreSnapshotFromRecycleBin"].apply(partialParams));
     }
     invokeRestoreSnapshotTier(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.restoreSnapshotTier(this.ops["RestoreSnapshotTier"].applicator.apply(partialParams));
+        return this.client.restoreSnapshotTier(this.ops["RestoreSnapshotTier"].apply(partialParams));
     }
     invokeRevokeClientVpnIngress(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.revokeClientVpnIngress(this.ops["RevokeClientVpnIngress"].applicator.apply(partialParams));
+        return this.client.revokeClientVpnIngress(this.ops["RevokeClientVpnIngress"].apply(partialParams));
     }
     invokeRevokeSecurityGroupEgress(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.revokeSecurityGroupEgress(this.ops["RevokeSecurityGroupEgress"].applicator.apply(partialParams));
+        return this.client.revokeSecurityGroupEgress(this.ops["RevokeSecurityGroupEgress"].apply(partialParams));
+    }
+    invokeRevokeSecurityGroupIngress(partialParams) {
+        this.boot();
+        return this.client.revokeSecurityGroupIngress(this.ops["RevokeSecurityGroupIngress"].apply(partialParams));
     }
     invokeRunInstances(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.runInstances(this.ops["RunInstances"].applicator.apply(partialParams));
+        return this.client.runInstances(this.ops["RunInstances"].apply(partialParams));
     }
     invokeRunScheduledInstances(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.runScheduledInstances(this.ops["RunScheduledInstances"].applicator.apply(partialParams));
+        return this.client.runScheduledInstances(this.ops["RunScheduledInstances"].apply(partialParams));
     }
     invokeSearchLocalGatewayRoutes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.searchLocalGatewayRoutes(this.ops["SearchLocalGatewayRoutes"].applicator.apply(partialParams));
+        return this.client.searchLocalGatewayRoutes(this.ops["SearchLocalGatewayRoutes"].apply(partialParams));
+    }
+    invokeSearchTransitGatewayMulticastGroups(partialParams) {
+        this.boot();
+        return this.client.searchTransitGatewayMulticastGroups(this.ops["SearchTransitGatewayMulticastGroups"].apply(partialParams));
     }
     invokeSearchTransitGatewayRoutes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.searchTransitGatewayRoutes(this.ops["SearchTransitGatewayRoutes"].applicator.apply(partialParams));
-    }
-    invokeSendDiagnosticInterrupt(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.sendDiagnosticInterrupt(this.ops["SendDiagnosticInterrupt"].applicator.apply(partialParams));
+        return this.client.searchTransitGatewayRoutes(this.ops["SearchTransitGatewayRoutes"].apply(partialParams));
     }
     invokeStartInstances(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startInstances(this.ops["StartInstances"].applicator.apply(partialParams));
+        return this.client.startInstances(this.ops["StartInstances"].apply(partialParams));
     }
     invokeStartNetworkInsightsAccessScopeAnalysis(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startNetworkInsightsAccessScopeAnalysis(this.ops["StartNetworkInsightsAccessScopeAnalysis"].applicator.apply(partialParams));
+        return this.client.startNetworkInsightsAccessScopeAnalysis(this.ops["StartNetworkInsightsAccessScopeAnalysis"].apply(partialParams));
     }
     invokeStartNetworkInsightsAnalysis(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startNetworkInsightsAnalysis(this.ops["StartNetworkInsightsAnalysis"].applicator.apply(partialParams));
+        return this.client.startNetworkInsightsAnalysis(this.ops["StartNetworkInsightsAnalysis"].apply(partialParams));
     }
     invokeStartVpcEndpointServicePrivateDnsVerification(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startVpcEndpointServicePrivateDnsVerification(this.ops["StartVpcEndpointServicePrivateDnsVerification"].applicator.apply(partialParams));
+        return this.client.startVpcEndpointServicePrivateDnsVerification(this.ops["StartVpcEndpointServicePrivateDnsVerification"].apply(partialParams));
     }
     invokeStopInstances(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.stopInstances(this.ops["StopInstances"].applicator.apply(partialParams));
+        return this.client.stopInstances(this.ops["StopInstances"].apply(partialParams));
     }
     invokeTerminateClientVpnConnections(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.terminateClientVpnConnections(this.ops["TerminateClientVpnConnections"].applicator.apply(partialParams));
+        return this.client.terminateClientVpnConnections(this.ops["TerminateClientVpnConnections"].apply(partialParams));
     }
     invokeTerminateInstances(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.terminateInstances(this.ops["TerminateInstances"].applicator.apply(partialParams));
+        return this.client.terminateInstances(this.ops["TerminateInstances"].apply(partialParams));
     }
     invokeUnassignIpv6Addresses(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.unassignIpv6Addresses(this.ops["UnassignIpv6Addresses"].applicator.apply(partialParams));
-    }
-    invokeUnassignPrivateIpAddresses(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.unassignPrivateIpAddresses(this.ops["UnassignPrivateIpAddresses"].applicator.apply(partialParams));
+        return this.client.unassignIpv6Addresses(this.ops["UnassignIpv6Addresses"].apply(partialParams));
     }
     invokeUnmonitorInstances(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.unmonitorInstances(this.ops["UnmonitorInstances"].applicator.apply(partialParams));
+        return this.client.unmonitorInstances(this.ops["UnmonitorInstances"].apply(partialParams));
+    }
+    invokeUpdateSecurityGroupRuleDescriptionsEgress(partialParams) {
+        this.boot();
+        return this.client.updateSecurityGroupRuleDescriptionsEgress(this.ops["UpdateSecurityGroupRuleDescriptionsEgress"].apply(partialParams));
+    }
+    invokeUpdateSecurityGroupRuleDescriptionsIngress(partialParams) {
+        this.boot();
+        return this.client.updateSecurityGroupRuleDescriptionsIngress(this.ops["UpdateSecurityGroupRuleDescriptionsIngress"].apply(partialParams));
     }
     invokeWithdrawByoipCidr(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.withdrawByoipCidr(this.ops["WithdrawByoipCidr"].applicator.apply(partialParams));
+        return this.client.withdrawByoipCidr(this.ops["WithdrawByoipCidr"].apply(partialParams));
     }
 }
 exports.default = default_1;

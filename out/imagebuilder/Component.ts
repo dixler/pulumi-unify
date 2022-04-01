@@ -34,9 +34,16 @@ import {
     ImportComponentRequest,
     ImportVmImageRequest,
     ListComponentBuildVersionsRequest,
+    ListComponentsRequest,
+    ListContainerRecipesRequest,
+    ListDistributionConfigurationsRequest,
     ListImageBuildVersionsRequest,
     ListImagePackagesRequest,
     ListImagePipelineImagesRequest,
+    ListImagePipelinesRequest,
+    ListImageRecipesRequest,
+    ListImagesRequest,
+    ListInfrastructureConfigurationsRequest,
     ListTagsForResourceRequest,
     PutComponentPolicyRequest,
     PutContainerRecipePolicyRequest,
@@ -77,9 +84,16 @@ import {
     ImportComponentResponse,
     ImportVmImageResponse,
     ListComponentBuildVersionsResponse,
+    ListComponentsResponse,
+    ListContainerRecipesResponse,
+    ListDistributionConfigurationsResponse,
     ListImageBuildVersionsResponse,
     ListImagePackagesResponse,
     ListImagePipelineImagesResponse,
+    ListImagePipelinesResponse,
+    ListImageRecipesResponse,
+    ListImagesResponse,
+    ListInfrastructureConfigurationsResponse,
     ListTagsForResourceResponse,
     PutComponentPolicyResponse,
     PutContainerRecipePolicyResponse,
@@ -105,21 +119,24 @@ export default class extends aws.imagebuilder.Component {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.imagebuilder.Component>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.Imagebuilder()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -129,479 +146,457 @@ export default class extends aws.imagebuilder.Component {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCancelImageCreation(partialParams: ToOptional<{
-      [K in keyof CancelImageCreationRequest & keyof CancelImageCreationRequest & keyof CancelImageCreationRequest & keyof CancelImageCreationRequest & keyof CancelImageCreationRequest & keyof CancelImageCreationRequest & keyof CancelImageCreationRequest & keyof CancelImageCreationRequest & keyof CancelImageCreationRequest & keyof CancelImageCreationRequest & keyof CancelImageCreationRequest & keyof CancelImageCreationRequest]: (CancelImageCreationRequest & CancelImageCreationRequest & CancelImageCreationRequest & CancelImageCreationRequest & CancelImageCreationRequest & CancelImageCreationRequest & CancelImageCreationRequest & CancelImageCreationRequest & CancelImageCreationRequest & CancelImageCreationRequest & CancelImageCreationRequest & CancelImageCreationRequest)[K]
+      [K in keyof CancelImageCreationRequest]: (CancelImageCreationRequest)[K]
     }>): Request<CancelImageCreationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.cancelImageCreation(
-          this.ops["CancelImageCreation"].applicator.apply(partialParams)
+          this.ops["CancelImageCreation"].apply(partialParams)
         );
     }
 
     invokeCreateComponent(partialParams: ToOptional<{
-      [K in keyof CreateComponentRequest & keyof CreateComponentRequest & keyof CreateComponentRequest & keyof CreateComponentRequest & keyof CreateComponentRequest & keyof CreateComponentRequest & keyof CreateComponentRequest & keyof CreateComponentRequest & keyof CreateComponentRequest & keyof CreateComponentRequest & keyof CreateComponentRequest & keyof CreateComponentRequest]: (CreateComponentRequest & CreateComponentRequest & CreateComponentRequest & CreateComponentRequest & CreateComponentRequest & CreateComponentRequest & CreateComponentRequest & CreateComponentRequest & CreateComponentRequest & CreateComponentRequest & CreateComponentRequest & CreateComponentRequest)[K]
+      [K in keyof CreateComponentRequest]: (CreateComponentRequest)[K]
     }>): Request<CreateComponentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createComponent(
-          this.ops["CreateComponent"].applicator.apply(partialParams)
+          this.ops["CreateComponent"].apply(partialParams)
         );
     }
 
     invokeCreateContainerRecipe(partialParams: ToOptional<{
-      [K in keyof CreateContainerRecipeRequest & keyof CreateContainerRecipeRequest & keyof CreateContainerRecipeRequest & keyof CreateContainerRecipeRequest & keyof CreateContainerRecipeRequest & keyof CreateContainerRecipeRequest & keyof CreateContainerRecipeRequest & keyof CreateContainerRecipeRequest & keyof CreateContainerRecipeRequest & keyof CreateContainerRecipeRequest & keyof CreateContainerRecipeRequest & keyof CreateContainerRecipeRequest]: (CreateContainerRecipeRequest & CreateContainerRecipeRequest & CreateContainerRecipeRequest & CreateContainerRecipeRequest & CreateContainerRecipeRequest & CreateContainerRecipeRequest & CreateContainerRecipeRequest & CreateContainerRecipeRequest & CreateContainerRecipeRequest & CreateContainerRecipeRequest & CreateContainerRecipeRequest & CreateContainerRecipeRequest)[K]
+      [K in keyof CreateContainerRecipeRequest]: (CreateContainerRecipeRequest)[K]
     }>): Request<CreateContainerRecipeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createContainerRecipe(
-          this.ops["CreateContainerRecipe"].applicator.apply(partialParams)
+          this.ops["CreateContainerRecipe"].apply(partialParams)
         );
     }
 
     invokeCreateDistributionConfiguration(partialParams: ToOptional<{
-      [K in keyof CreateDistributionConfigurationRequest & keyof CreateDistributionConfigurationRequest & keyof CreateDistributionConfigurationRequest & keyof CreateDistributionConfigurationRequest & keyof CreateDistributionConfigurationRequest & keyof CreateDistributionConfigurationRequest & keyof CreateDistributionConfigurationRequest & keyof CreateDistributionConfigurationRequest & keyof CreateDistributionConfigurationRequest & keyof CreateDistributionConfigurationRequest & keyof CreateDistributionConfigurationRequest & keyof CreateDistributionConfigurationRequest]: (CreateDistributionConfigurationRequest & CreateDistributionConfigurationRequest & CreateDistributionConfigurationRequest & CreateDistributionConfigurationRequest & CreateDistributionConfigurationRequest & CreateDistributionConfigurationRequest & CreateDistributionConfigurationRequest & CreateDistributionConfigurationRequest & CreateDistributionConfigurationRequest & CreateDistributionConfigurationRequest & CreateDistributionConfigurationRequest & CreateDistributionConfigurationRequest)[K]
+      [K in keyof CreateDistributionConfigurationRequest]: (CreateDistributionConfigurationRequest)[K]
     }>): Request<CreateDistributionConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDistributionConfiguration(
-          this.ops["CreateDistributionConfiguration"].applicator.apply(partialParams)
+          this.ops["CreateDistributionConfiguration"].apply(partialParams)
         );
     }
 
     invokeCreateImage(partialParams: ToOptional<{
-      [K in keyof CreateImageRequest & keyof CreateImageRequest & keyof CreateImageRequest & keyof CreateImageRequest & keyof CreateImageRequest & keyof CreateImageRequest & keyof CreateImageRequest & keyof CreateImageRequest & keyof CreateImageRequest & keyof CreateImageRequest & keyof CreateImageRequest & keyof CreateImageRequest]: (CreateImageRequest & CreateImageRequest & CreateImageRequest & CreateImageRequest & CreateImageRequest & CreateImageRequest & CreateImageRequest & CreateImageRequest & CreateImageRequest & CreateImageRequest & CreateImageRequest & CreateImageRequest)[K]
+      [K in keyof CreateImageRequest]: (CreateImageRequest)[K]
     }>): Request<CreateImageResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createImage(
-          this.ops["CreateImage"].applicator.apply(partialParams)
+          this.ops["CreateImage"].apply(partialParams)
         );
     }
 
     invokeCreateImagePipeline(partialParams: ToOptional<{
-      [K in keyof CreateImagePipelineRequest & keyof CreateImagePipelineRequest & keyof CreateImagePipelineRequest & keyof CreateImagePipelineRequest & keyof CreateImagePipelineRequest & keyof CreateImagePipelineRequest & keyof CreateImagePipelineRequest & keyof CreateImagePipelineRequest & keyof CreateImagePipelineRequest & keyof CreateImagePipelineRequest & keyof CreateImagePipelineRequest & keyof CreateImagePipelineRequest]: (CreateImagePipelineRequest & CreateImagePipelineRequest & CreateImagePipelineRequest & CreateImagePipelineRequest & CreateImagePipelineRequest & CreateImagePipelineRequest & CreateImagePipelineRequest & CreateImagePipelineRequest & CreateImagePipelineRequest & CreateImagePipelineRequest & CreateImagePipelineRequest & CreateImagePipelineRequest)[K]
+      [K in keyof CreateImagePipelineRequest]: (CreateImagePipelineRequest)[K]
     }>): Request<CreateImagePipelineResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createImagePipeline(
-          this.ops["CreateImagePipeline"].applicator.apply(partialParams)
+          this.ops["CreateImagePipeline"].apply(partialParams)
         );
     }
 
     invokeCreateImageRecipe(partialParams: ToOptional<{
-      [K in keyof CreateImageRecipeRequest & keyof CreateImageRecipeRequest & keyof CreateImageRecipeRequest & keyof CreateImageRecipeRequest & keyof CreateImageRecipeRequest & keyof CreateImageRecipeRequest & keyof CreateImageRecipeRequest & keyof CreateImageRecipeRequest & keyof CreateImageRecipeRequest & keyof CreateImageRecipeRequest & keyof CreateImageRecipeRequest & keyof CreateImageRecipeRequest]: (CreateImageRecipeRequest & CreateImageRecipeRequest & CreateImageRecipeRequest & CreateImageRecipeRequest & CreateImageRecipeRequest & CreateImageRecipeRequest & CreateImageRecipeRequest & CreateImageRecipeRequest & CreateImageRecipeRequest & CreateImageRecipeRequest & CreateImageRecipeRequest & CreateImageRecipeRequest)[K]
+      [K in keyof CreateImageRecipeRequest]: (CreateImageRecipeRequest)[K]
     }>): Request<CreateImageRecipeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createImageRecipe(
-          this.ops["CreateImageRecipe"].applicator.apply(partialParams)
+          this.ops["CreateImageRecipe"].apply(partialParams)
         );
     }
 
     invokeCreateInfrastructureConfiguration(partialParams: ToOptional<{
-      [K in keyof CreateInfrastructureConfigurationRequest & keyof CreateInfrastructureConfigurationRequest & keyof CreateInfrastructureConfigurationRequest & keyof CreateInfrastructureConfigurationRequest & keyof CreateInfrastructureConfigurationRequest & keyof CreateInfrastructureConfigurationRequest & keyof CreateInfrastructureConfigurationRequest & keyof CreateInfrastructureConfigurationRequest & keyof CreateInfrastructureConfigurationRequest & keyof CreateInfrastructureConfigurationRequest & keyof CreateInfrastructureConfigurationRequest & keyof CreateInfrastructureConfigurationRequest]: (CreateInfrastructureConfigurationRequest & CreateInfrastructureConfigurationRequest & CreateInfrastructureConfigurationRequest & CreateInfrastructureConfigurationRequest & CreateInfrastructureConfigurationRequest & CreateInfrastructureConfigurationRequest & CreateInfrastructureConfigurationRequest & CreateInfrastructureConfigurationRequest & CreateInfrastructureConfigurationRequest & CreateInfrastructureConfigurationRequest & CreateInfrastructureConfigurationRequest & CreateInfrastructureConfigurationRequest)[K]
+      [K in keyof CreateInfrastructureConfigurationRequest]: (CreateInfrastructureConfigurationRequest)[K]
     }>): Request<CreateInfrastructureConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createInfrastructureConfiguration(
-          this.ops["CreateInfrastructureConfiguration"].applicator.apply(partialParams)
+          this.ops["CreateInfrastructureConfiguration"].apply(partialParams)
         );
     }
 
     invokeDeleteComponent(partialParams: ToOptional<{
-      [K in keyof DeleteComponentRequest & keyof DeleteComponentRequest & keyof DeleteComponentRequest & keyof DeleteComponentRequest & keyof DeleteComponentRequest & keyof DeleteComponentRequest & keyof DeleteComponentRequest & keyof DeleteComponentRequest & keyof DeleteComponentRequest & keyof DeleteComponentRequest & keyof DeleteComponentRequest & keyof DeleteComponentRequest]: (DeleteComponentRequest & DeleteComponentRequest & DeleteComponentRequest & DeleteComponentRequest & DeleteComponentRequest & DeleteComponentRequest & DeleteComponentRequest & DeleteComponentRequest & DeleteComponentRequest & DeleteComponentRequest & DeleteComponentRequest & DeleteComponentRequest)[K]
+      [K in keyof DeleteComponentRequest]: (DeleteComponentRequest)[K]
     }>): Request<DeleteComponentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteComponent(
-          this.ops["DeleteComponent"].applicator.apply(partialParams)
+          this.ops["DeleteComponent"].apply(partialParams)
         );
     }
 
     invokeDeleteContainerRecipe(partialParams: ToOptional<{
-      [K in keyof DeleteContainerRecipeRequest & keyof DeleteContainerRecipeRequest & keyof DeleteContainerRecipeRequest & keyof DeleteContainerRecipeRequest & keyof DeleteContainerRecipeRequest & keyof DeleteContainerRecipeRequest & keyof DeleteContainerRecipeRequest & keyof DeleteContainerRecipeRequest & keyof DeleteContainerRecipeRequest & keyof DeleteContainerRecipeRequest & keyof DeleteContainerRecipeRequest & keyof DeleteContainerRecipeRequest]: (DeleteContainerRecipeRequest & DeleteContainerRecipeRequest & DeleteContainerRecipeRequest & DeleteContainerRecipeRequest & DeleteContainerRecipeRequest & DeleteContainerRecipeRequest & DeleteContainerRecipeRequest & DeleteContainerRecipeRequest & DeleteContainerRecipeRequest & DeleteContainerRecipeRequest & DeleteContainerRecipeRequest & DeleteContainerRecipeRequest)[K]
+      [K in keyof DeleteContainerRecipeRequest]: (DeleteContainerRecipeRequest)[K]
     }>): Request<DeleteContainerRecipeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteContainerRecipe(
-          this.ops["DeleteContainerRecipe"].applicator.apply(partialParams)
+          this.ops["DeleteContainerRecipe"].apply(partialParams)
         );
     }
 
     invokeDeleteDistributionConfiguration(partialParams: ToOptional<{
-      [K in keyof DeleteDistributionConfigurationRequest & keyof DeleteDistributionConfigurationRequest & keyof DeleteDistributionConfigurationRequest & keyof DeleteDistributionConfigurationRequest & keyof DeleteDistributionConfigurationRequest & keyof DeleteDistributionConfigurationRequest & keyof DeleteDistributionConfigurationRequest & keyof DeleteDistributionConfigurationRequest & keyof DeleteDistributionConfigurationRequest & keyof DeleteDistributionConfigurationRequest & keyof DeleteDistributionConfigurationRequest & keyof DeleteDistributionConfigurationRequest]: (DeleteDistributionConfigurationRequest & DeleteDistributionConfigurationRequest & DeleteDistributionConfigurationRequest & DeleteDistributionConfigurationRequest & DeleteDistributionConfigurationRequest & DeleteDistributionConfigurationRequest & DeleteDistributionConfigurationRequest & DeleteDistributionConfigurationRequest & DeleteDistributionConfigurationRequest & DeleteDistributionConfigurationRequest & DeleteDistributionConfigurationRequest & DeleteDistributionConfigurationRequest)[K]
+      [K in keyof DeleteDistributionConfigurationRequest]: (DeleteDistributionConfigurationRequest)[K]
     }>): Request<DeleteDistributionConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDistributionConfiguration(
-          this.ops["DeleteDistributionConfiguration"].applicator.apply(partialParams)
+          this.ops["DeleteDistributionConfiguration"].apply(partialParams)
         );
     }
 
     invokeDeleteImage(partialParams: ToOptional<{
-      [K in keyof DeleteImageRequest & keyof DeleteImageRequest & keyof DeleteImageRequest & keyof DeleteImageRequest & keyof DeleteImageRequest & keyof DeleteImageRequest & keyof DeleteImageRequest & keyof DeleteImageRequest & keyof DeleteImageRequest & keyof DeleteImageRequest & keyof DeleteImageRequest & keyof DeleteImageRequest]: (DeleteImageRequest & DeleteImageRequest & DeleteImageRequest & DeleteImageRequest & DeleteImageRequest & DeleteImageRequest & DeleteImageRequest & DeleteImageRequest & DeleteImageRequest & DeleteImageRequest & DeleteImageRequest & DeleteImageRequest)[K]
+      [K in keyof DeleteImageRequest]: (DeleteImageRequest)[K]
     }>): Request<DeleteImageResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteImage(
-          this.ops["DeleteImage"].applicator.apply(partialParams)
+          this.ops["DeleteImage"].apply(partialParams)
         );
     }
 
     invokeDeleteImagePipeline(partialParams: ToOptional<{
-      [K in keyof DeleteImagePipelineRequest & keyof DeleteImagePipelineRequest & keyof DeleteImagePipelineRequest & keyof DeleteImagePipelineRequest & keyof DeleteImagePipelineRequest & keyof DeleteImagePipelineRequest & keyof DeleteImagePipelineRequest & keyof DeleteImagePipelineRequest & keyof DeleteImagePipelineRequest & keyof DeleteImagePipelineRequest & keyof DeleteImagePipelineRequest & keyof DeleteImagePipelineRequest]: (DeleteImagePipelineRequest & DeleteImagePipelineRequest & DeleteImagePipelineRequest & DeleteImagePipelineRequest & DeleteImagePipelineRequest & DeleteImagePipelineRequest & DeleteImagePipelineRequest & DeleteImagePipelineRequest & DeleteImagePipelineRequest & DeleteImagePipelineRequest & DeleteImagePipelineRequest & DeleteImagePipelineRequest)[K]
+      [K in keyof DeleteImagePipelineRequest]: (DeleteImagePipelineRequest)[K]
     }>): Request<DeleteImagePipelineResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteImagePipeline(
-          this.ops["DeleteImagePipeline"].applicator.apply(partialParams)
+          this.ops["DeleteImagePipeline"].apply(partialParams)
         );
     }
 
     invokeDeleteImageRecipe(partialParams: ToOptional<{
-      [K in keyof DeleteImageRecipeRequest & keyof DeleteImageRecipeRequest & keyof DeleteImageRecipeRequest & keyof DeleteImageRecipeRequest & keyof DeleteImageRecipeRequest & keyof DeleteImageRecipeRequest & keyof DeleteImageRecipeRequest & keyof DeleteImageRecipeRequest & keyof DeleteImageRecipeRequest & keyof DeleteImageRecipeRequest & keyof DeleteImageRecipeRequest & keyof DeleteImageRecipeRequest]: (DeleteImageRecipeRequest & DeleteImageRecipeRequest & DeleteImageRecipeRequest & DeleteImageRecipeRequest & DeleteImageRecipeRequest & DeleteImageRecipeRequest & DeleteImageRecipeRequest & DeleteImageRecipeRequest & DeleteImageRecipeRequest & DeleteImageRecipeRequest & DeleteImageRecipeRequest & DeleteImageRecipeRequest)[K]
+      [K in keyof DeleteImageRecipeRequest]: (DeleteImageRecipeRequest)[K]
     }>): Request<DeleteImageRecipeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteImageRecipe(
-          this.ops["DeleteImageRecipe"].applicator.apply(partialParams)
+          this.ops["DeleteImageRecipe"].apply(partialParams)
         );
     }
 
     invokeDeleteInfrastructureConfiguration(partialParams: ToOptional<{
-      [K in keyof DeleteInfrastructureConfigurationRequest & keyof DeleteInfrastructureConfigurationRequest & keyof DeleteInfrastructureConfigurationRequest & keyof DeleteInfrastructureConfigurationRequest & keyof DeleteInfrastructureConfigurationRequest & keyof DeleteInfrastructureConfigurationRequest & keyof DeleteInfrastructureConfigurationRequest & keyof DeleteInfrastructureConfigurationRequest & keyof DeleteInfrastructureConfigurationRequest & keyof DeleteInfrastructureConfigurationRequest & keyof DeleteInfrastructureConfigurationRequest & keyof DeleteInfrastructureConfigurationRequest]: (DeleteInfrastructureConfigurationRequest & DeleteInfrastructureConfigurationRequest & DeleteInfrastructureConfigurationRequest & DeleteInfrastructureConfigurationRequest & DeleteInfrastructureConfigurationRequest & DeleteInfrastructureConfigurationRequest & DeleteInfrastructureConfigurationRequest & DeleteInfrastructureConfigurationRequest & DeleteInfrastructureConfigurationRequest & DeleteInfrastructureConfigurationRequest & DeleteInfrastructureConfigurationRequest & DeleteInfrastructureConfigurationRequest)[K]
+      [K in keyof DeleteInfrastructureConfigurationRequest]: (DeleteInfrastructureConfigurationRequest)[K]
     }>): Request<DeleteInfrastructureConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteInfrastructureConfiguration(
-          this.ops["DeleteInfrastructureConfiguration"].applicator.apply(partialParams)
+          this.ops["DeleteInfrastructureConfiguration"].apply(partialParams)
         );
     }
 
     invokeGetComponent(partialParams: ToOptional<{
-      [K in keyof GetComponentRequest & keyof GetComponentRequest & keyof GetComponentRequest & keyof GetComponentRequest & keyof GetComponentRequest & keyof GetComponentRequest & keyof GetComponentRequest & keyof GetComponentRequest & keyof GetComponentRequest & keyof GetComponentRequest & keyof GetComponentRequest & keyof GetComponentRequest]: (GetComponentRequest & GetComponentRequest & GetComponentRequest & GetComponentRequest & GetComponentRequest & GetComponentRequest & GetComponentRequest & GetComponentRequest & GetComponentRequest & GetComponentRequest & GetComponentRequest & GetComponentRequest)[K]
+      [K in keyof GetComponentRequest]: (GetComponentRequest)[K]
     }>): Request<GetComponentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getComponent(
-          this.ops["GetComponent"].applicator.apply(partialParams)
+          this.ops["GetComponent"].apply(partialParams)
         );
     }
 
     invokeGetComponentPolicy(partialParams: ToOptional<{
-      [K in keyof GetComponentPolicyRequest & keyof GetComponentPolicyRequest & keyof GetComponentPolicyRequest & keyof GetComponentPolicyRequest & keyof GetComponentPolicyRequest & keyof GetComponentPolicyRequest & keyof GetComponentPolicyRequest & keyof GetComponentPolicyRequest & keyof GetComponentPolicyRequest & keyof GetComponentPolicyRequest & keyof GetComponentPolicyRequest & keyof GetComponentPolicyRequest]: (GetComponentPolicyRequest & GetComponentPolicyRequest & GetComponentPolicyRequest & GetComponentPolicyRequest & GetComponentPolicyRequest & GetComponentPolicyRequest & GetComponentPolicyRequest & GetComponentPolicyRequest & GetComponentPolicyRequest & GetComponentPolicyRequest & GetComponentPolicyRequest & GetComponentPolicyRequest)[K]
+      [K in keyof GetComponentPolicyRequest]: (GetComponentPolicyRequest)[K]
     }>): Request<GetComponentPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getComponentPolicy(
-          this.ops["GetComponentPolicy"].applicator.apply(partialParams)
+          this.ops["GetComponentPolicy"].apply(partialParams)
         );
     }
 
     invokeGetContainerRecipe(partialParams: ToOptional<{
-      [K in keyof GetContainerRecipeRequest & keyof GetContainerRecipeRequest & keyof GetContainerRecipeRequest & keyof GetContainerRecipeRequest & keyof GetContainerRecipeRequest & keyof GetContainerRecipeRequest & keyof GetContainerRecipeRequest & keyof GetContainerRecipeRequest & keyof GetContainerRecipeRequest & keyof GetContainerRecipeRequest & keyof GetContainerRecipeRequest & keyof GetContainerRecipeRequest]: (GetContainerRecipeRequest & GetContainerRecipeRequest & GetContainerRecipeRequest & GetContainerRecipeRequest & GetContainerRecipeRequest & GetContainerRecipeRequest & GetContainerRecipeRequest & GetContainerRecipeRequest & GetContainerRecipeRequest & GetContainerRecipeRequest & GetContainerRecipeRequest & GetContainerRecipeRequest)[K]
+      [K in keyof GetContainerRecipeRequest]: (GetContainerRecipeRequest)[K]
     }>): Request<GetContainerRecipeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getContainerRecipe(
-          this.ops["GetContainerRecipe"].applicator.apply(partialParams)
+          this.ops["GetContainerRecipe"].apply(partialParams)
         );
     }
 
     invokeGetContainerRecipePolicy(partialParams: ToOptional<{
-      [K in keyof GetContainerRecipePolicyRequest & keyof GetContainerRecipePolicyRequest & keyof GetContainerRecipePolicyRequest & keyof GetContainerRecipePolicyRequest & keyof GetContainerRecipePolicyRequest & keyof GetContainerRecipePolicyRequest & keyof GetContainerRecipePolicyRequest & keyof GetContainerRecipePolicyRequest & keyof GetContainerRecipePolicyRequest & keyof GetContainerRecipePolicyRequest & keyof GetContainerRecipePolicyRequest & keyof GetContainerRecipePolicyRequest]: (GetContainerRecipePolicyRequest & GetContainerRecipePolicyRequest & GetContainerRecipePolicyRequest & GetContainerRecipePolicyRequest & GetContainerRecipePolicyRequest & GetContainerRecipePolicyRequest & GetContainerRecipePolicyRequest & GetContainerRecipePolicyRequest & GetContainerRecipePolicyRequest & GetContainerRecipePolicyRequest & GetContainerRecipePolicyRequest & GetContainerRecipePolicyRequest)[K]
+      [K in keyof GetContainerRecipePolicyRequest]: (GetContainerRecipePolicyRequest)[K]
     }>): Request<GetContainerRecipePolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getContainerRecipePolicy(
-          this.ops["GetContainerRecipePolicy"].applicator.apply(partialParams)
+          this.ops["GetContainerRecipePolicy"].apply(partialParams)
         );
     }
 
     invokeGetDistributionConfiguration(partialParams: ToOptional<{
-      [K in keyof GetDistributionConfigurationRequest & keyof GetDistributionConfigurationRequest & keyof GetDistributionConfigurationRequest & keyof GetDistributionConfigurationRequest & keyof GetDistributionConfigurationRequest & keyof GetDistributionConfigurationRequest & keyof GetDistributionConfigurationRequest & keyof GetDistributionConfigurationRequest & keyof GetDistributionConfigurationRequest & keyof GetDistributionConfigurationRequest & keyof GetDistributionConfigurationRequest & keyof GetDistributionConfigurationRequest]: (GetDistributionConfigurationRequest & GetDistributionConfigurationRequest & GetDistributionConfigurationRequest & GetDistributionConfigurationRequest & GetDistributionConfigurationRequest & GetDistributionConfigurationRequest & GetDistributionConfigurationRequest & GetDistributionConfigurationRequest & GetDistributionConfigurationRequest & GetDistributionConfigurationRequest & GetDistributionConfigurationRequest & GetDistributionConfigurationRequest)[K]
+      [K in keyof GetDistributionConfigurationRequest]: (GetDistributionConfigurationRequest)[K]
     }>): Request<GetDistributionConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDistributionConfiguration(
-          this.ops["GetDistributionConfiguration"].applicator.apply(partialParams)
+          this.ops["GetDistributionConfiguration"].apply(partialParams)
         );
     }
 
     invokeGetImage(partialParams: ToOptional<{
-      [K in keyof GetImageRequest & keyof GetImageRequest & keyof GetImageRequest & keyof GetImageRequest & keyof GetImageRequest & keyof GetImageRequest & keyof GetImageRequest & keyof GetImageRequest & keyof GetImageRequest & keyof GetImageRequest & keyof GetImageRequest & keyof GetImageRequest]: (GetImageRequest & GetImageRequest & GetImageRequest & GetImageRequest & GetImageRequest & GetImageRequest & GetImageRequest & GetImageRequest & GetImageRequest & GetImageRequest & GetImageRequest & GetImageRequest)[K]
+      [K in keyof GetImageRequest]: (GetImageRequest)[K]
     }>): Request<GetImageResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getImage(
-          this.ops["GetImage"].applicator.apply(partialParams)
+          this.ops["GetImage"].apply(partialParams)
         );
     }
 
     invokeGetImagePipeline(partialParams: ToOptional<{
-      [K in keyof GetImagePipelineRequest & keyof GetImagePipelineRequest & keyof GetImagePipelineRequest & keyof GetImagePipelineRequest & keyof GetImagePipelineRequest & keyof GetImagePipelineRequest & keyof GetImagePipelineRequest & keyof GetImagePipelineRequest & keyof GetImagePipelineRequest & keyof GetImagePipelineRequest & keyof GetImagePipelineRequest & keyof GetImagePipelineRequest]: (GetImagePipelineRequest & GetImagePipelineRequest & GetImagePipelineRequest & GetImagePipelineRequest & GetImagePipelineRequest & GetImagePipelineRequest & GetImagePipelineRequest & GetImagePipelineRequest & GetImagePipelineRequest & GetImagePipelineRequest & GetImagePipelineRequest & GetImagePipelineRequest)[K]
+      [K in keyof GetImagePipelineRequest]: (GetImagePipelineRequest)[K]
     }>): Request<GetImagePipelineResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getImagePipeline(
-          this.ops["GetImagePipeline"].applicator.apply(partialParams)
+          this.ops["GetImagePipeline"].apply(partialParams)
         );
     }
 
     invokeGetImagePolicy(partialParams: ToOptional<{
-      [K in keyof GetImagePolicyRequest & keyof GetImagePolicyRequest & keyof GetImagePolicyRequest & keyof GetImagePolicyRequest & keyof GetImagePolicyRequest & keyof GetImagePolicyRequest & keyof GetImagePolicyRequest & keyof GetImagePolicyRequest & keyof GetImagePolicyRequest & keyof GetImagePolicyRequest & keyof GetImagePolicyRequest & keyof GetImagePolicyRequest]: (GetImagePolicyRequest & GetImagePolicyRequest & GetImagePolicyRequest & GetImagePolicyRequest & GetImagePolicyRequest & GetImagePolicyRequest & GetImagePolicyRequest & GetImagePolicyRequest & GetImagePolicyRequest & GetImagePolicyRequest & GetImagePolicyRequest & GetImagePolicyRequest)[K]
+      [K in keyof GetImagePolicyRequest]: (GetImagePolicyRequest)[K]
     }>): Request<GetImagePolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getImagePolicy(
-          this.ops["GetImagePolicy"].applicator.apply(partialParams)
+          this.ops["GetImagePolicy"].apply(partialParams)
         );
     }
 
     invokeGetImageRecipe(partialParams: ToOptional<{
-      [K in keyof GetImageRecipeRequest & keyof GetImageRecipeRequest & keyof GetImageRecipeRequest & keyof GetImageRecipeRequest & keyof GetImageRecipeRequest & keyof GetImageRecipeRequest & keyof GetImageRecipeRequest & keyof GetImageRecipeRequest & keyof GetImageRecipeRequest & keyof GetImageRecipeRequest & keyof GetImageRecipeRequest & keyof GetImageRecipeRequest]: (GetImageRecipeRequest & GetImageRecipeRequest & GetImageRecipeRequest & GetImageRecipeRequest & GetImageRecipeRequest & GetImageRecipeRequest & GetImageRecipeRequest & GetImageRecipeRequest & GetImageRecipeRequest & GetImageRecipeRequest & GetImageRecipeRequest & GetImageRecipeRequest)[K]
+      [K in keyof GetImageRecipeRequest]: (GetImageRecipeRequest)[K]
     }>): Request<GetImageRecipeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getImageRecipe(
-          this.ops["GetImageRecipe"].applicator.apply(partialParams)
+          this.ops["GetImageRecipe"].apply(partialParams)
         );
     }
 
     invokeGetImageRecipePolicy(partialParams: ToOptional<{
-      [K in keyof GetImageRecipePolicyRequest & keyof GetImageRecipePolicyRequest & keyof GetImageRecipePolicyRequest & keyof GetImageRecipePolicyRequest & keyof GetImageRecipePolicyRequest & keyof GetImageRecipePolicyRequest & keyof GetImageRecipePolicyRequest & keyof GetImageRecipePolicyRequest & keyof GetImageRecipePolicyRequest & keyof GetImageRecipePolicyRequest & keyof GetImageRecipePolicyRequest & keyof GetImageRecipePolicyRequest]: (GetImageRecipePolicyRequest & GetImageRecipePolicyRequest & GetImageRecipePolicyRequest & GetImageRecipePolicyRequest & GetImageRecipePolicyRequest & GetImageRecipePolicyRequest & GetImageRecipePolicyRequest & GetImageRecipePolicyRequest & GetImageRecipePolicyRequest & GetImageRecipePolicyRequest & GetImageRecipePolicyRequest & GetImageRecipePolicyRequest)[K]
+      [K in keyof GetImageRecipePolicyRequest]: (GetImageRecipePolicyRequest)[K]
     }>): Request<GetImageRecipePolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getImageRecipePolicy(
-          this.ops["GetImageRecipePolicy"].applicator.apply(partialParams)
+          this.ops["GetImageRecipePolicy"].apply(partialParams)
         );
     }
 
     invokeGetInfrastructureConfiguration(partialParams: ToOptional<{
-      [K in keyof GetInfrastructureConfigurationRequest & keyof GetInfrastructureConfigurationRequest & keyof GetInfrastructureConfigurationRequest & keyof GetInfrastructureConfigurationRequest & keyof GetInfrastructureConfigurationRequest & keyof GetInfrastructureConfigurationRequest & keyof GetInfrastructureConfigurationRequest & keyof GetInfrastructureConfigurationRequest & keyof GetInfrastructureConfigurationRequest & keyof GetInfrastructureConfigurationRequest & keyof GetInfrastructureConfigurationRequest & keyof GetInfrastructureConfigurationRequest]: (GetInfrastructureConfigurationRequest & GetInfrastructureConfigurationRequest & GetInfrastructureConfigurationRequest & GetInfrastructureConfigurationRequest & GetInfrastructureConfigurationRequest & GetInfrastructureConfigurationRequest & GetInfrastructureConfigurationRequest & GetInfrastructureConfigurationRequest & GetInfrastructureConfigurationRequest & GetInfrastructureConfigurationRequest & GetInfrastructureConfigurationRequest & GetInfrastructureConfigurationRequest)[K]
+      [K in keyof GetInfrastructureConfigurationRequest]: (GetInfrastructureConfigurationRequest)[K]
     }>): Request<GetInfrastructureConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getInfrastructureConfiguration(
-          this.ops["GetInfrastructureConfiguration"].applicator.apply(partialParams)
+          this.ops["GetInfrastructureConfiguration"].apply(partialParams)
         );
     }
 
     invokeImportComponent(partialParams: ToOptional<{
-      [K in keyof ImportComponentRequest & keyof ImportComponentRequest & keyof ImportComponentRequest & keyof ImportComponentRequest & keyof ImportComponentRequest & keyof ImportComponentRequest & keyof ImportComponentRequest & keyof ImportComponentRequest & keyof ImportComponentRequest & keyof Omit<ImportComponentRequest, "type"> & keyof ImportComponentRequest & keyof ImportComponentRequest]: (ImportComponentRequest & ImportComponentRequest & ImportComponentRequest & ImportComponentRequest & ImportComponentRequest & ImportComponentRequest & ImportComponentRequest & ImportComponentRequest & ImportComponentRequest & Omit<ImportComponentRequest, "type"> & ImportComponentRequest & ImportComponentRequest)[K]
+      [K in keyof ImportComponentRequest]: (ImportComponentRequest)[K]
     }>): Request<ImportComponentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.importComponent(
-          this.ops["ImportComponent"].applicator.apply(partialParams)
+          this.ops["ImportComponent"].apply(partialParams)
         );
     }
 
     invokeImportVmImage(partialParams: ToOptional<{
-      [K in keyof ImportVmImageRequest & keyof ImportVmImageRequest & keyof ImportVmImageRequest & keyof ImportVmImageRequest & keyof ImportVmImageRequest & keyof ImportVmImageRequest & keyof ImportVmImageRequest & keyof ImportVmImageRequest & keyof ImportVmImageRequest & keyof ImportVmImageRequest & keyof ImportVmImageRequest & keyof ImportVmImageRequest]: (ImportVmImageRequest & ImportVmImageRequest & ImportVmImageRequest & ImportVmImageRequest & ImportVmImageRequest & ImportVmImageRequest & ImportVmImageRequest & ImportVmImageRequest & ImportVmImageRequest & ImportVmImageRequest & ImportVmImageRequest & ImportVmImageRequest)[K]
+      [K in keyof ImportVmImageRequest]: (ImportVmImageRequest)[K]
     }>): Request<ImportVmImageResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.importVmImage(
-          this.ops["ImportVmImage"].applicator.apply(partialParams)
+          this.ops["ImportVmImage"].apply(partialParams)
         );
     }
 
     invokeListComponentBuildVersions(partialParams: ToOptional<{
-      [K in keyof ListComponentBuildVersionsRequest & keyof ListComponentBuildVersionsRequest & keyof ListComponentBuildVersionsRequest & keyof ListComponentBuildVersionsRequest & keyof ListComponentBuildVersionsRequest & keyof ListComponentBuildVersionsRequest & keyof ListComponentBuildVersionsRequest & keyof ListComponentBuildVersionsRequest & keyof ListComponentBuildVersionsRequest & keyof ListComponentBuildVersionsRequest & keyof ListComponentBuildVersionsRequest & keyof ListComponentBuildVersionsRequest]: (ListComponentBuildVersionsRequest & ListComponentBuildVersionsRequest & ListComponentBuildVersionsRequest & ListComponentBuildVersionsRequest & ListComponentBuildVersionsRequest & ListComponentBuildVersionsRequest & ListComponentBuildVersionsRequest & ListComponentBuildVersionsRequest & ListComponentBuildVersionsRequest & ListComponentBuildVersionsRequest & ListComponentBuildVersionsRequest & ListComponentBuildVersionsRequest)[K]
+      [K in keyof ListComponentBuildVersionsRequest]: (ListComponentBuildVersionsRequest)[K]
     }>): Request<ListComponentBuildVersionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listComponentBuildVersions(
-          this.ops["ListComponentBuildVersions"].applicator.apply(partialParams)
+          this.ops["ListComponentBuildVersions"].apply(partialParams)
+        );
+    }
+
+    invokeListComponents(partialParams: ToOptional<{
+      [K in keyof ListComponentsRequest]: (ListComponentsRequest)[K]
+    }>): Request<ListComponentsResponse, AWSError> {
+        this.boot();
+        return this.client.listComponents(
+          this.ops["ListComponents"].apply(partialParams)
+        );
+    }
+
+    invokeListContainerRecipes(partialParams: ToOptional<{
+      [K in keyof ListContainerRecipesRequest]: (ListContainerRecipesRequest)[K]
+    }>): Request<ListContainerRecipesResponse, AWSError> {
+        this.boot();
+        return this.client.listContainerRecipes(
+          this.ops["ListContainerRecipes"].apply(partialParams)
+        );
+    }
+
+    invokeListDistributionConfigurations(partialParams: ToOptional<{
+      [K in keyof ListDistributionConfigurationsRequest]: (ListDistributionConfigurationsRequest)[K]
+    }>): Request<ListDistributionConfigurationsResponse, AWSError> {
+        this.boot();
+        return this.client.listDistributionConfigurations(
+          this.ops["ListDistributionConfigurations"].apply(partialParams)
         );
     }
 
     invokeListImageBuildVersions(partialParams: ToOptional<{
-      [K in keyof ListImageBuildVersionsRequest & keyof ListImageBuildVersionsRequest & keyof ListImageBuildVersionsRequest & keyof ListImageBuildVersionsRequest & keyof ListImageBuildVersionsRequest & keyof ListImageBuildVersionsRequest & keyof ListImageBuildVersionsRequest & keyof ListImageBuildVersionsRequest & keyof ListImageBuildVersionsRequest & keyof ListImageBuildVersionsRequest & keyof ListImageBuildVersionsRequest & keyof ListImageBuildVersionsRequest]: (ListImageBuildVersionsRequest & ListImageBuildVersionsRequest & ListImageBuildVersionsRequest & ListImageBuildVersionsRequest & ListImageBuildVersionsRequest & ListImageBuildVersionsRequest & ListImageBuildVersionsRequest & ListImageBuildVersionsRequest & ListImageBuildVersionsRequest & ListImageBuildVersionsRequest & ListImageBuildVersionsRequest & ListImageBuildVersionsRequest)[K]
+      [K in keyof ListImageBuildVersionsRequest]: (ListImageBuildVersionsRequest)[K]
     }>): Request<ListImageBuildVersionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listImageBuildVersions(
-          this.ops["ListImageBuildVersions"].applicator.apply(partialParams)
+          this.ops["ListImageBuildVersions"].apply(partialParams)
         );
     }
 
     invokeListImagePackages(partialParams: ToOptional<{
-      [K in keyof ListImagePackagesRequest & keyof ListImagePackagesRequest & keyof ListImagePackagesRequest & keyof ListImagePackagesRequest & keyof ListImagePackagesRequest & keyof ListImagePackagesRequest & keyof ListImagePackagesRequest & keyof ListImagePackagesRequest & keyof ListImagePackagesRequest & keyof ListImagePackagesRequest & keyof ListImagePackagesRequest & keyof ListImagePackagesRequest]: (ListImagePackagesRequest & ListImagePackagesRequest & ListImagePackagesRequest & ListImagePackagesRequest & ListImagePackagesRequest & ListImagePackagesRequest & ListImagePackagesRequest & ListImagePackagesRequest & ListImagePackagesRequest & ListImagePackagesRequest & ListImagePackagesRequest & ListImagePackagesRequest)[K]
+      [K in keyof ListImagePackagesRequest]: (ListImagePackagesRequest)[K]
     }>): Request<ListImagePackagesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listImagePackages(
-          this.ops["ListImagePackages"].applicator.apply(partialParams)
+          this.ops["ListImagePackages"].apply(partialParams)
         );
     }
 
     invokeListImagePipelineImages(partialParams: ToOptional<{
-      [K in keyof ListImagePipelineImagesRequest & keyof ListImagePipelineImagesRequest & keyof ListImagePipelineImagesRequest & keyof ListImagePipelineImagesRequest & keyof ListImagePipelineImagesRequest & keyof ListImagePipelineImagesRequest & keyof ListImagePipelineImagesRequest & keyof ListImagePipelineImagesRequest & keyof ListImagePipelineImagesRequest & keyof ListImagePipelineImagesRequest & keyof ListImagePipelineImagesRequest & keyof ListImagePipelineImagesRequest]: (ListImagePipelineImagesRequest & ListImagePipelineImagesRequest & ListImagePipelineImagesRequest & ListImagePipelineImagesRequest & ListImagePipelineImagesRequest & ListImagePipelineImagesRequest & ListImagePipelineImagesRequest & ListImagePipelineImagesRequest & ListImagePipelineImagesRequest & ListImagePipelineImagesRequest & ListImagePipelineImagesRequest & ListImagePipelineImagesRequest)[K]
+      [K in keyof ListImagePipelineImagesRequest]: (ListImagePipelineImagesRequest)[K]
     }>): Request<ListImagePipelineImagesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listImagePipelineImages(
-          this.ops["ListImagePipelineImages"].applicator.apply(partialParams)
+          this.ops["ListImagePipelineImages"].apply(partialParams)
+        );
+    }
+
+    invokeListImagePipelines(partialParams: ToOptional<{
+      [K in keyof ListImagePipelinesRequest]: (ListImagePipelinesRequest)[K]
+    }>): Request<ListImagePipelinesResponse, AWSError> {
+        this.boot();
+        return this.client.listImagePipelines(
+          this.ops["ListImagePipelines"].apply(partialParams)
+        );
+    }
+
+    invokeListImageRecipes(partialParams: ToOptional<{
+      [K in keyof ListImageRecipesRequest]: (ListImageRecipesRequest)[K]
+    }>): Request<ListImageRecipesResponse, AWSError> {
+        this.boot();
+        return this.client.listImageRecipes(
+          this.ops["ListImageRecipes"].apply(partialParams)
+        );
+    }
+
+    invokeListImages(partialParams: ToOptional<{
+      [K in keyof ListImagesRequest]: (ListImagesRequest)[K]
+    }>): Request<ListImagesResponse, AWSError> {
+        this.boot();
+        return this.client.listImages(
+          this.ops["ListImages"].apply(partialParams)
+        );
+    }
+
+    invokeListInfrastructureConfigurations(partialParams: ToOptional<{
+      [K in keyof ListInfrastructureConfigurationsRequest]: (ListInfrastructureConfigurationsRequest)[K]
+    }>): Request<ListInfrastructureConfigurationsResponse, AWSError> {
+        this.boot();
+        return this.client.listInfrastructureConfigurations(
+          this.ops["ListInfrastructureConfigurations"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokePutComponentPolicy(partialParams: ToOptional<{
-      [K in keyof PutComponentPolicyRequest & keyof PutComponentPolicyRequest & keyof PutComponentPolicyRequest & keyof PutComponentPolicyRequest & keyof PutComponentPolicyRequest & keyof PutComponentPolicyRequest & keyof PutComponentPolicyRequest & keyof PutComponentPolicyRequest & keyof PutComponentPolicyRequest & keyof PutComponentPolicyRequest & keyof PutComponentPolicyRequest & keyof PutComponentPolicyRequest]: (PutComponentPolicyRequest & PutComponentPolicyRequest & PutComponentPolicyRequest & PutComponentPolicyRequest & PutComponentPolicyRequest & PutComponentPolicyRequest & PutComponentPolicyRequest & PutComponentPolicyRequest & PutComponentPolicyRequest & PutComponentPolicyRequest & PutComponentPolicyRequest & PutComponentPolicyRequest)[K]
+      [K in keyof PutComponentPolicyRequest]: (PutComponentPolicyRequest)[K]
     }>): Request<PutComponentPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putComponentPolicy(
-          this.ops["PutComponentPolicy"].applicator.apply(partialParams)
+          this.ops["PutComponentPolicy"].apply(partialParams)
         );
     }
 
     invokePutContainerRecipePolicy(partialParams: ToOptional<{
-      [K in keyof PutContainerRecipePolicyRequest & keyof PutContainerRecipePolicyRequest & keyof PutContainerRecipePolicyRequest & keyof PutContainerRecipePolicyRequest & keyof PutContainerRecipePolicyRequest & keyof PutContainerRecipePolicyRequest & keyof PutContainerRecipePolicyRequest & keyof PutContainerRecipePolicyRequest & keyof PutContainerRecipePolicyRequest & keyof PutContainerRecipePolicyRequest & keyof PutContainerRecipePolicyRequest & keyof PutContainerRecipePolicyRequest]: (PutContainerRecipePolicyRequest & PutContainerRecipePolicyRequest & PutContainerRecipePolicyRequest & PutContainerRecipePolicyRequest & PutContainerRecipePolicyRequest & PutContainerRecipePolicyRequest & PutContainerRecipePolicyRequest & PutContainerRecipePolicyRequest & PutContainerRecipePolicyRequest & PutContainerRecipePolicyRequest & PutContainerRecipePolicyRequest & PutContainerRecipePolicyRequest)[K]
+      [K in keyof PutContainerRecipePolicyRequest]: (PutContainerRecipePolicyRequest)[K]
     }>): Request<PutContainerRecipePolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putContainerRecipePolicy(
-          this.ops["PutContainerRecipePolicy"].applicator.apply(partialParams)
+          this.ops["PutContainerRecipePolicy"].apply(partialParams)
         );
     }
 
     invokePutImagePolicy(partialParams: ToOptional<{
-      [K in keyof PutImagePolicyRequest & keyof PutImagePolicyRequest & keyof PutImagePolicyRequest & keyof PutImagePolicyRequest & keyof PutImagePolicyRequest & keyof PutImagePolicyRequest & keyof PutImagePolicyRequest & keyof PutImagePolicyRequest & keyof PutImagePolicyRequest & keyof PutImagePolicyRequest & keyof PutImagePolicyRequest & keyof PutImagePolicyRequest]: (PutImagePolicyRequest & PutImagePolicyRequest & PutImagePolicyRequest & PutImagePolicyRequest & PutImagePolicyRequest & PutImagePolicyRequest & PutImagePolicyRequest & PutImagePolicyRequest & PutImagePolicyRequest & PutImagePolicyRequest & PutImagePolicyRequest & PutImagePolicyRequest)[K]
+      [K in keyof PutImagePolicyRequest]: (PutImagePolicyRequest)[K]
     }>): Request<PutImagePolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putImagePolicy(
-          this.ops["PutImagePolicy"].applicator.apply(partialParams)
+          this.ops["PutImagePolicy"].apply(partialParams)
         );
     }
 
     invokePutImageRecipePolicy(partialParams: ToOptional<{
-      [K in keyof PutImageRecipePolicyRequest & keyof PutImageRecipePolicyRequest & keyof PutImageRecipePolicyRequest & keyof PutImageRecipePolicyRequest & keyof PutImageRecipePolicyRequest & keyof PutImageRecipePolicyRequest & keyof PutImageRecipePolicyRequest & keyof PutImageRecipePolicyRequest & keyof PutImageRecipePolicyRequest & keyof PutImageRecipePolicyRequest & keyof PutImageRecipePolicyRequest & keyof PutImageRecipePolicyRequest]: (PutImageRecipePolicyRequest & PutImageRecipePolicyRequest & PutImageRecipePolicyRequest & PutImageRecipePolicyRequest & PutImageRecipePolicyRequest & PutImageRecipePolicyRequest & PutImageRecipePolicyRequest & PutImageRecipePolicyRequest & PutImageRecipePolicyRequest & PutImageRecipePolicyRequest & PutImageRecipePolicyRequest & PutImageRecipePolicyRequest)[K]
+      [K in keyof PutImageRecipePolicyRequest]: (PutImageRecipePolicyRequest)[K]
     }>): Request<PutImageRecipePolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putImageRecipePolicy(
-          this.ops["PutImageRecipePolicy"].applicator.apply(partialParams)
+          this.ops["PutImageRecipePolicy"].apply(partialParams)
         );
     }
 
     invokeStartImagePipelineExecution(partialParams: ToOptional<{
-      [K in keyof StartImagePipelineExecutionRequest & keyof StartImagePipelineExecutionRequest & keyof StartImagePipelineExecutionRequest & keyof StartImagePipelineExecutionRequest & keyof StartImagePipelineExecutionRequest & keyof StartImagePipelineExecutionRequest & keyof StartImagePipelineExecutionRequest & keyof StartImagePipelineExecutionRequest & keyof StartImagePipelineExecutionRequest & keyof StartImagePipelineExecutionRequest & keyof StartImagePipelineExecutionRequest & keyof StartImagePipelineExecutionRequest]: (StartImagePipelineExecutionRequest & StartImagePipelineExecutionRequest & StartImagePipelineExecutionRequest & StartImagePipelineExecutionRequest & StartImagePipelineExecutionRequest & StartImagePipelineExecutionRequest & StartImagePipelineExecutionRequest & StartImagePipelineExecutionRequest & StartImagePipelineExecutionRequest & StartImagePipelineExecutionRequest & StartImagePipelineExecutionRequest & StartImagePipelineExecutionRequest)[K]
+      [K in keyof StartImagePipelineExecutionRequest]: (StartImagePipelineExecutionRequest)[K]
     }>): Request<StartImagePipelineExecutionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startImagePipelineExecution(
-          this.ops["StartImagePipelineExecution"].applicator.apply(partialParams)
+          this.ops["StartImagePipelineExecution"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateDistributionConfiguration(partialParams: ToOptional<{
-      [K in keyof UpdateDistributionConfigurationRequest & keyof UpdateDistributionConfigurationRequest & keyof UpdateDistributionConfigurationRequest & keyof UpdateDistributionConfigurationRequest & keyof UpdateDistributionConfigurationRequest & keyof UpdateDistributionConfigurationRequest & keyof UpdateDistributionConfigurationRequest & keyof UpdateDistributionConfigurationRequest & keyof UpdateDistributionConfigurationRequest & keyof UpdateDistributionConfigurationRequest & keyof UpdateDistributionConfigurationRequest & keyof UpdateDistributionConfigurationRequest]: (UpdateDistributionConfigurationRequest & UpdateDistributionConfigurationRequest & UpdateDistributionConfigurationRequest & UpdateDistributionConfigurationRequest & UpdateDistributionConfigurationRequest & UpdateDistributionConfigurationRequest & UpdateDistributionConfigurationRequest & UpdateDistributionConfigurationRequest & UpdateDistributionConfigurationRequest & UpdateDistributionConfigurationRequest & UpdateDistributionConfigurationRequest & UpdateDistributionConfigurationRequest)[K]
+      [K in keyof UpdateDistributionConfigurationRequest]: (UpdateDistributionConfigurationRequest)[K]
     }>): Request<UpdateDistributionConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDistributionConfiguration(
-          this.ops["UpdateDistributionConfiguration"].applicator.apply(partialParams)
+          this.ops["UpdateDistributionConfiguration"].apply(partialParams)
         );
     }
 
     invokeUpdateImagePipeline(partialParams: ToOptional<{
-      [K in keyof UpdateImagePipelineRequest & keyof UpdateImagePipelineRequest & keyof UpdateImagePipelineRequest & keyof UpdateImagePipelineRequest & keyof UpdateImagePipelineRequest & keyof UpdateImagePipelineRequest & keyof UpdateImagePipelineRequest & keyof UpdateImagePipelineRequest & keyof UpdateImagePipelineRequest & keyof UpdateImagePipelineRequest & keyof UpdateImagePipelineRequest & keyof UpdateImagePipelineRequest]: (UpdateImagePipelineRequest & UpdateImagePipelineRequest & UpdateImagePipelineRequest & UpdateImagePipelineRequest & UpdateImagePipelineRequest & UpdateImagePipelineRequest & UpdateImagePipelineRequest & UpdateImagePipelineRequest & UpdateImagePipelineRequest & UpdateImagePipelineRequest & UpdateImagePipelineRequest & UpdateImagePipelineRequest)[K]
+      [K in keyof UpdateImagePipelineRequest]: (UpdateImagePipelineRequest)[K]
     }>): Request<UpdateImagePipelineResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateImagePipeline(
-          this.ops["UpdateImagePipeline"].applicator.apply(partialParams)
+          this.ops["UpdateImagePipeline"].apply(partialParams)
         );
     }
 
     invokeUpdateInfrastructureConfiguration(partialParams: ToOptional<{
-      [K in keyof UpdateInfrastructureConfigurationRequest & keyof UpdateInfrastructureConfigurationRequest & keyof UpdateInfrastructureConfigurationRequest & keyof UpdateInfrastructureConfigurationRequest & keyof UpdateInfrastructureConfigurationRequest & keyof UpdateInfrastructureConfigurationRequest & keyof UpdateInfrastructureConfigurationRequest & keyof UpdateInfrastructureConfigurationRequest & keyof UpdateInfrastructureConfigurationRequest & keyof UpdateInfrastructureConfigurationRequest & keyof UpdateInfrastructureConfigurationRequest & keyof UpdateInfrastructureConfigurationRequest]: (UpdateInfrastructureConfigurationRequest & UpdateInfrastructureConfigurationRequest & UpdateInfrastructureConfigurationRequest & UpdateInfrastructureConfigurationRequest & UpdateInfrastructureConfigurationRequest & UpdateInfrastructureConfigurationRequest & UpdateInfrastructureConfigurationRequest & UpdateInfrastructureConfigurationRequest & UpdateInfrastructureConfigurationRequest & UpdateInfrastructureConfigurationRequest & UpdateInfrastructureConfigurationRequest & UpdateInfrastructureConfigurationRequest)[K]
+      [K in keyof UpdateInfrastructureConfigurationRequest]: (UpdateInfrastructureConfigurationRequest)[K]
     }>): Request<UpdateInfrastructureConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateInfrastructureConfiguration(
-          this.ops["UpdateInfrastructureConfiguration"].applicator.apply(partialParams)
+          this.ops["UpdateInfrastructureConfiguration"].apply(partialParams)
         );
     }
 }

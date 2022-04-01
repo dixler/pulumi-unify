@@ -14,11 +14,12 @@ import {
     DescribeChannelRequest,
     DescribeHarvestJobRequest,
     DescribeOriginEndpointRequest,
+    ListChannelsRequest,
+    ListHarvestJobsRequest,
+    ListOriginEndpointsRequest,
     ListTagsForResourceRequest,
     RotateChannelCredentialsRequest,
     RotateIngestEndpointCredentialsRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
     UpdateChannelRequest,
     UpdateOriginEndpointRequest,
     ConfigureLogsResponse,
@@ -30,6 +31,9 @@ import {
     DescribeChannelResponse,
     DescribeHarvestJobResponse,
     DescribeOriginEndpointResponse,
+    ListChannelsResponse,
+    ListHarvestJobsResponse,
+    ListOriginEndpointsResponse,
     ListTagsForResourceResponse,
     RotateChannelCredentialsResponse,
     RotateIngestEndpointCredentialsResponse,
@@ -49,21 +53,24 @@ export default class extends aws.mediapackage.Channel {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.mediapackage.Channel>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.MediaPackage()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -73,182 +80,160 @@ export default class extends aws.mediapackage.Channel {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeConfigureLogs(partialParams: ToOptional<{
-      [K in keyof ConfigureLogsRequest & keyof ConfigureLogsRequest & keyof ConfigureLogsRequest]: (ConfigureLogsRequest & ConfigureLogsRequest & ConfigureLogsRequest)[K]
+      [K in keyof ConfigureLogsRequest]: (ConfigureLogsRequest)[K]
     }>): Request<ConfigureLogsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.configureLogs(
-          this.ops["ConfigureLogs"].applicator.apply(partialParams)
+          this.ops["ConfigureLogs"].apply(partialParams)
         );
     }
 
     invokeCreateChannel(partialParams: ToOptional<{
-      [K in keyof CreateChannelRequest & keyof CreateChannelRequest & keyof CreateChannelRequest]: (CreateChannelRequest & CreateChannelRequest & CreateChannelRequest)[K]
+      [K in keyof CreateChannelRequest]: (CreateChannelRequest)[K]
     }>): Request<CreateChannelResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createChannel(
-          this.ops["CreateChannel"].applicator.apply(partialParams)
+          this.ops["CreateChannel"].apply(partialParams)
         );
     }
 
     invokeCreateHarvestJob(partialParams: ToOptional<{
-      [K in keyof CreateHarvestJobRequest & keyof CreateHarvestJobRequest & keyof CreateHarvestJobRequest]: (CreateHarvestJobRequest & CreateHarvestJobRequest & CreateHarvestJobRequest)[K]
+      [K in keyof CreateHarvestJobRequest]: (CreateHarvestJobRequest)[K]
     }>): Request<CreateHarvestJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createHarvestJob(
-          this.ops["CreateHarvestJob"].applicator.apply(partialParams)
+          this.ops["CreateHarvestJob"].apply(partialParams)
         );
     }
 
     invokeCreateOriginEndpoint(partialParams: ToOptional<{
-      [K in keyof CreateOriginEndpointRequest & keyof CreateOriginEndpointRequest & keyof CreateOriginEndpointRequest]: (CreateOriginEndpointRequest & CreateOriginEndpointRequest & CreateOriginEndpointRequest)[K]
+      [K in keyof CreateOriginEndpointRequest & keyof Omit<CreateOriginEndpointRequest, "ChannelId">]: (CreateOriginEndpointRequest)[K]
     }>): Request<CreateOriginEndpointResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createOriginEndpoint(
-          this.ops["CreateOriginEndpoint"].applicator.apply(partialParams)
+          this.ops["CreateOriginEndpoint"].apply(partialParams)
         );
     }
 
     invokeDeleteChannel(partialParams: ToOptional<{
-      [K in keyof DeleteChannelRequest & keyof DeleteChannelRequest & keyof DeleteChannelRequest]: (DeleteChannelRequest & DeleteChannelRequest & DeleteChannelRequest)[K]
+      [K in keyof DeleteChannelRequest]: (DeleteChannelRequest)[K]
     }>): Request<DeleteChannelResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteChannel(
-          this.ops["DeleteChannel"].applicator.apply(partialParams)
+          this.ops["DeleteChannel"].apply(partialParams)
         );
     }
 
     invokeDeleteOriginEndpoint(partialParams: ToOptional<{
-      [K in keyof DeleteOriginEndpointRequest & keyof DeleteOriginEndpointRequest & keyof DeleteOriginEndpointRequest]: (DeleteOriginEndpointRequest & DeleteOriginEndpointRequest & DeleteOriginEndpointRequest)[K]
+      [K in keyof DeleteOriginEndpointRequest]: (DeleteOriginEndpointRequest)[K]
     }>): Request<DeleteOriginEndpointResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteOriginEndpoint(
-          this.ops["DeleteOriginEndpoint"].applicator.apply(partialParams)
+          this.ops["DeleteOriginEndpoint"].apply(partialParams)
         );
     }
 
     invokeDescribeChannel(partialParams: ToOptional<{
-      [K in keyof DescribeChannelRequest & keyof DescribeChannelRequest & keyof DescribeChannelRequest]: (DescribeChannelRequest & DescribeChannelRequest & DescribeChannelRequest)[K]
+      [K in keyof DescribeChannelRequest]: (DescribeChannelRequest)[K]
     }>): Request<DescribeChannelResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeChannel(
-          this.ops["DescribeChannel"].applicator.apply(partialParams)
+          this.ops["DescribeChannel"].apply(partialParams)
         );
     }
 
     invokeDescribeHarvestJob(partialParams: ToOptional<{
-      [K in keyof DescribeHarvestJobRequest & keyof DescribeHarvestJobRequest & keyof DescribeHarvestJobRequest]: (DescribeHarvestJobRequest & DescribeHarvestJobRequest & DescribeHarvestJobRequest)[K]
+      [K in keyof DescribeHarvestJobRequest]: (DescribeHarvestJobRequest)[K]
     }>): Request<DescribeHarvestJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeHarvestJob(
-          this.ops["DescribeHarvestJob"].applicator.apply(partialParams)
+          this.ops["DescribeHarvestJob"].apply(partialParams)
         );
     }
 
     invokeDescribeOriginEndpoint(partialParams: ToOptional<{
-      [K in keyof DescribeOriginEndpointRequest & keyof DescribeOriginEndpointRequest & keyof DescribeOriginEndpointRequest]: (DescribeOriginEndpointRequest & DescribeOriginEndpointRequest & DescribeOriginEndpointRequest)[K]
+      [K in keyof DescribeOriginEndpointRequest]: (DescribeOriginEndpointRequest)[K]
     }>): Request<DescribeOriginEndpointResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeOriginEndpoint(
-          this.ops["DescribeOriginEndpoint"].applicator.apply(partialParams)
+          this.ops["DescribeOriginEndpoint"].apply(partialParams)
+        );
+    }
+
+    invokeListChannels(partialParams: ToOptional<{
+      [K in keyof ListChannelsRequest]: (ListChannelsRequest)[K]
+    }>): Request<ListChannelsResponse, AWSError> {
+        this.boot();
+        return this.client.listChannels(
+          this.ops["ListChannels"].apply(partialParams)
+        );
+    }
+
+    invokeListHarvestJobs(partialParams: ToOptional<{
+      [K in keyof ListHarvestJobsRequest]: (ListHarvestJobsRequest)[K]
+    }>): Request<ListHarvestJobsResponse, AWSError> {
+        this.boot();
+        return this.client.listHarvestJobs(
+          this.ops["ListHarvestJobs"].apply(partialParams)
+        );
+    }
+
+    invokeListOriginEndpoints(partialParams: ToOptional<{
+      [K in keyof ListOriginEndpointsRequest]: (ListOriginEndpointsRequest)[K]
+    }>): Request<ListOriginEndpointsResponse, AWSError> {
+        this.boot();
+        return this.client.listOriginEndpoints(
+          this.ops["ListOriginEndpoints"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeRotateChannelCredentials(partialParams: ToOptional<{
-      [K in keyof RotateChannelCredentialsRequest & keyof RotateChannelCredentialsRequest & keyof RotateChannelCredentialsRequest]: (RotateChannelCredentialsRequest & RotateChannelCredentialsRequest & RotateChannelCredentialsRequest)[K]
+      [K in keyof RotateChannelCredentialsRequest]: (RotateChannelCredentialsRequest)[K]
     }>): Request<RotateChannelCredentialsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.rotateChannelCredentials(
-          this.ops["RotateChannelCredentials"].applicator.apply(partialParams)
+          this.ops["RotateChannelCredentials"].apply(partialParams)
         );
     }
 
     invokeRotateIngestEndpointCredentials(partialParams: ToOptional<{
-      [K in keyof RotateIngestEndpointCredentialsRequest & keyof RotateIngestEndpointCredentialsRequest & keyof RotateIngestEndpointCredentialsRequest]: (RotateIngestEndpointCredentialsRequest & RotateIngestEndpointCredentialsRequest & RotateIngestEndpointCredentialsRequest)[K]
+      [K in keyof RotateIngestEndpointCredentialsRequest]: (RotateIngestEndpointCredentialsRequest)[K]
     }>): Request<RotateIngestEndpointCredentialsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.rotateIngestEndpointCredentials(
-          this.ops["RotateIngestEndpointCredentials"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["RotateIngestEndpointCredentials"].apply(partialParams)
         );
     }
 
     invokeUpdateChannel(partialParams: ToOptional<{
-      [K in keyof UpdateChannelRequest & keyof UpdateChannelRequest & keyof UpdateChannelRequest]: (UpdateChannelRequest & UpdateChannelRequest & UpdateChannelRequest)[K]
+      [K in keyof UpdateChannelRequest]: (UpdateChannelRequest)[K]
     }>): Request<UpdateChannelResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateChannel(
-          this.ops["UpdateChannel"].applicator.apply(partialParams)
+          this.ops["UpdateChannel"].apply(partialParams)
         );
     }
 
     invokeUpdateOriginEndpoint(partialParams: ToOptional<{
-      [K in keyof UpdateOriginEndpointRequest & keyof UpdateOriginEndpointRequest & keyof UpdateOriginEndpointRequest]: (UpdateOriginEndpointRequest & UpdateOriginEndpointRequest & UpdateOriginEndpointRequest)[K]
+      [K in keyof UpdateOriginEndpointRequest]: (UpdateOriginEndpointRequest)[K]
     }>): Request<UpdateOriginEndpointResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateOriginEndpoint(
-          this.ops["UpdateOriginEndpoint"].applicator.apply(partialParams)
+          this.ops["UpdateOriginEndpoint"].apply(partialParams)
         );
     }
 }

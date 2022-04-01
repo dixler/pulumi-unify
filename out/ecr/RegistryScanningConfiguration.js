@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.ecr.RegistryScanningConfiguration {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.ECR();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,205 +50,172 @@ class default_1 extends aws.ecr.RegistryScanningConfiguration {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeBatchCheckLayerAvailability(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.batchCheckLayerAvailability(this.ops["BatchCheckLayerAvailability"].applicator.apply(partialParams));
+        return this.client.batchCheckLayerAvailability(this.ops["BatchCheckLayerAvailability"].apply(partialParams));
     }
     invokeBatchDeleteImage(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.batchDeleteImage(this.ops["BatchDeleteImage"].applicator.apply(partialParams));
+        return this.client.batchDeleteImage(this.ops["BatchDeleteImage"].apply(partialParams));
     }
     invokeBatchGetImage(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.batchGetImage(this.ops["BatchGetImage"].applicator.apply(partialParams));
+        return this.client.batchGetImage(this.ops["BatchGetImage"].apply(partialParams));
     }
     invokeBatchGetRepositoryScanningConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.batchGetRepositoryScanningConfiguration(this.ops["BatchGetRepositoryScanningConfiguration"].applicator.apply(partialParams));
+        return this.client.batchGetRepositoryScanningConfiguration(this.ops["BatchGetRepositoryScanningConfiguration"].apply(partialParams));
     }
     invokeCompleteLayerUpload(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.completeLayerUpload(this.ops["CompleteLayerUpload"].applicator.apply(partialParams));
+        return this.client.completeLayerUpload(this.ops["CompleteLayerUpload"].apply(partialParams));
     }
     invokeCreatePullThroughCacheRule(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createPullThroughCacheRule(this.ops["CreatePullThroughCacheRule"].applicator.apply(partialParams));
+        return this.client.createPullThroughCacheRule(this.ops["CreatePullThroughCacheRule"].apply(partialParams));
     }
     invokeCreateRepository(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createRepository(this.ops["CreateRepository"].applicator.apply(partialParams));
+        return this.client.createRepository(this.ops["CreateRepository"].apply(partialParams));
     }
     invokeDeleteLifecyclePolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteLifecyclePolicy(this.ops["DeleteLifecyclePolicy"].applicator.apply(partialParams));
+        return this.client.deleteLifecyclePolicy(this.ops["DeleteLifecyclePolicy"].apply(partialParams));
     }
     invokeDeletePullThroughCacheRule(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deletePullThroughCacheRule(this.ops["DeletePullThroughCacheRule"].applicator.apply(partialParams));
+        return this.client.deletePullThroughCacheRule(this.ops["DeletePullThroughCacheRule"].apply(partialParams));
+    }
+    invokeDeleteRegistryPolicy(partialParams) {
+        this.boot();
+        return this.client.deleteRegistryPolicy(this.ops["DeleteRegistryPolicy"].apply(partialParams));
     }
     invokeDeleteRepository(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteRepository(this.ops["DeleteRepository"].applicator.apply(partialParams));
+        return this.client.deleteRepository(this.ops["DeleteRepository"].apply(partialParams));
     }
     invokeDeleteRepositoryPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteRepositoryPolicy(this.ops["DeleteRepositoryPolicy"].applicator.apply(partialParams));
+        return this.client.deleteRepositoryPolicy(this.ops["DeleteRepositoryPolicy"].apply(partialParams));
     }
     invokeDescribeImageReplicationStatus(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeImageReplicationStatus(this.ops["DescribeImageReplicationStatus"].applicator.apply(partialParams));
+        return this.client.describeImageReplicationStatus(this.ops["DescribeImageReplicationStatus"].apply(partialParams));
     }
     invokeDescribeImageScanFindings(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeImageScanFindings(this.ops["DescribeImageScanFindings"].applicator.apply(partialParams));
+        return this.client.describeImageScanFindings(this.ops["DescribeImageScanFindings"].apply(partialParams));
     }
     invokeDescribeImages(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeImages(this.ops["DescribeImages"].applicator.apply(partialParams));
+        return this.client.describeImages(this.ops["DescribeImages"].apply(partialParams));
+    }
+    invokeDescribePullThroughCacheRules(partialParams) {
+        this.boot();
+        return this.client.describePullThroughCacheRules(this.ops["DescribePullThroughCacheRules"].apply(partialParams));
+    }
+    invokeDescribeRegistry(partialParams) {
+        this.boot();
+        return this.client.describeRegistry(this.ops["DescribeRegistry"].apply(partialParams));
+    }
+    invokeDescribeRepositories(partialParams) {
+        this.boot();
+        return this.client.describeRepositories(this.ops["DescribeRepositories"].apply(partialParams));
+    }
+    invokeGetAuthorizationToken(partialParams) {
+        this.boot();
+        return this.client.getAuthorizationToken(this.ops["GetAuthorizationToken"].apply(partialParams));
     }
     invokeGetDownloadUrlForLayer(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getDownloadUrlForLayer(this.ops["GetDownloadUrlForLayer"].applicator.apply(partialParams));
+        return this.client.getDownloadUrlForLayer(this.ops["GetDownloadUrlForLayer"].apply(partialParams));
     }
     invokeGetLifecyclePolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getLifecyclePolicy(this.ops["GetLifecyclePolicy"].applicator.apply(partialParams));
+        return this.client.getLifecyclePolicy(this.ops["GetLifecyclePolicy"].apply(partialParams));
     }
     invokeGetLifecyclePolicyPreview(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getLifecyclePolicyPreview(this.ops["GetLifecyclePolicyPreview"].applicator.apply(partialParams));
+        return this.client.getLifecyclePolicyPreview(this.ops["GetLifecyclePolicyPreview"].apply(partialParams));
+    }
+    invokeGetRegistryPolicy(partialParams) {
+        this.boot();
+        return this.client.getRegistryPolicy(this.ops["GetRegistryPolicy"].apply(partialParams));
+    }
+    invokeGetRegistryScanningConfiguration(partialParams) {
+        this.boot();
+        return this.client.getRegistryScanningConfiguration(this.ops["GetRegistryScanningConfiguration"].apply(partialParams));
     }
     invokeGetRepositoryPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getRepositoryPolicy(this.ops["GetRepositoryPolicy"].applicator.apply(partialParams));
+        return this.client.getRepositoryPolicy(this.ops["GetRepositoryPolicy"].apply(partialParams));
     }
     invokeInitiateLayerUpload(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.initiateLayerUpload(this.ops["InitiateLayerUpload"].applicator.apply(partialParams));
+        return this.client.initiateLayerUpload(this.ops["InitiateLayerUpload"].apply(partialParams));
     }
     invokeListImages(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listImages(this.ops["ListImages"].applicator.apply(partialParams));
+        return this.client.listImages(this.ops["ListImages"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokePutImage(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putImage(this.ops["PutImage"].applicator.apply(partialParams));
+        return this.client.putImage(this.ops["PutImage"].apply(partialParams));
     }
     invokePutImageScanningConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putImageScanningConfiguration(this.ops["PutImageScanningConfiguration"].applicator.apply(partialParams));
+        return this.client.putImageScanningConfiguration(this.ops["PutImageScanningConfiguration"].apply(partialParams));
     }
     invokePutImageTagMutability(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putImageTagMutability(this.ops["PutImageTagMutability"].applicator.apply(partialParams));
+        return this.client.putImageTagMutability(this.ops["PutImageTagMutability"].apply(partialParams));
     }
     invokePutLifecyclePolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putLifecyclePolicy(this.ops["PutLifecyclePolicy"].applicator.apply(partialParams));
+        return this.client.putLifecyclePolicy(this.ops["PutLifecyclePolicy"].apply(partialParams));
     }
     invokePutRegistryPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putRegistryPolicy(this.ops["PutRegistryPolicy"].applicator.apply(partialParams));
+        return this.client.putRegistryPolicy(this.ops["PutRegistryPolicy"].apply(partialParams));
+    }
+    invokePutRegistryScanningConfiguration(partialParams) {
+        this.boot();
+        return this.client.putRegistryScanningConfiguration(this.ops["PutRegistryScanningConfiguration"].apply(partialParams));
     }
     invokePutReplicationConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putReplicationConfiguration(this.ops["PutReplicationConfiguration"].applicator.apply(partialParams));
+        return this.client.putReplicationConfiguration(this.ops["PutReplicationConfiguration"].apply(partialParams));
     }
     invokeSetRepositoryPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.setRepositoryPolicy(this.ops["SetRepositoryPolicy"].applicator.apply(partialParams));
+        return this.client.setRepositoryPolicy(this.ops["SetRepositoryPolicy"].apply(partialParams));
     }
     invokeStartImageScan(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startImageScan(this.ops["StartImageScan"].applicator.apply(partialParams));
+        return this.client.startImageScan(this.ops["StartImageScan"].apply(partialParams));
     }
     invokeStartLifecyclePolicyPreview(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startLifecyclePolicyPreview(this.ops["StartLifecyclePolicyPreview"].applicator.apply(partialParams));
+        return this.client.startLifecyclePolicyPreview(this.ops["StartLifecyclePolicyPreview"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUploadLayerPart(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.uploadLayerPart(this.ops["UploadLayerPart"].applicator.apply(partialParams));
+        return this.client.uploadLayerPart(this.ops["UploadLayerPart"].apply(partialParams));
     }
 }
 exports.default = default_1;

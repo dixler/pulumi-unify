@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.schemas.Discoverer {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.Schemas();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,169 +50,104 @@ class default_1 extends aws.schemas.Discoverer {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeCreateDiscoverer(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDiscoverer(this.ops["CreateDiscoverer"].applicator.apply(partialParams));
+        return this.client.createDiscoverer(this.ops["CreateDiscoverer"].apply(partialParams));
     }
     invokeCreateRegistry(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createRegistry(this.ops["CreateRegistry"].applicator.apply(partialParams));
+        return this.client.createRegistry(this.ops["CreateRegistry"].apply(partialParams));
     }
     invokeCreateSchema(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createSchema(this.ops["CreateSchema"].applicator.apply(partialParams));
-    }
-    invokeDeleteDiscoverer(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteDiscoverer(this.ops["DeleteDiscoverer"].applicator.apply(partialParams));
-    }
-    invokeDeleteRegistry(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteRegistry(this.ops["DeleteRegistry"].applicator.apply(partialParams));
-    }
-    invokeDeleteSchema(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteSchema(this.ops["DeleteSchema"].applicator.apply(partialParams));
-    }
-    invokeDeleteSchemaVersion(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteSchemaVersion(this.ops["DeleteSchemaVersion"].applicator.apply(partialParams));
+        return this.client.createSchema(this.ops["CreateSchema"].apply(partialParams));
     }
     invokeDescribeCodeBinding(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeCodeBinding(this.ops["DescribeCodeBinding"].applicator.apply(partialParams));
+        return this.client.describeCodeBinding(this.ops["DescribeCodeBinding"].apply(partialParams));
     }
     invokeDescribeDiscoverer(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeDiscoverer(this.ops["DescribeDiscoverer"].applicator.apply(partialParams));
+        return this.client.describeDiscoverer(this.ops["DescribeDiscoverer"].apply(partialParams));
     }
     invokeDescribeRegistry(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeRegistry(this.ops["DescribeRegistry"].applicator.apply(partialParams));
+        return this.client.describeRegistry(this.ops["DescribeRegistry"].apply(partialParams));
     }
     invokeDescribeSchema(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeSchema(this.ops["DescribeSchema"].applicator.apply(partialParams));
+        return this.client.describeSchema(this.ops["DescribeSchema"].apply(partialParams));
     }
     invokeExportSchema(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.exportSchema(this.ops["ExportSchema"].applicator.apply(partialParams));
+        return this.client.exportSchema(this.ops["ExportSchema"].apply(partialParams));
     }
     invokeGetCodeBindingSource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getCodeBindingSource(this.ops["GetCodeBindingSource"].applicator.apply(partialParams));
+        return this.client.getCodeBindingSource(this.ops["GetCodeBindingSource"].apply(partialParams));
     }
     invokeGetDiscoveredSchema(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getDiscoveredSchema(this.ops["GetDiscoveredSchema"].applicator.apply(partialParams));
+        return this.client.getDiscoveredSchema(this.ops["GetDiscoveredSchema"].apply(partialParams));
+    }
+    invokeGetResourcePolicy(partialParams) {
+        this.boot();
+        return this.client.getResourcePolicy(this.ops["GetResourcePolicy"].apply(partialParams));
+    }
+    invokeListDiscoverers(partialParams) {
+        this.boot();
+        return this.client.listDiscoverers(this.ops["ListDiscoverers"].apply(partialParams));
+    }
+    invokeListRegistries(partialParams) {
+        this.boot();
+        return this.client.listRegistries(this.ops["ListRegistries"].apply(partialParams));
     }
     invokeListSchemaVersions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listSchemaVersions(this.ops["ListSchemaVersions"].applicator.apply(partialParams));
+        return this.client.listSchemaVersions(this.ops["ListSchemaVersions"].apply(partialParams));
     }
     invokeListSchemas(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listSchemas(this.ops["ListSchemas"].applicator.apply(partialParams));
+        return this.client.listSchemas(this.ops["ListSchemas"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokePutCodeBinding(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putCodeBinding(this.ops["PutCodeBinding"].applicator.apply(partialParams));
+        return this.client.putCodeBinding(this.ops["PutCodeBinding"].apply(partialParams));
     }
     invokePutResourcePolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putResourcePolicy(this.ops["PutResourcePolicy"].applicator.apply(partialParams));
+        return this.client.putResourcePolicy(this.ops["PutResourcePolicy"].apply(partialParams));
     }
     invokeSearchSchemas(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.searchSchemas(this.ops["SearchSchemas"].applicator.apply(partialParams));
+        return this.client.searchSchemas(this.ops["SearchSchemas"].apply(partialParams));
     }
     invokeStartDiscoverer(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startDiscoverer(this.ops["StartDiscoverer"].applicator.apply(partialParams));
+        return this.client.startDiscoverer(this.ops["StartDiscoverer"].apply(partialParams));
     }
     invokeStopDiscoverer(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.stopDiscoverer(this.ops["StopDiscoverer"].applicator.apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.stopDiscoverer(this.ops["StopDiscoverer"].apply(partialParams));
     }
     invokeUpdateDiscoverer(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateDiscoverer(this.ops["UpdateDiscoverer"].applicator.apply(partialParams));
+        return this.client.updateDiscoverer(this.ops["UpdateDiscoverer"].apply(partialParams));
     }
     invokeUpdateRegistry(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateRegistry(this.ops["UpdateRegistry"].applicator.apply(partialParams));
+        return this.client.updateRegistry(this.ops["UpdateRegistry"].apply(partialParams));
     }
     invokeUpdateSchema(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateSchema(this.ops["UpdateSchema"].applicator.apply(partialParams));
+        return this.client.updateSchema(this.ops["UpdateSchema"].apply(partialParams));
     }
 }
 exports.default = default_1;

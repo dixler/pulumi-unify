@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.backup.Selection {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.Backup();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,313 +50,200 @@ class default_1 extends aws.backup.Selection {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeCreateBackupPlan(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createBackupPlan(this.ops["CreateBackupPlan"].applicator.apply(partialParams));
+        return this.client.createBackupPlan(this.ops["CreateBackupPlan"].apply(partialParams));
     }
     invokeCreateBackupSelection(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createBackupSelection(this.ops["CreateBackupSelection"].applicator.apply(partialParams));
+        return this.client.createBackupSelection(this.ops["CreateBackupSelection"].apply(partialParams));
     }
     invokeCreateBackupVault(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createBackupVault(this.ops["CreateBackupVault"].applicator.apply(partialParams));
+        return this.client.createBackupVault(this.ops["CreateBackupVault"].apply(partialParams));
     }
     invokeCreateFramework(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createFramework(this.ops["CreateFramework"].applicator.apply(partialParams));
+        return this.client.createFramework(this.ops["CreateFramework"].apply(partialParams));
     }
     invokeCreateReportPlan(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createReportPlan(this.ops["CreateReportPlan"].applicator.apply(partialParams));
+        return this.client.createReportPlan(this.ops["CreateReportPlan"].apply(partialParams));
     }
     invokeDeleteBackupPlan(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteBackupPlan(this.ops["DeleteBackupPlan"].applicator.apply(partialParams));
-    }
-    invokeDeleteBackupSelection(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteBackupSelection(this.ops["DeleteBackupSelection"].applicator.apply(partialParams));
-    }
-    invokeDeleteBackupVault(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteBackupVault(this.ops["DeleteBackupVault"].applicator.apply(partialParams));
-    }
-    invokeDeleteBackupVaultAccessPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteBackupVaultAccessPolicy(this.ops["DeleteBackupVaultAccessPolicy"].applicator.apply(partialParams));
-    }
-    invokeDeleteBackupVaultLockConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteBackupVaultLockConfiguration(this.ops["DeleteBackupVaultLockConfiguration"].applicator.apply(partialParams));
-    }
-    invokeDeleteBackupVaultNotifications(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteBackupVaultNotifications(this.ops["DeleteBackupVaultNotifications"].applicator.apply(partialParams));
-    }
-    invokeDeleteFramework(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteFramework(this.ops["DeleteFramework"].applicator.apply(partialParams));
-    }
-    invokeDeleteRecoveryPoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteRecoveryPoint(this.ops["DeleteRecoveryPoint"].applicator.apply(partialParams));
-    }
-    invokeDeleteReportPlan(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteReportPlan(this.ops["DeleteReportPlan"].applicator.apply(partialParams));
+        return this.client.deleteBackupPlan(this.ops["DeleteBackupPlan"].apply(partialParams));
     }
     invokeDescribeBackupJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeBackupJob(this.ops["DescribeBackupJob"].applicator.apply(partialParams));
+        return this.client.describeBackupJob(this.ops["DescribeBackupJob"].apply(partialParams));
     }
     invokeDescribeBackupVault(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeBackupVault(this.ops["DescribeBackupVault"].applicator.apply(partialParams));
+        return this.client.describeBackupVault(this.ops["DescribeBackupVault"].apply(partialParams));
     }
     invokeDescribeCopyJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeCopyJob(this.ops["DescribeCopyJob"].applicator.apply(partialParams));
+        return this.client.describeCopyJob(this.ops["DescribeCopyJob"].apply(partialParams));
     }
     invokeDescribeFramework(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeFramework(this.ops["DescribeFramework"].applicator.apply(partialParams));
+        return this.client.describeFramework(this.ops["DescribeFramework"].apply(partialParams));
+    }
+    invokeDescribeGlobalSettings(partialParams) {
+        this.boot();
+        return this.client.describeGlobalSettings(this.ops["DescribeGlobalSettings"].apply(partialParams));
     }
     invokeDescribeProtectedResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeProtectedResource(this.ops["DescribeProtectedResource"].applicator.apply(partialParams));
+        return this.client.describeProtectedResource(this.ops["DescribeProtectedResource"].apply(partialParams));
     }
     invokeDescribeRecoveryPoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeRecoveryPoint(this.ops["DescribeRecoveryPoint"].applicator.apply(partialParams));
+        return this.client.describeRecoveryPoint(this.ops["DescribeRecoveryPoint"].apply(partialParams));
+    }
+    invokeDescribeRegionSettings(partialParams) {
+        this.boot();
+        return this.client.describeRegionSettings(this.ops["DescribeRegionSettings"].apply(partialParams));
     }
     invokeDescribeReportJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeReportJob(this.ops["DescribeReportJob"].applicator.apply(partialParams));
+        return this.client.describeReportJob(this.ops["DescribeReportJob"].apply(partialParams));
     }
     invokeDescribeReportPlan(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeReportPlan(this.ops["DescribeReportPlan"].applicator.apply(partialParams));
+        return this.client.describeReportPlan(this.ops["DescribeReportPlan"].apply(partialParams));
     }
     invokeDescribeRestoreJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeRestoreJob(this.ops["DescribeRestoreJob"].applicator.apply(partialParams));
-    }
-    invokeDisassociateRecoveryPoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disassociateRecoveryPoint(this.ops["DisassociateRecoveryPoint"].applicator.apply(partialParams));
+        return this.client.describeRestoreJob(this.ops["DescribeRestoreJob"].apply(partialParams));
     }
     invokeExportBackupPlanTemplate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.exportBackupPlanTemplate(this.ops["ExportBackupPlanTemplate"].applicator.apply(partialParams));
+        return this.client.exportBackupPlanTemplate(this.ops["ExportBackupPlanTemplate"].apply(partialParams));
     }
     invokeGetBackupPlan(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getBackupPlan(this.ops["GetBackupPlan"].applicator.apply(partialParams));
+        return this.client.getBackupPlan(this.ops["GetBackupPlan"].apply(partialParams));
     }
     invokeGetBackupPlanFromJSON(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getBackupPlanFromJSON(this.ops["GetBackupPlanFromJSON"].applicator.apply(partialParams));
+        return this.client.getBackupPlanFromJSON(this.ops["GetBackupPlanFromJSON"].apply(partialParams));
     }
     invokeGetBackupPlanFromTemplate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getBackupPlanFromTemplate(this.ops["GetBackupPlanFromTemplate"].applicator.apply(partialParams));
+        return this.client.getBackupPlanFromTemplate(this.ops["GetBackupPlanFromTemplate"].apply(partialParams));
     }
     invokeGetBackupSelection(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getBackupSelection(this.ops["GetBackupSelection"].applicator.apply(partialParams));
+        return this.client.getBackupSelection(this.ops["GetBackupSelection"].apply(partialParams));
     }
     invokeGetBackupVaultAccessPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getBackupVaultAccessPolicy(this.ops["GetBackupVaultAccessPolicy"].applicator.apply(partialParams));
+        return this.client.getBackupVaultAccessPolicy(this.ops["GetBackupVaultAccessPolicy"].apply(partialParams));
     }
     invokeGetBackupVaultNotifications(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getBackupVaultNotifications(this.ops["GetBackupVaultNotifications"].applicator.apply(partialParams));
+        return this.client.getBackupVaultNotifications(this.ops["GetBackupVaultNotifications"].apply(partialParams));
     }
     invokeGetRecoveryPointRestoreMetadata(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getRecoveryPointRestoreMetadata(this.ops["GetRecoveryPointRestoreMetadata"].applicator.apply(partialParams));
+        return this.client.getRecoveryPointRestoreMetadata(this.ops["GetRecoveryPointRestoreMetadata"].apply(partialParams));
+    }
+    invokeListBackupJobs(partialParams) {
+        this.boot();
+        return this.client.listBackupJobs(this.ops["ListBackupJobs"].apply(partialParams));
+    }
+    invokeListBackupPlanTemplates(partialParams) {
+        this.boot();
+        return this.client.listBackupPlanTemplates(this.ops["ListBackupPlanTemplates"].apply(partialParams));
     }
     invokeListBackupPlanVersions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listBackupPlanVersions(this.ops["ListBackupPlanVersions"].applicator.apply(partialParams));
+        return this.client.listBackupPlanVersions(this.ops["ListBackupPlanVersions"].apply(partialParams));
+    }
+    invokeListBackupPlans(partialParams) {
+        this.boot();
+        return this.client.listBackupPlans(this.ops["ListBackupPlans"].apply(partialParams));
     }
     invokeListBackupSelections(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listBackupSelections(this.ops["ListBackupSelections"].applicator.apply(partialParams));
+        return this.client.listBackupSelections(this.ops["ListBackupSelections"].apply(partialParams));
+    }
+    invokeListBackupVaults(partialParams) {
+        this.boot();
+        return this.client.listBackupVaults(this.ops["ListBackupVaults"].apply(partialParams));
+    }
+    invokeListCopyJobs(partialParams) {
+        this.boot();
+        return this.client.listCopyJobs(this.ops["ListCopyJobs"].apply(partialParams));
+    }
+    invokeListFrameworks(partialParams) {
+        this.boot();
+        return this.client.listFrameworks(this.ops["ListFrameworks"].apply(partialParams));
+    }
+    invokeListProtectedResources(partialParams) {
+        this.boot();
+        return this.client.listProtectedResources(this.ops["ListProtectedResources"].apply(partialParams));
     }
     invokeListRecoveryPointsByBackupVault(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listRecoveryPointsByBackupVault(this.ops["ListRecoveryPointsByBackupVault"].applicator.apply(partialParams));
+        return this.client.listRecoveryPointsByBackupVault(this.ops["ListRecoveryPointsByBackupVault"].apply(partialParams));
     }
     invokeListRecoveryPointsByResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listRecoveryPointsByResource(this.ops["ListRecoveryPointsByResource"].applicator.apply(partialParams));
+        return this.client.listRecoveryPointsByResource(this.ops["ListRecoveryPointsByResource"].apply(partialParams));
+    }
+    invokeListReportJobs(partialParams) {
+        this.boot();
+        return this.client.listReportJobs(this.ops["ListReportJobs"].apply(partialParams));
+    }
+    invokeListReportPlans(partialParams) {
+        this.boot();
+        return this.client.listReportPlans(this.ops["ListReportPlans"].apply(partialParams));
+    }
+    invokeListRestoreJobs(partialParams) {
+        this.boot();
+        return this.client.listRestoreJobs(this.ops["ListRestoreJobs"].apply(partialParams));
     }
     invokeListTags(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTags(this.ops["ListTags"].applicator.apply(partialParams));
-    }
-    invokePutBackupVaultAccessPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.putBackupVaultAccessPolicy(this.ops["PutBackupVaultAccessPolicy"].applicator.apply(partialParams));
-    }
-    invokePutBackupVaultLockConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.putBackupVaultLockConfiguration(this.ops["PutBackupVaultLockConfiguration"].applicator.apply(partialParams));
-    }
-    invokePutBackupVaultNotifications(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.putBackupVaultNotifications(this.ops["PutBackupVaultNotifications"].applicator.apply(partialParams));
+        return this.client.listTags(this.ops["ListTags"].apply(partialParams));
     }
     invokeStartBackupJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startBackupJob(this.ops["StartBackupJob"].applicator.apply(partialParams));
+        return this.client.startBackupJob(this.ops["StartBackupJob"].apply(partialParams));
     }
     invokeStartCopyJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startCopyJob(this.ops["StartCopyJob"].applicator.apply(partialParams));
+        return this.client.startCopyJob(this.ops["StartCopyJob"].apply(partialParams));
     }
     invokeStartReportJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startReportJob(this.ops["StartReportJob"].applicator.apply(partialParams));
+        return this.client.startReportJob(this.ops["StartReportJob"].apply(partialParams));
     }
     invokeStartRestoreJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startRestoreJob(this.ops["StartRestoreJob"].applicator.apply(partialParams));
-    }
-    invokeStopBackupJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.stopBackupJob(this.ops["StopBackupJob"].applicator.apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.startRestoreJob(this.ops["StartRestoreJob"].apply(partialParams));
     }
     invokeUpdateBackupPlan(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateBackupPlan(this.ops["UpdateBackupPlan"].applicator.apply(partialParams));
+        return this.client.updateBackupPlan(this.ops["UpdateBackupPlan"].apply(partialParams));
     }
     invokeUpdateFramework(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateFramework(this.ops["UpdateFramework"].applicator.apply(partialParams));
+        return this.client.updateFramework(this.ops["UpdateFramework"].apply(partialParams));
     }
     invokeUpdateRecoveryPointLifecycle(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateRecoveryPointLifecycle(this.ops["UpdateRecoveryPointLifecycle"].applicator.apply(partialParams));
+        return this.client.updateRecoveryPointLifecycle(this.ops["UpdateRecoveryPointLifecycle"].apply(partialParams));
     }
     invokeUpdateReportPlan(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateReportPlan(this.ops["UpdateReportPlan"].applicator.apply(partialParams));
+        return this.client.updateReportPlan(this.ops["UpdateReportPlan"].apply(partialParams));
     }
 }
 exports.default = default_1;

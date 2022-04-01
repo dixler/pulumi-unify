@@ -5,25 +5,17 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    AddPermissionRequest,
-    ChangeMessageVisibilityRequest,
     ChangeMessageVisibilityBatchRequest,
     CreateQueueRequest,
-    DeleteMessageRequest,
     DeleteMessageBatchRequest,
-    DeleteQueueRequest,
     GetQueueAttributesRequest,
     GetQueueUrlRequest,
     ListDeadLetterSourceQueuesRequest,
     ListQueueTagsRequest,
-    PurgeQueueRequest,
+    ListQueuesRequest,
     ReceiveMessageRequest,
-    RemovePermissionRequest,
     SendMessageRequest,
     SendMessageBatchRequest,
-    SetQueueAttributesRequest,
-    TagQueueRequest,
-    UntagQueueRequest,
     ChangeMessageVisibilityBatchResult,
     CreateQueueResult,
     DeleteMessageBatchResult,
@@ -31,6 +23,7 @@ import {
     GetQueueUrlResult,
     ListDeadLetterSourceQueuesResult,
     ListQueueTagsResult,
+    ListQueuesResult,
     ReceiveMessageResult,
     SendMessageResult,
     SendMessageBatchResult
@@ -48,21 +41,24 @@ export default class extends aws.sqs.Queue {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.sqs.Queue>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.SQS()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -72,215 +68,106 @@ export default class extends aws.sqs.Queue {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
-    }
-
-    invokeAddPermission(partialParams: ToOptional<{
-      [K in keyof AddPermissionRequest & keyof AddPermissionRequest & keyof AddPermissionRequest & keyof AddPermissionRequest & keyof AddPermissionRequest & keyof AddPermissionRequest & keyof AddPermissionRequest & keyof AddPermissionRequest & keyof AddPermissionRequest & keyof AddPermissionRequest]: (AddPermissionRequest & AddPermissionRequest & AddPermissionRequest & AddPermissionRequest & AddPermissionRequest & AddPermissionRequest & AddPermissionRequest & AddPermissionRequest & AddPermissionRequest & AddPermissionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.addPermission(
-          this.ops["AddPermission"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeChangeMessageVisibility(partialParams: ToOptional<{
-      [K in keyof ChangeMessageVisibilityRequest & keyof ChangeMessageVisibilityRequest & keyof ChangeMessageVisibilityRequest & keyof ChangeMessageVisibilityRequest & keyof ChangeMessageVisibilityRequest & keyof ChangeMessageVisibilityRequest & keyof ChangeMessageVisibilityRequest & keyof ChangeMessageVisibilityRequest & keyof ChangeMessageVisibilityRequest & keyof ChangeMessageVisibilityRequest]: (ChangeMessageVisibilityRequest & ChangeMessageVisibilityRequest & ChangeMessageVisibilityRequest & ChangeMessageVisibilityRequest & ChangeMessageVisibilityRequest & ChangeMessageVisibilityRequest & ChangeMessageVisibilityRequest & ChangeMessageVisibilityRequest & ChangeMessageVisibilityRequest & ChangeMessageVisibilityRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.changeMessageVisibility(
-          this.ops["ChangeMessageVisibility"].applicator.apply(partialParams)
-        );
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeChangeMessageVisibilityBatch(partialParams: ToOptional<{
-      [K in keyof ChangeMessageVisibilityBatchRequest & keyof ChangeMessageVisibilityBatchRequest & keyof ChangeMessageVisibilityBatchRequest & keyof ChangeMessageVisibilityBatchRequest & keyof ChangeMessageVisibilityBatchRequest & keyof ChangeMessageVisibilityBatchRequest & keyof ChangeMessageVisibilityBatchRequest & keyof ChangeMessageVisibilityBatchRequest & keyof ChangeMessageVisibilityBatchRequest & keyof ChangeMessageVisibilityBatchRequest]: (ChangeMessageVisibilityBatchRequest & ChangeMessageVisibilityBatchRequest & ChangeMessageVisibilityBatchRequest & ChangeMessageVisibilityBatchRequest & ChangeMessageVisibilityBatchRequest & ChangeMessageVisibilityBatchRequest & ChangeMessageVisibilityBatchRequest & ChangeMessageVisibilityBatchRequest & ChangeMessageVisibilityBatchRequest & ChangeMessageVisibilityBatchRequest)[K]
+      [K in keyof ChangeMessageVisibilityBatchRequest & keyof Omit<ChangeMessageVisibilityBatchRequest, "QueueUrl">]: (ChangeMessageVisibilityBatchRequest)[K]
     }>): Request<ChangeMessageVisibilityBatchResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.changeMessageVisibilityBatch(
-          this.ops["ChangeMessageVisibilityBatch"].applicator.apply(partialParams)
+          this.ops["ChangeMessageVisibilityBatch"].apply(partialParams)
         );
     }
 
     invokeCreateQueue(partialParams: ToOptional<{
-      [K in keyof CreateQueueRequest & keyof CreateQueueRequest & keyof CreateQueueRequest & keyof CreateQueueRequest & keyof CreateQueueRequest & keyof CreateQueueRequest & keyof CreateQueueRequest & keyof CreateQueueRequest & keyof CreateQueueRequest & keyof CreateQueueRequest]: (CreateQueueRequest & CreateQueueRequest & CreateQueueRequest & CreateQueueRequest & CreateQueueRequest & CreateQueueRequest & CreateQueueRequest & CreateQueueRequest & CreateQueueRequest & CreateQueueRequest)[K]
+      [K in keyof CreateQueueRequest & keyof Omit<CreateQueueRequest, "QueueName">]: (CreateQueueRequest)[K]
     }>): Request<CreateQueueResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createQueue(
-          this.ops["CreateQueue"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteMessage(partialParams: ToOptional<{
-      [K in keyof DeleteMessageRequest & keyof DeleteMessageRequest & keyof DeleteMessageRequest & keyof DeleteMessageRequest & keyof DeleteMessageRequest & keyof DeleteMessageRequest & keyof DeleteMessageRequest & keyof DeleteMessageRequest & keyof DeleteMessageRequest & keyof DeleteMessageRequest]: (DeleteMessageRequest & DeleteMessageRequest & DeleteMessageRequest & DeleteMessageRequest & DeleteMessageRequest & DeleteMessageRequest & DeleteMessageRequest & DeleteMessageRequest & DeleteMessageRequest & DeleteMessageRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteMessage(
-          this.ops["DeleteMessage"].applicator.apply(partialParams)
+          this.ops["CreateQueue"].apply(partialParams)
         );
     }
 
     invokeDeleteMessageBatch(partialParams: ToOptional<{
-      [K in keyof DeleteMessageBatchRequest & keyof DeleteMessageBatchRequest & keyof DeleteMessageBatchRequest & keyof DeleteMessageBatchRequest & keyof DeleteMessageBatchRequest & keyof DeleteMessageBatchRequest & keyof DeleteMessageBatchRequest & keyof DeleteMessageBatchRequest & keyof DeleteMessageBatchRequest & keyof DeleteMessageBatchRequest]: (DeleteMessageBatchRequest & DeleteMessageBatchRequest & DeleteMessageBatchRequest & DeleteMessageBatchRequest & DeleteMessageBatchRequest & DeleteMessageBatchRequest & DeleteMessageBatchRequest & DeleteMessageBatchRequest & DeleteMessageBatchRequest & DeleteMessageBatchRequest)[K]
+      [K in keyof DeleteMessageBatchRequest & keyof Omit<DeleteMessageBatchRequest, "QueueUrl">]: (DeleteMessageBatchRequest)[K]
     }>): Request<DeleteMessageBatchResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteMessageBatch(
-          this.ops["DeleteMessageBatch"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteQueue(partialParams: ToOptional<{
-      [K in keyof DeleteQueueRequest & keyof DeleteQueueRequest & keyof DeleteQueueRequest & keyof DeleteQueueRequest & keyof DeleteQueueRequest & keyof DeleteQueueRequest & keyof DeleteQueueRequest & keyof DeleteQueueRequest & keyof DeleteQueueRequest & keyof DeleteQueueRequest]: (DeleteQueueRequest & DeleteQueueRequest & DeleteQueueRequest & DeleteQueueRequest & DeleteQueueRequest & DeleteQueueRequest & DeleteQueueRequest & DeleteQueueRequest & DeleteQueueRequest & DeleteQueueRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteQueue(
-          this.ops["DeleteQueue"].applicator.apply(partialParams)
+          this.ops["DeleteMessageBatch"].apply(partialParams)
         );
     }
 
     invokeGetQueueAttributes(partialParams: ToOptional<{
-      [K in keyof GetQueueAttributesRequest & keyof GetQueueAttributesRequest & keyof GetQueueAttributesRequest & keyof GetQueueAttributesRequest & keyof GetQueueAttributesRequest & keyof GetQueueAttributesRequest & keyof GetQueueAttributesRequest & keyof GetQueueAttributesRequest & keyof GetQueueAttributesRequest & keyof GetQueueAttributesRequest]: (GetQueueAttributesRequest & GetQueueAttributesRequest & GetQueueAttributesRequest & GetQueueAttributesRequest & GetQueueAttributesRequest & GetQueueAttributesRequest & GetQueueAttributesRequest & GetQueueAttributesRequest & GetQueueAttributesRequest & GetQueueAttributesRequest)[K]
+      [K in keyof GetQueueAttributesRequest & keyof Omit<GetQueueAttributesRequest, "QueueUrl">]: (GetQueueAttributesRequest)[K]
     }>): Request<GetQueueAttributesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getQueueAttributes(
-          this.ops["GetQueueAttributes"].applicator.apply(partialParams)
+          this.ops["GetQueueAttributes"].apply(partialParams)
         );
     }
 
     invokeGetQueueUrl(partialParams: ToOptional<{
-      [K in keyof GetQueueUrlRequest & keyof GetQueueUrlRequest & keyof GetQueueUrlRequest & keyof GetQueueUrlRequest & keyof GetQueueUrlRequest & keyof GetQueueUrlRequest & keyof GetQueueUrlRequest & keyof GetQueueUrlRequest & keyof GetQueueUrlRequest & keyof GetQueueUrlRequest]: (GetQueueUrlRequest & GetQueueUrlRequest & GetQueueUrlRequest & GetQueueUrlRequest & GetQueueUrlRequest & GetQueueUrlRequest & GetQueueUrlRequest & GetQueueUrlRequest & GetQueueUrlRequest & GetQueueUrlRequest)[K]
+      [K in keyof GetQueueUrlRequest & keyof Omit<GetQueueUrlRequest, "QueueName">]: (GetQueueUrlRequest)[K]
     }>): Request<GetQueueUrlResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getQueueUrl(
-          this.ops["GetQueueUrl"].applicator.apply(partialParams)
+          this.ops["GetQueueUrl"].apply(partialParams)
         );
     }
 
     invokeListDeadLetterSourceQueues(partialParams: ToOptional<{
-      [K in keyof ListDeadLetterSourceQueuesRequest & keyof ListDeadLetterSourceQueuesRequest & keyof ListDeadLetterSourceQueuesRequest & keyof ListDeadLetterSourceQueuesRequest & keyof ListDeadLetterSourceQueuesRequest & keyof ListDeadLetterSourceQueuesRequest & keyof ListDeadLetterSourceQueuesRequest & keyof ListDeadLetterSourceQueuesRequest & keyof ListDeadLetterSourceQueuesRequest & keyof ListDeadLetterSourceQueuesRequest]: (ListDeadLetterSourceQueuesRequest & ListDeadLetterSourceQueuesRequest & ListDeadLetterSourceQueuesRequest & ListDeadLetterSourceQueuesRequest & ListDeadLetterSourceQueuesRequest & ListDeadLetterSourceQueuesRequest & ListDeadLetterSourceQueuesRequest & ListDeadLetterSourceQueuesRequest & ListDeadLetterSourceQueuesRequest & ListDeadLetterSourceQueuesRequest)[K]
+      [K in keyof ListDeadLetterSourceQueuesRequest & keyof Omit<ListDeadLetterSourceQueuesRequest, "QueueUrl">]: (ListDeadLetterSourceQueuesRequest)[K]
     }>): Request<ListDeadLetterSourceQueuesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listDeadLetterSourceQueues(
-          this.ops["ListDeadLetterSourceQueues"].applicator.apply(partialParams)
+          this.ops["ListDeadLetterSourceQueues"].apply(partialParams)
         );
     }
 
     invokeListQueueTags(partialParams: ToOptional<{
-      [K in keyof ListQueueTagsRequest & keyof ListQueueTagsRequest & keyof ListQueueTagsRequest & keyof ListQueueTagsRequest & keyof ListQueueTagsRequest & keyof ListQueueTagsRequest & keyof ListQueueTagsRequest & keyof ListQueueTagsRequest & keyof ListQueueTagsRequest & keyof ListQueueTagsRequest]: (ListQueueTagsRequest & ListQueueTagsRequest & ListQueueTagsRequest & ListQueueTagsRequest & ListQueueTagsRequest & ListQueueTagsRequest & ListQueueTagsRequest & ListQueueTagsRequest & ListQueueTagsRequest & ListQueueTagsRequest)[K]
+      [K in keyof ListQueueTagsRequest & keyof Omit<ListQueueTagsRequest, "QueueUrl">]: (ListQueueTagsRequest)[K]
     }>): Request<ListQueueTagsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listQueueTags(
-          this.ops["ListQueueTags"].applicator.apply(partialParams)
+          this.ops["ListQueueTags"].apply(partialParams)
         );
     }
 
-    invokePurgeQueue(partialParams: ToOptional<{
-      [K in keyof PurgeQueueRequest & keyof PurgeQueueRequest & keyof PurgeQueueRequest & keyof PurgeQueueRequest & keyof PurgeQueueRequest & keyof PurgeQueueRequest & keyof PurgeQueueRequest & keyof PurgeQueueRequest & keyof PurgeQueueRequest & keyof PurgeQueueRequest]: (PurgeQueueRequest & PurgeQueueRequest & PurgeQueueRequest & PurgeQueueRequest & PurgeQueueRequest & PurgeQueueRequest & PurgeQueueRequest & PurgeQueueRequest & PurgeQueueRequest & PurgeQueueRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeListQueues(partialParams: ToOptional<{
+      [K in keyof ListQueuesRequest]: (ListQueuesRequest)[K]
+    }>): Request<ListQueuesResult, AWSError> {
         this.boot();
-        return this.client.purgeQueue(
-          this.ops["PurgeQueue"].applicator.apply(partialParams)
+        return this.client.listQueues(
+          this.ops["ListQueues"].apply(partialParams)
         );
     }
 
     invokeReceiveMessage(partialParams: ToOptional<{
-      [K in keyof ReceiveMessageRequest & keyof ReceiveMessageRequest & keyof ReceiveMessageRequest & keyof ReceiveMessageRequest & keyof ReceiveMessageRequest & keyof ReceiveMessageRequest & keyof ReceiveMessageRequest & keyof ReceiveMessageRequest & keyof ReceiveMessageRequest & keyof ReceiveMessageRequest]: (ReceiveMessageRequest & ReceiveMessageRequest & ReceiveMessageRequest & ReceiveMessageRequest & ReceiveMessageRequest & ReceiveMessageRequest & ReceiveMessageRequest & ReceiveMessageRequest & ReceiveMessageRequest & ReceiveMessageRequest)[K]
+      [K in keyof ReceiveMessageRequest & keyof Omit<ReceiveMessageRequest, "QueueUrl">]: (ReceiveMessageRequest)[K]
     }>): Request<ReceiveMessageResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.receiveMessage(
-          this.ops["ReceiveMessage"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeRemovePermission(partialParams: ToOptional<{
-      [K in keyof RemovePermissionRequest & keyof RemovePermissionRequest & keyof RemovePermissionRequest & keyof RemovePermissionRequest & keyof RemovePermissionRequest & keyof RemovePermissionRequest & keyof RemovePermissionRequest & keyof RemovePermissionRequest & keyof RemovePermissionRequest & keyof RemovePermissionRequest]: (RemovePermissionRequest & RemovePermissionRequest & RemovePermissionRequest & RemovePermissionRequest & RemovePermissionRequest & RemovePermissionRequest & RemovePermissionRequest & RemovePermissionRequest & RemovePermissionRequest & RemovePermissionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.removePermission(
-          this.ops["RemovePermission"].applicator.apply(partialParams)
+          this.ops["ReceiveMessage"].apply(partialParams)
         );
     }
 
     invokeSendMessage(partialParams: ToOptional<{
-      [K in keyof SendMessageRequest & keyof SendMessageRequest & keyof SendMessageRequest & keyof SendMessageRequest & keyof SendMessageRequest & keyof SendMessageRequest & keyof SendMessageRequest & keyof SendMessageRequest & keyof SendMessageRequest & keyof SendMessageRequest]: (SendMessageRequest & SendMessageRequest & SendMessageRequest & SendMessageRequest & SendMessageRequest & SendMessageRequest & SendMessageRequest & SendMessageRequest & SendMessageRequest & SendMessageRequest)[K]
+      [K in keyof SendMessageRequest & keyof Omit<SendMessageRequest, "QueueUrl">]: (SendMessageRequest)[K]
     }>): Request<SendMessageResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.sendMessage(
-          this.ops["SendMessage"].applicator.apply(partialParams)
+          this.ops["SendMessage"].apply(partialParams)
         );
     }
 
     invokeSendMessageBatch(partialParams: ToOptional<{
-      [K in keyof SendMessageBatchRequest & keyof SendMessageBatchRequest & keyof SendMessageBatchRequest & keyof SendMessageBatchRequest & keyof SendMessageBatchRequest & keyof SendMessageBatchRequest & keyof SendMessageBatchRequest & keyof SendMessageBatchRequest & keyof SendMessageBatchRequest & keyof SendMessageBatchRequest]: (SendMessageBatchRequest & SendMessageBatchRequest & SendMessageBatchRequest & SendMessageBatchRequest & SendMessageBatchRequest & SendMessageBatchRequest & SendMessageBatchRequest & SendMessageBatchRequest & SendMessageBatchRequest & SendMessageBatchRequest)[K]
+      [K in keyof SendMessageBatchRequest & keyof Omit<SendMessageBatchRequest, "QueueUrl">]: (SendMessageBatchRequest)[K]
     }>): Request<SendMessageBatchResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.sendMessageBatch(
-          this.ops["SendMessageBatch"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeSetQueueAttributes(partialParams: ToOptional<{
-      [K in keyof SetQueueAttributesRequest & keyof SetQueueAttributesRequest & keyof SetQueueAttributesRequest & keyof SetQueueAttributesRequest & keyof SetQueueAttributesRequest & keyof SetQueueAttributesRequest & keyof SetQueueAttributesRequest & keyof SetQueueAttributesRequest & keyof SetQueueAttributesRequest & keyof SetQueueAttributesRequest]: (SetQueueAttributesRequest & SetQueueAttributesRequest & SetQueueAttributesRequest & SetQueueAttributesRequest & SetQueueAttributesRequest & SetQueueAttributesRequest & SetQueueAttributesRequest & SetQueueAttributesRequest & SetQueueAttributesRequest & SetQueueAttributesRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.setQueueAttributes(
-          this.ops["SetQueueAttributes"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeTagQueue(partialParams: ToOptional<{
-      [K in keyof TagQueueRequest & keyof TagQueueRequest & keyof TagQueueRequest & keyof TagQueueRequest & keyof TagQueueRequest & keyof TagQueueRequest & keyof TagQueueRequest & keyof TagQueueRequest & keyof TagQueueRequest & keyof TagQueueRequest]: (TagQueueRequest & TagQueueRequest & TagQueueRequest & TagQueueRequest & TagQueueRequest & TagQueueRequest & TagQueueRequest & TagQueueRequest & TagQueueRequest & TagQueueRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.tagQueue(
-          this.ops["TagQueue"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUntagQueue(partialParams: ToOptional<{
-      [K in keyof UntagQueueRequest & keyof UntagQueueRequest & keyof UntagQueueRequest & keyof UntagQueueRequest & keyof UntagQueueRequest & keyof UntagQueueRequest & keyof UntagQueueRequest & keyof UntagQueueRequest & keyof UntagQueueRequest & keyof UntagQueueRequest]: (UntagQueueRequest & UntagQueueRequest & UntagQueueRequest & UntagQueueRequest & UntagQueueRequest & UntagQueueRequest & UntagQueueRequest & UntagQueueRequest & UntagQueueRequest & UntagQueueRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.untagQueue(
-          this.ops["UntagQueue"].applicator.apply(partialParams)
+          this.ops["SendMessageBatch"].apply(partialParams)
         );
     }
 }

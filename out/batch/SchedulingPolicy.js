@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.batch.SchedulingPolicy {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.Batch();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,121 +50,104 @@ class default_1 extends aws.batch.SchedulingPolicy {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeCancelJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.cancelJob(this.ops["CancelJob"].applicator.apply(partialParams));
+        return this.client.cancelJob(this.ops["CancelJob"].apply(partialParams));
     }
     invokeCreateComputeEnvironment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createComputeEnvironment(this.ops["CreateComputeEnvironment"].applicator.apply(partialParams));
+        return this.client.createComputeEnvironment(this.ops["CreateComputeEnvironment"].apply(partialParams));
     }
     invokeCreateJobQueue(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createJobQueue(this.ops["CreateJobQueue"].applicator.apply(partialParams));
+        return this.client.createJobQueue(this.ops["CreateJobQueue"].apply(partialParams));
     }
     invokeCreateSchedulingPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createSchedulingPolicy(this.ops["CreateSchedulingPolicy"].applicator.apply(partialParams));
+        return this.client.createSchedulingPolicy(this.ops["CreateSchedulingPolicy"].apply(partialParams));
     }
     invokeDeleteComputeEnvironment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteComputeEnvironment(this.ops["DeleteComputeEnvironment"].applicator.apply(partialParams));
+        return this.client.deleteComputeEnvironment(this.ops["DeleteComputeEnvironment"].apply(partialParams));
     }
     invokeDeleteJobQueue(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteJobQueue(this.ops["DeleteJobQueue"].applicator.apply(partialParams));
+        return this.client.deleteJobQueue(this.ops["DeleteJobQueue"].apply(partialParams));
     }
     invokeDeleteSchedulingPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteSchedulingPolicy(this.ops["DeleteSchedulingPolicy"].applicator.apply(partialParams));
+        return this.client.deleteSchedulingPolicy(this.ops["DeleteSchedulingPolicy"].apply(partialParams));
     }
     invokeDeregisterJobDefinition(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deregisterJobDefinition(this.ops["DeregisterJobDefinition"].applicator.apply(partialParams));
+        return this.client.deregisterJobDefinition(this.ops["DeregisterJobDefinition"].apply(partialParams));
+    }
+    invokeDescribeComputeEnvironments(partialParams) {
+        this.boot();
+        return this.client.describeComputeEnvironments(this.ops["DescribeComputeEnvironments"].apply(partialParams));
+    }
+    invokeDescribeJobDefinitions(partialParams) {
+        this.boot();
+        return this.client.describeJobDefinitions(this.ops["DescribeJobDefinitions"].apply(partialParams));
+    }
+    invokeDescribeJobQueues(partialParams) {
+        this.boot();
+        return this.client.describeJobQueues(this.ops["DescribeJobQueues"].apply(partialParams));
     }
     invokeDescribeJobs(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeJobs(this.ops["DescribeJobs"].applicator.apply(partialParams));
+        return this.client.describeJobs(this.ops["DescribeJobs"].apply(partialParams));
     }
     invokeDescribeSchedulingPolicies(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeSchedulingPolicies(this.ops["DescribeSchedulingPolicies"].applicator.apply(partialParams));
+        return this.client.describeSchedulingPolicies(this.ops["DescribeSchedulingPolicies"].apply(partialParams));
+    }
+    invokeListJobs(partialParams) {
+        this.boot();
+        return this.client.listJobs(this.ops["ListJobs"].apply(partialParams));
+    }
+    invokeListSchedulingPolicies(partialParams) {
+        this.boot();
+        return this.client.listSchedulingPolicies(this.ops["ListSchedulingPolicies"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeRegisterJobDefinition(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.registerJobDefinition(this.ops["RegisterJobDefinition"].applicator.apply(partialParams));
+        return this.client.registerJobDefinition(this.ops["RegisterJobDefinition"].apply(partialParams));
     }
     invokeSubmitJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.submitJob(this.ops["SubmitJob"].applicator.apply(partialParams));
+        return this.client.submitJob(this.ops["SubmitJob"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeTerminateJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.terminateJob(this.ops["TerminateJob"].applicator.apply(partialParams));
+        return this.client.terminateJob(this.ops["TerminateJob"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateComputeEnvironment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateComputeEnvironment(this.ops["UpdateComputeEnvironment"].applicator.apply(partialParams));
+        return this.client.updateComputeEnvironment(this.ops["UpdateComputeEnvironment"].apply(partialParams));
     }
     invokeUpdateJobQueue(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateJobQueue(this.ops["UpdateJobQueue"].applicator.apply(partialParams));
+        return this.client.updateJobQueue(this.ops["UpdateJobQueue"].apply(partialParams));
     }
     invokeUpdateSchedulingPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateSchedulingPolicy(this.ops["UpdateSchedulingPolicy"].applicator.apply(partialParams));
+        return this.client.updateSchedulingPolicy(this.ops["UpdateSchedulingPolicy"].apply(partialParams));
     }
 }
 exports.default = default_1;

@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.mediastore.Container {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.MediaStore();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,121 +50,92 @@ class default_1 extends aws.mediastore.Container {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeCreateContainer(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createContainer(this.ops["CreateContainer"].applicator.apply(partialParams));
+        return this.client.createContainer(this.ops["CreateContainer"].apply(partialParams));
     }
     invokeDeleteContainer(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteContainer(this.ops["DeleteContainer"].applicator.apply(partialParams));
+        return this.client.deleteContainer(this.ops["DeleteContainer"].apply(partialParams));
     }
     invokeDeleteContainerPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteContainerPolicy(this.ops["DeleteContainerPolicy"].applicator.apply(partialParams));
+        return this.client.deleteContainerPolicy(this.ops["DeleteContainerPolicy"].apply(partialParams));
     }
     invokeDeleteCorsPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteCorsPolicy(this.ops["DeleteCorsPolicy"].applicator.apply(partialParams));
+        return this.client.deleteCorsPolicy(this.ops["DeleteCorsPolicy"].apply(partialParams));
     }
     invokeDeleteLifecyclePolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteLifecyclePolicy(this.ops["DeleteLifecyclePolicy"].applicator.apply(partialParams));
+        return this.client.deleteLifecyclePolicy(this.ops["DeleteLifecyclePolicy"].apply(partialParams));
     }
     invokeDeleteMetricPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteMetricPolicy(this.ops["DeleteMetricPolicy"].applicator.apply(partialParams));
+        return this.client.deleteMetricPolicy(this.ops["DeleteMetricPolicy"].apply(partialParams));
+    }
+    invokeDescribeContainer(partialParams) {
+        this.boot();
+        return this.client.describeContainer(this.ops["DescribeContainer"].apply(partialParams));
     }
     invokeGetContainerPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getContainerPolicy(this.ops["GetContainerPolicy"].applicator.apply(partialParams));
+        return this.client.getContainerPolicy(this.ops["GetContainerPolicy"].apply(partialParams));
     }
     invokeGetCorsPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getCorsPolicy(this.ops["GetCorsPolicy"].applicator.apply(partialParams));
+        return this.client.getCorsPolicy(this.ops["GetCorsPolicy"].apply(partialParams));
     }
     invokeGetLifecyclePolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getLifecyclePolicy(this.ops["GetLifecyclePolicy"].applicator.apply(partialParams));
+        return this.client.getLifecyclePolicy(this.ops["GetLifecyclePolicy"].apply(partialParams));
     }
     invokeGetMetricPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getMetricPolicy(this.ops["GetMetricPolicy"].applicator.apply(partialParams));
+        return this.client.getMetricPolicy(this.ops["GetMetricPolicy"].apply(partialParams));
+    }
+    invokeListContainers(partialParams) {
+        this.boot();
+        return this.client.listContainers(this.ops["ListContainers"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokePutContainerPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putContainerPolicy(this.ops["PutContainerPolicy"].applicator.apply(partialParams));
+        return this.client.putContainerPolicy(this.ops["PutContainerPolicy"].apply(partialParams));
     }
     invokePutCorsPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putCorsPolicy(this.ops["PutCorsPolicy"].applicator.apply(partialParams));
+        return this.client.putCorsPolicy(this.ops["PutCorsPolicy"].apply(partialParams));
     }
     invokePutLifecyclePolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putLifecyclePolicy(this.ops["PutLifecyclePolicy"].applicator.apply(partialParams));
+        return this.client.putLifecyclePolicy(this.ops["PutLifecyclePolicy"].apply(partialParams));
     }
     invokePutMetricPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putMetricPolicy(this.ops["PutMetricPolicy"].applicator.apply(partialParams));
+        return this.client.putMetricPolicy(this.ops["PutMetricPolicy"].apply(partialParams));
     }
     invokeStartAccessLogging(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startAccessLogging(this.ops["StartAccessLogging"].applicator.apply(partialParams));
+        return this.client.startAccessLogging(this.ops["StartAccessLogging"].apply(partialParams));
     }
     invokeStopAccessLogging(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.stopAccessLogging(this.ops["StopAccessLogging"].applicator.apply(partialParams));
+        return this.client.stopAccessLogging(this.ops["StopAccessLogging"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
 }
 exports.default = default_1;

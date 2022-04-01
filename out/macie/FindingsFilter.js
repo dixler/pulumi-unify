@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.macie.FindingsFilter {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.Macie();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,37 +50,28 @@ class default_1 extends aws.macie.FindingsFilter {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
-    }
-    invokeAssociateMemberAccount(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.associateMemberAccount(this.ops["AssociateMemberAccount"].applicator.apply(partialParams));
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAssociateS3Resources(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateS3Resources(this.ops["AssociateS3Resources"].applicator.apply(partialParams));
-    }
-    invokeDisassociateMemberAccount(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disassociateMemberAccount(this.ops["DisassociateMemberAccount"].applicator.apply(partialParams));
+        return this.client.associateS3Resources(this.ops["AssociateS3Resources"].apply(partialParams));
     }
     invokeDisassociateS3Resources(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateS3Resources(this.ops["DisassociateS3Resources"].applicator.apply(partialParams));
+        return this.client.disassociateS3Resources(this.ops["DisassociateS3Resources"].apply(partialParams));
+    }
+    invokeListMemberAccounts(partialParams) {
+        this.boot();
+        return this.client.listMemberAccounts(this.ops["ListMemberAccounts"].apply(partialParams));
+    }
+    invokeListS3Resources(partialParams) {
+        this.boot();
+        return this.client.listS3Resources(this.ops["ListS3Resources"].apply(partialParams));
     }
     invokeUpdateS3Resources(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateS3Resources(this.ops["UpdateS3Resources"].applicator.apply(partialParams));
+        return this.client.updateS3Resources(this.ops["UpdateS3Resources"].apply(partialParams));
     }
 }
 exports.default = default_1;

@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.kinesis.FirehoseDeliveryStream {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.Kinesis();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,145 +50,72 @@ class default_1 extends aws.kinesis.FirehoseDeliveryStream {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
-    invokeAddTagsToStream(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDescribeLimits(partialParams) {
         this.boot();
-        return this.client.addTagsToStream(this.ops["AddTagsToStream"].applicator.apply(partialParams));
-    }
-    invokeCreateStream(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.createStream(this.ops["CreateStream"].applicator.apply(partialParams));
-    }
-    invokeDecreaseStreamRetentionPeriod(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.decreaseStreamRetentionPeriod(this.ops["DecreaseStreamRetentionPeriod"].applicator.apply(partialParams));
-    }
-    invokeDeleteStream(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteStream(this.ops["DeleteStream"].applicator.apply(partialParams));
+        return this.client.describeLimits(this.ops["DescribeLimits"].apply(partialParams));
     }
     invokeDescribeStream(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeStream(this.ops["DescribeStream"].applicator.apply(partialParams));
+        return this.client.describeStream(this.ops["DescribeStream"].apply(partialParams));
+    }
+    invokeDescribeStreamConsumer(partialParams) {
+        this.boot();
+        return this.client.describeStreamConsumer(this.ops["DescribeStreamConsumer"].apply(partialParams));
     }
     invokeDescribeStreamSummary(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeStreamSummary(this.ops["DescribeStreamSummary"].applicator.apply(partialParams));
+        return this.client.describeStreamSummary(this.ops["DescribeStreamSummary"].apply(partialParams));
     }
     invokeDisableEnhancedMonitoring(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disableEnhancedMonitoring(this.ops["DisableEnhancedMonitoring"].applicator.apply(partialParams));
+        return this.client.disableEnhancedMonitoring(this.ops["DisableEnhancedMonitoring"].apply(partialParams));
     }
     invokeEnableEnhancedMonitoring(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.enableEnhancedMonitoring(this.ops["EnableEnhancedMonitoring"].applicator.apply(partialParams));
+        return this.client.enableEnhancedMonitoring(this.ops["EnableEnhancedMonitoring"].apply(partialParams));
     }
     invokeGetRecords(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getRecords(this.ops["GetRecords"].applicator.apply(partialParams));
+        return this.client.getRecords(this.ops["GetRecords"].apply(partialParams));
     }
     invokeGetShardIterator(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getShardIterator(this.ops["GetShardIterator"].applicator.apply(partialParams));
+        return this.client.getShardIterator(this.ops["GetShardIterator"].apply(partialParams));
     }
-    invokeIncreaseStreamRetentionPeriod(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeListShards(partialParams) {
         this.boot();
-        return this.client.increaseStreamRetentionPeriod(this.ops["IncreaseStreamRetentionPeriod"].applicator.apply(partialParams));
+        return this.client.listShards(this.ops["ListShards"].apply(partialParams));
     }
     invokeListStreamConsumers(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listStreamConsumers(this.ops["ListStreamConsumers"].applicator.apply(partialParams));
+        return this.client.listStreamConsumers(this.ops["ListStreamConsumers"].apply(partialParams));
+    }
+    invokeListStreams(partialParams) {
+        this.boot();
+        return this.client.listStreams(this.ops["ListStreams"].apply(partialParams));
     }
     invokeListTagsForStream(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForStream(this.ops["ListTagsForStream"].applicator.apply(partialParams));
-    }
-    invokeMergeShards(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.mergeShards(this.ops["MergeShards"].applicator.apply(partialParams));
+        return this.client.listTagsForStream(this.ops["ListTagsForStream"].apply(partialParams));
     }
     invokePutRecord(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putRecord(this.ops["PutRecord"].applicator.apply(partialParams));
+        return this.client.putRecord(this.ops["PutRecord"].apply(partialParams));
     }
     invokePutRecords(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putRecords(this.ops["PutRecords"].applicator.apply(partialParams));
+        return this.client.putRecords(this.ops["PutRecords"].apply(partialParams));
     }
     invokeRegisterStreamConsumer(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.registerStreamConsumer(this.ops["RegisterStreamConsumer"].applicator.apply(partialParams));
-    }
-    invokeRemoveTagsFromStream(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.removeTagsFromStream(this.ops["RemoveTagsFromStream"].applicator.apply(partialParams));
-    }
-    invokeSplitShard(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.splitShard(this.ops["SplitShard"].applicator.apply(partialParams));
-    }
-    invokeStartStreamEncryption(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.startStreamEncryption(this.ops["StartStreamEncryption"].applicator.apply(partialParams));
-    }
-    invokeStopStreamEncryption(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.stopStreamEncryption(this.ops["StopStreamEncryption"].applicator.apply(partialParams));
+        return this.client.registerStreamConsumer(this.ops["RegisterStreamConsumer"].apply(partialParams));
     }
     invokeUpdateShardCount(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateShardCount(this.ops["UpdateShardCount"].applicator.apply(partialParams));
-    }
-    invokeUpdateStreamMode(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateStreamMode(this.ops["UpdateStreamMode"].applicator.apply(partialParams));
+        return this.client.updateShardCount(this.ops["UpdateShardCount"].apply(partialParams));
     }
 }
 exports.default = default_1;

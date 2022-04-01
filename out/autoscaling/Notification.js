@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.autoscaling.Notification {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.AutoScaling();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,283 +50,144 @@ class default_1 extends aws.autoscaling.Notification {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
-    }
-    invokeAttachInstances(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.attachInstances(this.ops["AttachInstances"].applicator.apply(partialParams));
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAttachLoadBalancerTargetGroups(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.attachLoadBalancerTargetGroups(this.ops["AttachLoadBalancerTargetGroups"].applicator.apply(partialParams));
+        return this.client.attachLoadBalancerTargetGroups(this.ops["AttachLoadBalancerTargetGroups"].apply(partialParams));
     }
     invokeAttachLoadBalancers(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.attachLoadBalancers(this.ops["AttachLoadBalancers"].applicator.apply(partialParams));
+        return this.client.attachLoadBalancers(this.ops["AttachLoadBalancers"].apply(partialParams));
     }
     invokeBatchDeleteScheduledAction(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.batchDeleteScheduledAction(this.ops["BatchDeleteScheduledAction"].applicator.apply(partialParams));
+        return this.client.batchDeleteScheduledAction(this.ops["BatchDeleteScheduledAction"].apply(partialParams));
     }
     invokeBatchPutScheduledUpdateGroupAction(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.batchPutScheduledUpdateGroupAction(this.ops["BatchPutScheduledUpdateGroupAction"].applicator.apply(partialParams));
+        return this.client.batchPutScheduledUpdateGroupAction(this.ops["BatchPutScheduledUpdateGroupAction"].apply(partialParams));
     }
     invokeCancelInstanceRefresh(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.cancelInstanceRefresh(this.ops["CancelInstanceRefresh"].applicator.apply(partialParams));
+        return this.client.cancelInstanceRefresh(this.ops["CancelInstanceRefresh"].apply(partialParams));
     }
     invokeCompleteLifecycleAction(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.completeLifecycleAction(this.ops["CompleteLifecycleAction"].applicator.apply(partialParams));
-    }
-    invokeCreateAutoScalingGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.createAutoScalingGroup(this.ops["CreateAutoScalingGroup"].applicator.apply(partialParams));
-    }
-    invokeCreateLaunchConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.createLaunchConfiguration(this.ops["CreateLaunchConfiguration"].applicator.apply(partialParams));
-    }
-    invokeCreateOrUpdateTags(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.createOrUpdateTags(this.ops["CreateOrUpdateTags"].applicator.apply(partialParams));
-    }
-    invokeDeleteAutoScalingGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteAutoScalingGroup(this.ops["DeleteAutoScalingGroup"].applicator.apply(partialParams));
-    }
-    invokeDeleteLaunchConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteLaunchConfiguration(this.ops["DeleteLaunchConfiguration"].applicator.apply(partialParams));
+        return this.client.completeLifecycleAction(this.ops["CompleteLifecycleAction"].apply(partialParams));
     }
     invokeDeleteLifecycleHook(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteLifecycleHook(this.ops["DeleteLifecycleHook"].applicator.apply(partialParams));
-    }
-    invokeDeleteNotificationConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteNotificationConfiguration(this.ops["DeleteNotificationConfiguration"].applicator.apply(partialParams));
-    }
-    invokeDeletePolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deletePolicy(this.ops["DeletePolicy"].applicator.apply(partialParams));
-    }
-    invokeDeleteScheduledAction(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteScheduledAction(this.ops["DeleteScheduledAction"].applicator.apply(partialParams));
-    }
-    invokeDeleteTags(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteTags(this.ops["DeleteTags"].applicator.apply(partialParams));
+        return this.client.deleteLifecycleHook(this.ops["DeleteLifecycleHook"].apply(partialParams));
     }
     invokeDeleteWarmPool(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteWarmPool(this.ops["DeleteWarmPool"].applicator.apply(partialParams));
+        return this.client.deleteWarmPool(this.ops["DeleteWarmPool"].apply(partialParams));
+    }
+    invokeDescribeAutoScalingGroups(partialParams) {
+        this.boot();
+        return this.client.describeAutoScalingGroups(this.ops["DescribeAutoScalingGroups"].apply(partialParams));
+    }
+    invokeDescribeAutoScalingInstances(partialParams) {
+        this.boot();
+        return this.client.describeAutoScalingInstances(this.ops["DescribeAutoScalingInstances"].apply(partialParams));
     }
     invokeDescribeInstanceRefreshes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeInstanceRefreshes(this.ops["DescribeInstanceRefreshes"].applicator.apply(partialParams));
+        return this.client.describeInstanceRefreshes(this.ops["DescribeInstanceRefreshes"].apply(partialParams));
+    }
+    invokeDescribeLaunchConfigurations(partialParams) {
+        this.boot();
+        return this.client.describeLaunchConfigurations(this.ops["DescribeLaunchConfigurations"].apply(partialParams));
     }
     invokeDescribeLifecycleHooks(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeLifecycleHooks(this.ops["DescribeLifecycleHooks"].applicator.apply(partialParams));
+        return this.client.describeLifecycleHooks(this.ops["DescribeLifecycleHooks"].apply(partialParams));
     }
     invokeDescribeLoadBalancerTargetGroups(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeLoadBalancerTargetGroups(this.ops["DescribeLoadBalancerTargetGroups"].applicator.apply(partialParams));
+        return this.client.describeLoadBalancerTargetGroups(this.ops["DescribeLoadBalancerTargetGroups"].apply(partialParams));
     }
     invokeDescribeLoadBalancers(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeLoadBalancers(this.ops["DescribeLoadBalancers"].applicator.apply(partialParams));
+        return this.client.describeLoadBalancers(this.ops["DescribeLoadBalancers"].apply(partialParams));
+    }
+    invokeDescribeNotificationConfigurations(partialParams) {
+        this.boot();
+        return this.client.describeNotificationConfigurations(this.ops["DescribeNotificationConfigurations"].apply(partialParams));
+    }
+    invokeDescribePolicies(partialParams) {
+        this.boot();
+        return this.client.describePolicies(this.ops["DescribePolicies"].apply(partialParams));
+    }
+    invokeDescribeScalingActivities(partialParams) {
+        this.boot();
+        return this.client.describeScalingActivities(this.ops["DescribeScalingActivities"].apply(partialParams));
+    }
+    invokeDescribeScheduledActions(partialParams) {
+        this.boot();
+        return this.client.describeScheduledActions(this.ops["DescribeScheduledActions"].apply(partialParams));
+    }
+    invokeDescribeTags(partialParams) {
+        this.boot();
+        return this.client.describeTags(this.ops["DescribeTags"].apply(partialParams));
     }
     invokeDescribeWarmPool(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeWarmPool(this.ops["DescribeWarmPool"].applicator.apply(partialParams));
+        return this.client.describeWarmPool(this.ops["DescribeWarmPool"].apply(partialParams));
     }
     invokeDetachInstances(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.detachInstances(this.ops["DetachInstances"].applicator.apply(partialParams));
+        return this.client.detachInstances(this.ops["DetachInstances"].apply(partialParams));
     }
     invokeDetachLoadBalancerTargetGroups(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.detachLoadBalancerTargetGroups(this.ops["DetachLoadBalancerTargetGroups"].applicator.apply(partialParams));
+        return this.client.detachLoadBalancerTargetGroups(this.ops["DetachLoadBalancerTargetGroups"].apply(partialParams));
     }
     invokeDetachLoadBalancers(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.detachLoadBalancers(this.ops["DetachLoadBalancers"].applicator.apply(partialParams));
-    }
-    invokeDisableMetricsCollection(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disableMetricsCollection(this.ops["DisableMetricsCollection"].applicator.apply(partialParams));
-    }
-    invokeEnableMetricsCollection(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.enableMetricsCollection(this.ops["EnableMetricsCollection"].applicator.apply(partialParams));
+        return this.client.detachLoadBalancers(this.ops["DetachLoadBalancers"].apply(partialParams));
     }
     invokeEnterStandby(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.enterStandby(this.ops["EnterStandby"].applicator.apply(partialParams));
-    }
-    invokeExecutePolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.executePolicy(this.ops["ExecutePolicy"].applicator.apply(partialParams));
+        return this.client.enterStandby(this.ops["EnterStandby"].apply(partialParams));
     }
     invokeExitStandby(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.exitStandby(this.ops["ExitStandby"].applicator.apply(partialParams));
+        return this.client.exitStandby(this.ops["ExitStandby"].apply(partialParams));
     }
     invokeGetPredictiveScalingForecast(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getPredictiveScalingForecast(this.ops["GetPredictiveScalingForecast"].applicator.apply(partialParams));
+        return this.client.getPredictiveScalingForecast(this.ops["GetPredictiveScalingForecast"].apply(partialParams));
     }
     invokePutLifecycleHook(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putLifecycleHook(this.ops["PutLifecycleHook"].applicator.apply(partialParams));
-    }
-    invokePutNotificationConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.putNotificationConfiguration(this.ops["PutNotificationConfiguration"].applicator.apply(partialParams));
+        return this.client.putLifecycleHook(this.ops["PutLifecycleHook"].apply(partialParams));
     }
     invokePutScalingPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putScalingPolicy(this.ops["PutScalingPolicy"].applicator.apply(partialParams));
-    }
-    invokePutScheduledUpdateGroupAction(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.putScheduledUpdateGroupAction(this.ops["PutScheduledUpdateGroupAction"].applicator.apply(partialParams));
+        return this.client.putScalingPolicy(this.ops["PutScalingPolicy"].apply(partialParams));
     }
     invokePutWarmPool(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putWarmPool(this.ops["PutWarmPool"].applicator.apply(partialParams));
+        return this.client.putWarmPool(this.ops["PutWarmPool"].apply(partialParams));
     }
     invokeRecordLifecycleActionHeartbeat(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.recordLifecycleActionHeartbeat(this.ops["RecordLifecycleActionHeartbeat"].applicator.apply(partialParams));
-    }
-    invokeResumeProcesses(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.resumeProcesses(this.ops["ResumeProcesses"].applicator.apply(partialParams));
-    }
-    invokeSetDesiredCapacity(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.setDesiredCapacity(this.ops["SetDesiredCapacity"].applicator.apply(partialParams));
-    }
-    invokeSetInstanceHealth(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.setInstanceHealth(this.ops["SetInstanceHealth"].applicator.apply(partialParams));
+        return this.client.recordLifecycleActionHeartbeat(this.ops["RecordLifecycleActionHeartbeat"].apply(partialParams));
     }
     invokeSetInstanceProtection(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.setInstanceProtection(this.ops["SetInstanceProtection"].applicator.apply(partialParams));
+        return this.client.setInstanceProtection(this.ops["SetInstanceProtection"].apply(partialParams));
     }
     invokeStartInstanceRefresh(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startInstanceRefresh(this.ops["StartInstanceRefresh"].applicator.apply(partialParams));
-    }
-    invokeSuspendProcesses(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.suspendProcesses(this.ops["SuspendProcesses"].applicator.apply(partialParams));
+        return this.client.startInstanceRefresh(this.ops["StartInstanceRefresh"].apply(partialParams));
     }
     invokeTerminateInstanceInAutoScalingGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.terminateInstanceInAutoScalingGroup(this.ops["TerminateInstanceInAutoScalingGroup"].applicator.apply(partialParams));
-    }
-    invokeUpdateAutoScalingGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateAutoScalingGroup(this.ops["UpdateAutoScalingGroup"].applicator.apply(partialParams));
+        return this.client.terminateInstanceInAutoScalingGroup(this.ops["TerminateInstanceInAutoScalingGroup"].apply(partialParams));
     }
 }
 exports.default = default_1;

@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.sqs.QueuePolicy {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.SQS();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,121 +50,52 @@ class default_1 extends aws.sqs.QueuePolicy {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
-    }
-    invokeAddPermission(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.addPermission(this.ops["AddPermission"].applicator.apply(partialParams));
-    }
-    invokeChangeMessageVisibility(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.changeMessageVisibility(this.ops["ChangeMessageVisibility"].applicator.apply(partialParams));
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeChangeMessageVisibilityBatch(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.changeMessageVisibilityBatch(this.ops["ChangeMessageVisibilityBatch"].applicator.apply(partialParams));
+        return this.client.changeMessageVisibilityBatch(this.ops["ChangeMessageVisibilityBatch"].apply(partialParams));
     }
     invokeCreateQueue(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createQueue(this.ops["CreateQueue"].applicator.apply(partialParams));
-    }
-    invokeDeleteMessage(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteMessage(this.ops["DeleteMessage"].applicator.apply(partialParams));
+        return this.client.createQueue(this.ops["CreateQueue"].apply(partialParams));
     }
     invokeDeleteMessageBatch(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteMessageBatch(this.ops["DeleteMessageBatch"].applicator.apply(partialParams));
-    }
-    invokeDeleteQueue(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteQueue(this.ops["DeleteQueue"].applicator.apply(partialParams));
+        return this.client.deleteMessageBatch(this.ops["DeleteMessageBatch"].apply(partialParams));
     }
     invokeGetQueueAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getQueueAttributes(this.ops["GetQueueAttributes"].applicator.apply(partialParams));
+        return this.client.getQueueAttributes(this.ops["GetQueueAttributes"].apply(partialParams));
     }
     invokeGetQueueUrl(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getQueueUrl(this.ops["GetQueueUrl"].applicator.apply(partialParams));
+        return this.client.getQueueUrl(this.ops["GetQueueUrl"].apply(partialParams));
     }
     invokeListDeadLetterSourceQueues(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listDeadLetterSourceQueues(this.ops["ListDeadLetterSourceQueues"].applicator.apply(partialParams));
+        return this.client.listDeadLetterSourceQueues(this.ops["ListDeadLetterSourceQueues"].apply(partialParams));
     }
     invokeListQueueTags(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listQueueTags(this.ops["ListQueueTags"].applicator.apply(partialParams));
+        return this.client.listQueueTags(this.ops["ListQueueTags"].apply(partialParams));
     }
-    invokePurgeQueue(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeListQueues(partialParams) {
         this.boot();
-        return this.client.purgeQueue(this.ops["PurgeQueue"].applicator.apply(partialParams));
+        return this.client.listQueues(this.ops["ListQueues"].apply(partialParams));
     }
     invokeReceiveMessage(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.receiveMessage(this.ops["ReceiveMessage"].applicator.apply(partialParams));
-    }
-    invokeRemovePermission(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.removePermission(this.ops["RemovePermission"].applicator.apply(partialParams));
+        return this.client.receiveMessage(this.ops["ReceiveMessage"].apply(partialParams));
     }
     invokeSendMessage(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.sendMessage(this.ops["SendMessage"].applicator.apply(partialParams));
+        return this.client.sendMessage(this.ops["SendMessage"].apply(partialParams));
     }
     invokeSendMessageBatch(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.sendMessageBatch(this.ops["SendMessageBatch"].applicator.apply(partialParams));
-    }
-    invokeSetQueueAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.setQueueAttributes(this.ops["SetQueueAttributes"].applicator.apply(partialParams));
-    }
-    invokeTagQueue(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.tagQueue(this.ops["TagQueue"].applicator.apply(partialParams));
-    }
-    invokeUntagQueue(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.untagQueue(this.ops["UntagQueue"].applicator.apply(partialParams));
+        return this.client.sendMessageBatch(this.ops["SendMessageBatch"].apply(partialParams));
     }
 }
 exports.default = default_1;

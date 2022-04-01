@@ -23,10 +23,15 @@ import {
     GetQueryResultsInput,
     GetTableMetadataInput,
     GetWorkGroupInput,
+    ListDataCatalogsInput,
     ListDatabasesInput,
+    ListEngineVersionsInput,
+    ListNamedQueriesInput,
     ListPreparedStatementsInput,
+    ListQueryExecutionsInput,
     ListTableMetadataInput,
     ListTagsForResourceInput,
+    ListWorkGroupsInput,
     StartQueryExecutionInput,
     StopQueryExecutionInput,
     TagResourceInput,
@@ -52,10 +57,15 @@ import {
     GetQueryResultsOutput,
     GetTableMetadataOutput,
     GetWorkGroupOutput,
+    ListDataCatalogsOutput,
     ListDatabasesOutput,
+    ListEngineVersionsOutput,
+    ListNamedQueriesOutput,
     ListPreparedStatementsOutput,
+    ListQueryExecutionsOutput,
     ListTableMetadataOutput,
     ListTagsForResourceOutput,
+    ListWorkGroupsOutput,
     StartQueryExecutionOutput,
     StopQueryExecutionOutput,
     TagResourceOutput,
@@ -77,21 +87,24 @@ export default class extends aws.athena.Workgroup {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.athena.Workgroup>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.Athena()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -101,325 +114,313 @@ export default class extends aws.athena.Workgroup {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeBatchGetNamedQuery(partialParams: ToOptional<{
-      [K in keyof BatchGetNamedQueryInput & keyof BatchGetNamedQueryInput & keyof BatchGetNamedQueryInput & keyof BatchGetNamedQueryInput]: (BatchGetNamedQueryInput & BatchGetNamedQueryInput & BatchGetNamedQueryInput & BatchGetNamedQueryInput)[K]
+      [K in keyof BatchGetNamedQueryInput]: (BatchGetNamedQueryInput)[K]
     }>): Request<BatchGetNamedQueryOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.batchGetNamedQuery(
-          this.ops["BatchGetNamedQuery"].applicator.apply(partialParams)
+          this.ops["BatchGetNamedQuery"].apply(partialParams)
         );
     }
 
     invokeBatchGetQueryExecution(partialParams: ToOptional<{
-      [K in keyof BatchGetQueryExecutionInput & keyof BatchGetQueryExecutionInput & keyof BatchGetQueryExecutionInput & keyof BatchGetQueryExecutionInput]: (BatchGetQueryExecutionInput & BatchGetQueryExecutionInput & BatchGetQueryExecutionInput & BatchGetQueryExecutionInput)[K]
+      [K in keyof BatchGetQueryExecutionInput]: (BatchGetQueryExecutionInput)[K]
     }>): Request<BatchGetQueryExecutionOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.batchGetQueryExecution(
-          this.ops["BatchGetQueryExecution"].applicator.apply(partialParams)
+          this.ops["BatchGetQueryExecution"].apply(partialParams)
         );
     }
 
     invokeCreateDataCatalog(partialParams: ToOptional<{
-      [K in keyof CreateDataCatalogInput & keyof CreateDataCatalogInput & keyof Omit<CreateDataCatalogInput, "Name"> & keyof CreateDataCatalogInput]: (CreateDataCatalogInput & CreateDataCatalogInput & Omit<CreateDataCatalogInput, "Name"> & CreateDataCatalogInput)[K]
+      [K in keyof CreateDataCatalogInput & keyof Omit<CreateDataCatalogInput, "Name">]: (CreateDataCatalogInput)[K]
     }>): Request<CreateDataCatalogOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDataCatalog(
-          this.ops["CreateDataCatalog"].applicator.apply(partialParams)
+          this.ops["CreateDataCatalog"].apply(partialParams)
         );
     }
 
     invokeCreateNamedQuery(partialParams: ToOptional<{
-      [K in keyof CreateNamedQueryInput & keyof CreateNamedQueryInput & keyof CreateNamedQueryInput & keyof CreateNamedQueryInput]: (CreateNamedQueryInput & CreateNamedQueryInput & CreateNamedQueryInput & CreateNamedQueryInput)[K]
+      [K in keyof CreateNamedQueryInput & keyof Omit<CreateNamedQueryInput, "Name">]: (CreateNamedQueryInput)[K]
     }>): Request<CreateNamedQueryOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createNamedQuery(
-          this.ops["CreateNamedQuery"].applicator.apply(partialParams)
+          this.ops["CreateNamedQuery"].apply(partialParams)
         );
     }
 
     invokeCreatePreparedStatement(partialParams: ToOptional<{
-      [K in keyof CreatePreparedStatementInput & keyof CreatePreparedStatementInput & keyof CreatePreparedStatementInput & keyof CreatePreparedStatementInput]: (CreatePreparedStatementInput & CreatePreparedStatementInput & CreatePreparedStatementInput & CreatePreparedStatementInput)[K]
+      [K in keyof CreatePreparedStatementInput]: (CreatePreparedStatementInput)[K]
     }>): Request<CreatePreparedStatementOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createPreparedStatement(
-          this.ops["CreatePreparedStatement"].applicator.apply(partialParams)
+          this.ops["CreatePreparedStatement"].apply(partialParams)
         );
     }
 
     invokeCreateWorkGroup(partialParams: ToOptional<{
-      [K in keyof CreateWorkGroupInput & keyof CreateWorkGroupInput & keyof CreateWorkGroupInput & keyof CreateWorkGroupInput]: (CreateWorkGroupInput & CreateWorkGroupInput & CreateWorkGroupInput & CreateWorkGroupInput)[K]
+      [K in keyof CreateWorkGroupInput & keyof Omit<CreateWorkGroupInput, "Name">]: (CreateWorkGroupInput)[K]
     }>): Request<CreateWorkGroupOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createWorkGroup(
-          this.ops["CreateWorkGroup"].applicator.apply(partialParams)
+          this.ops["CreateWorkGroup"].apply(partialParams)
         );
     }
 
     invokeDeleteDataCatalog(partialParams: ToOptional<{
-      [K in keyof DeleteDataCatalogInput & keyof DeleteDataCatalogInput & keyof Omit<DeleteDataCatalogInput, "Name"> & keyof DeleteDataCatalogInput]: (DeleteDataCatalogInput & DeleteDataCatalogInput & Omit<DeleteDataCatalogInput, "Name"> & DeleteDataCatalogInput)[K]
+      [K in keyof DeleteDataCatalogInput & keyof Omit<DeleteDataCatalogInput, "Name">]: (DeleteDataCatalogInput)[K]
     }>): Request<DeleteDataCatalogOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDataCatalog(
-          this.ops["DeleteDataCatalog"].applicator.apply(partialParams)
+          this.ops["DeleteDataCatalog"].apply(partialParams)
         );
     }
 
     invokeDeleteNamedQuery(partialParams: ToOptional<{
-      [K in keyof DeleteNamedQueryInput & keyof DeleteNamedQueryInput & keyof DeleteNamedQueryInput & keyof DeleteNamedQueryInput]: (DeleteNamedQueryInput & DeleteNamedQueryInput & DeleteNamedQueryInput & DeleteNamedQueryInput)[K]
+      [K in keyof DeleteNamedQueryInput]: (DeleteNamedQueryInput)[K]
     }>): Request<DeleteNamedQueryOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteNamedQuery(
-          this.ops["DeleteNamedQuery"].applicator.apply(partialParams)
+          this.ops["DeleteNamedQuery"].apply(partialParams)
         );
     }
 
     invokeDeletePreparedStatement(partialParams: ToOptional<{
-      [K in keyof DeletePreparedStatementInput & keyof DeletePreparedStatementInput & keyof DeletePreparedStatementInput & keyof DeletePreparedStatementInput]: (DeletePreparedStatementInput & DeletePreparedStatementInput & DeletePreparedStatementInput & DeletePreparedStatementInput)[K]
+      [K in keyof DeletePreparedStatementInput]: (DeletePreparedStatementInput)[K]
     }>): Request<DeletePreparedStatementOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deletePreparedStatement(
-          this.ops["DeletePreparedStatement"].applicator.apply(partialParams)
+          this.ops["DeletePreparedStatement"].apply(partialParams)
         );
     }
 
     invokeDeleteWorkGroup(partialParams: ToOptional<{
-      [K in keyof DeleteWorkGroupInput & keyof DeleteWorkGroupInput & keyof DeleteWorkGroupInput & keyof DeleteWorkGroupInput]: (DeleteWorkGroupInput & DeleteWorkGroupInput & DeleteWorkGroupInput & DeleteWorkGroupInput)[K]
+      [K in keyof DeleteWorkGroupInput]: (DeleteWorkGroupInput)[K]
     }>): Request<DeleteWorkGroupOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteWorkGroup(
-          this.ops["DeleteWorkGroup"].applicator.apply(partialParams)
+          this.ops["DeleteWorkGroup"].apply(partialParams)
         );
     }
 
     invokeGetDataCatalog(partialParams: ToOptional<{
-      [K in keyof GetDataCatalogInput & keyof GetDataCatalogInput & keyof Omit<GetDataCatalogInput, "Name"> & keyof GetDataCatalogInput]: (GetDataCatalogInput & GetDataCatalogInput & Omit<GetDataCatalogInput, "Name"> & GetDataCatalogInput)[K]
+      [K in keyof GetDataCatalogInput & keyof Omit<GetDataCatalogInput, "Name">]: (GetDataCatalogInput)[K]
     }>): Request<GetDataCatalogOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDataCatalog(
-          this.ops["GetDataCatalog"].applicator.apply(partialParams)
+          this.ops["GetDataCatalog"].apply(partialParams)
         );
     }
 
     invokeGetDatabase(partialParams: ToOptional<{
-      [K in keyof GetDatabaseInput & keyof GetDatabaseInput & keyof GetDatabaseInput & keyof GetDatabaseInput]: (GetDatabaseInput & GetDatabaseInput & GetDatabaseInput & GetDatabaseInput)[K]
+      [K in keyof GetDatabaseInput]: (GetDatabaseInput)[K]
     }>): Request<GetDatabaseOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDatabase(
-          this.ops["GetDatabase"].applicator.apply(partialParams)
+          this.ops["GetDatabase"].apply(partialParams)
         );
     }
 
     invokeGetNamedQuery(partialParams: ToOptional<{
-      [K in keyof GetNamedQueryInput & keyof GetNamedQueryInput & keyof GetNamedQueryInput & keyof GetNamedQueryInput]: (GetNamedQueryInput & GetNamedQueryInput & GetNamedQueryInput & GetNamedQueryInput)[K]
+      [K in keyof GetNamedQueryInput]: (GetNamedQueryInput)[K]
     }>): Request<GetNamedQueryOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getNamedQuery(
-          this.ops["GetNamedQuery"].applicator.apply(partialParams)
+          this.ops["GetNamedQuery"].apply(partialParams)
         );
     }
 
     invokeGetPreparedStatement(partialParams: ToOptional<{
-      [K in keyof GetPreparedStatementInput & keyof GetPreparedStatementInput & keyof GetPreparedStatementInput & keyof GetPreparedStatementInput]: (GetPreparedStatementInput & GetPreparedStatementInput & GetPreparedStatementInput & GetPreparedStatementInput)[K]
+      [K in keyof GetPreparedStatementInput]: (GetPreparedStatementInput)[K]
     }>): Request<GetPreparedStatementOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getPreparedStatement(
-          this.ops["GetPreparedStatement"].applicator.apply(partialParams)
+          this.ops["GetPreparedStatement"].apply(partialParams)
         );
     }
 
     invokeGetQueryExecution(partialParams: ToOptional<{
-      [K in keyof GetQueryExecutionInput & keyof GetQueryExecutionInput & keyof GetQueryExecutionInput & keyof GetQueryExecutionInput]: (GetQueryExecutionInput & GetQueryExecutionInput & GetQueryExecutionInput & GetQueryExecutionInput)[K]
+      [K in keyof GetQueryExecutionInput]: (GetQueryExecutionInput)[K]
     }>): Request<GetQueryExecutionOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getQueryExecution(
-          this.ops["GetQueryExecution"].applicator.apply(partialParams)
+          this.ops["GetQueryExecution"].apply(partialParams)
         );
     }
 
     invokeGetQueryResults(partialParams: ToOptional<{
-      [K in keyof GetQueryResultsInput & keyof GetQueryResultsInput & keyof GetQueryResultsInput & keyof GetQueryResultsInput]: (GetQueryResultsInput & GetQueryResultsInput & GetQueryResultsInput & GetQueryResultsInput)[K]
+      [K in keyof GetQueryResultsInput]: (GetQueryResultsInput)[K]
     }>): Request<GetQueryResultsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getQueryResults(
-          this.ops["GetQueryResults"].applicator.apply(partialParams)
+          this.ops["GetQueryResults"].apply(partialParams)
         );
     }
 
     invokeGetTableMetadata(partialParams: ToOptional<{
-      [K in keyof GetTableMetadataInput & keyof GetTableMetadataInput & keyof GetTableMetadataInput & keyof GetTableMetadataInput]: (GetTableMetadataInput & GetTableMetadataInput & GetTableMetadataInput & GetTableMetadataInput)[K]
+      [K in keyof GetTableMetadataInput]: (GetTableMetadataInput)[K]
     }>): Request<GetTableMetadataOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getTableMetadata(
-          this.ops["GetTableMetadata"].applicator.apply(partialParams)
+          this.ops["GetTableMetadata"].apply(partialParams)
         );
     }
 
     invokeGetWorkGroup(partialParams: ToOptional<{
-      [K in keyof GetWorkGroupInput & keyof GetWorkGroupInput & keyof GetWorkGroupInput & keyof GetWorkGroupInput]: (GetWorkGroupInput & GetWorkGroupInput & GetWorkGroupInput & GetWorkGroupInput)[K]
+      [K in keyof GetWorkGroupInput]: (GetWorkGroupInput)[K]
     }>): Request<GetWorkGroupOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getWorkGroup(
-          this.ops["GetWorkGroup"].applicator.apply(partialParams)
+          this.ops["GetWorkGroup"].apply(partialParams)
+        );
+    }
+
+    invokeListDataCatalogs(partialParams: ToOptional<{
+      [K in keyof ListDataCatalogsInput]: (ListDataCatalogsInput)[K]
+    }>): Request<ListDataCatalogsOutput, AWSError> {
+        this.boot();
+        return this.client.listDataCatalogs(
+          this.ops["ListDataCatalogs"].apply(partialParams)
         );
     }
 
     invokeListDatabases(partialParams: ToOptional<{
-      [K in keyof ListDatabasesInput & keyof ListDatabasesInput & keyof ListDatabasesInput & keyof ListDatabasesInput]: (ListDatabasesInput & ListDatabasesInput & ListDatabasesInput & ListDatabasesInput)[K]
+      [K in keyof ListDatabasesInput]: (ListDatabasesInput)[K]
     }>): Request<ListDatabasesOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listDatabases(
-          this.ops["ListDatabases"].applicator.apply(partialParams)
+          this.ops["ListDatabases"].apply(partialParams)
+        );
+    }
+
+    invokeListEngineVersions(partialParams: ToOptional<{
+      [K in keyof ListEngineVersionsInput]: (ListEngineVersionsInput)[K]
+    }>): Request<ListEngineVersionsOutput, AWSError> {
+        this.boot();
+        return this.client.listEngineVersions(
+          this.ops["ListEngineVersions"].apply(partialParams)
+        );
+    }
+
+    invokeListNamedQueries(partialParams: ToOptional<{
+      [K in keyof ListNamedQueriesInput]: (ListNamedQueriesInput)[K]
+    }>): Request<ListNamedQueriesOutput, AWSError> {
+        this.boot();
+        return this.client.listNamedQueries(
+          this.ops["ListNamedQueries"].apply(partialParams)
         );
     }
 
     invokeListPreparedStatements(partialParams: ToOptional<{
-      [K in keyof ListPreparedStatementsInput & keyof ListPreparedStatementsInput & keyof ListPreparedStatementsInput & keyof ListPreparedStatementsInput]: (ListPreparedStatementsInput & ListPreparedStatementsInput & ListPreparedStatementsInput & ListPreparedStatementsInput)[K]
+      [K in keyof ListPreparedStatementsInput]: (ListPreparedStatementsInput)[K]
     }>): Request<ListPreparedStatementsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listPreparedStatements(
-          this.ops["ListPreparedStatements"].applicator.apply(partialParams)
+          this.ops["ListPreparedStatements"].apply(partialParams)
+        );
+    }
+
+    invokeListQueryExecutions(partialParams: ToOptional<{
+      [K in keyof ListQueryExecutionsInput]: (ListQueryExecutionsInput)[K]
+    }>): Request<ListQueryExecutionsOutput, AWSError> {
+        this.boot();
+        return this.client.listQueryExecutions(
+          this.ops["ListQueryExecutions"].apply(partialParams)
         );
     }
 
     invokeListTableMetadata(partialParams: ToOptional<{
-      [K in keyof ListTableMetadataInput & keyof ListTableMetadataInput & keyof ListTableMetadataInput & keyof ListTableMetadataInput]: (ListTableMetadataInput & ListTableMetadataInput & ListTableMetadataInput & ListTableMetadataInput)[K]
+      [K in keyof ListTableMetadataInput]: (ListTableMetadataInput)[K]
     }>): Request<ListTableMetadataOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTableMetadata(
-          this.ops["ListTableMetadata"].applicator.apply(partialParams)
+          this.ops["ListTableMetadata"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput]: (ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput)[K]
+      [K in keyof ListTagsForResourceInput]: (ListTagsForResourceInput)[K]
     }>): Request<ListTagsForResourceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
+        );
+    }
+
+    invokeListWorkGroups(partialParams: ToOptional<{
+      [K in keyof ListWorkGroupsInput]: (ListWorkGroupsInput)[K]
+    }>): Request<ListWorkGroupsOutput, AWSError> {
+        this.boot();
+        return this.client.listWorkGroups(
+          this.ops["ListWorkGroups"].apply(partialParams)
         );
     }
 
     invokeStartQueryExecution(partialParams: ToOptional<{
-      [K in keyof StartQueryExecutionInput & keyof StartQueryExecutionInput & keyof StartQueryExecutionInput & keyof StartQueryExecutionInput]: (StartQueryExecutionInput & StartQueryExecutionInput & StartQueryExecutionInput & StartQueryExecutionInput)[K]
+      [K in keyof StartQueryExecutionInput]: (StartQueryExecutionInput)[K]
     }>): Request<StartQueryExecutionOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startQueryExecution(
-          this.ops["StartQueryExecution"].applicator.apply(partialParams)
+          this.ops["StartQueryExecution"].apply(partialParams)
         );
     }
 
     invokeStopQueryExecution(partialParams: ToOptional<{
-      [K in keyof StopQueryExecutionInput & keyof StopQueryExecutionInput & keyof StopQueryExecutionInput & keyof StopQueryExecutionInput]: (StopQueryExecutionInput & StopQueryExecutionInput & StopQueryExecutionInput & StopQueryExecutionInput)[K]
+      [K in keyof StopQueryExecutionInput]: (StopQueryExecutionInput)[K]
     }>): Request<StopQueryExecutionOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopQueryExecution(
-          this.ops["StopQueryExecution"].applicator.apply(partialParams)
+          this.ops["StopQueryExecution"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput & keyof TagResourceInput]: (TagResourceInput & TagResourceInput & TagResourceInput & TagResourceInput)[K]
+      [K in keyof TagResourceInput]: (TagResourceInput)[K]
     }>): Request<TagResourceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput & keyof UntagResourceInput]: (UntagResourceInput & UntagResourceInput & UntagResourceInput & UntagResourceInput)[K]
+      [K in keyof UntagResourceInput]: (UntagResourceInput)[K]
     }>): Request<UntagResourceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateDataCatalog(partialParams: ToOptional<{
-      [K in keyof UpdateDataCatalogInput & keyof UpdateDataCatalogInput & keyof Omit<UpdateDataCatalogInput, "Name"> & keyof UpdateDataCatalogInput]: (UpdateDataCatalogInput & UpdateDataCatalogInput & Omit<UpdateDataCatalogInput, "Name"> & UpdateDataCatalogInput)[K]
+      [K in keyof UpdateDataCatalogInput & keyof Omit<UpdateDataCatalogInput, "Name">]: (UpdateDataCatalogInput)[K]
     }>): Request<UpdateDataCatalogOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDataCatalog(
-          this.ops["UpdateDataCatalog"].applicator.apply(partialParams)
+          this.ops["UpdateDataCatalog"].apply(partialParams)
         );
     }
 
     invokeUpdatePreparedStatement(partialParams: ToOptional<{
-      [K in keyof UpdatePreparedStatementInput & keyof UpdatePreparedStatementInput & keyof UpdatePreparedStatementInput & keyof UpdatePreparedStatementInput]: (UpdatePreparedStatementInput & UpdatePreparedStatementInput & UpdatePreparedStatementInput & UpdatePreparedStatementInput)[K]
+      [K in keyof UpdatePreparedStatementInput]: (UpdatePreparedStatementInput)[K]
     }>): Request<UpdatePreparedStatementOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updatePreparedStatement(
-          this.ops["UpdatePreparedStatement"].applicator.apply(partialParams)
+          this.ops["UpdatePreparedStatement"].apply(partialParams)
         );
     }
 
     invokeUpdateWorkGroup(partialParams: ToOptional<{
-      [K in keyof UpdateWorkGroupInput & keyof UpdateWorkGroupInput & keyof UpdateWorkGroupInput & keyof UpdateWorkGroupInput]: (UpdateWorkGroupInput & UpdateWorkGroupInput & UpdateWorkGroupInput & UpdateWorkGroupInput)[K]
+      [K in keyof UpdateWorkGroupInput]: (UpdateWorkGroupInput)[K]
     }>): Request<UpdateWorkGroupOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateWorkGroup(
-          this.ops["UpdateWorkGroup"].applicator.apply(partialParams)
+          this.ops["UpdateWorkGroup"].apply(partialParams)
         );
     }
 }

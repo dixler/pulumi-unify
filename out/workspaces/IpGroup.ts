@@ -20,19 +20,30 @@ import {
     DeleteConnectionAliasRequest,
     DeleteIpGroupRequest,
     DeleteTagsRequest,
+    DeleteWorkspaceBundleRequest,
     DeleteWorkspaceImageRequest,
     DeregisterWorkspaceDirectoryRequest,
+    DescribeAccountRequest,
+    DescribeAccountModificationsRequest,
     DescribeClientPropertiesRequest,
     DescribeConnectClientAddInsRequest,
     DescribeConnectionAliasPermissionsRequest,
+    DescribeConnectionAliasesRequest,
+    DescribeIpGroupsRequest,
     DescribeTagsRequest,
+    DescribeWorkspaceBundlesRequest,
+    DescribeWorkspaceDirectoriesRequest,
     DescribeWorkspaceImagePermissionsRequest,
+    DescribeWorkspaceImagesRequest,
     DescribeWorkspaceSnapshotsRequest,
+    DescribeWorkspacesRequest,
+    DescribeWorkspacesConnectionStatusRequest,
     DisassociateConnectionAliasRequest,
     DisassociateIpGroupsRequest,
     ImportWorkspaceImageRequest,
     ListAvailableManagementCidrRangesRequest,
     MigrateWorkspaceRequest,
+    ModifyAccountRequest,
     ModifyClientPropertiesRequest,
     ModifySelfservicePermissionsRequest,
     ModifyWorkspaceAccessPropertiesRequest,
@@ -50,6 +61,7 @@ import {
     UpdateConnectClientAddInRequest,
     UpdateConnectionAliasPermissionRequest,
     UpdateRulesOfIpGroupRequest,
+    UpdateWorkspaceBundleRequest,
     UpdateWorkspaceImagePermissionRequest,
     AssociateConnectionAliasResult,
     AssociateIpGroupsResult,
@@ -66,19 +78,30 @@ import {
     DeleteConnectionAliasResult,
     DeleteIpGroupResult,
     DeleteTagsResult,
+    DeleteWorkspaceBundleResult,
     DeleteWorkspaceImageResult,
     DeregisterWorkspaceDirectoryResult,
+    DescribeAccountResult,
+    DescribeAccountModificationsResult,
     DescribeClientPropertiesResult,
     DescribeConnectClientAddInsResult,
     DescribeConnectionAliasPermissionsResult,
+    DescribeConnectionAliasesResult,
+    DescribeIpGroupsResult,
     DescribeTagsResult,
+    DescribeWorkspaceBundlesResult,
+    DescribeWorkspaceDirectoriesResult,
     DescribeWorkspaceImagePermissionsResult,
+    DescribeWorkspaceImagesResult,
     DescribeWorkspaceSnapshotsResult,
+    DescribeWorkspacesResult,
+    DescribeWorkspacesConnectionStatusResult,
     DisassociateConnectionAliasResult,
     DisassociateIpGroupsResult,
     ImportWorkspaceImageResult,
     ListAvailableManagementCidrRangesResult,
     MigrateWorkspaceResult,
+    ModifyAccountResult,
     ModifyClientPropertiesResult,
     ModifySelfservicePermissionsResult,
     ModifyWorkspaceAccessPropertiesResult,
@@ -96,6 +119,7 @@ import {
     UpdateConnectClientAddInResult,
     UpdateConnectionAliasPermissionResult,
     UpdateRulesOfIpGroupResult,
+    UpdateWorkspaceBundleResult,
     UpdateWorkspaceImagePermissionResult
 } from "aws-sdk/clients/workspaces";
 const schema = require("../apis/workspaces-2015-04-08.normal.json")
@@ -111,21 +135,24 @@ export default class extends aws.workspaces.IpGroup {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.workspaces.IpGroup>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.WorkSpaces()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -135,512 +162,529 @@ export default class extends aws.workspaces.IpGroup {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAssociateConnectionAlias(partialParams: ToOptional<{
-      [K in keyof AssociateConnectionAliasRequest & keyof AssociateConnectionAliasRequest]: (AssociateConnectionAliasRequest & AssociateConnectionAliasRequest)[K]
+      [K in keyof AssociateConnectionAliasRequest]: (AssociateConnectionAliasRequest)[K]
     }>): Request<AssociateConnectionAliasResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateConnectionAlias(
-          this.ops["AssociateConnectionAlias"].applicator.apply(partialParams)
+          this.ops["AssociateConnectionAlias"].apply(partialParams)
         );
     }
 
     invokeAssociateIpGroups(partialParams: ToOptional<{
-      [K in keyof AssociateIpGroupsRequest & keyof AssociateIpGroupsRequest]: (AssociateIpGroupsRequest & AssociateIpGroupsRequest)[K]
+      [K in keyof AssociateIpGroupsRequest]: (AssociateIpGroupsRequest)[K]
     }>): Request<AssociateIpGroupsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateIpGroups(
-          this.ops["AssociateIpGroups"].applicator.apply(partialParams)
+          this.ops["AssociateIpGroups"].apply(partialParams)
         );
     }
 
     invokeAuthorizeIpRules(partialParams: ToOptional<{
-      [K in keyof AuthorizeIpRulesRequest & keyof AuthorizeIpRulesRequest]: (AuthorizeIpRulesRequest & AuthorizeIpRulesRequest)[K]
+      [K in keyof AuthorizeIpRulesRequest]: (AuthorizeIpRulesRequest)[K]
     }>): Request<AuthorizeIpRulesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.authorizeIpRules(
-          this.ops["AuthorizeIpRules"].applicator.apply(partialParams)
+          this.ops["AuthorizeIpRules"].apply(partialParams)
         );
     }
 
     invokeCopyWorkspaceImage(partialParams: ToOptional<{
-      [K in keyof CopyWorkspaceImageRequest & keyof CopyWorkspaceImageRequest]: (CopyWorkspaceImageRequest & CopyWorkspaceImageRequest)[K]
+      [K in keyof CopyWorkspaceImageRequest & keyof Omit<CopyWorkspaceImageRequest, "Name">]: (CopyWorkspaceImageRequest)[K]
     }>): Request<CopyWorkspaceImageResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.copyWorkspaceImage(
-          this.ops["CopyWorkspaceImage"].applicator.apply(partialParams)
+          this.ops["CopyWorkspaceImage"].apply(partialParams)
         );
     }
 
     invokeCreateConnectClientAddIn(partialParams: ToOptional<{
-      [K in keyof CreateConnectClientAddInRequest & keyof Omit<CreateConnectClientAddInRequest, "Name">]: (CreateConnectClientAddInRequest & Omit<CreateConnectClientAddInRequest, "Name">)[K]
+      [K in keyof CreateConnectClientAddInRequest & keyof Omit<CreateConnectClientAddInRequest, "Name">]: (CreateConnectClientAddInRequest)[K]
     }>): Request<CreateConnectClientAddInResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createConnectClientAddIn(
-          this.ops["CreateConnectClientAddIn"].applicator.apply(partialParams)
+          this.ops["CreateConnectClientAddIn"].apply(partialParams)
         );
     }
 
     invokeCreateConnectionAlias(partialParams: ToOptional<{
-      [K in keyof CreateConnectionAliasRequest & keyof CreateConnectionAliasRequest]: (CreateConnectionAliasRequest & CreateConnectionAliasRequest)[K]
+      [K in keyof CreateConnectionAliasRequest]: (CreateConnectionAliasRequest)[K]
     }>): Request<CreateConnectionAliasResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createConnectionAlias(
-          this.ops["CreateConnectionAlias"].applicator.apply(partialParams)
+          this.ops["CreateConnectionAlias"].apply(partialParams)
         );
     }
 
     invokeCreateIpGroup(partialParams: ToOptional<{
-      [K in keyof CreateIpGroupRequest & keyof CreateIpGroupRequest]: (CreateIpGroupRequest & CreateIpGroupRequest)[K]
+      [K in keyof CreateIpGroupRequest]: (CreateIpGroupRequest)[K]
     }>): Request<CreateIpGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createIpGroup(
-          this.ops["CreateIpGroup"].applicator.apply(partialParams)
+          this.ops["CreateIpGroup"].apply(partialParams)
         );
     }
 
     invokeCreateTags(partialParams: ToOptional<{
-      [K in keyof CreateTagsRequest & keyof CreateTagsRequest]: (CreateTagsRequest & CreateTagsRequest)[K]
+      [K in keyof CreateTagsRequest]: (CreateTagsRequest)[K]
     }>): Request<CreateTagsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createTags(
-          this.ops["CreateTags"].applicator.apply(partialParams)
+          this.ops["CreateTags"].apply(partialParams)
         );
     }
 
     invokeCreateUpdatedWorkspaceImage(partialParams: ToOptional<{
-      [K in keyof CreateUpdatedWorkspaceImageRequest & keyof CreateUpdatedWorkspaceImageRequest]: (CreateUpdatedWorkspaceImageRequest & CreateUpdatedWorkspaceImageRequest)[K]
+      [K in keyof CreateUpdatedWorkspaceImageRequest & keyof Omit<CreateUpdatedWorkspaceImageRequest, "Name" | "Description">]: (CreateUpdatedWorkspaceImageRequest)[K]
     }>): Request<CreateUpdatedWorkspaceImageResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createUpdatedWorkspaceImage(
-          this.ops["CreateUpdatedWorkspaceImage"].applicator.apply(partialParams)
+          this.ops["CreateUpdatedWorkspaceImage"].apply(partialParams)
         );
     }
 
     invokeCreateWorkspaceBundle(partialParams: ToOptional<{
-      [K in keyof CreateWorkspaceBundleRequest & keyof CreateWorkspaceBundleRequest]: (CreateWorkspaceBundleRequest & CreateWorkspaceBundleRequest)[K]
+      [K in keyof CreateWorkspaceBundleRequest]: (CreateWorkspaceBundleRequest)[K]
     }>): Request<CreateWorkspaceBundleResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createWorkspaceBundle(
-          this.ops["CreateWorkspaceBundle"].applicator.apply(partialParams)
+          this.ops["CreateWorkspaceBundle"].apply(partialParams)
         );
     }
 
     invokeCreateWorkspaces(partialParams: ToOptional<{
-      [K in keyof CreateWorkspacesRequest & keyof CreateWorkspacesRequest]: (CreateWorkspacesRequest & CreateWorkspacesRequest)[K]
+      [K in keyof CreateWorkspacesRequest]: (CreateWorkspacesRequest)[K]
     }>): Request<CreateWorkspacesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createWorkspaces(
-          this.ops["CreateWorkspaces"].applicator.apply(partialParams)
+          this.ops["CreateWorkspaces"].apply(partialParams)
         );
     }
 
     invokeDeleteConnectClientAddIn(partialParams: ToOptional<{
-      [K in keyof DeleteConnectClientAddInRequest & keyof DeleteConnectClientAddInRequest]: (DeleteConnectClientAddInRequest & DeleteConnectClientAddInRequest)[K]
+      [K in keyof DeleteConnectClientAddInRequest]: (DeleteConnectClientAddInRequest)[K]
     }>): Request<DeleteConnectClientAddInResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteConnectClientAddIn(
-          this.ops["DeleteConnectClientAddIn"].applicator.apply(partialParams)
+          this.ops["DeleteConnectClientAddIn"].apply(partialParams)
         );
     }
 
     invokeDeleteConnectionAlias(partialParams: ToOptional<{
-      [K in keyof DeleteConnectionAliasRequest & keyof DeleteConnectionAliasRequest]: (DeleteConnectionAliasRequest & DeleteConnectionAliasRequest)[K]
+      [K in keyof DeleteConnectionAliasRequest]: (DeleteConnectionAliasRequest)[K]
     }>): Request<DeleteConnectionAliasResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteConnectionAlias(
-          this.ops["DeleteConnectionAlias"].applicator.apply(partialParams)
+          this.ops["DeleteConnectionAlias"].apply(partialParams)
         );
     }
 
     invokeDeleteIpGroup(partialParams: ToOptional<{
-      [K in keyof DeleteIpGroupRequest & keyof DeleteIpGroupRequest]: (DeleteIpGroupRequest & DeleteIpGroupRequest)[K]
+      [K in keyof DeleteIpGroupRequest]: (DeleteIpGroupRequest)[K]
     }>): Request<DeleteIpGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteIpGroup(
-          this.ops["DeleteIpGroup"].applicator.apply(partialParams)
+          this.ops["DeleteIpGroup"].apply(partialParams)
         );
     }
 
     invokeDeleteTags(partialParams: ToOptional<{
-      [K in keyof DeleteTagsRequest & keyof DeleteTagsRequest]: (DeleteTagsRequest & DeleteTagsRequest)[K]
+      [K in keyof DeleteTagsRequest]: (DeleteTagsRequest)[K]
     }>): Request<DeleteTagsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteTags(
-          this.ops["DeleteTags"].applicator.apply(partialParams)
+          this.ops["DeleteTags"].apply(partialParams)
+        );
+    }
+
+    invokeDeleteWorkspaceBundle(partialParams: ToOptional<{
+      [K in keyof DeleteWorkspaceBundleRequest]: (DeleteWorkspaceBundleRequest)[K]
+    }>): Request<DeleteWorkspaceBundleResult, AWSError> {
+        this.boot();
+        return this.client.deleteWorkspaceBundle(
+          this.ops["DeleteWorkspaceBundle"].apply(partialParams)
         );
     }
 
     invokeDeleteWorkspaceImage(partialParams: ToOptional<{
-      [K in keyof DeleteWorkspaceImageRequest & keyof DeleteWorkspaceImageRequest]: (DeleteWorkspaceImageRequest & DeleteWorkspaceImageRequest)[K]
+      [K in keyof DeleteWorkspaceImageRequest]: (DeleteWorkspaceImageRequest)[K]
     }>): Request<DeleteWorkspaceImageResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteWorkspaceImage(
-          this.ops["DeleteWorkspaceImage"].applicator.apply(partialParams)
+          this.ops["DeleteWorkspaceImage"].apply(partialParams)
         );
     }
 
     invokeDeregisterWorkspaceDirectory(partialParams: ToOptional<{
-      [K in keyof DeregisterWorkspaceDirectoryRequest & keyof DeregisterWorkspaceDirectoryRequest]: (DeregisterWorkspaceDirectoryRequest & DeregisterWorkspaceDirectoryRequest)[K]
+      [K in keyof DeregisterWorkspaceDirectoryRequest]: (DeregisterWorkspaceDirectoryRequest)[K]
     }>): Request<DeregisterWorkspaceDirectoryResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deregisterWorkspaceDirectory(
-          this.ops["DeregisterWorkspaceDirectory"].applicator.apply(partialParams)
+          this.ops["DeregisterWorkspaceDirectory"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeAccount(partialParams: ToOptional<{
+      [K in keyof DescribeAccountRequest]: (DescribeAccountRequest)[K]
+    }>): Request<DescribeAccountResult, AWSError> {
+        this.boot();
+        return this.client.describeAccount(
+          this.ops["DescribeAccount"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeAccountModifications(partialParams: ToOptional<{
+      [K in keyof DescribeAccountModificationsRequest]: (DescribeAccountModificationsRequest)[K]
+    }>): Request<DescribeAccountModificationsResult, AWSError> {
+        this.boot();
+        return this.client.describeAccountModifications(
+          this.ops["DescribeAccountModifications"].apply(partialParams)
         );
     }
 
     invokeDescribeClientProperties(partialParams: ToOptional<{
-      [K in keyof DescribeClientPropertiesRequest & keyof DescribeClientPropertiesRequest]: (DescribeClientPropertiesRequest & DescribeClientPropertiesRequest)[K]
+      [K in keyof DescribeClientPropertiesRequest]: (DescribeClientPropertiesRequest)[K]
     }>): Request<DescribeClientPropertiesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeClientProperties(
-          this.ops["DescribeClientProperties"].applicator.apply(partialParams)
+          this.ops["DescribeClientProperties"].apply(partialParams)
         );
     }
 
     invokeDescribeConnectClientAddIns(partialParams: ToOptional<{
-      [K in keyof DescribeConnectClientAddInsRequest & keyof DescribeConnectClientAddInsRequest]: (DescribeConnectClientAddInsRequest & DescribeConnectClientAddInsRequest)[K]
+      [K in keyof DescribeConnectClientAddInsRequest]: (DescribeConnectClientAddInsRequest)[K]
     }>): Request<DescribeConnectClientAddInsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeConnectClientAddIns(
-          this.ops["DescribeConnectClientAddIns"].applicator.apply(partialParams)
+          this.ops["DescribeConnectClientAddIns"].apply(partialParams)
         );
     }
 
     invokeDescribeConnectionAliasPermissions(partialParams: ToOptional<{
-      [K in keyof DescribeConnectionAliasPermissionsRequest & keyof DescribeConnectionAliasPermissionsRequest]: (DescribeConnectionAliasPermissionsRequest & DescribeConnectionAliasPermissionsRequest)[K]
+      [K in keyof DescribeConnectionAliasPermissionsRequest]: (DescribeConnectionAliasPermissionsRequest)[K]
     }>): Request<DescribeConnectionAliasPermissionsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeConnectionAliasPermissions(
-          this.ops["DescribeConnectionAliasPermissions"].applicator.apply(partialParams)
+          this.ops["DescribeConnectionAliasPermissions"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeConnectionAliases(partialParams: ToOptional<{
+      [K in keyof DescribeConnectionAliasesRequest]: (DescribeConnectionAliasesRequest)[K]
+    }>): Request<DescribeConnectionAliasesResult, AWSError> {
+        this.boot();
+        return this.client.describeConnectionAliases(
+          this.ops["DescribeConnectionAliases"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeIpGroups(partialParams: ToOptional<{
+      [K in keyof DescribeIpGroupsRequest]: (DescribeIpGroupsRequest)[K]
+    }>): Request<DescribeIpGroupsResult, AWSError> {
+        this.boot();
+        return this.client.describeIpGroups(
+          this.ops["DescribeIpGroups"].apply(partialParams)
         );
     }
 
     invokeDescribeTags(partialParams: ToOptional<{
-      [K in keyof DescribeTagsRequest & keyof DescribeTagsRequest]: (DescribeTagsRequest & DescribeTagsRequest)[K]
+      [K in keyof DescribeTagsRequest]: (DescribeTagsRequest)[K]
     }>): Request<DescribeTagsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeTags(
-          this.ops["DescribeTags"].applicator.apply(partialParams)
+          this.ops["DescribeTags"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeWorkspaceBundles(partialParams: ToOptional<{
+      [K in keyof DescribeWorkspaceBundlesRequest]: (DescribeWorkspaceBundlesRequest)[K]
+    }>): Request<DescribeWorkspaceBundlesResult, AWSError> {
+        this.boot();
+        return this.client.describeWorkspaceBundles(
+          this.ops["DescribeWorkspaceBundles"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeWorkspaceDirectories(partialParams: ToOptional<{
+      [K in keyof DescribeWorkspaceDirectoriesRequest]: (DescribeWorkspaceDirectoriesRequest)[K]
+    }>): Request<DescribeWorkspaceDirectoriesResult, AWSError> {
+        this.boot();
+        return this.client.describeWorkspaceDirectories(
+          this.ops["DescribeWorkspaceDirectories"].apply(partialParams)
         );
     }
 
     invokeDescribeWorkspaceImagePermissions(partialParams: ToOptional<{
-      [K in keyof DescribeWorkspaceImagePermissionsRequest & keyof DescribeWorkspaceImagePermissionsRequest]: (DescribeWorkspaceImagePermissionsRequest & DescribeWorkspaceImagePermissionsRequest)[K]
+      [K in keyof DescribeWorkspaceImagePermissionsRequest]: (DescribeWorkspaceImagePermissionsRequest)[K]
     }>): Request<DescribeWorkspaceImagePermissionsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeWorkspaceImagePermissions(
-          this.ops["DescribeWorkspaceImagePermissions"].applicator.apply(partialParams)
+          this.ops["DescribeWorkspaceImagePermissions"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeWorkspaceImages(partialParams: ToOptional<{
+      [K in keyof DescribeWorkspaceImagesRequest]: (DescribeWorkspaceImagesRequest)[K]
+    }>): Request<DescribeWorkspaceImagesResult, AWSError> {
+        this.boot();
+        return this.client.describeWorkspaceImages(
+          this.ops["DescribeWorkspaceImages"].apply(partialParams)
         );
     }
 
     invokeDescribeWorkspaceSnapshots(partialParams: ToOptional<{
-      [K in keyof DescribeWorkspaceSnapshotsRequest & keyof DescribeWorkspaceSnapshotsRequest]: (DescribeWorkspaceSnapshotsRequest & DescribeWorkspaceSnapshotsRequest)[K]
+      [K in keyof DescribeWorkspaceSnapshotsRequest]: (DescribeWorkspaceSnapshotsRequest)[K]
     }>): Request<DescribeWorkspaceSnapshotsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeWorkspaceSnapshots(
-          this.ops["DescribeWorkspaceSnapshots"].applicator.apply(partialParams)
+          this.ops["DescribeWorkspaceSnapshots"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeWorkspaces(partialParams: ToOptional<{
+      [K in keyof DescribeWorkspacesRequest]: (DescribeWorkspacesRequest)[K]
+    }>): Request<DescribeWorkspacesResult, AWSError> {
+        this.boot();
+        return this.client.describeWorkspaces(
+          this.ops["DescribeWorkspaces"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeWorkspacesConnectionStatus(partialParams: ToOptional<{
+      [K in keyof DescribeWorkspacesConnectionStatusRequest]: (DescribeWorkspacesConnectionStatusRequest)[K]
+    }>): Request<DescribeWorkspacesConnectionStatusResult, AWSError> {
+        this.boot();
+        return this.client.describeWorkspacesConnectionStatus(
+          this.ops["DescribeWorkspacesConnectionStatus"].apply(partialParams)
         );
     }
 
     invokeDisassociateConnectionAlias(partialParams: ToOptional<{
-      [K in keyof DisassociateConnectionAliasRequest & keyof DisassociateConnectionAliasRequest]: (DisassociateConnectionAliasRequest & DisassociateConnectionAliasRequest)[K]
+      [K in keyof DisassociateConnectionAliasRequest]: (DisassociateConnectionAliasRequest)[K]
     }>): Request<DisassociateConnectionAliasResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateConnectionAlias(
-          this.ops["DisassociateConnectionAlias"].applicator.apply(partialParams)
+          this.ops["DisassociateConnectionAlias"].apply(partialParams)
         );
     }
 
     invokeDisassociateIpGroups(partialParams: ToOptional<{
-      [K in keyof DisassociateIpGroupsRequest & keyof DisassociateIpGroupsRequest]: (DisassociateIpGroupsRequest & DisassociateIpGroupsRequest)[K]
+      [K in keyof DisassociateIpGroupsRequest]: (DisassociateIpGroupsRequest)[K]
     }>): Request<DisassociateIpGroupsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateIpGroups(
-          this.ops["DisassociateIpGroups"].applicator.apply(partialParams)
+          this.ops["DisassociateIpGroups"].apply(partialParams)
         );
     }
 
     invokeImportWorkspaceImage(partialParams: ToOptional<{
-      [K in keyof ImportWorkspaceImageRequest & keyof ImportWorkspaceImageRequest]: (ImportWorkspaceImageRequest & ImportWorkspaceImageRequest)[K]
+      [K in keyof ImportWorkspaceImageRequest]: (ImportWorkspaceImageRequest)[K]
     }>): Request<ImportWorkspaceImageResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.importWorkspaceImage(
-          this.ops["ImportWorkspaceImage"].applicator.apply(partialParams)
+          this.ops["ImportWorkspaceImage"].apply(partialParams)
         );
     }
 
     invokeListAvailableManagementCidrRanges(partialParams: ToOptional<{
-      [K in keyof ListAvailableManagementCidrRangesRequest & keyof ListAvailableManagementCidrRangesRequest]: (ListAvailableManagementCidrRangesRequest & ListAvailableManagementCidrRangesRequest)[K]
+      [K in keyof ListAvailableManagementCidrRangesRequest]: (ListAvailableManagementCidrRangesRequest)[K]
     }>): Request<ListAvailableManagementCidrRangesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listAvailableManagementCidrRanges(
-          this.ops["ListAvailableManagementCidrRanges"].applicator.apply(partialParams)
+          this.ops["ListAvailableManagementCidrRanges"].apply(partialParams)
         );
     }
 
     invokeMigrateWorkspace(partialParams: ToOptional<{
-      [K in keyof MigrateWorkspaceRequest & keyof MigrateWorkspaceRequest]: (MigrateWorkspaceRequest & MigrateWorkspaceRequest)[K]
+      [K in keyof MigrateWorkspaceRequest]: (MigrateWorkspaceRequest)[K]
     }>): Request<MigrateWorkspaceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.migrateWorkspace(
-          this.ops["MigrateWorkspace"].applicator.apply(partialParams)
+          this.ops["MigrateWorkspace"].apply(partialParams)
+        );
+    }
+
+    invokeModifyAccount(partialParams: ToOptional<{
+      [K in keyof ModifyAccountRequest]: (ModifyAccountRequest)[K]
+    }>): Request<ModifyAccountResult, AWSError> {
+        this.boot();
+        return this.client.modifyAccount(
+          this.ops["ModifyAccount"].apply(partialParams)
         );
     }
 
     invokeModifyClientProperties(partialParams: ToOptional<{
-      [K in keyof ModifyClientPropertiesRequest & keyof ModifyClientPropertiesRequest]: (ModifyClientPropertiesRequest & ModifyClientPropertiesRequest)[K]
+      [K in keyof ModifyClientPropertiesRequest]: (ModifyClientPropertiesRequest)[K]
     }>): Request<ModifyClientPropertiesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyClientProperties(
-          this.ops["ModifyClientProperties"].applicator.apply(partialParams)
+          this.ops["ModifyClientProperties"].apply(partialParams)
         );
     }
 
     invokeModifySelfservicePermissions(partialParams: ToOptional<{
-      [K in keyof ModifySelfservicePermissionsRequest & keyof ModifySelfservicePermissionsRequest]: (ModifySelfservicePermissionsRequest & ModifySelfservicePermissionsRequest)[K]
+      [K in keyof ModifySelfservicePermissionsRequest]: (ModifySelfservicePermissionsRequest)[K]
     }>): Request<ModifySelfservicePermissionsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifySelfservicePermissions(
-          this.ops["ModifySelfservicePermissions"].applicator.apply(partialParams)
+          this.ops["ModifySelfservicePermissions"].apply(partialParams)
         );
     }
 
     invokeModifyWorkspaceAccessProperties(partialParams: ToOptional<{
-      [K in keyof ModifyWorkspaceAccessPropertiesRequest & keyof ModifyWorkspaceAccessPropertiesRequest]: (ModifyWorkspaceAccessPropertiesRequest & ModifyWorkspaceAccessPropertiesRequest)[K]
+      [K in keyof ModifyWorkspaceAccessPropertiesRequest]: (ModifyWorkspaceAccessPropertiesRequest)[K]
     }>): Request<ModifyWorkspaceAccessPropertiesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyWorkspaceAccessProperties(
-          this.ops["ModifyWorkspaceAccessProperties"].applicator.apply(partialParams)
+          this.ops["ModifyWorkspaceAccessProperties"].apply(partialParams)
         );
     }
 
     invokeModifyWorkspaceCreationProperties(partialParams: ToOptional<{
-      [K in keyof ModifyWorkspaceCreationPropertiesRequest & keyof ModifyWorkspaceCreationPropertiesRequest]: (ModifyWorkspaceCreationPropertiesRequest & ModifyWorkspaceCreationPropertiesRequest)[K]
+      [K in keyof ModifyWorkspaceCreationPropertiesRequest]: (ModifyWorkspaceCreationPropertiesRequest)[K]
     }>): Request<ModifyWorkspaceCreationPropertiesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyWorkspaceCreationProperties(
-          this.ops["ModifyWorkspaceCreationProperties"].applicator.apply(partialParams)
+          this.ops["ModifyWorkspaceCreationProperties"].apply(partialParams)
         );
     }
 
     invokeModifyWorkspaceProperties(partialParams: ToOptional<{
-      [K in keyof ModifyWorkspacePropertiesRequest & keyof ModifyWorkspacePropertiesRequest]: (ModifyWorkspacePropertiesRequest & ModifyWorkspacePropertiesRequest)[K]
+      [K in keyof ModifyWorkspacePropertiesRequest]: (ModifyWorkspacePropertiesRequest)[K]
     }>): Request<ModifyWorkspacePropertiesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyWorkspaceProperties(
-          this.ops["ModifyWorkspaceProperties"].applicator.apply(partialParams)
+          this.ops["ModifyWorkspaceProperties"].apply(partialParams)
         );
     }
 
     invokeModifyWorkspaceState(partialParams: ToOptional<{
-      [K in keyof ModifyWorkspaceStateRequest & keyof ModifyWorkspaceStateRequest]: (ModifyWorkspaceStateRequest & ModifyWorkspaceStateRequest)[K]
+      [K in keyof ModifyWorkspaceStateRequest]: (ModifyWorkspaceStateRequest)[K]
     }>): Request<ModifyWorkspaceStateResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyWorkspaceState(
-          this.ops["ModifyWorkspaceState"].applicator.apply(partialParams)
+          this.ops["ModifyWorkspaceState"].apply(partialParams)
         );
     }
 
     invokeRebootWorkspaces(partialParams: ToOptional<{
-      [K in keyof RebootWorkspacesRequest & keyof RebootWorkspacesRequest]: (RebootWorkspacesRequest & RebootWorkspacesRequest)[K]
+      [K in keyof RebootWorkspacesRequest]: (RebootWorkspacesRequest)[K]
     }>): Request<RebootWorkspacesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.rebootWorkspaces(
-          this.ops["RebootWorkspaces"].applicator.apply(partialParams)
+          this.ops["RebootWorkspaces"].apply(partialParams)
         );
     }
 
     invokeRebuildWorkspaces(partialParams: ToOptional<{
-      [K in keyof RebuildWorkspacesRequest & keyof RebuildWorkspacesRequest]: (RebuildWorkspacesRequest & RebuildWorkspacesRequest)[K]
+      [K in keyof RebuildWorkspacesRequest]: (RebuildWorkspacesRequest)[K]
     }>): Request<RebuildWorkspacesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.rebuildWorkspaces(
-          this.ops["RebuildWorkspaces"].applicator.apply(partialParams)
+          this.ops["RebuildWorkspaces"].apply(partialParams)
         );
     }
 
     invokeRegisterWorkspaceDirectory(partialParams: ToOptional<{
-      [K in keyof RegisterWorkspaceDirectoryRequest & keyof RegisterWorkspaceDirectoryRequest]: (RegisterWorkspaceDirectoryRequest & RegisterWorkspaceDirectoryRequest)[K]
+      [K in keyof RegisterWorkspaceDirectoryRequest]: (RegisterWorkspaceDirectoryRequest)[K]
     }>): Request<RegisterWorkspaceDirectoryResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.registerWorkspaceDirectory(
-          this.ops["RegisterWorkspaceDirectory"].applicator.apply(partialParams)
+          this.ops["RegisterWorkspaceDirectory"].apply(partialParams)
         );
     }
 
     invokeRestoreWorkspace(partialParams: ToOptional<{
-      [K in keyof RestoreWorkspaceRequest & keyof RestoreWorkspaceRequest]: (RestoreWorkspaceRequest & RestoreWorkspaceRequest)[K]
+      [K in keyof RestoreWorkspaceRequest]: (RestoreWorkspaceRequest)[K]
     }>): Request<RestoreWorkspaceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.restoreWorkspace(
-          this.ops["RestoreWorkspace"].applicator.apply(partialParams)
+          this.ops["RestoreWorkspace"].apply(partialParams)
         );
     }
 
     invokeRevokeIpRules(partialParams: ToOptional<{
-      [K in keyof RevokeIpRulesRequest & keyof RevokeIpRulesRequest]: (RevokeIpRulesRequest & RevokeIpRulesRequest)[K]
+      [K in keyof RevokeIpRulesRequest]: (RevokeIpRulesRequest)[K]
     }>): Request<RevokeIpRulesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.revokeIpRules(
-          this.ops["RevokeIpRules"].applicator.apply(partialParams)
+          this.ops["RevokeIpRules"].apply(partialParams)
         );
     }
 
     invokeStartWorkspaces(partialParams: ToOptional<{
-      [K in keyof StartWorkspacesRequest & keyof StartWorkspacesRequest]: (StartWorkspacesRequest & StartWorkspacesRequest)[K]
+      [K in keyof StartWorkspacesRequest]: (StartWorkspacesRequest)[K]
     }>): Request<StartWorkspacesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startWorkspaces(
-          this.ops["StartWorkspaces"].applicator.apply(partialParams)
+          this.ops["StartWorkspaces"].apply(partialParams)
         );
     }
 
     invokeStopWorkspaces(partialParams: ToOptional<{
-      [K in keyof StopWorkspacesRequest & keyof StopWorkspacesRequest]: (StopWorkspacesRequest & StopWorkspacesRequest)[K]
+      [K in keyof StopWorkspacesRequest]: (StopWorkspacesRequest)[K]
     }>): Request<StopWorkspacesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopWorkspaces(
-          this.ops["StopWorkspaces"].applicator.apply(partialParams)
+          this.ops["StopWorkspaces"].apply(partialParams)
         );
     }
 
     invokeTerminateWorkspaces(partialParams: ToOptional<{
-      [K in keyof TerminateWorkspacesRequest & keyof TerminateWorkspacesRequest]: (TerminateWorkspacesRequest & TerminateWorkspacesRequest)[K]
+      [K in keyof TerminateWorkspacesRequest]: (TerminateWorkspacesRequest)[K]
     }>): Request<TerminateWorkspacesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.terminateWorkspaces(
-          this.ops["TerminateWorkspaces"].applicator.apply(partialParams)
+          this.ops["TerminateWorkspaces"].apply(partialParams)
         );
     }
 
     invokeUpdateConnectClientAddIn(partialParams: ToOptional<{
-      [K in keyof UpdateConnectClientAddInRequest & keyof UpdateConnectClientAddInRequest]: (UpdateConnectClientAddInRequest & UpdateConnectClientAddInRequest)[K]
+      [K in keyof UpdateConnectClientAddInRequest]: (UpdateConnectClientAddInRequest)[K]
     }>): Request<UpdateConnectClientAddInResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateConnectClientAddIn(
-          this.ops["UpdateConnectClientAddIn"].applicator.apply(partialParams)
+          this.ops["UpdateConnectClientAddIn"].apply(partialParams)
         );
     }
 
     invokeUpdateConnectionAliasPermission(partialParams: ToOptional<{
-      [K in keyof UpdateConnectionAliasPermissionRequest & keyof UpdateConnectionAliasPermissionRequest]: (UpdateConnectionAliasPermissionRequest & UpdateConnectionAliasPermissionRequest)[K]
+      [K in keyof UpdateConnectionAliasPermissionRequest]: (UpdateConnectionAliasPermissionRequest)[K]
     }>): Request<UpdateConnectionAliasPermissionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateConnectionAliasPermission(
-          this.ops["UpdateConnectionAliasPermission"].applicator.apply(partialParams)
+          this.ops["UpdateConnectionAliasPermission"].apply(partialParams)
         );
     }
 
     invokeUpdateRulesOfIpGroup(partialParams: ToOptional<{
-      [K in keyof UpdateRulesOfIpGroupRequest & keyof UpdateRulesOfIpGroupRequest]: (UpdateRulesOfIpGroupRequest & UpdateRulesOfIpGroupRequest)[K]
+      [K in keyof UpdateRulesOfIpGroupRequest]: (UpdateRulesOfIpGroupRequest)[K]
     }>): Request<UpdateRulesOfIpGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateRulesOfIpGroup(
-          this.ops["UpdateRulesOfIpGroup"].applicator.apply(partialParams)
+          this.ops["UpdateRulesOfIpGroup"].apply(partialParams)
+        );
+    }
+
+    invokeUpdateWorkspaceBundle(partialParams: ToOptional<{
+      [K in keyof UpdateWorkspaceBundleRequest]: (UpdateWorkspaceBundleRequest)[K]
+    }>): Request<UpdateWorkspaceBundleResult, AWSError> {
+        this.boot();
+        return this.client.updateWorkspaceBundle(
+          this.ops["UpdateWorkspaceBundle"].apply(partialParams)
         );
     }
 
     invokeUpdateWorkspaceImagePermission(partialParams: ToOptional<{
-      [K in keyof UpdateWorkspaceImagePermissionRequest & keyof UpdateWorkspaceImagePermissionRequest]: (UpdateWorkspaceImagePermissionRequest & UpdateWorkspaceImagePermissionRequest)[K]
+      [K in keyof UpdateWorkspaceImagePermissionRequest]: (UpdateWorkspaceImagePermissionRequest)[K]
     }>): Request<UpdateWorkspaceImagePermissionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateWorkspaceImagePermission(
-          this.ops["UpdateWorkspaceImagePermission"].applicator.apply(partialParams)
+          this.ops["UpdateWorkspaceImagePermission"].apply(partialParams)
         );
     }
 }

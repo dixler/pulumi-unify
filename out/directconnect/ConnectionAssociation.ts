@@ -16,9 +16,11 @@ import {
     AssociateMacSecKeyRequest,
     AssociateVirtualInterfaceRequest,
     ConfirmConnectionRequest,
+    ConfirmCustomerAgreementRequest,
     ConfirmPrivateVirtualInterfaceRequest,
     ConfirmPublicVirtualInterfaceRequest,
     ConfirmTransitVirtualInterfaceRequest,
+    CreateBGPPeerRequest,
     CreateConnectionRequest,
     CreateDirectConnectGatewayRequest,
     CreateDirectConnectGatewayAssociationRequest,
@@ -28,27 +30,39 @@ import {
     CreatePrivateVirtualInterfaceRequest,
     CreatePublicVirtualInterfaceRequest,
     CreateTransitVirtualInterfaceRequest,
+    DeleteBGPPeerRequest,
     DeleteConnectionRequest,
     DeleteDirectConnectGatewayRequest,
+    DeleteDirectConnectGatewayAssociationRequest,
     DeleteDirectConnectGatewayAssociationProposalRequest,
     DeleteInterconnectRequest,
     DeleteLagRequest,
     DeleteVirtualInterfaceRequest,
     DescribeConnectionLoaRequest,
+    DescribeConnectionsRequest,
     DescribeConnectionsOnInterconnectRequest,
+    DescribeDirectConnectGatewayAssociationProposalsRequest,
+    DescribeDirectConnectGatewayAssociationsRequest,
+    DescribeDirectConnectGatewayAttachmentsRequest,
+    DescribeDirectConnectGatewaysRequest,
     DescribeHostedConnectionsRequest,
     DescribeInterconnectLoaRequest,
+    DescribeInterconnectsRequest,
+    DescribeLagsRequest,
     DescribeLoaRequest,
     DescribeRouterConfigurationRequest,
     DescribeTagsRequest,
+    DescribeVirtualInterfacesRequest,
     DisassociateConnectionFromLagRequest,
     DisassociateMacSecKeyRequest,
+    ListVirtualInterfaceTestHistoryRequest,
     StartBgpFailoverTestRequest,
     StopBgpFailoverTestRequest,
     TagResourceRequest,
     UntagResourceRequest,
     UpdateConnectionRequest,
     UpdateDirectConnectGatewayRequest,
+    UpdateDirectConnectGatewayAssociationRequest,
     UpdateLagRequest,
     UpdateVirtualInterfaceAttributesRequest,
     AcceptDirectConnectGatewayAssociationProposalResult,
@@ -57,31 +71,44 @@ import {
     AllocateTransitVirtualInterfaceResult,
     AssociateMacSecKeyResponse,
     ConfirmConnectionResponse,
+    ConfirmCustomerAgreementResponse,
     ConfirmPrivateVirtualInterfaceResponse,
     ConfirmPublicVirtualInterfaceResponse,
     ConfirmTransitVirtualInterfaceResponse,
+    CreateBGPPeerResponse,
     CreateDirectConnectGatewayResult,
     CreateDirectConnectGatewayAssociationResult,
     CreateDirectConnectGatewayAssociationProposalResult,
     Interconnect,
     Lag,
     CreateTransitVirtualInterfaceResult,
+    DeleteBGPPeerResponse,
     DeleteDirectConnectGatewayResult,
+    DeleteDirectConnectGatewayAssociationResult,
     DeleteDirectConnectGatewayAssociationProposalResult,
     DeleteInterconnectResponse,
     DeleteVirtualInterfaceResponse,
     DescribeConnectionLoaResponse,
     Connections,
+    DescribeDirectConnectGatewayAssociationProposalsResult,
+    DescribeDirectConnectGatewayAssociationsResult,
+    DescribeDirectConnectGatewayAttachmentsResult,
+    DescribeDirectConnectGatewaysResult,
     DescribeInterconnectLoaResponse,
+    Interconnects,
+    Lags,
     Loa,
     DescribeRouterConfigurationResponse,
     DescribeTagsResponse,
+    VirtualInterfaces,
     DisassociateMacSecKeyResponse,
+    ListVirtualInterfaceTestHistoryResponse,
     StartBgpFailoverTestResponse,
     StopBgpFailoverTestResponse,
     TagResourceResponse,
     UntagResourceResponse,
-    UpdateDirectConnectGatewayResponse
+    UpdateDirectConnectGatewayResponse,
+    UpdateDirectConnectGatewayAssociationResult
 } from "aws-sdk/clients/directconnect";
 const schema = require("../apis/directconnect-2012-10-25.normal.json")
 import {getResourceOperations, upperCamelCase} from "../parse";
@@ -96,21 +123,24 @@ export default class extends aws.directconnect.ConnectionAssociation {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.directconnect.ConnectionAssociation>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.DirectConnect()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -120,512 +150,547 @@ export default class extends aws.directconnect.ConnectionAssociation {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAcceptDirectConnectGatewayAssociationProposal(partialParams: ToOptional<{
-      [K in keyof AcceptDirectConnectGatewayAssociationProposalRequest & keyof AcceptDirectConnectGatewayAssociationProposalRequest]: (AcceptDirectConnectGatewayAssociationProposalRequest & AcceptDirectConnectGatewayAssociationProposalRequest)[K]
+      [K in keyof AcceptDirectConnectGatewayAssociationProposalRequest]: (AcceptDirectConnectGatewayAssociationProposalRequest)[K]
     }>): Request<AcceptDirectConnectGatewayAssociationProposalResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.acceptDirectConnectGatewayAssociationProposal(
-          this.ops["AcceptDirectConnectGatewayAssociationProposal"].applicator.apply(partialParams)
+          this.ops["AcceptDirectConnectGatewayAssociationProposal"].apply(partialParams)
         );
     }
 
     invokeAllocateConnectionOnInterconnect(partialParams: ToOptional<{
-      [K in keyof AllocateConnectionOnInterconnectRequest & keyof AllocateConnectionOnInterconnectRequest]: (AllocateConnectionOnInterconnectRequest & AllocateConnectionOnInterconnectRequest)[K]
+      [K in keyof AllocateConnectionOnInterconnectRequest]: (AllocateConnectionOnInterconnectRequest)[K]
     }>): Request<Connection, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.allocateConnectionOnInterconnect(
-          this.ops["AllocateConnectionOnInterconnect"].applicator.apply(partialParams)
+          this.ops["AllocateConnectionOnInterconnect"].apply(partialParams)
         );
     }
 
     invokeAllocateHostedConnection(partialParams: ToOptional<{
-      [K in keyof AllocateHostedConnectionRequest & keyof AllocateHostedConnectionRequest]: (AllocateHostedConnectionRequest & AllocateHostedConnectionRequest)[K]
+      [K in keyof AllocateHostedConnectionRequest]: (AllocateHostedConnectionRequest)[K]
     }>): Request<Connection, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.allocateHostedConnection(
-          this.ops["AllocateHostedConnection"].applicator.apply(partialParams)
+          this.ops["AllocateHostedConnection"].apply(partialParams)
         );
     }
 
     invokeAllocatePrivateVirtualInterface(partialParams: ToOptional<{
-      [K in keyof AllocatePrivateVirtualInterfaceRequest & keyof AllocatePrivateVirtualInterfaceRequest]: (AllocatePrivateVirtualInterfaceRequest & AllocatePrivateVirtualInterfaceRequest)[K]
+      [K in keyof AllocatePrivateVirtualInterfaceRequest]: (AllocatePrivateVirtualInterfaceRequest)[K]
     }>): Request<VirtualInterface, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.allocatePrivateVirtualInterface(
-          this.ops["AllocatePrivateVirtualInterface"].applicator.apply(partialParams)
+          this.ops["AllocatePrivateVirtualInterface"].apply(partialParams)
         );
     }
 
     invokeAllocatePublicVirtualInterface(partialParams: ToOptional<{
-      [K in keyof AllocatePublicVirtualInterfaceRequest & keyof AllocatePublicVirtualInterfaceRequest]: (AllocatePublicVirtualInterfaceRequest & AllocatePublicVirtualInterfaceRequest)[K]
+      [K in keyof AllocatePublicVirtualInterfaceRequest]: (AllocatePublicVirtualInterfaceRequest)[K]
     }>): Request<VirtualInterface, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.allocatePublicVirtualInterface(
-          this.ops["AllocatePublicVirtualInterface"].applicator.apply(partialParams)
+          this.ops["AllocatePublicVirtualInterface"].apply(partialParams)
         );
     }
 
     invokeAllocateTransitVirtualInterface(partialParams: ToOptional<{
-      [K in keyof AllocateTransitVirtualInterfaceRequest & keyof AllocateTransitVirtualInterfaceRequest]: (AllocateTransitVirtualInterfaceRequest & AllocateTransitVirtualInterfaceRequest)[K]
+      [K in keyof AllocateTransitVirtualInterfaceRequest]: (AllocateTransitVirtualInterfaceRequest)[K]
     }>): Request<AllocateTransitVirtualInterfaceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.allocateTransitVirtualInterface(
-          this.ops["AllocateTransitVirtualInterface"].applicator.apply(partialParams)
+          this.ops["AllocateTransitVirtualInterface"].apply(partialParams)
         );
     }
 
     invokeAssociateConnectionWithLag(partialParams: ToOptional<{
-      [K in keyof AssociateConnectionWithLagRequest & keyof AssociateConnectionWithLagRequest]: (AssociateConnectionWithLagRequest & AssociateConnectionWithLagRequest)[K]
+      [K in keyof AssociateConnectionWithLagRequest]: (AssociateConnectionWithLagRequest)[K]
     }>): Request<Connection, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateConnectionWithLag(
-          this.ops["AssociateConnectionWithLag"].applicator.apply(partialParams)
+          this.ops["AssociateConnectionWithLag"].apply(partialParams)
         );
     }
 
     invokeAssociateHostedConnection(partialParams: ToOptional<{
-      [K in keyof AssociateHostedConnectionRequest & keyof AssociateHostedConnectionRequest]: (AssociateHostedConnectionRequest & AssociateHostedConnectionRequest)[K]
+      [K in keyof AssociateHostedConnectionRequest]: (AssociateHostedConnectionRequest)[K]
     }>): Request<Connection, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateHostedConnection(
-          this.ops["AssociateHostedConnection"].applicator.apply(partialParams)
+          this.ops["AssociateHostedConnection"].apply(partialParams)
         );
     }
 
     invokeAssociateMacSecKey(partialParams: ToOptional<{
-      [K in keyof AssociateMacSecKeyRequest & keyof AssociateMacSecKeyRequest]: (AssociateMacSecKeyRequest & AssociateMacSecKeyRequest)[K]
+      [K in keyof AssociateMacSecKeyRequest]: (AssociateMacSecKeyRequest)[K]
     }>): Request<AssociateMacSecKeyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateMacSecKey(
-          this.ops["AssociateMacSecKey"].applicator.apply(partialParams)
+          this.ops["AssociateMacSecKey"].apply(partialParams)
         );
     }
 
     invokeAssociateVirtualInterface(partialParams: ToOptional<{
-      [K in keyof AssociateVirtualInterfaceRequest & keyof AssociateVirtualInterfaceRequest]: (AssociateVirtualInterfaceRequest & AssociateVirtualInterfaceRequest)[K]
+      [K in keyof AssociateVirtualInterfaceRequest]: (AssociateVirtualInterfaceRequest)[K]
     }>): Request<VirtualInterface, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateVirtualInterface(
-          this.ops["AssociateVirtualInterface"].applicator.apply(partialParams)
+          this.ops["AssociateVirtualInterface"].apply(partialParams)
         );
     }
 
     invokeConfirmConnection(partialParams: ToOptional<{
-      [K in keyof ConfirmConnectionRequest & keyof ConfirmConnectionRequest]: (ConfirmConnectionRequest & ConfirmConnectionRequest)[K]
+      [K in keyof ConfirmConnectionRequest]: (ConfirmConnectionRequest)[K]
     }>): Request<ConfirmConnectionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.confirmConnection(
-          this.ops["ConfirmConnection"].applicator.apply(partialParams)
+          this.ops["ConfirmConnection"].apply(partialParams)
+        );
+    }
+
+    invokeConfirmCustomerAgreement(partialParams: ToOptional<{
+      [K in keyof ConfirmCustomerAgreementRequest]: (ConfirmCustomerAgreementRequest)[K]
+    }>): Request<ConfirmCustomerAgreementResponse, AWSError> {
+        this.boot();
+        return this.client.confirmCustomerAgreement(
+          this.ops["ConfirmCustomerAgreement"].apply(partialParams)
         );
     }
 
     invokeConfirmPrivateVirtualInterface(partialParams: ToOptional<{
-      [K in keyof ConfirmPrivateVirtualInterfaceRequest & keyof ConfirmPrivateVirtualInterfaceRequest]: (ConfirmPrivateVirtualInterfaceRequest & ConfirmPrivateVirtualInterfaceRequest)[K]
+      [K in keyof ConfirmPrivateVirtualInterfaceRequest]: (ConfirmPrivateVirtualInterfaceRequest)[K]
     }>): Request<ConfirmPrivateVirtualInterfaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.confirmPrivateVirtualInterface(
-          this.ops["ConfirmPrivateVirtualInterface"].applicator.apply(partialParams)
+          this.ops["ConfirmPrivateVirtualInterface"].apply(partialParams)
         );
     }
 
     invokeConfirmPublicVirtualInterface(partialParams: ToOptional<{
-      [K in keyof ConfirmPublicVirtualInterfaceRequest & keyof ConfirmPublicVirtualInterfaceRequest]: (ConfirmPublicVirtualInterfaceRequest & ConfirmPublicVirtualInterfaceRequest)[K]
+      [K in keyof ConfirmPublicVirtualInterfaceRequest]: (ConfirmPublicVirtualInterfaceRequest)[K]
     }>): Request<ConfirmPublicVirtualInterfaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.confirmPublicVirtualInterface(
-          this.ops["ConfirmPublicVirtualInterface"].applicator.apply(partialParams)
+          this.ops["ConfirmPublicVirtualInterface"].apply(partialParams)
         );
     }
 
     invokeConfirmTransitVirtualInterface(partialParams: ToOptional<{
-      [K in keyof ConfirmTransitVirtualInterfaceRequest & keyof ConfirmTransitVirtualInterfaceRequest]: (ConfirmTransitVirtualInterfaceRequest & ConfirmTransitVirtualInterfaceRequest)[K]
+      [K in keyof ConfirmTransitVirtualInterfaceRequest]: (ConfirmTransitVirtualInterfaceRequest)[K]
     }>): Request<ConfirmTransitVirtualInterfaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.confirmTransitVirtualInterface(
-          this.ops["ConfirmTransitVirtualInterface"].applicator.apply(partialParams)
+          this.ops["ConfirmTransitVirtualInterface"].apply(partialParams)
+        );
+    }
+
+    invokeCreateBGPPeer(partialParams: ToOptional<{
+      [K in keyof CreateBGPPeerRequest]: (CreateBGPPeerRequest)[K]
+    }>): Request<CreateBGPPeerResponse, AWSError> {
+        this.boot();
+        return this.client.createBGPPeer(
+          this.ops["CreateBGPPeer"].apply(partialParams)
         );
     }
 
     invokeCreateConnection(partialParams: ToOptional<{
-      [K in keyof CreateConnectionRequest & keyof CreateConnectionRequest]: (CreateConnectionRequest & CreateConnectionRequest)[K]
+      [K in keyof CreateConnectionRequest]: (CreateConnectionRequest)[K]
     }>): Request<Connection, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createConnection(
-          this.ops["CreateConnection"].applicator.apply(partialParams)
+          this.ops["CreateConnection"].apply(partialParams)
         );
     }
 
     invokeCreateDirectConnectGateway(partialParams: ToOptional<{
-      [K in keyof CreateDirectConnectGatewayRequest & keyof CreateDirectConnectGatewayRequest]: (CreateDirectConnectGatewayRequest & CreateDirectConnectGatewayRequest)[K]
+      [K in keyof CreateDirectConnectGatewayRequest]: (CreateDirectConnectGatewayRequest)[K]
     }>): Request<CreateDirectConnectGatewayResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDirectConnectGateway(
-          this.ops["CreateDirectConnectGateway"].applicator.apply(partialParams)
+          this.ops["CreateDirectConnectGateway"].apply(partialParams)
         );
     }
 
     invokeCreateDirectConnectGatewayAssociation(partialParams: ToOptional<{
-      [K in keyof CreateDirectConnectGatewayAssociationRequest & keyof CreateDirectConnectGatewayAssociationRequest]: (CreateDirectConnectGatewayAssociationRequest & CreateDirectConnectGatewayAssociationRequest)[K]
+      [K in keyof CreateDirectConnectGatewayAssociationRequest]: (CreateDirectConnectGatewayAssociationRequest)[K]
     }>): Request<CreateDirectConnectGatewayAssociationResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDirectConnectGatewayAssociation(
-          this.ops["CreateDirectConnectGatewayAssociation"].applicator.apply(partialParams)
+          this.ops["CreateDirectConnectGatewayAssociation"].apply(partialParams)
         );
     }
 
     invokeCreateDirectConnectGatewayAssociationProposal(partialParams: ToOptional<{
-      [K in keyof CreateDirectConnectGatewayAssociationProposalRequest & keyof CreateDirectConnectGatewayAssociationProposalRequest]: (CreateDirectConnectGatewayAssociationProposalRequest & CreateDirectConnectGatewayAssociationProposalRequest)[K]
+      [K in keyof CreateDirectConnectGatewayAssociationProposalRequest]: (CreateDirectConnectGatewayAssociationProposalRequest)[K]
     }>): Request<CreateDirectConnectGatewayAssociationProposalResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDirectConnectGatewayAssociationProposal(
-          this.ops["CreateDirectConnectGatewayAssociationProposal"].applicator.apply(partialParams)
+          this.ops["CreateDirectConnectGatewayAssociationProposal"].apply(partialParams)
         );
     }
 
     invokeCreateInterconnect(partialParams: ToOptional<{
-      [K in keyof CreateInterconnectRequest & keyof CreateInterconnectRequest]: (CreateInterconnectRequest & CreateInterconnectRequest)[K]
+      [K in keyof CreateInterconnectRequest]: (CreateInterconnectRequest)[K]
     }>): Request<Interconnect, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createInterconnect(
-          this.ops["CreateInterconnect"].applicator.apply(partialParams)
+          this.ops["CreateInterconnect"].apply(partialParams)
         );
     }
 
     invokeCreateLag(partialParams: ToOptional<{
-      [K in keyof CreateLagRequest & keyof CreateLagRequest]: (CreateLagRequest & CreateLagRequest)[K]
+      [K in keyof CreateLagRequest]: (CreateLagRequest)[K]
     }>): Request<Lag, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createLag(
-          this.ops["CreateLag"].applicator.apply(partialParams)
+          this.ops["CreateLag"].apply(partialParams)
         );
     }
 
     invokeCreatePrivateVirtualInterface(partialParams: ToOptional<{
-      [K in keyof Omit<CreatePrivateVirtualInterfaceRequest, "connectionId"> & keyof CreatePrivateVirtualInterfaceRequest]: (Omit<CreatePrivateVirtualInterfaceRequest, "connectionId"> & CreatePrivateVirtualInterfaceRequest)[K]
+      [K in keyof CreatePrivateVirtualInterfaceRequest]: (CreatePrivateVirtualInterfaceRequest)[K]
     }>): Request<VirtualInterface, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createPrivateVirtualInterface(
-          this.ops["CreatePrivateVirtualInterface"].applicator.apply(partialParams)
+          this.ops["CreatePrivateVirtualInterface"].apply(partialParams)
         );
     }
 
     invokeCreatePublicVirtualInterface(partialParams: ToOptional<{
-      [K in keyof Omit<CreatePublicVirtualInterfaceRequest, "connectionId"> & keyof CreatePublicVirtualInterfaceRequest]: (Omit<CreatePublicVirtualInterfaceRequest, "connectionId"> & CreatePublicVirtualInterfaceRequest)[K]
+      [K in keyof CreatePublicVirtualInterfaceRequest]: (CreatePublicVirtualInterfaceRequest)[K]
     }>): Request<VirtualInterface, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createPublicVirtualInterface(
-          this.ops["CreatePublicVirtualInterface"].applicator.apply(partialParams)
+          this.ops["CreatePublicVirtualInterface"].apply(partialParams)
         );
     }
 
     invokeCreateTransitVirtualInterface(partialParams: ToOptional<{
-      [K in keyof Omit<CreateTransitVirtualInterfaceRequest, "connectionId"> & keyof CreateTransitVirtualInterfaceRequest]: (Omit<CreateTransitVirtualInterfaceRequest, "connectionId"> & CreateTransitVirtualInterfaceRequest)[K]
+      [K in keyof CreateTransitVirtualInterfaceRequest]: (CreateTransitVirtualInterfaceRequest)[K]
     }>): Request<CreateTransitVirtualInterfaceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createTransitVirtualInterface(
-          this.ops["CreateTransitVirtualInterface"].applicator.apply(partialParams)
+          this.ops["CreateTransitVirtualInterface"].apply(partialParams)
+        );
+    }
+
+    invokeDeleteBGPPeer(partialParams: ToOptional<{
+      [K in keyof DeleteBGPPeerRequest]: (DeleteBGPPeerRequest)[K]
+    }>): Request<DeleteBGPPeerResponse, AWSError> {
+        this.boot();
+        return this.client.deleteBGPPeer(
+          this.ops["DeleteBGPPeer"].apply(partialParams)
         );
     }
 
     invokeDeleteConnection(partialParams: ToOptional<{
-      [K in keyof Omit<DeleteConnectionRequest, "connectionId"> & keyof DeleteConnectionRequest]: (Omit<DeleteConnectionRequest, "connectionId"> & DeleteConnectionRequest)[K]
+      [K in keyof DeleteConnectionRequest]: (DeleteConnectionRequest)[K]
     }>): Request<Connection, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteConnection(
-          this.ops["DeleteConnection"].applicator.apply(partialParams)
+          this.ops["DeleteConnection"].apply(partialParams)
         );
     }
 
     invokeDeleteDirectConnectGateway(partialParams: ToOptional<{
-      [K in keyof DeleteDirectConnectGatewayRequest & keyof DeleteDirectConnectGatewayRequest]: (DeleteDirectConnectGatewayRequest & DeleteDirectConnectGatewayRequest)[K]
+      [K in keyof DeleteDirectConnectGatewayRequest]: (DeleteDirectConnectGatewayRequest)[K]
     }>): Request<DeleteDirectConnectGatewayResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDirectConnectGateway(
-          this.ops["DeleteDirectConnectGateway"].applicator.apply(partialParams)
+          this.ops["DeleteDirectConnectGateway"].apply(partialParams)
+        );
+    }
+
+    invokeDeleteDirectConnectGatewayAssociation(partialParams: ToOptional<{
+      [K in keyof DeleteDirectConnectGatewayAssociationRequest]: (DeleteDirectConnectGatewayAssociationRequest)[K]
+    }>): Request<DeleteDirectConnectGatewayAssociationResult, AWSError> {
+        this.boot();
+        return this.client.deleteDirectConnectGatewayAssociation(
+          this.ops["DeleteDirectConnectGatewayAssociation"].apply(partialParams)
         );
     }
 
     invokeDeleteDirectConnectGatewayAssociationProposal(partialParams: ToOptional<{
-      [K in keyof DeleteDirectConnectGatewayAssociationProposalRequest & keyof DeleteDirectConnectGatewayAssociationProposalRequest]: (DeleteDirectConnectGatewayAssociationProposalRequest & DeleteDirectConnectGatewayAssociationProposalRequest)[K]
+      [K in keyof DeleteDirectConnectGatewayAssociationProposalRequest]: (DeleteDirectConnectGatewayAssociationProposalRequest)[K]
     }>): Request<DeleteDirectConnectGatewayAssociationProposalResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDirectConnectGatewayAssociationProposal(
-          this.ops["DeleteDirectConnectGatewayAssociationProposal"].applicator.apply(partialParams)
+          this.ops["DeleteDirectConnectGatewayAssociationProposal"].apply(partialParams)
         );
     }
 
     invokeDeleteInterconnect(partialParams: ToOptional<{
-      [K in keyof DeleteInterconnectRequest & keyof DeleteInterconnectRequest]: (DeleteInterconnectRequest & DeleteInterconnectRequest)[K]
+      [K in keyof DeleteInterconnectRequest]: (DeleteInterconnectRequest)[K]
     }>): Request<DeleteInterconnectResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteInterconnect(
-          this.ops["DeleteInterconnect"].applicator.apply(partialParams)
+          this.ops["DeleteInterconnect"].apply(partialParams)
         );
     }
 
     invokeDeleteLag(partialParams: ToOptional<{
-      [K in keyof DeleteLagRequest & keyof DeleteLagRequest]: (DeleteLagRequest & DeleteLagRequest)[K]
+      [K in keyof DeleteLagRequest]: (DeleteLagRequest)[K]
     }>): Request<Lag, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteLag(
-          this.ops["DeleteLag"].applicator.apply(partialParams)
+          this.ops["DeleteLag"].apply(partialParams)
         );
     }
 
     invokeDeleteVirtualInterface(partialParams: ToOptional<{
-      [K in keyof DeleteVirtualInterfaceRequest & keyof DeleteVirtualInterfaceRequest]: (DeleteVirtualInterfaceRequest & DeleteVirtualInterfaceRequest)[K]
+      [K in keyof DeleteVirtualInterfaceRequest]: (DeleteVirtualInterfaceRequest)[K]
     }>): Request<DeleteVirtualInterfaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteVirtualInterface(
-          this.ops["DeleteVirtualInterface"].applicator.apply(partialParams)
+          this.ops["DeleteVirtualInterface"].apply(partialParams)
         );
     }
 
     invokeDescribeConnectionLoa(partialParams: ToOptional<{
-      [K in keyof Omit<DescribeConnectionLoaRequest, "connectionId"> & keyof DescribeConnectionLoaRequest]: (Omit<DescribeConnectionLoaRequest, "connectionId"> & DescribeConnectionLoaRequest)[K]
+      [K in keyof DescribeConnectionLoaRequest]: (DescribeConnectionLoaRequest)[K]
     }>): Request<DescribeConnectionLoaResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeConnectionLoa(
-          this.ops["DescribeConnectionLoa"].applicator.apply(partialParams)
+          this.ops["DescribeConnectionLoa"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeConnections(partialParams: ToOptional<{
+      [K in keyof DescribeConnectionsRequest]: (DescribeConnectionsRequest)[K]
+    }>): Request<Connections, AWSError> {
+        this.boot();
+        return this.client.describeConnections(
+          this.ops["DescribeConnections"].apply(partialParams)
         );
     }
 
     invokeDescribeConnectionsOnInterconnect(partialParams: ToOptional<{
-      [K in keyof DescribeConnectionsOnInterconnectRequest & keyof DescribeConnectionsOnInterconnectRequest]: (DescribeConnectionsOnInterconnectRequest & DescribeConnectionsOnInterconnectRequest)[K]
+      [K in keyof DescribeConnectionsOnInterconnectRequest]: (DescribeConnectionsOnInterconnectRequest)[K]
     }>): Request<Connections, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeConnectionsOnInterconnect(
-          this.ops["DescribeConnectionsOnInterconnect"].applicator.apply(partialParams)
+          this.ops["DescribeConnectionsOnInterconnect"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDirectConnectGatewayAssociationProposals(partialParams: ToOptional<{
+      [K in keyof DescribeDirectConnectGatewayAssociationProposalsRequest]: (DescribeDirectConnectGatewayAssociationProposalsRequest)[K]
+    }>): Request<DescribeDirectConnectGatewayAssociationProposalsResult, AWSError> {
+        this.boot();
+        return this.client.describeDirectConnectGatewayAssociationProposals(
+          this.ops["DescribeDirectConnectGatewayAssociationProposals"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDirectConnectGatewayAssociations(partialParams: ToOptional<{
+      [K in keyof DescribeDirectConnectGatewayAssociationsRequest]: (DescribeDirectConnectGatewayAssociationsRequest)[K]
+    }>): Request<DescribeDirectConnectGatewayAssociationsResult, AWSError> {
+        this.boot();
+        return this.client.describeDirectConnectGatewayAssociations(
+          this.ops["DescribeDirectConnectGatewayAssociations"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDirectConnectGatewayAttachments(partialParams: ToOptional<{
+      [K in keyof DescribeDirectConnectGatewayAttachmentsRequest]: (DescribeDirectConnectGatewayAttachmentsRequest)[K]
+    }>): Request<DescribeDirectConnectGatewayAttachmentsResult, AWSError> {
+        this.boot();
+        return this.client.describeDirectConnectGatewayAttachments(
+          this.ops["DescribeDirectConnectGatewayAttachments"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDirectConnectGateways(partialParams: ToOptional<{
+      [K in keyof DescribeDirectConnectGatewaysRequest]: (DescribeDirectConnectGatewaysRequest)[K]
+    }>): Request<DescribeDirectConnectGatewaysResult, AWSError> {
+        this.boot();
+        return this.client.describeDirectConnectGateways(
+          this.ops["DescribeDirectConnectGateways"].apply(partialParams)
         );
     }
 
     invokeDescribeHostedConnections(partialParams: ToOptional<{
-      [K in keyof Omit<DescribeHostedConnectionsRequest, "connectionId"> & keyof DescribeHostedConnectionsRequest]: (Omit<DescribeHostedConnectionsRequest, "connectionId"> & DescribeHostedConnectionsRequest)[K]
+      [K in keyof DescribeHostedConnectionsRequest]: (DescribeHostedConnectionsRequest)[K]
     }>): Request<Connections, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeHostedConnections(
-          this.ops["DescribeHostedConnections"].applicator.apply(partialParams)
+          this.ops["DescribeHostedConnections"].apply(partialParams)
         );
     }
 
     invokeDescribeInterconnectLoa(partialParams: ToOptional<{
-      [K in keyof DescribeInterconnectLoaRequest & keyof DescribeInterconnectLoaRequest]: (DescribeInterconnectLoaRequest & DescribeInterconnectLoaRequest)[K]
+      [K in keyof DescribeInterconnectLoaRequest]: (DescribeInterconnectLoaRequest)[K]
     }>): Request<DescribeInterconnectLoaResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeInterconnectLoa(
-          this.ops["DescribeInterconnectLoa"].applicator.apply(partialParams)
+          this.ops["DescribeInterconnectLoa"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeInterconnects(partialParams: ToOptional<{
+      [K in keyof DescribeInterconnectsRequest]: (DescribeInterconnectsRequest)[K]
+    }>): Request<Interconnects, AWSError> {
+        this.boot();
+        return this.client.describeInterconnects(
+          this.ops["DescribeInterconnects"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeLags(partialParams: ToOptional<{
+      [K in keyof DescribeLagsRequest]: (DescribeLagsRequest)[K]
+    }>): Request<Lags, AWSError> {
+        this.boot();
+        return this.client.describeLags(
+          this.ops["DescribeLags"].apply(partialParams)
         );
     }
 
     invokeDescribeLoa(partialParams: ToOptional<{
-      [K in keyof Omit<DescribeLoaRequest, "connectionId"> & keyof DescribeLoaRequest]: (Omit<DescribeLoaRequest, "connectionId"> & DescribeLoaRequest)[K]
+      [K in keyof DescribeLoaRequest]: (DescribeLoaRequest)[K]
     }>): Request<Loa, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeLoa(
-          this.ops["DescribeLoa"].applicator.apply(partialParams)
+          this.ops["DescribeLoa"].apply(partialParams)
         );
     }
 
     invokeDescribeRouterConfiguration(partialParams: ToOptional<{
-      [K in keyof DescribeRouterConfigurationRequest & keyof DescribeRouterConfigurationRequest]: (DescribeRouterConfigurationRequest & DescribeRouterConfigurationRequest)[K]
+      [K in keyof DescribeRouterConfigurationRequest]: (DescribeRouterConfigurationRequest)[K]
     }>): Request<DescribeRouterConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeRouterConfiguration(
-          this.ops["DescribeRouterConfiguration"].applicator.apply(partialParams)
+          this.ops["DescribeRouterConfiguration"].apply(partialParams)
         );
     }
 
     invokeDescribeTags(partialParams: ToOptional<{
-      [K in keyof DescribeTagsRequest & keyof DescribeTagsRequest]: (DescribeTagsRequest & DescribeTagsRequest)[K]
+      [K in keyof DescribeTagsRequest]: (DescribeTagsRequest)[K]
     }>): Request<DescribeTagsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeTags(
-          this.ops["DescribeTags"].applicator.apply(partialParams)
+          this.ops["DescribeTags"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeVirtualInterfaces(partialParams: ToOptional<{
+      [K in keyof DescribeVirtualInterfacesRequest]: (DescribeVirtualInterfacesRequest)[K]
+    }>): Request<VirtualInterfaces, AWSError> {
+        this.boot();
+        return this.client.describeVirtualInterfaces(
+          this.ops["DescribeVirtualInterfaces"].apply(partialParams)
         );
     }
 
     invokeDisassociateConnectionFromLag(partialParams: ToOptional<{
-      [K in keyof Omit<DisassociateConnectionFromLagRequest, "connectionId"> & keyof DisassociateConnectionFromLagRequest]: (Omit<DisassociateConnectionFromLagRequest, "connectionId"> & DisassociateConnectionFromLagRequest)[K]
+      [K in keyof DisassociateConnectionFromLagRequest]: (DisassociateConnectionFromLagRequest)[K]
     }>): Request<Connection, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateConnectionFromLag(
-          this.ops["DisassociateConnectionFromLag"].applicator.apply(partialParams)
+          this.ops["DisassociateConnectionFromLag"].apply(partialParams)
         );
     }
 
     invokeDisassociateMacSecKey(partialParams: ToOptional<{
-      [K in keyof Omit<DisassociateMacSecKeyRequest, "connectionId"> & keyof DisassociateMacSecKeyRequest]: (Omit<DisassociateMacSecKeyRequest, "connectionId"> & DisassociateMacSecKeyRequest)[K]
+      [K in keyof DisassociateMacSecKeyRequest]: (DisassociateMacSecKeyRequest)[K]
     }>): Request<DisassociateMacSecKeyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateMacSecKey(
-          this.ops["DisassociateMacSecKey"].applicator.apply(partialParams)
+          this.ops["DisassociateMacSecKey"].apply(partialParams)
+        );
+    }
+
+    invokeListVirtualInterfaceTestHistory(partialParams: ToOptional<{
+      [K in keyof ListVirtualInterfaceTestHistoryRequest]: (ListVirtualInterfaceTestHistoryRequest)[K]
+    }>): Request<ListVirtualInterfaceTestHistoryResponse, AWSError> {
+        this.boot();
+        return this.client.listVirtualInterfaceTestHistory(
+          this.ops["ListVirtualInterfaceTestHistory"].apply(partialParams)
         );
     }
 
     invokeStartBgpFailoverTest(partialParams: ToOptional<{
-      [K in keyof StartBgpFailoverTestRequest & keyof StartBgpFailoverTestRequest]: (StartBgpFailoverTestRequest & StartBgpFailoverTestRequest)[K]
+      [K in keyof StartBgpFailoverTestRequest]: (StartBgpFailoverTestRequest)[K]
     }>): Request<StartBgpFailoverTestResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startBgpFailoverTest(
-          this.ops["StartBgpFailoverTest"].applicator.apply(partialParams)
+          this.ops["StartBgpFailoverTest"].apply(partialParams)
         );
     }
 
     invokeStopBgpFailoverTest(partialParams: ToOptional<{
-      [K in keyof StopBgpFailoverTestRequest & keyof StopBgpFailoverTestRequest]: (StopBgpFailoverTestRequest & StopBgpFailoverTestRequest)[K]
+      [K in keyof StopBgpFailoverTestRequest]: (StopBgpFailoverTestRequest)[K]
     }>): Request<StopBgpFailoverTestResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopBgpFailoverTest(
-          this.ops["StopBgpFailoverTest"].applicator.apply(partialParams)
+          this.ops["StopBgpFailoverTest"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateConnection(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateConnectionRequest, "connectionId"> & keyof UpdateConnectionRequest]: (Omit<UpdateConnectionRequest, "connectionId"> & UpdateConnectionRequest)[K]
+      [K in keyof UpdateConnectionRequest]: (UpdateConnectionRequest)[K]
     }>): Request<Connection, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateConnection(
-          this.ops["UpdateConnection"].applicator.apply(partialParams)
+          this.ops["UpdateConnection"].apply(partialParams)
         );
     }
 
     invokeUpdateDirectConnectGateway(partialParams: ToOptional<{
-      [K in keyof UpdateDirectConnectGatewayRequest & keyof UpdateDirectConnectGatewayRequest]: (UpdateDirectConnectGatewayRequest & UpdateDirectConnectGatewayRequest)[K]
+      [K in keyof UpdateDirectConnectGatewayRequest]: (UpdateDirectConnectGatewayRequest)[K]
     }>): Request<UpdateDirectConnectGatewayResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDirectConnectGateway(
-          this.ops["UpdateDirectConnectGateway"].applicator.apply(partialParams)
+          this.ops["UpdateDirectConnectGateway"].apply(partialParams)
+        );
+    }
+
+    invokeUpdateDirectConnectGatewayAssociation(partialParams: ToOptional<{
+      [K in keyof UpdateDirectConnectGatewayAssociationRequest]: (UpdateDirectConnectGatewayAssociationRequest)[K]
+    }>): Request<UpdateDirectConnectGatewayAssociationResult, AWSError> {
+        this.boot();
+        return this.client.updateDirectConnectGatewayAssociation(
+          this.ops["UpdateDirectConnectGatewayAssociation"].apply(partialParams)
         );
     }
 
     invokeUpdateLag(partialParams: ToOptional<{
-      [K in keyof UpdateLagRequest & keyof Omit<UpdateLagRequest, "lagId">]: (UpdateLagRequest & Omit<UpdateLagRequest, "lagId">)[K]
+      [K in keyof UpdateLagRequest]: (UpdateLagRequest)[K]
     }>): Request<Lag, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateLag(
-          this.ops["UpdateLag"].applicator.apply(partialParams)
+          this.ops["UpdateLag"].apply(partialParams)
         );
     }
 
     invokeUpdateVirtualInterfaceAttributes(partialParams: ToOptional<{
-      [K in keyof UpdateVirtualInterfaceAttributesRequest & keyof UpdateVirtualInterfaceAttributesRequest]: (UpdateVirtualInterfaceAttributesRequest & UpdateVirtualInterfaceAttributesRequest)[K]
+      [K in keyof UpdateVirtualInterfaceAttributesRequest]: (UpdateVirtualInterfaceAttributesRequest)[K]
     }>): Request<VirtualInterface, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateVirtualInterfaceAttributes(
-          this.ops["UpdateVirtualInterfaceAttributes"].applicator.apply(partialParams)
+          this.ops["UpdateVirtualInterfaceAttributes"].apply(partialParams)
         );
     }
 }

@@ -5,10 +5,7 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    AddRoleToDBClusterMessage,
-    AddRoleToDBInstanceMessage,
     AddSourceIdentifierToSubscriptionMessage,
-    AddTagsToResourceMessage,
     ApplyPendingMaintenanceActionMessage,
     AuthorizeDBSecurityGroupIngressMessage,
     BacktrackDBClusterMessage,
@@ -33,43 +30,68 @@ import {
     CreateDBSnapshotMessage,
     CreateDBSubnetGroupMessage,
     CreateEventSubscriptionMessage,
+    CreateGlobalClusterMessage,
     CreateOptionGroupMessage,
     DeleteCustomAvailabilityZoneMessage,
     DeleteCustomDBEngineVersionMessage,
     DeleteDBClusterMessage,
     DeleteDBClusterEndpointMessage,
-    DeleteDBClusterParameterGroupMessage,
     DeleteDBClusterSnapshotMessage,
     DeleteDBInstanceMessage,
-    DeleteDBParameterGroupMessage,
+    DeleteDBInstanceAutomatedBackupMessage,
     DeleteDBProxyRequest,
     DeleteDBProxyEndpointRequest,
-    DeleteDBSecurityGroupMessage,
     DeleteDBSnapshotMessage,
-    DeleteDBSubnetGroupMessage,
     DeleteEventSubscriptionMessage,
     DeleteGlobalClusterMessage,
     DeleteInstallationMediaMessage,
-    DeleteOptionGroupMessage,
     DeregisterDBProxyTargetsRequest,
+    DescribeAccountAttributesMessage,
+    DescribeCertificatesMessage,
+    DescribeCustomAvailabilityZonesMessage,
     DescribeDBClusterBacktracksMessage,
+    DescribeDBClusterEndpointsMessage,
+    DescribeDBClusterParameterGroupsMessage,
     DescribeDBClusterParametersMessage,
     DescribeDBClusterSnapshotAttributesMessage,
+    DescribeDBClusterSnapshotsMessage,
+    DescribeDBClustersMessage,
+    DescribeDBEngineVersionsMessage,
+    DescribeDBInstanceAutomatedBackupsMessage,
+    DescribeDBInstancesMessage,
     DescribeDBLogFilesMessage,
+    DescribeDBParameterGroupsMessage,
     DescribeDBParametersMessage,
+    DescribeDBProxiesRequest,
+    DescribeDBProxyEndpointsRequest,
     DescribeDBProxyTargetGroupsRequest,
     DescribeDBProxyTargetsRequest,
+    DescribeDBSecurityGroupsMessage,
     DescribeDBSnapshotAttributesMessage,
+    DescribeDBSnapshotsMessage,
+    DescribeDBSubnetGroupsMessage,
     DescribeEngineDefaultClusterParametersMessage,
     DescribeEngineDefaultParametersMessage,
+    DescribeEventCategoriesMessage,
+    DescribeEventSubscriptionsMessage,
+    DescribeEventsMessage,
+    DescribeExportTasksMessage,
+    DescribeGlobalClustersMessage,
+    DescribeInstallationMediaMessage,
     DescribeOptionGroupOptionsMessage,
+    DescribeOptionGroupsMessage,
     DescribeOrderableDBInstanceOptionsMessage,
+    DescribePendingMaintenanceActionsMessage,
+    DescribeReservedDBInstancesMessage,
+    DescribeReservedDBInstancesOfferingsMessage,
+    DescribeSourceRegionsMessage,
     DescribeValidDBInstanceModificationsMessage,
     DownloadDBLogFilePortionMessage,
     FailoverDBClusterMessage,
     FailoverGlobalClusterMessage,
     ImportInstallationMediaMessage,
     ListTagsForResourceMessage,
+    ModifyCertificatesMessage,
     ModifyCurrentDBClusterCapacityMessage,
     ModifyCustomDBEngineVersionMessage,
     ModifyDBClusterMessage,
@@ -85,6 +107,7 @@ import {
     ModifyDBSnapshotAttributeMessage,
     ModifyDBSubnetGroupMessage,
     ModifyEventSubscriptionMessage,
+    ModifyGlobalClusterMessage,
     ModifyOptionGroupMessage,
     PromoteReadReplicaMessage,
     PromoteReadReplicaDBClusterMessage,
@@ -92,10 +115,8 @@ import {
     RebootDBClusterMessage,
     RebootDBInstanceMessage,
     RegisterDBProxyTargetsRequest,
-    RemoveRoleFromDBClusterMessage,
-    RemoveRoleFromDBInstanceMessage,
+    RemoveFromGlobalClusterMessage,
     RemoveSourceIdentifierFromSubscriptionMessage,
-    RemoveTagsFromResourceMessage,
     ResetDBClusterParameterGroupMessage,
     ResetDBParameterGroupMessage,
     RestoreDBClusterFromS3Message,
@@ -139,11 +160,13 @@ import {
     CreateDBSnapshotResult,
     CreateDBSubnetGroupResult,
     CreateEventSubscriptionResult,
+    CreateGlobalClusterResult,
     CreateOptionGroupResult,
     DeleteCustomAvailabilityZoneResult,
     DeleteDBClusterResult,
     DeleteDBClusterSnapshotResult,
     DeleteDBInstanceResult,
+    DeleteDBInstanceAutomatedBackupResult,
     DeleteDBProxyResponse,
     DeleteDBProxyEndpointResponse,
     DeleteDBSnapshotResult,
@@ -151,23 +174,51 @@ import {
     DeleteGlobalClusterResult,
     InstallationMedia,
     DeregisterDBProxyTargetsResponse,
+    AccountAttributesMessage,
+    CertificateMessage,
+    CustomAvailabilityZoneMessage,
     DBClusterBacktrackMessage,
+    DBClusterEndpointMessage,
+    DBClusterParameterGroupsMessage,
     DBClusterParameterGroupDetails,
     DescribeDBClusterSnapshotAttributesResult,
+    DBClusterSnapshotMessage,
+    DBClusterMessage,
+    DBEngineVersionMessage,
+    DBInstanceAutomatedBackupMessage,
+    DBInstanceMessage,
     DescribeDBLogFilesResponse,
+    DBParameterGroupsMessage,
     DBParameterGroupDetails,
+    DescribeDBProxiesResponse,
+    DescribeDBProxyEndpointsResponse,
     DescribeDBProxyTargetGroupsResponse,
     DescribeDBProxyTargetsResponse,
+    DBSecurityGroupMessage,
     DescribeDBSnapshotAttributesResult,
+    DBSnapshotMessage,
+    DBSubnetGroupMessage,
     DescribeEngineDefaultClusterParametersResult,
     DescribeEngineDefaultParametersResult,
+    EventCategoriesMessage,
+    EventSubscriptionsMessage,
+    EventsMessage,
+    ExportTasksMessage,
+    GlobalClustersMessage,
+    InstallationMediaMessage,
     OptionGroupOptionsMessage,
+    OptionGroups,
     OrderableDBInstanceOptionsMessage,
+    PendingMaintenanceActionsMessage,
+    ReservedDBInstanceMessage,
+    ReservedDBInstancesOfferingMessage,
+    SourceRegionMessage,
     DescribeValidDBInstanceModificationsResult,
     DownloadDBLogFilePortionDetails,
     FailoverDBClusterResult,
     FailoverGlobalClusterResult,
     TagListMessage,
+    ModifyCertificatesResult,
     DBClusterCapacityInfo,
     ModifyDBClusterResult,
     DBClusterParameterGroupNameMessage,
@@ -181,6 +232,7 @@ import {
     ModifyDBSnapshotAttributeResult,
     ModifyDBSubnetGroupResult,
     ModifyEventSubscriptionResult,
+    ModifyGlobalClusterResult,
     ModifyOptionGroupResult,
     PromoteReadReplicaResult,
     PromoteReadReplicaDBClusterResult,
@@ -188,6 +240,7 @@ import {
     RebootDBClusterResult,
     RebootDBInstanceResult,
     RegisterDBProxyTargetsResponse,
+    RemoveFromGlobalClusterResult,
     RemoveSourceIdentifierFromSubscriptionResult,
     RestoreDBClusterFromS3Result,
     RestoreDBClusterFromSnapshotResult,
@@ -218,21 +271,24 @@ export default class extends aws.rds.ClusterInstance {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.rds.ClusterInstance>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.RDS()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -242,1205 +298,1177 @@ export default class extends aws.rds.ClusterInstance {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
-    }
-
-    invokeAddRoleToDBCluster(partialParams: ToOptional<{
-      [K in keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage & keyof AddRoleToDBClusterMessage]: (AddRoleToDBClusterMessage & AddRoleToDBClusterMessage & AddRoleToDBClusterMessage & AddRoleToDBClusterMessage & AddRoleToDBClusterMessage & AddRoleToDBClusterMessage & AddRoleToDBClusterMessage & AddRoleToDBClusterMessage & AddRoleToDBClusterMessage & AddRoleToDBClusterMessage & AddRoleToDBClusterMessage & AddRoleToDBClusterMessage & AddRoleToDBClusterMessage & AddRoleToDBClusterMessage & AddRoleToDBClusterMessage & AddRoleToDBClusterMessage & AddRoleToDBClusterMessage & AddRoleToDBClusterMessage & AddRoleToDBClusterMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.addRoleToDBCluster(
-          this.ops["AddRoleToDBCluster"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeAddRoleToDBInstance(partialParams: ToOptional<{
-      [K in keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage & keyof AddRoleToDBInstanceMessage]: (AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage & AddRoleToDBInstanceMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.addRoleToDBInstance(
-          this.ops["AddRoleToDBInstance"].applicator.apply(partialParams)
-        );
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAddSourceIdentifierToSubscription(partialParams: ToOptional<{
-      [K in keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage & keyof AddSourceIdentifierToSubscriptionMessage]: (AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage & AddSourceIdentifierToSubscriptionMessage)[K]
+      [K in keyof AddSourceIdentifierToSubscriptionMessage]: (AddSourceIdentifierToSubscriptionMessage)[K]
     }>): Request<AddSourceIdentifierToSubscriptionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addSourceIdentifierToSubscription(
-          this.ops["AddSourceIdentifierToSubscription"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeAddTagsToResource(partialParams: ToOptional<{
-      [K in keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage & keyof AddTagsToResourceMessage]: (AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage & AddTagsToResourceMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.addTagsToResource(
-          this.ops["AddTagsToResource"].applicator.apply(partialParams)
+          this.ops["AddSourceIdentifierToSubscription"].apply(partialParams)
         );
     }
 
     invokeApplyPendingMaintenanceAction(partialParams: ToOptional<{
-      [K in keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage & keyof ApplyPendingMaintenanceActionMessage]: (ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage & ApplyPendingMaintenanceActionMessage)[K]
+      [K in keyof ApplyPendingMaintenanceActionMessage]: (ApplyPendingMaintenanceActionMessage)[K]
     }>): Request<ApplyPendingMaintenanceActionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.applyPendingMaintenanceAction(
-          this.ops["ApplyPendingMaintenanceAction"].applicator.apply(partialParams)
+          this.ops["ApplyPendingMaintenanceAction"].apply(partialParams)
         );
     }
 
     invokeAuthorizeDBSecurityGroupIngress(partialParams: ToOptional<{
-      [K in keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage & keyof AuthorizeDBSecurityGroupIngressMessage]: (AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage & AuthorizeDBSecurityGroupIngressMessage)[K]
+      [K in keyof AuthorizeDBSecurityGroupIngressMessage]: (AuthorizeDBSecurityGroupIngressMessage)[K]
     }>): Request<AuthorizeDBSecurityGroupIngressResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.authorizeDBSecurityGroupIngress(
-          this.ops["AuthorizeDBSecurityGroupIngress"].applicator.apply(partialParams)
+          this.ops["AuthorizeDBSecurityGroupIngress"].apply(partialParams)
         );
     }
 
     invokeBacktrackDBCluster(partialParams: ToOptional<{
-      [K in keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage & keyof BacktrackDBClusterMessage]: (BacktrackDBClusterMessage & BacktrackDBClusterMessage & BacktrackDBClusterMessage & BacktrackDBClusterMessage & BacktrackDBClusterMessage & BacktrackDBClusterMessage & BacktrackDBClusterMessage & BacktrackDBClusterMessage & BacktrackDBClusterMessage & BacktrackDBClusterMessage & BacktrackDBClusterMessage & BacktrackDBClusterMessage & BacktrackDBClusterMessage & BacktrackDBClusterMessage & BacktrackDBClusterMessage & BacktrackDBClusterMessage & BacktrackDBClusterMessage & BacktrackDBClusterMessage & BacktrackDBClusterMessage)[K]
+      [K in keyof BacktrackDBClusterMessage]: (BacktrackDBClusterMessage)[K]
     }>): Request<DBClusterBacktrack, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.backtrackDBCluster(
-          this.ops["BacktrackDBCluster"].applicator.apply(partialParams)
+          this.ops["BacktrackDBCluster"].apply(partialParams)
         );
     }
 
     invokeCancelExportTask(partialParams: ToOptional<{
-      [K in keyof CancelExportTaskMessage & keyof CancelExportTaskMessage & keyof CancelExportTaskMessage & keyof CancelExportTaskMessage & keyof CancelExportTaskMessage & keyof CancelExportTaskMessage & keyof CancelExportTaskMessage & keyof CancelExportTaskMessage & keyof CancelExportTaskMessage & keyof CancelExportTaskMessage & keyof CancelExportTaskMessage & keyof CancelExportTaskMessage & keyof CancelExportTaskMessage & keyof CancelExportTaskMessage & keyof CancelExportTaskMessage & keyof CancelExportTaskMessage & keyof CancelExportTaskMessage & keyof CancelExportTaskMessage & keyof CancelExportTaskMessage]: (CancelExportTaskMessage & CancelExportTaskMessage & CancelExportTaskMessage & CancelExportTaskMessage & CancelExportTaskMessage & CancelExportTaskMessage & CancelExportTaskMessage & CancelExportTaskMessage & CancelExportTaskMessage & CancelExportTaskMessage & CancelExportTaskMessage & CancelExportTaskMessage & CancelExportTaskMessage & CancelExportTaskMessage & CancelExportTaskMessage & CancelExportTaskMessage & CancelExportTaskMessage & CancelExportTaskMessage & CancelExportTaskMessage)[K]
+      [K in keyof CancelExportTaskMessage]: (CancelExportTaskMessage)[K]
     }>): Request<ExportTask, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.cancelExportTask(
-          this.ops["CancelExportTask"].applicator.apply(partialParams)
+          this.ops["CancelExportTask"].apply(partialParams)
         );
     }
 
     invokeCopyDBClusterParameterGroup(partialParams: ToOptional<{
-      [K in keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage & keyof CopyDBClusterParameterGroupMessage]: (CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage & CopyDBClusterParameterGroupMessage)[K]
+      [K in keyof CopyDBClusterParameterGroupMessage]: (CopyDBClusterParameterGroupMessage)[K]
     }>): Request<CopyDBClusterParameterGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.copyDBClusterParameterGroup(
-          this.ops["CopyDBClusterParameterGroup"].applicator.apply(partialParams)
+          this.ops["CopyDBClusterParameterGroup"].apply(partialParams)
         );
     }
 
     invokeCopyDBClusterSnapshot(partialParams: ToOptional<{
-      [K in keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage & keyof CopyDBClusterSnapshotMessage]: (CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage & CopyDBClusterSnapshotMessage)[K]
+      [K in keyof CopyDBClusterSnapshotMessage]: (CopyDBClusterSnapshotMessage)[K]
     }>): Request<CopyDBClusterSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.copyDBClusterSnapshot(
-          this.ops["CopyDBClusterSnapshot"].applicator.apply(partialParams)
+          this.ops["CopyDBClusterSnapshot"].apply(partialParams)
         );
     }
 
     invokeCopyDBParameterGroup(partialParams: ToOptional<{
-      [K in keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage & keyof CopyDBParameterGroupMessage]: (CopyDBParameterGroupMessage & CopyDBParameterGroupMessage & CopyDBParameterGroupMessage & CopyDBParameterGroupMessage & CopyDBParameterGroupMessage & CopyDBParameterGroupMessage & CopyDBParameterGroupMessage & CopyDBParameterGroupMessage & CopyDBParameterGroupMessage & CopyDBParameterGroupMessage & CopyDBParameterGroupMessage & CopyDBParameterGroupMessage & CopyDBParameterGroupMessage & CopyDBParameterGroupMessage & CopyDBParameterGroupMessage & CopyDBParameterGroupMessage & CopyDBParameterGroupMessage & CopyDBParameterGroupMessage & CopyDBParameterGroupMessage)[K]
+      [K in keyof CopyDBParameterGroupMessage]: (CopyDBParameterGroupMessage)[K]
     }>): Request<CopyDBParameterGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.copyDBParameterGroup(
-          this.ops["CopyDBParameterGroup"].applicator.apply(partialParams)
+          this.ops["CopyDBParameterGroup"].apply(partialParams)
         );
     }
 
     invokeCopyDBSnapshot(partialParams: ToOptional<{
-      [K in keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage & keyof CopyDBSnapshotMessage]: (CopyDBSnapshotMessage & CopyDBSnapshotMessage & CopyDBSnapshotMessage & CopyDBSnapshotMessage & CopyDBSnapshotMessage & CopyDBSnapshotMessage & CopyDBSnapshotMessage & CopyDBSnapshotMessage & CopyDBSnapshotMessage & CopyDBSnapshotMessage & CopyDBSnapshotMessage & CopyDBSnapshotMessage & CopyDBSnapshotMessage & CopyDBSnapshotMessage & CopyDBSnapshotMessage & CopyDBSnapshotMessage & CopyDBSnapshotMessage & CopyDBSnapshotMessage & CopyDBSnapshotMessage)[K]
+      [K in keyof CopyDBSnapshotMessage]: (CopyDBSnapshotMessage)[K]
     }>): Request<CopyDBSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.copyDBSnapshot(
-          this.ops["CopyDBSnapshot"].applicator.apply(partialParams)
+          this.ops["CopyDBSnapshot"].apply(partialParams)
         );
     }
 
     invokeCopyOptionGroup(partialParams: ToOptional<{
-      [K in keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage & keyof CopyOptionGroupMessage]: (CopyOptionGroupMessage & CopyOptionGroupMessage & CopyOptionGroupMessage & CopyOptionGroupMessage & CopyOptionGroupMessage & CopyOptionGroupMessage & CopyOptionGroupMessage & CopyOptionGroupMessage & CopyOptionGroupMessage & CopyOptionGroupMessage & CopyOptionGroupMessage & CopyOptionGroupMessage & CopyOptionGroupMessage & CopyOptionGroupMessage & CopyOptionGroupMessage & CopyOptionGroupMessage & CopyOptionGroupMessage & CopyOptionGroupMessage & CopyOptionGroupMessage)[K]
+      [K in keyof CopyOptionGroupMessage]: (CopyOptionGroupMessage)[K]
     }>): Request<CopyOptionGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.copyOptionGroup(
-          this.ops["CopyOptionGroup"].applicator.apply(partialParams)
+          this.ops["CopyOptionGroup"].apply(partialParams)
         );
     }
 
     invokeCreateCustomAvailabilityZone(partialParams: ToOptional<{
-      [K in keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage & keyof CreateCustomAvailabilityZoneMessage]: (CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage & CreateCustomAvailabilityZoneMessage)[K]
+      [K in keyof CreateCustomAvailabilityZoneMessage]: (CreateCustomAvailabilityZoneMessage)[K]
     }>): Request<CreateCustomAvailabilityZoneResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createCustomAvailabilityZone(
-          this.ops["CreateCustomAvailabilityZone"].applicator.apply(partialParams)
+          this.ops["CreateCustomAvailabilityZone"].apply(partialParams)
         );
     }
 
     invokeCreateCustomDBEngineVersion(partialParams: ToOptional<{
-      [K in keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage & keyof CreateCustomDBEngineVersionMessage]: (CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage & CreateCustomDBEngineVersionMessage)[K]
+      [K in keyof CreateCustomDBEngineVersionMessage & keyof Omit<CreateCustomDBEngineVersionMessage, "Engine" | "EngineVersion">]: (CreateCustomDBEngineVersionMessage)[K]
     }>): Request<DBEngineVersion, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createCustomDBEngineVersion(
-          this.ops["CreateCustomDBEngineVersion"].applicator.apply(partialParams)
+          this.ops["CreateCustomDBEngineVersion"].apply(partialParams)
         );
     }
 
     invokeCreateDBCluster(partialParams: ToOptional<{
-      [K in keyof CreateDBClusterMessage & keyof CreateDBClusterMessage & keyof CreateDBClusterMessage & keyof CreateDBClusterMessage & keyof CreateDBClusterMessage & keyof CreateDBClusterMessage & keyof CreateDBClusterMessage & keyof CreateDBClusterMessage & keyof CreateDBClusterMessage & keyof CreateDBClusterMessage & keyof CreateDBClusterMessage & keyof CreateDBClusterMessage & keyof CreateDBClusterMessage & keyof CreateDBClusterMessage & keyof CreateDBClusterMessage & keyof CreateDBClusterMessage & keyof CreateDBClusterMessage & keyof CreateDBClusterMessage & keyof CreateDBClusterMessage]: (CreateDBClusterMessage & CreateDBClusterMessage & CreateDBClusterMessage & CreateDBClusterMessage & CreateDBClusterMessage & CreateDBClusterMessage & CreateDBClusterMessage & CreateDBClusterMessage & CreateDBClusterMessage & CreateDBClusterMessage & CreateDBClusterMessage & CreateDBClusterMessage & CreateDBClusterMessage & CreateDBClusterMessage & CreateDBClusterMessage & CreateDBClusterMessage & CreateDBClusterMessage & CreateDBClusterMessage & CreateDBClusterMessage)[K]
+      [K in keyof CreateDBClusterMessage & keyof Omit<CreateDBClusterMessage, "Engine">]: (CreateDBClusterMessage)[K]
     }>): Request<CreateDBClusterResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDBCluster(
-          this.ops["CreateDBCluster"].applicator.apply(partialParams)
+          this.ops["CreateDBCluster"].apply(partialParams)
         );
     }
 
     invokeCreateDBClusterEndpoint(partialParams: ToOptional<{
-      [K in keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage & keyof CreateDBClusterEndpointMessage]: (CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage & CreateDBClusterEndpointMessage)[K]
+      [K in keyof CreateDBClusterEndpointMessage]: (CreateDBClusterEndpointMessage)[K]
     }>): Request<DBClusterEndpoint, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDBClusterEndpoint(
-          this.ops["CreateDBClusterEndpoint"].applicator.apply(partialParams)
+          this.ops["CreateDBClusterEndpoint"].apply(partialParams)
         );
     }
 
     invokeCreateDBClusterParameterGroup(partialParams: ToOptional<{
-      [K in keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage & keyof CreateDBClusterParameterGroupMessage]: (CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage & CreateDBClusterParameterGroupMessage)[K]
+      [K in keyof CreateDBClusterParameterGroupMessage]: (CreateDBClusterParameterGroupMessage)[K]
     }>): Request<CreateDBClusterParameterGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDBClusterParameterGroup(
-          this.ops["CreateDBClusterParameterGroup"].applicator.apply(partialParams)
+          this.ops["CreateDBClusterParameterGroup"].apply(partialParams)
         );
     }
 
     invokeCreateDBClusterSnapshot(partialParams: ToOptional<{
-      [K in keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage & keyof CreateDBClusterSnapshotMessage]: (CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage & CreateDBClusterSnapshotMessage)[K]
+      [K in keyof CreateDBClusterSnapshotMessage]: (CreateDBClusterSnapshotMessage)[K]
     }>): Request<CreateDBClusterSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDBClusterSnapshot(
-          this.ops["CreateDBClusterSnapshot"].applicator.apply(partialParams)
+          this.ops["CreateDBClusterSnapshot"].apply(partialParams)
         );
     }
 
     invokeCreateDBInstance(partialParams: ToOptional<{
-      [K in keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage & keyof CreateDBInstanceMessage]: (CreateDBInstanceMessage & CreateDBInstanceMessage & CreateDBInstanceMessage & CreateDBInstanceMessage & CreateDBInstanceMessage & CreateDBInstanceMessage & CreateDBInstanceMessage & CreateDBInstanceMessage & CreateDBInstanceMessage & CreateDBInstanceMessage & CreateDBInstanceMessage & CreateDBInstanceMessage & CreateDBInstanceMessage & CreateDBInstanceMessage & CreateDBInstanceMessage & CreateDBInstanceMessage & CreateDBInstanceMessage & CreateDBInstanceMessage & CreateDBInstanceMessage)[K]
+      [K in keyof CreateDBInstanceMessage & keyof Omit<CreateDBInstanceMessage, "Engine">]: (CreateDBInstanceMessage)[K]
     }>): Request<CreateDBInstanceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDBInstance(
-          this.ops["CreateDBInstance"].applicator.apply(partialParams)
+          this.ops["CreateDBInstance"].apply(partialParams)
         );
     }
 
     invokeCreateDBInstanceReadReplica(partialParams: ToOptional<{
-      [K in keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage & keyof CreateDBInstanceReadReplicaMessage]: (CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage & CreateDBInstanceReadReplicaMessage)[K]
+      [K in keyof CreateDBInstanceReadReplicaMessage]: (CreateDBInstanceReadReplicaMessage)[K]
     }>): Request<CreateDBInstanceReadReplicaResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDBInstanceReadReplica(
-          this.ops["CreateDBInstanceReadReplica"].applicator.apply(partialParams)
+          this.ops["CreateDBInstanceReadReplica"].apply(partialParams)
         );
     }
 
     invokeCreateDBParameterGroup(partialParams: ToOptional<{
-      [K in keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage & keyof CreateDBParameterGroupMessage]: (CreateDBParameterGroupMessage & CreateDBParameterGroupMessage & CreateDBParameterGroupMessage & CreateDBParameterGroupMessage & CreateDBParameterGroupMessage & CreateDBParameterGroupMessage & CreateDBParameterGroupMessage & CreateDBParameterGroupMessage & CreateDBParameterGroupMessage & CreateDBParameterGroupMessage & CreateDBParameterGroupMessage & CreateDBParameterGroupMessage & CreateDBParameterGroupMessage & CreateDBParameterGroupMessage & CreateDBParameterGroupMessage & CreateDBParameterGroupMessage & CreateDBParameterGroupMessage & CreateDBParameterGroupMessage & CreateDBParameterGroupMessage)[K]
+      [K in keyof CreateDBParameterGroupMessage]: (CreateDBParameterGroupMessage)[K]
     }>): Request<CreateDBParameterGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDBParameterGroup(
-          this.ops["CreateDBParameterGroup"].applicator.apply(partialParams)
+          this.ops["CreateDBParameterGroup"].apply(partialParams)
         );
     }
 
     invokeCreateDBProxy(partialParams: ToOptional<{
-      [K in keyof CreateDBProxyRequest & keyof CreateDBProxyRequest & keyof CreateDBProxyRequest & keyof CreateDBProxyRequest & keyof CreateDBProxyRequest & keyof CreateDBProxyRequest & keyof CreateDBProxyRequest & keyof CreateDBProxyRequest & keyof CreateDBProxyRequest & keyof CreateDBProxyRequest & keyof CreateDBProxyRequest & keyof CreateDBProxyRequest & keyof CreateDBProxyRequest & keyof CreateDBProxyRequest & keyof CreateDBProxyRequest & keyof CreateDBProxyRequest & keyof CreateDBProxyRequest & keyof CreateDBProxyRequest & keyof CreateDBProxyRequest]: (CreateDBProxyRequest & CreateDBProxyRequest & CreateDBProxyRequest & CreateDBProxyRequest & CreateDBProxyRequest & CreateDBProxyRequest & CreateDBProxyRequest & CreateDBProxyRequest & CreateDBProxyRequest & CreateDBProxyRequest & CreateDBProxyRequest & CreateDBProxyRequest & CreateDBProxyRequest & CreateDBProxyRequest & CreateDBProxyRequest & CreateDBProxyRequest & CreateDBProxyRequest & CreateDBProxyRequest & CreateDBProxyRequest)[K]
+      [K in keyof CreateDBProxyRequest]: (CreateDBProxyRequest)[K]
     }>): Request<CreateDBProxyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDBProxy(
-          this.ops["CreateDBProxy"].applicator.apply(partialParams)
+          this.ops["CreateDBProxy"].apply(partialParams)
         );
     }
 
     invokeCreateDBProxyEndpoint(partialParams: ToOptional<{
-      [K in keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest & keyof CreateDBProxyEndpointRequest]: (CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest & CreateDBProxyEndpointRequest)[K]
+      [K in keyof CreateDBProxyEndpointRequest]: (CreateDBProxyEndpointRequest)[K]
     }>): Request<CreateDBProxyEndpointResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDBProxyEndpoint(
-          this.ops["CreateDBProxyEndpoint"].applicator.apply(partialParams)
+          this.ops["CreateDBProxyEndpoint"].apply(partialParams)
         );
     }
 
     invokeCreateDBSecurityGroup(partialParams: ToOptional<{
-      [K in keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage & keyof CreateDBSecurityGroupMessage]: (CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage & CreateDBSecurityGroupMessage)[K]
+      [K in keyof CreateDBSecurityGroupMessage]: (CreateDBSecurityGroupMessage)[K]
     }>): Request<CreateDBSecurityGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDBSecurityGroup(
-          this.ops["CreateDBSecurityGroup"].applicator.apply(partialParams)
+          this.ops["CreateDBSecurityGroup"].apply(partialParams)
         );
     }
 
     invokeCreateDBSnapshot(partialParams: ToOptional<{
-      [K in keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage & keyof CreateDBSnapshotMessage]: (CreateDBSnapshotMessage & CreateDBSnapshotMessage & CreateDBSnapshotMessage & CreateDBSnapshotMessage & CreateDBSnapshotMessage & CreateDBSnapshotMessage & CreateDBSnapshotMessage & CreateDBSnapshotMessage & CreateDBSnapshotMessage & CreateDBSnapshotMessage & CreateDBSnapshotMessage & CreateDBSnapshotMessage & CreateDBSnapshotMessage & CreateDBSnapshotMessage & CreateDBSnapshotMessage & CreateDBSnapshotMessage & CreateDBSnapshotMessage & CreateDBSnapshotMessage & CreateDBSnapshotMessage)[K]
+      [K in keyof CreateDBSnapshotMessage]: (CreateDBSnapshotMessage)[K]
     }>): Request<CreateDBSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDBSnapshot(
-          this.ops["CreateDBSnapshot"].applicator.apply(partialParams)
+          this.ops["CreateDBSnapshot"].apply(partialParams)
         );
     }
 
     invokeCreateDBSubnetGroup(partialParams: ToOptional<{
-      [K in keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage & keyof CreateDBSubnetGroupMessage]: (CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage & CreateDBSubnetGroupMessage)[K]
+      [K in keyof CreateDBSubnetGroupMessage]: (CreateDBSubnetGroupMessage)[K]
     }>): Request<CreateDBSubnetGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDBSubnetGroup(
-          this.ops["CreateDBSubnetGroup"].applicator.apply(partialParams)
+          this.ops["CreateDBSubnetGroup"].apply(partialParams)
         );
     }
 
     invokeCreateEventSubscription(partialParams: ToOptional<{
-      [K in keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage & keyof CreateEventSubscriptionMessage]: (CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage & CreateEventSubscriptionMessage)[K]
+      [K in keyof CreateEventSubscriptionMessage]: (CreateEventSubscriptionMessage)[K]
     }>): Request<CreateEventSubscriptionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createEventSubscription(
-          this.ops["CreateEventSubscription"].applicator.apply(partialParams)
+          this.ops["CreateEventSubscription"].apply(partialParams)
+        );
+    }
+
+    invokeCreateGlobalCluster(partialParams: ToOptional<{
+      [K in keyof CreateGlobalClusterMessage]: (CreateGlobalClusterMessage)[K]
+    }>): Request<CreateGlobalClusterResult, AWSError> {
+        this.boot();
+        return this.client.createGlobalCluster(
+          this.ops["CreateGlobalCluster"].apply(partialParams)
         );
     }
 
     invokeCreateOptionGroup(partialParams: ToOptional<{
-      [K in keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage & keyof CreateOptionGroupMessage]: (CreateOptionGroupMessage & CreateOptionGroupMessage & CreateOptionGroupMessage & CreateOptionGroupMessage & CreateOptionGroupMessage & CreateOptionGroupMessage & CreateOptionGroupMessage & CreateOptionGroupMessage & CreateOptionGroupMessage & CreateOptionGroupMessage & CreateOptionGroupMessage & CreateOptionGroupMessage & CreateOptionGroupMessage & CreateOptionGroupMessage & CreateOptionGroupMessage & CreateOptionGroupMessage & CreateOptionGroupMessage & CreateOptionGroupMessage & CreateOptionGroupMessage)[K]
+      [K in keyof CreateOptionGroupMessage]: (CreateOptionGroupMessage)[K]
     }>): Request<CreateOptionGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createOptionGroup(
-          this.ops["CreateOptionGroup"].applicator.apply(partialParams)
+          this.ops["CreateOptionGroup"].apply(partialParams)
         );
     }
 
     invokeDeleteCustomAvailabilityZone(partialParams: ToOptional<{
-      [K in keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage & keyof DeleteCustomAvailabilityZoneMessage]: (DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage & DeleteCustomAvailabilityZoneMessage)[K]
+      [K in keyof DeleteCustomAvailabilityZoneMessage]: (DeleteCustomAvailabilityZoneMessage)[K]
     }>): Request<DeleteCustomAvailabilityZoneResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteCustomAvailabilityZone(
-          this.ops["DeleteCustomAvailabilityZone"].applicator.apply(partialParams)
+          this.ops["DeleteCustomAvailabilityZone"].apply(partialParams)
         );
     }
 
     invokeDeleteCustomDBEngineVersion(partialParams: ToOptional<{
-      [K in keyof DeleteCustomDBEngineVersionMessage & keyof DeleteCustomDBEngineVersionMessage & keyof DeleteCustomDBEngineVersionMessage & keyof DeleteCustomDBEngineVersionMessage & keyof DeleteCustomDBEngineVersionMessage & keyof DeleteCustomDBEngineVersionMessage & keyof DeleteCustomDBEngineVersionMessage & keyof DeleteCustomDBEngineVersionMessage & keyof Omit<DeleteCustomDBEngineVersionMessage, "Engine"> & keyof Omit<DeleteCustomDBEngineVersionMessage, "EngineVersion"> & keyof DeleteCustomDBEngineVersionMessage & keyof DeleteCustomDBEngineVersionMessage & keyof DeleteCustomDBEngineVersionMessage & keyof DeleteCustomDBEngineVersionMessage & keyof DeleteCustomDBEngineVersionMessage & keyof DeleteCustomDBEngineVersionMessage & keyof DeleteCustomDBEngineVersionMessage & keyof DeleteCustomDBEngineVersionMessage & keyof DeleteCustomDBEngineVersionMessage]: (DeleteCustomDBEngineVersionMessage & DeleteCustomDBEngineVersionMessage & DeleteCustomDBEngineVersionMessage & DeleteCustomDBEngineVersionMessage & DeleteCustomDBEngineVersionMessage & DeleteCustomDBEngineVersionMessage & DeleteCustomDBEngineVersionMessage & DeleteCustomDBEngineVersionMessage & Omit<DeleteCustomDBEngineVersionMessage, "Engine"> & Omit<DeleteCustomDBEngineVersionMessage, "EngineVersion"> & DeleteCustomDBEngineVersionMessage & DeleteCustomDBEngineVersionMessage & DeleteCustomDBEngineVersionMessage & DeleteCustomDBEngineVersionMessage & DeleteCustomDBEngineVersionMessage & DeleteCustomDBEngineVersionMessage & DeleteCustomDBEngineVersionMessage & DeleteCustomDBEngineVersionMessage & DeleteCustomDBEngineVersionMessage)[K]
+      [K in keyof DeleteCustomDBEngineVersionMessage & keyof Omit<DeleteCustomDBEngineVersionMessage, "Engine" | "EngineVersion">]: (DeleteCustomDBEngineVersionMessage)[K]
     }>): Request<DBEngineVersion, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteCustomDBEngineVersion(
-          this.ops["DeleteCustomDBEngineVersion"].applicator.apply(partialParams)
+          this.ops["DeleteCustomDBEngineVersion"].apply(partialParams)
         );
     }
 
     invokeDeleteDBCluster(partialParams: ToOptional<{
-      [K in keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage & keyof DeleteDBClusterMessage]: (DeleteDBClusterMessage & DeleteDBClusterMessage & DeleteDBClusterMessage & DeleteDBClusterMessage & DeleteDBClusterMessage & DeleteDBClusterMessage & DeleteDBClusterMessage & DeleteDBClusterMessage & DeleteDBClusterMessage & DeleteDBClusterMessage & DeleteDBClusterMessage & DeleteDBClusterMessage & DeleteDBClusterMessage & DeleteDBClusterMessage & DeleteDBClusterMessage & DeleteDBClusterMessage & DeleteDBClusterMessage & DeleteDBClusterMessage & DeleteDBClusterMessage)[K]
+      [K in keyof DeleteDBClusterMessage]: (DeleteDBClusterMessage)[K]
     }>): Request<DeleteDBClusterResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDBCluster(
-          this.ops["DeleteDBCluster"].applicator.apply(partialParams)
+          this.ops["DeleteDBCluster"].apply(partialParams)
         );
     }
 
     invokeDeleteDBClusterEndpoint(partialParams: ToOptional<{
-      [K in keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage & keyof DeleteDBClusterEndpointMessage]: (DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage & DeleteDBClusterEndpointMessage)[K]
+      [K in keyof DeleteDBClusterEndpointMessage]: (DeleteDBClusterEndpointMessage)[K]
     }>): Request<DBClusterEndpoint, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDBClusterEndpoint(
-          this.ops["DeleteDBClusterEndpoint"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteDBClusterParameterGroup(partialParams: ToOptional<{
-      [K in keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage & keyof DeleteDBClusterParameterGroupMessage]: (DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage & DeleteDBClusterParameterGroupMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteDBClusterParameterGroup(
-          this.ops["DeleteDBClusterParameterGroup"].applicator.apply(partialParams)
+          this.ops["DeleteDBClusterEndpoint"].apply(partialParams)
         );
     }
 
     invokeDeleteDBClusterSnapshot(partialParams: ToOptional<{
-      [K in keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage & keyof DeleteDBClusterSnapshotMessage]: (DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage & DeleteDBClusterSnapshotMessage)[K]
+      [K in keyof DeleteDBClusterSnapshotMessage]: (DeleteDBClusterSnapshotMessage)[K]
     }>): Request<DeleteDBClusterSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDBClusterSnapshot(
-          this.ops["DeleteDBClusterSnapshot"].applicator.apply(partialParams)
+          this.ops["DeleteDBClusterSnapshot"].apply(partialParams)
         );
     }
 
     invokeDeleteDBInstance(partialParams: ToOptional<{
-      [K in keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage & keyof DeleteDBInstanceMessage]: (DeleteDBInstanceMessage & DeleteDBInstanceMessage & DeleteDBInstanceMessage & DeleteDBInstanceMessage & DeleteDBInstanceMessage & DeleteDBInstanceMessage & DeleteDBInstanceMessage & DeleteDBInstanceMessage & DeleteDBInstanceMessage & DeleteDBInstanceMessage & DeleteDBInstanceMessage & DeleteDBInstanceMessage & DeleteDBInstanceMessage & DeleteDBInstanceMessage & DeleteDBInstanceMessage & DeleteDBInstanceMessage & DeleteDBInstanceMessage & DeleteDBInstanceMessage & DeleteDBInstanceMessage)[K]
+      [K in keyof DeleteDBInstanceMessage]: (DeleteDBInstanceMessage)[K]
     }>): Request<DeleteDBInstanceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDBInstance(
-          this.ops["DeleteDBInstance"].applicator.apply(partialParams)
+          this.ops["DeleteDBInstance"].apply(partialParams)
         );
     }
 
-    invokeDeleteDBParameterGroup(partialParams: ToOptional<{
-      [K in keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage & keyof DeleteDBParameterGroupMessage]: (DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage & DeleteDBParameterGroupMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDeleteDBInstanceAutomatedBackup(partialParams: ToOptional<{
+      [K in keyof DeleteDBInstanceAutomatedBackupMessage]: (DeleteDBInstanceAutomatedBackupMessage)[K]
+    }>): Request<DeleteDBInstanceAutomatedBackupResult, AWSError> {
         this.boot();
-        return this.client.deleteDBParameterGroup(
-          this.ops["DeleteDBParameterGroup"].applicator.apply(partialParams)
+        return this.client.deleteDBInstanceAutomatedBackup(
+          this.ops["DeleteDBInstanceAutomatedBackup"].apply(partialParams)
         );
     }
 
     invokeDeleteDBProxy(partialParams: ToOptional<{
-      [K in keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest & keyof DeleteDBProxyRequest]: (DeleteDBProxyRequest & DeleteDBProxyRequest & DeleteDBProxyRequest & DeleteDBProxyRequest & DeleteDBProxyRequest & DeleteDBProxyRequest & DeleteDBProxyRequest & DeleteDBProxyRequest & DeleteDBProxyRequest & DeleteDBProxyRequest & DeleteDBProxyRequest & DeleteDBProxyRequest & DeleteDBProxyRequest & DeleteDBProxyRequest & DeleteDBProxyRequest & DeleteDBProxyRequest & DeleteDBProxyRequest & DeleteDBProxyRequest & DeleteDBProxyRequest)[K]
+      [K in keyof DeleteDBProxyRequest]: (DeleteDBProxyRequest)[K]
     }>): Request<DeleteDBProxyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDBProxy(
-          this.ops["DeleteDBProxy"].applicator.apply(partialParams)
+          this.ops["DeleteDBProxy"].apply(partialParams)
         );
     }
 
     invokeDeleteDBProxyEndpoint(partialParams: ToOptional<{
-      [K in keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest & keyof DeleteDBProxyEndpointRequest]: (DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest & DeleteDBProxyEndpointRequest)[K]
+      [K in keyof DeleteDBProxyEndpointRequest]: (DeleteDBProxyEndpointRequest)[K]
     }>): Request<DeleteDBProxyEndpointResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDBProxyEndpoint(
-          this.ops["DeleteDBProxyEndpoint"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteDBSecurityGroup(partialParams: ToOptional<{
-      [K in keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage & keyof DeleteDBSecurityGroupMessage]: (DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage & DeleteDBSecurityGroupMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteDBSecurityGroup(
-          this.ops["DeleteDBSecurityGroup"].applicator.apply(partialParams)
+          this.ops["DeleteDBProxyEndpoint"].apply(partialParams)
         );
     }
 
     invokeDeleteDBSnapshot(partialParams: ToOptional<{
-      [K in keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage & keyof DeleteDBSnapshotMessage]: (DeleteDBSnapshotMessage & DeleteDBSnapshotMessage & DeleteDBSnapshotMessage & DeleteDBSnapshotMessage & DeleteDBSnapshotMessage & DeleteDBSnapshotMessage & DeleteDBSnapshotMessage & DeleteDBSnapshotMessage & DeleteDBSnapshotMessage & DeleteDBSnapshotMessage & DeleteDBSnapshotMessage & DeleteDBSnapshotMessage & DeleteDBSnapshotMessage & DeleteDBSnapshotMessage & DeleteDBSnapshotMessage & DeleteDBSnapshotMessage & DeleteDBSnapshotMessage & DeleteDBSnapshotMessage & DeleteDBSnapshotMessage)[K]
+      [K in keyof DeleteDBSnapshotMessage]: (DeleteDBSnapshotMessage)[K]
     }>): Request<DeleteDBSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDBSnapshot(
-          this.ops["DeleteDBSnapshot"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteDBSubnetGroup(partialParams: ToOptional<{
-      [K in keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage & keyof DeleteDBSubnetGroupMessage]: (DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage & DeleteDBSubnetGroupMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteDBSubnetGroup(
-          this.ops["DeleteDBSubnetGroup"].applicator.apply(partialParams)
+          this.ops["DeleteDBSnapshot"].apply(partialParams)
         );
     }
 
     invokeDeleteEventSubscription(partialParams: ToOptional<{
-      [K in keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage & keyof DeleteEventSubscriptionMessage]: (DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage & DeleteEventSubscriptionMessage)[K]
+      [K in keyof DeleteEventSubscriptionMessage]: (DeleteEventSubscriptionMessage)[K]
     }>): Request<DeleteEventSubscriptionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteEventSubscription(
-          this.ops["DeleteEventSubscription"].applicator.apply(partialParams)
+          this.ops["DeleteEventSubscription"].apply(partialParams)
         );
     }
 
     invokeDeleteGlobalCluster(partialParams: ToOptional<{
-      [K in keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage & keyof DeleteGlobalClusterMessage]: (DeleteGlobalClusterMessage & DeleteGlobalClusterMessage & DeleteGlobalClusterMessage & DeleteGlobalClusterMessage & DeleteGlobalClusterMessage & DeleteGlobalClusterMessage & DeleteGlobalClusterMessage & DeleteGlobalClusterMessage & DeleteGlobalClusterMessage & DeleteGlobalClusterMessage & DeleteGlobalClusterMessage & DeleteGlobalClusterMessage & DeleteGlobalClusterMessage & DeleteGlobalClusterMessage & DeleteGlobalClusterMessage & DeleteGlobalClusterMessage & DeleteGlobalClusterMessage & DeleteGlobalClusterMessage & DeleteGlobalClusterMessage)[K]
+      [K in keyof DeleteGlobalClusterMessage]: (DeleteGlobalClusterMessage)[K]
     }>): Request<DeleteGlobalClusterResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteGlobalCluster(
-          this.ops["DeleteGlobalCluster"].applicator.apply(partialParams)
+          this.ops["DeleteGlobalCluster"].apply(partialParams)
         );
     }
 
     invokeDeleteInstallationMedia(partialParams: ToOptional<{
-      [K in keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage & keyof DeleteInstallationMediaMessage]: (DeleteInstallationMediaMessage & DeleteInstallationMediaMessage & DeleteInstallationMediaMessage & DeleteInstallationMediaMessage & DeleteInstallationMediaMessage & DeleteInstallationMediaMessage & DeleteInstallationMediaMessage & DeleteInstallationMediaMessage & DeleteInstallationMediaMessage & DeleteInstallationMediaMessage & DeleteInstallationMediaMessage & DeleteInstallationMediaMessage & DeleteInstallationMediaMessage & DeleteInstallationMediaMessage & DeleteInstallationMediaMessage & DeleteInstallationMediaMessage & DeleteInstallationMediaMessage & DeleteInstallationMediaMessage & DeleteInstallationMediaMessage)[K]
+      [K in keyof DeleteInstallationMediaMessage]: (DeleteInstallationMediaMessage)[K]
     }>): Request<InstallationMedia, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteInstallationMedia(
-          this.ops["DeleteInstallationMedia"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteOptionGroup(partialParams: ToOptional<{
-      [K in keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage & keyof DeleteOptionGroupMessage]: (DeleteOptionGroupMessage & DeleteOptionGroupMessage & DeleteOptionGroupMessage & DeleteOptionGroupMessage & DeleteOptionGroupMessage & DeleteOptionGroupMessage & DeleteOptionGroupMessage & DeleteOptionGroupMessage & DeleteOptionGroupMessage & DeleteOptionGroupMessage & DeleteOptionGroupMessage & DeleteOptionGroupMessage & DeleteOptionGroupMessage & DeleteOptionGroupMessage & DeleteOptionGroupMessage & DeleteOptionGroupMessage & DeleteOptionGroupMessage & DeleteOptionGroupMessage & DeleteOptionGroupMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteOptionGroup(
-          this.ops["DeleteOptionGroup"].applicator.apply(partialParams)
+          this.ops["DeleteInstallationMedia"].apply(partialParams)
         );
     }
 
     invokeDeregisterDBProxyTargets(partialParams: ToOptional<{
-      [K in keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest & keyof DeregisterDBProxyTargetsRequest]: (DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest & DeregisterDBProxyTargetsRequest)[K]
+      [K in keyof DeregisterDBProxyTargetsRequest]: (DeregisterDBProxyTargetsRequest)[K]
     }>): Request<DeregisterDBProxyTargetsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deregisterDBProxyTargets(
-          this.ops["DeregisterDBProxyTargets"].applicator.apply(partialParams)
+          this.ops["DeregisterDBProxyTargets"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeAccountAttributes(partialParams: ToOptional<{
+      [K in keyof DescribeAccountAttributesMessage]: (DescribeAccountAttributesMessage)[K]
+    }>): Request<AccountAttributesMessage, AWSError> {
+        this.boot();
+        return this.client.describeAccountAttributes(
+          this.ops["DescribeAccountAttributes"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeCertificates(partialParams: ToOptional<{
+      [K in keyof DescribeCertificatesMessage]: (DescribeCertificatesMessage)[K]
+    }>): Request<CertificateMessage, AWSError> {
+        this.boot();
+        return this.client.describeCertificates(
+          this.ops["DescribeCertificates"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeCustomAvailabilityZones(partialParams: ToOptional<{
+      [K in keyof DescribeCustomAvailabilityZonesMessage]: (DescribeCustomAvailabilityZonesMessage)[K]
+    }>): Request<CustomAvailabilityZoneMessage, AWSError> {
+        this.boot();
+        return this.client.describeCustomAvailabilityZones(
+          this.ops["DescribeCustomAvailabilityZones"].apply(partialParams)
         );
     }
 
     invokeDescribeDBClusterBacktracks(partialParams: ToOptional<{
-      [K in keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage & keyof DescribeDBClusterBacktracksMessage]: (DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage & DescribeDBClusterBacktracksMessage)[K]
+      [K in keyof DescribeDBClusterBacktracksMessage]: (DescribeDBClusterBacktracksMessage)[K]
     }>): Request<DBClusterBacktrackMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDBClusterBacktracks(
-          this.ops["DescribeDBClusterBacktracks"].applicator.apply(partialParams)
+          this.ops["DescribeDBClusterBacktracks"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDBClusterEndpoints(partialParams: ToOptional<{
+      [K in keyof DescribeDBClusterEndpointsMessage]: (DescribeDBClusterEndpointsMessage)[K]
+    }>): Request<DBClusterEndpointMessage, AWSError> {
+        this.boot();
+        return this.client.describeDBClusterEndpoints(
+          this.ops["DescribeDBClusterEndpoints"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDBClusterParameterGroups(partialParams: ToOptional<{
+      [K in keyof DescribeDBClusterParameterGroupsMessage]: (DescribeDBClusterParameterGroupsMessage)[K]
+    }>): Request<DBClusterParameterGroupsMessage, AWSError> {
+        this.boot();
+        return this.client.describeDBClusterParameterGroups(
+          this.ops["DescribeDBClusterParameterGroups"].apply(partialParams)
         );
     }
 
     invokeDescribeDBClusterParameters(partialParams: ToOptional<{
-      [K in keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage & keyof DescribeDBClusterParametersMessage]: (DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage & DescribeDBClusterParametersMessage)[K]
+      [K in keyof DescribeDBClusterParametersMessage]: (DescribeDBClusterParametersMessage)[K]
     }>): Request<DBClusterParameterGroupDetails, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDBClusterParameters(
-          this.ops["DescribeDBClusterParameters"].applicator.apply(partialParams)
+          this.ops["DescribeDBClusterParameters"].apply(partialParams)
         );
     }
 
     invokeDescribeDBClusterSnapshotAttributes(partialParams: ToOptional<{
-      [K in keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage & keyof DescribeDBClusterSnapshotAttributesMessage]: (DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage & DescribeDBClusterSnapshotAttributesMessage)[K]
+      [K in keyof DescribeDBClusterSnapshotAttributesMessage]: (DescribeDBClusterSnapshotAttributesMessage)[K]
     }>): Request<DescribeDBClusterSnapshotAttributesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDBClusterSnapshotAttributes(
-          this.ops["DescribeDBClusterSnapshotAttributes"].applicator.apply(partialParams)
+          this.ops["DescribeDBClusterSnapshotAttributes"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDBClusterSnapshots(partialParams: ToOptional<{
+      [K in keyof DescribeDBClusterSnapshotsMessage]: (DescribeDBClusterSnapshotsMessage)[K]
+    }>): Request<DBClusterSnapshotMessage, AWSError> {
+        this.boot();
+        return this.client.describeDBClusterSnapshots(
+          this.ops["DescribeDBClusterSnapshots"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDBClusters(partialParams: ToOptional<{
+      [K in keyof DescribeDBClustersMessage]: (DescribeDBClustersMessage)[K]
+    }>): Request<DBClusterMessage, AWSError> {
+        this.boot();
+        return this.client.describeDBClusters(
+          this.ops["DescribeDBClusters"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDBEngineVersions(partialParams: ToOptional<{
+      [K in keyof DescribeDBEngineVersionsMessage]: (DescribeDBEngineVersionsMessage)[K]
+    }>): Request<DBEngineVersionMessage, AWSError> {
+        this.boot();
+        return this.client.describeDBEngineVersions(
+          this.ops["DescribeDBEngineVersions"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDBInstanceAutomatedBackups(partialParams: ToOptional<{
+      [K in keyof DescribeDBInstanceAutomatedBackupsMessage]: (DescribeDBInstanceAutomatedBackupsMessage)[K]
+    }>): Request<DBInstanceAutomatedBackupMessage, AWSError> {
+        this.boot();
+        return this.client.describeDBInstanceAutomatedBackups(
+          this.ops["DescribeDBInstanceAutomatedBackups"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDBInstances(partialParams: ToOptional<{
+      [K in keyof DescribeDBInstancesMessage]: (DescribeDBInstancesMessage)[K]
+    }>): Request<DBInstanceMessage, AWSError> {
+        this.boot();
+        return this.client.describeDBInstances(
+          this.ops["DescribeDBInstances"].apply(partialParams)
         );
     }
 
     invokeDescribeDBLogFiles(partialParams: ToOptional<{
-      [K in keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage & keyof DescribeDBLogFilesMessage]: (DescribeDBLogFilesMessage & DescribeDBLogFilesMessage & DescribeDBLogFilesMessage & DescribeDBLogFilesMessage & DescribeDBLogFilesMessage & DescribeDBLogFilesMessage & DescribeDBLogFilesMessage & DescribeDBLogFilesMessage & DescribeDBLogFilesMessage & DescribeDBLogFilesMessage & DescribeDBLogFilesMessage & DescribeDBLogFilesMessage & DescribeDBLogFilesMessage & DescribeDBLogFilesMessage & DescribeDBLogFilesMessage & DescribeDBLogFilesMessage & DescribeDBLogFilesMessage & DescribeDBLogFilesMessage & DescribeDBLogFilesMessage)[K]
+      [K in keyof DescribeDBLogFilesMessage]: (DescribeDBLogFilesMessage)[K]
     }>): Request<DescribeDBLogFilesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDBLogFiles(
-          this.ops["DescribeDBLogFiles"].applicator.apply(partialParams)
+          this.ops["DescribeDBLogFiles"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDBParameterGroups(partialParams: ToOptional<{
+      [K in keyof DescribeDBParameterGroupsMessage]: (DescribeDBParameterGroupsMessage)[K]
+    }>): Request<DBParameterGroupsMessage, AWSError> {
+        this.boot();
+        return this.client.describeDBParameterGroups(
+          this.ops["DescribeDBParameterGroups"].apply(partialParams)
         );
     }
 
     invokeDescribeDBParameters(partialParams: ToOptional<{
-      [K in keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage & keyof DescribeDBParametersMessage]: (DescribeDBParametersMessage & DescribeDBParametersMessage & DescribeDBParametersMessage & DescribeDBParametersMessage & DescribeDBParametersMessage & DescribeDBParametersMessage & DescribeDBParametersMessage & DescribeDBParametersMessage & DescribeDBParametersMessage & DescribeDBParametersMessage & DescribeDBParametersMessage & DescribeDBParametersMessage & DescribeDBParametersMessage & DescribeDBParametersMessage & DescribeDBParametersMessage & DescribeDBParametersMessage & DescribeDBParametersMessage & DescribeDBParametersMessage & DescribeDBParametersMessage)[K]
+      [K in keyof DescribeDBParametersMessage]: (DescribeDBParametersMessage)[K]
     }>): Request<DBParameterGroupDetails, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDBParameters(
-          this.ops["DescribeDBParameters"].applicator.apply(partialParams)
+          this.ops["DescribeDBParameters"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDBProxies(partialParams: ToOptional<{
+      [K in keyof DescribeDBProxiesRequest]: (DescribeDBProxiesRequest)[K]
+    }>): Request<DescribeDBProxiesResponse, AWSError> {
+        this.boot();
+        return this.client.describeDBProxies(
+          this.ops["DescribeDBProxies"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDBProxyEndpoints(partialParams: ToOptional<{
+      [K in keyof DescribeDBProxyEndpointsRequest]: (DescribeDBProxyEndpointsRequest)[K]
+    }>): Request<DescribeDBProxyEndpointsResponse, AWSError> {
+        this.boot();
+        return this.client.describeDBProxyEndpoints(
+          this.ops["DescribeDBProxyEndpoints"].apply(partialParams)
         );
     }
 
     invokeDescribeDBProxyTargetGroups(partialParams: ToOptional<{
-      [K in keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest & keyof DescribeDBProxyTargetGroupsRequest]: (DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest & DescribeDBProxyTargetGroupsRequest)[K]
+      [K in keyof DescribeDBProxyTargetGroupsRequest]: (DescribeDBProxyTargetGroupsRequest)[K]
     }>): Request<DescribeDBProxyTargetGroupsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDBProxyTargetGroups(
-          this.ops["DescribeDBProxyTargetGroups"].applicator.apply(partialParams)
+          this.ops["DescribeDBProxyTargetGroups"].apply(partialParams)
         );
     }
 
     invokeDescribeDBProxyTargets(partialParams: ToOptional<{
-      [K in keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest & keyof DescribeDBProxyTargetsRequest]: (DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest & DescribeDBProxyTargetsRequest)[K]
+      [K in keyof DescribeDBProxyTargetsRequest]: (DescribeDBProxyTargetsRequest)[K]
     }>): Request<DescribeDBProxyTargetsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDBProxyTargets(
-          this.ops["DescribeDBProxyTargets"].applicator.apply(partialParams)
+          this.ops["DescribeDBProxyTargets"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDBSecurityGroups(partialParams: ToOptional<{
+      [K in keyof DescribeDBSecurityGroupsMessage]: (DescribeDBSecurityGroupsMessage)[K]
+    }>): Request<DBSecurityGroupMessage, AWSError> {
+        this.boot();
+        return this.client.describeDBSecurityGroups(
+          this.ops["DescribeDBSecurityGroups"].apply(partialParams)
         );
     }
 
     invokeDescribeDBSnapshotAttributes(partialParams: ToOptional<{
-      [K in keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage & keyof DescribeDBSnapshotAttributesMessage]: (DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage & DescribeDBSnapshotAttributesMessage)[K]
+      [K in keyof DescribeDBSnapshotAttributesMessage]: (DescribeDBSnapshotAttributesMessage)[K]
     }>): Request<DescribeDBSnapshotAttributesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDBSnapshotAttributes(
-          this.ops["DescribeDBSnapshotAttributes"].applicator.apply(partialParams)
+          this.ops["DescribeDBSnapshotAttributes"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDBSnapshots(partialParams: ToOptional<{
+      [K in keyof DescribeDBSnapshotsMessage]: (DescribeDBSnapshotsMessage)[K]
+    }>): Request<DBSnapshotMessage, AWSError> {
+        this.boot();
+        return this.client.describeDBSnapshots(
+          this.ops["DescribeDBSnapshots"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDBSubnetGroups(partialParams: ToOptional<{
+      [K in keyof DescribeDBSubnetGroupsMessage]: (DescribeDBSubnetGroupsMessage)[K]
+    }>): Request<DBSubnetGroupMessage, AWSError> {
+        this.boot();
+        return this.client.describeDBSubnetGroups(
+          this.ops["DescribeDBSubnetGroups"].apply(partialParams)
         );
     }
 
     invokeDescribeEngineDefaultClusterParameters(partialParams: ToOptional<{
-      [K in keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage & keyof DescribeEngineDefaultClusterParametersMessage]: (DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage & DescribeEngineDefaultClusterParametersMessage)[K]
+      [K in keyof DescribeEngineDefaultClusterParametersMessage]: (DescribeEngineDefaultClusterParametersMessage)[K]
     }>): Request<DescribeEngineDefaultClusterParametersResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeEngineDefaultClusterParameters(
-          this.ops["DescribeEngineDefaultClusterParameters"].applicator.apply(partialParams)
+          this.ops["DescribeEngineDefaultClusterParameters"].apply(partialParams)
         );
     }
 
     invokeDescribeEngineDefaultParameters(partialParams: ToOptional<{
-      [K in keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage & keyof DescribeEngineDefaultParametersMessage]: (DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage & DescribeEngineDefaultParametersMessage)[K]
+      [K in keyof DescribeEngineDefaultParametersMessage]: (DescribeEngineDefaultParametersMessage)[K]
     }>): Request<DescribeEngineDefaultParametersResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeEngineDefaultParameters(
-          this.ops["DescribeEngineDefaultParameters"].applicator.apply(partialParams)
+          this.ops["DescribeEngineDefaultParameters"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeEventCategories(partialParams: ToOptional<{
+      [K in keyof DescribeEventCategoriesMessage]: (DescribeEventCategoriesMessage)[K]
+    }>): Request<EventCategoriesMessage, AWSError> {
+        this.boot();
+        return this.client.describeEventCategories(
+          this.ops["DescribeEventCategories"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeEventSubscriptions(partialParams: ToOptional<{
+      [K in keyof DescribeEventSubscriptionsMessage]: (DescribeEventSubscriptionsMessage)[K]
+    }>): Request<EventSubscriptionsMessage, AWSError> {
+        this.boot();
+        return this.client.describeEventSubscriptions(
+          this.ops["DescribeEventSubscriptions"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeEvents(partialParams: ToOptional<{
+      [K in keyof DescribeEventsMessage]: (DescribeEventsMessage)[K]
+    }>): Request<EventsMessage, AWSError> {
+        this.boot();
+        return this.client.describeEvents(
+          this.ops["DescribeEvents"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeExportTasks(partialParams: ToOptional<{
+      [K in keyof DescribeExportTasksMessage]: (DescribeExportTasksMessage)[K]
+    }>): Request<ExportTasksMessage, AWSError> {
+        this.boot();
+        return this.client.describeExportTasks(
+          this.ops["DescribeExportTasks"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeGlobalClusters(partialParams: ToOptional<{
+      [K in keyof DescribeGlobalClustersMessage]: (DescribeGlobalClustersMessage)[K]
+    }>): Request<GlobalClustersMessage, AWSError> {
+        this.boot();
+        return this.client.describeGlobalClusters(
+          this.ops["DescribeGlobalClusters"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeInstallationMedia(partialParams: ToOptional<{
+      [K in keyof DescribeInstallationMediaMessage]: (DescribeInstallationMediaMessage)[K]
+    }>): Request<InstallationMediaMessage, AWSError> {
+        this.boot();
+        return this.client.describeInstallationMedia(
+          this.ops["DescribeInstallationMedia"].apply(partialParams)
         );
     }
 
     invokeDescribeOptionGroupOptions(partialParams: ToOptional<{
-      [K in keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage & keyof DescribeOptionGroupOptionsMessage]: (DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage & DescribeOptionGroupOptionsMessage)[K]
+      [K in keyof DescribeOptionGroupOptionsMessage]: (DescribeOptionGroupOptionsMessage)[K]
     }>): Request<OptionGroupOptionsMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeOptionGroupOptions(
-          this.ops["DescribeOptionGroupOptions"].applicator.apply(partialParams)
+          this.ops["DescribeOptionGroupOptions"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeOptionGroups(partialParams: ToOptional<{
+      [K in keyof DescribeOptionGroupsMessage]: (DescribeOptionGroupsMessage)[K]
+    }>): Request<OptionGroups, AWSError> {
+        this.boot();
+        return this.client.describeOptionGroups(
+          this.ops["DescribeOptionGroups"].apply(partialParams)
         );
     }
 
     invokeDescribeOrderableDBInstanceOptions(partialParams: ToOptional<{
-      [K in keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage & keyof DescribeOrderableDBInstanceOptionsMessage]: (DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage & DescribeOrderableDBInstanceOptionsMessage)[K]
+      [K in keyof DescribeOrderableDBInstanceOptionsMessage & keyof Omit<DescribeOrderableDBInstanceOptionsMessage, "Engine">]: (DescribeOrderableDBInstanceOptionsMessage)[K]
     }>): Request<OrderableDBInstanceOptionsMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeOrderableDBInstanceOptions(
-          this.ops["DescribeOrderableDBInstanceOptions"].applicator.apply(partialParams)
+          this.ops["DescribeOrderableDBInstanceOptions"].apply(partialParams)
+        );
+    }
+
+    invokeDescribePendingMaintenanceActions(partialParams: ToOptional<{
+      [K in keyof DescribePendingMaintenanceActionsMessage]: (DescribePendingMaintenanceActionsMessage)[K]
+    }>): Request<PendingMaintenanceActionsMessage, AWSError> {
+        this.boot();
+        return this.client.describePendingMaintenanceActions(
+          this.ops["DescribePendingMaintenanceActions"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeReservedDBInstances(partialParams: ToOptional<{
+      [K in keyof DescribeReservedDBInstancesMessage]: (DescribeReservedDBInstancesMessage)[K]
+    }>): Request<ReservedDBInstanceMessage, AWSError> {
+        this.boot();
+        return this.client.describeReservedDBInstances(
+          this.ops["DescribeReservedDBInstances"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeReservedDBInstancesOfferings(partialParams: ToOptional<{
+      [K in keyof DescribeReservedDBInstancesOfferingsMessage]: (DescribeReservedDBInstancesOfferingsMessage)[K]
+    }>): Request<ReservedDBInstancesOfferingMessage, AWSError> {
+        this.boot();
+        return this.client.describeReservedDBInstancesOfferings(
+          this.ops["DescribeReservedDBInstancesOfferings"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeSourceRegions(partialParams: ToOptional<{
+      [K in keyof DescribeSourceRegionsMessage]: (DescribeSourceRegionsMessage)[K]
+    }>): Request<SourceRegionMessage, AWSError> {
+        this.boot();
+        return this.client.describeSourceRegions(
+          this.ops["DescribeSourceRegions"].apply(partialParams)
         );
     }
 
     invokeDescribeValidDBInstanceModifications(partialParams: ToOptional<{
-      [K in keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage & keyof DescribeValidDBInstanceModificationsMessage]: (DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage & DescribeValidDBInstanceModificationsMessage)[K]
+      [K in keyof DescribeValidDBInstanceModificationsMessage]: (DescribeValidDBInstanceModificationsMessage)[K]
     }>): Request<DescribeValidDBInstanceModificationsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeValidDBInstanceModifications(
-          this.ops["DescribeValidDBInstanceModifications"].applicator.apply(partialParams)
+          this.ops["DescribeValidDBInstanceModifications"].apply(partialParams)
         );
     }
 
     invokeDownloadDBLogFilePortion(partialParams: ToOptional<{
-      [K in keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage & keyof DownloadDBLogFilePortionMessage]: (DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage & DownloadDBLogFilePortionMessage)[K]
+      [K in keyof DownloadDBLogFilePortionMessage]: (DownloadDBLogFilePortionMessage)[K]
     }>): Request<DownloadDBLogFilePortionDetails, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.downloadDBLogFilePortion(
-          this.ops["DownloadDBLogFilePortion"].applicator.apply(partialParams)
+          this.ops["DownloadDBLogFilePortion"].apply(partialParams)
         );
     }
 
     invokeFailoverDBCluster(partialParams: ToOptional<{
-      [K in keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage & keyof FailoverDBClusterMessage]: (FailoverDBClusterMessage & FailoverDBClusterMessage & FailoverDBClusterMessage & FailoverDBClusterMessage & FailoverDBClusterMessage & FailoverDBClusterMessage & FailoverDBClusterMessage & FailoverDBClusterMessage & FailoverDBClusterMessage & FailoverDBClusterMessage & FailoverDBClusterMessage & FailoverDBClusterMessage & FailoverDBClusterMessage & FailoverDBClusterMessage & FailoverDBClusterMessage & FailoverDBClusterMessage & FailoverDBClusterMessage & FailoverDBClusterMessage & FailoverDBClusterMessage)[K]
+      [K in keyof FailoverDBClusterMessage]: (FailoverDBClusterMessage)[K]
     }>): Request<FailoverDBClusterResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.failoverDBCluster(
-          this.ops["FailoverDBCluster"].applicator.apply(partialParams)
+          this.ops["FailoverDBCluster"].apply(partialParams)
         );
     }
 
     invokeFailoverGlobalCluster(partialParams: ToOptional<{
-      [K in keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage & keyof FailoverGlobalClusterMessage]: (FailoverGlobalClusterMessage & FailoverGlobalClusterMessage & FailoverGlobalClusterMessage & FailoverGlobalClusterMessage & FailoverGlobalClusterMessage & FailoverGlobalClusterMessage & FailoverGlobalClusterMessage & FailoverGlobalClusterMessage & FailoverGlobalClusterMessage & FailoverGlobalClusterMessage & FailoverGlobalClusterMessage & FailoverGlobalClusterMessage & FailoverGlobalClusterMessage & FailoverGlobalClusterMessage & FailoverGlobalClusterMessage & FailoverGlobalClusterMessage & FailoverGlobalClusterMessage & FailoverGlobalClusterMessage & FailoverGlobalClusterMessage)[K]
+      [K in keyof FailoverGlobalClusterMessage]: (FailoverGlobalClusterMessage)[K]
     }>): Request<FailoverGlobalClusterResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.failoverGlobalCluster(
-          this.ops["FailoverGlobalCluster"].applicator.apply(partialParams)
+          this.ops["FailoverGlobalCluster"].apply(partialParams)
         );
     }
 
     invokeImportInstallationMedia(partialParams: ToOptional<{
-      [K in keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage & keyof ImportInstallationMediaMessage]: (ImportInstallationMediaMessage & ImportInstallationMediaMessage & ImportInstallationMediaMessage & ImportInstallationMediaMessage & ImportInstallationMediaMessage & ImportInstallationMediaMessage & ImportInstallationMediaMessage & ImportInstallationMediaMessage & ImportInstallationMediaMessage & ImportInstallationMediaMessage & ImportInstallationMediaMessage & ImportInstallationMediaMessage & ImportInstallationMediaMessage & ImportInstallationMediaMessage & ImportInstallationMediaMessage & ImportInstallationMediaMessage & ImportInstallationMediaMessage & ImportInstallationMediaMessage & ImportInstallationMediaMessage)[K]
+      [K in keyof ImportInstallationMediaMessage & keyof Omit<ImportInstallationMediaMessage, "Engine" | "EngineVersion">]: (ImportInstallationMediaMessage)[K]
     }>): Request<InstallationMedia, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.importInstallationMedia(
-          this.ops["ImportInstallationMedia"].applicator.apply(partialParams)
+          this.ops["ImportInstallationMedia"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage]: (ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage)[K]
+      [K in keyof ListTagsForResourceMessage]: (ListTagsForResourceMessage)[K]
     }>): Request<TagListMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
+        );
+    }
+
+    invokeModifyCertificates(partialParams: ToOptional<{
+      [K in keyof ModifyCertificatesMessage]: (ModifyCertificatesMessage)[K]
+    }>): Request<ModifyCertificatesResult, AWSError> {
+        this.boot();
+        return this.client.modifyCertificates(
+          this.ops["ModifyCertificates"].apply(partialParams)
         );
     }
 
     invokeModifyCurrentDBClusterCapacity(partialParams: ToOptional<{
-      [K in keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage & keyof ModifyCurrentDBClusterCapacityMessage]: (ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage & ModifyCurrentDBClusterCapacityMessage)[K]
+      [K in keyof ModifyCurrentDBClusterCapacityMessage]: (ModifyCurrentDBClusterCapacityMessage)[K]
     }>): Request<DBClusterCapacityInfo, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyCurrentDBClusterCapacity(
-          this.ops["ModifyCurrentDBClusterCapacity"].applicator.apply(partialParams)
+          this.ops["ModifyCurrentDBClusterCapacity"].apply(partialParams)
         );
     }
 
     invokeModifyCustomDBEngineVersion(partialParams: ToOptional<{
-      [K in keyof ModifyCustomDBEngineVersionMessage & keyof ModifyCustomDBEngineVersionMessage & keyof ModifyCustomDBEngineVersionMessage & keyof ModifyCustomDBEngineVersionMessage & keyof ModifyCustomDBEngineVersionMessage & keyof ModifyCustomDBEngineVersionMessage & keyof ModifyCustomDBEngineVersionMessage & keyof ModifyCustomDBEngineVersionMessage & keyof Omit<ModifyCustomDBEngineVersionMessage, "Engine"> & keyof Omit<ModifyCustomDBEngineVersionMessage, "EngineVersion"> & keyof ModifyCustomDBEngineVersionMessage & keyof ModifyCustomDBEngineVersionMessage & keyof ModifyCustomDBEngineVersionMessage & keyof ModifyCustomDBEngineVersionMessage & keyof ModifyCustomDBEngineVersionMessage & keyof ModifyCustomDBEngineVersionMessage & keyof ModifyCustomDBEngineVersionMessage & keyof ModifyCustomDBEngineVersionMessage & keyof ModifyCustomDBEngineVersionMessage]: (ModifyCustomDBEngineVersionMessage & ModifyCustomDBEngineVersionMessage & ModifyCustomDBEngineVersionMessage & ModifyCustomDBEngineVersionMessage & ModifyCustomDBEngineVersionMessage & ModifyCustomDBEngineVersionMessage & ModifyCustomDBEngineVersionMessage & ModifyCustomDBEngineVersionMessage & Omit<ModifyCustomDBEngineVersionMessage, "Engine"> & Omit<ModifyCustomDBEngineVersionMessage, "EngineVersion"> & ModifyCustomDBEngineVersionMessage & ModifyCustomDBEngineVersionMessage & ModifyCustomDBEngineVersionMessage & ModifyCustomDBEngineVersionMessage & ModifyCustomDBEngineVersionMessage & ModifyCustomDBEngineVersionMessage & ModifyCustomDBEngineVersionMessage & ModifyCustomDBEngineVersionMessage & ModifyCustomDBEngineVersionMessage)[K]
+      [K in keyof ModifyCustomDBEngineVersionMessage & keyof Omit<ModifyCustomDBEngineVersionMessage, "Engine" | "EngineVersion">]: (ModifyCustomDBEngineVersionMessage)[K]
     }>): Request<DBEngineVersion, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyCustomDBEngineVersion(
-          this.ops["ModifyCustomDBEngineVersion"].applicator.apply(partialParams)
+          this.ops["ModifyCustomDBEngineVersion"].apply(partialParams)
         );
     }
 
     invokeModifyDBCluster(partialParams: ToOptional<{
-      [K in keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage & keyof ModifyDBClusterMessage]: (ModifyDBClusterMessage & ModifyDBClusterMessage & ModifyDBClusterMessage & ModifyDBClusterMessage & ModifyDBClusterMessage & ModifyDBClusterMessage & ModifyDBClusterMessage & ModifyDBClusterMessage & ModifyDBClusterMessage & ModifyDBClusterMessage & ModifyDBClusterMessage & ModifyDBClusterMessage & ModifyDBClusterMessage & ModifyDBClusterMessage & ModifyDBClusterMessage & ModifyDBClusterMessage & ModifyDBClusterMessage & ModifyDBClusterMessage & ModifyDBClusterMessage)[K]
+      [K in keyof ModifyDBClusterMessage]: (ModifyDBClusterMessage)[K]
     }>): Request<ModifyDBClusterResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyDBCluster(
-          this.ops["ModifyDBCluster"].applicator.apply(partialParams)
+          this.ops["ModifyDBCluster"].apply(partialParams)
         );
     }
 
     invokeModifyDBClusterEndpoint(partialParams: ToOptional<{
-      [K in keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage & keyof ModifyDBClusterEndpointMessage]: (ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage & ModifyDBClusterEndpointMessage)[K]
+      [K in keyof ModifyDBClusterEndpointMessage]: (ModifyDBClusterEndpointMessage)[K]
     }>): Request<DBClusterEndpoint, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyDBClusterEndpoint(
-          this.ops["ModifyDBClusterEndpoint"].applicator.apply(partialParams)
+          this.ops["ModifyDBClusterEndpoint"].apply(partialParams)
         );
     }
 
     invokeModifyDBClusterParameterGroup(partialParams: ToOptional<{
-      [K in keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage & keyof ModifyDBClusterParameterGroupMessage]: (ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage & ModifyDBClusterParameterGroupMessage)[K]
+      [K in keyof ModifyDBClusterParameterGroupMessage]: (ModifyDBClusterParameterGroupMessage)[K]
     }>): Request<DBClusterParameterGroupNameMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyDBClusterParameterGroup(
-          this.ops["ModifyDBClusterParameterGroup"].applicator.apply(partialParams)
+          this.ops["ModifyDBClusterParameterGroup"].apply(partialParams)
         );
     }
 
     invokeModifyDBClusterSnapshotAttribute(partialParams: ToOptional<{
-      [K in keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage & keyof ModifyDBClusterSnapshotAttributeMessage]: (ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage & ModifyDBClusterSnapshotAttributeMessage)[K]
+      [K in keyof ModifyDBClusterSnapshotAttributeMessage]: (ModifyDBClusterSnapshotAttributeMessage)[K]
     }>): Request<ModifyDBClusterSnapshotAttributeResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyDBClusterSnapshotAttribute(
-          this.ops["ModifyDBClusterSnapshotAttribute"].applicator.apply(partialParams)
+          this.ops["ModifyDBClusterSnapshotAttribute"].apply(partialParams)
         );
     }
 
     invokeModifyDBInstance(partialParams: ToOptional<{
-      [K in keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage & keyof ModifyDBInstanceMessage]: (ModifyDBInstanceMessage & ModifyDBInstanceMessage & ModifyDBInstanceMessage & ModifyDBInstanceMessage & ModifyDBInstanceMessage & ModifyDBInstanceMessage & ModifyDBInstanceMessage & ModifyDBInstanceMessage & ModifyDBInstanceMessage & ModifyDBInstanceMessage & ModifyDBInstanceMessage & ModifyDBInstanceMessage & ModifyDBInstanceMessage & ModifyDBInstanceMessage & ModifyDBInstanceMessage & ModifyDBInstanceMessage & ModifyDBInstanceMessage & ModifyDBInstanceMessage & ModifyDBInstanceMessage)[K]
+      [K in keyof ModifyDBInstanceMessage]: (ModifyDBInstanceMessage)[K]
     }>): Request<ModifyDBInstanceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyDBInstance(
-          this.ops["ModifyDBInstance"].applicator.apply(partialParams)
+          this.ops["ModifyDBInstance"].apply(partialParams)
         );
     }
 
     invokeModifyDBParameterGroup(partialParams: ToOptional<{
-      [K in keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage & keyof ModifyDBParameterGroupMessage]: (ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage & ModifyDBParameterGroupMessage)[K]
+      [K in keyof ModifyDBParameterGroupMessage]: (ModifyDBParameterGroupMessage)[K]
     }>): Request<DBParameterGroupNameMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyDBParameterGroup(
-          this.ops["ModifyDBParameterGroup"].applicator.apply(partialParams)
+          this.ops["ModifyDBParameterGroup"].apply(partialParams)
         );
     }
 
     invokeModifyDBProxy(partialParams: ToOptional<{
-      [K in keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest & keyof ModifyDBProxyRequest]: (ModifyDBProxyRequest & ModifyDBProxyRequest & ModifyDBProxyRequest & ModifyDBProxyRequest & ModifyDBProxyRequest & ModifyDBProxyRequest & ModifyDBProxyRequest & ModifyDBProxyRequest & ModifyDBProxyRequest & ModifyDBProxyRequest & ModifyDBProxyRequest & ModifyDBProxyRequest & ModifyDBProxyRequest & ModifyDBProxyRequest & ModifyDBProxyRequest & ModifyDBProxyRequest & ModifyDBProxyRequest & ModifyDBProxyRequest & ModifyDBProxyRequest)[K]
+      [K in keyof ModifyDBProxyRequest]: (ModifyDBProxyRequest)[K]
     }>): Request<ModifyDBProxyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyDBProxy(
-          this.ops["ModifyDBProxy"].applicator.apply(partialParams)
+          this.ops["ModifyDBProxy"].apply(partialParams)
         );
     }
 
     invokeModifyDBProxyEndpoint(partialParams: ToOptional<{
-      [K in keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest & keyof ModifyDBProxyEndpointRequest]: (ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest & ModifyDBProxyEndpointRequest)[K]
+      [K in keyof ModifyDBProxyEndpointRequest]: (ModifyDBProxyEndpointRequest)[K]
     }>): Request<ModifyDBProxyEndpointResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyDBProxyEndpoint(
-          this.ops["ModifyDBProxyEndpoint"].applicator.apply(partialParams)
+          this.ops["ModifyDBProxyEndpoint"].apply(partialParams)
         );
     }
 
     invokeModifyDBProxyTargetGroup(partialParams: ToOptional<{
-      [K in keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest & keyof ModifyDBProxyTargetGroupRequest]: (ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest & ModifyDBProxyTargetGroupRequest)[K]
+      [K in keyof ModifyDBProxyTargetGroupRequest]: (ModifyDBProxyTargetGroupRequest)[K]
     }>): Request<ModifyDBProxyTargetGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyDBProxyTargetGroup(
-          this.ops["ModifyDBProxyTargetGroup"].applicator.apply(partialParams)
+          this.ops["ModifyDBProxyTargetGroup"].apply(partialParams)
         );
     }
 
     invokeModifyDBSnapshot(partialParams: ToOptional<{
-      [K in keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage & keyof ModifyDBSnapshotMessage]: (ModifyDBSnapshotMessage & ModifyDBSnapshotMessage & ModifyDBSnapshotMessage & ModifyDBSnapshotMessage & ModifyDBSnapshotMessage & ModifyDBSnapshotMessage & ModifyDBSnapshotMessage & ModifyDBSnapshotMessage & ModifyDBSnapshotMessage & ModifyDBSnapshotMessage & ModifyDBSnapshotMessage & ModifyDBSnapshotMessage & ModifyDBSnapshotMessage & ModifyDBSnapshotMessage & ModifyDBSnapshotMessage & ModifyDBSnapshotMessage & ModifyDBSnapshotMessage & ModifyDBSnapshotMessage & ModifyDBSnapshotMessage)[K]
+      [K in keyof ModifyDBSnapshotMessage]: (ModifyDBSnapshotMessage)[K]
     }>): Request<ModifyDBSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyDBSnapshot(
-          this.ops["ModifyDBSnapshot"].applicator.apply(partialParams)
+          this.ops["ModifyDBSnapshot"].apply(partialParams)
         );
     }
 
     invokeModifyDBSnapshotAttribute(partialParams: ToOptional<{
-      [K in keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage & keyof ModifyDBSnapshotAttributeMessage]: (ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage & ModifyDBSnapshotAttributeMessage)[K]
+      [K in keyof ModifyDBSnapshotAttributeMessage]: (ModifyDBSnapshotAttributeMessage)[K]
     }>): Request<ModifyDBSnapshotAttributeResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyDBSnapshotAttribute(
-          this.ops["ModifyDBSnapshotAttribute"].applicator.apply(partialParams)
+          this.ops["ModifyDBSnapshotAttribute"].apply(partialParams)
         );
     }
 
     invokeModifyDBSubnetGroup(partialParams: ToOptional<{
-      [K in keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage & keyof ModifyDBSubnetGroupMessage]: (ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage & ModifyDBSubnetGroupMessage)[K]
+      [K in keyof ModifyDBSubnetGroupMessage]: (ModifyDBSubnetGroupMessage)[K]
     }>): Request<ModifyDBSubnetGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyDBSubnetGroup(
-          this.ops["ModifyDBSubnetGroup"].applicator.apply(partialParams)
+          this.ops["ModifyDBSubnetGroup"].apply(partialParams)
         );
     }
 
     invokeModifyEventSubscription(partialParams: ToOptional<{
-      [K in keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage & keyof ModifyEventSubscriptionMessage]: (ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage & ModifyEventSubscriptionMessage)[K]
+      [K in keyof ModifyEventSubscriptionMessage]: (ModifyEventSubscriptionMessage)[K]
     }>): Request<ModifyEventSubscriptionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyEventSubscription(
-          this.ops["ModifyEventSubscription"].applicator.apply(partialParams)
+          this.ops["ModifyEventSubscription"].apply(partialParams)
+        );
+    }
+
+    invokeModifyGlobalCluster(partialParams: ToOptional<{
+      [K in keyof ModifyGlobalClusterMessage]: (ModifyGlobalClusterMessage)[K]
+    }>): Request<ModifyGlobalClusterResult, AWSError> {
+        this.boot();
+        return this.client.modifyGlobalCluster(
+          this.ops["ModifyGlobalCluster"].apply(partialParams)
         );
     }
 
     invokeModifyOptionGroup(partialParams: ToOptional<{
-      [K in keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage & keyof ModifyOptionGroupMessage]: (ModifyOptionGroupMessage & ModifyOptionGroupMessage & ModifyOptionGroupMessage & ModifyOptionGroupMessage & ModifyOptionGroupMessage & ModifyOptionGroupMessage & ModifyOptionGroupMessage & ModifyOptionGroupMessage & ModifyOptionGroupMessage & ModifyOptionGroupMessage & ModifyOptionGroupMessage & ModifyOptionGroupMessage & ModifyOptionGroupMessage & ModifyOptionGroupMessage & ModifyOptionGroupMessage & ModifyOptionGroupMessage & ModifyOptionGroupMessage & ModifyOptionGroupMessage & ModifyOptionGroupMessage)[K]
+      [K in keyof ModifyOptionGroupMessage]: (ModifyOptionGroupMessage)[K]
     }>): Request<ModifyOptionGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyOptionGroup(
-          this.ops["ModifyOptionGroup"].applicator.apply(partialParams)
+          this.ops["ModifyOptionGroup"].apply(partialParams)
         );
     }
 
     invokePromoteReadReplica(partialParams: ToOptional<{
-      [K in keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage & keyof PromoteReadReplicaMessage]: (PromoteReadReplicaMessage & PromoteReadReplicaMessage & PromoteReadReplicaMessage & PromoteReadReplicaMessage & PromoteReadReplicaMessage & PromoteReadReplicaMessage & PromoteReadReplicaMessage & PromoteReadReplicaMessage & PromoteReadReplicaMessage & PromoteReadReplicaMessage & PromoteReadReplicaMessage & PromoteReadReplicaMessage & PromoteReadReplicaMessage & PromoteReadReplicaMessage & PromoteReadReplicaMessage & PromoteReadReplicaMessage & PromoteReadReplicaMessage & PromoteReadReplicaMessage & PromoteReadReplicaMessage)[K]
+      [K in keyof PromoteReadReplicaMessage]: (PromoteReadReplicaMessage)[K]
     }>): Request<PromoteReadReplicaResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.promoteReadReplica(
-          this.ops["PromoteReadReplica"].applicator.apply(partialParams)
+          this.ops["PromoteReadReplica"].apply(partialParams)
         );
     }
 
     invokePromoteReadReplicaDBCluster(partialParams: ToOptional<{
-      [K in keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage & keyof PromoteReadReplicaDBClusterMessage]: (PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage & PromoteReadReplicaDBClusterMessage)[K]
+      [K in keyof PromoteReadReplicaDBClusterMessage]: (PromoteReadReplicaDBClusterMessage)[K]
     }>): Request<PromoteReadReplicaDBClusterResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.promoteReadReplicaDBCluster(
-          this.ops["PromoteReadReplicaDBCluster"].applicator.apply(partialParams)
+          this.ops["PromoteReadReplicaDBCluster"].apply(partialParams)
         );
     }
 
     invokePurchaseReservedDBInstancesOffering(partialParams: ToOptional<{
-      [K in keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage & keyof PurchaseReservedDBInstancesOfferingMessage]: (PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage & PurchaseReservedDBInstancesOfferingMessage)[K]
+      [K in keyof PurchaseReservedDBInstancesOfferingMessage]: (PurchaseReservedDBInstancesOfferingMessage)[K]
     }>): Request<PurchaseReservedDBInstancesOfferingResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.purchaseReservedDBInstancesOffering(
-          this.ops["PurchaseReservedDBInstancesOffering"].applicator.apply(partialParams)
+          this.ops["PurchaseReservedDBInstancesOffering"].apply(partialParams)
         );
     }
 
     invokeRebootDBCluster(partialParams: ToOptional<{
-      [K in keyof RebootDBClusterMessage & keyof RebootDBClusterMessage & keyof RebootDBClusterMessage & keyof RebootDBClusterMessage & keyof RebootDBClusterMessage & keyof RebootDBClusterMessage & keyof RebootDBClusterMessage & keyof RebootDBClusterMessage & keyof RebootDBClusterMessage & keyof RebootDBClusterMessage & keyof RebootDBClusterMessage & keyof RebootDBClusterMessage & keyof RebootDBClusterMessage & keyof RebootDBClusterMessage & keyof RebootDBClusterMessage & keyof RebootDBClusterMessage & keyof RebootDBClusterMessage & keyof RebootDBClusterMessage & keyof RebootDBClusterMessage]: (RebootDBClusterMessage & RebootDBClusterMessage & RebootDBClusterMessage & RebootDBClusterMessage & RebootDBClusterMessage & RebootDBClusterMessage & RebootDBClusterMessage & RebootDBClusterMessage & RebootDBClusterMessage & RebootDBClusterMessage & RebootDBClusterMessage & RebootDBClusterMessage & RebootDBClusterMessage & RebootDBClusterMessage & RebootDBClusterMessage & RebootDBClusterMessage & RebootDBClusterMessage & RebootDBClusterMessage & RebootDBClusterMessage)[K]
+      [K in keyof RebootDBClusterMessage]: (RebootDBClusterMessage)[K]
     }>): Request<RebootDBClusterResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.rebootDBCluster(
-          this.ops["RebootDBCluster"].applicator.apply(partialParams)
+          this.ops["RebootDBCluster"].apply(partialParams)
         );
     }
 
     invokeRebootDBInstance(partialParams: ToOptional<{
-      [K in keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage & keyof RebootDBInstanceMessage]: (RebootDBInstanceMessage & RebootDBInstanceMessage & RebootDBInstanceMessage & RebootDBInstanceMessage & RebootDBInstanceMessage & RebootDBInstanceMessage & RebootDBInstanceMessage & RebootDBInstanceMessage & RebootDBInstanceMessage & RebootDBInstanceMessage & RebootDBInstanceMessage & RebootDBInstanceMessage & RebootDBInstanceMessage & RebootDBInstanceMessage & RebootDBInstanceMessage & RebootDBInstanceMessage & RebootDBInstanceMessage & RebootDBInstanceMessage & RebootDBInstanceMessage)[K]
+      [K in keyof RebootDBInstanceMessage]: (RebootDBInstanceMessage)[K]
     }>): Request<RebootDBInstanceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.rebootDBInstance(
-          this.ops["RebootDBInstance"].applicator.apply(partialParams)
+          this.ops["RebootDBInstance"].apply(partialParams)
         );
     }
 
     invokeRegisterDBProxyTargets(partialParams: ToOptional<{
-      [K in keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest & keyof RegisterDBProxyTargetsRequest]: (RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest & RegisterDBProxyTargetsRequest)[K]
+      [K in keyof RegisterDBProxyTargetsRequest]: (RegisterDBProxyTargetsRequest)[K]
     }>): Request<RegisterDBProxyTargetsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.registerDBProxyTargets(
-          this.ops["RegisterDBProxyTargets"].applicator.apply(partialParams)
+          this.ops["RegisterDBProxyTargets"].apply(partialParams)
         );
     }
 
-    invokeRemoveRoleFromDBCluster(partialParams: ToOptional<{
-      [K in keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage & keyof RemoveRoleFromDBClusterMessage]: (RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage & RemoveRoleFromDBClusterMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeRemoveFromGlobalCluster(partialParams: ToOptional<{
+      [K in keyof RemoveFromGlobalClusterMessage]: (RemoveFromGlobalClusterMessage)[K]
+    }>): Request<RemoveFromGlobalClusterResult, AWSError> {
         this.boot();
-        return this.client.removeRoleFromDBCluster(
-          this.ops["RemoveRoleFromDBCluster"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeRemoveRoleFromDBInstance(partialParams: ToOptional<{
-      [K in keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage & keyof RemoveRoleFromDBInstanceMessage]: (RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage & RemoveRoleFromDBInstanceMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.removeRoleFromDBInstance(
-          this.ops["RemoveRoleFromDBInstance"].applicator.apply(partialParams)
+        return this.client.removeFromGlobalCluster(
+          this.ops["RemoveFromGlobalCluster"].apply(partialParams)
         );
     }
 
     invokeRemoveSourceIdentifierFromSubscription(partialParams: ToOptional<{
-      [K in keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage & keyof RemoveSourceIdentifierFromSubscriptionMessage]: (RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage & RemoveSourceIdentifierFromSubscriptionMessage)[K]
+      [K in keyof RemoveSourceIdentifierFromSubscriptionMessage]: (RemoveSourceIdentifierFromSubscriptionMessage)[K]
     }>): Request<RemoveSourceIdentifierFromSubscriptionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.removeSourceIdentifierFromSubscription(
-          this.ops["RemoveSourceIdentifierFromSubscription"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeRemoveTagsFromResource(partialParams: ToOptional<{
-      [K in keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage & keyof RemoveTagsFromResourceMessage]: (RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage & RemoveTagsFromResourceMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.removeTagsFromResource(
-          this.ops["RemoveTagsFromResource"].applicator.apply(partialParams)
+          this.ops["RemoveSourceIdentifierFromSubscription"].apply(partialParams)
         );
     }
 
     invokeResetDBClusterParameterGroup(partialParams: ToOptional<{
-      [K in keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage & keyof ResetDBClusterParameterGroupMessage]: (ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage & ResetDBClusterParameterGroupMessage)[K]
+      [K in keyof ResetDBClusterParameterGroupMessage]: (ResetDBClusterParameterGroupMessage)[K]
     }>): Request<DBClusterParameterGroupNameMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.resetDBClusterParameterGroup(
-          this.ops["ResetDBClusterParameterGroup"].applicator.apply(partialParams)
+          this.ops["ResetDBClusterParameterGroup"].apply(partialParams)
         );
     }
 
     invokeResetDBParameterGroup(partialParams: ToOptional<{
-      [K in keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage & keyof ResetDBParameterGroupMessage]: (ResetDBParameterGroupMessage & ResetDBParameterGroupMessage & ResetDBParameterGroupMessage & ResetDBParameterGroupMessage & ResetDBParameterGroupMessage & ResetDBParameterGroupMessage & ResetDBParameterGroupMessage & ResetDBParameterGroupMessage & ResetDBParameterGroupMessage & ResetDBParameterGroupMessage & ResetDBParameterGroupMessage & ResetDBParameterGroupMessage & ResetDBParameterGroupMessage & ResetDBParameterGroupMessage & ResetDBParameterGroupMessage & ResetDBParameterGroupMessage & ResetDBParameterGroupMessage & ResetDBParameterGroupMessage & ResetDBParameterGroupMessage)[K]
+      [K in keyof ResetDBParameterGroupMessage]: (ResetDBParameterGroupMessage)[K]
     }>): Request<DBParameterGroupNameMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.resetDBParameterGroup(
-          this.ops["ResetDBParameterGroup"].applicator.apply(partialParams)
+          this.ops["ResetDBParameterGroup"].apply(partialParams)
         );
     }
 
     invokeRestoreDBClusterFromS3(partialParams: ToOptional<{
-      [K in keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message & keyof RestoreDBClusterFromS3Message]: (RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message & RestoreDBClusterFromS3Message)[K]
+      [K in keyof RestoreDBClusterFromS3Message & keyof Omit<RestoreDBClusterFromS3Message, "Engine">]: (RestoreDBClusterFromS3Message)[K]
     }>): Request<RestoreDBClusterFromS3Result, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.restoreDBClusterFromS3(
-          this.ops["RestoreDBClusterFromS3"].applicator.apply(partialParams)
+          this.ops["RestoreDBClusterFromS3"].apply(partialParams)
         );
     }
 
     invokeRestoreDBClusterFromSnapshot(partialParams: ToOptional<{
-      [K in keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage & keyof RestoreDBClusterFromSnapshotMessage]: (RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage & RestoreDBClusterFromSnapshotMessage)[K]
+      [K in keyof RestoreDBClusterFromSnapshotMessage & keyof Omit<RestoreDBClusterFromSnapshotMessage, "Engine">]: (RestoreDBClusterFromSnapshotMessage)[K]
     }>): Request<RestoreDBClusterFromSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.restoreDBClusterFromSnapshot(
-          this.ops["RestoreDBClusterFromSnapshot"].applicator.apply(partialParams)
+          this.ops["RestoreDBClusterFromSnapshot"].apply(partialParams)
         );
     }
 
     invokeRestoreDBClusterToPointInTime(partialParams: ToOptional<{
-      [K in keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage & keyof RestoreDBClusterToPointInTimeMessage]: (RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage & RestoreDBClusterToPointInTimeMessage)[K]
+      [K in keyof RestoreDBClusterToPointInTimeMessage]: (RestoreDBClusterToPointInTimeMessage)[K]
     }>): Request<RestoreDBClusterToPointInTimeResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.restoreDBClusterToPointInTime(
-          this.ops["RestoreDBClusterToPointInTime"].applicator.apply(partialParams)
+          this.ops["RestoreDBClusterToPointInTime"].apply(partialParams)
         );
     }
 
     invokeRestoreDBInstanceFromDBSnapshot(partialParams: ToOptional<{
-      [K in keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage & keyof RestoreDBInstanceFromDBSnapshotMessage]: (RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage & RestoreDBInstanceFromDBSnapshotMessage)[K]
+      [K in keyof RestoreDBInstanceFromDBSnapshotMessage]: (RestoreDBInstanceFromDBSnapshotMessage)[K]
     }>): Request<RestoreDBInstanceFromDBSnapshotResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.restoreDBInstanceFromDBSnapshot(
-          this.ops["RestoreDBInstanceFromDBSnapshot"].applicator.apply(partialParams)
+          this.ops["RestoreDBInstanceFromDBSnapshot"].apply(partialParams)
         );
     }
 
     invokeRestoreDBInstanceFromS3(partialParams: ToOptional<{
-      [K in keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message & keyof RestoreDBInstanceFromS3Message]: (RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message & RestoreDBInstanceFromS3Message)[K]
+      [K in keyof RestoreDBInstanceFromS3Message & keyof Omit<RestoreDBInstanceFromS3Message, "Engine">]: (RestoreDBInstanceFromS3Message)[K]
     }>): Request<RestoreDBInstanceFromS3Result, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.restoreDBInstanceFromS3(
-          this.ops["RestoreDBInstanceFromS3"].applicator.apply(partialParams)
+          this.ops["RestoreDBInstanceFromS3"].apply(partialParams)
         );
     }
 
     invokeRestoreDBInstanceToPointInTime(partialParams: ToOptional<{
-      [K in keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage & keyof RestoreDBInstanceToPointInTimeMessage]: (RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage & RestoreDBInstanceToPointInTimeMessage)[K]
+      [K in keyof RestoreDBInstanceToPointInTimeMessage]: (RestoreDBInstanceToPointInTimeMessage)[K]
     }>): Request<RestoreDBInstanceToPointInTimeResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.restoreDBInstanceToPointInTime(
-          this.ops["RestoreDBInstanceToPointInTime"].applicator.apply(partialParams)
+          this.ops["RestoreDBInstanceToPointInTime"].apply(partialParams)
         );
     }
 
     invokeRevokeDBSecurityGroupIngress(partialParams: ToOptional<{
-      [K in keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage & keyof RevokeDBSecurityGroupIngressMessage]: (RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage & RevokeDBSecurityGroupIngressMessage)[K]
+      [K in keyof RevokeDBSecurityGroupIngressMessage]: (RevokeDBSecurityGroupIngressMessage)[K]
     }>): Request<RevokeDBSecurityGroupIngressResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.revokeDBSecurityGroupIngress(
-          this.ops["RevokeDBSecurityGroupIngress"].applicator.apply(partialParams)
+          this.ops["RevokeDBSecurityGroupIngress"].apply(partialParams)
         );
     }
 
     invokeStartActivityStream(partialParams: ToOptional<{
-      [K in keyof StartActivityStreamRequest & keyof StartActivityStreamRequest & keyof StartActivityStreamRequest & keyof StartActivityStreamRequest & keyof StartActivityStreamRequest & keyof StartActivityStreamRequest & keyof StartActivityStreamRequest & keyof StartActivityStreamRequest & keyof StartActivityStreamRequest & keyof StartActivityStreamRequest & keyof StartActivityStreamRequest & keyof StartActivityStreamRequest & keyof StartActivityStreamRequest & keyof StartActivityStreamRequest & keyof StartActivityStreamRequest & keyof StartActivityStreamRequest & keyof StartActivityStreamRequest & keyof StartActivityStreamRequest & keyof StartActivityStreamRequest]: (StartActivityStreamRequest & StartActivityStreamRequest & StartActivityStreamRequest & StartActivityStreamRequest & StartActivityStreamRequest & StartActivityStreamRequest & StartActivityStreamRequest & StartActivityStreamRequest & StartActivityStreamRequest & StartActivityStreamRequest & StartActivityStreamRequest & StartActivityStreamRequest & StartActivityStreamRequest & StartActivityStreamRequest & StartActivityStreamRequest & StartActivityStreamRequest & StartActivityStreamRequest & StartActivityStreamRequest & StartActivityStreamRequest)[K]
+      [K in keyof StartActivityStreamRequest & keyof Omit<StartActivityStreamRequest, "KmsKeyId">]: (StartActivityStreamRequest)[K]
     }>): Request<StartActivityStreamResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startActivityStream(
-          this.ops["StartActivityStream"].applicator.apply(partialParams)
+          this.ops["StartActivityStream"].apply(partialParams)
         );
     }
 
     invokeStartDBCluster(partialParams: ToOptional<{
-      [K in keyof StartDBClusterMessage & keyof StartDBClusterMessage & keyof StartDBClusterMessage & keyof StartDBClusterMessage & keyof StartDBClusterMessage & keyof StartDBClusterMessage & keyof StartDBClusterMessage & keyof StartDBClusterMessage & keyof StartDBClusterMessage & keyof StartDBClusterMessage & keyof StartDBClusterMessage & keyof StartDBClusterMessage & keyof StartDBClusterMessage & keyof StartDBClusterMessage & keyof StartDBClusterMessage & keyof StartDBClusterMessage & keyof StartDBClusterMessage & keyof StartDBClusterMessage & keyof StartDBClusterMessage]: (StartDBClusterMessage & StartDBClusterMessage & StartDBClusterMessage & StartDBClusterMessage & StartDBClusterMessage & StartDBClusterMessage & StartDBClusterMessage & StartDBClusterMessage & StartDBClusterMessage & StartDBClusterMessage & StartDBClusterMessage & StartDBClusterMessage & StartDBClusterMessage & StartDBClusterMessage & StartDBClusterMessage & StartDBClusterMessage & StartDBClusterMessage & StartDBClusterMessage & StartDBClusterMessage)[K]
+      [K in keyof StartDBClusterMessage]: (StartDBClusterMessage)[K]
     }>): Request<StartDBClusterResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startDBCluster(
-          this.ops["StartDBCluster"].applicator.apply(partialParams)
+          this.ops["StartDBCluster"].apply(partialParams)
         );
     }
 
     invokeStartDBInstance(partialParams: ToOptional<{
-      [K in keyof StartDBInstanceMessage & keyof StartDBInstanceMessage & keyof StartDBInstanceMessage & keyof StartDBInstanceMessage & keyof StartDBInstanceMessage & keyof StartDBInstanceMessage & keyof StartDBInstanceMessage & keyof StartDBInstanceMessage & keyof StartDBInstanceMessage & keyof StartDBInstanceMessage & keyof StartDBInstanceMessage & keyof StartDBInstanceMessage & keyof StartDBInstanceMessage & keyof StartDBInstanceMessage & keyof StartDBInstanceMessage & keyof StartDBInstanceMessage & keyof StartDBInstanceMessage & keyof StartDBInstanceMessage & keyof StartDBInstanceMessage]: (StartDBInstanceMessage & StartDBInstanceMessage & StartDBInstanceMessage & StartDBInstanceMessage & StartDBInstanceMessage & StartDBInstanceMessage & StartDBInstanceMessage & StartDBInstanceMessage & StartDBInstanceMessage & StartDBInstanceMessage & StartDBInstanceMessage & StartDBInstanceMessage & StartDBInstanceMessage & StartDBInstanceMessage & StartDBInstanceMessage & StartDBInstanceMessage & StartDBInstanceMessage & StartDBInstanceMessage & StartDBInstanceMessage)[K]
+      [K in keyof StartDBInstanceMessage]: (StartDBInstanceMessage)[K]
     }>): Request<StartDBInstanceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startDBInstance(
-          this.ops["StartDBInstance"].applicator.apply(partialParams)
+          this.ops["StartDBInstance"].apply(partialParams)
         );
     }
 
     invokeStartDBInstanceAutomatedBackupsReplication(partialParams: ToOptional<{
-      [K in keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage & keyof StartDBInstanceAutomatedBackupsReplicationMessage]: (StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage & StartDBInstanceAutomatedBackupsReplicationMessage)[K]
+      [K in keyof StartDBInstanceAutomatedBackupsReplicationMessage]: (StartDBInstanceAutomatedBackupsReplicationMessage)[K]
     }>): Request<StartDBInstanceAutomatedBackupsReplicationResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startDBInstanceAutomatedBackupsReplication(
-          this.ops["StartDBInstanceAutomatedBackupsReplication"].applicator.apply(partialParams)
+          this.ops["StartDBInstanceAutomatedBackupsReplication"].apply(partialParams)
         );
     }
 
     invokeStartExportTask(partialParams: ToOptional<{
-      [K in keyof StartExportTaskMessage & keyof StartExportTaskMessage & keyof StartExportTaskMessage & keyof StartExportTaskMessage & keyof StartExportTaskMessage & keyof StartExportTaskMessage & keyof StartExportTaskMessage & keyof StartExportTaskMessage & keyof StartExportTaskMessage & keyof StartExportTaskMessage & keyof StartExportTaskMessage & keyof StartExportTaskMessage & keyof StartExportTaskMessage & keyof StartExportTaskMessage & keyof StartExportTaskMessage & keyof StartExportTaskMessage & keyof StartExportTaskMessage & keyof StartExportTaskMessage & keyof StartExportTaskMessage]: (StartExportTaskMessage & StartExportTaskMessage & StartExportTaskMessage & StartExportTaskMessage & StartExportTaskMessage & StartExportTaskMessage & StartExportTaskMessage & StartExportTaskMessage & StartExportTaskMessage & StartExportTaskMessage & StartExportTaskMessage & StartExportTaskMessage & StartExportTaskMessage & StartExportTaskMessage & StartExportTaskMessage & StartExportTaskMessage & StartExportTaskMessage & StartExportTaskMessage & StartExportTaskMessage)[K]
+      [K in keyof StartExportTaskMessage & keyof Omit<StartExportTaskMessage, "KmsKeyId">]: (StartExportTaskMessage)[K]
     }>): Request<ExportTask, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startExportTask(
-          this.ops["StartExportTask"].applicator.apply(partialParams)
+          this.ops["StartExportTask"].apply(partialParams)
         );
     }
 
     invokeStopActivityStream(partialParams: ToOptional<{
-      [K in keyof StopActivityStreamRequest & keyof StopActivityStreamRequest & keyof StopActivityStreamRequest & keyof StopActivityStreamRequest & keyof StopActivityStreamRequest & keyof StopActivityStreamRequest & keyof StopActivityStreamRequest & keyof StopActivityStreamRequest & keyof StopActivityStreamRequest & keyof StopActivityStreamRequest & keyof StopActivityStreamRequest & keyof StopActivityStreamRequest & keyof StopActivityStreamRequest & keyof StopActivityStreamRequest & keyof StopActivityStreamRequest & keyof StopActivityStreamRequest & keyof StopActivityStreamRequest & keyof StopActivityStreamRequest & keyof StopActivityStreamRequest]: (StopActivityStreamRequest & StopActivityStreamRequest & StopActivityStreamRequest & StopActivityStreamRequest & StopActivityStreamRequest & StopActivityStreamRequest & StopActivityStreamRequest & StopActivityStreamRequest & StopActivityStreamRequest & StopActivityStreamRequest & StopActivityStreamRequest & StopActivityStreamRequest & StopActivityStreamRequest & StopActivityStreamRequest & StopActivityStreamRequest & StopActivityStreamRequest & StopActivityStreamRequest & StopActivityStreamRequest & StopActivityStreamRequest)[K]
+      [K in keyof StopActivityStreamRequest]: (StopActivityStreamRequest)[K]
     }>): Request<StopActivityStreamResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopActivityStream(
-          this.ops["StopActivityStream"].applicator.apply(partialParams)
+          this.ops["StopActivityStream"].apply(partialParams)
         );
     }
 
     invokeStopDBCluster(partialParams: ToOptional<{
-      [K in keyof StopDBClusterMessage & keyof StopDBClusterMessage & keyof StopDBClusterMessage & keyof StopDBClusterMessage & keyof StopDBClusterMessage & keyof StopDBClusterMessage & keyof StopDBClusterMessage & keyof StopDBClusterMessage & keyof StopDBClusterMessage & keyof StopDBClusterMessage & keyof StopDBClusterMessage & keyof StopDBClusterMessage & keyof StopDBClusterMessage & keyof StopDBClusterMessage & keyof StopDBClusterMessage & keyof StopDBClusterMessage & keyof StopDBClusterMessage & keyof StopDBClusterMessage & keyof StopDBClusterMessage]: (StopDBClusterMessage & StopDBClusterMessage & StopDBClusterMessage & StopDBClusterMessage & StopDBClusterMessage & StopDBClusterMessage & StopDBClusterMessage & StopDBClusterMessage & StopDBClusterMessage & StopDBClusterMessage & StopDBClusterMessage & StopDBClusterMessage & StopDBClusterMessage & StopDBClusterMessage & StopDBClusterMessage & StopDBClusterMessage & StopDBClusterMessage & StopDBClusterMessage & StopDBClusterMessage)[K]
+      [K in keyof StopDBClusterMessage]: (StopDBClusterMessage)[K]
     }>): Request<StopDBClusterResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopDBCluster(
-          this.ops["StopDBCluster"].applicator.apply(partialParams)
+          this.ops["StopDBCluster"].apply(partialParams)
         );
     }
 
     invokeStopDBInstance(partialParams: ToOptional<{
-      [K in keyof StopDBInstanceMessage & keyof StopDBInstanceMessage & keyof StopDBInstanceMessage & keyof StopDBInstanceMessage & keyof StopDBInstanceMessage & keyof StopDBInstanceMessage & keyof StopDBInstanceMessage & keyof StopDBInstanceMessage & keyof StopDBInstanceMessage & keyof StopDBInstanceMessage & keyof StopDBInstanceMessage & keyof StopDBInstanceMessage & keyof StopDBInstanceMessage & keyof StopDBInstanceMessage & keyof StopDBInstanceMessage & keyof StopDBInstanceMessage & keyof StopDBInstanceMessage & keyof StopDBInstanceMessage & keyof StopDBInstanceMessage]: (StopDBInstanceMessage & StopDBInstanceMessage & StopDBInstanceMessage & StopDBInstanceMessage & StopDBInstanceMessage & StopDBInstanceMessage & StopDBInstanceMessage & StopDBInstanceMessage & StopDBInstanceMessage & StopDBInstanceMessage & StopDBInstanceMessage & StopDBInstanceMessage & StopDBInstanceMessage & StopDBInstanceMessage & StopDBInstanceMessage & StopDBInstanceMessage & StopDBInstanceMessage & StopDBInstanceMessage & StopDBInstanceMessage)[K]
+      [K in keyof StopDBInstanceMessage]: (StopDBInstanceMessage)[K]
     }>): Request<StopDBInstanceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopDBInstance(
-          this.ops["StopDBInstance"].applicator.apply(partialParams)
+          this.ops["StopDBInstance"].apply(partialParams)
         );
     }
 
     invokeStopDBInstanceAutomatedBackupsReplication(partialParams: ToOptional<{
-      [K in keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage & keyof StopDBInstanceAutomatedBackupsReplicationMessage]: (StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage & StopDBInstanceAutomatedBackupsReplicationMessage)[K]
+      [K in keyof StopDBInstanceAutomatedBackupsReplicationMessage]: (StopDBInstanceAutomatedBackupsReplicationMessage)[K]
     }>): Request<StopDBInstanceAutomatedBackupsReplicationResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopDBInstanceAutomatedBackupsReplication(
-          this.ops["StopDBInstanceAutomatedBackupsReplication"].applicator.apply(partialParams)
+          this.ops["StopDBInstanceAutomatedBackupsReplication"].apply(partialParams)
         );
     }
 }

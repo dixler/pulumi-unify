@@ -5,27 +5,23 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    CancelJobRequest,
     CreateDataSetRequest,
     CreateEventActionRequest,
     CreateJobRequest,
     CreateRevisionRequest,
-    DeleteAssetRequest,
-    DeleteDataSetRequest,
-    DeleteEventActionRequest,
-    DeleteRevisionRequest,
     GetAssetRequest,
     GetDataSetRequest,
     GetEventActionRequest,
     GetJobRequest,
     GetRevisionRequest,
     ListDataSetRevisionsRequest,
+    ListDataSetsRequest,
+    ListEventActionsRequest,
+    ListJobsRequest,
     ListRevisionAssetsRequest,
     ListTagsForResourceRequest,
     SendApiAssetRequest,
     StartJobRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
     UpdateAssetRequest,
     UpdateDataSetRequest,
     UpdateEventActionRequest,
@@ -40,6 +36,9 @@ import {
     GetJobResponse,
     GetRevisionResponse,
     ListDataSetRevisionsResponse,
+    ListDataSetsResponse,
+    ListEventActionsResponse,
+    ListJobsResponse,
     ListRevisionAssetsResponse,
     ListTagsForResourceResponse,
     SendApiAssetResponse,
@@ -62,21 +61,24 @@ export default class extends aws.dataexchange.DataSet {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.dataexchange.DataSet>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.DataExchange()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -86,281 +88,196 @@ export default class extends aws.dataexchange.DataSet {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
-    }
-
-    invokeCancelJob(partialParams: ToOptional<{
-      [K in keyof CancelJobRequest & keyof CancelJobRequest & keyof CancelJobRequest & keyof CancelJobRequest]: (CancelJobRequest & CancelJobRequest & CancelJobRequest & CancelJobRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.cancelJob(
-          this.ops["CancelJob"].applicator.apply(partialParams)
-        );
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCreateDataSet(partialParams: ToOptional<{
-      [K in keyof CreateDataSetRequest & keyof Omit<CreateDataSetRequest, "AssetType"> & keyof CreateDataSetRequest & keyof CreateDataSetRequest]: (CreateDataSetRequest & Omit<CreateDataSetRequest, "AssetType"> & CreateDataSetRequest & CreateDataSetRequest)[K]
+      [K in keyof CreateDataSetRequest & keyof Omit<CreateDataSetRequest, "AssetType" | "Description" | "Name">]: (CreateDataSetRequest)[K]
     }>): Request<CreateDataSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDataSet(
-          this.ops["CreateDataSet"].applicator.apply(partialParams)
+          this.ops["CreateDataSet"].apply(partialParams)
         );
     }
 
     invokeCreateEventAction(partialParams: ToOptional<{
-      [K in keyof CreateEventActionRequest & keyof CreateEventActionRequest & keyof CreateEventActionRequest & keyof CreateEventActionRequest]: (CreateEventActionRequest & CreateEventActionRequest & CreateEventActionRequest & CreateEventActionRequest)[K]
+      [K in keyof CreateEventActionRequest]: (CreateEventActionRequest)[K]
     }>): Request<CreateEventActionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createEventAction(
-          this.ops["CreateEventAction"].applicator.apply(partialParams)
+          this.ops["CreateEventAction"].apply(partialParams)
         );
     }
 
     invokeCreateJob(partialParams: ToOptional<{
-      [K in keyof CreateJobRequest & keyof CreateJobRequest & keyof CreateJobRequest & keyof CreateJobRequest]: (CreateJobRequest & CreateJobRequest & CreateJobRequest & CreateJobRequest)[K]
+      [K in keyof CreateJobRequest]: (CreateJobRequest)[K]
     }>): Request<CreateJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createJob(
-          this.ops["CreateJob"].applicator.apply(partialParams)
+          this.ops["CreateJob"].apply(partialParams)
         );
     }
 
     invokeCreateRevision(partialParams: ToOptional<{
-      [K in keyof CreateRevisionRequest & keyof CreateRevisionRequest & keyof CreateRevisionRequest & keyof CreateRevisionRequest]: (CreateRevisionRequest & CreateRevisionRequest & CreateRevisionRequest & CreateRevisionRequest)[K]
+      [K in keyof CreateRevisionRequest]: (CreateRevisionRequest)[K]
     }>): Request<CreateRevisionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createRevision(
-          this.ops["CreateRevision"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteAsset(partialParams: ToOptional<{
-      [K in keyof DeleteAssetRequest & keyof DeleteAssetRequest & keyof DeleteAssetRequest & keyof DeleteAssetRequest]: (DeleteAssetRequest & DeleteAssetRequest & DeleteAssetRequest & DeleteAssetRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteAsset(
-          this.ops["DeleteAsset"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteDataSet(partialParams: ToOptional<{
-      [K in keyof DeleteDataSetRequest & keyof DeleteDataSetRequest & keyof DeleteDataSetRequest & keyof DeleteDataSetRequest]: (DeleteDataSetRequest & DeleteDataSetRequest & DeleteDataSetRequest & DeleteDataSetRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteDataSet(
-          this.ops["DeleteDataSet"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteEventAction(partialParams: ToOptional<{
-      [K in keyof DeleteEventActionRequest & keyof DeleteEventActionRequest & keyof DeleteEventActionRequest & keyof DeleteEventActionRequest]: (DeleteEventActionRequest & DeleteEventActionRequest & DeleteEventActionRequest & DeleteEventActionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteEventAction(
-          this.ops["DeleteEventAction"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteRevision(partialParams: ToOptional<{
-      [K in keyof DeleteRevisionRequest & keyof DeleteRevisionRequest & keyof DeleteRevisionRequest & keyof DeleteRevisionRequest]: (DeleteRevisionRequest & DeleteRevisionRequest & DeleteRevisionRequest & DeleteRevisionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteRevision(
-          this.ops["DeleteRevision"].applicator.apply(partialParams)
+          this.ops["CreateRevision"].apply(partialParams)
         );
     }
 
     invokeGetAsset(partialParams: ToOptional<{
-      [K in keyof GetAssetRequest & keyof GetAssetRequest & keyof GetAssetRequest & keyof GetAssetRequest]: (GetAssetRequest & GetAssetRequest & GetAssetRequest & GetAssetRequest)[K]
+      [K in keyof GetAssetRequest]: (GetAssetRequest)[K]
     }>): Request<GetAssetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getAsset(
-          this.ops["GetAsset"].applicator.apply(partialParams)
+          this.ops["GetAsset"].apply(partialParams)
         );
     }
 
     invokeGetDataSet(partialParams: ToOptional<{
-      [K in keyof GetDataSetRequest & keyof GetDataSetRequest & keyof GetDataSetRequest & keyof GetDataSetRequest]: (GetDataSetRequest & GetDataSetRequest & GetDataSetRequest & GetDataSetRequest)[K]
+      [K in keyof GetDataSetRequest]: (GetDataSetRequest)[K]
     }>): Request<GetDataSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDataSet(
-          this.ops["GetDataSet"].applicator.apply(partialParams)
+          this.ops["GetDataSet"].apply(partialParams)
         );
     }
 
     invokeGetEventAction(partialParams: ToOptional<{
-      [K in keyof GetEventActionRequest & keyof GetEventActionRequest & keyof GetEventActionRequest & keyof GetEventActionRequest]: (GetEventActionRequest & GetEventActionRequest & GetEventActionRequest & GetEventActionRequest)[K]
+      [K in keyof GetEventActionRequest]: (GetEventActionRequest)[K]
     }>): Request<GetEventActionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getEventAction(
-          this.ops["GetEventAction"].applicator.apply(partialParams)
+          this.ops["GetEventAction"].apply(partialParams)
         );
     }
 
     invokeGetJob(partialParams: ToOptional<{
-      [K in keyof GetJobRequest & keyof GetJobRequest & keyof GetJobRequest & keyof GetJobRequest]: (GetJobRequest & GetJobRequest & GetJobRequest & GetJobRequest)[K]
+      [K in keyof GetJobRequest]: (GetJobRequest)[K]
     }>): Request<GetJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getJob(
-          this.ops["GetJob"].applicator.apply(partialParams)
+          this.ops["GetJob"].apply(partialParams)
         );
     }
 
     invokeGetRevision(partialParams: ToOptional<{
-      [K in keyof GetRevisionRequest & keyof GetRevisionRequest & keyof GetRevisionRequest & keyof GetRevisionRequest]: (GetRevisionRequest & GetRevisionRequest & GetRevisionRequest & GetRevisionRequest)[K]
+      [K in keyof GetRevisionRequest]: (GetRevisionRequest)[K]
     }>): Request<GetRevisionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRevision(
-          this.ops["GetRevision"].applicator.apply(partialParams)
+          this.ops["GetRevision"].apply(partialParams)
         );
     }
 
     invokeListDataSetRevisions(partialParams: ToOptional<{
-      [K in keyof ListDataSetRevisionsRequest & keyof ListDataSetRevisionsRequest & keyof ListDataSetRevisionsRequest & keyof ListDataSetRevisionsRequest]: (ListDataSetRevisionsRequest & ListDataSetRevisionsRequest & ListDataSetRevisionsRequest & ListDataSetRevisionsRequest)[K]
+      [K in keyof ListDataSetRevisionsRequest]: (ListDataSetRevisionsRequest)[K]
     }>): Request<ListDataSetRevisionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listDataSetRevisions(
-          this.ops["ListDataSetRevisions"].applicator.apply(partialParams)
+          this.ops["ListDataSetRevisions"].apply(partialParams)
+        );
+    }
+
+    invokeListDataSets(partialParams: ToOptional<{
+      [K in keyof ListDataSetsRequest]: (ListDataSetsRequest)[K]
+    }>): Request<ListDataSetsResponse, AWSError> {
+        this.boot();
+        return this.client.listDataSets(
+          this.ops["ListDataSets"].apply(partialParams)
+        );
+    }
+
+    invokeListEventActions(partialParams: ToOptional<{
+      [K in keyof ListEventActionsRequest]: (ListEventActionsRequest)[K]
+    }>): Request<ListEventActionsResponse, AWSError> {
+        this.boot();
+        return this.client.listEventActions(
+          this.ops["ListEventActions"].apply(partialParams)
+        );
+    }
+
+    invokeListJobs(partialParams: ToOptional<{
+      [K in keyof ListJobsRequest]: (ListJobsRequest)[K]
+    }>): Request<ListJobsResponse, AWSError> {
+        this.boot();
+        return this.client.listJobs(
+          this.ops["ListJobs"].apply(partialParams)
         );
     }
 
     invokeListRevisionAssets(partialParams: ToOptional<{
-      [K in keyof ListRevisionAssetsRequest & keyof ListRevisionAssetsRequest & keyof ListRevisionAssetsRequest & keyof ListRevisionAssetsRequest]: (ListRevisionAssetsRequest & ListRevisionAssetsRequest & ListRevisionAssetsRequest & ListRevisionAssetsRequest)[K]
+      [K in keyof ListRevisionAssetsRequest]: (ListRevisionAssetsRequest)[K]
     }>): Request<ListRevisionAssetsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listRevisionAssets(
-          this.ops["ListRevisionAssets"].applicator.apply(partialParams)
+          this.ops["ListRevisionAssets"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeSendApiAsset(partialParams: ToOptional<{
-      [K in keyof SendApiAssetRequest & keyof SendApiAssetRequest & keyof SendApiAssetRequest & keyof SendApiAssetRequest]: (SendApiAssetRequest & SendApiAssetRequest & SendApiAssetRequest & SendApiAssetRequest)[K]
+      [K in keyof SendApiAssetRequest]: (SendApiAssetRequest)[K]
     }>): Request<SendApiAssetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.sendApiAsset(
-          this.ops["SendApiAsset"].applicator.apply(partialParams)
+          this.ops["SendApiAsset"].apply(partialParams)
         );
     }
 
     invokeStartJob(partialParams: ToOptional<{
-      [K in keyof StartJobRequest & keyof StartJobRequest & keyof StartJobRequest & keyof StartJobRequest]: (StartJobRequest & StartJobRequest & StartJobRequest & StartJobRequest)[K]
+      [K in keyof StartJobRequest]: (StartJobRequest)[K]
     }>): Request<StartJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startJob(
-          this.ops["StartJob"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["StartJob"].apply(partialParams)
         );
     }
 
     invokeUpdateAsset(partialParams: ToOptional<{
-      [K in keyof UpdateAssetRequest & keyof UpdateAssetRequest & keyof UpdateAssetRequest & keyof Omit<UpdateAssetRequest, "Name">]: (UpdateAssetRequest & UpdateAssetRequest & UpdateAssetRequest & Omit<UpdateAssetRequest, "Name">)[K]
+      [K in keyof UpdateAssetRequest & keyof Omit<UpdateAssetRequest, "Name">]: (UpdateAssetRequest)[K]
     }>): Request<UpdateAssetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateAsset(
-          this.ops["UpdateAsset"].applicator.apply(partialParams)
+          this.ops["UpdateAsset"].apply(partialParams)
         );
     }
 
     invokeUpdateDataSet(partialParams: ToOptional<{
-      [K in keyof UpdateDataSetRequest & keyof UpdateDataSetRequest & keyof UpdateDataSetRequest & keyof UpdateDataSetRequest]: (UpdateDataSetRequest & UpdateDataSetRequest & UpdateDataSetRequest & UpdateDataSetRequest)[K]
+      [K in keyof UpdateDataSetRequest]: (UpdateDataSetRequest)[K]
     }>): Request<UpdateDataSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDataSet(
-          this.ops["UpdateDataSet"].applicator.apply(partialParams)
+          this.ops["UpdateDataSet"].apply(partialParams)
         );
     }
 
     invokeUpdateEventAction(partialParams: ToOptional<{
-      [K in keyof UpdateEventActionRequest & keyof UpdateEventActionRequest & keyof UpdateEventActionRequest & keyof UpdateEventActionRequest]: (UpdateEventActionRequest & UpdateEventActionRequest & UpdateEventActionRequest & UpdateEventActionRequest)[K]
+      [K in keyof UpdateEventActionRequest]: (UpdateEventActionRequest)[K]
     }>): Request<UpdateEventActionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateEventAction(
-          this.ops["UpdateEventAction"].applicator.apply(partialParams)
+          this.ops["UpdateEventAction"].apply(partialParams)
         );
     }
 
     invokeUpdateRevision(partialParams: ToOptional<{
-      [K in keyof UpdateRevisionRequest & keyof UpdateRevisionRequest & keyof UpdateRevisionRequest & keyof UpdateRevisionRequest]: (UpdateRevisionRequest & UpdateRevisionRequest & UpdateRevisionRequest & UpdateRevisionRequest)[K]
+      [K in keyof UpdateRevisionRequest]: (UpdateRevisionRequest)[K]
     }>): Request<UpdateRevisionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateRevision(
-          this.ops["UpdateRevision"].applicator.apply(partialParams)
+          this.ops["UpdateRevision"].apply(partialParams)
         );
     }
 }

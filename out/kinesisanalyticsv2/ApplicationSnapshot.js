@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.kinesisanalyticsv2.ApplicationSnapshot {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.KinesisAnalyticsV2();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,187 +50,132 @@ class default_1 extends aws.kinesisanalyticsv2.ApplicationSnapshot {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAddApplicationCloudWatchLoggingOption(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.addApplicationCloudWatchLoggingOption(this.ops["AddApplicationCloudWatchLoggingOption"].applicator.apply(partialParams));
+        return this.client.addApplicationCloudWatchLoggingOption(this.ops["AddApplicationCloudWatchLoggingOption"].apply(partialParams));
     }
     invokeAddApplicationInput(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.addApplicationInput(this.ops["AddApplicationInput"].applicator.apply(partialParams));
+        return this.client.addApplicationInput(this.ops["AddApplicationInput"].apply(partialParams));
     }
     invokeAddApplicationInputProcessingConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.addApplicationInputProcessingConfiguration(this.ops["AddApplicationInputProcessingConfiguration"].applicator.apply(partialParams));
+        return this.client.addApplicationInputProcessingConfiguration(this.ops["AddApplicationInputProcessingConfiguration"].apply(partialParams));
     }
     invokeAddApplicationOutput(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.addApplicationOutput(this.ops["AddApplicationOutput"].applicator.apply(partialParams));
+        return this.client.addApplicationOutput(this.ops["AddApplicationOutput"].apply(partialParams));
     }
     invokeAddApplicationReferenceDataSource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.addApplicationReferenceDataSource(this.ops["AddApplicationReferenceDataSource"].applicator.apply(partialParams));
+        return this.client.addApplicationReferenceDataSource(this.ops["AddApplicationReferenceDataSource"].apply(partialParams));
     }
     invokeAddApplicationVpcConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.addApplicationVpcConfiguration(this.ops["AddApplicationVpcConfiguration"].applicator.apply(partialParams));
+        return this.client.addApplicationVpcConfiguration(this.ops["AddApplicationVpcConfiguration"].apply(partialParams));
     }
     invokeCreateApplication(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createApplication(this.ops["CreateApplication"].applicator.apply(partialParams));
+        return this.client.createApplication(this.ops["CreateApplication"].apply(partialParams));
     }
     invokeCreateApplicationPresignedUrl(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createApplicationPresignedUrl(this.ops["CreateApplicationPresignedUrl"].applicator.apply(partialParams));
+        return this.client.createApplicationPresignedUrl(this.ops["CreateApplicationPresignedUrl"].apply(partialParams));
     }
     invokeCreateApplicationSnapshot(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createApplicationSnapshot(this.ops["CreateApplicationSnapshot"].applicator.apply(partialParams));
+        return this.client.createApplicationSnapshot(this.ops["CreateApplicationSnapshot"].apply(partialParams));
     }
     invokeDeleteApplication(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteApplication(this.ops["DeleteApplication"].applicator.apply(partialParams));
+        return this.client.deleteApplication(this.ops["DeleteApplication"].apply(partialParams));
     }
     invokeDeleteApplicationCloudWatchLoggingOption(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteApplicationCloudWatchLoggingOption(this.ops["DeleteApplicationCloudWatchLoggingOption"].applicator.apply(partialParams));
+        return this.client.deleteApplicationCloudWatchLoggingOption(this.ops["DeleteApplicationCloudWatchLoggingOption"].apply(partialParams));
     }
     invokeDeleteApplicationInputProcessingConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteApplicationInputProcessingConfiguration(this.ops["DeleteApplicationInputProcessingConfiguration"].applicator.apply(partialParams));
+        return this.client.deleteApplicationInputProcessingConfiguration(this.ops["DeleteApplicationInputProcessingConfiguration"].apply(partialParams));
     }
     invokeDeleteApplicationOutput(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteApplicationOutput(this.ops["DeleteApplicationOutput"].applicator.apply(partialParams));
+        return this.client.deleteApplicationOutput(this.ops["DeleteApplicationOutput"].apply(partialParams));
     }
     invokeDeleteApplicationReferenceDataSource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteApplicationReferenceDataSource(this.ops["DeleteApplicationReferenceDataSource"].applicator.apply(partialParams));
+        return this.client.deleteApplicationReferenceDataSource(this.ops["DeleteApplicationReferenceDataSource"].apply(partialParams));
     }
     invokeDeleteApplicationSnapshot(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteApplicationSnapshot(this.ops["DeleteApplicationSnapshot"].applicator.apply(partialParams));
+        return this.client.deleteApplicationSnapshot(this.ops["DeleteApplicationSnapshot"].apply(partialParams));
     }
     invokeDeleteApplicationVpcConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteApplicationVpcConfiguration(this.ops["DeleteApplicationVpcConfiguration"].applicator.apply(partialParams));
+        return this.client.deleteApplicationVpcConfiguration(this.ops["DeleteApplicationVpcConfiguration"].apply(partialParams));
     }
     invokeDescribeApplication(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeApplication(this.ops["DescribeApplication"].applicator.apply(partialParams));
+        return this.client.describeApplication(this.ops["DescribeApplication"].apply(partialParams));
     }
     invokeDescribeApplicationSnapshot(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeApplicationSnapshot(this.ops["DescribeApplicationSnapshot"].applicator.apply(partialParams));
+        return this.client.describeApplicationSnapshot(this.ops["DescribeApplicationSnapshot"].apply(partialParams));
     }
     invokeDescribeApplicationVersion(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeApplicationVersion(this.ops["DescribeApplicationVersion"].applicator.apply(partialParams));
+        return this.client.describeApplicationVersion(this.ops["DescribeApplicationVersion"].apply(partialParams));
     }
     invokeDiscoverInputSchema(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.discoverInputSchema(this.ops["DiscoverInputSchema"].applicator.apply(partialParams));
+        return this.client.discoverInputSchema(this.ops["DiscoverInputSchema"].apply(partialParams));
     }
     invokeListApplicationSnapshots(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listApplicationSnapshots(this.ops["ListApplicationSnapshots"].applicator.apply(partialParams));
+        return this.client.listApplicationSnapshots(this.ops["ListApplicationSnapshots"].apply(partialParams));
     }
     invokeListApplicationVersions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listApplicationVersions(this.ops["ListApplicationVersions"].applicator.apply(partialParams));
+        return this.client.listApplicationVersions(this.ops["ListApplicationVersions"].apply(partialParams));
+    }
+    invokeListApplications(partialParams) {
+        this.boot();
+        return this.client.listApplications(this.ops["ListApplications"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeRollbackApplication(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.rollbackApplication(this.ops["RollbackApplication"].applicator.apply(partialParams));
+        return this.client.rollbackApplication(this.ops["RollbackApplication"].apply(partialParams));
     }
     invokeStartApplication(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startApplication(this.ops["StartApplication"].applicator.apply(partialParams));
+        return this.client.startApplication(this.ops["StartApplication"].apply(partialParams));
     }
     invokeStopApplication(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.stopApplication(this.ops["StopApplication"].applicator.apply(partialParams));
+        return this.client.stopApplication(this.ops["StopApplication"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateApplication(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateApplication(this.ops["UpdateApplication"].applicator.apply(partialParams));
+        return this.client.updateApplication(this.ops["UpdateApplication"].apply(partialParams));
     }
     invokeUpdateApplicationMaintenanceConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateApplicationMaintenanceConfiguration(this.ops["UpdateApplicationMaintenanceConfiguration"].applicator.apply(partialParams));
+        return this.client.updateApplicationMaintenanceConfiguration(this.ops["UpdateApplicationMaintenanceConfiguration"].apply(partialParams));
     }
 }
 exports.default = default_1;

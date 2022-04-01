@@ -33,16 +33,20 @@ import {
     GetFindingsRequest,
     GetFindingsStatisticsRequest,
     GetIPSetRequest,
+    GetInvitationsCountRequest,
     GetMasterAccountRequest,
     GetMemberDetectorsRequest,
     GetMembersRequest,
     GetThreatIntelSetRequest,
     GetUsageStatisticsRequest,
     InviteMembersRequest,
+    ListDetectorsRequest,
     ListFiltersRequest,
     ListFindingsRequest,
     ListIPSetsRequest,
+    ListInvitationsRequest,
     ListMembersRequest,
+    ListOrganizationAdminAccountsRequest,
     ListPublishingDestinationsRequest,
     ListTagsForResourceRequest,
     ListThreatIntelSetsRequest,
@@ -87,16 +91,20 @@ import {
     GetFindingsResponse,
     GetFindingsStatisticsResponse,
     GetIPSetResponse,
+    GetInvitationsCountResponse,
     GetMasterAccountResponse,
     GetMemberDetectorsResponse,
     GetMembersResponse,
     GetThreatIntelSetResponse,
     GetUsageStatisticsResponse,
     InviteMembersResponse,
+    ListDetectorsResponse,
     ListFiltersResponse,
     ListFindingsResponse,
     ListIPSetsResponse,
+    ListInvitationsResponse,
     ListMembersResponse,
+    ListOrganizationAdminAccountsResponse,
     ListPublishingDestinationsResponse,
     ListTagsForResourceResponse,
     ListThreatIntelSetsResponse,
@@ -127,21 +135,24 @@ export default class extends aws.guardduty.Filter {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.guardduty.Filter>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.GuardDuty()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -151,600 +162,529 @@ export default class extends aws.guardduty.Filter {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAcceptInvitation(partialParams: ToOptional<{
-      [K in keyof AcceptInvitationRequest & keyof AcceptInvitationRequest & keyof AcceptInvitationRequest & keyof AcceptInvitationRequest & keyof AcceptInvitationRequest]: (AcceptInvitationRequest & AcceptInvitationRequest & AcceptInvitationRequest & AcceptInvitationRequest & AcceptInvitationRequest)[K]
+      [K in keyof AcceptInvitationRequest & keyof Omit<AcceptInvitationRequest, "DetectorId">]: (AcceptInvitationRequest)[K]
     }>): Request<AcceptInvitationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.acceptInvitation(
-          this.ops["AcceptInvitation"].applicator.apply(partialParams)
+          this.ops["AcceptInvitation"].apply(partialParams)
         );
     }
 
     invokeArchiveFindings(partialParams: ToOptional<{
-      [K in keyof ArchiveFindingsRequest & keyof ArchiveFindingsRequest & keyof ArchiveFindingsRequest & keyof ArchiveFindingsRequest & keyof ArchiveFindingsRequest]: (ArchiveFindingsRequest & ArchiveFindingsRequest & ArchiveFindingsRequest & ArchiveFindingsRequest & ArchiveFindingsRequest)[K]
+      [K in keyof ArchiveFindingsRequest & keyof Omit<ArchiveFindingsRequest, "DetectorId">]: (ArchiveFindingsRequest)[K]
     }>): Request<ArchiveFindingsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.archiveFindings(
-          this.ops["ArchiveFindings"].applicator.apply(partialParams)
+          this.ops["ArchiveFindings"].apply(partialParams)
         );
     }
 
     invokeCreateDetector(partialParams: ToOptional<{
-      [K in keyof CreateDetectorRequest & keyof CreateDetectorRequest & keyof CreateDetectorRequest & keyof CreateDetectorRequest & keyof CreateDetectorRequest]: (CreateDetectorRequest & CreateDetectorRequest & CreateDetectorRequest & CreateDetectorRequest & CreateDetectorRequest)[K]
+      [K in keyof CreateDetectorRequest]: (CreateDetectorRequest)[K]
     }>): Request<CreateDetectorResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDetector(
-          this.ops["CreateDetector"].applicator.apply(partialParams)
+          this.ops["CreateDetector"].apply(partialParams)
         );
     }
 
     invokeCreateFilter(partialParams: ToOptional<{
-      [K in keyof CreateFilterRequest & keyof CreateFilterRequest & keyof CreateFilterRequest & keyof CreateFilterRequest & keyof CreateFilterRequest]: (CreateFilterRequest & CreateFilterRequest & CreateFilterRequest & CreateFilterRequest & CreateFilterRequest)[K]
+      [K in keyof CreateFilterRequest & keyof Omit<CreateFilterRequest, "DetectorId" | "Name">]: (CreateFilterRequest)[K]
     }>): Request<CreateFilterResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createFilter(
-          this.ops["CreateFilter"].applicator.apply(partialParams)
+          this.ops["CreateFilter"].apply(partialParams)
         );
     }
 
     invokeCreateIPSet(partialParams: ToOptional<{
-      [K in keyof CreateIPSetRequest & keyof CreateIPSetRequest & keyof CreateIPSetRequest & keyof CreateIPSetRequest & keyof CreateIPSetRequest]: (CreateIPSetRequest & CreateIPSetRequest & CreateIPSetRequest & CreateIPSetRequest & CreateIPSetRequest)[K]
+      [K in keyof CreateIPSetRequest & keyof Omit<CreateIPSetRequest, "DetectorId" | "Name">]: (CreateIPSetRequest)[K]
     }>): Request<CreateIPSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createIPSet(
-          this.ops["CreateIPSet"].applicator.apply(partialParams)
+          this.ops["CreateIPSet"].apply(partialParams)
         );
     }
 
     invokeCreateMembers(partialParams: ToOptional<{
-      [K in keyof CreateMembersRequest & keyof CreateMembersRequest & keyof CreateMembersRequest & keyof CreateMembersRequest & keyof CreateMembersRequest]: (CreateMembersRequest & CreateMembersRequest & CreateMembersRequest & CreateMembersRequest & CreateMembersRequest)[K]
+      [K in keyof CreateMembersRequest & keyof Omit<CreateMembersRequest, "DetectorId">]: (CreateMembersRequest)[K]
     }>): Request<CreateMembersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createMembers(
-          this.ops["CreateMembers"].applicator.apply(partialParams)
+          this.ops["CreateMembers"].apply(partialParams)
         );
     }
 
     invokeCreatePublishingDestination(partialParams: ToOptional<{
-      [K in keyof CreatePublishingDestinationRequest & keyof CreatePublishingDestinationRequest & keyof CreatePublishingDestinationRequest & keyof CreatePublishingDestinationRequest & keyof CreatePublishingDestinationRequest]: (CreatePublishingDestinationRequest & CreatePublishingDestinationRequest & CreatePublishingDestinationRequest & CreatePublishingDestinationRequest & CreatePublishingDestinationRequest)[K]
+      [K in keyof CreatePublishingDestinationRequest & keyof Omit<CreatePublishingDestinationRequest, "DetectorId">]: (CreatePublishingDestinationRequest)[K]
     }>): Request<CreatePublishingDestinationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createPublishingDestination(
-          this.ops["CreatePublishingDestination"].applicator.apply(partialParams)
+          this.ops["CreatePublishingDestination"].apply(partialParams)
         );
     }
 
     invokeCreateSampleFindings(partialParams: ToOptional<{
-      [K in keyof CreateSampleFindingsRequest & keyof CreateSampleFindingsRequest & keyof CreateSampleFindingsRequest & keyof CreateSampleFindingsRequest & keyof CreateSampleFindingsRequest]: (CreateSampleFindingsRequest & CreateSampleFindingsRequest & CreateSampleFindingsRequest & CreateSampleFindingsRequest & CreateSampleFindingsRequest)[K]
+      [K in keyof CreateSampleFindingsRequest & keyof Omit<CreateSampleFindingsRequest, "DetectorId">]: (CreateSampleFindingsRequest)[K]
     }>): Request<CreateSampleFindingsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createSampleFindings(
-          this.ops["CreateSampleFindings"].applicator.apply(partialParams)
+          this.ops["CreateSampleFindings"].apply(partialParams)
         );
     }
 
     invokeCreateThreatIntelSet(partialParams: ToOptional<{
-      [K in keyof CreateThreatIntelSetRequest & keyof CreateThreatIntelSetRequest & keyof CreateThreatIntelSetRequest & keyof CreateThreatIntelSetRequest & keyof CreateThreatIntelSetRequest]: (CreateThreatIntelSetRequest & CreateThreatIntelSetRequest & CreateThreatIntelSetRequest & CreateThreatIntelSetRequest & CreateThreatIntelSetRequest)[K]
+      [K in keyof CreateThreatIntelSetRequest & keyof Omit<CreateThreatIntelSetRequest, "DetectorId" | "Name">]: (CreateThreatIntelSetRequest)[K]
     }>): Request<CreateThreatIntelSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createThreatIntelSet(
-          this.ops["CreateThreatIntelSet"].applicator.apply(partialParams)
+          this.ops["CreateThreatIntelSet"].apply(partialParams)
         );
     }
 
     invokeDeclineInvitations(partialParams: ToOptional<{
-      [K in keyof DeclineInvitationsRequest & keyof DeclineInvitationsRequest & keyof DeclineInvitationsRequest & keyof DeclineInvitationsRequest & keyof DeclineInvitationsRequest]: (DeclineInvitationsRequest & DeclineInvitationsRequest & DeclineInvitationsRequest & DeclineInvitationsRequest & DeclineInvitationsRequest)[K]
+      [K in keyof DeclineInvitationsRequest]: (DeclineInvitationsRequest)[K]
     }>): Request<DeclineInvitationsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.declineInvitations(
-          this.ops["DeclineInvitations"].applicator.apply(partialParams)
+          this.ops["DeclineInvitations"].apply(partialParams)
         );
     }
 
     invokeDeleteDetector(partialParams: ToOptional<{
-      [K in keyof DeleteDetectorRequest & keyof DeleteDetectorRequest & keyof DeleteDetectorRequest & keyof DeleteDetectorRequest & keyof DeleteDetectorRequest]: (DeleteDetectorRequest & DeleteDetectorRequest & DeleteDetectorRequest & DeleteDetectorRequest & DeleteDetectorRequest)[K]
+      [K in keyof DeleteDetectorRequest & keyof Omit<DeleteDetectorRequest, "DetectorId">]: (DeleteDetectorRequest)[K]
     }>): Request<DeleteDetectorResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDetector(
-          this.ops["DeleteDetector"].applicator.apply(partialParams)
+          this.ops["DeleteDetector"].apply(partialParams)
         );
     }
 
     invokeDeleteFilter(partialParams: ToOptional<{
-      [K in keyof DeleteFilterRequest & keyof DeleteFilterRequest & keyof DeleteFilterRequest & keyof DeleteFilterRequest & keyof DeleteFilterRequest]: (DeleteFilterRequest & DeleteFilterRequest & DeleteFilterRequest & DeleteFilterRequest & DeleteFilterRequest)[K]
+      [K in keyof DeleteFilterRequest & keyof Omit<DeleteFilterRequest, "DetectorId" | "FilterName">]: (DeleteFilterRequest)[K]
     }>): Request<DeleteFilterResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteFilter(
-          this.ops["DeleteFilter"].applicator.apply(partialParams)
+          this.ops["DeleteFilter"].apply(partialParams)
         );
     }
 
     invokeDeleteIPSet(partialParams: ToOptional<{
-      [K in keyof DeleteIPSetRequest & keyof DeleteIPSetRequest & keyof DeleteIPSetRequest & keyof DeleteIPSetRequest & keyof DeleteIPSetRequest]: (DeleteIPSetRequest & DeleteIPSetRequest & DeleteIPSetRequest & DeleteIPSetRequest & DeleteIPSetRequest)[K]
+      [K in keyof DeleteIPSetRequest & keyof Omit<DeleteIPSetRequest, "DetectorId">]: (DeleteIPSetRequest)[K]
     }>): Request<DeleteIPSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteIPSet(
-          this.ops["DeleteIPSet"].applicator.apply(partialParams)
+          this.ops["DeleteIPSet"].apply(partialParams)
         );
     }
 
     invokeDeleteInvitations(partialParams: ToOptional<{
-      [K in keyof DeleteInvitationsRequest & keyof DeleteInvitationsRequest & keyof DeleteInvitationsRequest & keyof DeleteInvitationsRequest & keyof DeleteInvitationsRequest]: (DeleteInvitationsRequest & DeleteInvitationsRequest & DeleteInvitationsRequest & DeleteInvitationsRequest & DeleteInvitationsRequest)[K]
+      [K in keyof DeleteInvitationsRequest]: (DeleteInvitationsRequest)[K]
     }>): Request<DeleteInvitationsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteInvitations(
-          this.ops["DeleteInvitations"].applicator.apply(partialParams)
+          this.ops["DeleteInvitations"].apply(partialParams)
         );
     }
 
     invokeDeleteMembers(partialParams: ToOptional<{
-      [K in keyof DeleteMembersRequest & keyof DeleteMembersRequest & keyof DeleteMembersRequest & keyof DeleteMembersRequest & keyof DeleteMembersRequest]: (DeleteMembersRequest & DeleteMembersRequest & DeleteMembersRequest & DeleteMembersRequest & DeleteMembersRequest)[K]
+      [K in keyof DeleteMembersRequest & keyof Omit<DeleteMembersRequest, "DetectorId">]: (DeleteMembersRequest)[K]
     }>): Request<DeleteMembersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteMembers(
-          this.ops["DeleteMembers"].applicator.apply(partialParams)
+          this.ops["DeleteMembers"].apply(partialParams)
         );
     }
 
     invokeDeletePublishingDestination(partialParams: ToOptional<{
-      [K in keyof DeletePublishingDestinationRequest & keyof DeletePublishingDestinationRequest & keyof DeletePublishingDestinationRequest & keyof DeletePublishingDestinationRequest & keyof DeletePublishingDestinationRequest]: (DeletePublishingDestinationRequest & DeletePublishingDestinationRequest & DeletePublishingDestinationRequest & DeletePublishingDestinationRequest & DeletePublishingDestinationRequest)[K]
+      [K in keyof DeletePublishingDestinationRequest & keyof Omit<DeletePublishingDestinationRequest, "DetectorId">]: (DeletePublishingDestinationRequest)[K]
     }>): Request<DeletePublishingDestinationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deletePublishingDestination(
-          this.ops["DeletePublishingDestination"].applicator.apply(partialParams)
+          this.ops["DeletePublishingDestination"].apply(partialParams)
         );
     }
 
     invokeDeleteThreatIntelSet(partialParams: ToOptional<{
-      [K in keyof DeleteThreatIntelSetRequest & keyof DeleteThreatIntelSetRequest & keyof DeleteThreatIntelSetRequest & keyof DeleteThreatIntelSetRequest & keyof DeleteThreatIntelSetRequest]: (DeleteThreatIntelSetRequest & DeleteThreatIntelSetRequest & DeleteThreatIntelSetRequest & DeleteThreatIntelSetRequest & DeleteThreatIntelSetRequest)[K]
+      [K in keyof DeleteThreatIntelSetRequest & keyof Omit<DeleteThreatIntelSetRequest, "DetectorId">]: (DeleteThreatIntelSetRequest)[K]
     }>): Request<DeleteThreatIntelSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteThreatIntelSet(
-          this.ops["DeleteThreatIntelSet"].applicator.apply(partialParams)
+          this.ops["DeleteThreatIntelSet"].apply(partialParams)
         );
     }
 
     invokeDescribeOrganizationConfiguration(partialParams: ToOptional<{
-      [K in keyof DescribeOrganizationConfigurationRequest & keyof DescribeOrganizationConfigurationRequest & keyof DescribeOrganizationConfigurationRequest & keyof DescribeOrganizationConfigurationRequest & keyof DescribeOrganizationConfigurationRequest]: (DescribeOrganizationConfigurationRequest & DescribeOrganizationConfigurationRequest & DescribeOrganizationConfigurationRequest & DescribeOrganizationConfigurationRequest & DescribeOrganizationConfigurationRequest)[K]
+      [K in keyof DescribeOrganizationConfigurationRequest & keyof Omit<DescribeOrganizationConfigurationRequest, "DetectorId">]: (DescribeOrganizationConfigurationRequest)[K]
     }>): Request<DescribeOrganizationConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeOrganizationConfiguration(
-          this.ops["DescribeOrganizationConfiguration"].applicator.apply(partialParams)
+          this.ops["DescribeOrganizationConfiguration"].apply(partialParams)
         );
     }
 
     invokeDescribePublishingDestination(partialParams: ToOptional<{
-      [K in keyof DescribePublishingDestinationRequest & keyof DescribePublishingDestinationRequest & keyof DescribePublishingDestinationRequest & keyof DescribePublishingDestinationRequest & keyof DescribePublishingDestinationRequest]: (DescribePublishingDestinationRequest & DescribePublishingDestinationRequest & DescribePublishingDestinationRequest & DescribePublishingDestinationRequest & DescribePublishingDestinationRequest)[K]
+      [K in keyof DescribePublishingDestinationRequest & keyof Omit<DescribePublishingDestinationRequest, "DetectorId">]: (DescribePublishingDestinationRequest)[K]
     }>): Request<DescribePublishingDestinationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describePublishingDestination(
-          this.ops["DescribePublishingDestination"].applicator.apply(partialParams)
+          this.ops["DescribePublishingDestination"].apply(partialParams)
         );
     }
 
     invokeDisableOrganizationAdminAccount(partialParams: ToOptional<{
-      [K in keyof DisableOrganizationAdminAccountRequest & keyof DisableOrganizationAdminAccountRequest & keyof DisableOrganizationAdminAccountRequest & keyof DisableOrganizationAdminAccountRequest & keyof DisableOrganizationAdminAccountRequest]: (DisableOrganizationAdminAccountRequest & DisableOrganizationAdminAccountRequest & DisableOrganizationAdminAccountRequest & DisableOrganizationAdminAccountRequest & DisableOrganizationAdminAccountRequest)[K]
+      [K in keyof DisableOrganizationAdminAccountRequest]: (DisableOrganizationAdminAccountRequest)[K]
     }>): Request<DisableOrganizationAdminAccountResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disableOrganizationAdminAccount(
-          this.ops["DisableOrganizationAdminAccount"].applicator.apply(partialParams)
+          this.ops["DisableOrganizationAdminAccount"].apply(partialParams)
         );
     }
 
     invokeDisassociateFromMasterAccount(partialParams: ToOptional<{
-      [K in keyof DisassociateFromMasterAccountRequest & keyof DisassociateFromMasterAccountRequest & keyof DisassociateFromMasterAccountRequest & keyof Omit<DisassociateFromMasterAccountRequest, "DetectorId"> & keyof DisassociateFromMasterAccountRequest]: (DisassociateFromMasterAccountRequest & DisassociateFromMasterAccountRequest & DisassociateFromMasterAccountRequest & Omit<DisassociateFromMasterAccountRequest, "DetectorId"> & DisassociateFromMasterAccountRequest)[K]
+      [K in keyof DisassociateFromMasterAccountRequest & keyof Omit<DisassociateFromMasterAccountRequest, "DetectorId">]: (DisassociateFromMasterAccountRequest)[K]
     }>): Request<DisassociateFromMasterAccountResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateFromMasterAccount(
-          this.ops["DisassociateFromMasterAccount"].applicator.apply(partialParams)
+          this.ops["DisassociateFromMasterAccount"].apply(partialParams)
         );
     }
 
     invokeDisassociateMembers(partialParams: ToOptional<{
-      [K in keyof DisassociateMembersRequest & keyof DisassociateMembersRequest & keyof DisassociateMembersRequest & keyof Omit<DisassociateMembersRequest, "DetectorId"> & keyof DisassociateMembersRequest]: (DisassociateMembersRequest & DisassociateMembersRequest & DisassociateMembersRequest & Omit<DisassociateMembersRequest, "DetectorId"> & DisassociateMembersRequest)[K]
+      [K in keyof DisassociateMembersRequest & keyof Omit<DisassociateMembersRequest, "DetectorId">]: (DisassociateMembersRequest)[K]
     }>): Request<DisassociateMembersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateMembers(
-          this.ops["DisassociateMembers"].applicator.apply(partialParams)
+          this.ops["DisassociateMembers"].apply(partialParams)
         );
     }
 
     invokeEnableOrganizationAdminAccount(partialParams: ToOptional<{
-      [K in keyof EnableOrganizationAdminAccountRequest & keyof EnableOrganizationAdminAccountRequest & keyof EnableOrganizationAdminAccountRequest & keyof EnableOrganizationAdminAccountRequest & keyof EnableOrganizationAdminAccountRequest]: (EnableOrganizationAdminAccountRequest & EnableOrganizationAdminAccountRequest & EnableOrganizationAdminAccountRequest & EnableOrganizationAdminAccountRequest & EnableOrganizationAdminAccountRequest)[K]
+      [K in keyof EnableOrganizationAdminAccountRequest]: (EnableOrganizationAdminAccountRequest)[K]
     }>): Request<EnableOrganizationAdminAccountResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.enableOrganizationAdminAccount(
-          this.ops["EnableOrganizationAdminAccount"].applicator.apply(partialParams)
+          this.ops["EnableOrganizationAdminAccount"].apply(partialParams)
         );
     }
 
     invokeGetDetector(partialParams: ToOptional<{
-      [K in keyof GetDetectorRequest & keyof GetDetectorRequest & keyof GetDetectorRequest & keyof Omit<GetDetectorRequest, "DetectorId"> & keyof GetDetectorRequest]: (GetDetectorRequest & GetDetectorRequest & GetDetectorRequest & Omit<GetDetectorRequest, "DetectorId"> & GetDetectorRequest)[K]
+      [K in keyof GetDetectorRequest & keyof Omit<GetDetectorRequest, "DetectorId">]: (GetDetectorRequest)[K]
     }>): Request<GetDetectorResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDetector(
-          this.ops["GetDetector"].applicator.apply(partialParams)
+          this.ops["GetDetector"].apply(partialParams)
         );
     }
 
     invokeGetFilter(partialParams: ToOptional<{
-      [K in keyof GetFilterRequest & keyof GetFilterRequest & keyof GetFilterRequest & keyof Omit<GetFilterRequest, "DetectorId"> & keyof GetFilterRequest]: (GetFilterRequest & GetFilterRequest & GetFilterRequest & Omit<GetFilterRequest, "DetectorId"> & GetFilterRequest)[K]
+      [K in keyof GetFilterRequest & keyof Omit<GetFilterRequest, "DetectorId" | "FilterName">]: (GetFilterRequest)[K]
     }>): Request<GetFilterResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getFilter(
-          this.ops["GetFilter"].applicator.apply(partialParams)
+          this.ops["GetFilter"].apply(partialParams)
         );
     }
 
     invokeGetFindings(partialParams: ToOptional<{
-      [K in keyof GetFindingsRequest & keyof GetFindingsRequest & keyof GetFindingsRequest & keyof Omit<GetFindingsRequest, "DetectorId"> & keyof GetFindingsRequest]: (GetFindingsRequest & GetFindingsRequest & GetFindingsRequest & Omit<GetFindingsRequest, "DetectorId"> & GetFindingsRequest)[K]
+      [K in keyof GetFindingsRequest & keyof Omit<GetFindingsRequest, "DetectorId">]: (GetFindingsRequest)[K]
     }>): Request<GetFindingsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getFindings(
-          this.ops["GetFindings"].applicator.apply(partialParams)
+          this.ops["GetFindings"].apply(partialParams)
         );
     }
 
     invokeGetFindingsStatistics(partialParams: ToOptional<{
-      [K in keyof GetFindingsStatisticsRequest & keyof GetFindingsStatisticsRequest & keyof GetFindingsStatisticsRequest & keyof Omit<GetFindingsStatisticsRequest, "DetectorId"> & keyof GetFindingsStatisticsRequest]: (GetFindingsStatisticsRequest & GetFindingsStatisticsRequest & GetFindingsStatisticsRequest & Omit<GetFindingsStatisticsRequest, "DetectorId"> & GetFindingsStatisticsRequest)[K]
+      [K in keyof GetFindingsStatisticsRequest & keyof Omit<GetFindingsStatisticsRequest, "DetectorId">]: (GetFindingsStatisticsRequest)[K]
     }>): Request<GetFindingsStatisticsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getFindingsStatistics(
-          this.ops["GetFindingsStatistics"].applicator.apply(partialParams)
+          this.ops["GetFindingsStatistics"].apply(partialParams)
         );
     }
 
     invokeGetIPSet(partialParams: ToOptional<{
-      [K in keyof GetIPSetRequest & keyof GetIPSetRequest & keyof GetIPSetRequest & keyof Omit<GetIPSetRequest, "DetectorId"> & keyof GetIPSetRequest]: (GetIPSetRequest & GetIPSetRequest & GetIPSetRequest & Omit<GetIPSetRequest, "DetectorId"> & GetIPSetRequest)[K]
+      [K in keyof GetIPSetRequest & keyof Omit<GetIPSetRequest, "DetectorId">]: (GetIPSetRequest)[K]
     }>): Request<GetIPSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getIPSet(
-          this.ops["GetIPSet"].applicator.apply(partialParams)
+          this.ops["GetIPSet"].apply(partialParams)
+        );
+    }
+
+    invokeGetInvitationsCount(partialParams: ToOptional<{
+      [K in keyof GetInvitationsCountRequest]: (GetInvitationsCountRequest)[K]
+    }>): Request<GetInvitationsCountResponse, AWSError> {
+        this.boot();
+        return this.client.getInvitationsCount(
+          this.ops["GetInvitationsCount"].apply(partialParams)
         );
     }
 
     invokeGetMasterAccount(partialParams: ToOptional<{
-      [K in keyof GetMasterAccountRequest & keyof GetMasterAccountRequest & keyof GetMasterAccountRequest & keyof Omit<GetMasterAccountRequest, "DetectorId"> & keyof GetMasterAccountRequest]: (GetMasterAccountRequest & GetMasterAccountRequest & GetMasterAccountRequest & Omit<GetMasterAccountRequest, "DetectorId"> & GetMasterAccountRequest)[K]
+      [K in keyof GetMasterAccountRequest & keyof Omit<GetMasterAccountRequest, "DetectorId">]: (GetMasterAccountRequest)[K]
     }>): Request<GetMasterAccountResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getMasterAccount(
-          this.ops["GetMasterAccount"].applicator.apply(partialParams)
+          this.ops["GetMasterAccount"].apply(partialParams)
         );
     }
 
     invokeGetMemberDetectors(partialParams: ToOptional<{
-      [K in keyof GetMemberDetectorsRequest & keyof GetMemberDetectorsRequest & keyof GetMemberDetectorsRequest & keyof Omit<GetMemberDetectorsRequest, "DetectorId"> & keyof GetMemberDetectorsRequest]: (GetMemberDetectorsRequest & GetMemberDetectorsRequest & GetMemberDetectorsRequest & Omit<GetMemberDetectorsRequest, "DetectorId"> & GetMemberDetectorsRequest)[K]
+      [K in keyof GetMemberDetectorsRequest & keyof Omit<GetMemberDetectorsRequest, "DetectorId">]: (GetMemberDetectorsRequest)[K]
     }>): Request<GetMemberDetectorsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getMemberDetectors(
-          this.ops["GetMemberDetectors"].applicator.apply(partialParams)
+          this.ops["GetMemberDetectors"].apply(partialParams)
         );
     }
 
     invokeGetMembers(partialParams: ToOptional<{
-      [K in keyof GetMembersRequest & keyof GetMembersRequest & keyof GetMembersRequest & keyof Omit<GetMembersRequest, "DetectorId"> & keyof GetMembersRequest]: (GetMembersRequest & GetMembersRequest & GetMembersRequest & Omit<GetMembersRequest, "DetectorId"> & GetMembersRequest)[K]
+      [K in keyof GetMembersRequest & keyof Omit<GetMembersRequest, "DetectorId">]: (GetMembersRequest)[K]
     }>): Request<GetMembersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getMembers(
-          this.ops["GetMembers"].applicator.apply(partialParams)
+          this.ops["GetMembers"].apply(partialParams)
         );
     }
 
     invokeGetThreatIntelSet(partialParams: ToOptional<{
-      [K in keyof GetThreatIntelSetRequest & keyof GetThreatIntelSetRequest & keyof GetThreatIntelSetRequest & keyof Omit<GetThreatIntelSetRequest, "DetectorId"> & keyof GetThreatIntelSetRequest]: (GetThreatIntelSetRequest & GetThreatIntelSetRequest & GetThreatIntelSetRequest & Omit<GetThreatIntelSetRequest, "DetectorId"> & GetThreatIntelSetRequest)[K]
+      [K in keyof GetThreatIntelSetRequest & keyof Omit<GetThreatIntelSetRequest, "DetectorId">]: (GetThreatIntelSetRequest)[K]
     }>): Request<GetThreatIntelSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getThreatIntelSet(
-          this.ops["GetThreatIntelSet"].applicator.apply(partialParams)
+          this.ops["GetThreatIntelSet"].apply(partialParams)
         );
     }
 
     invokeGetUsageStatistics(partialParams: ToOptional<{
-      [K in keyof GetUsageStatisticsRequest & keyof GetUsageStatisticsRequest & keyof GetUsageStatisticsRequest & keyof Omit<GetUsageStatisticsRequest, "DetectorId"> & keyof GetUsageStatisticsRequest]: (GetUsageStatisticsRequest & GetUsageStatisticsRequest & GetUsageStatisticsRequest & Omit<GetUsageStatisticsRequest, "DetectorId"> & GetUsageStatisticsRequest)[K]
+      [K in keyof GetUsageStatisticsRequest & keyof Omit<GetUsageStatisticsRequest, "DetectorId">]: (GetUsageStatisticsRequest)[K]
     }>): Request<GetUsageStatisticsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getUsageStatistics(
-          this.ops["GetUsageStatistics"].applicator.apply(partialParams)
+          this.ops["GetUsageStatistics"].apply(partialParams)
         );
     }
 
     invokeInviteMembers(partialParams: ToOptional<{
-      [K in keyof InviteMembersRequest & keyof InviteMembersRequest & keyof InviteMembersRequest & keyof Omit<InviteMembersRequest, "DetectorId"> & keyof InviteMembersRequest]: (InviteMembersRequest & InviteMembersRequest & InviteMembersRequest & Omit<InviteMembersRequest, "DetectorId"> & InviteMembersRequest)[K]
+      [K in keyof InviteMembersRequest & keyof Omit<InviteMembersRequest, "DetectorId">]: (InviteMembersRequest)[K]
     }>): Request<InviteMembersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.inviteMembers(
-          this.ops["InviteMembers"].applicator.apply(partialParams)
+          this.ops["InviteMembers"].apply(partialParams)
+        );
+    }
+
+    invokeListDetectors(partialParams: ToOptional<{
+      [K in keyof ListDetectorsRequest]: (ListDetectorsRequest)[K]
+    }>): Request<ListDetectorsResponse, AWSError> {
+        this.boot();
+        return this.client.listDetectors(
+          this.ops["ListDetectors"].apply(partialParams)
         );
     }
 
     invokeListFilters(partialParams: ToOptional<{
-      [K in keyof ListFiltersRequest & keyof ListFiltersRequest & keyof ListFiltersRequest & keyof Omit<ListFiltersRequest, "DetectorId"> & keyof ListFiltersRequest]: (ListFiltersRequest & ListFiltersRequest & ListFiltersRequest & Omit<ListFiltersRequest, "DetectorId"> & ListFiltersRequest)[K]
+      [K in keyof ListFiltersRequest & keyof Omit<ListFiltersRequest, "DetectorId">]: (ListFiltersRequest)[K]
     }>): Request<ListFiltersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listFilters(
-          this.ops["ListFilters"].applicator.apply(partialParams)
+          this.ops["ListFilters"].apply(partialParams)
         );
     }
 
     invokeListFindings(partialParams: ToOptional<{
-      [K in keyof ListFindingsRequest & keyof ListFindingsRequest & keyof ListFindingsRequest & keyof Omit<ListFindingsRequest, "DetectorId"> & keyof ListFindingsRequest]: (ListFindingsRequest & ListFindingsRequest & ListFindingsRequest & Omit<ListFindingsRequest, "DetectorId"> & ListFindingsRequest)[K]
+      [K in keyof ListFindingsRequest & keyof Omit<ListFindingsRequest, "DetectorId">]: (ListFindingsRequest)[K]
     }>): Request<ListFindingsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listFindings(
-          this.ops["ListFindings"].applicator.apply(partialParams)
+          this.ops["ListFindings"].apply(partialParams)
         );
     }
 
     invokeListIPSets(partialParams: ToOptional<{
-      [K in keyof ListIPSetsRequest & keyof ListIPSetsRequest & keyof ListIPSetsRequest & keyof Omit<ListIPSetsRequest, "DetectorId"> & keyof ListIPSetsRequest]: (ListIPSetsRequest & ListIPSetsRequest & ListIPSetsRequest & Omit<ListIPSetsRequest, "DetectorId"> & ListIPSetsRequest)[K]
+      [K in keyof ListIPSetsRequest & keyof Omit<ListIPSetsRequest, "DetectorId">]: (ListIPSetsRequest)[K]
     }>): Request<ListIPSetsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listIPSets(
-          this.ops["ListIPSets"].applicator.apply(partialParams)
+          this.ops["ListIPSets"].apply(partialParams)
+        );
+    }
+
+    invokeListInvitations(partialParams: ToOptional<{
+      [K in keyof ListInvitationsRequest]: (ListInvitationsRequest)[K]
+    }>): Request<ListInvitationsResponse, AWSError> {
+        this.boot();
+        return this.client.listInvitations(
+          this.ops["ListInvitations"].apply(partialParams)
         );
     }
 
     invokeListMembers(partialParams: ToOptional<{
-      [K in keyof ListMembersRequest & keyof ListMembersRequest & keyof ListMembersRequest & keyof Omit<ListMembersRequest, "DetectorId"> & keyof ListMembersRequest]: (ListMembersRequest & ListMembersRequest & ListMembersRequest & Omit<ListMembersRequest, "DetectorId"> & ListMembersRequest)[K]
+      [K in keyof ListMembersRequest & keyof Omit<ListMembersRequest, "DetectorId">]: (ListMembersRequest)[K]
     }>): Request<ListMembersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listMembers(
-          this.ops["ListMembers"].applicator.apply(partialParams)
+          this.ops["ListMembers"].apply(partialParams)
+        );
+    }
+
+    invokeListOrganizationAdminAccounts(partialParams: ToOptional<{
+      [K in keyof ListOrganizationAdminAccountsRequest]: (ListOrganizationAdminAccountsRequest)[K]
+    }>): Request<ListOrganizationAdminAccountsResponse, AWSError> {
+        this.boot();
+        return this.client.listOrganizationAdminAccounts(
+          this.ops["ListOrganizationAdminAccounts"].apply(partialParams)
         );
     }
 
     invokeListPublishingDestinations(partialParams: ToOptional<{
-      [K in keyof ListPublishingDestinationsRequest & keyof ListPublishingDestinationsRequest & keyof ListPublishingDestinationsRequest & keyof Omit<ListPublishingDestinationsRequest, "DetectorId"> & keyof ListPublishingDestinationsRequest]: (ListPublishingDestinationsRequest & ListPublishingDestinationsRequest & ListPublishingDestinationsRequest & Omit<ListPublishingDestinationsRequest, "DetectorId"> & ListPublishingDestinationsRequest)[K]
+      [K in keyof ListPublishingDestinationsRequest & keyof Omit<ListPublishingDestinationsRequest, "DetectorId">]: (ListPublishingDestinationsRequest)[K]
     }>): Request<ListPublishingDestinationsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listPublishingDestinations(
-          this.ops["ListPublishingDestinations"].applicator.apply(partialParams)
+          this.ops["ListPublishingDestinations"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeListThreatIntelSets(partialParams: ToOptional<{
-      [K in keyof ListThreatIntelSetsRequest & keyof ListThreatIntelSetsRequest & keyof ListThreatIntelSetsRequest & keyof Omit<ListThreatIntelSetsRequest, "DetectorId"> & keyof ListThreatIntelSetsRequest]: (ListThreatIntelSetsRequest & ListThreatIntelSetsRequest & ListThreatIntelSetsRequest & Omit<ListThreatIntelSetsRequest, "DetectorId"> & ListThreatIntelSetsRequest)[K]
+      [K in keyof ListThreatIntelSetsRequest & keyof Omit<ListThreatIntelSetsRequest, "DetectorId">]: (ListThreatIntelSetsRequest)[K]
     }>): Request<ListThreatIntelSetsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listThreatIntelSets(
-          this.ops["ListThreatIntelSets"].applicator.apply(partialParams)
+          this.ops["ListThreatIntelSets"].apply(partialParams)
         );
     }
 
     invokeStartMonitoringMembers(partialParams: ToOptional<{
-      [K in keyof StartMonitoringMembersRequest & keyof StartMonitoringMembersRequest & keyof StartMonitoringMembersRequest & keyof Omit<StartMonitoringMembersRequest, "DetectorId"> & keyof StartMonitoringMembersRequest]: (StartMonitoringMembersRequest & StartMonitoringMembersRequest & StartMonitoringMembersRequest & Omit<StartMonitoringMembersRequest, "DetectorId"> & StartMonitoringMembersRequest)[K]
+      [K in keyof StartMonitoringMembersRequest & keyof Omit<StartMonitoringMembersRequest, "DetectorId">]: (StartMonitoringMembersRequest)[K]
     }>): Request<StartMonitoringMembersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startMonitoringMembers(
-          this.ops["StartMonitoringMembers"].applicator.apply(partialParams)
+          this.ops["StartMonitoringMembers"].apply(partialParams)
         );
     }
 
     invokeStopMonitoringMembers(partialParams: ToOptional<{
-      [K in keyof StopMonitoringMembersRequest & keyof StopMonitoringMembersRequest & keyof StopMonitoringMembersRequest & keyof Omit<StopMonitoringMembersRequest, "DetectorId"> & keyof StopMonitoringMembersRequest]: (StopMonitoringMembersRequest & StopMonitoringMembersRequest & StopMonitoringMembersRequest & Omit<StopMonitoringMembersRequest, "DetectorId"> & StopMonitoringMembersRequest)[K]
+      [K in keyof StopMonitoringMembersRequest & keyof Omit<StopMonitoringMembersRequest, "DetectorId">]: (StopMonitoringMembersRequest)[K]
     }>): Request<StopMonitoringMembersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopMonitoringMembers(
-          this.ops["StopMonitoringMembers"].applicator.apply(partialParams)
+          this.ops["StopMonitoringMembers"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUnarchiveFindings(partialParams: ToOptional<{
-      [K in keyof UnarchiveFindingsRequest & keyof UnarchiveFindingsRequest & keyof UnarchiveFindingsRequest & keyof Omit<UnarchiveFindingsRequest, "DetectorId"> & keyof UnarchiveFindingsRequest]: (UnarchiveFindingsRequest & UnarchiveFindingsRequest & UnarchiveFindingsRequest & Omit<UnarchiveFindingsRequest, "DetectorId"> & UnarchiveFindingsRequest)[K]
+      [K in keyof UnarchiveFindingsRequest & keyof Omit<UnarchiveFindingsRequest, "DetectorId">]: (UnarchiveFindingsRequest)[K]
     }>): Request<UnarchiveFindingsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.unarchiveFindings(
-          this.ops["UnarchiveFindings"].applicator.apply(partialParams)
+          this.ops["UnarchiveFindings"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateDetector(partialParams: ToOptional<{
-      [K in keyof UpdateDetectorRequest & keyof UpdateDetectorRequest & keyof UpdateDetectorRequest & keyof Omit<UpdateDetectorRequest, "DetectorId"> & keyof UpdateDetectorRequest]: (UpdateDetectorRequest & UpdateDetectorRequest & UpdateDetectorRequest & Omit<UpdateDetectorRequest, "DetectorId"> & UpdateDetectorRequest)[K]
+      [K in keyof UpdateDetectorRequest & keyof Omit<UpdateDetectorRequest, "DetectorId">]: (UpdateDetectorRequest)[K]
     }>): Request<UpdateDetectorResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDetector(
-          this.ops["UpdateDetector"].applicator.apply(partialParams)
+          this.ops["UpdateDetector"].apply(partialParams)
         );
     }
 
     invokeUpdateFilter(partialParams: ToOptional<{
-      [K in keyof UpdateFilterRequest & keyof UpdateFilterRequest & keyof UpdateFilterRequest & keyof Omit<UpdateFilterRequest, "DetectorId"> & keyof UpdateFilterRequest]: (UpdateFilterRequest & UpdateFilterRequest & UpdateFilterRequest & Omit<UpdateFilterRequest, "DetectorId"> & UpdateFilterRequest)[K]
+      [K in keyof UpdateFilterRequest & keyof Omit<UpdateFilterRequest, "DetectorId" | "FilterName">]: (UpdateFilterRequest)[K]
     }>): Request<UpdateFilterResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateFilter(
-          this.ops["UpdateFilter"].applicator.apply(partialParams)
+          this.ops["UpdateFilter"].apply(partialParams)
         );
     }
 
     invokeUpdateFindingsFeedback(partialParams: ToOptional<{
-      [K in keyof UpdateFindingsFeedbackRequest & keyof UpdateFindingsFeedbackRequest & keyof UpdateFindingsFeedbackRequest & keyof Omit<UpdateFindingsFeedbackRequest, "DetectorId"> & keyof UpdateFindingsFeedbackRequest]: (UpdateFindingsFeedbackRequest & UpdateFindingsFeedbackRequest & UpdateFindingsFeedbackRequest & Omit<UpdateFindingsFeedbackRequest, "DetectorId"> & UpdateFindingsFeedbackRequest)[K]
+      [K in keyof UpdateFindingsFeedbackRequest & keyof Omit<UpdateFindingsFeedbackRequest, "DetectorId">]: (UpdateFindingsFeedbackRequest)[K]
     }>): Request<UpdateFindingsFeedbackResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateFindingsFeedback(
-          this.ops["UpdateFindingsFeedback"].applicator.apply(partialParams)
+          this.ops["UpdateFindingsFeedback"].apply(partialParams)
         );
     }
 
     invokeUpdateIPSet(partialParams: ToOptional<{
-      [K in keyof UpdateIPSetRequest & keyof UpdateIPSetRequest & keyof UpdateIPSetRequest & keyof Omit<UpdateIPSetRequest, "DetectorId"> & keyof UpdateIPSetRequest]: (UpdateIPSetRequest & UpdateIPSetRequest & UpdateIPSetRequest & Omit<UpdateIPSetRequest, "DetectorId"> & UpdateIPSetRequest)[K]
+      [K in keyof UpdateIPSetRequest & keyof Omit<UpdateIPSetRequest, "DetectorId">]: (UpdateIPSetRequest)[K]
     }>): Request<UpdateIPSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateIPSet(
-          this.ops["UpdateIPSet"].applicator.apply(partialParams)
+          this.ops["UpdateIPSet"].apply(partialParams)
         );
     }
 
     invokeUpdateMemberDetectors(partialParams: ToOptional<{
-      [K in keyof UpdateMemberDetectorsRequest & keyof UpdateMemberDetectorsRequest & keyof UpdateMemberDetectorsRequest & keyof Omit<UpdateMemberDetectorsRequest, "DetectorId"> & keyof UpdateMemberDetectorsRequest]: (UpdateMemberDetectorsRequest & UpdateMemberDetectorsRequest & UpdateMemberDetectorsRequest & Omit<UpdateMemberDetectorsRequest, "DetectorId"> & UpdateMemberDetectorsRequest)[K]
+      [K in keyof UpdateMemberDetectorsRequest & keyof Omit<UpdateMemberDetectorsRequest, "DetectorId">]: (UpdateMemberDetectorsRequest)[K]
     }>): Request<UpdateMemberDetectorsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateMemberDetectors(
-          this.ops["UpdateMemberDetectors"].applicator.apply(partialParams)
+          this.ops["UpdateMemberDetectors"].apply(partialParams)
         );
     }
 
     invokeUpdateOrganizationConfiguration(partialParams: ToOptional<{
-      [K in keyof UpdateOrganizationConfigurationRequest & keyof UpdateOrganizationConfigurationRequest & keyof UpdateOrganizationConfigurationRequest & keyof Omit<UpdateOrganizationConfigurationRequest, "DetectorId"> & keyof UpdateOrganizationConfigurationRequest]: (UpdateOrganizationConfigurationRequest & UpdateOrganizationConfigurationRequest & UpdateOrganizationConfigurationRequest & Omit<UpdateOrganizationConfigurationRequest, "DetectorId"> & UpdateOrganizationConfigurationRequest)[K]
+      [K in keyof UpdateOrganizationConfigurationRequest & keyof Omit<UpdateOrganizationConfigurationRequest, "DetectorId">]: (UpdateOrganizationConfigurationRequest)[K]
     }>): Request<UpdateOrganizationConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateOrganizationConfiguration(
-          this.ops["UpdateOrganizationConfiguration"].applicator.apply(partialParams)
+          this.ops["UpdateOrganizationConfiguration"].apply(partialParams)
         );
     }
 
     invokeUpdatePublishingDestination(partialParams: ToOptional<{
-      [K in keyof UpdatePublishingDestinationRequest & keyof UpdatePublishingDestinationRequest & keyof UpdatePublishingDestinationRequest & keyof Omit<UpdatePublishingDestinationRequest, "DetectorId"> & keyof UpdatePublishingDestinationRequest]: (UpdatePublishingDestinationRequest & UpdatePublishingDestinationRequest & UpdatePublishingDestinationRequest & Omit<UpdatePublishingDestinationRequest, "DetectorId"> & UpdatePublishingDestinationRequest)[K]
+      [K in keyof UpdatePublishingDestinationRequest & keyof Omit<UpdatePublishingDestinationRequest, "DetectorId">]: (UpdatePublishingDestinationRequest)[K]
     }>): Request<UpdatePublishingDestinationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updatePublishingDestination(
-          this.ops["UpdatePublishingDestination"].applicator.apply(partialParams)
+          this.ops["UpdatePublishingDestination"].apply(partialParams)
         );
     }
 
     invokeUpdateThreatIntelSet(partialParams: ToOptional<{
-      [K in keyof UpdateThreatIntelSetRequest & keyof UpdateThreatIntelSetRequest & keyof UpdateThreatIntelSetRequest & keyof Omit<UpdateThreatIntelSetRequest, "DetectorId"> & keyof UpdateThreatIntelSetRequest]: (UpdateThreatIntelSetRequest & UpdateThreatIntelSetRequest & UpdateThreatIntelSetRequest & Omit<UpdateThreatIntelSetRequest, "DetectorId"> & UpdateThreatIntelSetRequest)[K]
+      [K in keyof UpdateThreatIntelSetRequest & keyof Omit<UpdateThreatIntelSetRequest, "DetectorId">]: (UpdateThreatIntelSetRequest)[K]
     }>): Request<UpdateThreatIntelSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateThreatIntelSet(
-          this.ops["UpdateThreatIntelSet"].applicator.apply(partialParams)
+          this.ops["UpdateThreatIntelSet"].apply(partialParams)
         );
     }
 }

@@ -48,6 +48,7 @@ import {
     DescribeSMBSettingsInput,
     DescribeSnapshotScheduleInput,
     DescribeStorediSCSIVolumesInput,
+    DescribeTapeArchivesInput,
     DescribeTapeRecoveryPointsInput,
     DescribeTapesInput,
     DescribeUploadBufferInput,
@@ -57,10 +58,17 @@ import {
     DisableGatewayInput,
     DisassociateFileSystemInput,
     JoinDomainInput,
+    ListAutomaticTapeCreationPoliciesInput,
+    ListFileSharesInput,
+    ListFileSystemAssociationsInput,
+    ListGatewaysInput,
     ListLocalDisksInput,
     ListTagsForResourceInput,
+    ListTapePoolsInput,
+    ListTapesInput,
     ListVolumeInitiatorsInput,
     ListVolumeRecoveryPointsInput,
+    ListVolumesInput,
     NotifyWhenUploadedInput,
     RefreshCacheInput,
     RemoveTagsFromResourceInput,
@@ -130,6 +138,7 @@ import {
     DescribeSMBSettingsOutput,
     DescribeSnapshotScheduleOutput,
     DescribeStorediSCSIVolumesOutput,
+    DescribeTapeArchivesOutput,
     DescribeTapeRecoveryPointsOutput,
     DescribeTapesOutput,
     DescribeUploadBufferOutput,
@@ -139,10 +148,17 @@ import {
     DisableGatewayOutput,
     DisassociateFileSystemOutput,
     JoinDomainOutput,
+    ListAutomaticTapeCreationPoliciesOutput,
+    ListFileSharesOutput,
+    ListFileSystemAssociationsOutput,
+    ListGatewaysOutput,
     ListLocalDisksOutput,
     ListTagsForResourceOutput,
+    ListTapePoolsOutput,
+    ListTapesOutput,
     ListVolumeInitiatorsOutput,
     ListVolumeRecoveryPointsOutput,
+    ListVolumesOutput,
     NotifyWhenUploadedOutput,
     RefreshCacheOutput,
     RemoveTagsFromResourceOutput,
@@ -183,21 +199,24 @@ export default class extends aws.storagegateway.SmbFileShare {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.storagegateway.SmbFileShare>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.StorageGateway()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -207,908 +226,817 @@ export default class extends aws.storagegateway.SmbFileShare {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeActivateGateway(partialParams: ToOptional<{
-      [K in keyof ActivateGatewayInput & keyof ActivateGatewayInput & keyof ActivateGatewayInput & keyof ActivateGatewayInput & keyof ActivateGatewayInput & keyof ActivateGatewayInput & keyof ActivateGatewayInput & keyof ActivateGatewayInput & keyof ActivateGatewayInput & keyof ActivateGatewayInput & keyof ActivateGatewayInput & keyof ActivateGatewayInput & keyof ActivateGatewayInput & keyof ActivateGatewayInput & keyof ActivateGatewayInput & keyof ActivateGatewayInput]: (ActivateGatewayInput & ActivateGatewayInput & ActivateGatewayInput & ActivateGatewayInput & ActivateGatewayInput & ActivateGatewayInput & ActivateGatewayInput & ActivateGatewayInput & ActivateGatewayInput & ActivateGatewayInput & ActivateGatewayInput & ActivateGatewayInput & ActivateGatewayInput & ActivateGatewayInput & ActivateGatewayInput & ActivateGatewayInput)[K]
+      [K in keyof ActivateGatewayInput]: (ActivateGatewayInput)[K]
     }>): Request<ActivateGatewayOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.activateGateway(
-          this.ops["ActivateGateway"].applicator.apply(partialParams)
+          this.ops["ActivateGateway"].apply(partialParams)
         );
     }
 
     invokeAddCache(partialParams: ToOptional<{
-      [K in keyof AddCacheInput & keyof AddCacheInput & keyof AddCacheInput & keyof AddCacheInput & keyof AddCacheInput & keyof AddCacheInput & keyof AddCacheInput & keyof AddCacheInput & keyof AddCacheInput & keyof AddCacheInput & keyof AddCacheInput & keyof AddCacheInput & keyof AddCacheInput & keyof AddCacheInput & keyof AddCacheInput & keyof AddCacheInput]: (AddCacheInput & AddCacheInput & AddCacheInput & AddCacheInput & AddCacheInput & AddCacheInput & AddCacheInput & AddCacheInput & AddCacheInput & AddCacheInput & AddCacheInput & AddCacheInput & AddCacheInput & AddCacheInput & AddCacheInput & AddCacheInput)[K]
+      [K in keyof AddCacheInput]: (AddCacheInput)[K]
     }>): Request<AddCacheOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addCache(
-          this.ops["AddCache"].applicator.apply(partialParams)
+          this.ops["AddCache"].apply(partialParams)
         );
     }
 
     invokeAddTagsToResource(partialParams: ToOptional<{
-      [K in keyof AddTagsToResourceInput & keyof AddTagsToResourceInput & keyof AddTagsToResourceInput & keyof AddTagsToResourceInput & keyof AddTagsToResourceInput & keyof AddTagsToResourceInput & keyof AddTagsToResourceInput & keyof AddTagsToResourceInput & keyof AddTagsToResourceInput & keyof AddTagsToResourceInput & keyof AddTagsToResourceInput & keyof AddTagsToResourceInput & keyof AddTagsToResourceInput & keyof AddTagsToResourceInput & keyof AddTagsToResourceInput & keyof AddTagsToResourceInput]: (AddTagsToResourceInput & AddTagsToResourceInput & AddTagsToResourceInput & AddTagsToResourceInput & AddTagsToResourceInput & AddTagsToResourceInput & AddTagsToResourceInput & AddTagsToResourceInput & AddTagsToResourceInput & AddTagsToResourceInput & AddTagsToResourceInput & AddTagsToResourceInput & AddTagsToResourceInput & AddTagsToResourceInput & AddTagsToResourceInput & AddTagsToResourceInput)[K]
+      [K in keyof AddTagsToResourceInput]: (AddTagsToResourceInput)[K]
     }>): Request<AddTagsToResourceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addTagsToResource(
-          this.ops["AddTagsToResource"].applicator.apply(partialParams)
+          this.ops["AddTagsToResource"].apply(partialParams)
         );
     }
 
     invokeAddUploadBuffer(partialParams: ToOptional<{
-      [K in keyof AddUploadBufferInput & keyof AddUploadBufferInput & keyof AddUploadBufferInput & keyof AddUploadBufferInput & keyof AddUploadBufferInput & keyof AddUploadBufferInput & keyof AddUploadBufferInput & keyof AddUploadBufferInput & keyof AddUploadBufferInput & keyof AddUploadBufferInput & keyof AddUploadBufferInput & keyof AddUploadBufferInput & keyof AddUploadBufferInput & keyof AddUploadBufferInput & keyof AddUploadBufferInput & keyof AddUploadBufferInput]: (AddUploadBufferInput & AddUploadBufferInput & AddUploadBufferInput & AddUploadBufferInput & AddUploadBufferInput & AddUploadBufferInput & AddUploadBufferInput & AddUploadBufferInput & AddUploadBufferInput & AddUploadBufferInput & AddUploadBufferInput & AddUploadBufferInput & AddUploadBufferInput & AddUploadBufferInput & AddUploadBufferInput & AddUploadBufferInput)[K]
+      [K in keyof AddUploadBufferInput]: (AddUploadBufferInput)[K]
     }>): Request<AddUploadBufferOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addUploadBuffer(
-          this.ops["AddUploadBuffer"].applicator.apply(partialParams)
+          this.ops["AddUploadBuffer"].apply(partialParams)
         );
     }
 
     invokeAddWorkingStorage(partialParams: ToOptional<{
-      [K in keyof AddWorkingStorageInput & keyof AddWorkingStorageInput & keyof AddWorkingStorageInput & keyof AddWorkingStorageInput & keyof AddWorkingStorageInput & keyof AddWorkingStorageInput & keyof AddWorkingStorageInput & keyof AddWorkingStorageInput & keyof AddWorkingStorageInput & keyof AddWorkingStorageInput & keyof AddWorkingStorageInput & keyof AddWorkingStorageInput & keyof AddWorkingStorageInput & keyof AddWorkingStorageInput & keyof AddWorkingStorageInput & keyof AddWorkingStorageInput]: (AddWorkingStorageInput & AddWorkingStorageInput & AddWorkingStorageInput & AddWorkingStorageInput & AddWorkingStorageInput & AddWorkingStorageInput & AddWorkingStorageInput & AddWorkingStorageInput & AddWorkingStorageInput & AddWorkingStorageInput & AddWorkingStorageInput & AddWorkingStorageInput & AddWorkingStorageInput & AddWorkingStorageInput & AddWorkingStorageInput & AddWorkingStorageInput)[K]
+      [K in keyof AddWorkingStorageInput]: (AddWorkingStorageInput)[K]
     }>): Request<AddWorkingStorageOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addWorkingStorage(
-          this.ops["AddWorkingStorage"].applicator.apply(partialParams)
+          this.ops["AddWorkingStorage"].apply(partialParams)
         );
     }
 
     invokeAssignTapePool(partialParams: ToOptional<{
-      [K in keyof AssignTapePoolInput & keyof AssignTapePoolInput & keyof AssignTapePoolInput & keyof AssignTapePoolInput & keyof AssignTapePoolInput & keyof AssignTapePoolInput & keyof AssignTapePoolInput & keyof AssignTapePoolInput & keyof AssignTapePoolInput & keyof AssignTapePoolInput & keyof AssignTapePoolInput & keyof AssignTapePoolInput & keyof AssignTapePoolInput & keyof AssignTapePoolInput & keyof AssignTapePoolInput & keyof AssignTapePoolInput]: (AssignTapePoolInput & AssignTapePoolInput & AssignTapePoolInput & AssignTapePoolInput & AssignTapePoolInput & AssignTapePoolInput & AssignTapePoolInput & AssignTapePoolInput & AssignTapePoolInput & AssignTapePoolInput & AssignTapePoolInput & AssignTapePoolInput & AssignTapePoolInput & AssignTapePoolInput & AssignTapePoolInput & AssignTapePoolInput)[K]
+      [K in keyof AssignTapePoolInput]: (AssignTapePoolInput)[K]
     }>): Request<AssignTapePoolOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.assignTapePool(
-          this.ops["AssignTapePool"].applicator.apply(partialParams)
+          this.ops["AssignTapePool"].apply(partialParams)
         );
     }
 
     invokeAssociateFileSystem(partialParams: ToOptional<{
-      [K in keyof AssociateFileSystemInput & keyof AssociateFileSystemInput & keyof AssociateFileSystemInput & keyof AssociateFileSystemInput & keyof AssociateFileSystemInput & keyof AssociateFileSystemInput & keyof AssociateFileSystemInput & keyof AssociateFileSystemInput & keyof AssociateFileSystemInput & keyof AssociateFileSystemInput & keyof AssociateFileSystemInput & keyof AssociateFileSystemInput & keyof AssociateFileSystemInput & keyof AssociateFileSystemInput & keyof AssociateFileSystemInput & keyof AssociateFileSystemInput]: (AssociateFileSystemInput & AssociateFileSystemInput & AssociateFileSystemInput & AssociateFileSystemInput & AssociateFileSystemInput & AssociateFileSystemInput & AssociateFileSystemInput & AssociateFileSystemInput & AssociateFileSystemInput & AssociateFileSystemInput & AssociateFileSystemInput & AssociateFileSystemInput & AssociateFileSystemInput & AssociateFileSystemInput & AssociateFileSystemInput & AssociateFileSystemInput)[K]
+      [K in keyof AssociateFileSystemInput]: (AssociateFileSystemInput)[K]
     }>): Request<AssociateFileSystemOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateFileSystem(
-          this.ops["AssociateFileSystem"].applicator.apply(partialParams)
+          this.ops["AssociateFileSystem"].apply(partialParams)
         );
     }
 
     invokeAttachVolume(partialParams: ToOptional<{
-      [K in keyof AttachVolumeInput & keyof AttachVolumeInput & keyof AttachVolumeInput & keyof AttachVolumeInput & keyof AttachVolumeInput & keyof AttachVolumeInput & keyof AttachVolumeInput & keyof AttachVolumeInput & keyof AttachVolumeInput & keyof AttachVolumeInput & keyof AttachVolumeInput & keyof AttachVolumeInput & keyof AttachVolumeInput & keyof AttachVolumeInput & keyof AttachVolumeInput & keyof AttachVolumeInput]: (AttachVolumeInput & AttachVolumeInput & AttachVolumeInput & AttachVolumeInput & AttachVolumeInput & AttachVolumeInput & AttachVolumeInput & AttachVolumeInput & AttachVolumeInput & AttachVolumeInput & AttachVolumeInput & AttachVolumeInput & AttachVolumeInput & AttachVolumeInput & AttachVolumeInput & AttachVolumeInput)[K]
+      [K in keyof AttachVolumeInput]: (AttachVolumeInput)[K]
     }>): Request<AttachVolumeOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.attachVolume(
-          this.ops["AttachVolume"].applicator.apply(partialParams)
+          this.ops["AttachVolume"].apply(partialParams)
         );
     }
 
     invokeCancelArchival(partialParams: ToOptional<{
-      [K in keyof CancelArchivalInput & keyof CancelArchivalInput & keyof CancelArchivalInput & keyof CancelArchivalInput & keyof CancelArchivalInput & keyof CancelArchivalInput & keyof CancelArchivalInput & keyof CancelArchivalInput & keyof CancelArchivalInput & keyof CancelArchivalInput & keyof CancelArchivalInput & keyof CancelArchivalInput & keyof CancelArchivalInput & keyof CancelArchivalInput & keyof CancelArchivalInput & keyof CancelArchivalInput]: (CancelArchivalInput & CancelArchivalInput & CancelArchivalInput & CancelArchivalInput & CancelArchivalInput & CancelArchivalInput & CancelArchivalInput & CancelArchivalInput & CancelArchivalInput & CancelArchivalInput & CancelArchivalInput & CancelArchivalInput & CancelArchivalInput & CancelArchivalInput & CancelArchivalInput & CancelArchivalInput)[K]
+      [K in keyof CancelArchivalInput]: (CancelArchivalInput)[K]
     }>): Request<CancelArchivalOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.cancelArchival(
-          this.ops["CancelArchival"].applicator.apply(partialParams)
+          this.ops["CancelArchival"].apply(partialParams)
         );
     }
 
     invokeCancelRetrieval(partialParams: ToOptional<{
-      [K in keyof CancelRetrievalInput & keyof CancelRetrievalInput & keyof CancelRetrievalInput & keyof CancelRetrievalInput & keyof CancelRetrievalInput & keyof CancelRetrievalInput & keyof CancelRetrievalInput & keyof CancelRetrievalInput & keyof CancelRetrievalInput & keyof CancelRetrievalInput & keyof CancelRetrievalInput & keyof CancelRetrievalInput & keyof CancelRetrievalInput & keyof CancelRetrievalInput & keyof CancelRetrievalInput & keyof CancelRetrievalInput]: (CancelRetrievalInput & CancelRetrievalInput & CancelRetrievalInput & CancelRetrievalInput & CancelRetrievalInput & CancelRetrievalInput & CancelRetrievalInput & CancelRetrievalInput & CancelRetrievalInput & CancelRetrievalInput & CancelRetrievalInput & CancelRetrievalInput & CancelRetrievalInput & CancelRetrievalInput & CancelRetrievalInput & CancelRetrievalInput)[K]
+      [K in keyof CancelRetrievalInput]: (CancelRetrievalInput)[K]
     }>): Request<CancelRetrievalOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.cancelRetrieval(
-          this.ops["CancelRetrieval"].applicator.apply(partialParams)
+          this.ops["CancelRetrieval"].apply(partialParams)
         );
     }
 
     invokeCreateCachediSCSIVolume(partialParams: ToOptional<{
-      [K in keyof CreateCachediSCSIVolumeInput & keyof CreateCachediSCSIVolumeInput & keyof CreateCachediSCSIVolumeInput & keyof CreateCachediSCSIVolumeInput & keyof CreateCachediSCSIVolumeInput & keyof CreateCachediSCSIVolumeInput & keyof CreateCachediSCSIVolumeInput & keyof CreateCachediSCSIVolumeInput & keyof CreateCachediSCSIVolumeInput & keyof CreateCachediSCSIVolumeInput & keyof CreateCachediSCSIVolumeInput & keyof CreateCachediSCSIVolumeInput & keyof CreateCachediSCSIVolumeInput & keyof CreateCachediSCSIVolumeInput & keyof CreateCachediSCSIVolumeInput & keyof CreateCachediSCSIVolumeInput]: (CreateCachediSCSIVolumeInput & CreateCachediSCSIVolumeInput & CreateCachediSCSIVolumeInput & CreateCachediSCSIVolumeInput & CreateCachediSCSIVolumeInput & CreateCachediSCSIVolumeInput & CreateCachediSCSIVolumeInput & CreateCachediSCSIVolumeInput & CreateCachediSCSIVolumeInput & CreateCachediSCSIVolumeInput & CreateCachediSCSIVolumeInput & CreateCachediSCSIVolumeInput & CreateCachediSCSIVolumeInput & CreateCachediSCSIVolumeInput & CreateCachediSCSIVolumeInput & CreateCachediSCSIVolumeInput)[K]
+      [K in keyof CreateCachediSCSIVolumeInput]: (CreateCachediSCSIVolumeInput)[K]
     }>): Request<CreateCachediSCSIVolumeOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createCachediSCSIVolume(
-          this.ops["CreateCachediSCSIVolume"].applicator.apply(partialParams)
+          this.ops["CreateCachediSCSIVolume"].apply(partialParams)
         );
     }
 
     invokeCreateNFSFileShare(partialParams: ToOptional<{
-      [K in keyof CreateNFSFileShareInput & keyof CreateNFSFileShareInput & keyof CreateNFSFileShareInput & keyof CreateNFSFileShareInput & keyof CreateNFSFileShareInput & keyof CreateNFSFileShareInput & keyof CreateNFSFileShareInput & keyof CreateNFSFileShareInput & keyof CreateNFSFileShareInput & keyof CreateNFSFileShareInput & keyof CreateNFSFileShareInput & keyof CreateNFSFileShareInput & keyof CreateNFSFileShareInput & keyof CreateNFSFileShareInput & keyof CreateNFSFileShareInput & keyof CreateNFSFileShareInput]: (CreateNFSFileShareInput & CreateNFSFileShareInput & CreateNFSFileShareInput & CreateNFSFileShareInput & CreateNFSFileShareInput & CreateNFSFileShareInput & CreateNFSFileShareInput & CreateNFSFileShareInput & CreateNFSFileShareInput & CreateNFSFileShareInput & CreateNFSFileShareInput & CreateNFSFileShareInput & CreateNFSFileShareInput & CreateNFSFileShareInput & CreateNFSFileShareInput & CreateNFSFileShareInput)[K]
+      [K in keyof CreateNFSFileShareInput]: (CreateNFSFileShareInput)[K]
     }>): Request<CreateNFSFileShareOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createNFSFileShare(
-          this.ops["CreateNFSFileShare"].applicator.apply(partialParams)
+          this.ops["CreateNFSFileShare"].apply(partialParams)
         );
     }
 
     invokeCreateSMBFileShare(partialParams: ToOptional<{
-      [K in keyof CreateSMBFileShareInput & keyof CreateSMBFileShareInput & keyof CreateSMBFileShareInput & keyof CreateSMBFileShareInput & keyof CreateSMBFileShareInput & keyof CreateSMBFileShareInput & keyof CreateSMBFileShareInput & keyof CreateSMBFileShareInput & keyof CreateSMBFileShareInput & keyof CreateSMBFileShareInput & keyof CreateSMBFileShareInput & keyof CreateSMBFileShareInput & keyof CreateSMBFileShareInput & keyof CreateSMBFileShareInput & keyof CreateSMBFileShareInput & keyof CreateSMBFileShareInput]: (CreateSMBFileShareInput & CreateSMBFileShareInput & CreateSMBFileShareInput & CreateSMBFileShareInput & CreateSMBFileShareInput & CreateSMBFileShareInput & CreateSMBFileShareInput & CreateSMBFileShareInput & CreateSMBFileShareInput & CreateSMBFileShareInput & CreateSMBFileShareInput & CreateSMBFileShareInput & CreateSMBFileShareInput & CreateSMBFileShareInput & CreateSMBFileShareInput & CreateSMBFileShareInput)[K]
+      [K in keyof CreateSMBFileShareInput]: (CreateSMBFileShareInput)[K]
     }>): Request<CreateSMBFileShareOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createSMBFileShare(
-          this.ops["CreateSMBFileShare"].applicator.apply(partialParams)
+          this.ops["CreateSMBFileShare"].apply(partialParams)
         );
     }
 
     invokeCreateSnapshot(partialParams: ToOptional<{
-      [K in keyof CreateSnapshotInput & keyof CreateSnapshotInput & keyof CreateSnapshotInput & keyof CreateSnapshotInput & keyof CreateSnapshotInput & keyof CreateSnapshotInput & keyof CreateSnapshotInput & keyof CreateSnapshotInput & keyof CreateSnapshotInput & keyof CreateSnapshotInput & keyof CreateSnapshotInput & keyof CreateSnapshotInput & keyof CreateSnapshotInput & keyof CreateSnapshotInput & keyof CreateSnapshotInput & keyof CreateSnapshotInput]: (CreateSnapshotInput & CreateSnapshotInput & CreateSnapshotInput & CreateSnapshotInput & CreateSnapshotInput & CreateSnapshotInput & CreateSnapshotInput & CreateSnapshotInput & CreateSnapshotInput & CreateSnapshotInput & CreateSnapshotInput & CreateSnapshotInput & CreateSnapshotInput & CreateSnapshotInput & CreateSnapshotInput & CreateSnapshotInput)[K]
+      [K in keyof CreateSnapshotInput]: (CreateSnapshotInput)[K]
     }>): Request<CreateSnapshotOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createSnapshot(
-          this.ops["CreateSnapshot"].applicator.apply(partialParams)
+          this.ops["CreateSnapshot"].apply(partialParams)
         );
     }
 
     invokeCreateSnapshotFromVolumeRecoveryPoint(partialParams: ToOptional<{
-      [K in keyof CreateSnapshotFromVolumeRecoveryPointInput & keyof CreateSnapshotFromVolumeRecoveryPointInput & keyof CreateSnapshotFromVolumeRecoveryPointInput & keyof CreateSnapshotFromVolumeRecoveryPointInput & keyof CreateSnapshotFromVolumeRecoveryPointInput & keyof CreateSnapshotFromVolumeRecoveryPointInput & keyof CreateSnapshotFromVolumeRecoveryPointInput & keyof CreateSnapshotFromVolumeRecoveryPointInput & keyof CreateSnapshotFromVolumeRecoveryPointInput & keyof CreateSnapshotFromVolumeRecoveryPointInput & keyof CreateSnapshotFromVolumeRecoveryPointInput & keyof CreateSnapshotFromVolumeRecoveryPointInput & keyof CreateSnapshotFromVolumeRecoveryPointInput & keyof CreateSnapshotFromVolumeRecoveryPointInput & keyof CreateSnapshotFromVolumeRecoveryPointInput & keyof CreateSnapshotFromVolumeRecoveryPointInput]: (CreateSnapshotFromVolumeRecoveryPointInput & CreateSnapshotFromVolumeRecoveryPointInput & CreateSnapshotFromVolumeRecoveryPointInput & CreateSnapshotFromVolumeRecoveryPointInput & CreateSnapshotFromVolumeRecoveryPointInput & CreateSnapshotFromVolumeRecoveryPointInput & CreateSnapshotFromVolumeRecoveryPointInput & CreateSnapshotFromVolumeRecoveryPointInput & CreateSnapshotFromVolumeRecoveryPointInput & CreateSnapshotFromVolumeRecoveryPointInput & CreateSnapshotFromVolumeRecoveryPointInput & CreateSnapshotFromVolumeRecoveryPointInput & CreateSnapshotFromVolumeRecoveryPointInput & CreateSnapshotFromVolumeRecoveryPointInput & CreateSnapshotFromVolumeRecoveryPointInput & CreateSnapshotFromVolumeRecoveryPointInput)[K]
+      [K in keyof CreateSnapshotFromVolumeRecoveryPointInput]: (CreateSnapshotFromVolumeRecoveryPointInput)[K]
     }>): Request<CreateSnapshotFromVolumeRecoveryPointOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createSnapshotFromVolumeRecoveryPoint(
-          this.ops["CreateSnapshotFromVolumeRecoveryPoint"].applicator.apply(partialParams)
+          this.ops["CreateSnapshotFromVolumeRecoveryPoint"].apply(partialParams)
         );
     }
 
     invokeCreateStorediSCSIVolume(partialParams: ToOptional<{
-      [K in keyof CreateStorediSCSIVolumeInput & keyof CreateStorediSCSIVolumeInput & keyof CreateStorediSCSIVolumeInput & keyof CreateStorediSCSIVolumeInput & keyof CreateStorediSCSIVolumeInput & keyof CreateStorediSCSIVolumeInput & keyof CreateStorediSCSIVolumeInput & keyof CreateStorediSCSIVolumeInput & keyof CreateStorediSCSIVolumeInput & keyof CreateStorediSCSIVolumeInput & keyof CreateStorediSCSIVolumeInput & keyof CreateStorediSCSIVolumeInput & keyof CreateStorediSCSIVolumeInput & keyof CreateStorediSCSIVolumeInput & keyof CreateStorediSCSIVolumeInput & keyof CreateStorediSCSIVolumeInput]: (CreateStorediSCSIVolumeInput & CreateStorediSCSIVolumeInput & CreateStorediSCSIVolumeInput & CreateStorediSCSIVolumeInput & CreateStorediSCSIVolumeInput & CreateStorediSCSIVolumeInput & CreateStorediSCSIVolumeInput & CreateStorediSCSIVolumeInput & CreateStorediSCSIVolumeInput & CreateStorediSCSIVolumeInput & CreateStorediSCSIVolumeInput & CreateStorediSCSIVolumeInput & CreateStorediSCSIVolumeInput & CreateStorediSCSIVolumeInput & CreateStorediSCSIVolumeInput & CreateStorediSCSIVolumeInput)[K]
+      [K in keyof CreateStorediSCSIVolumeInput]: (CreateStorediSCSIVolumeInput)[K]
     }>): Request<CreateStorediSCSIVolumeOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createStorediSCSIVolume(
-          this.ops["CreateStorediSCSIVolume"].applicator.apply(partialParams)
+          this.ops["CreateStorediSCSIVolume"].apply(partialParams)
         );
     }
 
     invokeCreateTapePool(partialParams: ToOptional<{
-      [K in keyof CreateTapePoolInput & keyof CreateTapePoolInput & keyof CreateTapePoolInput & keyof CreateTapePoolInput & keyof CreateTapePoolInput & keyof CreateTapePoolInput & keyof CreateTapePoolInput & keyof CreateTapePoolInput & keyof CreateTapePoolInput & keyof CreateTapePoolInput & keyof CreateTapePoolInput & keyof CreateTapePoolInput & keyof CreateTapePoolInput & keyof CreateTapePoolInput & keyof CreateTapePoolInput & keyof CreateTapePoolInput]: (CreateTapePoolInput & CreateTapePoolInput & CreateTapePoolInput & CreateTapePoolInput & CreateTapePoolInput & CreateTapePoolInput & CreateTapePoolInput & CreateTapePoolInput & CreateTapePoolInput & CreateTapePoolInput & CreateTapePoolInput & CreateTapePoolInput & CreateTapePoolInput & CreateTapePoolInput & CreateTapePoolInput & CreateTapePoolInput)[K]
+      [K in keyof CreateTapePoolInput]: (CreateTapePoolInput)[K]
     }>): Request<CreateTapePoolOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createTapePool(
-          this.ops["CreateTapePool"].applicator.apply(partialParams)
+          this.ops["CreateTapePool"].apply(partialParams)
         );
     }
 
     invokeCreateTapeWithBarcode(partialParams: ToOptional<{
-      [K in keyof CreateTapeWithBarcodeInput & keyof CreateTapeWithBarcodeInput & keyof CreateTapeWithBarcodeInput & keyof CreateTapeWithBarcodeInput & keyof CreateTapeWithBarcodeInput & keyof CreateTapeWithBarcodeInput & keyof CreateTapeWithBarcodeInput & keyof CreateTapeWithBarcodeInput & keyof CreateTapeWithBarcodeInput & keyof CreateTapeWithBarcodeInput & keyof CreateTapeWithBarcodeInput & keyof CreateTapeWithBarcodeInput & keyof CreateTapeWithBarcodeInput & keyof CreateTapeWithBarcodeInput & keyof CreateTapeWithBarcodeInput & keyof CreateTapeWithBarcodeInput]: (CreateTapeWithBarcodeInput & CreateTapeWithBarcodeInput & CreateTapeWithBarcodeInput & CreateTapeWithBarcodeInput & CreateTapeWithBarcodeInput & CreateTapeWithBarcodeInput & CreateTapeWithBarcodeInput & CreateTapeWithBarcodeInput & CreateTapeWithBarcodeInput & CreateTapeWithBarcodeInput & CreateTapeWithBarcodeInput & CreateTapeWithBarcodeInput & CreateTapeWithBarcodeInput & CreateTapeWithBarcodeInput & CreateTapeWithBarcodeInput & CreateTapeWithBarcodeInput)[K]
+      [K in keyof CreateTapeWithBarcodeInput]: (CreateTapeWithBarcodeInput)[K]
     }>): Request<CreateTapeWithBarcodeOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createTapeWithBarcode(
-          this.ops["CreateTapeWithBarcode"].applicator.apply(partialParams)
+          this.ops["CreateTapeWithBarcode"].apply(partialParams)
         );
     }
 
     invokeCreateTapes(partialParams: ToOptional<{
-      [K in keyof CreateTapesInput & keyof CreateTapesInput & keyof CreateTapesInput & keyof CreateTapesInput & keyof CreateTapesInput & keyof CreateTapesInput & keyof CreateTapesInput & keyof CreateTapesInput & keyof CreateTapesInput & keyof CreateTapesInput & keyof CreateTapesInput & keyof CreateTapesInput & keyof CreateTapesInput & keyof CreateTapesInput & keyof CreateTapesInput & keyof CreateTapesInput]: (CreateTapesInput & CreateTapesInput & CreateTapesInput & CreateTapesInput & CreateTapesInput & CreateTapesInput & CreateTapesInput & CreateTapesInput & CreateTapesInput & CreateTapesInput & CreateTapesInput & CreateTapesInput & CreateTapesInput & CreateTapesInput & CreateTapesInput & CreateTapesInput)[K]
+      [K in keyof CreateTapesInput]: (CreateTapesInput)[K]
     }>): Request<CreateTapesOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createTapes(
-          this.ops["CreateTapes"].applicator.apply(partialParams)
+          this.ops["CreateTapes"].apply(partialParams)
         );
     }
 
     invokeDeleteAutomaticTapeCreationPolicy(partialParams: ToOptional<{
-      [K in keyof DeleteAutomaticTapeCreationPolicyInput & keyof DeleteAutomaticTapeCreationPolicyInput & keyof DeleteAutomaticTapeCreationPolicyInput & keyof DeleteAutomaticTapeCreationPolicyInput & keyof DeleteAutomaticTapeCreationPolicyInput & keyof DeleteAutomaticTapeCreationPolicyInput & keyof DeleteAutomaticTapeCreationPolicyInput & keyof DeleteAutomaticTapeCreationPolicyInput & keyof DeleteAutomaticTapeCreationPolicyInput & keyof DeleteAutomaticTapeCreationPolicyInput & keyof DeleteAutomaticTapeCreationPolicyInput & keyof DeleteAutomaticTapeCreationPolicyInput & keyof DeleteAutomaticTapeCreationPolicyInput & keyof DeleteAutomaticTapeCreationPolicyInput & keyof DeleteAutomaticTapeCreationPolicyInput & keyof DeleteAutomaticTapeCreationPolicyInput]: (DeleteAutomaticTapeCreationPolicyInput & DeleteAutomaticTapeCreationPolicyInput & DeleteAutomaticTapeCreationPolicyInput & DeleteAutomaticTapeCreationPolicyInput & DeleteAutomaticTapeCreationPolicyInput & DeleteAutomaticTapeCreationPolicyInput & DeleteAutomaticTapeCreationPolicyInput & DeleteAutomaticTapeCreationPolicyInput & DeleteAutomaticTapeCreationPolicyInput & DeleteAutomaticTapeCreationPolicyInput & DeleteAutomaticTapeCreationPolicyInput & DeleteAutomaticTapeCreationPolicyInput & DeleteAutomaticTapeCreationPolicyInput & DeleteAutomaticTapeCreationPolicyInput & DeleteAutomaticTapeCreationPolicyInput & DeleteAutomaticTapeCreationPolicyInput)[K]
+      [K in keyof DeleteAutomaticTapeCreationPolicyInput]: (DeleteAutomaticTapeCreationPolicyInput)[K]
     }>): Request<DeleteAutomaticTapeCreationPolicyOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteAutomaticTapeCreationPolicy(
-          this.ops["DeleteAutomaticTapeCreationPolicy"].applicator.apply(partialParams)
+          this.ops["DeleteAutomaticTapeCreationPolicy"].apply(partialParams)
         );
     }
 
     invokeDeleteBandwidthRateLimit(partialParams: ToOptional<{
-      [K in keyof DeleteBandwidthRateLimitInput & keyof DeleteBandwidthRateLimitInput & keyof DeleteBandwidthRateLimitInput & keyof DeleteBandwidthRateLimitInput & keyof DeleteBandwidthRateLimitInput & keyof DeleteBandwidthRateLimitInput & keyof DeleteBandwidthRateLimitInput & keyof DeleteBandwidthRateLimitInput & keyof DeleteBandwidthRateLimitInput & keyof DeleteBandwidthRateLimitInput & keyof DeleteBandwidthRateLimitInput & keyof DeleteBandwidthRateLimitInput & keyof DeleteBandwidthRateLimitInput & keyof DeleteBandwidthRateLimitInput & keyof DeleteBandwidthRateLimitInput & keyof DeleteBandwidthRateLimitInput]: (DeleteBandwidthRateLimitInput & DeleteBandwidthRateLimitInput & DeleteBandwidthRateLimitInput & DeleteBandwidthRateLimitInput & DeleteBandwidthRateLimitInput & DeleteBandwidthRateLimitInput & DeleteBandwidthRateLimitInput & DeleteBandwidthRateLimitInput & DeleteBandwidthRateLimitInput & DeleteBandwidthRateLimitInput & DeleteBandwidthRateLimitInput & DeleteBandwidthRateLimitInput & DeleteBandwidthRateLimitInput & DeleteBandwidthRateLimitInput & DeleteBandwidthRateLimitInput & DeleteBandwidthRateLimitInput)[K]
+      [K in keyof DeleteBandwidthRateLimitInput]: (DeleteBandwidthRateLimitInput)[K]
     }>): Request<DeleteBandwidthRateLimitOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteBandwidthRateLimit(
-          this.ops["DeleteBandwidthRateLimit"].applicator.apply(partialParams)
+          this.ops["DeleteBandwidthRateLimit"].apply(partialParams)
         );
     }
 
     invokeDeleteChapCredentials(partialParams: ToOptional<{
-      [K in keyof DeleteChapCredentialsInput & keyof DeleteChapCredentialsInput & keyof DeleteChapCredentialsInput & keyof DeleteChapCredentialsInput & keyof DeleteChapCredentialsInput & keyof DeleteChapCredentialsInput & keyof DeleteChapCredentialsInput & keyof DeleteChapCredentialsInput & keyof DeleteChapCredentialsInput & keyof DeleteChapCredentialsInput & keyof DeleteChapCredentialsInput & keyof DeleteChapCredentialsInput & keyof DeleteChapCredentialsInput & keyof DeleteChapCredentialsInput & keyof DeleteChapCredentialsInput & keyof DeleteChapCredentialsInput]: (DeleteChapCredentialsInput & DeleteChapCredentialsInput & DeleteChapCredentialsInput & DeleteChapCredentialsInput & DeleteChapCredentialsInput & DeleteChapCredentialsInput & DeleteChapCredentialsInput & DeleteChapCredentialsInput & DeleteChapCredentialsInput & DeleteChapCredentialsInput & DeleteChapCredentialsInput & DeleteChapCredentialsInput & DeleteChapCredentialsInput & DeleteChapCredentialsInput & DeleteChapCredentialsInput & DeleteChapCredentialsInput)[K]
+      [K in keyof DeleteChapCredentialsInput]: (DeleteChapCredentialsInput)[K]
     }>): Request<DeleteChapCredentialsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteChapCredentials(
-          this.ops["DeleteChapCredentials"].applicator.apply(partialParams)
+          this.ops["DeleteChapCredentials"].apply(partialParams)
         );
     }
 
     invokeDeleteFileShare(partialParams: ToOptional<{
-      [K in keyof DeleteFileShareInput & keyof DeleteFileShareInput & keyof DeleteFileShareInput & keyof DeleteFileShareInput & keyof DeleteFileShareInput & keyof DeleteFileShareInput & keyof DeleteFileShareInput & keyof DeleteFileShareInput & keyof DeleteFileShareInput & keyof DeleteFileShareInput & keyof DeleteFileShareInput & keyof DeleteFileShareInput & keyof DeleteFileShareInput & keyof DeleteFileShareInput & keyof DeleteFileShareInput & keyof DeleteFileShareInput]: (DeleteFileShareInput & DeleteFileShareInput & DeleteFileShareInput & DeleteFileShareInput & DeleteFileShareInput & DeleteFileShareInput & DeleteFileShareInput & DeleteFileShareInput & DeleteFileShareInput & DeleteFileShareInput & DeleteFileShareInput & DeleteFileShareInput & DeleteFileShareInput & DeleteFileShareInput & DeleteFileShareInput & DeleteFileShareInput)[K]
+      [K in keyof DeleteFileShareInput]: (DeleteFileShareInput)[K]
     }>): Request<DeleteFileShareOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteFileShare(
-          this.ops["DeleteFileShare"].applicator.apply(partialParams)
+          this.ops["DeleteFileShare"].apply(partialParams)
         );
     }
 
     invokeDeleteGateway(partialParams: ToOptional<{
-      [K in keyof DeleteGatewayInput & keyof DeleteGatewayInput & keyof DeleteGatewayInput & keyof DeleteGatewayInput & keyof DeleteGatewayInput & keyof DeleteGatewayInput & keyof DeleteGatewayInput & keyof DeleteGatewayInput & keyof DeleteGatewayInput & keyof DeleteGatewayInput & keyof DeleteGatewayInput & keyof DeleteGatewayInput & keyof DeleteGatewayInput & keyof DeleteGatewayInput & keyof DeleteGatewayInput & keyof DeleteGatewayInput]: (DeleteGatewayInput & DeleteGatewayInput & DeleteGatewayInput & DeleteGatewayInput & DeleteGatewayInput & DeleteGatewayInput & DeleteGatewayInput & DeleteGatewayInput & DeleteGatewayInput & DeleteGatewayInput & DeleteGatewayInput & DeleteGatewayInput & DeleteGatewayInput & DeleteGatewayInput & DeleteGatewayInput & DeleteGatewayInput)[K]
+      [K in keyof DeleteGatewayInput]: (DeleteGatewayInput)[K]
     }>): Request<DeleteGatewayOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteGateway(
-          this.ops["DeleteGateway"].applicator.apply(partialParams)
+          this.ops["DeleteGateway"].apply(partialParams)
         );
     }
 
     invokeDeleteSnapshotSchedule(partialParams: ToOptional<{
-      [K in keyof DeleteSnapshotScheduleInput & keyof DeleteSnapshotScheduleInput & keyof DeleteSnapshotScheduleInput & keyof DeleteSnapshotScheduleInput & keyof DeleteSnapshotScheduleInput & keyof DeleteSnapshotScheduleInput & keyof DeleteSnapshotScheduleInput & keyof DeleteSnapshotScheduleInput & keyof DeleteSnapshotScheduleInput & keyof DeleteSnapshotScheduleInput & keyof DeleteSnapshotScheduleInput & keyof DeleteSnapshotScheduleInput & keyof DeleteSnapshotScheduleInput & keyof DeleteSnapshotScheduleInput & keyof DeleteSnapshotScheduleInput & keyof DeleteSnapshotScheduleInput]: (DeleteSnapshotScheduleInput & DeleteSnapshotScheduleInput & DeleteSnapshotScheduleInput & DeleteSnapshotScheduleInput & DeleteSnapshotScheduleInput & DeleteSnapshotScheduleInput & DeleteSnapshotScheduleInput & DeleteSnapshotScheduleInput & DeleteSnapshotScheduleInput & DeleteSnapshotScheduleInput & DeleteSnapshotScheduleInput & DeleteSnapshotScheduleInput & DeleteSnapshotScheduleInput & DeleteSnapshotScheduleInput & DeleteSnapshotScheduleInput & DeleteSnapshotScheduleInput)[K]
+      [K in keyof DeleteSnapshotScheduleInput]: (DeleteSnapshotScheduleInput)[K]
     }>): Request<DeleteSnapshotScheduleOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteSnapshotSchedule(
-          this.ops["DeleteSnapshotSchedule"].applicator.apply(partialParams)
+          this.ops["DeleteSnapshotSchedule"].apply(partialParams)
         );
     }
 
     invokeDeleteTape(partialParams: ToOptional<{
-      [K in keyof DeleteTapeInput & keyof DeleteTapeInput & keyof DeleteTapeInput & keyof DeleteTapeInput & keyof DeleteTapeInput & keyof DeleteTapeInput & keyof DeleteTapeInput & keyof DeleteTapeInput & keyof DeleteTapeInput & keyof DeleteTapeInput & keyof DeleteTapeInput & keyof DeleteTapeInput & keyof DeleteTapeInput & keyof DeleteTapeInput & keyof DeleteTapeInput & keyof DeleteTapeInput]: (DeleteTapeInput & DeleteTapeInput & DeleteTapeInput & DeleteTapeInput & DeleteTapeInput & DeleteTapeInput & DeleteTapeInput & DeleteTapeInput & DeleteTapeInput & DeleteTapeInput & DeleteTapeInput & DeleteTapeInput & DeleteTapeInput & DeleteTapeInput & DeleteTapeInput & DeleteTapeInput)[K]
+      [K in keyof DeleteTapeInput]: (DeleteTapeInput)[K]
     }>): Request<DeleteTapeOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteTape(
-          this.ops["DeleteTape"].applicator.apply(partialParams)
+          this.ops["DeleteTape"].apply(partialParams)
         );
     }
 
     invokeDeleteTapeArchive(partialParams: ToOptional<{
-      [K in keyof DeleteTapeArchiveInput & keyof DeleteTapeArchiveInput & keyof DeleteTapeArchiveInput & keyof DeleteTapeArchiveInput & keyof DeleteTapeArchiveInput & keyof DeleteTapeArchiveInput & keyof DeleteTapeArchiveInput & keyof DeleteTapeArchiveInput & keyof DeleteTapeArchiveInput & keyof DeleteTapeArchiveInput & keyof DeleteTapeArchiveInput & keyof DeleteTapeArchiveInput & keyof DeleteTapeArchiveInput & keyof DeleteTapeArchiveInput & keyof DeleteTapeArchiveInput & keyof DeleteTapeArchiveInput]: (DeleteTapeArchiveInput & DeleteTapeArchiveInput & DeleteTapeArchiveInput & DeleteTapeArchiveInput & DeleteTapeArchiveInput & DeleteTapeArchiveInput & DeleteTapeArchiveInput & DeleteTapeArchiveInput & DeleteTapeArchiveInput & DeleteTapeArchiveInput & DeleteTapeArchiveInput & DeleteTapeArchiveInput & DeleteTapeArchiveInput & DeleteTapeArchiveInput & DeleteTapeArchiveInput & DeleteTapeArchiveInput)[K]
+      [K in keyof DeleteTapeArchiveInput]: (DeleteTapeArchiveInput)[K]
     }>): Request<DeleteTapeArchiveOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteTapeArchive(
-          this.ops["DeleteTapeArchive"].applicator.apply(partialParams)
+          this.ops["DeleteTapeArchive"].apply(partialParams)
         );
     }
 
     invokeDeleteTapePool(partialParams: ToOptional<{
-      [K in keyof DeleteTapePoolInput & keyof DeleteTapePoolInput & keyof DeleteTapePoolInput & keyof DeleteTapePoolInput & keyof DeleteTapePoolInput & keyof DeleteTapePoolInput & keyof DeleteTapePoolInput & keyof DeleteTapePoolInput & keyof DeleteTapePoolInput & keyof DeleteTapePoolInput & keyof DeleteTapePoolInput & keyof DeleteTapePoolInput & keyof DeleteTapePoolInput & keyof DeleteTapePoolInput & keyof DeleteTapePoolInput & keyof DeleteTapePoolInput]: (DeleteTapePoolInput & DeleteTapePoolInput & DeleteTapePoolInput & DeleteTapePoolInput & DeleteTapePoolInput & DeleteTapePoolInput & DeleteTapePoolInput & DeleteTapePoolInput & DeleteTapePoolInput & DeleteTapePoolInput & DeleteTapePoolInput & DeleteTapePoolInput & DeleteTapePoolInput & DeleteTapePoolInput & DeleteTapePoolInput & DeleteTapePoolInput)[K]
+      [K in keyof DeleteTapePoolInput]: (DeleteTapePoolInput)[K]
     }>): Request<DeleteTapePoolOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteTapePool(
-          this.ops["DeleteTapePool"].applicator.apply(partialParams)
+          this.ops["DeleteTapePool"].apply(partialParams)
         );
     }
 
     invokeDeleteVolume(partialParams: ToOptional<{
-      [K in keyof DeleteVolumeInput & keyof DeleteVolumeInput & keyof DeleteVolumeInput & keyof DeleteVolumeInput & keyof DeleteVolumeInput & keyof DeleteVolumeInput & keyof DeleteVolumeInput & keyof DeleteVolumeInput & keyof DeleteVolumeInput & keyof DeleteVolumeInput & keyof DeleteVolumeInput & keyof DeleteVolumeInput & keyof DeleteVolumeInput & keyof DeleteVolumeInput & keyof DeleteVolumeInput & keyof DeleteVolumeInput]: (DeleteVolumeInput & DeleteVolumeInput & DeleteVolumeInput & DeleteVolumeInput & DeleteVolumeInput & DeleteVolumeInput & DeleteVolumeInput & DeleteVolumeInput & DeleteVolumeInput & DeleteVolumeInput & DeleteVolumeInput & DeleteVolumeInput & DeleteVolumeInput & DeleteVolumeInput & DeleteVolumeInput & DeleteVolumeInput)[K]
+      [K in keyof DeleteVolumeInput]: (DeleteVolumeInput)[K]
     }>): Request<DeleteVolumeOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteVolume(
-          this.ops["DeleteVolume"].applicator.apply(partialParams)
+          this.ops["DeleteVolume"].apply(partialParams)
         );
     }
 
     invokeDescribeAvailabilityMonitorTest(partialParams: ToOptional<{
-      [K in keyof DescribeAvailabilityMonitorTestInput & keyof DescribeAvailabilityMonitorTestInput & keyof DescribeAvailabilityMonitorTestInput & keyof DescribeAvailabilityMonitorTestInput & keyof DescribeAvailabilityMonitorTestInput & keyof DescribeAvailabilityMonitorTestInput & keyof DescribeAvailabilityMonitorTestInput & keyof DescribeAvailabilityMonitorTestInput & keyof DescribeAvailabilityMonitorTestInput & keyof DescribeAvailabilityMonitorTestInput & keyof DescribeAvailabilityMonitorTestInput & keyof DescribeAvailabilityMonitorTestInput & keyof DescribeAvailabilityMonitorTestInput & keyof DescribeAvailabilityMonitorTestInput & keyof DescribeAvailabilityMonitorTestInput & keyof DescribeAvailabilityMonitorTestInput]: (DescribeAvailabilityMonitorTestInput & DescribeAvailabilityMonitorTestInput & DescribeAvailabilityMonitorTestInput & DescribeAvailabilityMonitorTestInput & DescribeAvailabilityMonitorTestInput & DescribeAvailabilityMonitorTestInput & DescribeAvailabilityMonitorTestInput & DescribeAvailabilityMonitorTestInput & DescribeAvailabilityMonitorTestInput & DescribeAvailabilityMonitorTestInput & DescribeAvailabilityMonitorTestInput & DescribeAvailabilityMonitorTestInput & DescribeAvailabilityMonitorTestInput & DescribeAvailabilityMonitorTestInput & DescribeAvailabilityMonitorTestInput & DescribeAvailabilityMonitorTestInput)[K]
+      [K in keyof DescribeAvailabilityMonitorTestInput]: (DescribeAvailabilityMonitorTestInput)[K]
     }>): Request<DescribeAvailabilityMonitorTestOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeAvailabilityMonitorTest(
-          this.ops["DescribeAvailabilityMonitorTest"].applicator.apply(partialParams)
+          this.ops["DescribeAvailabilityMonitorTest"].apply(partialParams)
         );
     }
 
     invokeDescribeBandwidthRateLimit(partialParams: ToOptional<{
-      [K in keyof DescribeBandwidthRateLimitInput & keyof DescribeBandwidthRateLimitInput & keyof DescribeBandwidthRateLimitInput & keyof DescribeBandwidthRateLimitInput & keyof DescribeBandwidthRateLimitInput & keyof DescribeBandwidthRateLimitInput & keyof DescribeBandwidthRateLimitInput & keyof DescribeBandwidthRateLimitInput & keyof DescribeBandwidthRateLimitInput & keyof DescribeBandwidthRateLimitInput & keyof DescribeBandwidthRateLimitInput & keyof DescribeBandwidthRateLimitInput & keyof DescribeBandwidthRateLimitInput & keyof DescribeBandwidthRateLimitInput & keyof DescribeBandwidthRateLimitInput & keyof DescribeBandwidthRateLimitInput]: (DescribeBandwidthRateLimitInput & DescribeBandwidthRateLimitInput & DescribeBandwidthRateLimitInput & DescribeBandwidthRateLimitInput & DescribeBandwidthRateLimitInput & DescribeBandwidthRateLimitInput & DescribeBandwidthRateLimitInput & DescribeBandwidthRateLimitInput & DescribeBandwidthRateLimitInput & DescribeBandwidthRateLimitInput & DescribeBandwidthRateLimitInput & DescribeBandwidthRateLimitInput & DescribeBandwidthRateLimitInput & DescribeBandwidthRateLimitInput & DescribeBandwidthRateLimitInput & DescribeBandwidthRateLimitInput)[K]
+      [K in keyof DescribeBandwidthRateLimitInput]: (DescribeBandwidthRateLimitInput)[K]
     }>): Request<DescribeBandwidthRateLimitOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeBandwidthRateLimit(
-          this.ops["DescribeBandwidthRateLimit"].applicator.apply(partialParams)
+          this.ops["DescribeBandwidthRateLimit"].apply(partialParams)
         );
     }
 
     invokeDescribeBandwidthRateLimitSchedule(partialParams: ToOptional<{
-      [K in keyof DescribeBandwidthRateLimitScheduleInput & keyof DescribeBandwidthRateLimitScheduleInput & keyof DescribeBandwidthRateLimitScheduleInput & keyof DescribeBandwidthRateLimitScheduleInput & keyof DescribeBandwidthRateLimitScheduleInput & keyof DescribeBandwidthRateLimitScheduleInput & keyof DescribeBandwidthRateLimitScheduleInput & keyof DescribeBandwidthRateLimitScheduleInput & keyof DescribeBandwidthRateLimitScheduleInput & keyof DescribeBandwidthRateLimitScheduleInput & keyof DescribeBandwidthRateLimitScheduleInput & keyof DescribeBandwidthRateLimitScheduleInput & keyof DescribeBandwidthRateLimitScheduleInput & keyof DescribeBandwidthRateLimitScheduleInput & keyof DescribeBandwidthRateLimitScheduleInput & keyof DescribeBandwidthRateLimitScheduleInput]: (DescribeBandwidthRateLimitScheduleInput & DescribeBandwidthRateLimitScheduleInput & DescribeBandwidthRateLimitScheduleInput & DescribeBandwidthRateLimitScheduleInput & DescribeBandwidthRateLimitScheduleInput & DescribeBandwidthRateLimitScheduleInput & DescribeBandwidthRateLimitScheduleInput & DescribeBandwidthRateLimitScheduleInput & DescribeBandwidthRateLimitScheduleInput & DescribeBandwidthRateLimitScheduleInput & DescribeBandwidthRateLimitScheduleInput & DescribeBandwidthRateLimitScheduleInput & DescribeBandwidthRateLimitScheduleInput & DescribeBandwidthRateLimitScheduleInput & DescribeBandwidthRateLimitScheduleInput & DescribeBandwidthRateLimitScheduleInput)[K]
+      [K in keyof DescribeBandwidthRateLimitScheduleInput]: (DescribeBandwidthRateLimitScheduleInput)[K]
     }>): Request<DescribeBandwidthRateLimitScheduleOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeBandwidthRateLimitSchedule(
-          this.ops["DescribeBandwidthRateLimitSchedule"].applicator.apply(partialParams)
+          this.ops["DescribeBandwidthRateLimitSchedule"].apply(partialParams)
         );
     }
 
     invokeDescribeCache(partialParams: ToOptional<{
-      [K in keyof DescribeCacheInput & keyof DescribeCacheInput & keyof DescribeCacheInput & keyof DescribeCacheInput & keyof DescribeCacheInput & keyof DescribeCacheInput & keyof DescribeCacheInput & keyof DescribeCacheInput & keyof DescribeCacheInput & keyof DescribeCacheInput & keyof DescribeCacheInput & keyof DescribeCacheInput & keyof DescribeCacheInput & keyof DescribeCacheInput & keyof DescribeCacheInput & keyof DescribeCacheInput]: (DescribeCacheInput & DescribeCacheInput & DescribeCacheInput & DescribeCacheInput & DescribeCacheInput & DescribeCacheInput & DescribeCacheInput & DescribeCacheInput & DescribeCacheInput & DescribeCacheInput & DescribeCacheInput & DescribeCacheInput & DescribeCacheInput & DescribeCacheInput & DescribeCacheInput & DescribeCacheInput)[K]
+      [K in keyof DescribeCacheInput]: (DescribeCacheInput)[K]
     }>): Request<DescribeCacheOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeCache(
-          this.ops["DescribeCache"].applicator.apply(partialParams)
+          this.ops["DescribeCache"].apply(partialParams)
         );
     }
 
     invokeDescribeCachediSCSIVolumes(partialParams: ToOptional<{
-      [K in keyof DescribeCachediSCSIVolumesInput & keyof DescribeCachediSCSIVolumesInput & keyof DescribeCachediSCSIVolumesInput & keyof DescribeCachediSCSIVolumesInput & keyof DescribeCachediSCSIVolumesInput & keyof DescribeCachediSCSIVolumesInput & keyof DescribeCachediSCSIVolumesInput & keyof DescribeCachediSCSIVolumesInput & keyof DescribeCachediSCSIVolumesInput & keyof DescribeCachediSCSIVolumesInput & keyof DescribeCachediSCSIVolumesInput & keyof DescribeCachediSCSIVolumesInput & keyof DescribeCachediSCSIVolumesInput & keyof DescribeCachediSCSIVolumesInput & keyof DescribeCachediSCSIVolumesInput & keyof DescribeCachediSCSIVolumesInput]: (DescribeCachediSCSIVolumesInput & DescribeCachediSCSIVolumesInput & DescribeCachediSCSIVolumesInput & DescribeCachediSCSIVolumesInput & DescribeCachediSCSIVolumesInput & DescribeCachediSCSIVolumesInput & DescribeCachediSCSIVolumesInput & DescribeCachediSCSIVolumesInput & DescribeCachediSCSIVolumesInput & DescribeCachediSCSIVolumesInput & DescribeCachediSCSIVolumesInput & DescribeCachediSCSIVolumesInput & DescribeCachediSCSIVolumesInput & DescribeCachediSCSIVolumesInput & DescribeCachediSCSIVolumesInput & DescribeCachediSCSIVolumesInput)[K]
+      [K in keyof DescribeCachediSCSIVolumesInput]: (DescribeCachediSCSIVolumesInput)[K]
     }>): Request<DescribeCachediSCSIVolumesOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeCachediSCSIVolumes(
-          this.ops["DescribeCachediSCSIVolumes"].applicator.apply(partialParams)
+          this.ops["DescribeCachediSCSIVolumes"].apply(partialParams)
         );
     }
 
     invokeDescribeChapCredentials(partialParams: ToOptional<{
-      [K in keyof DescribeChapCredentialsInput & keyof DescribeChapCredentialsInput & keyof DescribeChapCredentialsInput & keyof DescribeChapCredentialsInput & keyof DescribeChapCredentialsInput & keyof DescribeChapCredentialsInput & keyof DescribeChapCredentialsInput & keyof DescribeChapCredentialsInput & keyof DescribeChapCredentialsInput & keyof DescribeChapCredentialsInput & keyof DescribeChapCredentialsInput & keyof DescribeChapCredentialsInput & keyof DescribeChapCredentialsInput & keyof DescribeChapCredentialsInput & keyof DescribeChapCredentialsInput & keyof DescribeChapCredentialsInput]: (DescribeChapCredentialsInput & DescribeChapCredentialsInput & DescribeChapCredentialsInput & DescribeChapCredentialsInput & DescribeChapCredentialsInput & DescribeChapCredentialsInput & DescribeChapCredentialsInput & DescribeChapCredentialsInput & DescribeChapCredentialsInput & DescribeChapCredentialsInput & DescribeChapCredentialsInput & DescribeChapCredentialsInput & DescribeChapCredentialsInput & DescribeChapCredentialsInput & DescribeChapCredentialsInput & DescribeChapCredentialsInput)[K]
+      [K in keyof DescribeChapCredentialsInput]: (DescribeChapCredentialsInput)[K]
     }>): Request<DescribeChapCredentialsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeChapCredentials(
-          this.ops["DescribeChapCredentials"].applicator.apply(partialParams)
+          this.ops["DescribeChapCredentials"].apply(partialParams)
         );
     }
 
     invokeDescribeFileSystemAssociations(partialParams: ToOptional<{
-      [K in keyof DescribeFileSystemAssociationsInput & keyof DescribeFileSystemAssociationsInput & keyof DescribeFileSystemAssociationsInput & keyof DescribeFileSystemAssociationsInput & keyof DescribeFileSystemAssociationsInput & keyof DescribeFileSystemAssociationsInput & keyof DescribeFileSystemAssociationsInput & keyof DescribeFileSystemAssociationsInput & keyof DescribeFileSystemAssociationsInput & keyof DescribeFileSystemAssociationsInput & keyof DescribeFileSystemAssociationsInput & keyof DescribeFileSystemAssociationsInput & keyof DescribeFileSystemAssociationsInput & keyof DescribeFileSystemAssociationsInput & keyof DescribeFileSystemAssociationsInput & keyof DescribeFileSystemAssociationsInput]: (DescribeFileSystemAssociationsInput & DescribeFileSystemAssociationsInput & DescribeFileSystemAssociationsInput & DescribeFileSystemAssociationsInput & DescribeFileSystemAssociationsInput & DescribeFileSystemAssociationsInput & DescribeFileSystemAssociationsInput & DescribeFileSystemAssociationsInput & DescribeFileSystemAssociationsInput & DescribeFileSystemAssociationsInput & DescribeFileSystemAssociationsInput & DescribeFileSystemAssociationsInput & DescribeFileSystemAssociationsInput & DescribeFileSystemAssociationsInput & DescribeFileSystemAssociationsInput & DescribeFileSystemAssociationsInput)[K]
+      [K in keyof DescribeFileSystemAssociationsInput]: (DescribeFileSystemAssociationsInput)[K]
     }>): Request<DescribeFileSystemAssociationsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeFileSystemAssociations(
-          this.ops["DescribeFileSystemAssociations"].applicator.apply(partialParams)
+          this.ops["DescribeFileSystemAssociations"].apply(partialParams)
         );
     }
 
     invokeDescribeGatewayInformation(partialParams: ToOptional<{
-      [K in keyof DescribeGatewayInformationInput & keyof DescribeGatewayInformationInput & keyof DescribeGatewayInformationInput & keyof DescribeGatewayInformationInput & keyof DescribeGatewayInformationInput & keyof DescribeGatewayInformationInput & keyof DescribeGatewayInformationInput & keyof DescribeGatewayInformationInput & keyof DescribeGatewayInformationInput & keyof DescribeGatewayInformationInput & keyof DescribeGatewayInformationInput & keyof DescribeGatewayInformationInput & keyof DescribeGatewayInformationInput & keyof DescribeGatewayInformationInput & keyof DescribeGatewayInformationInput & keyof DescribeGatewayInformationInput]: (DescribeGatewayInformationInput & DescribeGatewayInformationInput & DescribeGatewayInformationInput & DescribeGatewayInformationInput & DescribeGatewayInformationInput & DescribeGatewayInformationInput & DescribeGatewayInformationInput & DescribeGatewayInformationInput & DescribeGatewayInformationInput & DescribeGatewayInformationInput & DescribeGatewayInformationInput & DescribeGatewayInformationInput & DescribeGatewayInformationInput & DescribeGatewayInformationInput & DescribeGatewayInformationInput & DescribeGatewayInformationInput)[K]
+      [K in keyof DescribeGatewayInformationInput]: (DescribeGatewayInformationInput)[K]
     }>): Request<DescribeGatewayInformationOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeGatewayInformation(
-          this.ops["DescribeGatewayInformation"].applicator.apply(partialParams)
+          this.ops["DescribeGatewayInformation"].apply(partialParams)
         );
     }
 
     invokeDescribeMaintenanceStartTime(partialParams: ToOptional<{
-      [K in keyof DescribeMaintenanceStartTimeInput & keyof DescribeMaintenanceStartTimeInput & keyof DescribeMaintenanceStartTimeInput & keyof DescribeMaintenanceStartTimeInput & keyof DescribeMaintenanceStartTimeInput & keyof DescribeMaintenanceStartTimeInput & keyof DescribeMaintenanceStartTimeInput & keyof DescribeMaintenanceStartTimeInput & keyof DescribeMaintenanceStartTimeInput & keyof DescribeMaintenanceStartTimeInput & keyof DescribeMaintenanceStartTimeInput & keyof DescribeMaintenanceStartTimeInput & keyof DescribeMaintenanceStartTimeInput & keyof DescribeMaintenanceStartTimeInput & keyof DescribeMaintenanceStartTimeInput & keyof DescribeMaintenanceStartTimeInput]: (DescribeMaintenanceStartTimeInput & DescribeMaintenanceStartTimeInput & DescribeMaintenanceStartTimeInput & DescribeMaintenanceStartTimeInput & DescribeMaintenanceStartTimeInput & DescribeMaintenanceStartTimeInput & DescribeMaintenanceStartTimeInput & DescribeMaintenanceStartTimeInput & DescribeMaintenanceStartTimeInput & DescribeMaintenanceStartTimeInput & DescribeMaintenanceStartTimeInput & DescribeMaintenanceStartTimeInput & DescribeMaintenanceStartTimeInput & DescribeMaintenanceStartTimeInput & DescribeMaintenanceStartTimeInput & DescribeMaintenanceStartTimeInput)[K]
+      [K in keyof DescribeMaintenanceStartTimeInput]: (DescribeMaintenanceStartTimeInput)[K]
     }>): Request<DescribeMaintenanceStartTimeOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeMaintenanceStartTime(
-          this.ops["DescribeMaintenanceStartTime"].applicator.apply(partialParams)
+          this.ops["DescribeMaintenanceStartTime"].apply(partialParams)
         );
     }
 
     invokeDescribeNFSFileShares(partialParams: ToOptional<{
-      [K in keyof DescribeNFSFileSharesInput & keyof DescribeNFSFileSharesInput & keyof DescribeNFSFileSharesInput & keyof DescribeNFSFileSharesInput & keyof DescribeNFSFileSharesInput & keyof DescribeNFSFileSharesInput & keyof DescribeNFSFileSharesInput & keyof DescribeNFSFileSharesInput & keyof DescribeNFSFileSharesInput & keyof DescribeNFSFileSharesInput & keyof DescribeNFSFileSharesInput & keyof DescribeNFSFileSharesInput & keyof DescribeNFSFileSharesInput & keyof DescribeNFSFileSharesInput & keyof DescribeNFSFileSharesInput & keyof DescribeNFSFileSharesInput]: (DescribeNFSFileSharesInput & DescribeNFSFileSharesInput & DescribeNFSFileSharesInput & DescribeNFSFileSharesInput & DescribeNFSFileSharesInput & DescribeNFSFileSharesInput & DescribeNFSFileSharesInput & DescribeNFSFileSharesInput & DescribeNFSFileSharesInput & DescribeNFSFileSharesInput & DescribeNFSFileSharesInput & DescribeNFSFileSharesInput & DescribeNFSFileSharesInput & DescribeNFSFileSharesInput & DescribeNFSFileSharesInput & DescribeNFSFileSharesInput)[K]
+      [K in keyof DescribeNFSFileSharesInput]: (DescribeNFSFileSharesInput)[K]
     }>): Request<DescribeNFSFileSharesOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeNFSFileShares(
-          this.ops["DescribeNFSFileShares"].applicator.apply(partialParams)
+          this.ops["DescribeNFSFileShares"].apply(partialParams)
         );
     }
 
     invokeDescribeSMBFileShares(partialParams: ToOptional<{
-      [K in keyof DescribeSMBFileSharesInput & keyof DescribeSMBFileSharesInput & keyof DescribeSMBFileSharesInput & keyof DescribeSMBFileSharesInput & keyof DescribeSMBFileSharesInput & keyof DescribeSMBFileSharesInput & keyof DescribeSMBFileSharesInput & keyof DescribeSMBFileSharesInput & keyof DescribeSMBFileSharesInput & keyof DescribeSMBFileSharesInput & keyof DescribeSMBFileSharesInput & keyof DescribeSMBFileSharesInput & keyof DescribeSMBFileSharesInput & keyof DescribeSMBFileSharesInput & keyof DescribeSMBFileSharesInput & keyof DescribeSMBFileSharesInput]: (DescribeSMBFileSharesInput & DescribeSMBFileSharesInput & DescribeSMBFileSharesInput & DescribeSMBFileSharesInput & DescribeSMBFileSharesInput & DescribeSMBFileSharesInput & DescribeSMBFileSharesInput & DescribeSMBFileSharesInput & DescribeSMBFileSharesInput & DescribeSMBFileSharesInput & DescribeSMBFileSharesInput & DescribeSMBFileSharesInput & DescribeSMBFileSharesInput & DescribeSMBFileSharesInput & DescribeSMBFileSharesInput & DescribeSMBFileSharesInput)[K]
+      [K in keyof DescribeSMBFileSharesInput]: (DescribeSMBFileSharesInput)[K]
     }>): Request<DescribeSMBFileSharesOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeSMBFileShares(
-          this.ops["DescribeSMBFileShares"].applicator.apply(partialParams)
+          this.ops["DescribeSMBFileShares"].apply(partialParams)
         );
     }
 
     invokeDescribeSMBSettings(partialParams: ToOptional<{
-      [K in keyof DescribeSMBSettingsInput & keyof DescribeSMBSettingsInput & keyof DescribeSMBSettingsInput & keyof DescribeSMBSettingsInput & keyof DescribeSMBSettingsInput & keyof DescribeSMBSettingsInput & keyof DescribeSMBSettingsInput & keyof DescribeSMBSettingsInput & keyof DescribeSMBSettingsInput & keyof DescribeSMBSettingsInput & keyof DescribeSMBSettingsInput & keyof DescribeSMBSettingsInput & keyof DescribeSMBSettingsInput & keyof DescribeSMBSettingsInput & keyof DescribeSMBSettingsInput & keyof DescribeSMBSettingsInput]: (DescribeSMBSettingsInput & DescribeSMBSettingsInput & DescribeSMBSettingsInput & DescribeSMBSettingsInput & DescribeSMBSettingsInput & DescribeSMBSettingsInput & DescribeSMBSettingsInput & DescribeSMBSettingsInput & DescribeSMBSettingsInput & DescribeSMBSettingsInput & DescribeSMBSettingsInput & DescribeSMBSettingsInput & DescribeSMBSettingsInput & DescribeSMBSettingsInput & DescribeSMBSettingsInput & DescribeSMBSettingsInput)[K]
+      [K in keyof DescribeSMBSettingsInput]: (DescribeSMBSettingsInput)[K]
     }>): Request<DescribeSMBSettingsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeSMBSettings(
-          this.ops["DescribeSMBSettings"].applicator.apply(partialParams)
+          this.ops["DescribeSMBSettings"].apply(partialParams)
         );
     }
 
     invokeDescribeSnapshotSchedule(partialParams: ToOptional<{
-      [K in keyof DescribeSnapshotScheduleInput & keyof DescribeSnapshotScheduleInput & keyof DescribeSnapshotScheduleInput & keyof DescribeSnapshotScheduleInput & keyof DescribeSnapshotScheduleInput & keyof DescribeSnapshotScheduleInput & keyof DescribeSnapshotScheduleInput & keyof DescribeSnapshotScheduleInput & keyof DescribeSnapshotScheduleInput & keyof DescribeSnapshotScheduleInput & keyof DescribeSnapshotScheduleInput & keyof DescribeSnapshotScheduleInput & keyof DescribeSnapshotScheduleInput & keyof DescribeSnapshotScheduleInput & keyof DescribeSnapshotScheduleInput & keyof DescribeSnapshotScheduleInput]: (DescribeSnapshotScheduleInput & DescribeSnapshotScheduleInput & DescribeSnapshotScheduleInput & DescribeSnapshotScheduleInput & DescribeSnapshotScheduleInput & DescribeSnapshotScheduleInput & DescribeSnapshotScheduleInput & DescribeSnapshotScheduleInput & DescribeSnapshotScheduleInput & DescribeSnapshotScheduleInput & DescribeSnapshotScheduleInput & DescribeSnapshotScheduleInput & DescribeSnapshotScheduleInput & DescribeSnapshotScheduleInput & DescribeSnapshotScheduleInput & DescribeSnapshotScheduleInput)[K]
+      [K in keyof DescribeSnapshotScheduleInput]: (DescribeSnapshotScheduleInput)[K]
     }>): Request<DescribeSnapshotScheduleOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeSnapshotSchedule(
-          this.ops["DescribeSnapshotSchedule"].applicator.apply(partialParams)
+          this.ops["DescribeSnapshotSchedule"].apply(partialParams)
         );
     }
 
     invokeDescribeStorediSCSIVolumes(partialParams: ToOptional<{
-      [K in keyof DescribeStorediSCSIVolumesInput & keyof DescribeStorediSCSIVolumesInput & keyof DescribeStorediSCSIVolumesInput & keyof DescribeStorediSCSIVolumesInput & keyof DescribeStorediSCSIVolumesInput & keyof DescribeStorediSCSIVolumesInput & keyof DescribeStorediSCSIVolumesInput & keyof DescribeStorediSCSIVolumesInput & keyof DescribeStorediSCSIVolumesInput & keyof DescribeStorediSCSIVolumesInput & keyof DescribeStorediSCSIVolumesInput & keyof DescribeStorediSCSIVolumesInput & keyof DescribeStorediSCSIVolumesInput & keyof DescribeStorediSCSIVolumesInput & keyof DescribeStorediSCSIVolumesInput & keyof DescribeStorediSCSIVolumesInput]: (DescribeStorediSCSIVolumesInput & DescribeStorediSCSIVolumesInput & DescribeStorediSCSIVolumesInput & DescribeStorediSCSIVolumesInput & DescribeStorediSCSIVolumesInput & DescribeStorediSCSIVolumesInput & DescribeStorediSCSIVolumesInput & DescribeStorediSCSIVolumesInput & DescribeStorediSCSIVolumesInput & DescribeStorediSCSIVolumesInput & DescribeStorediSCSIVolumesInput & DescribeStorediSCSIVolumesInput & DescribeStorediSCSIVolumesInput & DescribeStorediSCSIVolumesInput & DescribeStorediSCSIVolumesInput & DescribeStorediSCSIVolumesInput)[K]
+      [K in keyof DescribeStorediSCSIVolumesInput]: (DescribeStorediSCSIVolumesInput)[K]
     }>): Request<DescribeStorediSCSIVolumesOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeStorediSCSIVolumes(
-          this.ops["DescribeStorediSCSIVolumes"].applicator.apply(partialParams)
+          this.ops["DescribeStorediSCSIVolumes"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeTapeArchives(partialParams: ToOptional<{
+      [K in keyof DescribeTapeArchivesInput]: (DescribeTapeArchivesInput)[K]
+    }>): Request<DescribeTapeArchivesOutput, AWSError> {
+        this.boot();
+        return this.client.describeTapeArchives(
+          this.ops["DescribeTapeArchives"].apply(partialParams)
         );
     }
 
     invokeDescribeTapeRecoveryPoints(partialParams: ToOptional<{
-      [K in keyof DescribeTapeRecoveryPointsInput & keyof DescribeTapeRecoveryPointsInput & keyof DescribeTapeRecoveryPointsInput & keyof DescribeTapeRecoveryPointsInput & keyof DescribeTapeRecoveryPointsInput & keyof DescribeTapeRecoveryPointsInput & keyof DescribeTapeRecoveryPointsInput & keyof DescribeTapeRecoveryPointsInput & keyof DescribeTapeRecoveryPointsInput & keyof DescribeTapeRecoveryPointsInput & keyof DescribeTapeRecoveryPointsInput & keyof DescribeTapeRecoveryPointsInput & keyof DescribeTapeRecoveryPointsInput & keyof DescribeTapeRecoveryPointsInput & keyof DescribeTapeRecoveryPointsInput & keyof DescribeTapeRecoveryPointsInput]: (DescribeTapeRecoveryPointsInput & DescribeTapeRecoveryPointsInput & DescribeTapeRecoveryPointsInput & DescribeTapeRecoveryPointsInput & DescribeTapeRecoveryPointsInput & DescribeTapeRecoveryPointsInput & DescribeTapeRecoveryPointsInput & DescribeTapeRecoveryPointsInput & DescribeTapeRecoveryPointsInput & DescribeTapeRecoveryPointsInput & DescribeTapeRecoveryPointsInput & DescribeTapeRecoveryPointsInput & DescribeTapeRecoveryPointsInput & DescribeTapeRecoveryPointsInput & DescribeTapeRecoveryPointsInput & DescribeTapeRecoveryPointsInput)[K]
+      [K in keyof DescribeTapeRecoveryPointsInput]: (DescribeTapeRecoveryPointsInput)[K]
     }>): Request<DescribeTapeRecoveryPointsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeTapeRecoveryPoints(
-          this.ops["DescribeTapeRecoveryPoints"].applicator.apply(partialParams)
+          this.ops["DescribeTapeRecoveryPoints"].apply(partialParams)
         );
     }
 
     invokeDescribeTapes(partialParams: ToOptional<{
-      [K in keyof DescribeTapesInput & keyof DescribeTapesInput & keyof DescribeTapesInput & keyof DescribeTapesInput & keyof DescribeTapesInput & keyof DescribeTapesInput & keyof DescribeTapesInput & keyof DescribeTapesInput & keyof DescribeTapesInput & keyof DescribeTapesInput & keyof DescribeTapesInput & keyof DescribeTapesInput & keyof DescribeTapesInput & keyof DescribeTapesInput & keyof DescribeTapesInput & keyof DescribeTapesInput]: (DescribeTapesInput & DescribeTapesInput & DescribeTapesInput & DescribeTapesInput & DescribeTapesInput & DescribeTapesInput & DescribeTapesInput & DescribeTapesInput & DescribeTapesInput & DescribeTapesInput & DescribeTapesInput & DescribeTapesInput & DescribeTapesInput & DescribeTapesInput & DescribeTapesInput & DescribeTapesInput)[K]
+      [K in keyof DescribeTapesInput]: (DescribeTapesInput)[K]
     }>): Request<DescribeTapesOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeTapes(
-          this.ops["DescribeTapes"].applicator.apply(partialParams)
+          this.ops["DescribeTapes"].apply(partialParams)
         );
     }
 
     invokeDescribeUploadBuffer(partialParams: ToOptional<{
-      [K in keyof DescribeUploadBufferInput & keyof DescribeUploadBufferInput & keyof DescribeUploadBufferInput & keyof DescribeUploadBufferInput & keyof DescribeUploadBufferInput & keyof DescribeUploadBufferInput & keyof DescribeUploadBufferInput & keyof DescribeUploadBufferInput & keyof DescribeUploadBufferInput & keyof DescribeUploadBufferInput & keyof DescribeUploadBufferInput & keyof DescribeUploadBufferInput & keyof DescribeUploadBufferInput & keyof DescribeUploadBufferInput & keyof DescribeUploadBufferInput & keyof DescribeUploadBufferInput]: (DescribeUploadBufferInput & DescribeUploadBufferInput & DescribeUploadBufferInput & DescribeUploadBufferInput & DescribeUploadBufferInput & DescribeUploadBufferInput & DescribeUploadBufferInput & DescribeUploadBufferInput & DescribeUploadBufferInput & DescribeUploadBufferInput & DescribeUploadBufferInput & DescribeUploadBufferInput & DescribeUploadBufferInput & DescribeUploadBufferInput & DescribeUploadBufferInput & DescribeUploadBufferInput)[K]
+      [K in keyof DescribeUploadBufferInput]: (DescribeUploadBufferInput)[K]
     }>): Request<DescribeUploadBufferOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeUploadBuffer(
-          this.ops["DescribeUploadBuffer"].applicator.apply(partialParams)
+          this.ops["DescribeUploadBuffer"].apply(partialParams)
         );
     }
 
     invokeDescribeVTLDevices(partialParams: ToOptional<{
-      [K in keyof DescribeVTLDevicesInput & keyof DescribeVTLDevicesInput & keyof DescribeVTLDevicesInput & keyof DescribeVTLDevicesInput & keyof DescribeVTLDevicesInput & keyof DescribeVTLDevicesInput & keyof DescribeVTLDevicesInput & keyof DescribeVTLDevicesInput & keyof DescribeVTLDevicesInput & keyof DescribeVTLDevicesInput & keyof DescribeVTLDevicesInput & keyof DescribeVTLDevicesInput & keyof DescribeVTLDevicesInput & keyof DescribeVTLDevicesInput & keyof DescribeVTLDevicesInput & keyof DescribeVTLDevicesInput]: (DescribeVTLDevicesInput & DescribeVTLDevicesInput & DescribeVTLDevicesInput & DescribeVTLDevicesInput & DescribeVTLDevicesInput & DescribeVTLDevicesInput & DescribeVTLDevicesInput & DescribeVTLDevicesInput & DescribeVTLDevicesInput & DescribeVTLDevicesInput & DescribeVTLDevicesInput & DescribeVTLDevicesInput & DescribeVTLDevicesInput & DescribeVTLDevicesInput & DescribeVTLDevicesInput & DescribeVTLDevicesInput)[K]
+      [K in keyof DescribeVTLDevicesInput]: (DescribeVTLDevicesInput)[K]
     }>): Request<DescribeVTLDevicesOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeVTLDevices(
-          this.ops["DescribeVTLDevices"].applicator.apply(partialParams)
+          this.ops["DescribeVTLDevices"].apply(partialParams)
         );
     }
 
     invokeDescribeWorkingStorage(partialParams: ToOptional<{
-      [K in keyof DescribeWorkingStorageInput & keyof DescribeWorkingStorageInput & keyof DescribeWorkingStorageInput & keyof DescribeWorkingStorageInput & keyof DescribeWorkingStorageInput & keyof DescribeWorkingStorageInput & keyof DescribeWorkingStorageInput & keyof DescribeWorkingStorageInput & keyof DescribeWorkingStorageInput & keyof DescribeWorkingStorageInput & keyof DescribeWorkingStorageInput & keyof DescribeWorkingStorageInput & keyof DescribeWorkingStorageInput & keyof DescribeWorkingStorageInput & keyof DescribeWorkingStorageInput & keyof DescribeWorkingStorageInput]: (DescribeWorkingStorageInput & DescribeWorkingStorageInput & DescribeWorkingStorageInput & DescribeWorkingStorageInput & DescribeWorkingStorageInput & DescribeWorkingStorageInput & DescribeWorkingStorageInput & DescribeWorkingStorageInput & DescribeWorkingStorageInput & DescribeWorkingStorageInput & DescribeWorkingStorageInput & DescribeWorkingStorageInput & DescribeWorkingStorageInput & DescribeWorkingStorageInput & DescribeWorkingStorageInput & DescribeWorkingStorageInput)[K]
+      [K in keyof DescribeWorkingStorageInput]: (DescribeWorkingStorageInput)[K]
     }>): Request<DescribeWorkingStorageOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeWorkingStorage(
-          this.ops["DescribeWorkingStorage"].applicator.apply(partialParams)
+          this.ops["DescribeWorkingStorage"].apply(partialParams)
         );
     }
 
     invokeDetachVolume(partialParams: ToOptional<{
-      [K in keyof DetachVolumeInput & keyof DetachVolumeInput & keyof DetachVolumeInput & keyof DetachVolumeInput & keyof DetachVolumeInput & keyof DetachVolumeInput & keyof DetachVolumeInput & keyof DetachVolumeInput & keyof DetachVolumeInput & keyof DetachVolumeInput & keyof DetachVolumeInput & keyof DetachVolumeInput & keyof DetachVolumeInput & keyof DetachVolumeInput & keyof DetachVolumeInput & keyof DetachVolumeInput]: (DetachVolumeInput & DetachVolumeInput & DetachVolumeInput & DetachVolumeInput & DetachVolumeInput & DetachVolumeInput & DetachVolumeInput & DetachVolumeInput & DetachVolumeInput & DetachVolumeInput & DetachVolumeInput & DetachVolumeInput & DetachVolumeInput & DetachVolumeInput & DetachVolumeInput & DetachVolumeInput)[K]
+      [K in keyof DetachVolumeInput]: (DetachVolumeInput)[K]
     }>): Request<DetachVolumeOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.detachVolume(
-          this.ops["DetachVolume"].applicator.apply(partialParams)
+          this.ops["DetachVolume"].apply(partialParams)
         );
     }
 
     invokeDisableGateway(partialParams: ToOptional<{
-      [K in keyof DisableGatewayInput & keyof DisableGatewayInput & keyof DisableGatewayInput & keyof DisableGatewayInput & keyof DisableGatewayInput & keyof DisableGatewayInput & keyof DisableGatewayInput & keyof DisableGatewayInput & keyof DisableGatewayInput & keyof DisableGatewayInput & keyof DisableGatewayInput & keyof DisableGatewayInput & keyof DisableGatewayInput & keyof DisableGatewayInput & keyof DisableGatewayInput & keyof DisableGatewayInput]: (DisableGatewayInput & DisableGatewayInput & DisableGatewayInput & DisableGatewayInput & DisableGatewayInput & DisableGatewayInput & DisableGatewayInput & DisableGatewayInput & DisableGatewayInput & DisableGatewayInput & DisableGatewayInput & DisableGatewayInput & DisableGatewayInput & DisableGatewayInput & DisableGatewayInput & DisableGatewayInput)[K]
+      [K in keyof DisableGatewayInput]: (DisableGatewayInput)[K]
     }>): Request<DisableGatewayOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disableGateway(
-          this.ops["DisableGateway"].applicator.apply(partialParams)
+          this.ops["DisableGateway"].apply(partialParams)
         );
     }
 
     invokeDisassociateFileSystem(partialParams: ToOptional<{
-      [K in keyof DisassociateFileSystemInput & keyof DisassociateFileSystemInput & keyof DisassociateFileSystemInput & keyof DisassociateFileSystemInput & keyof DisassociateFileSystemInput & keyof DisassociateFileSystemInput & keyof DisassociateFileSystemInput & keyof DisassociateFileSystemInput & keyof DisassociateFileSystemInput & keyof DisassociateFileSystemInput & keyof DisassociateFileSystemInput & keyof DisassociateFileSystemInput & keyof DisassociateFileSystemInput & keyof DisassociateFileSystemInput & keyof DisassociateFileSystemInput & keyof DisassociateFileSystemInput]: (DisassociateFileSystemInput & DisassociateFileSystemInput & DisassociateFileSystemInput & DisassociateFileSystemInput & DisassociateFileSystemInput & DisassociateFileSystemInput & DisassociateFileSystemInput & DisassociateFileSystemInput & DisassociateFileSystemInput & DisassociateFileSystemInput & DisassociateFileSystemInput & DisassociateFileSystemInput & DisassociateFileSystemInput & DisassociateFileSystemInput & DisassociateFileSystemInput & DisassociateFileSystemInput)[K]
+      [K in keyof DisassociateFileSystemInput]: (DisassociateFileSystemInput)[K]
     }>): Request<DisassociateFileSystemOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateFileSystem(
-          this.ops["DisassociateFileSystem"].applicator.apply(partialParams)
+          this.ops["DisassociateFileSystem"].apply(partialParams)
         );
     }
 
     invokeJoinDomain(partialParams: ToOptional<{
-      [K in keyof JoinDomainInput & keyof JoinDomainInput & keyof JoinDomainInput & keyof JoinDomainInput & keyof JoinDomainInput & keyof JoinDomainInput & keyof JoinDomainInput & keyof JoinDomainInput & keyof Omit<JoinDomainInput, "GatewayARN"> & keyof JoinDomainInput & keyof JoinDomainInput & keyof JoinDomainInput & keyof JoinDomainInput & keyof JoinDomainInput & keyof JoinDomainInput & keyof JoinDomainInput]: (JoinDomainInput & JoinDomainInput & JoinDomainInput & JoinDomainInput & JoinDomainInput & JoinDomainInput & JoinDomainInput & JoinDomainInput & Omit<JoinDomainInput, "GatewayARN"> & JoinDomainInput & JoinDomainInput & JoinDomainInput & JoinDomainInput & JoinDomainInput & JoinDomainInput & JoinDomainInput)[K]
+      [K in keyof JoinDomainInput]: (JoinDomainInput)[K]
     }>): Request<JoinDomainOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.joinDomain(
-          this.ops["JoinDomain"].applicator.apply(partialParams)
+          this.ops["JoinDomain"].apply(partialParams)
+        );
+    }
+
+    invokeListAutomaticTapeCreationPolicies(partialParams: ToOptional<{
+      [K in keyof ListAutomaticTapeCreationPoliciesInput]: (ListAutomaticTapeCreationPoliciesInput)[K]
+    }>): Request<ListAutomaticTapeCreationPoliciesOutput, AWSError> {
+        this.boot();
+        return this.client.listAutomaticTapeCreationPolicies(
+          this.ops["ListAutomaticTapeCreationPolicies"].apply(partialParams)
+        );
+    }
+
+    invokeListFileShares(partialParams: ToOptional<{
+      [K in keyof ListFileSharesInput]: (ListFileSharesInput)[K]
+    }>): Request<ListFileSharesOutput, AWSError> {
+        this.boot();
+        return this.client.listFileShares(
+          this.ops["ListFileShares"].apply(partialParams)
+        );
+    }
+
+    invokeListFileSystemAssociations(partialParams: ToOptional<{
+      [K in keyof ListFileSystemAssociationsInput]: (ListFileSystemAssociationsInput)[K]
+    }>): Request<ListFileSystemAssociationsOutput, AWSError> {
+        this.boot();
+        return this.client.listFileSystemAssociations(
+          this.ops["ListFileSystemAssociations"].apply(partialParams)
+        );
+    }
+
+    invokeListGateways(partialParams: ToOptional<{
+      [K in keyof ListGatewaysInput]: (ListGatewaysInput)[K]
+    }>): Request<ListGatewaysOutput, AWSError> {
+        this.boot();
+        return this.client.listGateways(
+          this.ops["ListGateways"].apply(partialParams)
         );
     }
 
     invokeListLocalDisks(partialParams: ToOptional<{
-      [K in keyof ListLocalDisksInput & keyof ListLocalDisksInput & keyof ListLocalDisksInput & keyof ListLocalDisksInput & keyof ListLocalDisksInput & keyof ListLocalDisksInput & keyof ListLocalDisksInput & keyof ListLocalDisksInput & keyof Omit<ListLocalDisksInput, "GatewayARN"> & keyof ListLocalDisksInput & keyof ListLocalDisksInput & keyof ListLocalDisksInput & keyof ListLocalDisksInput & keyof ListLocalDisksInput & keyof ListLocalDisksInput & keyof ListLocalDisksInput]: (ListLocalDisksInput & ListLocalDisksInput & ListLocalDisksInput & ListLocalDisksInput & ListLocalDisksInput & ListLocalDisksInput & ListLocalDisksInput & ListLocalDisksInput & Omit<ListLocalDisksInput, "GatewayARN"> & ListLocalDisksInput & ListLocalDisksInput & ListLocalDisksInput & ListLocalDisksInput & ListLocalDisksInput & ListLocalDisksInput & ListLocalDisksInput)[K]
+      [K in keyof ListLocalDisksInput]: (ListLocalDisksInput)[K]
     }>): Request<ListLocalDisksOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listLocalDisks(
-          this.ops["ListLocalDisks"].applicator.apply(partialParams)
+          this.ops["ListLocalDisks"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput & keyof ListTagsForResourceInput]: (ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput & ListTagsForResourceInput)[K]
+      [K in keyof ListTagsForResourceInput]: (ListTagsForResourceInput)[K]
     }>): Request<ListTagsForResourceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
+        );
+    }
+
+    invokeListTapePools(partialParams: ToOptional<{
+      [K in keyof ListTapePoolsInput]: (ListTapePoolsInput)[K]
+    }>): Request<ListTapePoolsOutput, AWSError> {
+        this.boot();
+        return this.client.listTapePools(
+          this.ops["ListTapePools"].apply(partialParams)
+        );
+    }
+
+    invokeListTapes(partialParams: ToOptional<{
+      [K in keyof ListTapesInput]: (ListTapesInput)[K]
+    }>): Request<ListTapesOutput, AWSError> {
+        this.boot();
+        return this.client.listTapes(
+          this.ops["ListTapes"].apply(partialParams)
         );
     }
 
     invokeListVolumeInitiators(partialParams: ToOptional<{
-      [K in keyof ListVolumeInitiatorsInput & keyof ListVolumeInitiatorsInput & keyof ListVolumeInitiatorsInput & keyof ListVolumeInitiatorsInput & keyof ListVolumeInitiatorsInput & keyof ListVolumeInitiatorsInput & keyof ListVolumeInitiatorsInput & keyof ListVolumeInitiatorsInput & keyof ListVolumeInitiatorsInput & keyof ListVolumeInitiatorsInput & keyof ListVolumeInitiatorsInput & keyof ListVolumeInitiatorsInput & keyof ListVolumeInitiatorsInput & keyof ListVolumeInitiatorsInput & keyof ListVolumeInitiatorsInput & keyof ListVolumeInitiatorsInput]: (ListVolumeInitiatorsInput & ListVolumeInitiatorsInput & ListVolumeInitiatorsInput & ListVolumeInitiatorsInput & ListVolumeInitiatorsInput & ListVolumeInitiatorsInput & ListVolumeInitiatorsInput & ListVolumeInitiatorsInput & ListVolumeInitiatorsInput & ListVolumeInitiatorsInput & ListVolumeInitiatorsInput & ListVolumeInitiatorsInput & ListVolumeInitiatorsInput & ListVolumeInitiatorsInput & ListVolumeInitiatorsInput & ListVolumeInitiatorsInput)[K]
+      [K in keyof ListVolumeInitiatorsInput]: (ListVolumeInitiatorsInput)[K]
     }>): Request<ListVolumeInitiatorsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listVolumeInitiators(
-          this.ops["ListVolumeInitiators"].applicator.apply(partialParams)
+          this.ops["ListVolumeInitiators"].apply(partialParams)
         );
     }
 
     invokeListVolumeRecoveryPoints(partialParams: ToOptional<{
-      [K in keyof ListVolumeRecoveryPointsInput & keyof ListVolumeRecoveryPointsInput & keyof ListVolumeRecoveryPointsInput & keyof ListVolumeRecoveryPointsInput & keyof ListVolumeRecoveryPointsInput & keyof ListVolumeRecoveryPointsInput & keyof ListVolumeRecoveryPointsInput & keyof ListVolumeRecoveryPointsInput & keyof Omit<ListVolumeRecoveryPointsInput, "GatewayARN"> & keyof ListVolumeRecoveryPointsInput & keyof ListVolumeRecoveryPointsInput & keyof ListVolumeRecoveryPointsInput & keyof ListVolumeRecoveryPointsInput & keyof ListVolumeRecoveryPointsInput & keyof ListVolumeRecoveryPointsInput & keyof ListVolumeRecoveryPointsInput]: (ListVolumeRecoveryPointsInput & ListVolumeRecoveryPointsInput & ListVolumeRecoveryPointsInput & ListVolumeRecoveryPointsInput & ListVolumeRecoveryPointsInput & ListVolumeRecoveryPointsInput & ListVolumeRecoveryPointsInput & ListVolumeRecoveryPointsInput & Omit<ListVolumeRecoveryPointsInput, "GatewayARN"> & ListVolumeRecoveryPointsInput & ListVolumeRecoveryPointsInput & ListVolumeRecoveryPointsInput & ListVolumeRecoveryPointsInput & ListVolumeRecoveryPointsInput & ListVolumeRecoveryPointsInput & ListVolumeRecoveryPointsInput)[K]
+      [K in keyof ListVolumeRecoveryPointsInput]: (ListVolumeRecoveryPointsInput)[K]
     }>): Request<ListVolumeRecoveryPointsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listVolumeRecoveryPoints(
-          this.ops["ListVolumeRecoveryPoints"].applicator.apply(partialParams)
+          this.ops["ListVolumeRecoveryPoints"].apply(partialParams)
+        );
+    }
+
+    invokeListVolumes(partialParams: ToOptional<{
+      [K in keyof ListVolumesInput]: (ListVolumesInput)[K]
+    }>): Request<ListVolumesOutput, AWSError> {
+        this.boot();
+        return this.client.listVolumes(
+          this.ops["ListVolumes"].apply(partialParams)
         );
     }
 
     invokeNotifyWhenUploaded(partialParams: ToOptional<{
-      [K in keyof NotifyWhenUploadedInput & keyof NotifyWhenUploadedInput & keyof NotifyWhenUploadedInput & keyof NotifyWhenUploadedInput & keyof NotifyWhenUploadedInput & keyof NotifyWhenUploadedInput & keyof NotifyWhenUploadedInput & keyof NotifyWhenUploadedInput & keyof NotifyWhenUploadedInput & keyof NotifyWhenUploadedInput & keyof NotifyWhenUploadedInput & keyof NotifyWhenUploadedInput & keyof NotifyWhenUploadedInput & keyof NotifyWhenUploadedInput & keyof NotifyWhenUploadedInput & keyof NotifyWhenUploadedInput]: (NotifyWhenUploadedInput & NotifyWhenUploadedInput & NotifyWhenUploadedInput & NotifyWhenUploadedInput & NotifyWhenUploadedInput & NotifyWhenUploadedInput & NotifyWhenUploadedInput & NotifyWhenUploadedInput & NotifyWhenUploadedInput & NotifyWhenUploadedInput & NotifyWhenUploadedInput & NotifyWhenUploadedInput & NotifyWhenUploadedInput & NotifyWhenUploadedInput & NotifyWhenUploadedInput & NotifyWhenUploadedInput)[K]
+      [K in keyof NotifyWhenUploadedInput]: (NotifyWhenUploadedInput)[K]
     }>): Request<NotifyWhenUploadedOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.notifyWhenUploaded(
-          this.ops["NotifyWhenUploaded"].applicator.apply(partialParams)
+          this.ops["NotifyWhenUploaded"].apply(partialParams)
         );
     }
 
     invokeRefreshCache(partialParams: ToOptional<{
-      [K in keyof RefreshCacheInput & keyof RefreshCacheInput & keyof RefreshCacheInput & keyof RefreshCacheInput & keyof RefreshCacheInput & keyof RefreshCacheInput & keyof RefreshCacheInput & keyof RefreshCacheInput & keyof RefreshCacheInput & keyof RefreshCacheInput & keyof RefreshCacheInput & keyof RefreshCacheInput & keyof RefreshCacheInput & keyof RefreshCacheInput & keyof RefreshCacheInput & keyof RefreshCacheInput]: (RefreshCacheInput & RefreshCacheInput & RefreshCacheInput & RefreshCacheInput & RefreshCacheInput & RefreshCacheInput & RefreshCacheInput & RefreshCacheInput & RefreshCacheInput & RefreshCacheInput & RefreshCacheInput & RefreshCacheInput & RefreshCacheInput & RefreshCacheInput & RefreshCacheInput & RefreshCacheInput)[K]
+      [K in keyof RefreshCacheInput]: (RefreshCacheInput)[K]
     }>): Request<RefreshCacheOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.refreshCache(
-          this.ops["RefreshCache"].applicator.apply(partialParams)
+          this.ops["RefreshCache"].apply(partialParams)
         );
     }
 
     invokeRemoveTagsFromResource(partialParams: ToOptional<{
-      [K in keyof RemoveTagsFromResourceInput & keyof RemoveTagsFromResourceInput & keyof RemoveTagsFromResourceInput & keyof RemoveTagsFromResourceInput & keyof RemoveTagsFromResourceInput & keyof RemoveTagsFromResourceInput & keyof RemoveTagsFromResourceInput & keyof RemoveTagsFromResourceInput & keyof RemoveTagsFromResourceInput & keyof RemoveTagsFromResourceInput & keyof RemoveTagsFromResourceInput & keyof RemoveTagsFromResourceInput & keyof RemoveTagsFromResourceInput & keyof RemoveTagsFromResourceInput & keyof RemoveTagsFromResourceInput & keyof RemoveTagsFromResourceInput]: (RemoveTagsFromResourceInput & RemoveTagsFromResourceInput & RemoveTagsFromResourceInput & RemoveTagsFromResourceInput & RemoveTagsFromResourceInput & RemoveTagsFromResourceInput & RemoveTagsFromResourceInput & RemoveTagsFromResourceInput & RemoveTagsFromResourceInput & RemoveTagsFromResourceInput & RemoveTagsFromResourceInput & RemoveTagsFromResourceInput & RemoveTagsFromResourceInput & RemoveTagsFromResourceInput & RemoveTagsFromResourceInput & RemoveTagsFromResourceInput)[K]
+      [K in keyof RemoveTagsFromResourceInput]: (RemoveTagsFromResourceInput)[K]
     }>): Request<RemoveTagsFromResourceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.removeTagsFromResource(
-          this.ops["RemoveTagsFromResource"].applicator.apply(partialParams)
+          this.ops["RemoveTagsFromResource"].apply(partialParams)
         );
     }
 
     invokeResetCache(partialParams: ToOptional<{
-      [K in keyof ResetCacheInput & keyof ResetCacheInput & keyof ResetCacheInput & keyof ResetCacheInput & keyof ResetCacheInput & keyof ResetCacheInput & keyof ResetCacheInput & keyof ResetCacheInput & keyof Omit<ResetCacheInput, "GatewayARN"> & keyof ResetCacheInput & keyof ResetCacheInput & keyof ResetCacheInput & keyof ResetCacheInput & keyof ResetCacheInput & keyof ResetCacheInput & keyof ResetCacheInput]: (ResetCacheInput & ResetCacheInput & ResetCacheInput & ResetCacheInput & ResetCacheInput & ResetCacheInput & ResetCacheInput & ResetCacheInput & Omit<ResetCacheInput, "GatewayARN"> & ResetCacheInput & ResetCacheInput & ResetCacheInput & ResetCacheInput & ResetCacheInput & ResetCacheInput & ResetCacheInput)[K]
+      [K in keyof ResetCacheInput]: (ResetCacheInput)[K]
     }>): Request<ResetCacheOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.resetCache(
-          this.ops["ResetCache"].applicator.apply(partialParams)
+          this.ops["ResetCache"].apply(partialParams)
         );
     }
 
     invokeRetrieveTapeArchive(partialParams: ToOptional<{
-      [K in keyof RetrieveTapeArchiveInput & keyof RetrieveTapeArchiveInput & keyof RetrieveTapeArchiveInput & keyof RetrieveTapeArchiveInput & keyof RetrieveTapeArchiveInput & keyof RetrieveTapeArchiveInput & keyof RetrieveTapeArchiveInput & keyof RetrieveTapeArchiveInput & keyof Omit<RetrieveTapeArchiveInput, "GatewayARN"> & keyof RetrieveTapeArchiveInput & keyof RetrieveTapeArchiveInput & keyof RetrieveTapeArchiveInput & keyof RetrieveTapeArchiveInput & keyof RetrieveTapeArchiveInput & keyof RetrieveTapeArchiveInput & keyof RetrieveTapeArchiveInput]: (RetrieveTapeArchiveInput & RetrieveTapeArchiveInput & RetrieveTapeArchiveInput & RetrieveTapeArchiveInput & RetrieveTapeArchiveInput & RetrieveTapeArchiveInput & RetrieveTapeArchiveInput & RetrieveTapeArchiveInput & Omit<RetrieveTapeArchiveInput, "GatewayARN"> & RetrieveTapeArchiveInput & RetrieveTapeArchiveInput & RetrieveTapeArchiveInput & RetrieveTapeArchiveInput & RetrieveTapeArchiveInput & RetrieveTapeArchiveInput & RetrieveTapeArchiveInput)[K]
+      [K in keyof RetrieveTapeArchiveInput]: (RetrieveTapeArchiveInput)[K]
     }>): Request<RetrieveTapeArchiveOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.retrieveTapeArchive(
-          this.ops["RetrieveTapeArchive"].applicator.apply(partialParams)
+          this.ops["RetrieveTapeArchive"].apply(partialParams)
         );
     }
 
     invokeRetrieveTapeRecoveryPoint(partialParams: ToOptional<{
-      [K in keyof RetrieveTapeRecoveryPointInput & keyof RetrieveTapeRecoveryPointInput & keyof RetrieveTapeRecoveryPointInput & keyof RetrieveTapeRecoveryPointInput & keyof RetrieveTapeRecoveryPointInput & keyof RetrieveTapeRecoveryPointInput & keyof RetrieveTapeRecoveryPointInput & keyof RetrieveTapeRecoveryPointInput & keyof Omit<RetrieveTapeRecoveryPointInput, "GatewayARN"> & keyof RetrieveTapeRecoveryPointInput & keyof RetrieveTapeRecoveryPointInput & keyof RetrieveTapeRecoveryPointInput & keyof RetrieveTapeRecoveryPointInput & keyof RetrieveTapeRecoveryPointInput & keyof RetrieveTapeRecoveryPointInput & keyof RetrieveTapeRecoveryPointInput]: (RetrieveTapeRecoveryPointInput & RetrieveTapeRecoveryPointInput & RetrieveTapeRecoveryPointInput & RetrieveTapeRecoveryPointInput & RetrieveTapeRecoveryPointInput & RetrieveTapeRecoveryPointInput & RetrieveTapeRecoveryPointInput & RetrieveTapeRecoveryPointInput & Omit<RetrieveTapeRecoveryPointInput, "GatewayARN"> & RetrieveTapeRecoveryPointInput & RetrieveTapeRecoveryPointInput & RetrieveTapeRecoveryPointInput & RetrieveTapeRecoveryPointInput & RetrieveTapeRecoveryPointInput & RetrieveTapeRecoveryPointInput & RetrieveTapeRecoveryPointInput)[K]
+      [K in keyof RetrieveTapeRecoveryPointInput]: (RetrieveTapeRecoveryPointInput)[K]
     }>): Request<RetrieveTapeRecoveryPointOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.retrieveTapeRecoveryPoint(
-          this.ops["RetrieveTapeRecoveryPoint"].applicator.apply(partialParams)
+          this.ops["RetrieveTapeRecoveryPoint"].apply(partialParams)
         );
     }
 
     invokeSetLocalConsolePassword(partialParams: ToOptional<{
-      [K in keyof SetLocalConsolePasswordInput & keyof SetLocalConsolePasswordInput & keyof SetLocalConsolePasswordInput & keyof SetLocalConsolePasswordInput & keyof SetLocalConsolePasswordInput & keyof SetLocalConsolePasswordInput & keyof SetLocalConsolePasswordInput & keyof SetLocalConsolePasswordInput & keyof Omit<SetLocalConsolePasswordInput, "GatewayARN"> & keyof SetLocalConsolePasswordInput & keyof SetLocalConsolePasswordInput & keyof SetLocalConsolePasswordInput & keyof SetLocalConsolePasswordInput & keyof SetLocalConsolePasswordInput & keyof SetLocalConsolePasswordInput & keyof SetLocalConsolePasswordInput]: (SetLocalConsolePasswordInput & SetLocalConsolePasswordInput & SetLocalConsolePasswordInput & SetLocalConsolePasswordInput & SetLocalConsolePasswordInput & SetLocalConsolePasswordInput & SetLocalConsolePasswordInput & SetLocalConsolePasswordInput & Omit<SetLocalConsolePasswordInput, "GatewayARN"> & SetLocalConsolePasswordInput & SetLocalConsolePasswordInput & SetLocalConsolePasswordInput & SetLocalConsolePasswordInput & SetLocalConsolePasswordInput & SetLocalConsolePasswordInput & SetLocalConsolePasswordInput)[K]
+      [K in keyof SetLocalConsolePasswordInput]: (SetLocalConsolePasswordInput)[K]
     }>): Request<SetLocalConsolePasswordOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.setLocalConsolePassword(
-          this.ops["SetLocalConsolePassword"].applicator.apply(partialParams)
+          this.ops["SetLocalConsolePassword"].apply(partialParams)
         );
     }
 
     invokeSetSMBGuestPassword(partialParams: ToOptional<{
-      [K in keyof SetSMBGuestPasswordInput & keyof SetSMBGuestPasswordInput & keyof SetSMBGuestPasswordInput & keyof SetSMBGuestPasswordInput & keyof SetSMBGuestPasswordInput & keyof SetSMBGuestPasswordInput & keyof SetSMBGuestPasswordInput & keyof SetSMBGuestPasswordInput & keyof Omit<SetSMBGuestPasswordInput, "GatewayARN"> & keyof SetSMBGuestPasswordInput & keyof SetSMBGuestPasswordInput & keyof SetSMBGuestPasswordInput & keyof SetSMBGuestPasswordInput & keyof SetSMBGuestPasswordInput & keyof SetSMBGuestPasswordInput & keyof SetSMBGuestPasswordInput]: (SetSMBGuestPasswordInput & SetSMBGuestPasswordInput & SetSMBGuestPasswordInput & SetSMBGuestPasswordInput & SetSMBGuestPasswordInput & SetSMBGuestPasswordInput & SetSMBGuestPasswordInput & SetSMBGuestPasswordInput & Omit<SetSMBGuestPasswordInput, "GatewayARN"> & SetSMBGuestPasswordInput & SetSMBGuestPasswordInput & SetSMBGuestPasswordInput & SetSMBGuestPasswordInput & SetSMBGuestPasswordInput & SetSMBGuestPasswordInput & SetSMBGuestPasswordInput)[K]
+      [K in keyof SetSMBGuestPasswordInput]: (SetSMBGuestPasswordInput)[K]
     }>): Request<SetSMBGuestPasswordOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.setSMBGuestPassword(
-          this.ops["SetSMBGuestPassword"].applicator.apply(partialParams)
+          this.ops["SetSMBGuestPassword"].apply(partialParams)
         );
     }
 
     invokeShutdownGateway(partialParams: ToOptional<{
-      [K in keyof ShutdownGatewayInput & keyof ShutdownGatewayInput & keyof ShutdownGatewayInput & keyof ShutdownGatewayInput & keyof ShutdownGatewayInput & keyof ShutdownGatewayInput & keyof ShutdownGatewayInput & keyof ShutdownGatewayInput & keyof Omit<ShutdownGatewayInput, "GatewayARN"> & keyof ShutdownGatewayInput & keyof ShutdownGatewayInput & keyof ShutdownGatewayInput & keyof ShutdownGatewayInput & keyof ShutdownGatewayInput & keyof ShutdownGatewayInput & keyof ShutdownGatewayInput]: (ShutdownGatewayInput & ShutdownGatewayInput & ShutdownGatewayInput & ShutdownGatewayInput & ShutdownGatewayInput & ShutdownGatewayInput & ShutdownGatewayInput & ShutdownGatewayInput & Omit<ShutdownGatewayInput, "GatewayARN"> & ShutdownGatewayInput & ShutdownGatewayInput & ShutdownGatewayInput & ShutdownGatewayInput & ShutdownGatewayInput & ShutdownGatewayInput & ShutdownGatewayInput)[K]
+      [K in keyof ShutdownGatewayInput]: (ShutdownGatewayInput)[K]
     }>): Request<ShutdownGatewayOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.shutdownGateway(
-          this.ops["ShutdownGateway"].applicator.apply(partialParams)
+          this.ops["ShutdownGateway"].apply(partialParams)
         );
     }
 
     invokeStartAvailabilityMonitorTest(partialParams: ToOptional<{
-      [K in keyof StartAvailabilityMonitorTestInput & keyof StartAvailabilityMonitorTestInput & keyof StartAvailabilityMonitorTestInput & keyof StartAvailabilityMonitorTestInput & keyof StartAvailabilityMonitorTestInput & keyof StartAvailabilityMonitorTestInput & keyof StartAvailabilityMonitorTestInput & keyof StartAvailabilityMonitorTestInput & keyof Omit<StartAvailabilityMonitorTestInput, "GatewayARN"> & keyof StartAvailabilityMonitorTestInput & keyof StartAvailabilityMonitorTestInput & keyof StartAvailabilityMonitorTestInput & keyof StartAvailabilityMonitorTestInput & keyof StartAvailabilityMonitorTestInput & keyof StartAvailabilityMonitorTestInput & keyof StartAvailabilityMonitorTestInput]: (StartAvailabilityMonitorTestInput & StartAvailabilityMonitorTestInput & StartAvailabilityMonitorTestInput & StartAvailabilityMonitorTestInput & StartAvailabilityMonitorTestInput & StartAvailabilityMonitorTestInput & StartAvailabilityMonitorTestInput & StartAvailabilityMonitorTestInput & Omit<StartAvailabilityMonitorTestInput, "GatewayARN"> & StartAvailabilityMonitorTestInput & StartAvailabilityMonitorTestInput & StartAvailabilityMonitorTestInput & StartAvailabilityMonitorTestInput & StartAvailabilityMonitorTestInput & StartAvailabilityMonitorTestInput & StartAvailabilityMonitorTestInput)[K]
+      [K in keyof StartAvailabilityMonitorTestInput]: (StartAvailabilityMonitorTestInput)[K]
     }>): Request<StartAvailabilityMonitorTestOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startAvailabilityMonitorTest(
-          this.ops["StartAvailabilityMonitorTest"].applicator.apply(partialParams)
+          this.ops["StartAvailabilityMonitorTest"].apply(partialParams)
         );
     }
 
     invokeStartGateway(partialParams: ToOptional<{
-      [K in keyof StartGatewayInput & keyof StartGatewayInput & keyof StartGatewayInput & keyof StartGatewayInput & keyof StartGatewayInput & keyof StartGatewayInput & keyof StartGatewayInput & keyof StartGatewayInput & keyof Omit<StartGatewayInput, "GatewayARN"> & keyof StartGatewayInput & keyof StartGatewayInput & keyof StartGatewayInput & keyof StartGatewayInput & keyof StartGatewayInput & keyof StartGatewayInput & keyof StartGatewayInput]: (StartGatewayInput & StartGatewayInput & StartGatewayInput & StartGatewayInput & StartGatewayInput & StartGatewayInput & StartGatewayInput & StartGatewayInput & Omit<StartGatewayInput, "GatewayARN"> & StartGatewayInput & StartGatewayInput & StartGatewayInput & StartGatewayInput & StartGatewayInput & StartGatewayInput & StartGatewayInput)[K]
+      [K in keyof StartGatewayInput]: (StartGatewayInput)[K]
     }>): Request<StartGatewayOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startGateway(
-          this.ops["StartGateway"].applicator.apply(partialParams)
+          this.ops["StartGateway"].apply(partialParams)
         );
     }
 
     invokeUpdateAutomaticTapeCreationPolicy(partialParams: ToOptional<{
-      [K in keyof UpdateAutomaticTapeCreationPolicyInput & keyof UpdateAutomaticTapeCreationPolicyInput & keyof UpdateAutomaticTapeCreationPolicyInput & keyof UpdateAutomaticTapeCreationPolicyInput & keyof UpdateAutomaticTapeCreationPolicyInput & keyof UpdateAutomaticTapeCreationPolicyInput & keyof UpdateAutomaticTapeCreationPolicyInput & keyof UpdateAutomaticTapeCreationPolicyInput & keyof Omit<UpdateAutomaticTapeCreationPolicyInput, "GatewayARN"> & keyof UpdateAutomaticTapeCreationPolicyInput & keyof UpdateAutomaticTapeCreationPolicyInput & keyof UpdateAutomaticTapeCreationPolicyInput & keyof UpdateAutomaticTapeCreationPolicyInput & keyof UpdateAutomaticTapeCreationPolicyInput & keyof UpdateAutomaticTapeCreationPolicyInput & keyof UpdateAutomaticTapeCreationPolicyInput]: (UpdateAutomaticTapeCreationPolicyInput & UpdateAutomaticTapeCreationPolicyInput & UpdateAutomaticTapeCreationPolicyInput & UpdateAutomaticTapeCreationPolicyInput & UpdateAutomaticTapeCreationPolicyInput & UpdateAutomaticTapeCreationPolicyInput & UpdateAutomaticTapeCreationPolicyInput & UpdateAutomaticTapeCreationPolicyInput & Omit<UpdateAutomaticTapeCreationPolicyInput, "GatewayARN"> & UpdateAutomaticTapeCreationPolicyInput & UpdateAutomaticTapeCreationPolicyInput & UpdateAutomaticTapeCreationPolicyInput & UpdateAutomaticTapeCreationPolicyInput & UpdateAutomaticTapeCreationPolicyInput & UpdateAutomaticTapeCreationPolicyInput & UpdateAutomaticTapeCreationPolicyInput)[K]
+      [K in keyof UpdateAutomaticTapeCreationPolicyInput]: (UpdateAutomaticTapeCreationPolicyInput)[K]
     }>): Request<UpdateAutomaticTapeCreationPolicyOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateAutomaticTapeCreationPolicy(
-          this.ops["UpdateAutomaticTapeCreationPolicy"].applicator.apply(partialParams)
+          this.ops["UpdateAutomaticTapeCreationPolicy"].apply(partialParams)
         );
     }
 
     invokeUpdateBandwidthRateLimit(partialParams: ToOptional<{
-      [K in keyof UpdateBandwidthRateLimitInput & keyof UpdateBandwidthRateLimitInput & keyof UpdateBandwidthRateLimitInput & keyof UpdateBandwidthRateLimitInput & keyof UpdateBandwidthRateLimitInput & keyof UpdateBandwidthRateLimitInput & keyof UpdateBandwidthRateLimitInput & keyof UpdateBandwidthRateLimitInput & keyof Omit<UpdateBandwidthRateLimitInput, "GatewayARN"> & keyof UpdateBandwidthRateLimitInput & keyof UpdateBandwidthRateLimitInput & keyof UpdateBandwidthRateLimitInput & keyof UpdateBandwidthRateLimitInput & keyof UpdateBandwidthRateLimitInput & keyof UpdateBandwidthRateLimitInput & keyof UpdateBandwidthRateLimitInput]: (UpdateBandwidthRateLimitInput & UpdateBandwidthRateLimitInput & UpdateBandwidthRateLimitInput & UpdateBandwidthRateLimitInput & UpdateBandwidthRateLimitInput & UpdateBandwidthRateLimitInput & UpdateBandwidthRateLimitInput & UpdateBandwidthRateLimitInput & Omit<UpdateBandwidthRateLimitInput, "GatewayARN"> & UpdateBandwidthRateLimitInput & UpdateBandwidthRateLimitInput & UpdateBandwidthRateLimitInput & UpdateBandwidthRateLimitInput & UpdateBandwidthRateLimitInput & UpdateBandwidthRateLimitInput & UpdateBandwidthRateLimitInput)[K]
+      [K in keyof UpdateBandwidthRateLimitInput]: (UpdateBandwidthRateLimitInput)[K]
     }>): Request<UpdateBandwidthRateLimitOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateBandwidthRateLimit(
-          this.ops["UpdateBandwidthRateLimit"].applicator.apply(partialParams)
+          this.ops["UpdateBandwidthRateLimit"].apply(partialParams)
         );
     }
 
     invokeUpdateBandwidthRateLimitSchedule(partialParams: ToOptional<{
-      [K in keyof UpdateBandwidthRateLimitScheduleInput & keyof UpdateBandwidthRateLimitScheduleInput & keyof UpdateBandwidthRateLimitScheduleInput & keyof UpdateBandwidthRateLimitScheduleInput & keyof UpdateBandwidthRateLimitScheduleInput & keyof UpdateBandwidthRateLimitScheduleInput & keyof UpdateBandwidthRateLimitScheduleInput & keyof UpdateBandwidthRateLimitScheduleInput & keyof Omit<UpdateBandwidthRateLimitScheduleInput, "GatewayARN"> & keyof UpdateBandwidthRateLimitScheduleInput & keyof UpdateBandwidthRateLimitScheduleInput & keyof UpdateBandwidthRateLimitScheduleInput & keyof UpdateBandwidthRateLimitScheduleInput & keyof UpdateBandwidthRateLimitScheduleInput & keyof UpdateBandwidthRateLimitScheduleInput & keyof UpdateBandwidthRateLimitScheduleInput]: (UpdateBandwidthRateLimitScheduleInput & UpdateBandwidthRateLimitScheduleInput & UpdateBandwidthRateLimitScheduleInput & UpdateBandwidthRateLimitScheduleInput & UpdateBandwidthRateLimitScheduleInput & UpdateBandwidthRateLimitScheduleInput & UpdateBandwidthRateLimitScheduleInput & UpdateBandwidthRateLimitScheduleInput & Omit<UpdateBandwidthRateLimitScheduleInput, "GatewayARN"> & UpdateBandwidthRateLimitScheduleInput & UpdateBandwidthRateLimitScheduleInput & UpdateBandwidthRateLimitScheduleInput & UpdateBandwidthRateLimitScheduleInput & UpdateBandwidthRateLimitScheduleInput & UpdateBandwidthRateLimitScheduleInput & UpdateBandwidthRateLimitScheduleInput)[K]
+      [K in keyof UpdateBandwidthRateLimitScheduleInput]: (UpdateBandwidthRateLimitScheduleInput)[K]
     }>): Request<UpdateBandwidthRateLimitScheduleOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateBandwidthRateLimitSchedule(
-          this.ops["UpdateBandwidthRateLimitSchedule"].applicator.apply(partialParams)
+          this.ops["UpdateBandwidthRateLimitSchedule"].apply(partialParams)
         );
     }
 
     invokeUpdateChapCredentials(partialParams: ToOptional<{
-      [K in keyof UpdateChapCredentialsInput & keyof UpdateChapCredentialsInput & keyof UpdateChapCredentialsInput & keyof UpdateChapCredentialsInput & keyof UpdateChapCredentialsInput & keyof UpdateChapCredentialsInput & keyof UpdateChapCredentialsInput & keyof UpdateChapCredentialsInput & keyof UpdateChapCredentialsInput & keyof UpdateChapCredentialsInput & keyof UpdateChapCredentialsInput & keyof UpdateChapCredentialsInput & keyof UpdateChapCredentialsInput & keyof UpdateChapCredentialsInput & keyof UpdateChapCredentialsInput & keyof UpdateChapCredentialsInput]: (UpdateChapCredentialsInput & UpdateChapCredentialsInput & UpdateChapCredentialsInput & UpdateChapCredentialsInput & UpdateChapCredentialsInput & UpdateChapCredentialsInput & UpdateChapCredentialsInput & UpdateChapCredentialsInput & UpdateChapCredentialsInput & UpdateChapCredentialsInput & UpdateChapCredentialsInput & UpdateChapCredentialsInput & UpdateChapCredentialsInput & UpdateChapCredentialsInput & UpdateChapCredentialsInput & UpdateChapCredentialsInput)[K]
+      [K in keyof UpdateChapCredentialsInput]: (UpdateChapCredentialsInput)[K]
     }>): Request<UpdateChapCredentialsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateChapCredentials(
-          this.ops["UpdateChapCredentials"].applicator.apply(partialParams)
+          this.ops["UpdateChapCredentials"].apply(partialParams)
         );
     }
 
     invokeUpdateFileSystemAssociation(partialParams: ToOptional<{
-      [K in keyof UpdateFileSystemAssociationInput & keyof UpdateFileSystemAssociationInput & keyof UpdateFileSystemAssociationInput & keyof UpdateFileSystemAssociationInput & keyof UpdateFileSystemAssociationInput & keyof UpdateFileSystemAssociationInput & keyof UpdateFileSystemAssociationInput & keyof UpdateFileSystemAssociationInput & keyof UpdateFileSystemAssociationInput & keyof UpdateFileSystemAssociationInput & keyof UpdateFileSystemAssociationInput & keyof UpdateFileSystemAssociationInput & keyof UpdateFileSystemAssociationInput & keyof UpdateFileSystemAssociationInput & keyof UpdateFileSystemAssociationInput & keyof UpdateFileSystemAssociationInput]: (UpdateFileSystemAssociationInput & UpdateFileSystemAssociationInput & UpdateFileSystemAssociationInput & UpdateFileSystemAssociationInput & UpdateFileSystemAssociationInput & UpdateFileSystemAssociationInput & UpdateFileSystemAssociationInput & UpdateFileSystemAssociationInput & UpdateFileSystemAssociationInput & UpdateFileSystemAssociationInput & UpdateFileSystemAssociationInput & UpdateFileSystemAssociationInput & UpdateFileSystemAssociationInput & UpdateFileSystemAssociationInput & UpdateFileSystemAssociationInput & UpdateFileSystemAssociationInput)[K]
+      [K in keyof UpdateFileSystemAssociationInput]: (UpdateFileSystemAssociationInput)[K]
     }>): Request<UpdateFileSystemAssociationOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateFileSystemAssociation(
-          this.ops["UpdateFileSystemAssociation"].applicator.apply(partialParams)
+          this.ops["UpdateFileSystemAssociation"].apply(partialParams)
         );
     }
 
     invokeUpdateGatewayInformation(partialParams: ToOptional<{
-      [K in keyof UpdateGatewayInformationInput & keyof UpdateGatewayInformationInput & keyof UpdateGatewayInformationInput & keyof UpdateGatewayInformationInput & keyof UpdateGatewayInformationInput & keyof UpdateGatewayInformationInput & keyof UpdateGatewayInformationInput & keyof UpdateGatewayInformationInput & keyof Omit<UpdateGatewayInformationInput, "GatewayARN"> & keyof UpdateGatewayInformationInput & keyof UpdateGatewayInformationInput & keyof UpdateGatewayInformationInput & keyof UpdateGatewayInformationInput & keyof UpdateGatewayInformationInput & keyof UpdateGatewayInformationInput & keyof UpdateGatewayInformationInput]: (UpdateGatewayInformationInput & UpdateGatewayInformationInput & UpdateGatewayInformationInput & UpdateGatewayInformationInput & UpdateGatewayInformationInput & UpdateGatewayInformationInput & UpdateGatewayInformationInput & UpdateGatewayInformationInput & Omit<UpdateGatewayInformationInput, "GatewayARN"> & UpdateGatewayInformationInput & UpdateGatewayInformationInput & UpdateGatewayInformationInput & UpdateGatewayInformationInput & UpdateGatewayInformationInput & UpdateGatewayInformationInput & UpdateGatewayInformationInput)[K]
+      [K in keyof UpdateGatewayInformationInput]: (UpdateGatewayInformationInput)[K]
     }>): Request<UpdateGatewayInformationOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateGatewayInformation(
-          this.ops["UpdateGatewayInformation"].applicator.apply(partialParams)
+          this.ops["UpdateGatewayInformation"].apply(partialParams)
         );
     }
 
     invokeUpdateGatewaySoftwareNow(partialParams: ToOptional<{
-      [K in keyof UpdateGatewaySoftwareNowInput & keyof UpdateGatewaySoftwareNowInput & keyof UpdateGatewaySoftwareNowInput & keyof UpdateGatewaySoftwareNowInput & keyof UpdateGatewaySoftwareNowInput & keyof UpdateGatewaySoftwareNowInput & keyof UpdateGatewaySoftwareNowInput & keyof UpdateGatewaySoftwareNowInput & keyof Omit<UpdateGatewaySoftwareNowInput, "GatewayARN"> & keyof UpdateGatewaySoftwareNowInput & keyof UpdateGatewaySoftwareNowInput & keyof UpdateGatewaySoftwareNowInput & keyof UpdateGatewaySoftwareNowInput & keyof UpdateGatewaySoftwareNowInput & keyof UpdateGatewaySoftwareNowInput & keyof UpdateGatewaySoftwareNowInput]: (UpdateGatewaySoftwareNowInput & UpdateGatewaySoftwareNowInput & UpdateGatewaySoftwareNowInput & UpdateGatewaySoftwareNowInput & UpdateGatewaySoftwareNowInput & UpdateGatewaySoftwareNowInput & UpdateGatewaySoftwareNowInput & UpdateGatewaySoftwareNowInput & Omit<UpdateGatewaySoftwareNowInput, "GatewayARN"> & UpdateGatewaySoftwareNowInput & UpdateGatewaySoftwareNowInput & UpdateGatewaySoftwareNowInput & UpdateGatewaySoftwareNowInput & UpdateGatewaySoftwareNowInput & UpdateGatewaySoftwareNowInput & UpdateGatewaySoftwareNowInput)[K]
+      [K in keyof UpdateGatewaySoftwareNowInput]: (UpdateGatewaySoftwareNowInput)[K]
     }>): Request<UpdateGatewaySoftwareNowOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateGatewaySoftwareNow(
-          this.ops["UpdateGatewaySoftwareNow"].applicator.apply(partialParams)
+          this.ops["UpdateGatewaySoftwareNow"].apply(partialParams)
         );
     }
 
     invokeUpdateMaintenanceStartTime(partialParams: ToOptional<{
-      [K in keyof UpdateMaintenanceStartTimeInput & keyof UpdateMaintenanceStartTimeInput & keyof UpdateMaintenanceStartTimeInput & keyof UpdateMaintenanceStartTimeInput & keyof UpdateMaintenanceStartTimeInput & keyof UpdateMaintenanceStartTimeInput & keyof UpdateMaintenanceStartTimeInput & keyof UpdateMaintenanceStartTimeInput & keyof Omit<UpdateMaintenanceStartTimeInput, "GatewayARN"> & keyof UpdateMaintenanceStartTimeInput & keyof UpdateMaintenanceStartTimeInput & keyof UpdateMaintenanceStartTimeInput & keyof UpdateMaintenanceStartTimeInput & keyof UpdateMaintenanceStartTimeInput & keyof UpdateMaintenanceStartTimeInput & keyof UpdateMaintenanceStartTimeInput]: (UpdateMaintenanceStartTimeInput & UpdateMaintenanceStartTimeInput & UpdateMaintenanceStartTimeInput & UpdateMaintenanceStartTimeInput & UpdateMaintenanceStartTimeInput & UpdateMaintenanceStartTimeInput & UpdateMaintenanceStartTimeInput & UpdateMaintenanceStartTimeInput & Omit<UpdateMaintenanceStartTimeInput, "GatewayARN"> & UpdateMaintenanceStartTimeInput & UpdateMaintenanceStartTimeInput & UpdateMaintenanceStartTimeInput & UpdateMaintenanceStartTimeInput & UpdateMaintenanceStartTimeInput & UpdateMaintenanceStartTimeInput & UpdateMaintenanceStartTimeInput)[K]
+      [K in keyof UpdateMaintenanceStartTimeInput]: (UpdateMaintenanceStartTimeInput)[K]
     }>): Request<UpdateMaintenanceStartTimeOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateMaintenanceStartTime(
-          this.ops["UpdateMaintenanceStartTime"].applicator.apply(partialParams)
+          this.ops["UpdateMaintenanceStartTime"].apply(partialParams)
         );
     }
 
     invokeUpdateNFSFileShare(partialParams: ToOptional<{
-      [K in keyof UpdateNFSFileShareInput & keyof UpdateNFSFileShareInput & keyof UpdateNFSFileShareInput & keyof UpdateNFSFileShareInput & keyof UpdateNFSFileShareInput & keyof UpdateNFSFileShareInput & keyof UpdateNFSFileShareInput & keyof UpdateNFSFileShareInput & keyof UpdateNFSFileShareInput & keyof UpdateNFSFileShareInput & keyof UpdateNFSFileShareInput & keyof UpdateNFSFileShareInput & keyof UpdateNFSFileShareInput & keyof UpdateNFSFileShareInput & keyof UpdateNFSFileShareInput & keyof UpdateNFSFileShareInput]: (UpdateNFSFileShareInput & UpdateNFSFileShareInput & UpdateNFSFileShareInput & UpdateNFSFileShareInput & UpdateNFSFileShareInput & UpdateNFSFileShareInput & UpdateNFSFileShareInput & UpdateNFSFileShareInput & UpdateNFSFileShareInput & UpdateNFSFileShareInput & UpdateNFSFileShareInput & UpdateNFSFileShareInput & UpdateNFSFileShareInput & UpdateNFSFileShareInput & UpdateNFSFileShareInput & UpdateNFSFileShareInput)[K]
+      [K in keyof UpdateNFSFileShareInput]: (UpdateNFSFileShareInput)[K]
     }>): Request<UpdateNFSFileShareOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateNFSFileShare(
-          this.ops["UpdateNFSFileShare"].applicator.apply(partialParams)
+          this.ops["UpdateNFSFileShare"].apply(partialParams)
         );
     }
 
     invokeUpdateSMBFileShare(partialParams: ToOptional<{
-      [K in keyof UpdateSMBFileShareInput & keyof UpdateSMBFileShareInput & keyof UpdateSMBFileShareInput & keyof UpdateSMBFileShareInput & keyof UpdateSMBFileShareInput & keyof UpdateSMBFileShareInput & keyof UpdateSMBFileShareInput & keyof UpdateSMBFileShareInput & keyof UpdateSMBFileShareInput & keyof UpdateSMBFileShareInput & keyof UpdateSMBFileShareInput & keyof UpdateSMBFileShareInput & keyof UpdateSMBFileShareInput & keyof UpdateSMBFileShareInput & keyof UpdateSMBFileShareInput & keyof UpdateSMBFileShareInput]: (UpdateSMBFileShareInput & UpdateSMBFileShareInput & UpdateSMBFileShareInput & UpdateSMBFileShareInput & UpdateSMBFileShareInput & UpdateSMBFileShareInput & UpdateSMBFileShareInput & UpdateSMBFileShareInput & UpdateSMBFileShareInput & UpdateSMBFileShareInput & UpdateSMBFileShareInput & UpdateSMBFileShareInput & UpdateSMBFileShareInput & UpdateSMBFileShareInput & UpdateSMBFileShareInput & UpdateSMBFileShareInput)[K]
+      [K in keyof UpdateSMBFileShareInput]: (UpdateSMBFileShareInput)[K]
     }>): Request<UpdateSMBFileShareOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateSMBFileShare(
-          this.ops["UpdateSMBFileShare"].applicator.apply(partialParams)
+          this.ops["UpdateSMBFileShare"].apply(partialParams)
         );
     }
 
     invokeUpdateSMBFileShareVisibility(partialParams: ToOptional<{
-      [K in keyof UpdateSMBFileShareVisibilityInput & keyof UpdateSMBFileShareVisibilityInput & keyof UpdateSMBFileShareVisibilityInput & keyof UpdateSMBFileShareVisibilityInput & keyof UpdateSMBFileShareVisibilityInput & keyof UpdateSMBFileShareVisibilityInput & keyof UpdateSMBFileShareVisibilityInput & keyof UpdateSMBFileShareVisibilityInput & keyof Omit<UpdateSMBFileShareVisibilityInput, "GatewayARN"> & keyof UpdateSMBFileShareVisibilityInput & keyof UpdateSMBFileShareVisibilityInput & keyof UpdateSMBFileShareVisibilityInput & keyof UpdateSMBFileShareVisibilityInput & keyof UpdateSMBFileShareVisibilityInput & keyof UpdateSMBFileShareVisibilityInput & keyof UpdateSMBFileShareVisibilityInput]: (UpdateSMBFileShareVisibilityInput & UpdateSMBFileShareVisibilityInput & UpdateSMBFileShareVisibilityInput & UpdateSMBFileShareVisibilityInput & UpdateSMBFileShareVisibilityInput & UpdateSMBFileShareVisibilityInput & UpdateSMBFileShareVisibilityInput & UpdateSMBFileShareVisibilityInput & Omit<UpdateSMBFileShareVisibilityInput, "GatewayARN"> & UpdateSMBFileShareVisibilityInput & UpdateSMBFileShareVisibilityInput & UpdateSMBFileShareVisibilityInput & UpdateSMBFileShareVisibilityInput & UpdateSMBFileShareVisibilityInput & UpdateSMBFileShareVisibilityInput & UpdateSMBFileShareVisibilityInput)[K]
+      [K in keyof UpdateSMBFileShareVisibilityInput]: (UpdateSMBFileShareVisibilityInput)[K]
     }>): Request<UpdateSMBFileShareVisibilityOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateSMBFileShareVisibility(
-          this.ops["UpdateSMBFileShareVisibility"].applicator.apply(partialParams)
+          this.ops["UpdateSMBFileShareVisibility"].apply(partialParams)
         );
     }
 
     invokeUpdateSMBLocalGroups(partialParams: ToOptional<{
-      [K in keyof UpdateSMBLocalGroupsInput & keyof UpdateSMBLocalGroupsInput & keyof UpdateSMBLocalGroupsInput & keyof UpdateSMBLocalGroupsInput & keyof UpdateSMBLocalGroupsInput & keyof UpdateSMBLocalGroupsInput & keyof UpdateSMBLocalGroupsInput & keyof UpdateSMBLocalGroupsInput & keyof Omit<UpdateSMBLocalGroupsInput, "GatewayARN"> & keyof UpdateSMBLocalGroupsInput & keyof UpdateSMBLocalGroupsInput & keyof UpdateSMBLocalGroupsInput & keyof UpdateSMBLocalGroupsInput & keyof UpdateSMBLocalGroupsInput & keyof UpdateSMBLocalGroupsInput & keyof UpdateSMBLocalGroupsInput]: (UpdateSMBLocalGroupsInput & UpdateSMBLocalGroupsInput & UpdateSMBLocalGroupsInput & UpdateSMBLocalGroupsInput & UpdateSMBLocalGroupsInput & UpdateSMBLocalGroupsInput & UpdateSMBLocalGroupsInput & UpdateSMBLocalGroupsInput & Omit<UpdateSMBLocalGroupsInput, "GatewayARN"> & UpdateSMBLocalGroupsInput & UpdateSMBLocalGroupsInput & UpdateSMBLocalGroupsInput & UpdateSMBLocalGroupsInput & UpdateSMBLocalGroupsInput & UpdateSMBLocalGroupsInput & UpdateSMBLocalGroupsInput)[K]
+      [K in keyof UpdateSMBLocalGroupsInput]: (UpdateSMBLocalGroupsInput)[K]
     }>): Request<UpdateSMBLocalGroupsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateSMBLocalGroups(
-          this.ops["UpdateSMBLocalGroups"].applicator.apply(partialParams)
+          this.ops["UpdateSMBLocalGroups"].apply(partialParams)
         );
     }
 
     invokeUpdateSMBSecurityStrategy(partialParams: ToOptional<{
-      [K in keyof UpdateSMBSecurityStrategyInput & keyof UpdateSMBSecurityStrategyInput & keyof UpdateSMBSecurityStrategyInput & keyof UpdateSMBSecurityStrategyInput & keyof UpdateSMBSecurityStrategyInput & keyof UpdateSMBSecurityStrategyInput & keyof UpdateSMBSecurityStrategyInput & keyof UpdateSMBSecurityStrategyInput & keyof Omit<UpdateSMBSecurityStrategyInput, "GatewayARN"> & keyof UpdateSMBSecurityStrategyInput & keyof UpdateSMBSecurityStrategyInput & keyof UpdateSMBSecurityStrategyInput & keyof UpdateSMBSecurityStrategyInput & keyof UpdateSMBSecurityStrategyInput & keyof UpdateSMBSecurityStrategyInput & keyof UpdateSMBSecurityStrategyInput]: (UpdateSMBSecurityStrategyInput & UpdateSMBSecurityStrategyInput & UpdateSMBSecurityStrategyInput & UpdateSMBSecurityStrategyInput & UpdateSMBSecurityStrategyInput & UpdateSMBSecurityStrategyInput & UpdateSMBSecurityStrategyInput & UpdateSMBSecurityStrategyInput & Omit<UpdateSMBSecurityStrategyInput, "GatewayARN"> & UpdateSMBSecurityStrategyInput & UpdateSMBSecurityStrategyInput & UpdateSMBSecurityStrategyInput & UpdateSMBSecurityStrategyInput & UpdateSMBSecurityStrategyInput & UpdateSMBSecurityStrategyInput & UpdateSMBSecurityStrategyInput)[K]
+      [K in keyof UpdateSMBSecurityStrategyInput]: (UpdateSMBSecurityStrategyInput)[K]
     }>): Request<UpdateSMBSecurityStrategyOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateSMBSecurityStrategy(
-          this.ops["UpdateSMBSecurityStrategy"].applicator.apply(partialParams)
+          this.ops["UpdateSMBSecurityStrategy"].apply(partialParams)
         );
     }
 
     invokeUpdateSnapshotSchedule(partialParams: ToOptional<{
-      [K in keyof UpdateSnapshotScheduleInput & keyof UpdateSnapshotScheduleInput & keyof UpdateSnapshotScheduleInput & keyof UpdateSnapshotScheduleInput & keyof UpdateSnapshotScheduleInput & keyof UpdateSnapshotScheduleInput & keyof UpdateSnapshotScheduleInput & keyof UpdateSnapshotScheduleInput & keyof UpdateSnapshotScheduleInput & keyof UpdateSnapshotScheduleInput & keyof UpdateSnapshotScheduleInput & keyof UpdateSnapshotScheduleInput & keyof UpdateSnapshotScheduleInput & keyof UpdateSnapshotScheduleInput & keyof UpdateSnapshotScheduleInput & keyof UpdateSnapshotScheduleInput]: (UpdateSnapshotScheduleInput & UpdateSnapshotScheduleInput & UpdateSnapshotScheduleInput & UpdateSnapshotScheduleInput & UpdateSnapshotScheduleInput & UpdateSnapshotScheduleInput & UpdateSnapshotScheduleInput & UpdateSnapshotScheduleInput & UpdateSnapshotScheduleInput & UpdateSnapshotScheduleInput & UpdateSnapshotScheduleInput & UpdateSnapshotScheduleInput & UpdateSnapshotScheduleInput & UpdateSnapshotScheduleInput & UpdateSnapshotScheduleInput & UpdateSnapshotScheduleInput)[K]
+      [K in keyof UpdateSnapshotScheduleInput]: (UpdateSnapshotScheduleInput)[K]
     }>): Request<UpdateSnapshotScheduleOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateSnapshotSchedule(
-          this.ops["UpdateSnapshotSchedule"].applicator.apply(partialParams)
+          this.ops["UpdateSnapshotSchedule"].apply(partialParams)
         );
     }
 
     invokeUpdateVTLDeviceType(partialParams: ToOptional<{
-      [K in keyof UpdateVTLDeviceTypeInput & keyof UpdateVTLDeviceTypeInput & keyof UpdateVTLDeviceTypeInput & keyof UpdateVTLDeviceTypeInput & keyof UpdateVTLDeviceTypeInput & keyof UpdateVTLDeviceTypeInput & keyof UpdateVTLDeviceTypeInput & keyof UpdateVTLDeviceTypeInput & keyof UpdateVTLDeviceTypeInput & keyof UpdateVTLDeviceTypeInput & keyof UpdateVTLDeviceTypeInput & keyof UpdateVTLDeviceTypeInput & keyof UpdateVTLDeviceTypeInput & keyof UpdateVTLDeviceTypeInput & keyof UpdateVTLDeviceTypeInput & keyof UpdateVTLDeviceTypeInput]: (UpdateVTLDeviceTypeInput & UpdateVTLDeviceTypeInput & UpdateVTLDeviceTypeInput & UpdateVTLDeviceTypeInput & UpdateVTLDeviceTypeInput & UpdateVTLDeviceTypeInput & UpdateVTLDeviceTypeInput & UpdateVTLDeviceTypeInput & UpdateVTLDeviceTypeInput & UpdateVTLDeviceTypeInput & UpdateVTLDeviceTypeInput & UpdateVTLDeviceTypeInput & UpdateVTLDeviceTypeInput & UpdateVTLDeviceTypeInput & UpdateVTLDeviceTypeInput & UpdateVTLDeviceTypeInput)[K]
+      [K in keyof UpdateVTLDeviceTypeInput]: (UpdateVTLDeviceTypeInput)[K]
     }>): Request<UpdateVTLDeviceTypeOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateVTLDeviceType(
-          this.ops["UpdateVTLDeviceType"].applicator.apply(partialParams)
+          this.ops["UpdateVTLDeviceType"].apply(partialParams)
         );
     }
 }

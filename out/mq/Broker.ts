@@ -7,16 +7,18 @@ import {AWSError} from 'aws-sdk/lib/error';
 import {
     CreateBrokerRequest,
     CreateConfigurationRequest,
-    CreateTagsRequest,
     CreateUserRequest,
     DeleteBrokerRequest,
-    DeleteTagsRequest,
     DeleteUserRequest,
     DescribeBrokerRequest,
+    DescribeBrokerEngineTypesRequest,
+    DescribeBrokerInstanceOptionsRequest,
     DescribeConfigurationRequest,
     DescribeConfigurationRevisionRequest,
     DescribeUserRequest,
+    ListBrokersRequest,
     ListConfigurationRevisionsRequest,
+    ListConfigurationsRequest,
     ListTagsRequest,
     ListUsersRequest,
     RebootBrokerRequest,
@@ -29,10 +31,14 @@ import {
     DeleteBrokerResponse,
     DeleteUserResponse,
     DescribeBrokerResponse,
+    DescribeBrokerEngineTypesResponse,
+    DescribeBrokerInstanceOptionsResponse,
     DescribeConfigurationResponse,
     DescribeConfigurationRevisionResponse,
     DescribeUserResponse,
+    ListBrokersResponse,
     ListConfigurationRevisionsResponse,
+    ListConfigurationsResponse,
     ListTagsResponse,
     ListUsersResponse,
     RebootBrokerResponse,
@@ -53,21 +59,24 @@ export default class extends aws.mq.Broker {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.mq.Broker>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.MQ()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -77,204 +86,187 @@ export default class extends aws.mq.Broker {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCreateBroker(partialParams: ToOptional<{
-      [K in keyof CreateBrokerRequest & keyof CreateBrokerRequest & keyof CreateBrokerRequest & keyof CreateBrokerRequest & keyof CreateBrokerRequest & keyof CreateBrokerRequest & keyof CreateBrokerRequest & keyof CreateBrokerRequest]: (CreateBrokerRequest & CreateBrokerRequest & CreateBrokerRequest & CreateBrokerRequest & CreateBrokerRequest & CreateBrokerRequest & CreateBrokerRequest & CreateBrokerRequest)[K]
+      [K in keyof CreateBrokerRequest & keyof Omit<CreateBrokerRequest, "EngineVersion" | "HostInstanceType" | "BrokerName" | "DeploymentMode" | "EngineType">]: (CreateBrokerRequest)[K]
     }>): Request<CreateBrokerResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createBroker(
-          this.ops["CreateBroker"].applicator.apply(partialParams)
+          this.ops["CreateBroker"].apply(partialParams)
         );
     }
 
     invokeCreateConfiguration(partialParams: ToOptional<{
-      [K in keyof CreateConfigurationRequest & keyof CreateConfigurationRequest & keyof CreateConfigurationRequest & keyof CreateConfigurationRequest & keyof CreateConfigurationRequest & keyof CreateConfigurationRequest & keyof CreateConfigurationRequest & keyof CreateConfigurationRequest]: (CreateConfigurationRequest & CreateConfigurationRequest & CreateConfigurationRequest & CreateConfigurationRequest & CreateConfigurationRequest & CreateConfigurationRequest & CreateConfigurationRequest & CreateConfigurationRequest)[K]
+      [K in keyof CreateConfigurationRequest & keyof Omit<CreateConfigurationRequest, "EngineVersion" | "EngineType">]: (CreateConfigurationRequest)[K]
     }>): Request<CreateConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createConfiguration(
-          this.ops["CreateConfiguration"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeCreateTags(partialParams: ToOptional<{
-      [K in keyof CreateTagsRequest & keyof CreateTagsRequest & keyof CreateTagsRequest & keyof CreateTagsRequest & keyof CreateTagsRequest & keyof CreateTagsRequest & keyof CreateTagsRequest & keyof CreateTagsRequest]: (CreateTagsRequest & CreateTagsRequest & CreateTagsRequest & CreateTagsRequest & CreateTagsRequest & CreateTagsRequest & CreateTagsRequest & CreateTagsRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.createTags(
-          this.ops["CreateTags"].applicator.apply(partialParams)
+          this.ops["CreateConfiguration"].apply(partialParams)
         );
     }
 
     invokeCreateUser(partialParams: ToOptional<{
-      [K in keyof CreateUserRequest & keyof CreateUserRequest & keyof CreateUserRequest & keyof CreateUserRequest & keyof CreateUserRequest & keyof CreateUserRequest & keyof CreateUserRequest & keyof CreateUserRequest]: (CreateUserRequest & CreateUserRequest & CreateUserRequest & CreateUserRequest & CreateUserRequest & CreateUserRequest & CreateUserRequest & CreateUserRequest)[K]
+      [K in keyof CreateUserRequest]: (CreateUserRequest)[K]
     }>): Request<CreateUserResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createUser(
-          this.ops["CreateUser"].applicator.apply(partialParams)
+          this.ops["CreateUser"].apply(partialParams)
         );
     }
 
     invokeDeleteBroker(partialParams: ToOptional<{
-      [K in keyof DeleteBrokerRequest & keyof DeleteBrokerRequest & keyof DeleteBrokerRequest & keyof DeleteBrokerRequest & keyof DeleteBrokerRequest & keyof DeleteBrokerRequest & keyof DeleteBrokerRequest & keyof DeleteBrokerRequest]: (DeleteBrokerRequest & DeleteBrokerRequest & DeleteBrokerRequest & DeleteBrokerRequest & DeleteBrokerRequest & DeleteBrokerRequest & DeleteBrokerRequest & DeleteBrokerRequest)[K]
+      [K in keyof DeleteBrokerRequest]: (DeleteBrokerRequest)[K]
     }>): Request<DeleteBrokerResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteBroker(
-          this.ops["DeleteBroker"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteTags(partialParams: ToOptional<{
-      [K in keyof DeleteTagsRequest & keyof DeleteTagsRequest & keyof DeleteTagsRequest & keyof DeleteTagsRequest & keyof DeleteTagsRequest & keyof DeleteTagsRequest & keyof DeleteTagsRequest & keyof DeleteTagsRequest]: (DeleteTagsRequest & DeleteTagsRequest & DeleteTagsRequest & DeleteTagsRequest & DeleteTagsRequest & DeleteTagsRequest & DeleteTagsRequest & DeleteTagsRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteTags(
-          this.ops["DeleteTags"].applicator.apply(partialParams)
+          this.ops["DeleteBroker"].apply(partialParams)
         );
     }
 
     invokeDeleteUser(partialParams: ToOptional<{
-      [K in keyof DeleteUserRequest & keyof DeleteUserRequest & keyof DeleteUserRequest & keyof DeleteUserRequest & keyof DeleteUserRequest & keyof DeleteUserRequest & keyof DeleteUserRequest & keyof DeleteUserRequest]: (DeleteUserRequest & DeleteUserRequest & DeleteUserRequest & DeleteUserRequest & DeleteUserRequest & DeleteUserRequest & DeleteUserRequest & DeleteUserRequest)[K]
+      [K in keyof DeleteUserRequest]: (DeleteUserRequest)[K]
     }>): Request<DeleteUserResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteUser(
-          this.ops["DeleteUser"].applicator.apply(partialParams)
+          this.ops["DeleteUser"].apply(partialParams)
         );
     }
 
     invokeDescribeBroker(partialParams: ToOptional<{
-      [K in keyof DescribeBrokerRequest & keyof DescribeBrokerRequest & keyof DescribeBrokerRequest & keyof DescribeBrokerRequest & keyof DescribeBrokerRequest & keyof DescribeBrokerRequest & keyof DescribeBrokerRequest & keyof DescribeBrokerRequest]: (DescribeBrokerRequest & DescribeBrokerRequest & DescribeBrokerRequest & DescribeBrokerRequest & DescribeBrokerRequest & DescribeBrokerRequest & DescribeBrokerRequest & DescribeBrokerRequest)[K]
+      [K in keyof DescribeBrokerRequest]: (DescribeBrokerRequest)[K]
     }>): Request<DescribeBrokerResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeBroker(
-          this.ops["DescribeBroker"].applicator.apply(partialParams)
+          this.ops["DescribeBroker"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeBrokerEngineTypes(partialParams: ToOptional<{
+      [K in keyof DescribeBrokerEngineTypesRequest]: (DescribeBrokerEngineTypesRequest)[K]
+    }>): Request<DescribeBrokerEngineTypesResponse, AWSError> {
+        this.boot();
+        return this.client.describeBrokerEngineTypes(
+          this.ops["DescribeBrokerEngineTypes"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeBrokerInstanceOptions(partialParams: ToOptional<{
+      [K in keyof DescribeBrokerInstanceOptionsRequest]: (DescribeBrokerInstanceOptionsRequest)[K]
+    }>): Request<DescribeBrokerInstanceOptionsResponse, AWSError> {
+        this.boot();
+        return this.client.describeBrokerInstanceOptions(
+          this.ops["DescribeBrokerInstanceOptions"].apply(partialParams)
         );
     }
 
     invokeDescribeConfiguration(partialParams: ToOptional<{
-      [K in keyof DescribeConfigurationRequest & keyof DescribeConfigurationRequest & keyof DescribeConfigurationRequest & keyof DescribeConfigurationRequest & keyof DescribeConfigurationRequest & keyof DescribeConfigurationRequest & keyof DescribeConfigurationRequest & keyof DescribeConfigurationRequest]: (DescribeConfigurationRequest & DescribeConfigurationRequest & DescribeConfigurationRequest & DescribeConfigurationRequest & DescribeConfigurationRequest & DescribeConfigurationRequest & DescribeConfigurationRequest & DescribeConfigurationRequest)[K]
+      [K in keyof DescribeConfigurationRequest]: (DescribeConfigurationRequest)[K]
     }>): Request<DescribeConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeConfiguration(
-          this.ops["DescribeConfiguration"].applicator.apply(partialParams)
+          this.ops["DescribeConfiguration"].apply(partialParams)
         );
     }
 
     invokeDescribeConfigurationRevision(partialParams: ToOptional<{
-      [K in keyof DescribeConfigurationRevisionRequest & keyof DescribeConfigurationRevisionRequest & keyof DescribeConfigurationRevisionRequest & keyof DescribeConfigurationRevisionRequest & keyof DescribeConfigurationRevisionRequest & keyof DescribeConfigurationRevisionRequest & keyof DescribeConfigurationRevisionRequest & keyof DescribeConfigurationRevisionRequest]: (DescribeConfigurationRevisionRequest & DescribeConfigurationRevisionRequest & DescribeConfigurationRevisionRequest & DescribeConfigurationRevisionRequest & DescribeConfigurationRevisionRequest & DescribeConfigurationRevisionRequest & DescribeConfigurationRevisionRequest & DescribeConfigurationRevisionRequest)[K]
+      [K in keyof DescribeConfigurationRevisionRequest]: (DescribeConfigurationRevisionRequest)[K]
     }>): Request<DescribeConfigurationRevisionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeConfigurationRevision(
-          this.ops["DescribeConfigurationRevision"].applicator.apply(partialParams)
+          this.ops["DescribeConfigurationRevision"].apply(partialParams)
         );
     }
 
     invokeDescribeUser(partialParams: ToOptional<{
-      [K in keyof DescribeUserRequest & keyof DescribeUserRequest & keyof DescribeUserRequest & keyof DescribeUserRequest & keyof DescribeUserRequest & keyof DescribeUserRequest & keyof DescribeUserRequest & keyof DescribeUserRequest]: (DescribeUserRequest & DescribeUserRequest & DescribeUserRequest & DescribeUserRequest & DescribeUserRequest & DescribeUserRequest & DescribeUserRequest & DescribeUserRequest)[K]
+      [K in keyof DescribeUserRequest]: (DescribeUserRequest)[K]
     }>): Request<DescribeUserResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeUser(
-          this.ops["DescribeUser"].applicator.apply(partialParams)
+          this.ops["DescribeUser"].apply(partialParams)
+        );
+    }
+
+    invokeListBrokers(partialParams: ToOptional<{
+      [K in keyof ListBrokersRequest]: (ListBrokersRequest)[K]
+    }>): Request<ListBrokersResponse, AWSError> {
+        this.boot();
+        return this.client.listBrokers(
+          this.ops["ListBrokers"].apply(partialParams)
         );
     }
 
     invokeListConfigurationRevisions(partialParams: ToOptional<{
-      [K in keyof ListConfigurationRevisionsRequest & keyof ListConfigurationRevisionsRequest & keyof ListConfigurationRevisionsRequest & keyof ListConfigurationRevisionsRequest & keyof ListConfigurationRevisionsRequest & keyof ListConfigurationRevisionsRequest & keyof ListConfigurationRevisionsRequest & keyof ListConfigurationRevisionsRequest]: (ListConfigurationRevisionsRequest & ListConfigurationRevisionsRequest & ListConfigurationRevisionsRequest & ListConfigurationRevisionsRequest & ListConfigurationRevisionsRequest & ListConfigurationRevisionsRequest & ListConfigurationRevisionsRequest & ListConfigurationRevisionsRequest)[K]
+      [K in keyof ListConfigurationRevisionsRequest]: (ListConfigurationRevisionsRequest)[K]
     }>): Request<ListConfigurationRevisionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listConfigurationRevisions(
-          this.ops["ListConfigurationRevisions"].applicator.apply(partialParams)
+          this.ops["ListConfigurationRevisions"].apply(partialParams)
+        );
+    }
+
+    invokeListConfigurations(partialParams: ToOptional<{
+      [K in keyof ListConfigurationsRequest]: (ListConfigurationsRequest)[K]
+    }>): Request<ListConfigurationsResponse, AWSError> {
+        this.boot();
+        return this.client.listConfigurations(
+          this.ops["ListConfigurations"].apply(partialParams)
         );
     }
 
     invokeListTags(partialParams: ToOptional<{
-      [K in keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest]: (ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest)[K]
+      [K in keyof ListTagsRequest]: (ListTagsRequest)[K]
     }>): Request<ListTagsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTags(
-          this.ops["ListTags"].applicator.apply(partialParams)
+          this.ops["ListTags"].apply(partialParams)
         );
     }
 
     invokeListUsers(partialParams: ToOptional<{
-      [K in keyof ListUsersRequest & keyof ListUsersRequest & keyof ListUsersRequest & keyof ListUsersRequest & keyof ListUsersRequest & keyof ListUsersRequest & keyof ListUsersRequest & keyof ListUsersRequest]: (ListUsersRequest & ListUsersRequest & ListUsersRequest & ListUsersRequest & ListUsersRequest & ListUsersRequest & ListUsersRequest & ListUsersRequest)[K]
+      [K in keyof ListUsersRequest]: (ListUsersRequest)[K]
     }>): Request<ListUsersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listUsers(
-          this.ops["ListUsers"].applicator.apply(partialParams)
+          this.ops["ListUsers"].apply(partialParams)
         );
     }
 
     invokeRebootBroker(partialParams: ToOptional<{
-      [K in keyof RebootBrokerRequest & keyof RebootBrokerRequest & keyof RebootBrokerRequest & keyof RebootBrokerRequest & keyof RebootBrokerRequest & keyof RebootBrokerRequest & keyof RebootBrokerRequest & keyof RebootBrokerRequest]: (RebootBrokerRequest & RebootBrokerRequest & RebootBrokerRequest & RebootBrokerRequest & RebootBrokerRequest & RebootBrokerRequest & RebootBrokerRequest & RebootBrokerRequest)[K]
+      [K in keyof RebootBrokerRequest]: (RebootBrokerRequest)[K]
     }>): Request<RebootBrokerResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.rebootBroker(
-          this.ops["RebootBroker"].applicator.apply(partialParams)
+          this.ops["RebootBroker"].apply(partialParams)
         );
     }
 
     invokeUpdateBroker(partialParams: ToOptional<{
-      [K in keyof UpdateBrokerRequest & keyof UpdateBrokerRequest & keyof UpdateBrokerRequest & keyof UpdateBrokerRequest & keyof UpdateBrokerRequest & keyof UpdateBrokerRequest & keyof UpdateBrokerRequest & keyof UpdateBrokerRequest]: (UpdateBrokerRequest & UpdateBrokerRequest & UpdateBrokerRequest & UpdateBrokerRequest & UpdateBrokerRequest & UpdateBrokerRequest & UpdateBrokerRequest & UpdateBrokerRequest)[K]
+      [K in keyof UpdateBrokerRequest]: (UpdateBrokerRequest)[K]
     }>): Request<UpdateBrokerResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateBroker(
-          this.ops["UpdateBroker"].applicator.apply(partialParams)
+          this.ops["UpdateBroker"].apply(partialParams)
         );
     }
 
     invokeUpdateConfiguration(partialParams: ToOptional<{
-      [K in keyof UpdateConfigurationRequest & keyof UpdateConfigurationRequest & keyof UpdateConfigurationRequest & keyof UpdateConfigurationRequest & keyof UpdateConfigurationRequest & keyof UpdateConfigurationRequest & keyof UpdateConfigurationRequest & keyof UpdateConfigurationRequest]: (UpdateConfigurationRequest & UpdateConfigurationRequest & UpdateConfigurationRequest & UpdateConfigurationRequest & UpdateConfigurationRequest & UpdateConfigurationRequest & UpdateConfigurationRequest & UpdateConfigurationRequest)[K]
+      [K in keyof UpdateConfigurationRequest]: (UpdateConfigurationRequest)[K]
     }>): Request<UpdateConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateConfiguration(
-          this.ops["UpdateConfiguration"].applicator.apply(partialParams)
+          this.ops["UpdateConfiguration"].apply(partialParams)
         );
     }
 
     invokeUpdateUser(partialParams: ToOptional<{
-      [K in keyof UpdateUserRequest & keyof UpdateUserRequest & keyof UpdateUserRequest & keyof UpdateUserRequest & keyof UpdateUserRequest & keyof UpdateUserRequest & keyof UpdateUserRequest & keyof UpdateUserRequest]: (UpdateUserRequest & UpdateUserRequest & UpdateUserRequest & UpdateUserRequest & UpdateUserRequest & UpdateUserRequest & UpdateUserRequest & UpdateUserRequest)[K]
+      [K in keyof UpdateUserRequest]: (UpdateUserRequest)[K]
     }>): Request<UpdateUserResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateUser(
-          this.ops["UpdateUser"].applicator.apply(partialParams)
+          this.ops["UpdateUser"].apply(partialParams)
         );
     }
 }

@@ -13,8 +13,13 @@ import {
     DeleteJobQueueRequest,
     DeleteSchedulingPolicyRequest,
     DeregisterJobDefinitionRequest,
+    DescribeComputeEnvironmentsRequest,
+    DescribeJobDefinitionsRequest,
+    DescribeJobQueuesRequest,
     DescribeJobsRequest,
     DescribeSchedulingPoliciesRequest,
+    ListJobsRequest,
+    ListSchedulingPoliciesRequest,
     ListTagsForResourceRequest,
     RegisterJobDefinitionRequest,
     SubmitJobRequest,
@@ -32,8 +37,13 @@ import {
     DeleteJobQueueResponse,
     DeleteSchedulingPolicyResponse,
     DeregisterJobDefinitionResponse,
+    DescribeComputeEnvironmentsResponse,
+    DescribeJobDefinitionsResponse,
+    DescribeJobQueuesResponse,
     DescribeJobsResponse,
     DescribeSchedulingPoliciesResponse,
+    ListJobsResponse,
+    ListSchedulingPoliciesResponse,
     ListTagsForResourceResponse,
     RegisterJobDefinitionResponse,
     SubmitJobResponse,
@@ -57,21 +67,24 @@ export default class extends aws.batch.JobDefinition {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.batch.JobDefinition>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.Batch()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -81,215 +94,223 @@ export default class extends aws.batch.JobDefinition {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCancelJob(partialParams: ToOptional<{
-      [K in keyof CancelJobRequest & keyof CancelJobRequest & keyof CancelJobRequest & keyof CancelJobRequest]: (CancelJobRequest & CancelJobRequest & CancelJobRequest & CancelJobRequest)[K]
+      [K in keyof CancelJobRequest]: (CancelJobRequest)[K]
     }>): Request<CancelJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.cancelJob(
-          this.ops["CancelJob"].applicator.apply(partialParams)
+          this.ops["CancelJob"].apply(partialParams)
         );
     }
 
     invokeCreateComputeEnvironment(partialParams: ToOptional<{
-      [K in keyof CreateComputeEnvironmentRequest & keyof CreateComputeEnvironmentRequest & keyof CreateComputeEnvironmentRequest & keyof Omit<CreateComputeEnvironmentRequest, "type">]: (CreateComputeEnvironmentRequest & CreateComputeEnvironmentRequest & CreateComputeEnvironmentRequest & Omit<CreateComputeEnvironmentRequest, "type">)[K]
+      [K in keyof CreateComputeEnvironmentRequest]: (CreateComputeEnvironmentRequest)[K]
     }>): Request<CreateComputeEnvironmentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createComputeEnvironment(
-          this.ops["CreateComputeEnvironment"].applicator.apply(partialParams)
+          this.ops["CreateComputeEnvironment"].apply(partialParams)
         );
     }
 
     invokeCreateJobQueue(partialParams: ToOptional<{
-      [K in keyof CreateJobQueueRequest & keyof CreateJobQueueRequest & keyof CreateJobQueueRequest & keyof CreateJobQueueRequest]: (CreateJobQueueRequest & CreateJobQueueRequest & CreateJobQueueRequest & CreateJobQueueRequest)[K]
+      [K in keyof CreateJobQueueRequest]: (CreateJobQueueRequest)[K]
     }>): Request<CreateJobQueueResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createJobQueue(
-          this.ops["CreateJobQueue"].applicator.apply(partialParams)
+          this.ops["CreateJobQueue"].apply(partialParams)
         );
     }
 
     invokeCreateSchedulingPolicy(partialParams: ToOptional<{
-      [K in keyof CreateSchedulingPolicyRequest & keyof CreateSchedulingPolicyRequest & keyof CreateSchedulingPolicyRequest & keyof CreateSchedulingPolicyRequest]: (CreateSchedulingPolicyRequest & CreateSchedulingPolicyRequest & CreateSchedulingPolicyRequest & CreateSchedulingPolicyRequest)[K]
+      [K in keyof CreateSchedulingPolicyRequest]: (CreateSchedulingPolicyRequest)[K]
     }>): Request<CreateSchedulingPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createSchedulingPolicy(
-          this.ops["CreateSchedulingPolicy"].applicator.apply(partialParams)
+          this.ops["CreateSchedulingPolicy"].apply(partialParams)
         );
     }
 
     invokeDeleteComputeEnvironment(partialParams: ToOptional<{
-      [K in keyof DeleteComputeEnvironmentRequest & keyof DeleteComputeEnvironmentRequest & keyof DeleteComputeEnvironmentRequest & keyof DeleteComputeEnvironmentRequest]: (DeleteComputeEnvironmentRequest & DeleteComputeEnvironmentRequest & DeleteComputeEnvironmentRequest & DeleteComputeEnvironmentRequest)[K]
+      [K in keyof DeleteComputeEnvironmentRequest]: (DeleteComputeEnvironmentRequest)[K]
     }>): Request<DeleteComputeEnvironmentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteComputeEnvironment(
-          this.ops["DeleteComputeEnvironment"].applicator.apply(partialParams)
+          this.ops["DeleteComputeEnvironment"].apply(partialParams)
         );
     }
 
     invokeDeleteJobQueue(partialParams: ToOptional<{
-      [K in keyof DeleteJobQueueRequest & keyof DeleteJobQueueRequest & keyof DeleteJobQueueRequest & keyof DeleteJobQueueRequest]: (DeleteJobQueueRequest & DeleteJobQueueRequest & DeleteJobQueueRequest & DeleteJobQueueRequest)[K]
+      [K in keyof DeleteJobQueueRequest]: (DeleteJobQueueRequest)[K]
     }>): Request<DeleteJobQueueResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteJobQueue(
-          this.ops["DeleteJobQueue"].applicator.apply(partialParams)
+          this.ops["DeleteJobQueue"].apply(partialParams)
         );
     }
 
     invokeDeleteSchedulingPolicy(partialParams: ToOptional<{
-      [K in keyof DeleteSchedulingPolicyRequest & keyof DeleteSchedulingPolicyRequest & keyof DeleteSchedulingPolicyRequest & keyof DeleteSchedulingPolicyRequest]: (DeleteSchedulingPolicyRequest & DeleteSchedulingPolicyRequest & DeleteSchedulingPolicyRequest & DeleteSchedulingPolicyRequest)[K]
+      [K in keyof DeleteSchedulingPolicyRequest]: (DeleteSchedulingPolicyRequest)[K]
     }>): Request<DeleteSchedulingPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteSchedulingPolicy(
-          this.ops["DeleteSchedulingPolicy"].applicator.apply(partialParams)
+          this.ops["DeleteSchedulingPolicy"].apply(partialParams)
         );
     }
 
     invokeDeregisterJobDefinition(partialParams: ToOptional<{
-      [K in keyof DeregisterJobDefinitionRequest & keyof DeregisterJobDefinitionRequest & keyof DeregisterJobDefinitionRequest & keyof DeregisterJobDefinitionRequest]: (DeregisterJobDefinitionRequest & DeregisterJobDefinitionRequest & DeregisterJobDefinitionRequest & DeregisterJobDefinitionRequest)[K]
+      [K in keyof DeregisterJobDefinitionRequest]: (DeregisterJobDefinitionRequest)[K]
     }>): Request<DeregisterJobDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deregisterJobDefinition(
-          this.ops["DeregisterJobDefinition"].applicator.apply(partialParams)
+          this.ops["DeregisterJobDefinition"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeComputeEnvironments(partialParams: ToOptional<{
+      [K in keyof DescribeComputeEnvironmentsRequest]: (DescribeComputeEnvironmentsRequest)[K]
+    }>): Request<DescribeComputeEnvironmentsResponse, AWSError> {
+        this.boot();
+        return this.client.describeComputeEnvironments(
+          this.ops["DescribeComputeEnvironments"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeJobDefinitions(partialParams: ToOptional<{
+      [K in keyof DescribeJobDefinitionsRequest]: (DescribeJobDefinitionsRequest)[K]
+    }>): Request<DescribeJobDefinitionsResponse, AWSError> {
+        this.boot();
+        return this.client.describeJobDefinitions(
+          this.ops["DescribeJobDefinitions"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeJobQueues(partialParams: ToOptional<{
+      [K in keyof DescribeJobQueuesRequest]: (DescribeJobQueuesRequest)[K]
+    }>): Request<DescribeJobQueuesResponse, AWSError> {
+        this.boot();
+        return this.client.describeJobQueues(
+          this.ops["DescribeJobQueues"].apply(partialParams)
         );
     }
 
     invokeDescribeJobs(partialParams: ToOptional<{
-      [K in keyof DescribeJobsRequest & keyof DescribeJobsRequest & keyof DescribeJobsRequest & keyof DescribeJobsRequest]: (DescribeJobsRequest & DescribeJobsRequest & DescribeJobsRequest & DescribeJobsRequest)[K]
+      [K in keyof DescribeJobsRequest]: (DescribeJobsRequest)[K]
     }>): Request<DescribeJobsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeJobs(
-          this.ops["DescribeJobs"].applicator.apply(partialParams)
+          this.ops["DescribeJobs"].apply(partialParams)
         );
     }
 
     invokeDescribeSchedulingPolicies(partialParams: ToOptional<{
-      [K in keyof DescribeSchedulingPoliciesRequest & keyof DescribeSchedulingPoliciesRequest & keyof DescribeSchedulingPoliciesRequest & keyof DescribeSchedulingPoliciesRequest]: (DescribeSchedulingPoliciesRequest & DescribeSchedulingPoliciesRequest & DescribeSchedulingPoliciesRequest & DescribeSchedulingPoliciesRequest)[K]
+      [K in keyof DescribeSchedulingPoliciesRequest]: (DescribeSchedulingPoliciesRequest)[K]
     }>): Request<DescribeSchedulingPoliciesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeSchedulingPolicies(
-          this.ops["DescribeSchedulingPolicies"].applicator.apply(partialParams)
+          this.ops["DescribeSchedulingPolicies"].apply(partialParams)
+        );
+    }
+
+    invokeListJobs(partialParams: ToOptional<{
+      [K in keyof ListJobsRequest]: (ListJobsRequest)[K]
+    }>): Request<ListJobsResponse, AWSError> {
+        this.boot();
+        return this.client.listJobs(
+          this.ops["ListJobs"].apply(partialParams)
+        );
+    }
+
+    invokeListSchedulingPolicies(partialParams: ToOptional<{
+      [K in keyof ListSchedulingPoliciesRequest]: (ListSchedulingPoliciesRequest)[K]
+    }>): Request<ListSchedulingPoliciesResponse, AWSError> {
+        this.boot();
+        return this.client.listSchedulingPolicies(
+          this.ops["ListSchedulingPolicies"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeRegisterJobDefinition(partialParams: ToOptional<{
-      [K in keyof RegisterJobDefinitionRequest & keyof RegisterJobDefinitionRequest & keyof RegisterJobDefinitionRequest & keyof Omit<RegisterJobDefinitionRequest, "type">]: (RegisterJobDefinitionRequest & RegisterJobDefinitionRequest & RegisterJobDefinitionRequest & Omit<RegisterJobDefinitionRequest, "type">)[K]
+      [K in keyof RegisterJobDefinitionRequest]: (RegisterJobDefinitionRequest)[K]
     }>): Request<RegisterJobDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.registerJobDefinition(
-          this.ops["RegisterJobDefinition"].applicator.apply(partialParams)
+          this.ops["RegisterJobDefinition"].apply(partialParams)
         );
     }
 
     invokeSubmitJob(partialParams: ToOptional<{
-      [K in keyof SubmitJobRequest & keyof SubmitJobRequest & keyof SubmitJobRequest & keyof SubmitJobRequest]: (SubmitJobRequest & SubmitJobRequest & SubmitJobRequest & SubmitJobRequest)[K]
+      [K in keyof SubmitJobRequest]: (SubmitJobRequest)[K]
     }>): Request<SubmitJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.submitJob(
-          this.ops["SubmitJob"].applicator.apply(partialParams)
+          this.ops["SubmitJob"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeTerminateJob(partialParams: ToOptional<{
-      [K in keyof TerminateJobRequest & keyof TerminateJobRequest & keyof TerminateJobRequest & keyof TerminateJobRequest]: (TerminateJobRequest & TerminateJobRequest & TerminateJobRequest & TerminateJobRequest)[K]
+      [K in keyof TerminateJobRequest]: (TerminateJobRequest)[K]
     }>): Request<TerminateJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.terminateJob(
-          this.ops["TerminateJob"].applicator.apply(partialParams)
+          this.ops["TerminateJob"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateComputeEnvironment(partialParams: ToOptional<{
-      [K in keyof UpdateComputeEnvironmentRequest & keyof UpdateComputeEnvironmentRequest & keyof UpdateComputeEnvironmentRequest & keyof UpdateComputeEnvironmentRequest]: (UpdateComputeEnvironmentRequest & UpdateComputeEnvironmentRequest & UpdateComputeEnvironmentRequest & UpdateComputeEnvironmentRequest)[K]
+      [K in keyof UpdateComputeEnvironmentRequest]: (UpdateComputeEnvironmentRequest)[K]
     }>): Request<UpdateComputeEnvironmentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateComputeEnvironment(
-          this.ops["UpdateComputeEnvironment"].applicator.apply(partialParams)
+          this.ops["UpdateComputeEnvironment"].apply(partialParams)
         );
     }
 
     invokeUpdateJobQueue(partialParams: ToOptional<{
-      [K in keyof UpdateJobQueueRequest & keyof UpdateJobQueueRequest & keyof UpdateJobQueueRequest & keyof UpdateJobQueueRequest]: (UpdateJobQueueRequest & UpdateJobQueueRequest & UpdateJobQueueRequest & UpdateJobQueueRequest)[K]
+      [K in keyof UpdateJobQueueRequest]: (UpdateJobQueueRequest)[K]
     }>): Request<UpdateJobQueueResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateJobQueue(
-          this.ops["UpdateJobQueue"].applicator.apply(partialParams)
+          this.ops["UpdateJobQueue"].apply(partialParams)
         );
     }
 
     invokeUpdateSchedulingPolicy(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateSchedulingPolicyRequest, "arn"> & keyof UpdateSchedulingPolicyRequest & keyof UpdateSchedulingPolicyRequest & keyof UpdateSchedulingPolicyRequest]: (Omit<UpdateSchedulingPolicyRequest, "arn"> & UpdateSchedulingPolicyRequest & UpdateSchedulingPolicyRequest & UpdateSchedulingPolicyRequest)[K]
+      [K in keyof UpdateSchedulingPolicyRequest]: (UpdateSchedulingPolicyRequest)[K]
     }>): Request<UpdateSchedulingPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateSchedulingPolicy(
-          this.ops["UpdateSchedulingPolicy"].applicator.apply(partialParams)
+          this.ops["UpdateSchedulingPolicy"].apply(partialParams)
         );
     }
 }

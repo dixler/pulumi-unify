@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.synthetics.Canary {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.Synthetics();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,67 +50,60 @@ class default_1 extends aws.synthetics.Canary {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeCreateCanary(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createCanary(this.ops["CreateCanary"].applicator.apply(partialParams));
+        return this.client.createCanary(this.ops["CreateCanary"].apply(partialParams));
     }
     invokeDeleteCanary(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteCanary(this.ops["DeleteCanary"].applicator.apply(partialParams));
+        return this.client.deleteCanary(this.ops["DeleteCanary"].apply(partialParams));
+    }
+    invokeDescribeCanaries(partialParams) {
+        this.boot();
+        return this.client.describeCanaries(this.ops["DescribeCanaries"].apply(partialParams));
+    }
+    invokeDescribeCanariesLastRun(partialParams) {
+        this.boot();
+        return this.client.describeCanariesLastRun(this.ops["DescribeCanariesLastRun"].apply(partialParams));
+    }
+    invokeDescribeRuntimeVersions(partialParams) {
+        this.boot();
+        return this.client.describeRuntimeVersions(this.ops["DescribeRuntimeVersions"].apply(partialParams));
     }
     invokeGetCanary(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getCanary(this.ops["GetCanary"].applicator.apply(partialParams));
+        return this.client.getCanary(this.ops["GetCanary"].apply(partialParams));
     }
     invokeGetCanaryRuns(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getCanaryRuns(this.ops["GetCanaryRuns"].applicator.apply(partialParams));
+        return this.client.getCanaryRuns(this.ops["GetCanaryRuns"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeStartCanary(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startCanary(this.ops["StartCanary"].applicator.apply(partialParams));
+        return this.client.startCanary(this.ops["StartCanary"].apply(partialParams));
     }
     invokeStopCanary(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.stopCanary(this.ops["StopCanary"].applicator.apply(partialParams));
+        return this.client.stopCanary(this.ops["StopCanary"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateCanary(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateCanary(this.ops["UpdateCanary"].applicator.apply(partialParams));
+        return this.client.updateCanary(this.ops["UpdateCanary"].apply(partialParams));
     }
 }
 exports.default = default_1;

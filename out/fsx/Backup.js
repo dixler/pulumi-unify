@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.fsx.Backup {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.FSx();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,181 +50,156 @@ class default_1 extends aws.fsx.Backup {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAssociateFileSystemAliases(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateFileSystemAliases(this.ops["AssociateFileSystemAliases"].applicator.apply(partialParams));
+        return this.client.associateFileSystemAliases(this.ops["AssociateFileSystemAliases"].apply(partialParams));
     }
     invokeCancelDataRepositoryTask(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.cancelDataRepositoryTask(this.ops["CancelDataRepositoryTask"].applicator.apply(partialParams));
+        return this.client.cancelDataRepositoryTask(this.ops["CancelDataRepositoryTask"].apply(partialParams));
     }
     invokeCopyBackup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.copyBackup(this.ops["CopyBackup"].applicator.apply(partialParams));
+        return this.client.copyBackup(this.ops["CopyBackup"].apply(partialParams));
+    }
+    invokeCreateBackup(partialParams) {
+        this.boot();
+        return this.client.createBackup(this.ops["CreateBackup"].apply(partialParams));
     }
     invokeCreateDataRepositoryAssociation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDataRepositoryAssociation(this.ops["CreateDataRepositoryAssociation"].applicator.apply(partialParams));
+        return this.client.createDataRepositoryAssociation(this.ops["CreateDataRepositoryAssociation"].apply(partialParams));
     }
     invokeCreateDataRepositoryTask(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDataRepositoryTask(this.ops["CreateDataRepositoryTask"].applicator.apply(partialParams));
+        return this.client.createDataRepositoryTask(this.ops["CreateDataRepositoryTask"].apply(partialParams));
     }
     invokeCreateFileSystem(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createFileSystem(this.ops["CreateFileSystem"].applicator.apply(partialParams));
+        return this.client.createFileSystem(this.ops["CreateFileSystem"].apply(partialParams));
     }
     invokeCreateFileSystemFromBackup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createFileSystemFromBackup(this.ops["CreateFileSystemFromBackup"].applicator.apply(partialParams));
+        return this.client.createFileSystemFromBackup(this.ops["CreateFileSystemFromBackup"].apply(partialParams));
     }
     invokeCreateSnapshot(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createSnapshot(this.ops["CreateSnapshot"].applicator.apply(partialParams));
+        return this.client.createSnapshot(this.ops["CreateSnapshot"].apply(partialParams));
     }
     invokeCreateStorageVirtualMachine(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createStorageVirtualMachine(this.ops["CreateStorageVirtualMachine"].applicator.apply(partialParams));
+        return this.client.createStorageVirtualMachine(this.ops["CreateStorageVirtualMachine"].apply(partialParams));
     }
     invokeCreateVolume(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createVolume(this.ops["CreateVolume"].applicator.apply(partialParams));
+        return this.client.createVolume(this.ops["CreateVolume"].apply(partialParams));
     }
     invokeCreateVolumeFromBackup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createVolumeFromBackup(this.ops["CreateVolumeFromBackup"].applicator.apply(partialParams));
+        return this.client.createVolumeFromBackup(this.ops["CreateVolumeFromBackup"].apply(partialParams));
     }
     invokeDeleteBackup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteBackup(this.ops["DeleteBackup"].applicator.apply(partialParams));
+        return this.client.deleteBackup(this.ops["DeleteBackup"].apply(partialParams));
     }
     invokeDeleteDataRepositoryAssociation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteDataRepositoryAssociation(this.ops["DeleteDataRepositoryAssociation"].applicator.apply(partialParams));
+        return this.client.deleteDataRepositoryAssociation(this.ops["DeleteDataRepositoryAssociation"].apply(partialParams));
     }
     invokeDeleteFileSystem(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteFileSystem(this.ops["DeleteFileSystem"].applicator.apply(partialParams));
+        return this.client.deleteFileSystem(this.ops["DeleteFileSystem"].apply(partialParams));
     }
     invokeDeleteSnapshot(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteSnapshot(this.ops["DeleteSnapshot"].applicator.apply(partialParams));
+        return this.client.deleteSnapshot(this.ops["DeleteSnapshot"].apply(partialParams));
     }
     invokeDeleteStorageVirtualMachine(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteStorageVirtualMachine(this.ops["DeleteStorageVirtualMachine"].applicator.apply(partialParams));
+        return this.client.deleteStorageVirtualMachine(this.ops["DeleteStorageVirtualMachine"].apply(partialParams));
     }
     invokeDeleteVolume(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteVolume(this.ops["DeleteVolume"].applicator.apply(partialParams));
+        return this.client.deleteVolume(this.ops["DeleteVolume"].apply(partialParams));
+    }
+    invokeDescribeBackups(partialParams) {
+        this.boot();
+        return this.client.describeBackups(this.ops["DescribeBackups"].apply(partialParams));
+    }
+    invokeDescribeDataRepositoryAssociations(partialParams) {
+        this.boot();
+        return this.client.describeDataRepositoryAssociations(this.ops["DescribeDataRepositoryAssociations"].apply(partialParams));
+    }
+    invokeDescribeDataRepositoryTasks(partialParams) {
+        this.boot();
+        return this.client.describeDataRepositoryTasks(this.ops["DescribeDataRepositoryTasks"].apply(partialParams));
     }
     invokeDescribeFileSystemAliases(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeFileSystemAliases(this.ops["DescribeFileSystemAliases"].applicator.apply(partialParams));
+        return this.client.describeFileSystemAliases(this.ops["DescribeFileSystemAliases"].apply(partialParams));
+    }
+    invokeDescribeFileSystems(partialParams) {
+        this.boot();
+        return this.client.describeFileSystems(this.ops["DescribeFileSystems"].apply(partialParams));
+    }
+    invokeDescribeSnapshots(partialParams) {
+        this.boot();
+        return this.client.describeSnapshots(this.ops["DescribeSnapshots"].apply(partialParams));
+    }
+    invokeDescribeStorageVirtualMachines(partialParams) {
+        this.boot();
+        return this.client.describeStorageVirtualMachines(this.ops["DescribeStorageVirtualMachines"].apply(partialParams));
+    }
+    invokeDescribeVolumes(partialParams) {
+        this.boot();
+        return this.client.describeVolumes(this.ops["DescribeVolumes"].apply(partialParams));
     }
     invokeDisassociateFileSystemAliases(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateFileSystemAliases(this.ops["DisassociateFileSystemAliases"].applicator.apply(partialParams));
+        return this.client.disassociateFileSystemAliases(this.ops["DisassociateFileSystemAliases"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeReleaseFileSystemNfsV3Locks(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.releaseFileSystemNfsV3Locks(this.ops["ReleaseFileSystemNfsV3Locks"].applicator.apply(partialParams));
+        return this.client.releaseFileSystemNfsV3Locks(this.ops["ReleaseFileSystemNfsV3Locks"].apply(partialParams));
     }
     invokeRestoreVolumeFromSnapshot(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.restoreVolumeFromSnapshot(this.ops["RestoreVolumeFromSnapshot"].applicator.apply(partialParams));
+        return this.client.restoreVolumeFromSnapshot(this.ops["RestoreVolumeFromSnapshot"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateDataRepositoryAssociation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateDataRepositoryAssociation(this.ops["UpdateDataRepositoryAssociation"].applicator.apply(partialParams));
+        return this.client.updateDataRepositoryAssociation(this.ops["UpdateDataRepositoryAssociation"].apply(partialParams));
     }
     invokeUpdateFileSystem(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateFileSystem(this.ops["UpdateFileSystem"].applicator.apply(partialParams));
+        return this.client.updateFileSystem(this.ops["UpdateFileSystem"].apply(partialParams));
     }
     invokeUpdateSnapshot(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateSnapshot(this.ops["UpdateSnapshot"].applicator.apply(partialParams));
+        return this.client.updateSnapshot(this.ops["UpdateSnapshot"].apply(partialParams));
     }
     invokeUpdateStorageVirtualMachine(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateStorageVirtualMachine(this.ops["UpdateStorageVirtualMachine"].applicator.apply(partialParams));
+        return this.client.updateStorageVirtualMachine(this.ops["UpdateStorageVirtualMachine"].apply(partialParams));
     }
     invokeUpdateVolume(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateVolume(this.ops["UpdateVolume"].applicator.apply(partialParams));
+        return this.client.updateVolume(this.ops["UpdateVolume"].apply(partialParams));
     }
 }
 exports.default = default_1;

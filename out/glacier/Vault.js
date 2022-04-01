@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.glacier.Vault {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.Glacier();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,205 +50,92 @@ class default_1 extends aws.glacier.Vault {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
-    }
-    invokeAbortMultipartUpload(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.abortMultipartUpload(this.ops["AbortMultipartUpload"].applicator.apply(partialParams));
-    }
-    invokeAbortVaultLock(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.abortVaultLock(this.ops["AbortVaultLock"].applicator.apply(partialParams));
-    }
-    invokeAddTagsToVault(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.addTagsToVault(this.ops["AddTagsToVault"].applicator.apply(partialParams));
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeCompleteMultipartUpload(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.completeMultipartUpload(this.ops["CompleteMultipartUpload"].applicator.apply(partialParams));
-    }
-    invokeCompleteVaultLock(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.completeVaultLock(this.ops["CompleteVaultLock"].applicator.apply(partialParams));
+        return this.client.completeMultipartUpload(this.ops["CompleteMultipartUpload"].apply(partialParams));
     }
     invokeCreateVault(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createVault(this.ops["CreateVault"].applicator.apply(partialParams));
-    }
-    invokeDeleteArchive(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteArchive(this.ops["DeleteArchive"].applicator.apply(partialParams));
-    }
-    invokeDeleteVault(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteVault(this.ops["DeleteVault"].applicator.apply(partialParams));
-    }
-    invokeDeleteVaultAccessPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteVaultAccessPolicy(this.ops["DeleteVaultAccessPolicy"].applicator.apply(partialParams));
-    }
-    invokeDeleteVaultNotifications(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteVaultNotifications(this.ops["DeleteVaultNotifications"].applicator.apply(partialParams));
+        return this.client.createVault(this.ops["CreateVault"].apply(partialParams));
     }
     invokeDescribeJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeJob(this.ops["DescribeJob"].applicator.apply(partialParams));
+        return this.client.describeJob(this.ops["DescribeJob"].apply(partialParams));
     }
     invokeDescribeVault(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeVault(this.ops["DescribeVault"].applicator.apply(partialParams));
+        return this.client.describeVault(this.ops["DescribeVault"].apply(partialParams));
     }
     invokeGetDataRetrievalPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getDataRetrievalPolicy(this.ops["GetDataRetrievalPolicy"].applicator.apply(partialParams));
+        return this.client.getDataRetrievalPolicy(this.ops["GetDataRetrievalPolicy"].apply(partialParams));
     }
     invokeGetJobOutput(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getJobOutput(this.ops["GetJobOutput"].applicator.apply(partialParams));
+        return this.client.getJobOutput(this.ops["GetJobOutput"].apply(partialParams));
     }
     invokeGetVaultAccessPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getVaultAccessPolicy(this.ops["GetVaultAccessPolicy"].applicator.apply(partialParams));
+        return this.client.getVaultAccessPolicy(this.ops["GetVaultAccessPolicy"].apply(partialParams));
     }
     invokeGetVaultLock(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getVaultLock(this.ops["GetVaultLock"].applicator.apply(partialParams));
+        return this.client.getVaultLock(this.ops["GetVaultLock"].apply(partialParams));
     }
     invokeGetVaultNotifications(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getVaultNotifications(this.ops["GetVaultNotifications"].applicator.apply(partialParams));
+        return this.client.getVaultNotifications(this.ops["GetVaultNotifications"].apply(partialParams));
     }
     invokeInitiateJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.initiateJob(this.ops["InitiateJob"].applicator.apply(partialParams));
+        return this.client.initiateJob(this.ops["InitiateJob"].apply(partialParams));
     }
     invokeInitiateMultipartUpload(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.initiateMultipartUpload(this.ops["InitiateMultipartUpload"].applicator.apply(partialParams));
+        return this.client.initiateMultipartUpload(this.ops["InitiateMultipartUpload"].apply(partialParams));
     }
     invokeInitiateVaultLock(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.initiateVaultLock(this.ops["InitiateVaultLock"].applicator.apply(partialParams));
+        return this.client.initiateVaultLock(this.ops["InitiateVaultLock"].apply(partialParams));
     }
     invokeListJobs(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listJobs(this.ops["ListJobs"].applicator.apply(partialParams));
+        return this.client.listJobs(this.ops["ListJobs"].apply(partialParams));
     }
     invokeListMultipartUploads(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listMultipartUploads(this.ops["ListMultipartUploads"].applicator.apply(partialParams));
+        return this.client.listMultipartUploads(this.ops["ListMultipartUploads"].apply(partialParams));
     }
     invokeListParts(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listParts(this.ops["ListParts"].applicator.apply(partialParams));
+        return this.client.listParts(this.ops["ListParts"].apply(partialParams));
     }
     invokeListProvisionedCapacity(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listProvisionedCapacity(this.ops["ListProvisionedCapacity"].applicator.apply(partialParams));
+        return this.client.listProvisionedCapacity(this.ops["ListProvisionedCapacity"].apply(partialParams));
     }
     invokeListTagsForVault(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForVault(this.ops["ListTagsForVault"].applicator.apply(partialParams));
+        return this.client.listTagsForVault(this.ops["ListTagsForVault"].apply(partialParams));
     }
     invokeListVaults(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listVaults(this.ops["ListVaults"].applicator.apply(partialParams));
+        return this.client.listVaults(this.ops["ListVaults"].apply(partialParams));
     }
     invokePurchaseProvisionedCapacity(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.purchaseProvisionedCapacity(this.ops["PurchaseProvisionedCapacity"].applicator.apply(partialParams));
-    }
-    invokeRemoveTagsFromVault(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.removeTagsFromVault(this.ops["RemoveTagsFromVault"].applicator.apply(partialParams));
-    }
-    invokeSetDataRetrievalPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.setDataRetrievalPolicy(this.ops["SetDataRetrievalPolicy"].applicator.apply(partialParams));
-    }
-    invokeSetVaultAccessPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.setVaultAccessPolicy(this.ops["SetVaultAccessPolicy"].applicator.apply(partialParams));
-    }
-    invokeSetVaultNotifications(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.setVaultNotifications(this.ops["SetVaultNotifications"].applicator.apply(partialParams));
+        return this.client.purchaseProvisionedCapacity(this.ops["PurchaseProvisionedCapacity"].apply(partialParams));
     }
     invokeUploadArchive(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.uploadArchive(this.ops["UploadArchive"].applicator.apply(partialParams));
+        return this.client.uploadArchive(this.ops["UploadArchive"].apply(partialParams));
     }
     invokeUploadMultipartPart(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.uploadMultipartPart(this.ops["UploadMultipartPart"].applicator.apply(partialParams));
+        return this.client.uploadMultipartPart(this.ops["UploadMultipartPart"].apply(partialParams));
     }
 }
 exports.default = default_1;

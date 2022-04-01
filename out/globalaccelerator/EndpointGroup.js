@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.globalaccelerator.EndpointGroup {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.GlobalAccelerator();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,271 +50,160 @@ class default_1 extends aws.globalaccelerator.EndpointGroup {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAddCustomRoutingEndpoints(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.addCustomRoutingEndpoints(this.ops["AddCustomRoutingEndpoints"].applicator.apply(partialParams));
+        return this.client.addCustomRoutingEndpoints(this.ops["AddCustomRoutingEndpoints"].apply(partialParams));
     }
     invokeAdvertiseByoipCidr(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.advertiseByoipCidr(this.ops["AdvertiseByoipCidr"].applicator.apply(partialParams));
-    }
-    invokeAllowCustomRoutingTraffic(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.allowCustomRoutingTraffic(this.ops["AllowCustomRoutingTraffic"].applicator.apply(partialParams));
+        return this.client.advertiseByoipCidr(this.ops["AdvertiseByoipCidr"].apply(partialParams));
     }
     invokeCreateAccelerator(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createAccelerator(this.ops["CreateAccelerator"].applicator.apply(partialParams));
+        return this.client.createAccelerator(this.ops["CreateAccelerator"].apply(partialParams));
     }
     invokeCreateCustomRoutingAccelerator(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createCustomRoutingAccelerator(this.ops["CreateCustomRoutingAccelerator"].applicator.apply(partialParams));
+        return this.client.createCustomRoutingAccelerator(this.ops["CreateCustomRoutingAccelerator"].apply(partialParams));
     }
     invokeCreateCustomRoutingEndpointGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createCustomRoutingEndpointGroup(this.ops["CreateCustomRoutingEndpointGroup"].applicator.apply(partialParams));
+        return this.client.createCustomRoutingEndpointGroup(this.ops["CreateCustomRoutingEndpointGroup"].apply(partialParams));
     }
     invokeCreateCustomRoutingListener(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createCustomRoutingListener(this.ops["CreateCustomRoutingListener"].applicator.apply(partialParams));
+        return this.client.createCustomRoutingListener(this.ops["CreateCustomRoutingListener"].apply(partialParams));
     }
     invokeCreateEndpointGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createEndpointGroup(this.ops["CreateEndpointGroup"].applicator.apply(partialParams));
+        return this.client.createEndpointGroup(this.ops["CreateEndpointGroup"].apply(partialParams));
     }
     invokeCreateListener(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createListener(this.ops["CreateListener"].applicator.apply(partialParams));
-    }
-    invokeDeleteAccelerator(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteAccelerator(this.ops["DeleteAccelerator"].applicator.apply(partialParams));
-    }
-    invokeDeleteCustomRoutingAccelerator(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteCustomRoutingAccelerator(this.ops["DeleteCustomRoutingAccelerator"].applicator.apply(partialParams));
-    }
-    invokeDeleteCustomRoutingEndpointGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteCustomRoutingEndpointGroup(this.ops["DeleteCustomRoutingEndpointGroup"].applicator.apply(partialParams));
-    }
-    invokeDeleteCustomRoutingListener(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteCustomRoutingListener(this.ops["DeleteCustomRoutingListener"].applicator.apply(partialParams));
-    }
-    invokeDeleteEndpointGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteEndpointGroup(this.ops["DeleteEndpointGroup"].applicator.apply(partialParams));
-    }
-    invokeDeleteListener(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteListener(this.ops["DeleteListener"].applicator.apply(partialParams));
-    }
-    invokeDenyCustomRoutingTraffic(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.denyCustomRoutingTraffic(this.ops["DenyCustomRoutingTraffic"].applicator.apply(partialParams));
+        return this.client.createListener(this.ops["CreateListener"].apply(partialParams));
     }
     invokeDeprovisionByoipCidr(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deprovisionByoipCidr(this.ops["DeprovisionByoipCidr"].applicator.apply(partialParams));
+        return this.client.deprovisionByoipCidr(this.ops["DeprovisionByoipCidr"].apply(partialParams));
     }
     invokeDescribeAccelerator(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeAccelerator(this.ops["DescribeAccelerator"].applicator.apply(partialParams));
+        return this.client.describeAccelerator(this.ops["DescribeAccelerator"].apply(partialParams));
     }
     invokeDescribeAcceleratorAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeAcceleratorAttributes(this.ops["DescribeAcceleratorAttributes"].applicator.apply(partialParams));
+        return this.client.describeAcceleratorAttributes(this.ops["DescribeAcceleratorAttributes"].apply(partialParams));
     }
     invokeDescribeCustomRoutingAccelerator(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeCustomRoutingAccelerator(this.ops["DescribeCustomRoutingAccelerator"].applicator.apply(partialParams));
+        return this.client.describeCustomRoutingAccelerator(this.ops["DescribeCustomRoutingAccelerator"].apply(partialParams));
     }
     invokeDescribeCustomRoutingAcceleratorAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeCustomRoutingAcceleratorAttributes(this.ops["DescribeCustomRoutingAcceleratorAttributes"].applicator.apply(partialParams));
+        return this.client.describeCustomRoutingAcceleratorAttributes(this.ops["DescribeCustomRoutingAcceleratorAttributes"].apply(partialParams));
     }
     invokeDescribeCustomRoutingEndpointGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeCustomRoutingEndpointGroup(this.ops["DescribeCustomRoutingEndpointGroup"].applicator.apply(partialParams));
+        return this.client.describeCustomRoutingEndpointGroup(this.ops["DescribeCustomRoutingEndpointGroup"].apply(partialParams));
     }
     invokeDescribeCustomRoutingListener(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeCustomRoutingListener(this.ops["DescribeCustomRoutingListener"].applicator.apply(partialParams));
+        return this.client.describeCustomRoutingListener(this.ops["DescribeCustomRoutingListener"].apply(partialParams));
     }
     invokeDescribeEndpointGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeEndpointGroup(this.ops["DescribeEndpointGroup"].applicator.apply(partialParams));
+        return this.client.describeEndpointGroup(this.ops["DescribeEndpointGroup"].apply(partialParams));
     }
     invokeDescribeListener(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeListener(this.ops["DescribeListener"].applicator.apply(partialParams));
+        return this.client.describeListener(this.ops["DescribeListener"].apply(partialParams));
+    }
+    invokeListAccelerators(partialParams) {
+        this.boot();
+        return this.client.listAccelerators(this.ops["ListAccelerators"].apply(partialParams));
+    }
+    invokeListByoipCidrs(partialParams) {
+        this.boot();
+        return this.client.listByoipCidrs(this.ops["ListByoipCidrs"].apply(partialParams));
+    }
+    invokeListCustomRoutingAccelerators(partialParams) {
+        this.boot();
+        return this.client.listCustomRoutingAccelerators(this.ops["ListCustomRoutingAccelerators"].apply(partialParams));
     }
     invokeListCustomRoutingEndpointGroups(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listCustomRoutingEndpointGroups(this.ops["ListCustomRoutingEndpointGroups"].applicator.apply(partialParams));
+        return this.client.listCustomRoutingEndpointGroups(this.ops["ListCustomRoutingEndpointGroups"].apply(partialParams));
     }
     invokeListCustomRoutingListeners(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listCustomRoutingListeners(this.ops["ListCustomRoutingListeners"].applicator.apply(partialParams));
+        return this.client.listCustomRoutingListeners(this.ops["ListCustomRoutingListeners"].apply(partialParams));
     }
     invokeListCustomRoutingPortMappings(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listCustomRoutingPortMappings(this.ops["ListCustomRoutingPortMappings"].applicator.apply(partialParams));
+        return this.client.listCustomRoutingPortMappings(this.ops["ListCustomRoutingPortMappings"].apply(partialParams));
     }
     invokeListCustomRoutingPortMappingsByDestination(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listCustomRoutingPortMappingsByDestination(this.ops["ListCustomRoutingPortMappingsByDestination"].applicator.apply(partialParams));
+        return this.client.listCustomRoutingPortMappingsByDestination(this.ops["ListCustomRoutingPortMappingsByDestination"].apply(partialParams));
     }
     invokeListEndpointGroups(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listEndpointGroups(this.ops["ListEndpointGroups"].applicator.apply(partialParams));
+        return this.client.listEndpointGroups(this.ops["ListEndpointGroups"].apply(partialParams));
     }
     invokeListListeners(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listListeners(this.ops["ListListeners"].applicator.apply(partialParams));
+        return this.client.listListeners(this.ops["ListListeners"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeProvisionByoipCidr(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.provisionByoipCidr(this.ops["ProvisionByoipCidr"].applicator.apply(partialParams));
-    }
-    invokeRemoveCustomRoutingEndpoints(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.removeCustomRoutingEndpoints(this.ops["RemoveCustomRoutingEndpoints"].applicator.apply(partialParams));
+        return this.client.provisionByoipCidr(this.ops["ProvisionByoipCidr"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateAccelerator(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateAccelerator(this.ops["UpdateAccelerator"].applicator.apply(partialParams));
+        return this.client.updateAccelerator(this.ops["UpdateAccelerator"].apply(partialParams));
     }
     invokeUpdateAcceleratorAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateAcceleratorAttributes(this.ops["UpdateAcceleratorAttributes"].applicator.apply(partialParams));
+        return this.client.updateAcceleratorAttributes(this.ops["UpdateAcceleratorAttributes"].apply(partialParams));
     }
     invokeUpdateCustomRoutingAccelerator(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateCustomRoutingAccelerator(this.ops["UpdateCustomRoutingAccelerator"].applicator.apply(partialParams));
+        return this.client.updateCustomRoutingAccelerator(this.ops["UpdateCustomRoutingAccelerator"].apply(partialParams));
     }
     invokeUpdateCustomRoutingAcceleratorAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateCustomRoutingAcceleratorAttributes(this.ops["UpdateCustomRoutingAcceleratorAttributes"].applicator.apply(partialParams));
+        return this.client.updateCustomRoutingAcceleratorAttributes(this.ops["UpdateCustomRoutingAcceleratorAttributes"].apply(partialParams));
     }
     invokeUpdateCustomRoutingListener(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateCustomRoutingListener(this.ops["UpdateCustomRoutingListener"].applicator.apply(partialParams));
+        return this.client.updateCustomRoutingListener(this.ops["UpdateCustomRoutingListener"].apply(partialParams));
     }
     invokeUpdateEndpointGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateEndpointGroup(this.ops["UpdateEndpointGroup"].applicator.apply(partialParams));
+        return this.client.updateEndpointGroup(this.ops["UpdateEndpointGroup"].apply(partialParams));
     }
     invokeUpdateListener(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateListener(this.ops["UpdateListener"].applicator.apply(partialParams));
+        return this.client.updateListener(this.ops["UpdateListener"].apply(partialParams));
     }
     invokeWithdrawByoipCidr(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.withdrawByoipCidr(this.ops["WithdrawByoipCidr"].applicator.apply(partialParams));
+        return this.client.withdrawByoipCidr(this.ops["WithdrawByoipCidr"].apply(partialParams));
     }
 }
 exports.default = default_1;

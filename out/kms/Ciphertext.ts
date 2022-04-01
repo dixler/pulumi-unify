@@ -7,52 +7,45 @@ import {AWSError} from 'aws-sdk/lib/error';
 import {
     CancelKeyDeletionRequest,
     ConnectCustomKeyStoreRequest,
-    CreateAliasRequest,
     CreateCustomKeyStoreRequest,
     CreateGrantRequest,
+    CreateKeyRequest,
     DecryptRequest,
-    DeleteAliasRequest,
     DeleteCustomKeyStoreRequest,
-    DeleteImportedKeyMaterialRequest,
+    DescribeCustomKeyStoresRequest,
     DescribeKeyRequest,
-    DisableKeyRequest,
-    DisableKeyRotationRequest,
     DisconnectCustomKeyStoreRequest,
-    EnableKeyRequest,
-    EnableKeyRotationRequest,
     EncryptRequest,
     GenerateDataKeyRequest,
     GenerateDataKeyPairRequest,
     GenerateDataKeyPairWithoutPlaintextRequest,
     GenerateDataKeyWithoutPlaintextRequest,
+    GenerateRandomRequest,
     GetKeyPolicyRequest,
     GetKeyRotationStatusRequest,
     GetParametersForImportRequest,
     GetPublicKeyRequest,
     ImportKeyMaterialRequest,
+    ListAliasesRequest,
     ListGrantsRequest,
     ListKeyPoliciesRequest,
+    ListKeysRequest,
     ListResourceTagsRequest,
     ListRetirableGrantsRequest,
-    PutKeyPolicyRequest,
     ReEncryptRequest,
     ReplicateKeyRequest,
-    RevokeGrantRequest,
     ScheduleKeyDeletionRequest,
     SignRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
-    UpdateAliasRequest,
     UpdateCustomKeyStoreRequest,
-    UpdateKeyDescriptionRequest,
-    UpdatePrimaryRegionRequest,
     VerifyRequest,
     CancelKeyDeletionResponse,
     ConnectCustomKeyStoreResponse,
     CreateCustomKeyStoreResponse,
     CreateGrantResponse,
+    CreateKeyResponse,
     DecryptResponse,
     DeleteCustomKeyStoreResponse,
+    DescribeCustomKeyStoresResponse,
     DescribeKeyResponse,
     DisconnectCustomKeyStoreResponse,
     EncryptResponse,
@@ -60,13 +53,16 @@ import {
     GenerateDataKeyPairResponse,
     GenerateDataKeyPairWithoutPlaintextResponse,
     GenerateDataKeyWithoutPlaintextResponse,
+    GenerateRandomResponse,
     GetKeyPolicyResponse,
     GetKeyRotationStatusResponse,
     GetParametersForImportResponse,
     GetPublicKeyResponse,
     ImportKeyMaterialResponse,
+    ListAliasesResponse,
     ListGrantsResponse,
     ListKeyPoliciesResponse,
+    ListKeysResponse,
     ListResourceTagsResponse,
     ReEncryptResponse,
     ReplicateKeyResponse,
@@ -88,21 +84,24 @@ export default class extends aws.kms.Ciphertext {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.kms.Ciphertext>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.KMS()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -112,468 +111,304 @@ export default class extends aws.kms.Ciphertext {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCancelKeyDeletion(partialParams: ToOptional<{
-      [K in keyof CancelKeyDeletionRequest & keyof CancelKeyDeletionRequest & keyof CancelKeyDeletionRequest]: (CancelKeyDeletionRequest & CancelKeyDeletionRequest & CancelKeyDeletionRequest)[K]
+      [K in keyof CancelKeyDeletionRequest & keyof Omit<CancelKeyDeletionRequest, "KeyId">]: (CancelKeyDeletionRequest)[K]
     }>): Request<CancelKeyDeletionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.cancelKeyDeletion(
-          this.ops["CancelKeyDeletion"].applicator.apply(partialParams)
+          this.ops["CancelKeyDeletion"].apply(partialParams)
         );
     }
 
     invokeConnectCustomKeyStore(partialParams: ToOptional<{
-      [K in keyof ConnectCustomKeyStoreRequest & keyof ConnectCustomKeyStoreRequest & keyof ConnectCustomKeyStoreRequest]: (ConnectCustomKeyStoreRequest & ConnectCustomKeyStoreRequest & ConnectCustomKeyStoreRequest)[K]
+      [K in keyof ConnectCustomKeyStoreRequest]: (ConnectCustomKeyStoreRequest)[K]
     }>): Request<ConnectCustomKeyStoreResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.connectCustomKeyStore(
-          this.ops["ConnectCustomKeyStore"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeCreateAlias(partialParams: ToOptional<{
-      [K in keyof CreateAliasRequest & keyof CreateAliasRequest & keyof CreateAliasRequest]: (CreateAliasRequest & CreateAliasRequest & CreateAliasRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.createAlias(
-          this.ops["CreateAlias"].applicator.apply(partialParams)
+          this.ops["ConnectCustomKeyStore"].apply(partialParams)
         );
     }
 
     invokeCreateCustomKeyStore(partialParams: ToOptional<{
-      [K in keyof CreateCustomKeyStoreRequest & keyof CreateCustomKeyStoreRequest & keyof CreateCustomKeyStoreRequest]: (CreateCustomKeyStoreRequest & CreateCustomKeyStoreRequest & CreateCustomKeyStoreRequest)[K]
+      [K in keyof CreateCustomKeyStoreRequest]: (CreateCustomKeyStoreRequest)[K]
     }>): Request<CreateCustomKeyStoreResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createCustomKeyStore(
-          this.ops["CreateCustomKeyStore"].applicator.apply(partialParams)
+          this.ops["CreateCustomKeyStore"].apply(partialParams)
         );
     }
 
     invokeCreateGrant(partialParams: ToOptional<{
-      [K in keyof CreateGrantRequest & keyof CreateGrantRequest & keyof CreateGrantRequest]: (CreateGrantRequest & CreateGrantRequest & CreateGrantRequest)[K]
+      [K in keyof CreateGrantRequest & keyof Omit<CreateGrantRequest, "KeyId">]: (CreateGrantRequest)[K]
     }>): Request<CreateGrantResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createGrant(
-          this.ops["CreateGrant"].applicator.apply(partialParams)
+          this.ops["CreateGrant"].apply(partialParams)
+        );
+    }
+
+    invokeCreateKey(partialParams: ToOptional<{
+      [K in keyof CreateKeyRequest]: (CreateKeyRequest)[K]
+    }>): Request<CreateKeyResponse, AWSError> {
+        this.boot();
+        return this.client.createKey(
+          this.ops["CreateKey"].apply(partialParams)
         );
     }
 
     invokeDecrypt(partialParams: ToOptional<{
-      [K in keyof Omit<DecryptRequest, "CiphertextBlob"> & keyof DecryptRequest & keyof DecryptRequest]: (Omit<DecryptRequest, "CiphertextBlob"> & DecryptRequest & DecryptRequest)[K]
+      [K in keyof DecryptRequest & keyof Omit<DecryptRequest, "CiphertextBlob">]: (DecryptRequest)[K]
     }>): Request<DecryptResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.decrypt(
-          this.ops["Decrypt"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteAlias(partialParams: ToOptional<{
-      [K in keyof DeleteAliasRequest & keyof DeleteAliasRequest & keyof DeleteAliasRequest]: (DeleteAliasRequest & DeleteAliasRequest & DeleteAliasRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteAlias(
-          this.ops["DeleteAlias"].applicator.apply(partialParams)
+          this.ops["Decrypt"].apply(partialParams)
         );
     }
 
     invokeDeleteCustomKeyStore(partialParams: ToOptional<{
-      [K in keyof DeleteCustomKeyStoreRequest & keyof DeleteCustomKeyStoreRequest & keyof DeleteCustomKeyStoreRequest]: (DeleteCustomKeyStoreRequest & DeleteCustomKeyStoreRequest & DeleteCustomKeyStoreRequest)[K]
+      [K in keyof DeleteCustomKeyStoreRequest]: (DeleteCustomKeyStoreRequest)[K]
     }>): Request<DeleteCustomKeyStoreResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteCustomKeyStore(
-          this.ops["DeleteCustomKeyStore"].applicator.apply(partialParams)
+          this.ops["DeleteCustomKeyStore"].apply(partialParams)
         );
     }
 
-    invokeDeleteImportedKeyMaterial(partialParams: ToOptional<{
-      [K in keyof DeleteImportedKeyMaterialRequest & keyof DeleteImportedKeyMaterialRequest & keyof DeleteImportedKeyMaterialRequest]: (DeleteImportedKeyMaterialRequest & DeleteImportedKeyMaterialRequest & DeleteImportedKeyMaterialRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDescribeCustomKeyStores(partialParams: ToOptional<{
+      [K in keyof DescribeCustomKeyStoresRequest]: (DescribeCustomKeyStoresRequest)[K]
+    }>): Request<DescribeCustomKeyStoresResponse, AWSError> {
         this.boot();
-        return this.client.deleteImportedKeyMaterial(
-          this.ops["DeleteImportedKeyMaterial"].applicator.apply(partialParams)
+        return this.client.describeCustomKeyStores(
+          this.ops["DescribeCustomKeyStores"].apply(partialParams)
         );
     }
 
     invokeDescribeKey(partialParams: ToOptional<{
-      [K in keyof DescribeKeyRequest & keyof DescribeKeyRequest & keyof DescribeKeyRequest]: (DescribeKeyRequest & DescribeKeyRequest & DescribeKeyRequest)[K]
+      [K in keyof DescribeKeyRequest & keyof Omit<DescribeKeyRequest, "KeyId">]: (DescribeKeyRequest)[K]
     }>): Request<DescribeKeyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeKey(
-          this.ops["DescribeKey"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDisableKey(partialParams: ToOptional<{
-      [K in keyof DisableKeyRequest & keyof DisableKeyRequest & keyof DisableKeyRequest]: (DisableKeyRequest & DisableKeyRequest & DisableKeyRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disableKey(
-          this.ops["DisableKey"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDisableKeyRotation(partialParams: ToOptional<{
-      [K in keyof DisableKeyRotationRequest & keyof DisableKeyRotationRequest & keyof DisableKeyRotationRequest]: (DisableKeyRotationRequest & DisableKeyRotationRequest & DisableKeyRotationRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disableKeyRotation(
-          this.ops["DisableKeyRotation"].applicator.apply(partialParams)
+          this.ops["DescribeKey"].apply(partialParams)
         );
     }
 
     invokeDisconnectCustomKeyStore(partialParams: ToOptional<{
-      [K in keyof DisconnectCustomKeyStoreRequest & keyof DisconnectCustomKeyStoreRequest & keyof DisconnectCustomKeyStoreRequest]: (DisconnectCustomKeyStoreRequest & DisconnectCustomKeyStoreRequest & DisconnectCustomKeyStoreRequest)[K]
+      [K in keyof DisconnectCustomKeyStoreRequest]: (DisconnectCustomKeyStoreRequest)[K]
     }>): Request<DisconnectCustomKeyStoreResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disconnectCustomKeyStore(
-          this.ops["DisconnectCustomKeyStore"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeEnableKey(partialParams: ToOptional<{
-      [K in keyof EnableKeyRequest & keyof EnableKeyRequest & keyof EnableKeyRequest]: (EnableKeyRequest & EnableKeyRequest & EnableKeyRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.enableKey(
-          this.ops["EnableKey"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeEnableKeyRotation(partialParams: ToOptional<{
-      [K in keyof EnableKeyRotationRequest & keyof EnableKeyRotationRequest & keyof EnableKeyRotationRequest]: (EnableKeyRotationRequest & EnableKeyRotationRequest & EnableKeyRotationRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.enableKeyRotation(
-          this.ops["EnableKeyRotation"].applicator.apply(partialParams)
+          this.ops["DisconnectCustomKeyStore"].apply(partialParams)
         );
     }
 
     invokeEncrypt(partialParams: ToOptional<{
-      [K in keyof EncryptRequest & keyof EncryptRequest & keyof EncryptRequest]: (EncryptRequest & EncryptRequest & EncryptRequest)[K]
+      [K in keyof EncryptRequest & keyof Omit<EncryptRequest, "KeyId" | "Plaintext">]: (EncryptRequest)[K]
     }>): Request<EncryptResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.encrypt(
-          this.ops["Encrypt"].applicator.apply(partialParams)
+          this.ops["Encrypt"].apply(partialParams)
         );
     }
 
     invokeGenerateDataKey(partialParams: ToOptional<{
-      [K in keyof GenerateDataKeyRequest & keyof GenerateDataKeyRequest & keyof GenerateDataKeyRequest]: (GenerateDataKeyRequest & GenerateDataKeyRequest & GenerateDataKeyRequest)[K]
+      [K in keyof GenerateDataKeyRequest & keyof Omit<GenerateDataKeyRequest, "KeyId">]: (GenerateDataKeyRequest)[K]
     }>): Request<GenerateDataKeyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.generateDataKey(
-          this.ops["GenerateDataKey"].applicator.apply(partialParams)
+          this.ops["GenerateDataKey"].apply(partialParams)
         );
     }
 
     invokeGenerateDataKeyPair(partialParams: ToOptional<{
-      [K in keyof GenerateDataKeyPairRequest & keyof GenerateDataKeyPairRequest & keyof GenerateDataKeyPairRequest]: (GenerateDataKeyPairRequest & GenerateDataKeyPairRequest & GenerateDataKeyPairRequest)[K]
+      [K in keyof GenerateDataKeyPairRequest & keyof Omit<GenerateDataKeyPairRequest, "KeyId">]: (GenerateDataKeyPairRequest)[K]
     }>): Request<GenerateDataKeyPairResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.generateDataKeyPair(
-          this.ops["GenerateDataKeyPair"].applicator.apply(partialParams)
+          this.ops["GenerateDataKeyPair"].apply(partialParams)
         );
     }
 
     invokeGenerateDataKeyPairWithoutPlaintext(partialParams: ToOptional<{
-      [K in keyof GenerateDataKeyPairWithoutPlaintextRequest & keyof GenerateDataKeyPairWithoutPlaintextRequest & keyof GenerateDataKeyPairWithoutPlaintextRequest]: (GenerateDataKeyPairWithoutPlaintextRequest & GenerateDataKeyPairWithoutPlaintextRequest & GenerateDataKeyPairWithoutPlaintextRequest)[K]
+      [K in keyof GenerateDataKeyPairWithoutPlaintextRequest & keyof Omit<GenerateDataKeyPairWithoutPlaintextRequest, "KeyId">]: (GenerateDataKeyPairWithoutPlaintextRequest)[K]
     }>): Request<GenerateDataKeyPairWithoutPlaintextResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.generateDataKeyPairWithoutPlaintext(
-          this.ops["GenerateDataKeyPairWithoutPlaintext"].applicator.apply(partialParams)
+          this.ops["GenerateDataKeyPairWithoutPlaintext"].apply(partialParams)
         );
     }
 
     invokeGenerateDataKeyWithoutPlaintext(partialParams: ToOptional<{
-      [K in keyof GenerateDataKeyWithoutPlaintextRequest & keyof GenerateDataKeyWithoutPlaintextRequest & keyof GenerateDataKeyWithoutPlaintextRequest]: (GenerateDataKeyWithoutPlaintextRequest & GenerateDataKeyWithoutPlaintextRequest & GenerateDataKeyWithoutPlaintextRequest)[K]
+      [K in keyof GenerateDataKeyWithoutPlaintextRequest & keyof Omit<GenerateDataKeyWithoutPlaintextRequest, "KeyId">]: (GenerateDataKeyWithoutPlaintextRequest)[K]
     }>): Request<GenerateDataKeyWithoutPlaintextResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.generateDataKeyWithoutPlaintext(
-          this.ops["GenerateDataKeyWithoutPlaintext"].applicator.apply(partialParams)
+          this.ops["GenerateDataKeyWithoutPlaintext"].apply(partialParams)
+        );
+    }
+
+    invokeGenerateRandom(partialParams: ToOptional<{
+      [K in keyof GenerateRandomRequest]: (GenerateRandomRequest)[K]
+    }>): Request<GenerateRandomResponse, AWSError> {
+        this.boot();
+        return this.client.generateRandom(
+          this.ops["GenerateRandom"].apply(partialParams)
         );
     }
 
     invokeGetKeyPolicy(partialParams: ToOptional<{
-      [K in keyof GetKeyPolicyRequest & keyof GetKeyPolicyRequest & keyof GetKeyPolicyRequest]: (GetKeyPolicyRequest & GetKeyPolicyRequest & GetKeyPolicyRequest)[K]
+      [K in keyof GetKeyPolicyRequest & keyof Omit<GetKeyPolicyRequest, "KeyId">]: (GetKeyPolicyRequest)[K]
     }>): Request<GetKeyPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getKeyPolicy(
-          this.ops["GetKeyPolicy"].applicator.apply(partialParams)
+          this.ops["GetKeyPolicy"].apply(partialParams)
         );
     }
 
     invokeGetKeyRotationStatus(partialParams: ToOptional<{
-      [K in keyof GetKeyRotationStatusRequest & keyof GetKeyRotationStatusRequest & keyof GetKeyRotationStatusRequest]: (GetKeyRotationStatusRequest & GetKeyRotationStatusRequest & GetKeyRotationStatusRequest)[K]
+      [K in keyof GetKeyRotationStatusRequest & keyof Omit<GetKeyRotationStatusRequest, "KeyId">]: (GetKeyRotationStatusRequest)[K]
     }>): Request<GetKeyRotationStatusResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getKeyRotationStatus(
-          this.ops["GetKeyRotationStatus"].applicator.apply(partialParams)
+          this.ops["GetKeyRotationStatus"].apply(partialParams)
         );
     }
 
     invokeGetParametersForImport(partialParams: ToOptional<{
-      [K in keyof GetParametersForImportRequest & keyof GetParametersForImportRequest & keyof GetParametersForImportRequest]: (GetParametersForImportRequest & GetParametersForImportRequest & GetParametersForImportRequest)[K]
+      [K in keyof GetParametersForImportRequest & keyof Omit<GetParametersForImportRequest, "KeyId">]: (GetParametersForImportRequest)[K]
     }>): Request<GetParametersForImportResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getParametersForImport(
-          this.ops["GetParametersForImport"].applicator.apply(partialParams)
+          this.ops["GetParametersForImport"].apply(partialParams)
         );
     }
 
     invokeGetPublicKey(partialParams: ToOptional<{
-      [K in keyof GetPublicKeyRequest & keyof GetPublicKeyRequest & keyof GetPublicKeyRequest]: (GetPublicKeyRequest & GetPublicKeyRequest & GetPublicKeyRequest)[K]
+      [K in keyof GetPublicKeyRequest & keyof Omit<GetPublicKeyRequest, "KeyId">]: (GetPublicKeyRequest)[K]
     }>): Request<GetPublicKeyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getPublicKey(
-          this.ops["GetPublicKey"].applicator.apply(partialParams)
+          this.ops["GetPublicKey"].apply(partialParams)
         );
     }
 
     invokeImportKeyMaterial(partialParams: ToOptional<{
-      [K in keyof ImportKeyMaterialRequest & keyof ImportKeyMaterialRequest & keyof ImportKeyMaterialRequest]: (ImportKeyMaterialRequest & ImportKeyMaterialRequest & ImportKeyMaterialRequest)[K]
+      [K in keyof ImportKeyMaterialRequest & keyof Omit<ImportKeyMaterialRequest, "KeyId">]: (ImportKeyMaterialRequest)[K]
     }>): Request<ImportKeyMaterialResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.importKeyMaterial(
-          this.ops["ImportKeyMaterial"].applicator.apply(partialParams)
+          this.ops["ImportKeyMaterial"].apply(partialParams)
+        );
+    }
+
+    invokeListAliases(partialParams: ToOptional<{
+      [K in keyof ListAliasesRequest]: (ListAliasesRequest)[K]
+    }>): Request<ListAliasesResponse, AWSError> {
+        this.boot();
+        return this.client.listAliases(
+          this.ops["ListAliases"].apply(partialParams)
         );
     }
 
     invokeListGrants(partialParams: ToOptional<{
-      [K in keyof ListGrantsRequest & keyof Omit<ListGrantsRequest, "KeyId"> & keyof ListGrantsRequest]: (ListGrantsRequest & Omit<ListGrantsRequest, "KeyId"> & ListGrantsRequest)[K]
+      [K in keyof ListGrantsRequest & keyof Omit<ListGrantsRequest, "KeyId">]: (ListGrantsRequest)[K]
     }>): Request<ListGrantsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listGrants(
-          this.ops["ListGrants"].applicator.apply(partialParams)
+          this.ops["ListGrants"].apply(partialParams)
         );
     }
 
     invokeListKeyPolicies(partialParams: ToOptional<{
-      [K in keyof ListKeyPoliciesRequest & keyof Omit<ListKeyPoliciesRequest, "KeyId"> & keyof ListKeyPoliciesRequest]: (ListKeyPoliciesRequest & Omit<ListKeyPoliciesRequest, "KeyId"> & ListKeyPoliciesRequest)[K]
+      [K in keyof ListKeyPoliciesRequest & keyof Omit<ListKeyPoliciesRequest, "KeyId">]: (ListKeyPoliciesRequest)[K]
     }>): Request<ListKeyPoliciesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listKeyPolicies(
-          this.ops["ListKeyPolicies"].applicator.apply(partialParams)
+          this.ops["ListKeyPolicies"].apply(partialParams)
+        );
+    }
+
+    invokeListKeys(partialParams: ToOptional<{
+      [K in keyof ListKeysRequest]: (ListKeysRequest)[K]
+    }>): Request<ListKeysResponse, AWSError> {
+        this.boot();
+        return this.client.listKeys(
+          this.ops["ListKeys"].apply(partialParams)
         );
     }
 
     invokeListResourceTags(partialParams: ToOptional<{
-      [K in keyof ListResourceTagsRequest & keyof Omit<ListResourceTagsRequest, "KeyId"> & keyof ListResourceTagsRequest]: (ListResourceTagsRequest & Omit<ListResourceTagsRequest, "KeyId"> & ListResourceTagsRequest)[K]
+      [K in keyof ListResourceTagsRequest & keyof Omit<ListResourceTagsRequest, "KeyId">]: (ListResourceTagsRequest)[K]
     }>): Request<ListResourceTagsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listResourceTags(
-          this.ops["ListResourceTags"].applicator.apply(partialParams)
+          this.ops["ListResourceTags"].apply(partialParams)
         );
     }
 
     invokeListRetirableGrants(partialParams: ToOptional<{
-      [K in keyof ListRetirableGrantsRequest & keyof ListRetirableGrantsRequest & keyof ListRetirableGrantsRequest]: (ListRetirableGrantsRequest & ListRetirableGrantsRequest & ListRetirableGrantsRequest)[K]
+      [K in keyof ListRetirableGrantsRequest]: (ListRetirableGrantsRequest)[K]
     }>): Request<ListGrantsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listRetirableGrants(
-          this.ops["ListRetirableGrants"].applicator.apply(partialParams)
-        );
-    }
-
-    invokePutKeyPolicy(partialParams: ToOptional<{
-      [K in keyof PutKeyPolicyRequest & keyof Omit<PutKeyPolicyRequest, "KeyId"> & keyof PutKeyPolicyRequest]: (PutKeyPolicyRequest & Omit<PutKeyPolicyRequest, "KeyId"> & PutKeyPolicyRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.putKeyPolicy(
-          this.ops["PutKeyPolicy"].applicator.apply(partialParams)
+          this.ops["ListRetirableGrants"].apply(partialParams)
         );
     }
 
     invokeReEncrypt(partialParams: ToOptional<{
-      [K in keyof Omit<ReEncryptRequest, "CiphertextBlob"> & keyof ReEncryptRequest & keyof ReEncryptRequest]: (Omit<ReEncryptRequest, "CiphertextBlob"> & ReEncryptRequest & ReEncryptRequest)[K]
+      [K in keyof ReEncryptRequest & keyof Omit<ReEncryptRequest, "CiphertextBlob">]: (ReEncryptRequest)[K]
     }>): Request<ReEncryptResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.reEncrypt(
-          this.ops["ReEncrypt"].applicator.apply(partialParams)
+          this.ops["ReEncrypt"].apply(partialParams)
         );
     }
 
     invokeReplicateKey(partialParams: ToOptional<{
-      [K in keyof ReplicateKeyRequest & keyof Omit<ReplicateKeyRequest, "KeyId"> & keyof ReplicateKeyRequest]: (ReplicateKeyRequest & Omit<ReplicateKeyRequest, "KeyId"> & ReplicateKeyRequest)[K]
+      [K in keyof ReplicateKeyRequest & keyof Omit<ReplicateKeyRequest, "KeyId">]: (ReplicateKeyRequest)[K]
     }>): Request<ReplicateKeyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.replicateKey(
-          this.ops["ReplicateKey"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeRevokeGrant(partialParams: ToOptional<{
-      [K in keyof RevokeGrantRequest & keyof Omit<RevokeGrantRequest, "KeyId"> & keyof RevokeGrantRequest]: (RevokeGrantRequest & Omit<RevokeGrantRequest, "KeyId"> & RevokeGrantRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.revokeGrant(
-          this.ops["RevokeGrant"].applicator.apply(partialParams)
+          this.ops["ReplicateKey"].apply(partialParams)
         );
     }
 
     invokeScheduleKeyDeletion(partialParams: ToOptional<{
-      [K in keyof ScheduleKeyDeletionRequest & keyof Omit<ScheduleKeyDeletionRequest, "KeyId"> & keyof ScheduleKeyDeletionRequest]: (ScheduleKeyDeletionRequest & Omit<ScheduleKeyDeletionRequest, "KeyId"> & ScheduleKeyDeletionRequest)[K]
+      [K in keyof ScheduleKeyDeletionRequest & keyof Omit<ScheduleKeyDeletionRequest, "KeyId">]: (ScheduleKeyDeletionRequest)[K]
     }>): Request<ScheduleKeyDeletionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.scheduleKeyDeletion(
-          this.ops["ScheduleKeyDeletion"].applicator.apply(partialParams)
+          this.ops["ScheduleKeyDeletion"].apply(partialParams)
         );
     }
 
     invokeSign(partialParams: ToOptional<{
-      [K in keyof SignRequest & keyof Omit<SignRequest, "KeyId"> & keyof SignRequest]: (SignRequest & Omit<SignRequest, "KeyId"> & SignRequest)[K]
+      [K in keyof SignRequest & keyof Omit<SignRequest, "KeyId">]: (SignRequest)[K]
     }>): Request<SignResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.sign(
-          this.ops["Sign"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof Omit<TagResourceRequest, "KeyId"> & keyof TagResourceRequest]: (TagResourceRequest & Omit<TagResourceRequest, "KeyId"> & TagResourceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof Omit<UntagResourceRequest, "KeyId"> & keyof UntagResourceRequest]: (UntagResourceRequest & Omit<UntagResourceRequest, "KeyId"> & UntagResourceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateAlias(partialParams: ToOptional<{
-      [K in keyof UpdateAliasRequest & keyof UpdateAliasRequest & keyof UpdateAliasRequest]: (UpdateAliasRequest & UpdateAliasRequest & UpdateAliasRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateAlias(
-          this.ops["UpdateAlias"].applicator.apply(partialParams)
+          this.ops["Sign"].apply(partialParams)
         );
     }
 
     invokeUpdateCustomKeyStore(partialParams: ToOptional<{
-      [K in keyof UpdateCustomKeyStoreRequest & keyof UpdateCustomKeyStoreRequest & keyof UpdateCustomKeyStoreRequest]: (UpdateCustomKeyStoreRequest & UpdateCustomKeyStoreRequest & UpdateCustomKeyStoreRequest)[K]
+      [K in keyof UpdateCustomKeyStoreRequest]: (UpdateCustomKeyStoreRequest)[K]
     }>): Request<UpdateCustomKeyStoreResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateCustomKeyStore(
-          this.ops["UpdateCustomKeyStore"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateKeyDescription(partialParams: ToOptional<{
-      [K in keyof UpdateKeyDescriptionRequest & keyof Omit<UpdateKeyDescriptionRequest, "KeyId"> & keyof UpdateKeyDescriptionRequest]: (UpdateKeyDescriptionRequest & Omit<UpdateKeyDescriptionRequest, "KeyId"> & UpdateKeyDescriptionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateKeyDescription(
-          this.ops["UpdateKeyDescription"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdatePrimaryRegion(partialParams: ToOptional<{
-      [K in keyof UpdatePrimaryRegionRequest & keyof Omit<UpdatePrimaryRegionRequest, "KeyId"> & keyof UpdatePrimaryRegionRequest]: (UpdatePrimaryRegionRequest & Omit<UpdatePrimaryRegionRequest, "KeyId"> & UpdatePrimaryRegionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updatePrimaryRegion(
-          this.ops["UpdatePrimaryRegion"].applicator.apply(partialParams)
+          this.ops["UpdateCustomKeyStore"].apply(partialParams)
         );
     }
 
     invokeVerify(partialParams: ToOptional<{
-      [K in keyof VerifyRequest & keyof Omit<VerifyRequest, "KeyId"> & keyof VerifyRequest]: (VerifyRequest & Omit<VerifyRequest, "KeyId"> & VerifyRequest)[K]
+      [K in keyof VerifyRequest & keyof Omit<VerifyRequest, "KeyId">]: (VerifyRequest)[K]
     }>): Request<VerifyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.verify(
-          this.ops["Verify"].applicator.apply(partialParams)
+          this.ops["Verify"].apply(partialParams)
         );
     }
 }

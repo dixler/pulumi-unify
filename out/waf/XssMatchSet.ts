@@ -33,6 +33,7 @@ import {
     DeleteWebACLRequest,
     DeleteXssMatchSetRequest,
     GetByteMatchSetRequest,
+    GetChangeTokenRequest,
     GetChangeTokenStatusRequest,
     GetGeoMatchSetRequest,
     GetIPSetRequest,
@@ -49,7 +50,22 @@ import {
     GetSqlInjectionMatchSetRequest,
     GetWebACLRequest,
     GetXssMatchSetRequest,
+    ListActivatedRulesInRuleGroupRequest,
+    ListByteMatchSetsRequest,
+    ListGeoMatchSetsRequest,
+    ListIPSetsRequest,
+    ListLoggingConfigurationsRequest,
+    ListRateBasedRulesRequest,
+    ListRegexMatchSetsRequest,
+    ListRegexPatternSetsRequest,
+    ListRuleGroupsRequest,
+    ListRulesRequest,
+    ListSizeConstraintSetsRequest,
+    ListSqlInjectionMatchSetsRequest,
+    ListSubscribedRuleGroupsRequest,
     ListTagsForResourceRequest,
+    ListWebACLsRequest,
+    ListXssMatchSetsRequest,
     PutLoggingConfigurationRequest,
     PutPermissionPolicyRequest,
     TagResourceRequest,
@@ -94,6 +110,7 @@ import {
     DeleteWebACLResponse,
     DeleteXssMatchSetResponse,
     GetByteMatchSetResponse,
+    GetChangeTokenResponse,
     GetChangeTokenStatusResponse,
     GetGeoMatchSetResponse,
     GetIPSetResponse,
@@ -110,7 +127,22 @@ import {
     GetSqlInjectionMatchSetResponse,
     GetWebACLResponse,
     GetXssMatchSetResponse,
+    ListActivatedRulesInRuleGroupResponse,
+    ListByteMatchSetsResponse,
+    ListGeoMatchSetsResponse,
+    ListIPSetsResponse,
+    ListLoggingConfigurationsResponse,
+    ListRateBasedRulesResponse,
+    ListRegexMatchSetsResponse,
+    ListRegexPatternSetsResponse,
+    ListRuleGroupsResponse,
+    ListRulesResponse,
+    ListSizeConstraintSetsResponse,
+    ListSqlInjectionMatchSetsResponse,
+    ListSubscribedRuleGroupsResponse,
     ListTagsForResourceResponse,
+    ListWebACLsResponse,
+    ListXssMatchSetsResponse,
     PutLoggingConfigurationResponse,
     PutPermissionPolicyResponse,
     TagResourceResponse,
@@ -141,21 +173,24 @@ export default class extends aws.waf.XssMatchSet {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.waf.XssMatchSet>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.WAF()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -165,677 +200,700 @@ export default class extends aws.waf.XssMatchSet {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCreateByteMatchSet(partialParams: ToOptional<{
-      [K in keyof CreateByteMatchSetRequest & keyof CreateByteMatchSetRequest]: (CreateByteMatchSetRequest & CreateByteMatchSetRequest)[K]
+      [K in keyof CreateByteMatchSetRequest & keyof Omit<CreateByteMatchSetRequest, "Name">]: (CreateByteMatchSetRequest)[K]
     }>): Request<CreateByteMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createByteMatchSet(
-          this.ops["CreateByteMatchSet"].applicator.apply(partialParams)
+          this.ops["CreateByteMatchSet"].apply(partialParams)
         );
     }
 
     invokeCreateGeoMatchSet(partialParams: ToOptional<{
-      [K in keyof CreateGeoMatchSetRequest & keyof CreateGeoMatchSetRequest]: (CreateGeoMatchSetRequest & CreateGeoMatchSetRequest)[K]
+      [K in keyof CreateGeoMatchSetRequest & keyof Omit<CreateGeoMatchSetRequest, "Name">]: (CreateGeoMatchSetRequest)[K]
     }>): Request<CreateGeoMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createGeoMatchSet(
-          this.ops["CreateGeoMatchSet"].applicator.apply(partialParams)
+          this.ops["CreateGeoMatchSet"].apply(partialParams)
         );
     }
 
     invokeCreateIPSet(partialParams: ToOptional<{
-      [K in keyof CreateIPSetRequest & keyof CreateIPSetRequest]: (CreateIPSetRequest & CreateIPSetRequest)[K]
+      [K in keyof CreateIPSetRequest & keyof Omit<CreateIPSetRequest, "Name">]: (CreateIPSetRequest)[K]
     }>): Request<CreateIPSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createIPSet(
-          this.ops["CreateIPSet"].applicator.apply(partialParams)
+          this.ops["CreateIPSet"].apply(partialParams)
         );
     }
 
     invokeCreateRateBasedRule(partialParams: ToOptional<{
-      [K in keyof CreateRateBasedRuleRequest & keyof CreateRateBasedRuleRequest]: (CreateRateBasedRuleRequest & CreateRateBasedRuleRequest)[K]
+      [K in keyof CreateRateBasedRuleRequest & keyof Omit<CreateRateBasedRuleRequest, "Name">]: (CreateRateBasedRuleRequest)[K]
     }>): Request<CreateRateBasedRuleResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createRateBasedRule(
-          this.ops["CreateRateBasedRule"].applicator.apply(partialParams)
+          this.ops["CreateRateBasedRule"].apply(partialParams)
         );
     }
 
     invokeCreateRegexMatchSet(partialParams: ToOptional<{
-      [K in keyof CreateRegexMatchSetRequest & keyof CreateRegexMatchSetRequest]: (CreateRegexMatchSetRequest & CreateRegexMatchSetRequest)[K]
+      [K in keyof CreateRegexMatchSetRequest & keyof Omit<CreateRegexMatchSetRequest, "Name">]: (CreateRegexMatchSetRequest)[K]
     }>): Request<CreateRegexMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createRegexMatchSet(
-          this.ops["CreateRegexMatchSet"].applicator.apply(partialParams)
+          this.ops["CreateRegexMatchSet"].apply(partialParams)
         );
     }
 
     invokeCreateRegexPatternSet(partialParams: ToOptional<{
-      [K in keyof CreateRegexPatternSetRequest & keyof CreateRegexPatternSetRequest]: (CreateRegexPatternSetRequest & CreateRegexPatternSetRequest)[K]
+      [K in keyof CreateRegexPatternSetRequest & keyof Omit<CreateRegexPatternSetRequest, "Name">]: (CreateRegexPatternSetRequest)[K]
     }>): Request<CreateRegexPatternSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createRegexPatternSet(
-          this.ops["CreateRegexPatternSet"].applicator.apply(partialParams)
+          this.ops["CreateRegexPatternSet"].apply(partialParams)
         );
     }
 
     invokeCreateRule(partialParams: ToOptional<{
-      [K in keyof CreateRuleRequest & keyof CreateRuleRequest]: (CreateRuleRequest & CreateRuleRequest)[K]
+      [K in keyof CreateRuleRequest & keyof Omit<CreateRuleRequest, "Name">]: (CreateRuleRequest)[K]
     }>): Request<CreateRuleResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createRule(
-          this.ops["CreateRule"].applicator.apply(partialParams)
+          this.ops["CreateRule"].apply(partialParams)
         );
     }
 
     invokeCreateRuleGroup(partialParams: ToOptional<{
-      [K in keyof CreateRuleGroupRequest & keyof CreateRuleGroupRequest]: (CreateRuleGroupRequest & CreateRuleGroupRequest)[K]
+      [K in keyof CreateRuleGroupRequest & keyof Omit<CreateRuleGroupRequest, "Name">]: (CreateRuleGroupRequest)[K]
     }>): Request<CreateRuleGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createRuleGroup(
-          this.ops["CreateRuleGroup"].applicator.apply(partialParams)
+          this.ops["CreateRuleGroup"].apply(partialParams)
         );
     }
 
     invokeCreateSizeConstraintSet(partialParams: ToOptional<{
-      [K in keyof CreateSizeConstraintSetRequest & keyof CreateSizeConstraintSetRequest]: (CreateSizeConstraintSetRequest & CreateSizeConstraintSetRequest)[K]
+      [K in keyof CreateSizeConstraintSetRequest & keyof Omit<CreateSizeConstraintSetRequest, "Name">]: (CreateSizeConstraintSetRequest)[K]
     }>): Request<CreateSizeConstraintSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createSizeConstraintSet(
-          this.ops["CreateSizeConstraintSet"].applicator.apply(partialParams)
+          this.ops["CreateSizeConstraintSet"].apply(partialParams)
         );
     }
 
     invokeCreateSqlInjectionMatchSet(partialParams: ToOptional<{
-      [K in keyof CreateSqlInjectionMatchSetRequest & keyof CreateSqlInjectionMatchSetRequest]: (CreateSqlInjectionMatchSetRequest & CreateSqlInjectionMatchSetRequest)[K]
+      [K in keyof CreateSqlInjectionMatchSetRequest & keyof Omit<CreateSqlInjectionMatchSetRequest, "Name">]: (CreateSqlInjectionMatchSetRequest)[K]
     }>): Request<CreateSqlInjectionMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createSqlInjectionMatchSet(
-          this.ops["CreateSqlInjectionMatchSet"].applicator.apply(partialParams)
+          this.ops["CreateSqlInjectionMatchSet"].apply(partialParams)
         );
     }
 
     invokeCreateWebACL(partialParams: ToOptional<{
-      [K in keyof CreateWebACLRequest & keyof CreateWebACLRequest]: (CreateWebACLRequest & CreateWebACLRequest)[K]
+      [K in keyof CreateWebACLRequest & keyof Omit<CreateWebACLRequest, "Name">]: (CreateWebACLRequest)[K]
     }>): Request<CreateWebACLResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createWebACL(
-          this.ops["CreateWebACL"].applicator.apply(partialParams)
+          this.ops["CreateWebACL"].apply(partialParams)
         );
     }
 
     invokeCreateWebACLMigrationStack(partialParams: ToOptional<{
-      [K in keyof CreateWebACLMigrationStackRequest & keyof CreateWebACLMigrationStackRequest]: (CreateWebACLMigrationStackRequest & CreateWebACLMigrationStackRequest)[K]
+      [K in keyof CreateWebACLMigrationStackRequest]: (CreateWebACLMigrationStackRequest)[K]
     }>): Request<CreateWebACLMigrationStackResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createWebACLMigrationStack(
-          this.ops["CreateWebACLMigrationStack"].applicator.apply(partialParams)
+          this.ops["CreateWebACLMigrationStack"].apply(partialParams)
         );
     }
 
     invokeCreateXssMatchSet(partialParams: ToOptional<{
-      [K in keyof CreateXssMatchSetRequest & keyof CreateXssMatchSetRequest]: (CreateXssMatchSetRequest & CreateXssMatchSetRequest)[K]
+      [K in keyof CreateXssMatchSetRequest & keyof Omit<CreateXssMatchSetRequest, "Name">]: (CreateXssMatchSetRequest)[K]
     }>): Request<CreateXssMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createXssMatchSet(
-          this.ops["CreateXssMatchSet"].applicator.apply(partialParams)
+          this.ops["CreateXssMatchSet"].apply(partialParams)
         );
     }
 
     invokeDeleteByteMatchSet(partialParams: ToOptional<{
-      [K in keyof DeleteByteMatchSetRequest & keyof DeleteByteMatchSetRequest]: (DeleteByteMatchSetRequest & DeleteByteMatchSetRequest)[K]
+      [K in keyof DeleteByteMatchSetRequest]: (DeleteByteMatchSetRequest)[K]
     }>): Request<DeleteByteMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteByteMatchSet(
-          this.ops["DeleteByteMatchSet"].applicator.apply(partialParams)
+          this.ops["DeleteByteMatchSet"].apply(partialParams)
         );
     }
 
     invokeDeleteGeoMatchSet(partialParams: ToOptional<{
-      [K in keyof DeleteGeoMatchSetRequest & keyof DeleteGeoMatchSetRequest]: (DeleteGeoMatchSetRequest & DeleteGeoMatchSetRequest)[K]
+      [K in keyof DeleteGeoMatchSetRequest]: (DeleteGeoMatchSetRequest)[K]
     }>): Request<DeleteGeoMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteGeoMatchSet(
-          this.ops["DeleteGeoMatchSet"].applicator.apply(partialParams)
+          this.ops["DeleteGeoMatchSet"].apply(partialParams)
         );
     }
 
     invokeDeleteIPSet(partialParams: ToOptional<{
-      [K in keyof DeleteIPSetRequest & keyof DeleteIPSetRequest]: (DeleteIPSetRequest & DeleteIPSetRequest)[K]
+      [K in keyof DeleteIPSetRequest]: (DeleteIPSetRequest)[K]
     }>): Request<DeleteIPSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteIPSet(
-          this.ops["DeleteIPSet"].applicator.apply(partialParams)
+          this.ops["DeleteIPSet"].apply(partialParams)
         );
     }
 
     invokeDeleteLoggingConfiguration(partialParams: ToOptional<{
-      [K in keyof DeleteLoggingConfigurationRequest & keyof DeleteLoggingConfigurationRequest]: (DeleteLoggingConfigurationRequest & DeleteLoggingConfigurationRequest)[K]
+      [K in keyof DeleteLoggingConfigurationRequest]: (DeleteLoggingConfigurationRequest)[K]
     }>): Request<DeleteLoggingConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteLoggingConfiguration(
-          this.ops["DeleteLoggingConfiguration"].applicator.apply(partialParams)
+          this.ops["DeleteLoggingConfiguration"].apply(partialParams)
         );
     }
 
     invokeDeletePermissionPolicy(partialParams: ToOptional<{
-      [K in keyof DeletePermissionPolicyRequest & keyof DeletePermissionPolicyRequest]: (DeletePermissionPolicyRequest & DeletePermissionPolicyRequest)[K]
+      [K in keyof DeletePermissionPolicyRequest]: (DeletePermissionPolicyRequest)[K]
     }>): Request<DeletePermissionPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deletePermissionPolicy(
-          this.ops["DeletePermissionPolicy"].applicator.apply(partialParams)
+          this.ops["DeletePermissionPolicy"].apply(partialParams)
         );
     }
 
     invokeDeleteRateBasedRule(partialParams: ToOptional<{
-      [K in keyof DeleteRateBasedRuleRequest & keyof DeleteRateBasedRuleRequest]: (DeleteRateBasedRuleRequest & DeleteRateBasedRuleRequest)[K]
+      [K in keyof DeleteRateBasedRuleRequest]: (DeleteRateBasedRuleRequest)[K]
     }>): Request<DeleteRateBasedRuleResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteRateBasedRule(
-          this.ops["DeleteRateBasedRule"].applicator.apply(partialParams)
+          this.ops["DeleteRateBasedRule"].apply(partialParams)
         );
     }
 
     invokeDeleteRegexMatchSet(partialParams: ToOptional<{
-      [K in keyof DeleteRegexMatchSetRequest & keyof DeleteRegexMatchSetRequest]: (DeleteRegexMatchSetRequest & DeleteRegexMatchSetRequest)[K]
+      [K in keyof DeleteRegexMatchSetRequest]: (DeleteRegexMatchSetRequest)[K]
     }>): Request<DeleteRegexMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteRegexMatchSet(
-          this.ops["DeleteRegexMatchSet"].applicator.apply(partialParams)
+          this.ops["DeleteRegexMatchSet"].apply(partialParams)
         );
     }
 
     invokeDeleteRegexPatternSet(partialParams: ToOptional<{
-      [K in keyof DeleteRegexPatternSetRequest & keyof DeleteRegexPatternSetRequest]: (DeleteRegexPatternSetRequest & DeleteRegexPatternSetRequest)[K]
+      [K in keyof DeleteRegexPatternSetRequest]: (DeleteRegexPatternSetRequest)[K]
     }>): Request<DeleteRegexPatternSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteRegexPatternSet(
-          this.ops["DeleteRegexPatternSet"].applicator.apply(partialParams)
+          this.ops["DeleteRegexPatternSet"].apply(partialParams)
         );
     }
 
     invokeDeleteRule(partialParams: ToOptional<{
-      [K in keyof DeleteRuleRequest & keyof DeleteRuleRequest]: (DeleteRuleRequest & DeleteRuleRequest)[K]
+      [K in keyof DeleteRuleRequest]: (DeleteRuleRequest)[K]
     }>): Request<DeleteRuleResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteRule(
-          this.ops["DeleteRule"].applicator.apply(partialParams)
+          this.ops["DeleteRule"].apply(partialParams)
         );
     }
 
     invokeDeleteRuleGroup(partialParams: ToOptional<{
-      [K in keyof DeleteRuleGroupRequest & keyof DeleteRuleGroupRequest]: (DeleteRuleGroupRequest & DeleteRuleGroupRequest)[K]
+      [K in keyof DeleteRuleGroupRequest]: (DeleteRuleGroupRequest)[K]
     }>): Request<DeleteRuleGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteRuleGroup(
-          this.ops["DeleteRuleGroup"].applicator.apply(partialParams)
+          this.ops["DeleteRuleGroup"].apply(partialParams)
         );
     }
 
     invokeDeleteSizeConstraintSet(partialParams: ToOptional<{
-      [K in keyof DeleteSizeConstraintSetRequest & keyof DeleteSizeConstraintSetRequest]: (DeleteSizeConstraintSetRequest & DeleteSizeConstraintSetRequest)[K]
+      [K in keyof DeleteSizeConstraintSetRequest]: (DeleteSizeConstraintSetRequest)[K]
     }>): Request<DeleteSizeConstraintSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteSizeConstraintSet(
-          this.ops["DeleteSizeConstraintSet"].applicator.apply(partialParams)
+          this.ops["DeleteSizeConstraintSet"].apply(partialParams)
         );
     }
 
     invokeDeleteSqlInjectionMatchSet(partialParams: ToOptional<{
-      [K in keyof DeleteSqlInjectionMatchSetRequest & keyof DeleteSqlInjectionMatchSetRequest]: (DeleteSqlInjectionMatchSetRequest & DeleteSqlInjectionMatchSetRequest)[K]
+      [K in keyof DeleteSqlInjectionMatchSetRequest]: (DeleteSqlInjectionMatchSetRequest)[K]
     }>): Request<DeleteSqlInjectionMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteSqlInjectionMatchSet(
-          this.ops["DeleteSqlInjectionMatchSet"].applicator.apply(partialParams)
+          this.ops["DeleteSqlInjectionMatchSet"].apply(partialParams)
         );
     }
 
     invokeDeleteWebACL(partialParams: ToOptional<{
-      [K in keyof DeleteWebACLRequest & keyof DeleteWebACLRequest]: (DeleteWebACLRequest & DeleteWebACLRequest)[K]
+      [K in keyof DeleteWebACLRequest]: (DeleteWebACLRequest)[K]
     }>): Request<DeleteWebACLResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteWebACL(
-          this.ops["DeleteWebACL"].applicator.apply(partialParams)
+          this.ops["DeleteWebACL"].apply(partialParams)
         );
     }
 
     invokeDeleteXssMatchSet(partialParams: ToOptional<{
-      [K in keyof DeleteXssMatchSetRequest & keyof DeleteXssMatchSetRequest]: (DeleteXssMatchSetRequest & DeleteXssMatchSetRequest)[K]
+      [K in keyof DeleteXssMatchSetRequest]: (DeleteXssMatchSetRequest)[K]
     }>): Request<DeleteXssMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteXssMatchSet(
-          this.ops["DeleteXssMatchSet"].applicator.apply(partialParams)
+          this.ops["DeleteXssMatchSet"].apply(partialParams)
         );
     }
 
     invokeGetByteMatchSet(partialParams: ToOptional<{
-      [K in keyof GetByteMatchSetRequest & keyof GetByteMatchSetRequest]: (GetByteMatchSetRequest & GetByteMatchSetRequest)[K]
+      [K in keyof GetByteMatchSetRequest]: (GetByteMatchSetRequest)[K]
     }>): Request<GetByteMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getByteMatchSet(
-          this.ops["GetByteMatchSet"].applicator.apply(partialParams)
+          this.ops["GetByteMatchSet"].apply(partialParams)
+        );
+    }
+
+    invokeGetChangeToken(partialParams: ToOptional<{
+      [K in keyof GetChangeTokenRequest]: (GetChangeTokenRequest)[K]
+    }>): Request<GetChangeTokenResponse, AWSError> {
+        this.boot();
+        return this.client.getChangeToken(
+          this.ops["GetChangeToken"].apply(partialParams)
         );
     }
 
     invokeGetChangeTokenStatus(partialParams: ToOptional<{
-      [K in keyof GetChangeTokenStatusRequest & keyof GetChangeTokenStatusRequest]: (GetChangeTokenStatusRequest & GetChangeTokenStatusRequest)[K]
+      [K in keyof GetChangeTokenStatusRequest]: (GetChangeTokenStatusRequest)[K]
     }>): Request<GetChangeTokenStatusResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getChangeTokenStatus(
-          this.ops["GetChangeTokenStatus"].applicator.apply(partialParams)
+          this.ops["GetChangeTokenStatus"].apply(partialParams)
         );
     }
 
     invokeGetGeoMatchSet(partialParams: ToOptional<{
-      [K in keyof GetGeoMatchSetRequest & keyof GetGeoMatchSetRequest]: (GetGeoMatchSetRequest & GetGeoMatchSetRequest)[K]
+      [K in keyof GetGeoMatchSetRequest]: (GetGeoMatchSetRequest)[K]
     }>): Request<GetGeoMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getGeoMatchSet(
-          this.ops["GetGeoMatchSet"].applicator.apply(partialParams)
+          this.ops["GetGeoMatchSet"].apply(partialParams)
         );
     }
 
     invokeGetIPSet(partialParams: ToOptional<{
-      [K in keyof GetIPSetRequest & keyof GetIPSetRequest]: (GetIPSetRequest & GetIPSetRequest)[K]
+      [K in keyof GetIPSetRequest]: (GetIPSetRequest)[K]
     }>): Request<GetIPSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getIPSet(
-          this.ops["GetIPSet"].applicator.apply(partialParams)
+          this.ops["GetIPSet"].apply(partialParams)
         );
     }
 
     invokeGetLoggingConfiguration(partialParams: ToOptional<{
-      [K in keyof GetLoggingConfigurationRequest & keyof GetLoggingConfigurationRequest]: (GetLoggingConfigurationRequest & GetLoggingConfigurationRequest)[K]
+      [K in keyof GetLoggingConfigurationRequest]: (GetLoggingConfigurationRequest)[K]
     }>): Request<GetLoggingConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getLoggingConfiguration(
-          this.ops["GetLoggingConfiguration"].applicator.apply(partialParams)
+          this.ops["GetLoggingConfiguration"].apply(partialParams)
         );
     }
 
     invokeGetPermissionPolicy(partialParams: ToOptional<{
-      [K in keyof GetPermissionPolicyRequest & keyof GetPermissionPolicyRequest]: (GetPermissionPolicyRequest & GetPermissionPolicyRequest)[K]
+      [K in keyof GetPermissionPolicyRequest]: (GetPermissionPolicyRequest)[K]
     }>): Request<GetPermissionPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getPermissionPolicy(
-          this.ops["GetPermissionPolicy"].applicator.apply(partialParams)
+          this.ops["GetPermissionPolicy"].apply(partialParams)
         );
     }
 
     invokeGetRateBasedRule(partialParams: ToOptional<{
-      [K in keyof GetRateBasedRuleRequest & keyof GetRateBasedRuleRequest]: (GetRateBasedRuleRequest & GetRateBasedRuleRequest)[K]
+      [K in keyof GetRateBasedRuleRequest]: (GetRateBasedRuleRequest)[K]
     }>): Request<GetRateBasedRuleResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRateBasedRule(
-          this.ops["GetRateBasedRule"].applicator.apply(partialParams)
+          this.ops["GetRateBasedRule"].apply(partialParams)
         );
     }
 
     invokeGetRateBasedRuleManagedKeys(partialParams: ToOptional<{
-      [K in keyof GetRateBasedRuleManagedKeysRequest & keyof GetRateBasedRuleManagedKeysRequest]: (GetRateBasedRuleManagedKeysRequest & GetRateBasedRuleManagedKeysRequest)[K]
+      [K in keyof GetRateBasedRuleManagedKeysRequest]: (GetRateBasedRuleManagedKeysRequest)[K]
     }>): Request<GetRateBasedRuleManagedKeysResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRateBasedRuleManagedKeys(
-          this.ops["GetRateBasedRuleManagedKeys"].applicator.apply(partialParams)
+          this.ops["GetRateBasedRuleManagedKeys"].apply(partialParams)
         );
     }
 
     invokeGetRegexMatchSet(partialParams: ToOptional<{
-      [K in keyof GetRegexMatchSetRequest & keyof GetRegexMatchSetRequest]: (GetRegexMatchSetRequest & GetRegexMatchSetRequest)[K]
+      [K in keyof GetRegexMatchSetRequest]: (GetRegexMatchSetRequest)[K]
     }>): Request<GetRegexMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRegexMatchSet(
-          this.ops["GetRegexMatchSet"].applicator.apply(partialParams)
+          this.ops["GetRegexMatchSet"].apply(partialParams)
         );
     }
 
     invokeGetRegexPatternSet(partialParams: ToOptional<{
-      [K in keyof GetRegexPatternSetRequest & keyof GetRegexPatternSetRequest]: (GetRegexPatternSetRequest & GetRegexPatternSetRequest)[K]
+      [K in keyof GetRegexPatternSetRequest]: (GetRegexPatternSetRequest)[K]
     }>): Request<GetRegexPatternSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRegexPatternSet(
-          this.ops["GetRegexPatternSet"].applicator.apply(partialParams)
+          this.ops["GetRegexPatternSet"].apply(partialParams)
         );
     }
 
     invokeGetRule(partialParams: ToOptional<{
-      [K in keyof GetRuleRequest & keyof GetRuleRequest]: (GetRuleRequest & GetRuleRequest)[K]
+      [K in keyof GetRuleRequest]: (GetRuleRequest)[K]
     }>): Request<GetRuleResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRule(
-          this.ops["GetRule"].applicator.apply(partialParams)
+          this.ops["GetRule"].apply(partialParams)
         );
     }
 
     invokeGetRuleGroup(partialParams: ToOptional<{
-      [K in keyof GetRuleGroupRequest & keyof GetRuleGroupRequest]: (GetRuleGroupRequest & GetRuleGroupRequest)[K]
+      [K in keyof GetRuleGroupRequest]: (GetRuleGroupRequest)[K]
     }>): Request<GetRuleGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRuleGroup(
-          this.ops["GetRuleGroup"].applicator.apply(partialParams)
+          this.ops["GetRuleGroup"].apply(partialParams)
         );
     }
 
     invokeGetSampledRequests(partialParams: ToOptional<{
-      [K in keyof GetSampledRequestsRequest & keyof GetSampledRequestsRequest]: (GetSampledRequestsRequest & GetSampledRequestsRequest)[K]
+      [K in keyof GetSampledRequestsRequest]: (GetSampledRequestsRequest)[K]
     }>): Request<GetSampledRequestsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getSampledRequests(
-          this.ops["GetSampledRequests"].applicator.apply(partialParams)
+          this.ops["GetSampledRequests"].apply(partialParams)
         );
     }
 
     invokeGetSizeConstraintSet(partialParams: ToOptional<{
-      [K in keyof GetSizeConstraintSetRequest & keyof GetSizeConstraintSetRequest]: (GetSizeConstraintSetRequest & GetSizeConstraintSetRequest)[K]
+      [K in keyof GetSizeConstraintSetRequest]: (GetSizeConstraintSetRequest)[K]
     }>): Request<GetSizeConstraintSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getSizeConstraintSet(
-          this.ops["GetSizeConstraintSet"].applicator.apply(partialParams)
+          this.ops["GetSizeConstraintSet"].apply(partialParams)
         );
     }
 
     invokeGetSqlInjectionMatchSet(partialParams: ToOptional<{
-      [K in keyof GetSqlInjectionMatchSetRequest & keyof GetSqlInjectionMatchSetRequest]: (GetSqlInjectionMatchSetRequest & GetSqlInjectionMatchSetRequest)[K]
+      [K in keyof GetSqlInjectionMatchSetRequest]: (GetSqlInjectionMatchSetRequest)[K]
     }>): Request<GetSqlInjectionMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getSqlInjectionMatchSet(
-          this.ops["GetSqlInjectionMatchSet"].applicator.apply(partialParams)
+          this.ops["GetSqlInjectionMatchSet"].apply(partialParams)
         );
     }
 
     invokeGetWebACL(partialParams: ToOptional<{
-      [K in keyof GetWebACLRequest & keyof GetWebACLRequest]: (GetWebACLRequest & GetWebACLRequest)[K]
+      [K in keyof GetWebACLRequest]: (GetWebACLRequest)[K]
     }>): Request<GetWebACLResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getWebACL(
-          this.ops["GetWebACL"].applicator.apply(partialParams)
+          this.ops["GetWebACL"].apply(partialParams)
         );
     }
 
     invokeGetXssMatchSet(partialParams: ToOptional<{
-      [K in keyof GetXssMatchSetRequest & keyof GetXssMatchSetRequest]: (GetXssMatchSetRequest & GetXssMatchSetRequest)[K]
+      [K in keyof GetXssMatchSetRequest]: (GetXssMatchSetRequest)[K]
     }>): Request<GetXssMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getXssMatchSet(
-          this.ops["GetXssMatchSet"].applicator.apply(partialParams)
+          this.ops["GetXssMatchSet"].apply(partialParams)
+        );
+    }
+
+    invokeListActivatedRulesInRuleGroup(partialParams: ToOptional<{
+      [K in keyof ListActivatedRulesInRuleGroupRequest]: (ListActivatedRulesInRuleGroupRequest)[K]
+    }>): Request<ListActivatedRulesInRuleGroupResponse, AWSError> {
+        this.boot();
+        return this.client.listActivatedRulesInRuleGroup(
+          this.ops["ListActivatedRulesInRuleGroup"].apply(partialParams)
+        );
+    }
+
+    invokeListByteMatchSets(partialParams: ToOptional<{
+      [K in keyof ListByteMatchSetsRequest]: (ListByteMatchSetsRequest)[K]
+    }>): Request<ListByteMatchSetsResponse, AWSError> {
+        this.boot();
+        return this.client.listByteMatchSets(
+          this.ops["ListByteMatchSets"].apply(partialParams)
+        );
+    }
+
+    invokeListGeoMatchSets(partialParams: ToOptional<{
+      [K in keyof ListGeoMatchSetsRequest]: (ListGeoMatchSetsRequest)[K]
+    }>): Request<ListGeoMatchSetsResponse, AWSError> {
+        this.boot();
+        return this.client.listGeoMatchSets(
+          this.ops["ListGeoMatchSets"].apply(partialParams)
+        );
+    }
+
+    invokeListIPSets(partialParams: ToOptional<{
+      [K in keyof ListIPSetsRequest]: (ListIPSetsRequest)[K]
+    }>): Request<ListIPSetsResponse, AWSError> {
+        this.boot();
+        return this.client.listIPSets(
+          this.ops["ListIPSets"].apply(partialParams)
+        );
+    }
+
+    invokeListLoggingConfigurations(partialParams: ToOptional<{
+      [K in keyof ListLoggingConfigurationsRequest]: (ListLoggingConfigurationsRequest)[K]
+    }>): Request<ListLoggingConfigurationsResponse, AWSError> {
+        this.boot();
+        return this.client.listLoggingConfigurations(
+          this.ops["ListLoggingConfigurations"].apply(partialParams)
+        );
+    }
+
+    invokeListRateBasedRules(partialParams: ToOptional<{
+      [K in keyof ListRateBasedRulesRequest]: (ListRateBasedRulesRequest)[K]
+    }>): Request<ListRateBasedRulesResponse, AWSError> {
+        this.boot();
+        return this.client.listRateBasedRules(
+          this.ops["ListRateBasedRules"].apply(partialParams)
+        );
+    }
+
+    invokeListRegexMatchSets(partialParams: ToOptional<{
+      [K in keyof ListRegexMatchSetsRequest]: (ListRegexMatchSetsRequest)[K]
+    }>): Request<ListRegexMatchSetsResponse, AWSError> {
+        this.boot();
+        return this.client.listRegexMatchSets(
+          this.ops["ListRegexMatchSets"].apply(partialParams)
+        );
+    }
+
+    invokeListRegexPatternSets(partialParams: ToOptional<{
+      [K in keyof ListRegexPatternSetsRequest]: (ListRegexPatternSetsRequest)[K]
+    }>): Request<ListRegexPatternSetsResponse, AWSError> {
+        this.boot();
+        return this.client.listRegexPatternSets(
+          this.ops["ListRegexPatternSets"].apply(partialParams)
+        );
+    }
+
+    invokeListRuleGroups(partialParams: ToOptional<{
+      [K in keyof ListRuleGroupsRequest]: (ListRuleGroupsRequest)[K]
+    }>): Request<ListRuleGroupsResponse, AWSError> {
+        this.boot();
+        return this.client.listRuleGroups(
+          this.ops["ListRuleGroups"].apply(partialParams)
+        );
+    }
+
+    invokeListRules(partialParams: ToOptional<{
+      [K in keyof ListRulesRequest]: (ListRulesRequest)[K]
+    }>): Request<ListRulesResponse, AWSError> {
+        this.boot();
+        return this.client.listRules(
+          this.ops["ListRules"].apply(partialParams)
+        );
+    }
+
+    invokeListSizeConstraintSets(partialParams: ToOptional<{
+      [K in keyof ListSizeConstraintSetsRequest]: (ListSizeConstraintSetsRequest)[K]
+    }>): Request<ListSizeConstraintSetsResponse, AWSError> {
+        this.boot();
+        return this.client.listSizeConstraintSets(
+          this.ops["ListSizeConstraintSets"].apply(partialParams)
+        );
+    }
+
+    invokeListSqlInjectionMatchSets(partialParams: ToOptional<{
+      [K in keyof ListSqlInjectionMatchSetsRequest]: (ListSqlInjectionMatchSetsRequest)[K]
+    }>): Request<ListSqlInjectionMatchSetsResponse, AWSError> {
+        this.boot();
+        return this.client.listSqlInjectionMatchSets(
+          this.ops["ListSqlInjectionMatchSets"].apply(partialParams)
+        );
+    }
+
+    invokeListSubscribedRuleGroups(partialParams: ToOptional<{
+      [K in keyof ListSubscribedRuleGroupsRequest]: (ListSubscribedRuleGroupsRequest)[K]
+    }>): Request<ListSubscribedRuleGroupsResponse, AWSError> {
+        this.boot();
+        return this.client.listSubscribedRuleGroups(
+          this.ops["ListSubscribedRuleGroups"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
+        );
+    }
+
+    invokeListWebACLs(partialParams: ToOptional<{
+      [K in keyof ListWebACLsRequest]: (ListWebACLsRequest)[K]
+    }>): Request<ListWebACLsResponse, AWSError> {
+        this.boot();
+        return this.client.listWebACLs(
+          this.ops["ListWebACLs"].apply(partialParams)
+        );
+    }
+
+    invokeListXssMatchSets(partialParams: ToOptional<{
+      [K in keyof ListXssMatchSetsRequest]: (ListXssMatchSetsRequest)[K]
+    }>): Request<ListXssMatchSetsResponse, AWSError> {
+        this.boot();
+        return this.client.listXssMatchSets(
+          this.ops["ListXssMatchSets"].apply(partialParams)
         );
     }
 
     invokePutLoggingConfiguration(partialParams: ToOptional<{
-      [K in keyof PutLoggingConfigurationRequest & keyof PutLoggingConfigurationRequest]: (PutLoggingConfigurationRequest & PutLoggingConfigurationRequest)[K]
+      [K in keyof PutLoggingConfigurationRequest]: (PutLoggingConfigurationRequest)[K]
     }>): Request<PutLoggingConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putLoggingConfiguration(
-          this.ops["PutLoggingConfiguration"].applicator.apply(partialParams)
+          this.ops["PutLoggingConfiguration"].apply(partialParams)
         );
     }
 
     invokePutPermissionPolicy(partialParams: ToOptional<{
-      [K in keyof PutPermissionPolicyRequest & keyof PutPermissionPolicyRequest]: (PutPermissionPolicyRequest & PutPermissionPolicyRequest)[K]
+      [K in keyof PutPermissionPolicyRequest]: (PutPermissionPolicyRequest)[K]
     }>): Request<PutPermissionPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putPermissionPolicy(
-          this.ops["PutPermissionPolicy"].applicator.apply(partialParams)
+          this.ops["PutPermissionPolicy"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateByteMatchSet(partialParams: ToOptional<{
-      [K in keyof UpdateByteMatchSetRequest & keyof UpdateByteMatchSetRequest]: (UpdateByteMatchSetRequest & UpdateByteMatchSetRequest)[K]
+      [K in keyof UpdateByteMatchSetRequest]: (UpdateByteMatchSetRequest)[K]
     }>): Request<UpdateByteMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateByteMatchSet(
-          this.ops["UpdateByteMatchSet"].applicator.apply(partialParams)
+          this.ops["UpdateByteMatchSet"].apply(partialParams)
         );
     }
 
     invokeUpdateGeoMatchSet(partialParams: ToOptional<{
-      [K in keyof UpdateGeoMatchSetRequest & keyof UpdateGeoMatchSetRequest]: (UpdateGeoMatchSetRequest & UpdateGeoMatchSetRequest)[K]
+      [K in keyof UpdateGeoMatchSetRequest]: (UpdateGeoMatchSetRequest)[K]
     }>): Request<UpdateGeoMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateGeoMatchSet(
-          this.ops["UpdateGeoMatchSet"].applicator.apply(partialParams)
+          this.ops["UpdateGeoMatchSet"].apply(partialParams)
         );
     }
 
     invokeUpdateIPSet(partialParams: ToOptional<{
-      [K in keyof UpdateIPSetRequest & keyof UpdateIPSetRequest]: (UpdateIPSetRequest & UpdateIPSetRequest)[K]
+      [K in keyof UpdateIPSetRequest]: (UpdateIPSetRequest)[K]
     }>): Request<UpdateIPSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateIPSet(
-          this.ops["UpdateIPSet"].applicator.apply(partialParams)
+          this.ops["UpdateIPSet"].apply(partialParams)
         );
     }
 
     invokeUpdateRateBasedRule(partialParams: ToOptional<{
-      [K in keyof UpdateRateBasedRuleRequest & keyof UpdateRateBasedRuleRequest]: (UpdateRateBasedRuleRequest & UpdateRateBasedRuleRequest)[K]
+      [K in keyof UpdateRateBasedRuleRequest]: (UpdateRateBasedRuleRequest)[K]
     }>): Request<UpdateRateBasedRuleResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateRateBasedRule(
-          this.ops["UpdateRateBasedRule"].applicator.apply(partialParams)
+          this.ops["UpdateRateBasedRule"].apply(partialParams)
         );
     }
 
     invokeUpdateRegexMatchSet(partialParams: ToOptional<{
-      [K in keyof UpdateRegexMatchSetRequest & keyof UpdateRegexMatchSetRequest]: (UpdateRegexMatchSetRequest & UpdateRegexMatchSetRequest)[K]
+      [K in keyof UpdateRegexMatchSetRequest]: (UpdateRegexMatchSetRequest)[K]
     }>): Request<UpdateRegexMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateRegexMatchSet(
-          this.ops["UpdateRegexMatchSet"].applicator.apply(partialParams)
+          this.ops["UpdateRegexMatchSet"].apply(partialParams)
         );
     }
 
     invokeUpdateRegexPatternSet(partialParams: ToOptional<{
-      [K in keyof UpdateRegexPatternSetRequest & keyof UpdateRegexPatternSetRequest]: (UpdateRegexPatternSetRequest & UpdateRegexPatternSetRequest)[K]
+      [K in keyof UpdateRegexPatternSetRequest]: (UpdateRegexPatternSetRequest)[K]
     }>): Request<UpdateRegexPatternSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateRegexPatternSet(
-          this.ops["UpdateRegexPatternSet"].applicator.apply(partialParams)
+          this.ops["UpdateRegexPatternSet"].apply(partialParams)
         );
     }
 
     invokeUpdateRule(partialParams: ToOptional<{
-      [K in keyof UpdateRuleRequest & keyof UpdateRuleRequest]: (UpdateRuleRequest & UpdateRuleRequest)[K]
+      [K in keyof UpdateRuleRequest]: (UpdateRuleRequest)[K]
     }>): Request<UpdateRuleResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateRule(
-          this.ops["UpdateRule"].applicator.apply(partialParams)
+          this.ops["UpdateRule"].apply(partialParams)
         );
     }
 
     invokeUpdateRuleGroup(partialParams: ToOptional<{
-      [K in keyof UpdateRuleGroupRequest & keyof UpdateRuleGroupRequest]: (UpdateRuleGroupRequest & UpdateRuleGroupRequest)[K]
+      [K in keyof UpdateRuleGroupRequest]: (UpdateRuleGroupRequest)[K]
     }>): Request<UpdateRuleGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateRuleGroup(
-          this.ops["UpdateRuleGroup"].applicator.apply(partialParams)
+          this.ops["UpdateRuleGroup"].apply(partialParams)
         );
     }
 
     invokeUpdateSizeConstraintSet(partialParams: ToOptional<{
-      [K in keyof UpdateSizeConstraintSetRequest & keyof UpdateSizeConstraintSetRequest]: (UpdateSizeConstraintSetRequest & UpdateSizeConstraintSetRequest)[K]
+      [K in keyof UpdateSizeConstraintSetRequest]: (UpdateSizeConstraintSetRequest)[K]
     }>): Request<UpdateSizeConstraintSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateSizeConstraintSet(
-          this.ops["UpdateSizeConstraintSet"].applicator.apply(partialParams)
+          this.ops["UpdateSizeConstraintSet"].apply(partialParams)
         );
     }
 
     invokeUpdateSqlInjectionMatchSet(partialParams: ToOptional<{
-      [K in keyof UpdateSqlInjectionMatchSetRequest & keyof UpdateSqlInjectionMatchSetRequest]: (UpdateSqlInjectionMatchSetRequest & UpdateSqlInjectionMatchSetRequest)[K]
+      [K in keyof UpdateSqlInjectionMatchSetRequest]: (UpdateSqlInjectionMatchSetRequest)[K]
     }>): Request<UpdateSqlInjectionMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateSqlInjectionMatchSet(
-          this.ops["UpdateSqlInjectionMatchSet"].applicator.apply(partialParams)
+          this.ops["UpdateSqlInjectionMatchSet"].apply(partialParams)
         );
     }
 
     invokeUpdateWebACL(partialParams: ToOptional<{
-      [K in keyof UpdateWebACLRequest & keyof UpdateWebACLRequest]: (UpdateWebACLRequest & UpdateWebACLRequest)[K]
+      [K in keyof UpdateWebACLRequest]: (UpdateWebACLRequest)[K]
     }>): Request<UpdateWebACLResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateWebACL(
-          this.ops["UpdateWebACL"].applicator.apply(partialParams)
+          this.ops["UpdateWebACL"].apply(partialParams)
         );
     }
 
     invokeUpdateXssMatchSet(partialParams: ToOptional<{
-      [K in keyof UpdateXssMatchSetRequest & keyof UpdateXssMatchSetRequest]: (UpdateXssMatchSetRequest & UpdateXssMatchSetRequest)[K]
+      [K in keyof UpdateXssMatchSetRequest]: (UpdateXssMatchSetRequest)[K]
     }>): Request<UpdateXssMatchSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateXssMatchSet(
-          this.ops["UpdateXssMatchSet"].applicator.apply(partialParams)
+          this.ops["UpdateXssMatchSet"].apply(partialParams)
         );
     }
 }

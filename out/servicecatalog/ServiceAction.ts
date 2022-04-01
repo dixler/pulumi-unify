@@ -35,34 +35,53 @@ import {
     DescribePortfolioInput,
     DescribePortfolioShareStatusInput,
     DescribePortfolioSharesInput,
+    DescribeProductInput,
+    DescribeProductAsAdminInput,
     DescribeProductViewInput,
+    DescribeProvisionedProductInput,
     DescribeProvisionedProductPlanInput,
+    DescribeProvisioningArtifactInput,
+    DescribeProvisioningParametersInput,
     DescribeRecordInput,
     DescribeServiceActionInput,
     DescribeServiceActionExecutionParametersInput,
     DescribeTagOptionInput,
+    DisableAWSOrganizationsAccessInput,
     DisassociateBudgetFromResourceInput,
     DisassociatePrincipalFromPortfolioInput,
     DisassociateProductFromPortfolioInput,
     DisassociateServiceActionFromProvisioningArtifactInput,
     DisassociateTagOptionFromResourceInput,
+    EnableAWSOrganizationsAccessInput,
     ExecuteProvisionedProductPlanInput,
     ExecuteProvisionedProductServiceActionInput,
+    GetAWSOrganizationsAccessStatusInput,
+    GetProvisionedProductOutputsInput,
     ImportAsProvisionedProductInput,
+    ListAcceptedPortfolioSharesInput,
     ListBudgetsForResourceInput,
     ListConstraintsForPortfolioInput,
     ListLaunchPathsInput,
     ListOrganizationPortfolioAccessInput,
     ListPortfolioAccessInput,
+    ListPortfoliosInput,
     ListPortfoliosForProductInput,
     ListPrincipalsForPortfolioInput,
+    ListProvisionedProductPlansInput,
     ListProvisioningArtifactsInput,
     ListProvisioningArtifactsForServiceActionInput,
+    ListRecordHistoryInput,
     ListResourcesForTagOptionInput,
+    ListServiceActionsInput,
     ListServiceActionsForProvisioningArtifactInput,
     ListStackInstancesForProvisionedProductInput,
+    ListTagOptionsInput,
     ProvisionProductInput,
     RejectPortfolioShareInput,
+    ScanProvisionedProductsInput,
+    SearchProductsInput,
+    SearchProductsAsAdminInput,
+    SearchProvisionedProductsInput,
     TerminateProvisionedProductInput,
     UpdateConstraintInput,
     UpdatePortfolioInput,
@@ -103,34 +122,53 @@ import {
     DescribePortfolioOutput,
     DescribePortfolioShareStatusOutput,
     DescribePortfolioSharesOutput,
+    DescribeProductOutput,
+    DescribeProductAsAdminOutput,
     DescribeProductViewOutput,
+    DescribeProvisionedProductOutput,
     DescribeProvisionedProductPlanOutput,
+    DescribeProvisioningArtifactOutput,
+    DescribeProvisioningParametersOutput,
     DescribeRecordOutput,
     DescribeServiceActionOutput,
     DescribeServiceActionExecutionParametersOutput,
     DescribeTagOptionOutput,
+    DisableAWSOrganizationsAccessOutput,
     DisassociateBudgetFromResourceOutput,
     DisassociatePrincipalFromPortfolioOutput,
     DisassociateProductFromPortfolioOutput,
     DisassociateServiceActionFromProvisioningArtifactOutput,
     DisassociateTagOptionFromResourceOutput,
+    EnableAWSOrganizationsAccessOutput,
     ExecuteProvisionedProductPlanOutput,
     ExecuteProvisionedProductServiceActionOutput,
+    GetAWSOrganizationsAccessStatusOutput,
+    GetProvisionedProductOutputsOutput,
     ImportAsProvisionedProductOutput,
+    ListAcceptedPortfolioSharesOutput,
     ListBudgetsForResourceOutput,
     ListConstraintsForPortfolioOutput,
     ListLaunchPathsOutput,
     ListOrganizationPortfolioAccessOutput,
     ListPortfolioAccessOutput,
+    ListPortfoliosOutput,
     ListPortfoliosForProductOutput,
     ListPrincipalsForPortfolioOutput,
+    ListProvisionedProductPlansOutput,
     ListProvisioningArtifactsOutput,
     ListProvisioningArtifactsForServiceActionOutput,
+    ListRecordHistoryOutput,
     ListResourcesForTagOptionOutput,
+    ListServiceActionsOutput,
     ListServiceActionsForProvisioningArtifactOutput,
     ListStackInstancesForProvisionedProductOutput,
+    ListTagOptionsOutput,
     ProvisionProductOutput,
     RejectPortfolioShareOutput,
+    ScanProvisionedProductsOutput,
+    SearchProductsOutput,
+    SearchProductsAsAdminOutput,
+    SearchProvisionedProductsOutput,
     TerminateProvisionedProductOutput,
     UpdateConstraintOutput,
     UpdatePortfolioOutput,
@@ -155,21 +193,24 @@ export default class extends aws.servicecatalog.ServiceAction {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.servicecatalog.ServiceAction>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.ServiceCatalog()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -179,754 +220,790 @@ export default class extends aws.servicecatalog.ServiceAction {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAcceptPortfolioShare(partialParams: ToOptional<{
-      [K in keyof AcceptPortfolioShareInput & keyof AcceptPortfolioShareInput & keyof AcceptPortfolioShareInput]: (AcceptPortfolioShareInput & AcceptPortfolioShareInput & AcceptPortfolioShareInput)[K]
+      [K in keyof AcceptPortfolioShareInput]: (AcceptPortfolioShareInput)[K]
     }>): Request<AcceptPortfolioShareOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.acceptPortfolioShare(
-          this.ops["AcceptPortfolioShare"].applicator.apply(partialParams)
+          this.ops["AcceptPortfolioShare"].apply(partialParams)
         );
     }
 
     invokeAssociateBudgetWithResource(partialParams: ToOptional<{
-      [K in keyof AssociateBudgetWithResourceInput & keyof AssociateBudgetWithResourceInput & keyof AssociateBudgetWithResourceInput]: (AssociateBudgetWithResourceInput & AssociateBudgetWithResourceInput & AssociateBudgetWithResourceInput)[K]
+      [K in keyof AssociateBudgetWithResourceInput]: (AssociateBudgetWithResourceInput)[K]
     }>): Request<AssociateBudgetWithResourceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateBudgetWithResource(
-          this.ops["AssociateBudgetWithResource"].applicator.apply(partialParams)
+          this.ops["AssociateBudgetWithResource"].apply(partialParams)
         );
     }
 
     invokeAssociatePrincipalWithPortfolio(partialParams: ToOptional<{
-      [K in keyof AssociatePrincipalWithPortfolioInput & keyof AssociatePrincipalWithPortfolioInput & keyof AssociatePrincipalWithPortfolioInput]: (AssociatePrincipalWithPortfolioInput & AssociatePrincipalWithPortfolioInput & AssociatePrincipalWithPortfolioInput)[K]
+      [K in keyof AssociatePrincipalWithPortfolioInput]: (AssociatePrincipalWithPortfolioInput)[K]
     }>): Request<AssociatePrincipalWithPortfolioOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associatePrincipalWithPortfolio(
-          this.ops["AssociatePrincipalWithPortfolio"].applicator.apply(partialParams)
+          this.ops["AssociatePrincipalWithPortfolio"].apply(partialParams)
         );
     }
 
     invokeAssociateProductWithPortfolio(partialParams: ToOptional<{
-      [K in keyof AssociateProductWithPortfolioInput & keyof AssociateProductWithPortfolioInput & keyof AssociateProductWithPortfolioInput]: (AssociateProductWithPortfolioInput & AssociateProductWithPortfolioInput & AssociateProductWithPortfolioInput)[K]
+      [K in keyof AssociateProductWithPortfolioInput]: (AssociateProductWithPortfolioInput)[K]
     }>): Request<AssociateProductWithPortfolioOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateProductWithPortfolio(
-          this.ops["AssociateProductWithPortfolio"].applicator.apply(partialParams)
+          this.ops["AssociateProductWithPortfolio"].apply(partialParams)
         );
     }
 
     invokeAssociateServiceActionWithProvisioningArtifact(partialParams: ToOptional<{
-      [K in keyof AssociateServiceActionWithProvisioningArtifactInput & keyof AssociateServiceActionWithProvisioningArtifactInput & keyof AssociateServiceActionWithProvisioningArtifactInput]: (AssociateServiceActionWithProvisioningArtifactInput & AssociateServiceActionWithProvisioningArtifactInput & AssociateServiceActionWithProvisioningArtifactInput)[K]
+      [K in keyof AssociateServiceActionWithProvisioningArtifactInput]: (AssociateServiceActionWithProvisioningArtifactInput)[K]
     }>): Request<AssociateServiceActionWithProvisioningArtifactOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateServiceActionWithProvisioningArtifact(
-          this.ops["AssociateServiceActionWithProvisioningArtifact"].applicator.apply(partialParams)
+          this.ops["AssociateServiceActionWithProvisioningArtifact"].apply(partialParams)
         );
     }
 
     invokeAssociateTagOptionWithResource(partialParams: ToOptional<{
-      [K in keyof AssociateTagOptionWithResourceInput & keyof AssociateTagOptionWithResourceInput & keyof AssociateTagOptionWithResourceInput]: (AssociateTagOptionWithResourceInput & AssociateTagOptionWithResourceInput & AssociateTagOptionWithResourceInput)[K]
+      [K in keyof AssociateTagOptionWithResourceInput]: (AssociateTagOptionWithResourceInput)[K]
     }>): Request<AssociateTagOptionWithResourceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateTagOptionWithResource(
-          this.ops["AssociateTagOptionWithResource"].applicator.apply(partialParams)
+          this.ops["AssociateTagOptionWithResource"].apply(partialParams)
         );
     }
 
     invokeBatchAssociateServiceActionWithProvisioningArtifact(partialParams: ToOptional<{
-      [K in keyof BatchAssociateServiceActionWithProvisioningArtifactInput & keyof BatchAssociateServiceActionWithProvisioningArtifactInput & keyof BatchAssociateServiceActionWithProvisioningArtifactInput]: (BatchAssociateServiceActionWithProvisioningArtifactInput & BatchAssociateServiceActionWithProvisioningArtifactInput & BatchAssociateServiceActionWithProvisioningArtifactInput)[K]
+      [K in keyof BatchAssociateServiceActionWithProvisioningArtifactInput]: (BatchAssociateServiceActionWithProvisioningArtifactInput)[K]
     }>): Request<BatchAssociateServiceActionWithProvisioningArtifactOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.batchAssociateServiceActionWithProvisioningArtifact(
-          this.ops["BatchAssociateServiceActionWithProvisioningArtifact"].applicator.apply(partialParams)
+          this.ops["BatchAssociateServiceActionWithProvisioningArtifact"].apply(partialParams)
         );
     }
 
     invokeBatchDisassociateServiceActionFromProvisioningArtifact(partialParams: ToOptional<{
-      [K in keyof BatchDisassociateServiceActionFromProvisioningArtifactInput & keyof BatchDisassociateServiceActionFromProvisioningArtifactInput & keyof BatchDisassociateServiceActionFromProvisioningArtifactInput]: (BatchDisassociateServiceActionFromProvisioningArtifactInput & BatchDisassociateServiceActionFromProvisioningArtifactInput & BatchDisassociateServiceActionFromProvisioningArtifactInput)[K]
+      [K in keyof BatchDisassociateServiceActionFromProvisioningArtifactInput]: (BatchDisassociateServiceActionFromProvisioningArtifactInput)[K]
     }>): Request<BatchDisassociateServiceActionFromProvisioningArtifactOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.batchDisassociateServiceActionFromProvisioningArtifact(
-          this.ops["BatchDisassociateServiceActionFromProvisioningArtifact"].applicator.apply(partialParams)
+          this.ops["BatchDisassociateServiceActionFromProvisioningArtifact"].apply(partialParams)
         );
     }
 
     invokeCopyProduct(partialParams: ToOptional<{
-      [K in keyof CopyProductInput & keyof CopyProductInput & keyof CopyProductInput]: (CopyProductInput & CopyProductInput & CopyProductInput)[K]
+      [K in keyof CopyProductInput]: (CopyProductInput)[K]
     }>): Request<CopyProductOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.copyProduct(
-          this.ops["CopyProduct"].applicator.apply(partialParams)
+          this.ops["CopyProduct"].apply(partialParams)
         );
     }
 
     invokeCreateConstraint(partialParams: ToOptional<{
-      [K in keyof CreateConstraintInput & keyof CreateConstraintInput & keyof CreateConstraintInput]: (CreateConstraintInput & CreateConstraintInput & CreateConstraintInput)[K]
+      [K in keyof CreateConstraintInput]: (CreateConstraintInput)[K]
     }>): Request<CreateConstraintOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createConstraint(
-          this.ops["CreateConstraint"].applicator.apply(partialParams)
+          this.ops["CreateConstraint"].apply(partialParams)
         );
     }
 
     invokeCreatePortfolio(partialParams: ToOptional<{
-      [K in keyof CreatePortfolioInput & keyof CreatePortfolioInput & keyof CreatePortfolioInput]: (CreatePortfolioInput & CreatePortfolioInput & CreatePortfolioInput)[K]
+      [K in keyof CreatePortfolioInput]: (CreatePortfolioInput)[K]
     }>): Request<CreatePortfolioOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createPortfolio(
-          this.ops["CreatePortfolio"].applicator.apply(partialParams)
+          this.ops["CreatePortfolio"].apply(partialParams)
         );
     }
 
     invokeCreatePortfolioShare(partialParams: ToOptional<{
-      [K in keyof CreatePortfolioShareInput & keyof CreatePortfolioShareInput & keyof CreatePortfolioShareInput]: (CreatePortfolioShareInput & CreatePortfolioShareInput & CreatePortfolioShareInput)[K]
+      [K in keyof CreatePortfolioShareInput]: (CreatePortfolioShareInput)[K]
     }>): Request<CreatePortfolioShareOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createPortfolioShare(
-          this.ops["CreatePortfolioShare"].applicator.apply(partialParams)
+          this.ops["CreatePortfolioShare"].apply(partialParams)
         );
     }
 
     invokeCreateProduct(partialParams: ToOptional<{
-      [K in keyof CreateProductInput & keyof CreateProductInput & keyof CreateProductInput]: (CreateProductInput & CreateProductInput & CreateProductInput)[K]
+      [K in keyof CreateProductInput & keyof Omit<CreateProductInput, "Name">]: (CreateProductInput)[K]
     }>): Request<CreateProductOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createProduct(
-          this.ops["CreateProduct"].applicator.apply(partialParams)
+          this.ops["CreateProduct"].apply(partialParams)
         );
     }
 
     invokeCreateProvisionedProductPlan(partialParams: ToOptional<{
-      [K in keyof CreateProvisionedProductPlanInput & keyof CreateProvisionedProductPlanInput & keyof CreateProvisionedProductPlanInput]: (CreateProvisionedProductPlanInput & CreateProvisionedProductPlanInput & CreateProvisionedProductPlanInput)[K]
+      [K in keyof CreateProvisionedProductPlanInput]: (CreateProvisionedProductPlanInput)[K]
     }>): Request<CreateProvisionedProductPlanOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createProvisionedProductPlan(
-          this.ops["CreateProvisionedProductPlan"].applicator.apply(partialParams)
+          this.ops["CreateProvisionedProductPlan"].apply(partialParams)
         );
     }
 
     invokeCreateProvisioningArtifact(partialParams: ToOptional<{
-      [K in keyof CreateProvisioningArtifactInput & keyof CreateProvisioningArtifactInput & keyof CreateProvisioningArtifactInput]: (CreateProvisioningArtifactInput & CreateProvisioningArtifactInput & CreateProvisioningArtifactInput)[K]
+      [K in keyof CreateProvisioningArtifactInput]: (CreateProvisioningArtifactInput)[K]
     }>): Request<CreateProvisioningArtifactOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createProvisioningArtifact(
-          this.ops["CreateProvisioningArtifact"].applicator.apply(partialParams)
+          this.ops["CreateProvisioningArtifact"].apply(partialParams)
         );
     }
 
     invokeCreateServiceAction(partialParams: ToOptional<{
-      [K in keyof CreateServiceActionInput & keyof CreateServiceActionInput & keyof CreateServiceActionInput]: (CreateServiceActionInput & CreateServiceActionInput & CreateServiceActionInput)[K]
+      [K in keyof CreateServiceActionInput & keyof Omit<CreateServiceActionInput, "Name">]: (CreateServiceActionInput)[K]
     }>): Request<CreateServiceActionOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createServiceAction(
-          this.ops["CreateServiceAction"].applicator.apply(partialParams)
+          this.ops["CreateServiceAction"].apply(partialParams)
         );
     }
 
     invokeCreateTagOption(partialParams: ToOptional<{
-      [K in keyof CreateTagOptionInput & keyof CreateTagOptionInput & keyof CreateTagOptionInput]: (CreateTagOptionInput & CreateTagOptionInput & CreateTagOptionInput)[K]
+      [K in keyof CreateTagOptionInput]: (CreateTagOptionInput)[K]
     }>): Request<CreateTagOptionOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createTagOption(
-          this.ops["CreateTagOption"].applicator.apply(partialParams)
+          this.ops["CreateTagOption"].apply(partialParams)
         );
     }
 
     invokeDeleteConstraint(partialParams: ToOptional<{
-      [K in keyof DeleteConstraintInput & keyof DeleteConstraintInput & keyof DeleteConstraintInput]: (DeleteConstraintInput & DeleteConstraintInput & DeleteConstraintInput)[K]
+      [K in keyof DeleteConstraintInput]: (DeleteConstraintInput)[K]
     }>): Request<DeleteConstraintOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteConstraint(
-          this.ops["DeleteConstraint"].applicator.apply(partialParams)
+          this.ops["DeleteConstraint"].apply(partialParams)
         );
     }
 
     invokeDeletePortfolio(partialParams: ToOptional<{
-      [K in keyof DeletePortfolioInput & keyof DeletePortfolioInput & keyof DeletePortfolioInput]: (DeletePortfolioInput & DeletePortfolioInput & DeletePortfolioInput)[K]
+      [K in keyof DeletePortfolioInput]: (DeletePortfolioInput)[K]
     }>): Request<DeletePortfolioOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deletePortfolio(
-          this.ops["DeletePortfolio"].applicator.apply(partialParams)
+          this.ops["DeletePortfolio"].apply(partialParams)
         );
     }
 
     invokeDeletePortfolioShare(partialParams: ToOptional<{
-      [K in keyof DeletePortfolioShareInput & keyof DeletePortfolioShareInput & keyof DeletePortfolioShareInput]: (DeletePortfolioShareInput & DeletePortfolioShareInput & DeletePortfolioShareInput)[K]
+      [K in keyof DeletePortfolioShareInput]: (DeletePortfolioShareInput)[K]
     }>): Request<DeletePortfolioShareOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deletePortfolioShare(
-          this.ops["DeletePortfolioShare"].applicator.apply(partialParams)
+          this.ops["DeletePortfolioShare"].apply(partialParams)
         );
     }
 
     invokeDeleteProduct(partialParams: ToOptional<{
-      [K in keyof DeleteProductInput & keyof DeleteProductInput & keyof DeleteProductInput]: (DeleteProductInput & DeleteProductInput & DeleteProductInput)[K]
+      [K in keyof DeleteProductInput]: (DeleteProductInput)[K]
     }>): Request<DeleteProductOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteProduct(
-          this.ops["DeleteProduct"].applicator.apply(partialParams)
+          this.ops["DeleteProduct"].apply(partialParams)
         );
     }
 
     invokeDeleteProvisionedProductPlan(partialParams: ToOptional<{
-      [K in keyof DeleteProvisionedProductPlanInput & keyof DeleteProvisionedProductPlanInput & keyof DeleteProvisionedProductPlanInput]: (DeleteProvisionedProductPlanInput & DeleteProvisionedProductPlanInput & DeleteProvisionedProductPlanInput)[K]
+      [K in keyof DeleteProvisionedProductPlanInput]: (DeleteProvisionedProductPlanInput)[K]
     }>): Request<DeleteProvisionedProductPlanOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteProvisionedProductPlan(
-          this.ops["DeleteProvisionedProductPlan"].applicator.apply(partialParams)
+          this.ops["DeleteProvisionedProductPlan"].apply(partialParams)
         );
     }
 
     invokeDeleteProvisioningArtifact(partialParams: ToOptional<{
-      [K in keyof DeleteProvisioningArtifactInput & keyof DeleteProvisioningArtifactInput & keyof DeleteProvisioningArtifactInput]: (DeleteProvisioningArtifactInput & DeleteProvisioningArtifactInput & DeleteProvisioningArtifactInput)[K]
+      [K in keyof DeleteProvisioningArtifactInput]: (DeleteProvisioningArtifactInput)[K]
     }>): Request<DeleteProvisioningArtifactOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteProvisioningArtifact(
-          this.ops["DeleteProvisioningArtifact"].applicator.apply(partialParams)
+          this.ops["DeleteProvisioningArtifact"].apply(partialParams)
         );
     }
 
     invokeDeleteServiceAction(partialParams: ToOptional<{
-      [K in keyof DeleteServiceActionInput & keyof DeleteServiceActionInput & keyof DeleteServiceActionInput]: (DeleteServiceActionInput & DeleteServiceActionInput & DeleteServiceActionInput)[K]
+      [K in keyof DeleteServiceActionInput]: (DeleteServiceActionInput)[K]
     }>): Request<DeleteServiceActionOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteServiceAction(
-          this.ops["DeleteServiceAction"].applicator.apply(partialParams)
+          this.ops["DeleteServiceAction"].apply(partialParams)
         );
     }
 
     invokeDeleteTagOption(partialParams: ToOptional<{
-      [K in keyof DeleteTagOptionInput & keyof DeleteTagOptionInput & keyof DeleteTagOptionInput]: (DeleteTagOptionInput & DeleteTagOptionInput & DeleteTagOptionInput)[K]
+      [K in keyof DeleteTagOptionInput]: (DeleteTagOptionInput)[K]
     }>): Request<DeleteTagOptionOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteTagOption(
-          this.ops["DeleteTagOption"].applicator.apply(partialParams)
+          this.ops["DeleteTagOption"].apply(partialParams)
         );
     }
 
     invokeDescribeConstraint(partialParams: ToOptional<{
-      [K in keyof DescribeConstraintInput & keyof DescribeConstraintInput & keyof DescribeConstraintInput]: (DescribeConstraintInput & DescribeConstraintInput & DescribeConstraintInput)[K]
+      [K in keyof DescribeConstraintInput]: (DescribeConstraintInput)[K]
     }>): Request<DescribeConstraintOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeConstraint(
-          this.ops["DescribeConstraint"].applicator.apply(partialParams)
+          this.ops["DescribeConstraint"].apply(partialParams)
         );
     }
 
     invokeDescribeCopyProductStatus(partialParams: ToOptional<{
-      [K in keyof DescribeCopyProductStatusInput & keyof DescribeCopyProductStatusInput & keyof DescribeCopyProductStatusInput]: (DescribeCopyProductStatusInput & DescribeCopyProductStatusInput & DescribeCopyProductStatusInput)[K]
+      [K in keyof DescribeCopyProductStatusInput]: (DescribeCopyProductStatusInput)[K]
     }>): Request<DescribeCopyProductStatusOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeCopyProductStatus(
-          this.ops["DescribeCopyProductStatus"].applicator.apply(partialParams)
+          this.ops["DescribeCopyProductStatus"].apply(partialParams)
         );
     }
 
     invokeDescribePortfolio(partialParams: ToOptional<{
-      [K in keyof DescribePortfolioInput & keyof DescribePortfolioInput & keyof DescribePortfolioInput]: (DescribePortfolioInput & DescribePortfolioInput & DescribePortfolioInput)[K]
+      [K in keyof DescribePortfolioInput]: (DescribePortfolioInput)[K]
     }>): Request<DescribePortfolioOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describePortfolio(
-          this.ops["DescribePortfolio"].applicator.apply(partialParams)
+          this.ops["DescribePortfolio"].apply(partialParams)
         );
     }
 
     invokeDescribePortfolioShareStatus(partialParams: ToOptional<{
-      [K in keyof DescribePortfolioShareStatusInput & keyof DescribePortfolioShareStatusInput & keyof DescribePortfolioShareStatusInput]: (DescribePortfolioShareStatusInput & DescribePortfolioShareStatusInput & DescribePortfolioShareStatusInput)[K]
+      [K in keyof DescribePortfolioShareStatusInput]: (DescribePortfolioShareStatusInput)[K]
     }>): Request<DescribePortfolioShareStatusOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describePortfolioShareStatus(
-          this.ops["DescribePortfolioShareStatus"].applicator.apply(partialParams)
+          this.ops["DescribePortfolioShareStatus"].apply(partialParams)
         );
     }
 
     invokeDescribePortfolioShares(partialParams: ToOptional<{
-      [K in keyof DescribePortfolioSharesInput & keyof DescribePortfolioSharesInput & keyof DescribePortfolioSharesInput]: (DescribePortfolioSharesInput & DescribePortfolioSharesInput & DescribePortfolioSharesInput)[K]
+      [K in keyof DescribePortfolioSharesInput]: (DescribePortfolioSharesInput)[K]
     }>): Request<DescribePortfolioSharesOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describePortfolioShares(
-          this.ops["DescribePortfolioShares"].applicator.apply(partialParams)
+          this.ops["DescribePortfolioShares"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeProduct(partialParams: ToOptional<{
+      [K in keyof DescribeProductInput]: (DescribeProductInput)[K]
+    }>): Request<DescribeProductOutput, AWSError> {
+        this.boot();
+        return this.client.describeProduct(
+          this.ops["DescribeProduct"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeProductAsAdmin(partialParams: ToOptional<{
+      [K in keyof DescribeProductAsAdminInput]: (DescribeProductAsAdminInput)[K]
+    }>): Request<DescribeProductAsAdminOutput, AWSError> {
+        this.boot();
+        return this.client.describeProductAsAdmin(
+          this.ops["DescribeProductAsAdmin"].apply(partialParams)
         );
     }
 
     invokeDescribeProductView(partialParams: ToOptional<{
-      [K in keyof DescribeProductViewInput & keyof DescribeProductViewInput & keyof DescribeProductViewInput]: (DescribeProductViewInput & DescribeProductViewInput & DescribeProductViewInput)[K]
+      [K in keyof DescribeProductViewInput]: (DescribeProductViewInput)[K]
     }>): Request<DescribeProductViewOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeProductView(
-          this.ops["DescribeProductView"].applicator.apply(partialParams)
+          this.ops["DescribeProductView"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeProvisionedProduct(partialParams: ToOptional<{
+      [K in keyof DescribeProvisionedProductInput]: (DescribeProvisionedProductInput)[K]
+    }>): Request<DescribeProvisionedProductOutput, AWSError> {
+        this.boot();
+        return this.client.describeProvisionedProduct(
+          this.ops["DescribeProvisionedProduct"].apply(partialParams)
         );
     }
 
     invokeDescribeProvisionedProductPlan(partialParams: ToOptional<{
-      [K in keyof DescribeProvisionedProductPlanInput & keyof DescribeProvisionedProductPlanInput & keyof DescribeProvisionedProductPlanInput]: (DescribeProvisionedProductPlanInput & DescribeProvisionedProductPlanInput & DescribeProvisionedProductPlanInput)[K]
+      [K in keyof DescribeProvisionedProductPlanInput]: (DescribeProvisionedProductPlanInput)[K]
     }>): Request<DescribeProvisionedProductPlanOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeProvisionedProductPlan(
-          this.ops["DescribeProvisionedProductPlan"].applicator.apply(partialParams)
+          this.ops["DescribeProvisionedProductPlan"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeProvisioningArtifact(partialParams: ToOptional<{
+      [K in keyof DescribeProvisioningArtifactInput]: (DescribeProvisioningArtifactInput)[K]
+    }>): Request<DescribeProvisioningArtifactOutput, AWSError> {
+        this.boot();
+        return this.client.describeProvisioningArtifact(
+          this.ops["DescribeProvisioningArtifact"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeProvisioningParameters(partialParams: ToOptional<{
+      [K in keyof DescribeProvisioningParametersInput]: (DescribeProvisioningParametersInput)[K]
+    }>): Request<DescribeProvisioningParametersOutput, AWSError> {
+        this.boot();
+        return this.client.describeProvisioningParameters(
+          this.ops["DescribeProvisioningParameters"].apply(partialParams)
         );
     }
 
     invokeDescribeRecord(partialParams: ToOptional<{
-      [K in keyof DescribeRecordInput & keyof DescribeRecordInput & keyof DescribeRecordInput]: (DescribeRecordInput & DescribeRecordInput & DescribeRecordInput)[K]
+      [K in keyof DescribeRecordInput]: (DescribeRecordInput)[K]
     }>): Request<DescribeRecordOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeRecord(
-          this.ops["DescribeRecord"].applicator.apply(partialParams)
+          this.ops["DescribeRecord"].apply(partialParams)
         );
     }
 
     invokeDescribeServiceAction(partialParams: ToOptional<{
-      [K in keyof DescribeServiceActionInput & keyof DescribeServiceActionInput & keyof DescribeServiceActionInput]: (DescribeServiceActionInput & DescribeServiceActionInput & DescribeServiceActionInput)[K]
+      [K in keyof DescribeServiceActionInput]: (DescribeServiceActionInput)[K]
     }>): Request<DescribeServiceActionOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeServiceAction(
-          this.ops["DescribeServiceAction"].applicator.apply(partialParams)
+          this.ops["DescribeServiceAction"].apply(partialParams)
         );
     }
 
     invokeDescribeServiceActionExecutionParameters(partialParams: ToOptional<{
-      [K in keyof DescribeServiceActionExecutionParametersInput & keyof DescribeServiceActionExecutionParametersInput & keyof DescribeServiceActionExecutionParametersInput]: (DescribeServiceActionExecutionParametersInput & DescribeServiceActionExecutionParametersInput & DescribeServiceActionExecutionParametersInput)[K]
+      [K in keyof DescribeServiceActionExecutionParametersInput]: (DescribeServiceActionExecutionParametersInput)[K]
     }>): Request<DescribeServiceActionExecutionParametersOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeServiceActionExecutionParameters(
-          this.ops["DescribeServiceActionExecutionParameters"].applicator.apply(partialParams)
+          this.ops["DescribeServiceActionExecutionParameters"].apply(partialParams)
         );
     }
 
     invokeDescribeTagOption(partialParams: ToOptional<{
-      [K in keyof DescribeTagOptionInput & keyof DescribeTagOptionInput & keyof DescribeTagOptionInput]: (DescribeTagOptionInput & DescribeTagOptionInput & DescribeTagOptionInput)[K]
+      [K in keyof DescribeTagOptionInput]: (DescribeTagOptionInput)[K]
     }>): Request<DescribeTagOptionOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeTagOption(
-          this.ops["DescribeTagOption"].applicator.apply(partialParams)
+          this.ops["DescribeTagOption"].apply(partialParams)
+        );
+    }
+
+    invokeDisableAWSOrganizationsAccess(partialParams: ToOptional<{
+      [K in keyof DisableAWSOrganizationsAccessInput]: (DisableAWSOrganizationsAccessInput)[K]
+    }>): Request<DisableAWSOrganizationsAccessOutput, AWSError> {
+        this.boot();
+        return this.client.disableAWSOrganizationsAccess(
+          this.ops["DisableAWSOrganizationsAccess"].apply(partialParams)
         );
     }
 
     invokeDisassociateBudgetFromResource(partialParams: ToOptional<{
-      [K in keyof DisassociateBudgetFromResourceInput & keyof DisassociateBudgetFromResourceInput & keyof DisassociateBudgetFromResourceInput]: (DisassociateBudgetFromResourceInput & DisassociateBudgetFromResourceInput & DisassociateBudgetFromResourceInput)[K]
+      [K in keyof DisassociateBudgetFromResourceInput]: (DisassociateBudgetFromResourceInput)[K]
     }>): Request<DisassociateBudgetFromResourceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateBudgetFromResource(
-          this.ops["DisassociateBudgetFromResource"].applicator.apply(partialParams)
+          this.ops["DisassociateBudgetFromResource"].apply(partialParams)
         );
     }
 
     invokeDisassociatePrincipalFromPortfolio(partialParams: ToOptional<{
-      [K in keyof DisassociatePrincipalFromPortfolioInput & keyof DisassociatePrincipalFromPortfolioInput & keyof DisassociatePrincipalFromPortfolioInput]: (DisassociatePrincipalFromPortfolioInput & DisassociatePrincipalFromPortfolioInput & DisassociatePrincipalFromPortfolioInput)[K]
+      [K in keyof DisassociatePrincipalFromPortfolioInput]: (DisassociatePrincipalFromPortfolioInput)[K]
     }>): Request<DisassociatePrincipalFromPortfolioOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociatePrincipalFromPortfolio(
-          this.ops["DisassociatePrincipalFromPortfolio"].applicator.apply(partialParams)
+          this.ops["DisassociatePrincipalFromPortfolio"].apply(partialParams)
         );
     }
 
     invokeDisassociateProductFromPortfolio(partialParams: ToOptional<{
-      [K in keyof DisassociateProductFromPortfolioInput & keyof DisassociateProductFromPortfolioInput & keyof DisassociateProductFromPortfolioInput]: (DisassociateProductFromPortfolioInput & DisassociateProductFromPortfolioInput & DisassociateProductFromPortfolioInput)[K]
+      [K in keyof DisassociateProductFromPortfolioInput]: (DisassociateProductFromPortfolioInput)[K]
     }>): Request<DisassociateProductFromPortfolioOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateProductFromPortfolio(
-          this.ops["DisassociateProductFromPortfolio"].applicator.apply(partialParams)
+          this.ops["DisassociateProductFromPortfolio"].apply(partialParams)
         );
     }
 
     invokeDisassociateServiceActionFromProvisioningArtifact(partialParams: ToOptional<{
-      [K in keyof DisassociateServiceActionFromProvisioningArtifactInput & keyof DisassociateServiceActionFromProvisioningArtifactInput & keyof DisassociateServiceActionFromProvisioningArtifactInput]: (DisassociateServiceActionFromProvisioningArtifactInput & DisassociateServiceActionFromProvisioningArtifactInput & DisassociateServiceActionFromProvisioningArtifactInput)[K]
+      [K in keyof DisassociateServiceActionFromProvisioningArtifactInput]: (DisassociateServiceActionFromProvisioningArtifactInput)[K]
     }>): Request<DisassociateServiceActionFromProvisioningArtifactOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateServiceActionFromProvisioningArtifact(
-          this.ops["DisassociateServiceActionFromProvisioningArtifact"].applicator.apply(partialParams)
+          this.ops["DisassociateServiceActionFromProvisioningArtifact"].apply(partialParams)
         );
     }
 
     invokeDisassociateTagOptionFromResource(partialParams: ToOptional<{
-      [K in keyof DisassociateTagOptionFromResourceInput & keyof DisassociateTagOptionFromResourceInput & keyof DisassociateTagOptionFromResourceInput]: (DisassociateTagOptionFromResourceInput & DisassociateTagOptionFromResourceInput & DisassociateTagOptionFromResourceInput)[K]
+      [K in keyof DisassociateTagOptionFromResourceInput]: (DisassociateTagOptionFromResourceInput)[K]
     }>): Request<DisassociateTagOptionFromResourceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateTagOptionFromResource(
-          this.ops["DisassociateTagOptionFromResource"].applicator.apply(partialParams)
+          this.ops["DisassociateTagOptionFromResource"].apply(partialParams)
+        );
+    }
+
+    invokeEnableAWSOrganizationsAccess(partialParams: ToOptional<{
+      [K in keyof EnableAWSOrganizationsAccessInput]: (EnableAWSOrganizationsAccessInput)[K]
+    }>): Request<EnableAWSOrganizationsAccessOutput, AWSError> {
+        this.boot();
+        return this.client.enableAWSOrganizationsAccess(
+          this.ops["EnableAWSOrganizationsAccess"].apply(partialParams)
         );
     }
 
     invokeExecuteProvisionedProductPlan(partialParams: ToOptional<{
-      [K in keyof ExecuteProvisionedProductPlanInput & keyof ExecuteProvisionedProductPlanInput & keyof ExecuteProvisionedProductPlanInput]: (ExecuteProvisionedProductPlanInput & ExecuteProvisionedProductPlanInput & ExecuteProvisionedProductPlanInput)[K]
+      [K in keyof ExecuteProvisionedProductPlanInput]: (ExecuteProvisionedProductPlanInput)[K]
     }>): Request<ExecuteProvisionedProductPlanOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.executeProvisionedProductPlan(
-          this.ops["ExecuteProvisionedProductPlan"].applicator.apply(partialParams)
+          this.ops["ExecuteProvisionedProductPlan"].apply(partialParams)
         );
     }
 
     invokeExecuteProvisionedProductServiceAction(partialParams: ToOptional<{
-      [K in keyof ExecuteProvisionedProductServiceActionInput & keyof ExecuteProvisionedProductServiceActionInput & keyof ExecuteProvisionedProductServiceActionInput]: (ExecuteProvisionedProductServiceActionInput & ExecuteProvisionedProductServiceActionInput & ExecuteProvisionedProductServiceActionInput)[K]
+      [K in keyof ExecuteProvisionedProductServiceActionInput]: (ExecuteProvisionedProductServiceActionInput)[K]
     }>): Request<ExecuteProvisionedProductServiceActionOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.executeProvisionedProductServiceAction(
-          this.ops["ExecuteProvisionedProductServiceAction"].applicator.apply(partialParams)
+          this.ops["ExecuteProvisionedProductServiceAction"].apply(partialParams)
+        );
+    }
+
+    invokeGetAWSOrganizationsAccessStatus(partialParams: ToOptional<{
+      [K in keyof GetAWSOrganizationsAccessStatusInput]: (GetAWSOrganizationsAccessStatusInput)[K]
+    }>): Request<GetAWSOrganizationsAccessStatusOutput, AWSError> {
+        this.boot();
+        return this.client.getAWSOrganizationsAccessStatus(
+          this.ops["GetAWSOrganizationsAccessStatus"].apply(partialParams)
+        );
+    }
+
+    invokeGetProvisionedProductOutputs(partialParams: ToOptional<{
+      [K in keyof GetProvisionedProductOutputsInput]: (GetProvisionedProductOutputsInput)[K]
+    }>): Request<GetProvisionedProductOutputsOutput, AWSError> {
+        this.boot();
+        return this.client.getProvisionedProductOutputs(
+          this.ops["GetProvisionedProductOutputs"].apply(partialParams)
         );
     }
 
     invokeImportAsProvisionedProduct(partialParams: ToOptional<{
-      [K in keyof ImportAsProvisionedProductInput & keyof ImportAsProvisionedProductInput & keyof ImportAsProvisionedProductInput]: (ImportAsProvisionedProductInput & ImportAsProvisionedProductInput & ImportAsProvisionedProductInput)[K]
+      [K in keyof ImportAsProvisionedProductInput]: (ImportAsProvisionedProductInput)[K]
     }>): Request<ImportAsProvisionedProductOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.importAsProvisionedProduct(
-          this.ops["ImportAsProvisionedProduct"].applicator.apply(partialParams)
+          this.ops["ImportAsProvisionedProduct"].apply(partialParams)
+        );
+    }
+
+    invokeListAcceptedPortfolioShares(partialParams: ToOptional<{
+      [K in keyof ListAcceptedPortfolioSharesInput]: (ListAcceptedPortfolioSharesInput)[K]
+    }>): Request<ListAcceptedPortfolioSharesOutput, AWSError> {
+        this.boot();
+        return this.client.listAcceptedPortfolioShares(
+          this.ops["ListAcceptedPortfolioShares"].apply(partialParams)
         );
     }
 
     invokeListBudgetsForResource(partialParams: ToOptional<{
-      [K in keyof ListBudgetsForResourceInput & keyof ListBudgetsForResourceInput & keyof ListBudgetsForResourceInput]: (ListBudgetsForResourceInput & ListBudgetsForResourceInput & ListBudgetsForResourceInput)[K]
+      [K in keyof ListBudgetsForResourceInput]: (ListBudgetsForResourceInput)[K]
     }>): Request<ListBudgetsForResourceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listBudgetsForResource(
-          this.ops["ListBudgetsForResource"].applicator.apply(partialParams)
+          this.ops["ListBudgetsForResource"].apply(partialParams)
         );
     }
 
     invokeListConstraintsForPortfolio(partialParams: ToOptional<{
-      [K in keyof ListConstraintsForPortfolioInput & keyof ListConstraintsForPortfolioInput & keyof ListConstraintsForPortfolioInput]: (ListConstraintsForPortfolioInput & ListConstraintsForPortfolioInput & ListConstraintsForPortfolioInput)[K]
+      [K in keyof ListConstraintsForPortfolioInput]: (ListConstraintsForPortfolioInput)[K]
     }>): Request<ListConstraintsForPortfolioOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listConstraintsForPortfolio(
-          this.ops["ListConstraintsForPortfolio"].applicator.apply(partialParams)
+          this.ops["ListConstraintsForPortfolio"].apply(partialParams)
         );
     }
 
     invokeListLaunchPaths(partialParams: ToOptional<{
-      [K in keyof ListLaunchPathsInput & keyof ListLaunchPathsInput & keyof ListLaunchPathsInput]: (ListLaunchPathsInput & ListLaunchPathsInput & ListLaunchPathsInput)[K]
+      [K in keyof ListLaunchPathsInput]: (ListLaunchPathsInput)[K]
     }>): Request<ListLaunchPathsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listLaunchPaths(
-          this.ops["ListLaunchPaths"].applicator.apply(partialParams)
+          this.ops["ListLaunchPaths"].apply(partialParams)
         );
     }
 
     invokeListOrganizationPortfolioAccess(partialParams: ToOptional<{
-      [K in keyof ListOrganizationPortfolioAccessInput & keyof ListOrganizationPortfolioAccessInput & keyof ListOrganizationPortfolioAccessInput]: (ListOrganizationPortfolioAccessInput & ListOrganizationPortfolioAccessInput & ListOrganizationPortfolioAccessInput)[K]
+      [K in keyof ListOrganizationPortfolioAccessInput]: (ListOrganizationPortfolioAccessInput)[K]
     }>): Request<ListOrganizationPortfolioAccessOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listOrganizationPortfolioAccess(
-          this.ops["ListOrganizationPortfolioAccess"].applicator.apply(partialParams)
+          this.ops["ListOrganizationPortfolioAccess"].apply(partialParams)
         );
     }
 
     invokeListPortfolioAccess(partialParams: ToOptional<{
-      [K in keyof ListPortfolioAccessInput & keyof ListPortfolioAccessInput & keyof ListPortfolioAccessInput]: (ListPortfolioAccessInput & ListPortfolioAccessInput & ListPortfolioAccessInput)[K]
+      [K in keyof ListPortfolioAccessInput]: (ListPortfolioAccessInput)[K]
     }>): Request<ListPortfolioAccessOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listPortfolioAccess(
-          this.ops["ListPortfolioAccess"].applicator.apply(partialParams)
+          this.ops["ListPortfolioAccess"].apply(partialParams)
+        );
+    }
+
+    invokeListPortfolios(partialParams: ToOptional<{
+      [K in keyof ListPortfoliosInput]: (ListPortfoliosInput)[K]
+    }>): Request<ListPortfoliosOutput, AWSError> {
+        this.boot();
+        return this.client.listPortfolios(
+          this.ops["ListPortfolios"].apply(partialParams)
         );
     }
 
     invokeListPortfoliosForProduct(partialParams: ToOptional<{
-      [K in keyof ListPortfoliosForProductInput & keyof ListPortfoliosForProductInput & keyof ListPortfoliosForProductInput]: (ListPortfoliosForProductInput & ListPortfoliosForProductInput & ListPortfoliosForProductInput)[K]
+      [K in keyof ListPortfoliosForProductInput]: (ListPortfoliosForProductInput)[K]
     }>): Request<ListPortfoliosForProductOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listPortfoliosForProduct(
-          this.ops["ListPortfoliosForProduct"].applicator.apply(partialParams)
+          this.ops["ListPortfoliosForProduct"].apply(partialParams)
         );
     }
 
     invokeListPrincipalsForPortfolio(partialParams: ToOptional<{
-      [K in keyof ListPrincipalsForPortfolioInput & keyof ListPrincipalsForPortfolioInput & keyof ListPrincipalsForPortfolioInput]: (ListPrincipalsForPortfolioInput & ListPrincipalsForPortfolioInput & ListPrincipalsForPortfolioInput)[K]
+      [K in keyof ListPrincipalsForPortfolioInput]: (ListPrincipalsForPortfolioInput)[K]
     }>): Request<ListPrincipalsForPortfolioOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listPrincipalsForPortfolio(
-          this.ops["ListPrincipalsForPortfolio"].applicator.apply(partialParams)
+          this.ops["ListPrincipalsForPortfolio"].apply(partialParams)
+        );
+    }
+
+    invokeListProvisionedProductPlans(partialParams: ToOptional<{
+      [K in keyof ListProvisionedProductPlansInput]: (ListProvisionedProductPlansInput)[K]
+    }>): Request<ListProvisionedProductPlansOutput, AWSError> {
+        this.boot();
+        return this.client.listProvisionedProductPlans(
+          this.ops["ListProvisionedProductPlans"].apply(partialParams)
         );
     }
 
     invokeListProvisioningArtifacts(partialParams: ToOptional<{
-      [K in keyof ListProvisioningArtifactsInput & keyof ListProvisioningArtifactsInput & keyof ListProvisioningArtifactsInput]: (ListProvisioningArtifactsInput & ListProvisioningArtifactsInput & ListProvisioningArtifactsInput)[K]
+      [K in keyof ListProvisioningArtifactsInput]: (ListProvisioningArtifactsInput)[K]
     }>): Request<ListProvisioningArtifactsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listProvisioningArtifacts(
-          this.ops["ListProvisioningArtifacts"].applicator.apply(partialParams)
+          this.ops["ListProvisioningArtifacts"].apply(partialParams)
         );
     }
 
     invokeListProvisioningArtifactsForServiceAction(partialParams: ToOptional<{
-      [K in keyof ListProvisioningArtifactsForServiceActionInput & keyof ListProvisioningArtifactsForServiceActionInput & keyof ListProvisioningArtifactsForServiceActionInput]: (ListProvisioningArtifactsForServiceActionInput & ListProvisioningArtifactsForServiceActionInput & ListProvisioningArtifactsForServiceActionInput)[K]
+      [K in keyof ListProvisioningArtifactsForServiceActionInput]: (ListProvisioningArtifactsForServiceActionInput)[K]
     }>): Request<ListProvisioningArtifactsForServiceActionOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listProvisioningArtifactsForServiceAction(
-          this.ops["ListProvisioningArtifactsForServiceAction"].applicator.apply(partialParams)
+          this.ops["ListProvisioningArtifactsForServiceAction"].apply(partialParams)
+        );
+    }
+
+    invokeListRecordHistory(partialParams: ToOptional<{
+      [K in keyof ListRecordHistoryInput]: (ListRecordHistoryInput)[K]
+    }>): Request<ListRecordHistoryOutput, AWSError> {
+        this.boot();
+        return this.client.listRecordHistory(
+          this.ops["ListRecordHistory"].apply(partialParams)
         );
     }
 
     invokeListResourcesForTagOption(partialParams: ToOptional<{
-      [K in keyof ListResourcesForTagOptionInput & keyof ListResourcesForTagOptionInput & keyof ListResourcesForTagOptionInput]: (ListResourcesForTagOptionInput & ListResourcesForTagOptionInput & ListResourcesForTagOptionInput)[K]
+      [K in keyof ListResourcesForTagOptionInput]: (ListResourcesForTagOptionInput)[K]
     }>): Request<ListResourcesForTagOptionOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listResourcesForTagOption(
-          this.ops["ListResourcesForTagOption"].applicator.apply(partialParams)
+          this.ops["ListResourcesForTagOption"].apply(partialParams)
+        );
+    }
+
+    invokeListServiceActions(partialParams: ToOptional<{
+      [K in keyof ListServiceActionsInput]: (ListServiceActionsInput)[K]
+    }>): Request<ListServiceActionsOutput, AWSError> {
+        this.boot();
+        return this.client.listServiceActions(
+          this.ops["ListServiceActions"].apply(partialParams)
         );
     }
 
     invokeListServiceActionsForProvisioningArtifact(partialParams: ToOptional<{
-      [K in keyof ListServiceActionsForProvisioningArtifactInput & keyof ListServiceActionsForProvisioningArtifactInput & keyof ListServiceActionsForProvisioningArtifactInput]: (ListServiceActionsForProvisioningArtifactInput & ListServiceActionsForProvisioningArtifactInput & ListServiceActionsForProvisioningArtifactInput)[K]
+      [K in keyof ListServiceActionsForProvisioningArtifactInput]: (ListServiceActionsForProvisioningArtifactInput)[K]
     }>): Request<ListServiceActionsForProvisioningArtifactOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listServiceActionsForProvisioningArtifact(
-          this.ops["ListServiceActionsForProvisioningArtifact"].applicator.apply(partialParams)
+          this.ops["ListServiceActionsForProvisioningArtifact"].apply(partialParams)
         );
     }
 
     invokeListStackInstancesForProvisionedProduct(partialParams: ToOptional<{
-      [K in keyof ListStackInstancesForProvisionedProductInput & keyof ListStackInstancesForProvisionedProductInput & keyof ListStackInstancesForProvisionedProductInput]: (ListStackInstancesForProvisionedProductInput & ListStackInstancesForProvisionedProductInput & ListStackInstancesForProvisionedProductInput)[K]
+      [K in keyof ListStackInstancesForProvisionedProductInput]: (ListStackInstancesForProvisionedProductInput)[K]
     }>): Request<ListStackInstancesForProvisionedProductOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listStackInstancesForProvisionedProduct(
-          this.ops["ListStackInstancesForProvisionedProduct"].applicator.apply(partialParams)
+          this.ops["ListStackInstancesForProvisionedProduct"].apply(partialParams)
+        );
+    }
+
+    invokeListTagOptions(partialParams: ToOptional<{
+      [K in keyof ListTagOptionsInput]: (ListTagOptionsInput)[K]
+    }>): Request<ListTagOptionsOutput, AWSError> {
+        this.boot();
+        return this.client.listTagOptions(
+          this.ops["ListTagOptions"].apply(partialParams)
         );
     }
 
     invokeProvisionProduct(partialParams: ToOptional<{
-      [K in keyof ProvisionProductInput & keyof ProvisionProductInput & keyof ProvisionProductInput]: (ProvisionProductInput & ProvisionProductInput & ProvisionProductInput)[K]
+      [K in keyof ProvisionProductInput]: (ProvisionProductInput)[K]
     }>): Request<ProvisionProductOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.provisionProduct(
-          this.ops["ProvisionProduct"].applicator.apply(partialParams)
+          this.ops["ProvisionProduct"].apply(partialParams)
         );
     }
 
     invokeRejectPortfolioShare(partialParams: ToOptional<{
-      [K in keyof RejectPortfolioShareInput & keyof RejectPortfolioShareInput & keyof RejectPortfolioShareInput]: (RejectPortfolioShareInput & RejectPortfolioShareInput & RejectPortfolioShareInput)[K]
+      [K in keyof RejectPortfolioShareInput]: (RejectPortfolioShareInput)[K]
     }>): Request<RejectPortfolioShareOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.rejectPortfolioShare(
-          this.ops["RejectPortfolioShare"].applicator.apply(partialParams)
+          this.ops["RejectPortfolioShare"].apply(partialParams)
+        );
+    }
+
+    invokeScanProvisionedProducts(partialParams: ToOptional<{
+      [K in keyof ScanProvisionedProductsInput]: (ScanProvisionedProductsInput)[K]
+    }>): Request<ScanProvisionedProductsOutput, AWSError> {
+        this.boot();
+        return this.client.scanProvisionedProducts(
+          this.ops["ScanProvisionedProducts"].apply(partialParams)
+        );
+    }
+
+    invokeSearchProducts(partialParams: ToOptional<{
+      [K in keyof SearchProductsInput]: (SearchProductsInput)[K]
+    }>): Request<SearchProductsOutput, AWSError> {
+        this.boot();
+        return this.client.searchProducts(
+          this.ops["SearchProducts"].apply(partialParams)
+        );
+    }
+
+    invokeSearchProductsAsAdmin(partialParams: ToOptional<{
+      [K in keyof SearchProductsAsAdminInput]: (SearchProductsAsAdminInput)[K]
+    }>): Request<SearchProductsAsAdminOutput, AWSError> {
+        this.boot();
+        return this.client.searchProductsAsAdmin(
+          this.ops["SearchProductsAsAdmin"].apply(partialParams)
+        );
+    }
+
+    invokeSearchProvisionedProducts(partialParams: ToOptional<{
+      [K in keyof SearchProvisionedProductsInput]: (SearchProvisionedProductsInput)[K]
+    }>): Request<SearchProvisionedProductsOutput, AWSError> {
+        this.boot();
+        return this.client.searchProvisionedProducts(
+          this.ops["SearchProvisionedProducts"].apply(partialParams)
         );
     }
 
     invokeTerminateProvisionedProduct(partialParams: ToOptional<{
-      [K in keyof TerminateProvisionedProductInput & keyof TerminateProvisionedProductInput & keyof TerminateProvisionedProductInput]: (TerminateProvisionedProductInput & TerminateProvisionedProductInput & TerminateProvisionedProductInput)[K]
+      [K in keyof TerminateProvisionedProductInput]: (TerminateProvisionedProductInput)[K]
     }>): Request<TerminateProvisionedProductOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.terminateProvisionedProduct(
-          this.ops["TerminateProvisionedProduct"].applicator.apply(partialParams)
+          this.ops["TerminateProvisionedProduct"].apply(partialParams)
         );
     }
 
     invokeUpdateConstraint(partialParams: ToOptional<{
-      [K in keyof UpdateConstraintInput & keyof UpdateConstraintInput & keyof UpdateConstraintInput]: (UpdateConstraintInput & UpdateConstraintInput & UpdateConstraintInput)[K]
+      [K in keyof UpdateConstraintInput]: (UpdateConstraintInput)[K]
     }>): Request<UpdateConstraintOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateConstraint(
-          this.ops["UpdateConstraint"].applicator.apply(partialParams)
+          this.ops["UpdateConstraint"].apply(partialParams)
         );
     }
 
     invokeUpdatePortfolio(partialParams: ToOptional<{
-      [K in keyof UpdatePortfolioInput & keyof UpdatePortfolioInput & keyof UpdatePortfolioInput]: (UpdatePortfolioInput & UpdatePortfolioInput & UpdatePortfolioInput)[K]
+      [K in keyof UpdatePortfolioInput]: (UpdatePortfolioInput)[K]
     }>): Request<UpdatePortfolioOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updatePortfolio(
-          this.ops["UpdatePortfolio"].applicator.apply(partialParams)
+          this.ops["UpdatePortfolio"].apply(partialParams)
         );
     }
 
     invokeUpdatePortfolioShare(partialParams: ToOptional<{
-      [K in keyof UpdatePortfolioShareInput & keyof UpdatePortfolioShareInput & keyof UpdatePortfolioShareInput]: (UpdatePortfolioShareInput & UpdatePortfolioShareInput & UpdatePortfolioShareInput)[K]
+      [K in keyof UpdatePortfolioShareInput]: (UpdatePortfolioShareInput)[K]
     }>): Request<UpdatePortfolioShareOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updatePortfolioShare(
-          this.ops["UpdatePortfolioShare"].applicator.apply(partialParams)
+          this.ops["UpdatePortfolioShare"].apply(partialParams)
         );
     }
 
     invokeUpdateProduct(partialParams: ToOptional<{
-      [K in keyof UpdateProductInput & keyof UpdateProductInput & keyof UpdateProductInput]: (UpdateProductInput & UpdateProductInput & UpdateProductInput)[K]
+      [K in keyof UpdateProductInput]: (UpdateProductInput)[K]
     }>): Request<UpdateProductOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateProduct(
-          this.ops["UpdateProduct"].applicator.apply(partialParams)
+          this.ops["UpdateProduct"].apply(partialParams)
         );
     }
 
     invokeUpdateProvisionedProduct(partialParams: ToOptional<{
-      [K in keyof UpdateProvisionedProductInput & keyof UpdateProvisionedProductInput & keyof UpdateProvisionedProductInput]: (UpdateProvisionedProductInput & UpdateProvisionedProductInput & UpdateProvisionedProductInput)[K]
+      [K in keyof UpdateProvisionedProductInput]: (UpdateProvisionedProductInput)[K]
     }>): Request<UpdateProvisionedProductOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateProvisionedProduct(
-          this.ops["UpdateProvisionedProduct"].applicator.apply(partialParams)
+          this.ops["UpdateProvisionedProduct"].apply(partialParams)
         );
     }
 
     invokeUpdateProvisionedProductProperties(partialParams: ToOptional<{
-      [K in keyof UpdateProvisionedProductPropertiesInput & keyof UpdateProvisionedProductPropertiesInput & keyof UpdateProvisionedProductPropertiesInput]: (UpdateProvisionedProductPropertiesInput & UpdateProvisionedProductPropertiesInput & UpdateProvisionedProductPropertiesInput)[K]
+      [K in keyof UpdateProvisionedProductPropertiesInput]: (UpdateProvisionedProductPropertiesInput)[K]
     }>): Request<UpdateProvisionedProductPropertiesOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateProvisionedProductProperties(
-          this.ops["UpdateProvisionedProductProperties"].applicator.apply(partialParams)
+          this.ops["UpdateProvisionedProductProperties"].apply(partialParams)
         );
     }
 
     invokeUpdateProvisioningArtifact(partialParams: ToOptional<{
-      [K in keyof UpdateProvisioningArtifactInput & keyof UpdateProvisioningArtifactInput & keyof UpdateProvisioningArtifactInput]: (UpdateProvisioningArtifactInput & UpdateProvisioningArtifactInput & UpdateProvisioningArtifactInput)[K]
+      [K in keyof UpdateProvisioningArtifactInput]: (UpdateProvisioningArtifactInput)[K]
     }>): Request<UpdateProvisioningArtifactOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateProvisioningArtifact(
-          this.ops["UpdateProvisioningArtifact"].applicator.apply(partialParams)
+          this.ops["UpdateProvisioningArtifact"].apply(partialParams)
         );
     }
 
     invokeUpdateServiceAction(partialParams: ToOptional<{
-      [K in keyof UpdateServiceActionInput & keyof UpdateServiceActionInput & keyof UpdateServiceActionInput]: (UpdateServiceActionInput & UpdateServiceActionInput & UpdateServiceActionInput)[K]
+      [K in keyof UpdateServiceActionInput]: (UpdateServiceActionInput)[K]
     }>): Request<UpdateServiceActionOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateServiceAction(
-          this.ops["UpdateServiceAction"].applicator.apply(partialParams)
+          this.ops["UpdateServiceAction"].apply(partialParams)
         );
     }
 
     invokeUpdateTagOption(partialParams: ToOptional<{
-      [K in keyof UpdateTagOptionInput & keyof UpdateTagOptionInput & keyof UpdateTagOptionInput]: (UpdateTagOptionInput & UpdateTagOptionInput & UpdateTagOptionInput)[K]
+      [K in keyof UpdateTagOptionInput]: (UpdateTagOptionInput)[K]
     }>): Request<UpdateTagOptionOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateTagOption(
-          this.ops["UpdateTagOption"].applicator.apply(partialParams)
+          this.ops["UpdateTagOption"].apply(partialParams)
         );
     }
 }

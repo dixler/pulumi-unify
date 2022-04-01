@@ -19,12 +19,14 @@ import {
     GetOperationRequest,
     GetServiceRequest,
     ListInstancesRequest,
+    ListNamespacesRequest,
+    ListOperationsRequest,
+    ListServicesRequest,
     ListTagsForResourceRequest,
     RegisterInstanceRequest,
     TagResourceRequest,
     UntagResourceRequest,
     UpdateHttpNamespaceRequest,
-    UpdateInstanceCustomHealthStatusRequest,
     UpdatePrivateDnsNamespaceRequest,
     UpdatePublicDnsNamespaceRequest,
     UpdateServiceRequest,
@@ -42,6 +44,9 @@ import {
     GetOperationResponse,
     GetServiceResponse,
     ListInstancesResponse,
+    ListNamespacesResponse,
+    ListOperationsResponse,
+    ListServicesResponse,
     ListTagsForResourceResponse,
     RegisterInstanceResponse,
     TagResourceResponse,
@@ -64,21 +69,24 @@ export default class extends aws.servicediscovery.Instance {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.servicediscovery.Instance>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.ServiceDiscovery()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -88,259 +96,232 @@ export default class extends aws.servicediscovery.Instance {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCreateHttpNamespace(partialParams: ToOptional<{
-      [K in keyof CreateHttpNamespaceRequest & keyof CreateHttpNamespaceRequest]: (CreateHttpNamespaceRequest & CreateHttpNamespaceRequest)[K]
+      [K in keyof CreateHttpNamespaceRequest]: (CreateHttpNamespaceRequest)[K]
     }>): Request<CreateHttpNamespaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createHttpNamespace(
-          this.ops["CreateHttpNamespace"].applicator.apply(partialParams)
+          this.ops["CreateHttpNamespace"].apply(partialParams)
         );
     }
 
     invokeCreatePrivateDnsNamespace(partialParams: ToOptional<{
-      [K in keyof CreatePrivateDnsNamespaceRequest & keyof CreatePrivateDnsNamespaceRequest]: (CreatePrivateDnsNamespaceRequest & CreatePrivateDnsNamespaceRequest)[K]
+      [K in keyof CreatePrivateDnsNamespaceRequest]: (CreatePrivateDnsNamespaceRequest)[K]
     }>): Request<CreatePrivateDnsNamespaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createPrivateDnsNamespace(
-          this.ops["CreatePrivateDnsNamespace"].applicator.apply(partialParams)
+          this.ops["CreatePrivateDnsNamespace"].apply(partialParams)
         );
     }
 
     invokeCreatePublicDnsNamespace(partialParams: ToOptional<{
-      [K in keyof CreatePublicDnsNamespaceRequest & keyof CreatePublicDnsNamespaceRequest]: (CreatePublicDnsNamespaceRequest & CreatePublicDnsNamespaceRequest)[K]
+      [K in keyof CreatePublicDnsNamespaceRequest]: (CreatePublicDnsNamespaceRequest)[K]
     }>): Request<CreatePublicDnsNamespaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createPublicDnsNamespace(
-          this.ops["CreatePublicDnsNamespace"].applicator.apply(partialParams)
+          this.ops["CreatePublicDnsNamespace"].apply(partialParams)
         );
     }
 
     invokeCreateService(partialParams: ToOptional<{
-      [K in keyof CreateServiceRequest & keyof CreateServiceRequest]: (CreateServiceRequest & CreateServiceRequest)[K]
+      [K in keyof CreateServiceRequest]: (CreateServiceRequest)[K]
     }>): Request<CreateServiceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createService(
-          this.ops["CreateService"].applicator.apply(partialParams)
+          this.ops["CreateService"].apply(partialParams)
         );
     }
 
     invokeDeleteNamespace(partialParams: ToOptional<{
-      [K in keyof DeleteNamespaceRequest & keyof DeleteNamespaceRequest]: (DeleteNamespaceRequest & DeleteNamespaceRequest)[K]
+      [K in keyof DeleteNamespaceRequest]: (DeleteNamespaceRequest)[K]
     }>): Request<DeleteNamespaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteNamespace(
-          this.ops["DeleteNamespace"].applicator.apply(partialParams)
+          this.ops["DeleteNamespace"].apply(partialParams)
         );
     }
 
     invokeDeleteService(partialParams: ToOptional<{
-      [K in keyof DeleteServiceRequest & keyof DeleteServiceRequest]: (DeleteServiceRequest & DeleteServiceRequest)[K]
+      [K in keyof DeleteServiceRequest]: (DeleteServiceRequest)[K]
     }>): Request<DeleteServiceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteService(
-          this.ops["DeleteService"].applicator.apply(partialParams)
+          this.ops["DeleteService"].apply(partialParams)
         );
     }
 
     invokeDeregisterInstance(partialParams: ToOptional<{
-      [K in keyof DeregisterInstanceRequest & keyof DeregisterInstanceRequest]: (DeregisterInstanceRequest & DeregisterInstanceRequest)[K]
+      [K in keyof DeregisterInstanceRequest & keyof Omit<DeregisterInstanceRequest, "ServiceId" | "InstanceId">]: (DeregisterInstanceRequest)[K]
     }>): Request<DeregisterInstanceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deregisterInstance(
-          this.ops["DeregisterInstance"].applicator.apply(partialParams)
+          this.ops["DeregisterInstance"].apply(partialParams)
         );
     }
 
     invokeDiscoverInstances(partialParams: ToOptional<{
-      [K in keyof DiscoverInstancesRequest & keyof DiscoverInstancesRequest]: (DiscoverInstancesRequest & DiscoverInstancesRequest)[K]
+      [K in keyof DiscoverInstancesRequest]: (DiscoverInstancesRequest)[K]
     }>): Request<DiscoverInstancesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.discoverInstances(
-          this.ops["DiscoverInstances"].applicator.apply(partialParams)
+          this.ops["DiscoverInstances"].apply(partialParams)
         );
     }
 
     invokeGetInstance(partialParams: ToOptional<{
-      [K in keyof GetInstanceRequest & keyof GetInstanceRequest]: (GetInstanceRequest & GetInstanceRequest)[K]
+      [K in keyof GetInstanceRequest & keyof Omit<GetInstanceRequest, "ServiceId" | "InstanceId">]: (GetInstanceRequest)[K]
     }>): Request<GetInstanceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getInstance(
-          this.ops["GetInstance"].applicator.apply(partialParams)
+          this.ops["GetInstance"].apply(partialParams)
         );
     }
 
     invokeGetInstancesHealthStatus(partialParams: ToOptional<{
-      [K in keyof GetInstancesHealthStatusRequest & keyof GetInstancesHealthStatusRequest]: (GetInstancesHealthStatusRequest & GetInstancesHealthStatusRequest)[K]
+      [K in keyof GetInstancesHealthStatusRequest & keyof Omit<GetInstancesHealthStatusRequest, "ServiceId">]: (GetInstancesHealthStatusRequest)[K]
     }>): Request<GetInstancesHealthStatusResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getInstancesHealthStatus(
-          this.ops["GetInstancesHealthStatus"].applicator.apply(partialParams)
+          this.ops["GetInstancesHealthStatus"].apply(partialParams)
         );
     }
 
     invokeGetNamespace(partialParams: ToOptional<{
-      [K in keyof GetNamespaceRequest & keyof GetNamespaceRequest]: (GetNamespaceRequest & GetNamespaceRequest)[K]
+      [K in keyof GetNamespaceRequest]: (GetNamespaceRequest)[K]
     }>): Request<GetNamespaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getNamespace(
-          this.ops["GetNamespace"].applicator.apply(partialParams)
+          this.ops["GetNamespace"].apply(partialParams)
         );
     }
 
     invokeGetOperation(partialParams: ToOptional<{
-      [K in keyof GetOperationRequest & keyof GetOperationRequest]: (GetOperationRequest & GetOperationRequest)[K]
+      [K in keyof GetOperationRequest]: (GetOperationRequest)[K]
     }>): Request<GetOperationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getOperation(
-          this.ops["GetOperation"].applicator.apply(partialParams)
+          this.ops["GetOperation"].apply(partialParams)
         );
     }
 
     invokeGetService(partialParams: ToOptional<{
-      [K in keyof GetServiceRequest & keyof GetServiceRequest]: (GetServiceRequest & GetServiceRequest)[K]
+      [K in keyof GetServiceRequest]: (GetServiceRequest)[K]
     }>): Request<GetServiceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getService(
-          this.ops["GetService"].applicator.apply(partialParams)
+          this.ops["GetService"].apply(partialParams)
         );
     }
 
     invokeListInstances(partialParams: ToOptional<{
-      [K in keyof ListInstancesRequest & keyof ListInstancesRequest]: (ListInstancesRequest & ListInstancesRequest)[K]
+      [K in keyof ListInstancesRequest & keyof Omit<ListInstancesRequest, "ServiceId">]: (ListInstancesRequest)[K]
     }>): Request<ListInstancesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listInstances(
-          this.ops["ListInstances"].applicator.apply(partialParams)
+          this.ops["ListInstances"].apply(partialParams)
+        );
+    }
+
+    invokeListNamespaces(partialParams: ToOptional<{
+      [K in keyof ListNamespacesRequest]: (ListNamespacesRequest)[K]
+    }>): Request<ListNamespacesResponse, AWSError> {
+        this.boot();
+        return this.client.listNamespaces(
+          this.ops["ListNamespaces"].apply(partialParams)
+        );
+    }
+
+    invokeListOperations(partialParams: ToOptional<{
+      [K in keyof ListOperationsRequest]: (ListOperationsRequest)[K]
+    }>): Request<ListOperationsResponse, AWSError> {
+        this.boot();
+        return this.client.listOperations(
+          this.ops["ListOperations"].apply(partialParams)
+        );
+    }
+
+    invokeListServices(partialParams: ToOptional<{
+      [K in keyof ListServicesRequest]: (ListServicesRequest)[K]
+    }>): Request<ListServicesResponse, AWSError> {
+        this.boot();
+        return this.client.listServices(
+          this.ops["ListServices"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeRegisterInstance(partialParams: ToOptional<{
-      [K in keyof Omit<RegisterInstanceRequest, "InstanceId"> & keyof RegisterInstanceRequest]: (Omit<RegisterInstanceRequest, "InstanceId"> & RegisterInstanceRequest)[K]
+      [K in keyof RegisterInstanceRequest & keyof Omit<RegisterInstanceRequest, "ServiceId" | "InstanceId">]: (RegisterInstanceRequest)[K]
     }>): Request<RegisterInstanceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.registerInstance(
-          this.ops["RegisterInstance"].applicator.apply(partialParams)
+          this.ops["RegisterInstance"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateHttpNamespace(partialParams: ToOptional<{
-      [K in keyof UpdateHttpNamespaceRequest & keyof UpdateHttpNamespaceRequest]: (UpdateHttpNamespaceRequest & UpdateHttpNamespaceRequest)[K]
+      [K in keyof UpdateHttpNamespaceRequest]: (UpdateHttpNamespaceRequest)[K]
     }>): Request<UpdateHttpNamespaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateHttpNamespace(
-          this.ops["UpdateHttpNamespace"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateInstanceCustomHealthStatus(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateInstanceCustomHealthStatusRequest, "InstanceId"> & keyof Omit<UpdateInstanceCustomHealthStatusRequest, "ServiceId">]: (Omit<UpdateInstanceCustomHealthStatusRequest, "InstanceId"> & Omit<UpdateInstanceCustomHealthStatusRequest, "ServiceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateInstanceCustomHealthStatus(
-          this.ops["UpdateInstanceCustomHealthStatus"].applicator.apply(partialParams)
+          this.ops["UpdateHttpNamespace"].apply(partialParams)
         );
     }
 
     invokeUpdatePrivateDnsNamespace(partialParams: ToOptional<{
-      [K in keyof UpdatePrivateDnsNamespaceRequest & keyof UpdatePrivateDnsNamespaceRequest]: (UpdatePrivateDnsNamespaceRequest & UpdatePrivateDnsNamespaceRequest)[K]
+      [K in keyof UpdatePrivateDnsNamespaceRequest]: (UpdatePrivateDnsNamespaceRequest)[K]
     }>): Request<UpdatePrivateDnsNamespaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updatePrivateDnsNamespace(
-          this.ops["UpdatePrivateDnsNamespace"].applicator.apply(partialParams)
+          this.ops["UpdatePrivateDnsNamespace"].apply(partialParams)
         );
     }
 
     invokeUpdatePublicDnsNamespace(partialParams: ToOptional<{
-      [K in keyof UpdatePublicDnsNamespaceRequest & keyof UpdatePublicDnsNamespaceRequest]: (UpdatePublicDnsNamespaceRequest & UpdatePublicDnsNamespaceRequest)[K]
+      [K in keyof UpdatePublicDnsNamespaceRequest]: (UpdatePublicDnsNamespaceRequest)[K]
     }>): Request<UpdatePublicDnsNamespaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updatePublicDnsNamespace(
-          this.ops["UpdatePublicDnsNamespace"].applicator.apply(partialParams)
+          this.ops["UpdatePublicDnsNamespace"].apply(partialParams)
         );
     }
 
     invokeUpdateService(partialParams: ToOptional<{
-      [K in keyof UpdateServiceRequest & keyof UpdateServiceRequest]: (UpdateServiceRequest & UpdateServiceRequest)[K]
+      [K in keyof UpdateServiceRequest]: (UpdateServiceRequest)[K]
     }>): Request<UpdateServiceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateService(
-          this.ops["UpdateService"].applicator.apply(partialParams)
+          this.ops["UpdateService"].apply(partialParams)
         );
     }
 }

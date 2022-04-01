@@ -32,21 +32,34 @@ import {
     EnableHostedZoneDNSSECRequest,
     GetAccountLimitRequest,
     GetChangeRequest,
+    GetCheckerIpRangesRequest,
     GetDNSSECRequest,
+    GetGeoLocationRequest,
     GetHealthCheckRequest,
+    GetHealthCheckCountRequest,
     GetHealthCheckLastFailureReasonRequest,
     GetHealthCheckStatusRequest,
     GetHostedZoneRequest,
+    GetHostedZoneCountRequest,
     GetHostedZoneLimitRequest,
     GetQueryLoggingConfigRequest,
     GetReusableDelegationSetRequest,
     GetReusableDelegationSetLimitRequest,
     GetTrafficPolicyRequest,
     GetTrafficPolicyInstanceRequest,
+    GetTrafficPolicyInstanceCountRequest,
+    ListGeoLocationsRequest,
+    ListHealthChecksRequest,
+    ListHostedZonesRequest,
+    ListHostedZonesByNameRequest,
     ListHostedZonesByVPCRequest,
+    ListQueryLoggingConfigsRequest,
     ListResourceRecordSetsRequest,
+    ListReusableDelegationSetsRequest,
     ListTagsForResourceRequest,
     ListTagsForResourcesRequest,
+    ListTrafficPoliciesRequest,
+    ListTrafficPolicyInstancesRequest,
     ListTrafficPolicyInstancesByHostedZoneRequest,
     ListTrafficPolicyInstancesByPolicyRequest,
     ListTrafficPolicyVersionsRequest,
@@ -83,21 +96,34 @@ import {
     EnableHostedZoneDNSSECResponse,
     GetAccountLimitResponse,
     GetChangeResponse,
+    GetCheckerIpRangesResponse,
     GetDNSSECResponse,
+    GetGeoLocationResponse,
     GetHealthCheckResponse,
+    GetHealthCheckCountResponse,
     GetHealthCheckLastFailureReasonResponse,
     GetHealthCheckStatusResponse,
     GetHostedZoneResponse,
+    GetHostedZoneCountResponse,
     GetHostedZoneLimitResponse,
     GetQueryLoggingConfigResponse,
     GetReusableDelegationSetResponse,
     GetReusableDelegationSetLimitResponse,
     GetTrafficPolicyResponse,
     GetTrafficPolicyInstanceResponse,
+    GetTrafficPolicyInstanceCountResponse,
+    ListGeoLocationsResponse,
+    ListHealthChecksResponse,
+    ListHostedZonesResponse,
+    ListHostedZonesByNameResponse,
     ListHostedZonesByVPCResponse,
+    ListQueryLoggingConfigsResponse,
     ListResourceRecordSetsResponse,
+    ListReusableDelegationSetsResponse,
     ListTagsForResourceResponse,
     ListTagsForResourcesResponse,
+    ListTrafficPoliciesResponse,
+    ListTrafficPolicyInstancesResponse,
     ListTrafficPolicyInstancesByHostedZoneResponse,
     ListTrafficPolicyInstancesByPolicyResponse,
     ListTrafficPolicyVersionsResponse,
@@ -121,21 +147,24 @@ export default class extends aws.route53.HostedZoneDnsSec {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.route53.HostedZoneDnsSec>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.Route53()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -145,567 +174,583 @@ export default class extends aws.route53.HostedZoneDnsSec {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeActivateKeySigningKey(partialParams: ToOptional<{
-      [K in keyof ActivateKeySigningKeyRequest & keyof ActivateKeySigningKeyRequest]: (ActivateKeySigningKeyRequest & ActivateKeySigningKeyRequest)[K]
+      [K in keyof ActivateKeySigningKeyRequest & keyof Omit<ActivateKeySigningKeyRequest, "HostedZoneId">]: (ActivateKeySigningKeyRequest)[K]
     }>): Request<ActivateKeySigningKeyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.activateKeySigningKey(
-          this.ops["ActivateKeySigningKey"].applicator.apply(partialParams)
+          this.ops["ActivateKeySigningKey"].apply(partialParams)
         );
     }
 
     invokeAssociateVPCWithHostedZone(partialParams: ToOptional<{
-      [K in keyof AssociateVPCWithHostedZoneRequest & keyof AssociateVPCWithHostedZoneRequest]: (AssociateVPCWithHostedZoneRequest & AssociateVPCWithHostedZoneRequest)[K]
+      [K in keyof AssociateVPCWithHostedZoneRequest & keyof Omit<AssociateVPCWithHostedZoneRequest, "HostedZoneId">]: (AssociateVPCWithHostedZoneRequest)[K]
     }>): Request<AssociateVPCWithHostedZoneResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateVPCWithHostedZone(
-          this.ops["AssociateVPCWithHostedZone"].applicator.apply(partialParams)
+          this.ops["AssociateVPCWithHostedZone"].apply(partialParams)
         );
     }
 
     invokeChangeResourceRecordSets(partialParams: ToOptional<{
-      [K in keyof ChangeResourceRecordSetsRequest & keyof ChangeResourceRecordSetsRequest]: (ChangeResourceRecordSetsRequest & ChangeResourceRecordSetsRequest)[K]
+      [K in keyof ChangeResourceRecordSetsRequest & keyof Omit<ChangeResourceRecordSetsRequest, "HostedZoneId">]: (ChangeResourceRecordSetsRequest)[K]
     }>): Request<ChangeResourceRecordSetsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.changeResourceRecordSets(
-          this.ops["ChangeResourceRecordSets"].applicator.apply(partialParams)
+          this.ops["ChangeResourceRecordSets"].apply(partialParams)
         );
     }
 
     invokeChangeTagsForResource(partialParams: ToOptional<{
-      [K in keyof ChangeTagsForResourceRequest & keyof ChangeTagsForResourceRequest]: (ChangeTagsForResourceRequest & ChangeTagsForResourceRequest)[K]
+      [K in keyof ChangeTagsForResourceRequest]: (ChangeTagsForResourceRequest)[K]
     }>): Request<ChangeTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.changeTagsForResource(
-          this.ops["ChangeTagsForResource"].applicator.apply(partialParams)
+          this.ops["ChangeTagsForResource"].apply(partialParams)
         );
     }
 
     invokeCreateHealthCheck(partialParams: ToOptional<{
-      [K in keyof CreateHealthCheckRequest & keyof CreateHealthCheckRequest]: (CreateHealthCheckRequest & CreateHealthCheckRequest)[K]
+      [K in keyof CreateHealthCheckRequest]: (CreateHealthCheckRequest)[K]
     }>): Request<CreateHealthCheckResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createHealthCheck(
-          this.ops["CreateHealthCheck"].applicator.apply(partialParams)
+          this.ops["CreateHealthCheck"].apply(partialParams)
         );
     }
 
     invokeCreateHostedZone(partialParams: ToOptional<{
-      [K in keyof CreateHostedZoneRequest & keyof CreateHostedZoneRequest]: (CreateHostedZoneRequest & CreateHostedZoneRequest)[K]
+      [K in keyof CreateHostedZoneRequest]: (CreateHostedZoneRequest)[K]
     }>): Request<CreateHostedZoneResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createHostedZone(
-          this.ops["CreateHostedZone"].applicator.apply(partialParams)
+          this.ops["CreateHostedZone"].apply(partialParams)
         );
     }
 
     invokeCreateKeySigningKey(partialParams: ToOptional<{
-      [K in keyof CreateKeySigningKeyRequest & keyof CreateKeySigningKeyRequest]: (CreateKeySigningKeyRequest & CreateKeySigningKeyRequest)[K]
+      [K in keyof CreateKeySigningKeyRequest & keyof Omit<CreateKeySigningKeyRequest, "HostedZoneId">]: (CreateKeySigningKeyRequest)[K]
     }>): Request<CreateKeySigningKeyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createKeySigningKey(
-          this.ops["CreateKeySigningKey"].applicator.apply(partialParams)
+          this.ops["CreateKeySigningKey"].apply(partialParams)
         );
     }
 
     invokeCreateQueryLoggingConfig(partialParams: ToOptional<{
-      [K in keyof CreateQueryLoggingConfigRequest & keyof CreateQueryLoggingConfigRequest]: (CreateQueryLoggingConfigRequest & CreateQueryLoggingConfigRequest)[K]
+      [K in keyof CreateQueryLoggingConfigRequest & keyof Omit<CreateQueryLoggingConfigRequest, "HostedZoneId">]: (CreateQueryLoggingConfigRequest)[K]
     }>): Request<CreateQueryLoggingConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createQueryLoggingConfig(
-          this.ops["CreateQueryLoggingConfig"].applicator.apply(partialParams)
+          this.ops["CreateQueryLoggingConfig"].apply(partialParams)
         );
     }
 
     invokeCreateReusableDelegationSet(partialParams: ToOptional<{
-      [K in keyof CreateReusableDelegationSetRequest & keyof CreateReusableDelegationSetRequest]: (CreateReusableDelegationSetRequest & CreateReusableDelegationSetRequest)[K]
+      [K in keyof CreateReusableDelegationSetRequest]: (CreateReusableDelegationSetRequest)[K]
     }>): Request<CreateReusableDelegationSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createReusableDelegationSet(
-          this.ops["CreateReusableDelegationSet"].applicator.apply(partialParams)
+          this.ops["CreateReusableDelegationSet"].apply(partialParams)
         );
     }
 
     invokeCreateTrafficPolicy(partialParams: ToOptional<{
-      [K in keyof CreateTrafficPolicyRequest & keyof CreateTrafficPolicyRequest]: (CreateTrafficPolicyRequest & CreateTrafficPolicyRequest)[K]
+      [K in keyof CreateTrafficPolicyRequest]: (CreateTrafficPolicyRequest)[K]
     }>): Request<CreateTrafficPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createTrafficPolicy(
-          this.ops["CreateTrafficPolicy"].applicator.apply(partialParams)
+          this.ops["CreateTrafficPolicy"].apply(partialParams)
         );
     }
 
     invokeCreateTrafficPolicyInstance(partialParams: ToOptional<{
-      [K in keyof CreateTrafficPolicyInstanceRequest & keyof CreateTrafficPolicyInstanceRequest]: (CreateTrafficPolicyInstanceRequest & CreateTrafficPolicyInstanceRequest)[K]
+      [K in keyof CreateTrafficPolicyInstanceRequest & keyof Omit<CreateTrafficPolicyInstanceRequest, "HostedZoneId">]: (CreateTrafficPolicyInstanceRequest)[K]
     }>): Request<CreateTrafficPolicyInstanceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createTrafficPolicyInstance(
-          this.ops["CreateTrafficPolicyInstance"].applicator.apply(partialParams)
+          this.ops["CreateTrafficPolicyInstance"].apply(partialParams)
         );
     }
 
     invokeCreateTrafficPolicyVersion(partialParams: ToOptional<{
-      [K in keyof CreateTrafficPolicyVersionRequest & keyof CreateTrafficPolicyVersionRequest]: (CreateTrafficPolicyVersionRequest & CreateTrafficPolicyVersionRequest)[K]
+      [K in keyof CreateTrafficPolicyVersionRequest]: (CreateTrafficPolicyVersionRequest)[K]
     }>): Request<CreateTrafficPolicyVersionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createTrafficPolicyVersion(
-          this.ops["CreateTrafficPolicyVersion"].applicator.apply(partialParams)
+          this.ops["CreateTrafficPolicyVersion"].apply(partialParams)
         );
     }
 
     invokeCreateVPCAssociationAuthorization(partialParams: ToOptional<{
-      [K in keyof CreateVPCAssociationAuthorizationRequest & keyof CreateVPCAssociationAuthorizationRequest]: (CreateVPCAssociationAuthorizationRequest & CreateVPCAssociationAuthorizationRequest)[K]
+      [K in keyof CreateVPCAssociationAuthorizationRequest & keyof Omit<CreateVPCAssociationAuthorizationRequest, "HostedZoneId">]: (CreateVPCAssociationAuthorizationRequest)[K]
     }>): Request<CreateVPCAssociationAuthorizationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createVPCAssociationAuthorization(
-          this.ops["CreateVPCAssociationAuthorization"].applicator.apply(partialParams)
+          this.ops["CreateVPCAssociationAuthorization"].apply(partialParams)
         );
     }
 
     invokeDeactivateKeySigningKey(partialParams: ToOptional<{
-      [K in keyof DeactivateKeySigningKeyRequest & keyof DeactivateKeySigningKeyRequest]: (DeactivateKeySigningKeyRequest & DeactivateKeySigningKeyRequest)[K]
+      [K in keyof DeactivateKeySigningKeyRequest & keyof Omit<DeactivateKeySigningKeyRequest, "HostedZoneId">]: (DeactivateKeySigningKeyRequest)[K]
     }>): Request<DeactivateKeySigningKeyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deactivateKeySigningKey(
-          this.ops["DeactivateKeySigningKey"].applicator.apply(partialParams)
+          this.ops["DeactivateKeySigningKey"].apply(partialParams)
         );
     }
 
     invokeDeleteHealthCheck(partialParams: ToOptional<{
-      [K in keyof DeleteHealthCheckRequest & keyof DeleteHealthCheckRequest]: (DeleteHealthCheckRequest & DeleteHealthCheckRequest)[K]
+      [K in keyof DeleteHealthCheckRequest]: (DeleteHealthCheckRequest)[K]
     }>): Request<DeleteHealthCheckResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteHealthCheck(
-          this.ops["DeleteHealthCheck"].applicator.apply(partialParams)
+          this.ops["DeleteHealthCheck"].apply(partialParams)
         );
     }
 
     invokeDeleteHostedZone(partialParams: ToOptional<{
-      [K in keyof DeleteHostedZoneRequest & keyof DeleteHostedZoneRequest]: (DeleteHostedZoneRequest & DeleteHostedZoneRequest)[K]
+      [K in keyof DeleteHostedZoneRequest]: (DeleteHostedZoneRequest)[K]
     }>): Request<DeleteHostedZoneResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteHostedZone(
-          this.ops["DeleteHostedZone"].applicator.apply(partialParams)
+          this.ops["DeleteHostedZone"].apply(partialParams)
         );
     }
 
     invokeDeleteKeySigningKey(partialParams: ToOptional<{
-      [K in keyof DeleteKeySigningKeyRequest & keyof DeleteKeySigningKeyRequest]: (DeleteKeySigningKeyRequest & DeleteKeySigningKeyRequest)[K]
+      [K in keyof DeleteKeySigningKeyRequest & keyof Omit<DeleteKeySigningKeyRequest, "HostedZoneId">]: (DeleteKeySigningKeyRequest)[K]
     }>): Request<DeleteKeySigningKeyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteKeySigningKey(
-          this.ops["DeleteKeySigningKey"].applicator.apply(partialParams)
+          this.ops["DeleteKeySigningKey"].apply(partialParams)
         );
     }
 
     invokeDeleteQueryLoggingConfig(partialParams: ToOptional<{
-      [K in keyof DeleteQueryLoggingConfigRequest & keyof DeleteQueryLoggingConfigRequest]: (DeleteQueryLoggingConfigRequest & DeleteQueryLoggingConfigRequest)[K]
+      [K in keyof DeleteQueryLoggingConfigRequest]: (DeleteQueryLoggingConfigRequest)[K]
     }>): Request<DeleteQueryLoggingConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteQueryLoggingConfig(
-          this.ops["DeleteQueryLoggingConfig"].applicator.apply(partialParams)
+          this.ops["DeleteQueryLoggingConfig"].apply(partialParams)
         );
     }
 
     invokeDeleteReusableDelegationSet(partialParams: ToOptional<{
-      [K in keyof DeleteReusableDelegationSetRequest & keyof DeleteReusableDelegationSetRequest]: (DeleteReusableDelegationSetRequest & DeleteReusableDelegationSetRequest)[K]
+      [K in keyof DeleteReusableDelegationSetRequest]: (DeleteReusableDelegationSetRequest)[K]
     }>): Request<DeleteReusableDelegationSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteReusableDelegationSet(
-          this.ops["DeleteReusableDelegationSet"].applicator.apply(partialParams)
+          this.ops["DeleteReusableDelegationSet"].apply(partialParams)
         );
     }
 
     invokeDeleteTrafficPolicy(partialParams: ToOptional<{
-      [K in keyof DeleteTrafficPolicyRequest & keyof DeleteTrafficPolicyRequest]: (DeleteTrafficPolicyRequest & DeleteTrafficPolicyRequest)[K]
+      [K in keyof DeleteTrafficPolicyRequest]: (DeleteTrafficPolicyRequest)[K]
     }>): Request<DeleteTrafficPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteTrafficPolicy(
-          this.ops["DeleteTrafficPolicy"].applicator.apply(partialParams)
+          this.ops["DeleteTrafficPolicy"].apply(partialParams)
         );
     }
 
     invokeDeleteTrafficPolicyInstance(partialParams: ToOptional<{
-      [K in keyof DeleteTrafficPolicyInstanceRequest & keyof DeleteTrafficPolicyInstanceRequest]: (DeleteTrafficPolicyInstanceRequest & DeleteTrafficPolicyInstanceRequest)[K]
+      [K in keyof DeleteTrafficPolicyInstanceRequest]: (DeleteTrafficPolicyInstanceRequest)[K]
     }>): Request<DeleteTrafficPolicyInstanceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteTrafficPolicyInstance(
-          this.ops["DeleteTrafficPolicyInstance"].applicator.apply(partialParams)
+          this.ops["DeleteTrafficPolicyInstance"].apply(partialParams)
         );
     }
 
     invokeDeleteVPCAssociationAuthorization(partialParams: ToOptional<{
-      [K in keyof DeleteVPCAssociationAuthorizationRequest & keyof DeleteVPCAssociationAuthorizationRequest]: (DeleteVPCAssociationAuthorizationRequest & DeleteVPCAssociationAuthorizationRequest)[K]
+      [K in keyof DeleteVPCAssociationAuthorizationRequest & keyof Omit<DeleteVPCAssociationAuthorizationRequest, "HostedZoneId">]: (DeleteVPCAssociationAuthorizationRequest)[K]
     }>): Request<DeleteVPCAssociationAuthorizationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteVPCAssociationAuthorization(
-          this.ops["DeleteVPCAssociationAuthorization"].applicator.apply(partialParams)
+          this.ops["DeleteVPCAssociationAuthorization"].apply(partialParams)
         );
     }
 
     invokeDisableHostedZoneDNSSEC(partialParams: ToOptional<{
-      [K in keyof DisableHostedZoneDNSSECRequest & keyof DisableHostedZoneDNSSECRequest]: (DisableHostedZoneDNSSECRequest & DisableHostedZoneDNSSECRequest)[K]
+      [K in keyof DisableHostedZoneDNSSECRequest & keyof Omit<DisableHostedZoneDNSSECRequest, "HostedZoneId">]: (DisableHostedZoneDNSSECRequest)[K]
     }>): Request<DisableHostedZoneDNSSECResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disableHostedZoneDNSSEC(
-          this.ops["DisableHostedZoneDNSSEC"].applicator.apply(partialParams)
+          this.ops["DisableHostedZoneDNSSEC"].apply(partialParams)
         );
     }
 
     invokeDisassociateVPCFromHostedZone(partialParams: ToOptional<{
-      [K in keyof DisassociateVPCFromHostedZoneRequest & keyof DisassociateVPCFromHostedZoneRequest]: (DisassociateVPCFromHostedZoneRequest & DisassociateVPCFromHostedZoneRequest)[K]
+      [K in keyof DisassociateVPCFromHostedZoneRequest & keyof Omit<DisassociateVPCFromHostedZoneRequest, "HostedZoneId">]: (DisassociateVPCFromHostedZoneRequest)[K]
     }>): Request<DisassociateVPCFromHostedZoneResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateVPCFromHostedZone(
-          this.ops["DisassociateVPCFromHostedZone"].applicator.apply(partialParams)
+          this.ops["DisassociateVPCFromHostedZone"].apply(partialParams)
         );
     }
 
     invokeEnableHostedZoneDNSSEC(partialParams: ToOptional<{
-      [K in keyof EnableHostedZoneDNSSECRequest & keyof EnableHostedZoneDNSSECRequest]: (EnableHostedZoneDNSSECRequest & EnableHostedZoneDNSSECRequest)[K]
+      [K in keyof EnableHostedZoneDNSSECRequest & keyof Omit<EnableHostedZoneDNSSECRequest, "HostedZoneId">]: (EnableHostedZoneDNSSECRequest)[K]
     }>): Request<EnableHostedZoneDNSSECResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.enableHostedZoneDNSSEC(
-          this.ops["EnableHostedZoneDNSSEC"].applicator.apply(partialParams)
+          this.ops["EnableHostedZoneDNSSEC"].apply(partialParams)
         );
     }
 
     invokeGetAccountLimit(partialParams: ToOptional<{
-      [K in keyof GetAccountLimitRequest & keyof GetAccountLimitRequest]: (GetAccountLimitRequest & GetAccountLimitRequest)[K]
+      [K in keyof GetAccountLimitRequest]: (GetAccountLimitRequest)[K]
     }>): Request<GetAccountLimitResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getAccountLimit(
-          this.ops["GetAccountLimit"].applicator.apply(partialParams)
+          this.ops["GetAccountLimit"].apply(partialParams)
         );
     }
 
     invokeGetChange(partialParams: ToOptional<{
-      [K in keyof GetChangeRequest & keyof GetChangeRequest]: (GetChangeRequest & GetChangeRequest)[K]
+      [K in keyof GetChangeRequest]: (GetChangeRequest)[K]
     }>): Request<GetChangeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getChange(
-          this.ops["GetChange"].applicator.apply(partialParams)
+          this.ops["GetChange"].apply(partialParams)
+        );
+    }
+
+    invokeGetCheckerIpRanges(partialParams: ToOptional<{
+      [K in keyof GetCheckerIpRangesRequest]: (GetCheckerIpRangesRequest)[K]
+    }>): Request<GetCheckerIpRangesResponse, AWSError> {
+        this.boot();
+        return this.client.getCheckerIpRanges(
+          this.ops["GetCheckerIpRanges"].apply(partialParams)
         );
     }
 
     invokeGetDNSSEC(partialParams: ToOptional<{
-      [K in keyof GetDNSSECRequest & keyof GetDNSSECRequest]: (GetDNSSECRequest & GetDNSSECRequest)[K]
+      [K in keyof GetDNSSECRequest & keyof Omit<GetDNSSECRequest, "HostedZoneId">]: (GetDNSSECRequest)[K]
     }>): Request<GetDNSSECResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDNSSEC(
-          this.ops["GetDNSSEC"].applicator.apply(partialParams)
+          this.ops["GetDNSSEC"].apply(partialParams)
+        );
+    }
+
+    invokeGetGeoLocation(partialParams: ToOptional<{
+      [K in keyof GetGeoLocationRequest]: (GetGeoLocationRequest)[K]
+    }>): Request<GetGeoLocationResponse, AWSError> {
+        this.boot();
+        return this.client.getGeoLocation(
+          this.ops["GetGeoLocation"].apply(partialParams)
         );
     }
 
     invokeGetHealthCheck(partialParams: ToOptional<{
-      [K in keyof GetHealthCheckRequest & keyof GetHealthCheckRequest]: (GetHealthCheckRequest & GetHealthCheckRequest)[K]
+      [K in keyof GetHealthCheckRequest]: (GetHealthCheckRequest)[K]
     }>): Request<GetHealthCheckResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getHealthCheck(
-          this.ops["GetHealthCheck"].applicator.apply(partialParams)
+          this.ops["GetHealthCheck"].apply(partialParams)
+        );
+    }
+
+    invokeGetHealthCheckCount(partialParams: ToOptional<{
+      [K in keyof GetHealthCheckCountRequest]: (GetHealthCheckCountRequest)[K]
+    }>): Request<GetHealthCheckCountResponse, AWSError> {
+        this.boot();
+        return this.client.getHealthCheckCount(
+          this.ops["GetHealthCheckCount"].apply(partialParams)
         );
     }
 
     invokeGetHealthCheckLastFailureReason(partialParams: ToOptional<{
-      [K in keyof GetHealthCheckLastFailureReasonRequest & keyof GetHealthCheckLastFailureReasonRequest]: (GetHealthCheckLastFailureReasonRequest & GetHealthCheckLastFailureReasonRequest)[K]
+      [K in keyof GetHealthCheckLastFailureReasonRequest]: (GetHealthCheckLastFailureReasonRequest)[K]
     }>): Request<GetHealthCheckLastFailureReasonResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getHealthCheckLastFailureReason(
-          this.ops["GetHealthCheckLastFailureReason"].applicator.apply(partialParams)
+          this.ops["GetHealthCheckLastFailureReason"].apply(partialParams)
         );
     }
 
     invokeGetHealthCheckStatus(partialParams: ToOptional<{
-      [K in keyof GetHealthCheckStatusRequest & keyof GetHealthCheckStatusRequest]: (GetHealthCheckStatusRequest & GetHealthCheckStatusRequest)[K]
+      [K in keyof GetHealthCheckStatusRequest]: (GetHealthCheckStatusRequest)[K]
     }>): Request<GetHealthCheckStatusResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getHealthCheckStatus(
-          this.ops["GetHealthCheckStatus"].applicator.apply(partialParams)
+          this.ops["GetHealthCheckStatus"].apply(partialParams)
         );
     }
 
     invokeGetHostedZone(partialParams: ToOptional<{
-      [K in keyof GetHostedZoneRequest & keyof GetHostedZoneRequest]: (GetHostedZoneRequest & GetHostedZoneRequest)[K]
+      [K in keyof GetHostedZoneRequest]: (GetHostedZoneRequest)[K]
     }>): Request<GetHostedZoneResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getHostedZone(
-          this.ops["GetHostedZone"].applicator.apply(partialParams)
+          this.ops["GetHostedZone"].apply(partialParams)
+        );
+    }
+
+    invokeGetHostedZoneCount(partialParams: ToOptional<{
+      [K in keyof GetHostedZoneCountRequest]: (GetHostedZoneCountRequest)[K]
+    }>): Request<GetHostedZoneCountResponse, AWSError> {
+        this.boot();
+        return this.client.getHostedZoneCount(
+          this.ops["GetHostedZoneCount"].apply(partialParams)
         );
     }
 
     invokeGetHostedZoneLimit(partialParams: ToOptional<{
-      [K in keyof GetHostedZoneLimitRequest & keyof GetHostedZoneLimitRequest]: (GetHostedZoneLimitRequest & GetHostedZoneLimitRequest)[K]
+      [K in keyof GetHostedZoneLimitRequest & keyof Omit<GetHostedZoneLimitRequest, "HostedZoneId">]: (GetHostedZoneLimitRequest)[K]
     }>): Request<GetHostedZoneLimitResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getHostedZoneLimit(
-          this.ops["GetHostedZoneLimit"].applicator.apply(partialParams)
+          this.ops["GetHostedZoneLimit"].apply(partialParams)
         );
     }
 
     invokeGetQueryLoggingConfig(partialParams: ToOptional<{
-      [K in keyof GetQueryLoggingConfigRequest & keyof GetQueryLoggingConfigRequest]: (GetQueryLoggingConfigRequest & GetQueryLoggingConfigRequest)[K]
+      [K in keyof GetQueryLoggingConfigRequest]: (GetQueryLoggingConfigRequest)[K]
     }>): Request<GetQueryLoggingConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getQueryLoggingConfig(
-          this.ops["GetQueryLoggingConfig"].applicator.apply(partialParams)
+          this.ops["GetQueryLoggingConfig"].apply(partialParams)
         );
     }
 
     invokeGetReusableDelegationSet(partialParams: ToOptional<{
-      [K in keyof GetReusableDelegationSetRequest & keyof GetReusableDelegationSetRequest]: (GetReusableDelegationSetRequest & GetReusableDelegationSetRequest)[K]
+      [K in keyof GetReusableDelegationSetRequest]: (GetReusableDelegationSetRequest)[K]
     }>): Request<GetReusableDelegationSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getReusableDelegationSet(
-          this.ops["GetReusableDelegationSet"].applicator.apply(partialParams)
+          this.ops["GetReusableDelegationSet"].apply(partialParams)
         );
     }
 
     invokeGetReusableDelegationSetLimit(partialParams: ToOptional<{
-      [K in keyof GetReusableDelegationSetLimitRequest & keyof GetReusableDelegationSetLimitRequest]: (GetReusableDelegationSetLimitRequest & GetReusableDelegationSetLimitRequest)[K]
+      [K in keyof GetReusableDelegationSetLimitRequest]: (GetReusableDelegationSetLimitRequest)[K]
     }>): Request<GetReusableDelegationSetLimitResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getReusableDelegationSetLimit(
-          this.ops["GetReusableDelegationSetLimit"].applicator.apply(partialParams)
+          this.ops["GetReusableDelegationSetLimit"].apply(partialParams)
         );
     }
 
     invokeGetTrafficPolicy(partialParams: ToOptional<{
-      [K in keyof GetTrafficPolicyRequest & keyof GetTrafficPolicyRequest]: (GetTrafficPolicyRequest & GetTrafficPolicyRequest)[K]
+      [K in keyof GetTrafficPolicyRequest]: (GetTrafficPolicyRequest)[K]
     }>): Request<GetTrafficPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getTrafficPolicy(
-          this.ops["GetTrafficPolicy"].applicator.apply(partialParams)
+          this.ops["GetTrafficPolicy"].apply(partialParams)
         );
     }
 
     invokeGetTrafficPolicyInstance(partialParams: ToOptional<{
-      [K in keyof GetTrafficPolicyInstanceRequest & keyof GetTrafficPolicyInstanceRequest]: (GetTrafficPolicyInstanceRequest & GetTrafficPolicyInstanceRequest)[K]
+      [K in keyof GetTrafficPolicyInstanceRequest]: (GetTrafficPolicyInstanceRequest)[K]
     }>): Request<GetTrafficPolicyInstanceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getTrafficPolicyInstance(
-          this.ops["GetTrafficPolicyInstance"].applicator.apply(partialParams)
+          this.ops["GetTrafficPolicyInstance"].apply(partialParams)
+        );
+    }
+
+    invokeGetTrafficPolicyInstanceCount(partialParams: ToOptional<{
+      [K in keyof GetTrafficPolicyInstanceCountRequest]: (GetTrafficPolicyInstanceCountRequest)[K]
+    }>): Request<GetTrafficPolicyInstanceCountResponse, AWSError> {
+        this.boot();
+        return this.client.getTrafficPolicyInstanceCount(
+          this.ops["GetTrafficPolicyInstanceCount"].apply(partialParams)
+        );
+    }
+
+    invokeListGeoLocations(partialParams: ToOptional<{
+      [K in keyof ListGeoLocationsRequest]: (ListGeoLocationsRequest)[K]
+    }>): Request<ListGeoLocationsResponse, AWSError> {
+        this.boot();
+        return this.client.listGeoLocations(
+          this.ops["ListGeoLocations"].apply(partialParams)
+        );
+    }
+
+    invokeListHealthChecks(partialParams: ToOptional<{
+      [K in keyof ListHealthChecksRequest]: (ListHealthChecksRequest)[K]
+    }>): Request<ListHealthChecksResponse, AWSError> {
+        this.boot();
+        return this.client.listHealthChecks(
+          this.ops["ListHealthChecks"].apply(partialParams)
+        );
+    }
+
+    invokeListHostedZones(partialParams: ToOptional<{
+      [K in keyof ListHostedZonesRequest]: (ListHostedZonesRequest)[K]
+    }>): Request<ListHostedZonesResponse, AWSError> {
+        this.boot();
+        return this.client.listHostedZones(
+          this.ops["ListHostedZones"].apply(partialParams)
+        );
+    }
+
+    invokeListHostedZonesByName(partialParams: ToOptional<{
+      [K in keyof ListHostedZonesByNameRequest]: (ListHostedZonesByNameRequest)[K]
+    }>): Request<ListHostedZonesByNameResponse, AWSError> {
+        this.boot();
+        return this.client.listHostedZonesByName(
+          this.ops["ListHostedZonesByName"].apply(partialParams)
         );
     }
 
     invokeListHostedZonesByVPC(partialParams: ToOptional<{
-      [K in keyof ListHostedZonesByVPCRequest & keyof ListHostedZonesByVPCRequest]: (ListHostedZonesByVPCRequest & ListHostedZonesByVPCRequest)[K]
+      [K in keyof ListHostedZonesByVPCRequest]: (ListHostedZonesByVPCRequest)[K]
     }>): Request<ListHostedZonesByVPCResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listHostedZonesByVPC(
-          this.ops["ListHostedZonesByVPC"].applicator.apply(partialParams)
+          this.ops["ListHostedZonesByVPC"].apply(partialParams)
+        );
+    }
+
+    invokeListQueryLoggingConfigs(partialParams: ToOptional<{
+      [K in keyof ListQueryLoggingConfigsRequest]: (ListQueryLoggingConfigsRequest)[K]
+    }>): Request<ListQueryLoggingConfigsResponse, AWSError> {
+        this.boot();
+        return this.client.listQueryLoggingConfigs(
+          this.ops["ListQueryLoggingConfigs"].apply(partialParams)
         );
     }
 
     invokeListResourceRecordSets(partialParams: ToOptional<{
-      [K in keyof ListResourceRecordSetsRequest & keyof ListResourceRecordSetsRequest]: (ListResourceRecordSetsRequest & ListResourceRecordSetsRequest)[K]
+      [K in keyof ListResourceRecordSetsRequest & keyof Omit<ListResourceRecordSetsRequest, "HostedZoneId">]: (ListResourceRecordSetsRequest)[K]
     }>): Request<ListResourceRecordSetsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listResourceRecordSets(
-          this.ops["ListResourceRecordSets"].applicator.apply(partialParams)
+          this.ops["ListResourceRecordSets"].apply(partialParams)
+        );
+    }
+
+    invokeListReusableDelegationSets(partialParams: ToOptional<{
+      [K in keyof ListReusableDelegationSetsRequest]: (ListReusableDelegationSetsRequest)[K]
+    }>): Request<ListReusableDelegationSetsResponse, AWSError> {
+        this.boot();
+        return this.client.listReusableDelegationSets(
+          this.ops["ListReusableDelegationSets"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeListTagsForResources(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourcesRequest & keyof ListTagsForResourcesRequest]: (ListTagsForResourcesRequest & ListTagsForResourcesRequest)[K]
+      [K in keyof ListTagsForResourcesRequest]: (ListTagsForResourcesRequest)[K]
     }>): Request<ListTagsForResourcesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResources(
-          this.ops["ListTagsForResources"].applicator.apply(partialParams)
+          this.ops["ListTagsForResources"].apply(partialParams)
+        );
+    }
+
+    invokeListTrafficPolicies(partialParams: ToOptional<{
+      [K in keyof ListTrafficPoliciesRequest]: (ListTrafficPoliciesRequest)[K]
+    }>): Request<ListTrafficPoliciesResponse, AWSError> {
+        this.boot();
+        return this.client.listTrafficPolicies(
+          this.ops["ListTrafficPolicies"].apply(partialParams)
+        );
+    }
+
+    invokeListTrafficPolicyInstances(partialParams: ToOptional<{
+      [K in keyof ListTrafficPolicyInstancesRequest]: (ListTrafficPolicyInstancesRequest)[K]
+    }>): Request<ListTrafficPolicyInstancesResponse, AWSError> {
+        this.boot();
+        return this.client.listTrafficPolicyInstances(
+          this.ops["ListTrafficPolicyInstances"].apply(partialParams)
         );
     }
 
     invokeListTrafficPolicyInstancesByHostedZone(partialParams: ToOptional<{
-      [K in keyof ListTrafficPolicyInstancesByHostedZoneRequest & keyof ListTrafficPolicyInstancesByHostedZoneRequest]: (ListTrafficPolicyInstancesByHostedZoneRequest & ListTrafficPolicyInstancesByHostedZoneRequest)[K]
+      [K in keyof ListTrafficPolicyInstancesByHostedZoneRequest & keyof Omit<ListTrafficPolicyInstancesByHostedZoneRequest, "HostedZoneId">]: (ListTrafficPolicyInstancesByHostedZoneRequest)[K]
     }>): Request<ListTrafficPolicyInstancesByHostedZoneResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTrafficPolicyInstancesByHostedZone(
-          this.ops["ListTrafficPolicyInstancesByHostedZone"].applicator.apply(partialParams)
+          this.ops["ListTrafficPolicyInstancesByHostedZone"].apply(partialParams)
         );
     }
 
     invokeListTrafficPolicyInstancesByPolicy(partialParams: ToOptional<{
-      [K in keyof ListTrafficPolicyInstancesByPolicyRequest & keyof ListTrafficPolicyInstancesByPolicyRequest]: (ListTrafficPolicyInstancesByPolicyRequest & ListTrafficPolicyInstancesByPolicyRequest)[K]
+      [K in keyof ListTrafficPolicyInstancesByPolicyRequest]: (ListTrafficPolicyInstancesByPolicyRequest)[K]
     }>): Request<ListTrafficPolicyInstancesByPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTrafficPolicyInstancesByPolicy(
-          this.ops["ListTrafficPolicyInstancesByPolicy"].applicator.apply(partialParams)
+          this.ops["ListTrafficPolicyInstancesByPolicy"].apply(partialParams)
         );
     }
 
     invokeListTrafficPolicyVersions(partialParams: ToOptional<{
-      [K in keyof ListTrafficPolicyVersionsRequest & keyof ListTrafficPolicyVersionsRequest]: (ListTrafficPolicyVersionsRequest & ListTrafficPolicyVersionsRequest)[K]
+      [K in keyof ListTrafficPolicyVersionsRequest]: (ListTrafficPolicyVersionsRequest)[K]
     }>): Request<ListTrafficPolicyVersionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTrafficPolicyVersions(
-          this.ops["ListTrafficPolicyVersions"].applicator.apply(partialParams)
+          this.ops["ListTrafficPolicyVersions"].apply(partialParams)
         );
     }
 
     invokeListVPCAssociationAuthorizations(partialParams: ToOptional<{
-      [K in keyof ListVPCAssociationAuthorizationsRequest & keyof ListVPCAssociationAuthorizationsRequest]: (ListVPCAssociationAuthorizationsRequest & ListVPCAssociationAuthorizationsRequest)[K]
+      [K in keyof ListVPCAssociationAuthorizationsRequest & keyof Omit<ListVPCAssociationAuthorizationsRequest, "HostedZoneId">]: (ListVPCAssociationAuthorizationsRequest)[K]
     }>): Request<ListVPCAssociationAuthorizationsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listVPCAssociationAuthorizations(
-          this.ops["ListVPCAssociationAuthorizations"].applicator.apply(partialParams)
+          this.ops["ListVPCAssociationAuthorizations"].apply(partialParams)
         );
     }
 
     invokeTestDNSAnswer(partialParams: ToOptional<{
-      [K in keyof Omit<TestDNSAnswerRequest, "HostedZoneId"> & keyof TestDNSAnswerRequest]: (Omit<TestDNSAnswerRequest, "HostedZoneId"> & TestDNSAnswerRequest)[K]
+      [K in keyof TestDNSAnswerRequest & keyof Omit<TestDNSAnswerRequest, "HostedZoneId">]: (TestDNSAnswerRequest)[K]
     }>): Request<TestDNSAnswerResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.testDNSAnswer(
-          this.ops["TestDNSAnswer"].applicator.apply(partialParams)
+          this.ops["TestDNSAnswer"].apply(partialParams)
         );
     }
 
     invokeUpdateHealthCheck(partialParams: ToOptional<{
-      [K in keyof UpdateHealthCheckRequest & keyof UpdateHealthCheckRequest]: (UpdateHealthCheckRequest & UpdateHealthCheckRequest)[K]
+      [K in keyof UpdateHealthCheckRequest]: (UpdateHealthCheckRequest)[K]
     }>): Request<UpdateHealthCheckResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateHealthCheck(
-          this.ops["UpdateHealthCheck"].applicator.apply(partialParams)
+          this.ops["UpdateHealthCheck"].apply(partialParams)
         );
     }
 
     invokeUpdateHostedZoneComment(partialParams: ToOptional<{
-      [K in keyof UpdateHostedZoneCommentRequest & keyof UpdateHostedZoneCommentRequest]: (UpdateHostedZoneCommentRequest & UpdateHostedZoneCommentRequest)[K]
+      [K in keyof UpdateHostedZoneCommentRequest]: (UpdateHostedZoneCommentRequest)[K]
     }>): Request<UpdateHostedZoneCommentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateHostedZoneComment(
-          this.ops["UpdateHostedZoneComment"].applicator.apply(partialParams)
+          this.ops["UpdateHostedZoneComment"].apply(partialParams)
         );
     }
 
     invokeUpdateTrafficPolicyComment(partialParams: ToOptional<{
-      [K in keyof UpdateTrafficPolicyCommentRequest & keyof UpdateTrafficPolicyCommentRequest]: (UpdateTrafficPolicyCommentRequest & UpdateTrafficPolicyCommentRequest)[K]
+      [K in keyof UpdateTrafficPolicyCommentRequest]: (UpdateTrafficPolicyCommentRequest)[K]
     }>): Request<UpdateTrafficPolicyCommentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateTrafficPolicyComment(
-          this.ops["UpdateTrafficPolicyComment"].applicator.apply(partialParams)
+          this.ops["UpdateTrafficPolicyComment"].apply(partialParams)
         );
     }
 
     invokeUpdateTrafficPolicyInstance(partialParams: ToOptional<{
-      [K in keyof UpdateTrafficPolicyInstanceRequest & keyof UpdateTrafficPolicyInstanceRequest]: (UpdateTrafficPolicyInstanceRequest & UpdateTrafficPolicyInstanceRequest)[K]
+      [K in keyof UpdateTrafficPolicyInstanceRequest]: (UpdateTrafficPolicyInstanceRequest)[K]
     }>): Request<UpdateTrafficPolicyInstanceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateTrafficPolicyInstance(
-          this.ops["UpdateTrafficPolicyInstance"].applicator.apply(partialParams)
+          this.ops["UpdateTrafficPolicyInstance"].apply(partialParams)
         );
     }
 }

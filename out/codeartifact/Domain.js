@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.codeartifact.Domain {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.CodeArtifact();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,199 +50,144 @@ class default_1 extends aws.codeartifact.Domain {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAssociateExternalConnection(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateExternalConnection(this.ops["AssociateExternalConnection"].applicator.apply(partialParams));
+        return this.client.associateExternalConnection(this.ops["AssociateExternalConnection"].apply(partialParams));
     }
     invokeCopyPackageVersions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.copyPackageVersions(this.ops["CopyPackageVersions"].applicator.apply(partialParams));
+        return this.client.copyPackageVersions(this.ops["CopyPackageVersions"].apply(partialParams));
     }
     invokeCreateDomain(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDomain(this.ops["CreateDomain"].applicator.apply(partialParams));
+        return this.client.createDomain(this.ops["CreateDomain"].apply(partialParams));
     }
     invokeCreateRepository(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createRepository(this.ops["CreateRepository"].applicator.apply(partialParams));
+        return this.client.createRepository(this.ops["CreateRepository"].apply(partialParams));
     }
     invokeDeleteDomain(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteDomain(this.ops["DeleteDomain"].applicator.apply(partialParams));
+        return this.client.deleteDomain(this.ops["DeleteDomain"].apply(partialParams));
     }
     invokeDeleteDomainPermissionsPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteDomainPermissionsPolicy(this.ops["DeleteDomainPermissionsPolicy"].applicator.apply(partialParams));
+        return this.client.deleteDomainPermissionsPolicy(this.ops["DeleteDomainPermissionsPolicy"].apply(partialParams));
     }
     invokeDeletePackageVersions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deletePackageVersions(this.ops["DeletePackageVersions"].applicator.apply(partialParams));
+        return this.client.deletePackageVersions(this.ops["DeletePackageVersions"].apply(partialParams));
     }
     invokeDeleteRepository(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteRepository(this.ops["DeleteRepository"].applicator.apply(partialParams));
+        return this.client.deleteRepository(this.ops["DeleteRepository"].apply(partialParams));
     }
     invokeDeleteRepositoryPermissionsPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteRepositoryPermissionsPolicy(this.ops["DeleteRepositoryPermissionsPolicy"].applicator.apply(partialParams));
+        return this.client.deleteRepositoryPermissionsPolicy(this.ops["DeleteRepositoryPermissionsPolicy"].apply(partialParams));
     }
     invokeDescribeDomain(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeDomain(this.ops["DescribeDomain"].applicator.apply(partialParams));
+        return this.client.describeDomain(this.ops["DescribeDomain"].apply(partialParams));
     }
     invokeDescribePackageVersion(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describePackageVersion(this.ops["DescribePackageVersion"].applicator.apply(partialParams));
+        return this.client.describePackageVersion(this.ops["DescribePackageVersion"].apply(partialParams));
     }
     invokeDescribeRepository(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeRepository(this.ops["DescribeRepository"].applicator.apply(partialParams));
+        return this.client.describeRepository(this.ops["DescribeRepository"].apply(partialParams));
     }
     invokeDisassociateExternalConnection(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateExternalConnection(this.ops["DisassociateExternalConnection"].applicator.apply(partialParams));
+        return this.client.disassociateExternalConnection(this.ops["DisassociateExternalConnection"].apply(partialParams));
     }
     invokeDisposePackageVersions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disposePackageVersions(this.ops["DisposePackageVersions"].applicator.apply(partialParams));
+        return this.client.disposePackageVersions(this.ops["DisposePackageVersions"].apply(partialParams));
     }
     invokeGetAuthorizationToken(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getAuthorizationToken(this.ops["GetAuthorizationToken"].applicator.apply(partialParams));
+        return this.client.getAuthorizationToken(this.ops["GetAuthorizationToken"].apply(partialParams));
     }
     invokeGetDomainPermissionsPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getDomainPermissionsPolicy(this.ops["GetDomainPermissionsPolicy"].applicator.apply(partialParams));
+        return this.client.getDomainPermissionsPolicy(this.ops["GetDomainPermissionsPolicy"].apply(partialParams));
     }
     invokeGetPackageVersionAsset(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getPackageVersionAsset(this.ops["GetPackageVersionAsset"].applicator.apply(partialParams));
+        return this.client.getPackageVersionAsset(this.ops["GetPackageVersionAsset"].apply(partialParams));
     }
     invokeGetPackageVersionReadme(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getPackageVersionReadme(this.ops["GetPackageVersionReadme"].applicator.apply(partialParams));
+        return this.client.getPackageVersionReadme(this.ops["GetPackageVersionReadme"].apply(partialParams));
     }
     invokeGetRepositoryEndpoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getRepositoryEndpoint(this.ops["GetRepositoryEndpoint"].applicator.apply(partialParams));
+        return this.client.getRepositoryEndpoint(this.ops["GetRepositoryEndpoint"].apply(partialParams));
     }
     invokeGetRepositoryPermissionsPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getRepositoryPermissionsPolicy(this.ops["GetRepositoryPermissionsPolicy"].applicator.apply(partialParams));
+        return this.client.getRepositoryPermissionsPolicy(this.ops["GetRepositoryPermissionsPolicy"].apply(partialParams));
+    }
+    invokeListDomains(partialParams) {
+        this.boot();
+        return this.client.listDomains(this.ops["ListDomains"].apply(partialParams));
     }
     invokeListPackageVersionAssets(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listPackageVersionAssets(this.ops["ListPackageVersionAssets"].applicator.apply(partialParams));
+        return this.client.listPackageVersionAssets(this.ops["ListPackageVersionAssets"].apply(partialParams));
     }
     invokeListPackageVersionDependencies(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listPackageVersionDependencies(this.ops["ListPackageVersionDependencies"].applicator.apply(partialParams));
+        return this.client.listPackageVersionDependencies(this.ops["ListPackageVersionDependencies"].apply(partialParams));
     }
     invokeListPackageVersions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listPackageVersions(this.ops["ListPackageVersions"].applicator.apply(partialParams));
+        return this.client.listPackageVersions(this.ops["ListPackageVersions"].apply(partialParams));
     }
     invokeListPackages(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listPackages(this.ops["ListPackages"].applicator.apply(partialParams));
+        return this.client.listPackages(this.ops["ListPackages"].apply(partialParams));
+    }
+    invokeListRepositories(partialParams) {
+        this.boot();
+        return this.client.listRepositories(this.ops["ListRepositories"].apply(partialParams));
     }
     invokeListRepositoriesInDomain(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listRepositoriesInDomain(this.ops["ListRepositoriesInDomain"].applicator.apply(partialParams));
+        return this.client.listRepositoriesInDomain(this.ops["ListRepositoriesInDomain"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokePutDomainPermissionsPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putDomainPermissionsPolicy(this.ops["PutDomainPermissionsPolicy"].applicator.apply(partialParams));
+        return this.client.putDomainPermissionsPolicy(this.ops["PutDomainPermissionsPolicy"].apply(partialParams));
     }
     invokePutRepositoryPermissionsPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putRepositoryPermissionsPolicy(this.ops["PutRepositoryPermissionsPolicy"].applicator.apply(partialParams));
+        return this.client.putRepositoryPermissionsPolicy(this.ops["PutRepositoryPermissionsPolicy"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdatePackageVersionsStatus(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updatePackageVersionsStatus(this.ops["UpdatePackageVersionsStatus"].applicator.apply(partialParams));
+        return this.client.updatePackageVersionsStatus(this.ops["UpdatePackageVersionsStatus"].apply(partialParams));
     }
     invokeUpdateRepository(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateRepository(this.ops["UpdateRepository"].applicator.apply(partialParams));
+        return this.client.updateRepository(this.ops["UpdateRepository"].apply(partialParams));
     }
 }
 exports.default = default_1;

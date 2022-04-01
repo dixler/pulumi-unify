@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.kms.Alias {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.KMS();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,259 +50,140 @@ class default_1 extends aws.kms.Alias {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeCancelKeyDeletion(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.cancelKeyDeletion(this.ops["CancelKeyDeletion"].applicator.apply(partialParams));
+        return this.client.cancelKeyDeletion(this.ops["CancelKeyDeletion"].apply(partialParams));
     }
     invokeConnectCustomKeyStore(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.connectCustomKeyStore(this.ops["ConnectCustomKeyStore"].applicator.apply(partialParams));
-    }
-    invokeCreateAlias(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.createAlias(this.ops["CreateAlias"].applicator.apply(partialParams));
+        return this.client.connectCustomKeyStore(this.ops["ConnectCustomKeyStore"].apply(partialParams));
     }
     invokeCreateCustomKeyStore(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createCustomKeyStore(this.ops["CreateCustomKeyStore"].applicator.apply(partialParams));
+        return this.client.createCustomKeyStore(this.ops["CreateCustomKeyStore"].apply(partialParams));
     }
     invokeCreateGrant(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createGrant(this.ops["CreateGrant"].applicator.apply(partialParams));
+        return this.client.createGrant(this.ops["CreateGrant"].apply(partialParams));
+    }
+    invokeCreateKey(partialParams) {
+        this.boot();
+        return this.client.createKey(this.ops["CreateKey"].apply(partialParams));
     }
     invokeDecrypt(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.decrypt(this.ops["Decrypt"].applicator.apply(partialParams));
-    }
-    invokeDeleteAlias(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteAlias(this.ops["DeleteAlias"].applicator.apply(partialParams));
+        return this.client.decrypt(this.ops["Decrypt"].apply(partialParams));
     }
     invokeDeleteCustomKeyStore(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteCustomKeyStore(this.ops["DeleteCustomKeyStore"].applicator.apply(partialParams));
+        return this.client.deleteCustomKeyStore(this.ops["DeleteCustomKeyStore"].apply(partialParams));
     }
-    invokeDeleteImportedKeyMaterial(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDescribeCustomKeyStores(partialParams) {
         this.boot();
-        return this.client.deleteImportedKeyMaterial(this.ops["DeleteImportedKeyMaterial"].applicator.apply(partialParams));
+        return this.client.describeCustomKeyStores(this.ops["DescribeCustomKeyStores"].apply(partialParams));
     }
     invokeDescribeKey(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeKey(this.ops["DescribeKey"].applicator.apply(partialParams));
-    }
-    invokeDisableKey(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disableKey(this.ops["DisableKey"].applicator.apply(partialParams));
-    }
-    invokeDisableKeyRotation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disableKeyRotation(this.ops["DisableKeyRotation"].applicator.apply(partialParams));
+        return this.client.describeKey(this.ops["DescribeKey"].apply(partialParams));
     }
     invokeDisconnectCustomKeyStore(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disconnectCustomKeyStore(this.ops["DisconnectCustomKeyStore"].applicator.apply(partialParams));
-    }
-    invokeEnableKey(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.enableKey(this.ops["EnableKey"].applicator.apply(partialParams));
-    }
-    invokeEnableKeyRotation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.enableKeyRotation(this.ops["EnableKeyRotation"].applicator.apply(partialParams));
+        return this.client.disconnectCustomKeyStore(this.ops["DisconnectCustomKeyStore"].apply(partialParams));
     }
     invokeEncrypt(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.encrypt(this.ops["Encrypt"].applicator.apply(partialParams));
+        return this.client.encrypt(this.ops["Encrypt"].apply(partialParams));
     }
     invokeGenerateDataKey(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.generateDataKey(this.ops["GenerateDataKey"].applicator.apply(partialParams));
+        return this.client.generateDataKey(this.ops["GenerateDataKey"].apply(partialParams));
     }
     invokeGenerateDataKeyPair(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.generateDataKeyPair(this.ops["GenerateDataKeyPair"].applicator.apply(partialParams));
+        return this.client.generateDataKeyPair(this.ops["GenerateDataKeyPair"].apply(partialParams));
     }
     invokeGenerateDataKeyPairWithoutPlaintext(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.generateDataKeyPairWithoutPlaintext(this.ops["GenerateDataKeyPairWithoutPlaintext"].applicator.apply(partialParams));
+        return this.client.generateDataKeyPairWithoutPlaintext(this.ops["GenerateDataKeyPairWithoutPlaintext"].apply(partialParams));
     }
     invokeGenerateDataKeyWithoutPlaintext(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.generateDataKeyWithoutPlaintext(this.ops["GenerateDataKeyWithoutPlaintext"].applicator.apply(partialParams));
+        return this.client.generateDataKeyWithoutPlaintext(this.ops["GenerateDataKeyWithoutPlaintext"].apply(partialParams));
+    }
+    invokeGenerateRandom(partialParams) {
+        this.boot();
+        return this.client.generateRandom(this.ops["GenerateRandom"].apply(partialParams));
     }
     invokeGetKeyPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getKeyPolicy(this.ops["GetKeyPolicy"].applicator.apply(partialParams));
+        return this.client.getKeyPolicy(this.ops["GetKeyPolicy"].apply(partialParams));
     }
     invokeGetKeyRotationStatus(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getKeyRotationStatus(this.ops["GetKeyRotationStatus"].applicator.apply(partialParams));
+        return this.client.getKeyRotationStatus(this.ops["GetKeyRotationStatus"].apply(partialParams));
     }
     invokeGetParametersForImport(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getParametersForImport(this.ops["GetParametersForImport"].applicator.apply(partialParams));
+        return this.client.getParametersForImport(this.ops["GetParametersForImport"].apply(partialParams));
     }
     invokeGetPublicKey(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getPublicKey(this.ops["GetPublicKey"].applicator.apply(partialParams));
+        return this.client.getPublicKey(this.ops["GetPublicKey"].apply(partialParams));
     }
     invokeImportKeyMaterial(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.importKeyMaterial(this.ops["ImportKeyMaterial"].applicator.apply(partialParams));
+        return this.client.importKeyMaterial(this.ops["ImportKeyMaterial"].apply(partialParams));
+    }
+    invokeListAliases(partialParams) {
+        this.boot();
+        return this.client.listAliases(this.ops["ListAliases"].apply(partialParams));
     }
     invokeListGrants(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listGrants(this.ops["ListGrants"].applicator.apply(partialParams));
+        return this.client.listGrants(this.ops["ListGrants"].apply(partialParams));
     }
     invokeListKeyPolicies(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listKeyPolicies(this.ops["ListKeyPolicies"].applicator.apply(partialParams));
+        return this.client.listKeyPolicies(this.ops["ListKeyPolicies"].apply(partialParams));
+    }
+    invokeListKeys(partialParams) {
+        this.boot();
+        return this.client.listKeys(this.ops["ListKeys"].apply(partialParams));
     }
     invokeListResourceTags(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listResourceTags(this.ops["ListResourceTags"].applicator.apply(partialParams));
+        return this.client.listResourceTags(this.ops["ListResourceTags"].apply(partialParams));
     }
     invokeListRetirableGrants(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listRetirableGrants(this.ops["ListRetirableGrants"].applicator.apply(partialParams));
-    }
-    invokePutKeyPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.putKeyPolicy(this.ops["PutKeyPolicy"].applicator.apply(partialParams));
+        return this.client.listRetirableGrants(this.ops["ListRetirableGrants"].apply(partialParams));
     }
     invokeReEncrypt(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.reEncrypt(this.ops["ReEncrypt"].applicator.apply(partialParams));
+        return this.client.reEncrypt(this.ops["ReEncrypt"].apply(partialParams));
     }
     invokeReplicateKey(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.replicateKey(this.ops["ReplicateKey"].applicator.apply(partialParams));
-    }
-    invokeRevokeGrant(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.revokeGrant(this.ops["RevokeGrant"].applicator.apply(partialParams));
+        return this.client.replicateKey(this.ops["ReplicateKey"].apply(partialParams));
     }
     invokeScheduleKeyDeletion(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.scheduleKeyDeletion(this.ops["ScheduleKeyDeletion"].applicator.apply(partialParams));
+        return this.client.scheduleKeyDeletion(this.ops["ScheduleKeyDeletion"].apply(partialParams));
     }
     invokeSign(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.sign(this.ops["Sign"].applicator.apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
-    }
-    invokeUpdateAlias(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateAlias(this.ops["UpdateAlias"].applicator.apply(partialParams));
+        return this.client.sign(this.ops["Sign"].apply(partialParams));
     }
     invokeUpdateCustomKeyStore(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateCustomKeyStore(this.ops["UpdateCustomKeyStore"].applicator.apply(partialParams));
-    }
-    invokeUpdateKeyDescription(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateKeyDescription(this.ops["UpdateKeyDescription"].applicator.apply(partialParams));
-    }
-    invokeUpdatePrimaryRegion(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updatePrimaryRegion(this.ops["UpdatePrimaryRegion"].applicator.apply(partialParams));
+        return this.client.updateCustomKeyStore(this.ops["UpdateCustomKeyStore"].apply(partialParams));
     }
     invokeVerify(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.verify(this.ops["Verify"].applicator.apply(partialParams));
+        return this.client.verify(this.ops["Verify"].apply(partialParams));
     }
 }
 exports.default = default_1;

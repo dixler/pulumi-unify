@@ -5,14 +5,8 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    AssociateApprovedOriginRequest,
-    AssociateBotRequest,
     AssociateDefaultVocabularyRequest,
     AssociateInstanceStorageConfigRequest,
-    AssociateLambdaFunctionRequest,
-    AssociateLexBotRequest,
-    AssociateQueueQuickConnectsRequest,
-    AssociateRoutingProfileQueuesRequest,
     AssociateSecurityKeyRequest,
     CreateAgentStatusRequest,
     CreateContactFlowRequest,
@@ -28,16 +22,7 @@ import {
     CreateUserRequest,
     CreateUserHierarchyGroupRequest,
     CreateVocabularyRequest,
-    DeleteContactFlowRequest,
     DeleteContactFlowModuleRequest,
-    DeleteHoursOfOperationRequest,
-    DeleteInstanceRequest,
-    DeleteIntegrationAssociationRequest,
-    DeleteQuickConnectRequest,
-    DeleteSecurityProfileRequest,
-    DeleteUseCaseRequest,
-    DeleteUserRequest,
-    DeleteUserHierarchyGroupRequest,
     DeleteVocabularyRequest,
     DescribeAgentStatusRequest,
     DescribeContactRequest,
@@ -55,14 +40,6 @@ import {
     DescribeUserHierarchyGroupRequest,
     DescribeUserHierarchyStructureRequest,
     DescribeVocabularyRequest,
-    DisassociateApprovedOriginRequest,
-    DisassociateBotRequest,
-    DisassociateInstanceStorageConfigRequest,
-    DisassociateLambdaFunctionRequest,
-    DisassociateLexBotRequest,
-    DisassociateQueueQuickConnectsRequest,
-    DisassociateRoutingProfileQueuesRequest,
-    DisassociateSecurityKeyRequest,
     GetContactAttributesRequest,
     GetCurrentMetricDataRequest,
     GetFederationTokenRequest,
@@ -77,6 +54,7 @@ import {
     ListHoursOfOperationsRequest,
     ListInstanceAttributesRequest,
     ListInstanceStorageConfigsRequest,
+    ListInstancesRequest,
     ListIntegrationAssociationsRequest,
     ListLambdaFunctionsRequest,
     ListLexBotsRequest,
@@ -105,39 +83,11 @@ import {
     StopContactRecordingRequest,
     StopContactStreamingRequest,
     SuspendContactRecordingRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
-    UpdateAgentStatusRequest,
     UpdateContactRequest,
     UpdateContactAttributesRequest,
-    UpdateContactFlowContentRequest,
-    UpdateContactFlowMetadataRequest,
     UpdateContactFlowModuleContentRequest,
     UpdateContactFlowModuleMetadataRequest,
-    UpdateContactFlowNameRequest,
     UpdateContactScheduleRequest,
-    UpdateHoursOfOperationRequest,
-    UpdateInstanceAttributeRequest,
-    UpdateInstanceStorageConfigRequest,
-    UpdateQueueHoursOfOperationRequest,
-    UpdateQueueMaxContactsRequest,
-    UpdateQueueNameRequest,
-    UpdateQueueOutboundCallerConfigRequest,
-    UpdateQueueStatusRequest,
-    UpdateQuickConnectConfigRequest,
-    UpdateQuickConnectNameRequest,
-    UpdateRoutingProfileConcurrencyRequest,
-    UpdateRoutingProfileDefaultOutboundQueueRequest,
-    UpdateRoutingProfileNameRequest,
-    UpdateRoutingProfileQueuesRequest,
-    UpdateSecurityProfileRequest,
-    UpdateUserHierarchyRequest,
-    UpdateUserHierarchyGroupNameRequest,
-    UpdateUserHierarchyStructureRequest,
-    UpdateUserIdentityInfoRequest,
-    UpdateUserPhoneConfigRequest,
-    UpdateUserRoutingProfileRequest,
-    UpdateUserSecurityProfilesRequest,
     AssociateDefaultVocabularyResponse,
     AssociateInstanceStorageConfigResponse,
     AssociateSecurityKeyResponse,
@@ -187,6 +137,7 @@ import {
     ListHoursOfOperationsResponse,
     ListInstanceAttributesResponse,
     ListInstanceStorageConfigsResponse,
+    ListInstancesResponse,
     ListIntegrationAssociationsResponse,
     ListLambdaFunctionsResponse,
     ListLexBotsResponse,
@@ -234,21 +185,24 @@ export default class extends aws.connect.LambdaFunctionAssociation {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.connect.LambdaFunctionAssociation>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.Connect()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -258,1469 +212,754 @@ export default class extends aws.connect.LambdaFunctionAssociation {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
-    }
-
-    invokeAssociateApprovedOrigin(partialParams: ToOptional<{
-      [K in keyof AssociateApprovedOriginRequest & keyof AssociateApprovedOriginRequest]: (AssociateApprovedOriginRequest & AssociateApprovedOriginRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.associateApprovedOrigin(
-          this.ops["AssociateApprovedOrigin"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeAssociateBot(partialParams: ToOptional<{
-      [K in keyof AssociateBotRequest & keyof AssociateBotRequest]: (AssociateBotRequest & AssociateBotRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.associateBot(
-          this.ops["AssociateBot"].applicator.apply(partialParams)
-        );
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAssociateDefaultVocabulary(partialParams: ToOptional<{
-      [K in keyof AssociateDefaultVocabularyRequest & keyof AssociateDefaultVocabularyRequest]: (AssociateDefaultVocabularyRequest & AssociateDefaultVocabularyRequest)[K]
+      [K in keyof AssociateDefaultVocabularyRequest & keyof Omit<AssociateDefaultVocabularyRequest, "InstanceId">]: (AssociateDefaultVocabularyRequest)[K]
     }>): Request<AssociateDefaultVocabularyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateDefaultVocabulary(
-          this.ops["AssociateDefaultVocabulary"].applicator.apply(partialParams)
+          this.ops["AssociateDefaultVocabulary"].apply(partialParams)
         );
     }
 
     invokeAssociateInstanceStorageConfig(partialParams: ToOptional<{
-      [K in keyof AssociateInstanceStorageConfigRequest & keyof AssociateInstanceStorageConfigRequest]: (AssociateInstanceStorageConfigRequest & AssociateInstanceStorageConfigRequest)[K]
+      [K in keyof AssociateInstanceStorageConfigRequest & keyof Omit<AssociateInstanceStorageConfigRequest, "InstanceId">]: (AssociateInstanceStorageConfigRequest)[K]
     }>): Request<AssociateInstanceStorageConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateInstanceStorageConfig(
-          this.ops["AssociateInstanceStorageConfig"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeAssociateLambdaFunction(partialParams: ToOptional<{
-      [K in keyof AssociateLambdaFunctionRequest & keyof AssociateLambdaFunctionRequest]: (AssociateLambdaFunctionRequest & AssociateLambdaFunctionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.associateLambdaFunction(
-          this.ops["AssociateLambdaFunction"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeAssociateLexBot(partialParams: ToOptional<{
-      [K in keyof AssociateLexBotRequest & keyof AssociateLexBotRequest]: (AssociateLexBotRequest & AssociateLexBotRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.associateLexBot(
-          this.ops["AssociateLexBot"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeAssociateQueueQuickConnects(partialParams: ToOptional<{
-      [K in keyof AssociateQueueQuickConnectsRequest & keyof AssociateQueueQuickConnectsRequest]: (AssociateQueueQuickConnectsRequest & AssociateQueueQuickConnectsRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.associateQueueQuickConnects(
-          this.ops["AssociateQueueQuickConnects"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeAssociateRoutingProfileQueues(partialParams: ToOptional<{
-      [K in keyof AssociateRoutingProfileQueuesRequest & keyof AssociateRoutingProfileQueuesRequest]: (AssociateRoutingProfileQueuesRequest & AssociateRoutingProfileQueuesRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.associateRoutingProfileQueues(
-          this.ops["AssociateRoutingProfileQueues"].applicator.apply(partialParams)
+          this.ops["AssociateInstanceStorageConfig"].apply(partialParams)
         );
     }
 
     invokeAssociateSecurityKey(partialParams: ToOptional<{
-      [K in keyof AssociateSecurityKeyRequest & keyof AssociateSecurityKeyRequest]: (AssociateSecurityKeyRequest & AssociateSecurityKeyRequest)[K]
+      [K in keyof AssociateSecurityKeyRequest & keyof Omit<AssociateSecurityKeyRequest, "InstanceId">]: (AssociateSecurityKeyRequest)[K]
     }>): Request<AssociateSecurityKeyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateSecurityKey(
-          this.ops["AssociateSecurityKey"].applicator.apply(partialParams)
+          this.ops["AssociateSecurityKey"].apply(partialParams)
         );
     }
 
     invokeCreateAgentStatus(partialParams: ToOptional<{
-      [K in keyof CreateAgentStatusRequest & keyof CreateAgentStatusRequest]: (CreateAgentStatusRequest & CreateAgentStatusRequest)[K]
+      [K in keyof CreateAgentStatusRequest & keyof Omit<CreateAgentStatusRequest, "InstanceId">]: (CreateAgentStatusRequest)[K]
     }>): Request<CreateAgentStatusResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createAgentStatus(
-          this.ops["CreateAgentStatus"].applicator.apply(partialParams)
+          this.ops["CreateAgentStatus"].apply(partialParams)
         );
     }
 
     invokeCreateContactFlow(partialParams: ToOptional<{
-      [K in keyof CreateContactFlowRequest & keyof CreateContactFlowRequest]: (CreateContactFlowRequest & CreateContactFlowRequest)[K]
+      [K in keyof CreateContactFlowRequest & keyof Omit<CreateContactFlowRequest, "InstanceId">]: (CreateContactFlowRequest)[K]
     }>): Request<CreateContactFlowResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createContactFlow(
-          this.ops["CreateContactFlow"].applicator.apply(partialParams)
+          this.ops["CreateContactFlow"].apply(partialParams)
         );
     }
 
     invokeCreateContactFlowModule(partialParams: ToOptional<{
-      [K in keyof CreateContactFlowModuleRequest & keyof CreateContactFlowModuleRequest]: (CreateContactFlowModuleRequest & CreateContactFlowModuleRequest)[K]
+      [K in keyof CreateContactFlowModuleRequest & keyof Omit<CreateContactFlowModuleRequest, "InstanceId">]: (CreateContactFlowModuleRequest)[K]
     }>): Request<CreateContactFlowModuleResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createContactFlowModule(
-          this.ops["CreateContactFlowModule"].applicator.apply(partialParams)
+          this.ops["CreateContactFlowModule"].apply(partialParams)
         );
     }
 
     invokeCreateHoursOfOperation(partialParams: ToOptional<{
-      [K in keyof CreateHoursOfOperationRequest & keyof CreateHoursOfOperationRequest]: (CreateHoursOfOperationRequest & CreateHoursOfOperationRequest)[K]
+      [K in keyof CreateHoursOfOperationRequest & keyof Omit<CreateHoursOfOperationRequest, "InstanceId">]: (CreateHoursOfOperationRequest)[K]
     }>): Request<CreateHoursOfOperationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createHoursOfOperation(
-          this.ops["CreateHoursOfOperation"].applicator.apply(partialParams)
+          this.ops["CreateHoursOfOperation"].apply(partialParams)
         );
     }
 
     invokeCreateInstance(partialParams: ToOptional<{
-      [K in keyof CreateInstanceRequest & keyof CreateInstanceRequest]: (CreateInstanceRequest & CreateInstanceRequest)[K]
+      [K in keyof CreateInstanceRequest]: (CreateInstanceRequest)[K]
     }>): Request<CreateInstanceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createInstance(
-          this.ops["CreateInstance"].applicator.apply(partialParams)
+          this.ops["CreateInstance"].apply(partialParams)
         );
     }
 
     invokeCreateIntegrationAssociation(partialParams: ToOptional<{
-      [K in keyof CreateIntegrationAssociationRequest & keyof CreateIntegrationAssociationRequest]: (CreateIntegrationAssociationRequest & CreateIntegrationAssociationRequest)[K]
+      [K in keyof CreateIntegrationAssociationRequest & keyof Omit<CreateIntegrationAssociationRequest, "InstanceId">]: (CreateIntegrationAssociationRequest)[K]
     }>): Request<CreateIntegrationAssociationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createIntegrationAssociation(
-          this.ops["CreateIntegrationAssociation"].applicator.apply(partialParams)
+          this.ops["CreateIntegrationAssociation"].apply(partialParams)
         );
     }
 
     invokeCreateQueue(partialParams: ToOptional<{
-      [K in keyof CreateQueueRequest & keyof CreateQueueRequest]: (CreateQueueRequest & CreateQueueRequest)[K]
+      [K in keyof CreateQueueRequest & keyof Omit<CreateQueueRequest, "InstanceId">]: (CreateQueueRequest)[K]
     }>): Request<CreateQueueResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createQueue(
-          this.ops["CreateQueue"].applicator.apply(partialParams)
+          this.ops["CreateQueue"].apply(partialParams)
         );
     }
 
     invokeCreateQuickConnect(partialParams: ToOptional<{
-      [K in keyof CreateQuickConnectRequest & keyof CreateQuickConnectRequest]: (CreateQuickConnectRequest & CreateQuickConnectRequest)[K]
+      [K in keyof CreateQuickConnectRequest & keyof Omit<CreateQuickConnectRequest, "InstanceId">]: (CreateQuickConnectRequest)[K]
     }>): Request<CreateQuickConnectResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createQuickConnect(
-          this.ops["CreateQuickConnect"].applicator.apply(partialParams)
+          this.ops["CreateQuickConnect"].apply(partialParams)
         );
     }
 
     invokeCreateRoutingProfile(partialParams: ToOptional<{
-      [K in keyof CreateRoutingProfileRequest & keyof CreateRoutingProfileRequest]: (CreateRoutingProfileRequest & CreateRoutingProfileRequest)[K]
+      [K in keyof CreateRoutingProfileRequest & keyof Omit<CreateRoutingProfileRequest, "InstanceId">]: (CreateRoutingProfileRequest)[K]
     }>): Request<CreateRoutingProfileResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createRoutingProfile(
-          this.ops["CreateRoutingProfile"].applicator.apply(partialParams)
+          this.ops["CreateRoutingProfile"].apply(partialParams)
         );
     }
 
     invokeCreateSecurityProfile(partialParams: ToOptional<{
-      [K in keyof CreateSecurityProfileRequest & keyof CreateSecurityProfileRequest]: (CreateSecurityProfileRequest & CreateSecurityProfileRequest)[K]
+      [K in keyof CreateSecurityProfileRequest & keyof Omit<CreateSecurityProfileRequest, "InstanceId">]: (CreateSecurityProfileRequest)[K]
     }>): Request<CreateSecurityProfileResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createSecurityProfile(
-          this.ops["CreateSecurityProfile"].applicator.apply(partialParams)
+          this.ops["CreateSecurityProfile"].apply(partialParams)
         );
     }
 
     invokeCreateUseCase(partialParams: ToOptional<{
-      [K in keyof CreateUseCaseRequest & keyof CreateUseCaseRequest]: (CreateUseCaseRequest & CreateUseCaseRequest)[K]
+      [K in keyof CreateUseCaseRequest & keyof Omit<CreateUseCaseRequest, "InstanceId">]: (CreateUseCaseRequest)[K]
     }>): Request<CreateUseCaseResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createUseCase(
-          this.ops["CreateUseCase"].applicator.apply(partialParams)
+          this.ops["CreateUseCase"].apply(partialParams)
         );
     }
 
     invokeCreateUser(partialParams: ToOptional<{
-      [K in keyof CreateUserRequest & keyof CreateUserRequest]: (CreateUserRequest & CreateUserRequest)[K]
+      [K in keyof CreateUserRequest & keyof Omit<CreateUserRequest, "InstanceId">]: (CreateUserRequest)[K]
     }>): Request<CreateUserResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createUser(
-          this.ops["CreateUser"].applicator.apply(partialParams)
+          this.ops["CreateUser"].apply(partialParams)
         );
     }
 
     invokeCreateUserHierarchyGroup(partialParams: ToOptional<{
-      [K in keyof CreateUserHierarchyGroupRequest & keyof CreateUserHierarchyGroupRequest]: (CreateUserHierarchyGroupRequest & CreateUserHierarchyGroupRequest)[K]
+      [K in keyof CreateUserHierarchyGroupRequest & keyof Omit<CreateUserHierarchyGroupRequest, "InstanceId">]: (CreateUserHierarchyGroupRequest)[K]
     }>): Request<CreateUserHierarchyGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createUserHierarchyGroup(
-          this.ops["CreateUserHierarchyGroup"].applicator.apply(partialParams)
+          this.ops["CreateUserHierarchyGroup"].apply(partialParams)
         );
     }
 
     invokeCreateVocabulary(partialParams: ToOptional<{
-      [K in keyof CreateVocabularyRequest & keyof CreateVocabularyRequest]: (CreateVocabularyRequest & CreateVocabularyRequest)[K]
+      [K in keyof CreateVocabularyRequest & keyof Omit<CreateVocabularyRequest, "InstanceId">]: (CreateVocabularyRequest)[K]
     }>): Request<CreateVocabularyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createVocabulary(
-          this.ops["CreateVocabulary"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteContactFlow(partialParams: ToOptional<{
-      [K in keyof DeleteContactFlowRequest & keyof DeleteContactFlowRequest]: (DeleteContactFlowRequest & DeleteContactFlowRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteContactFlow(
-          this.ops["DeleteContactFlow"].applicator.apply(partialParams)
+          this.ops["CreateVocabulary"].apply(partialParams)
         );
     }
 
     invokeDeleteContactFlowModule(partialParams: ToOptional<{
-      [K in keyof DeleteContactFlowModuleRequest & keyof DeleteContactFlowModuleRequest]: (DeleteContactFlowModuleRequest & DeleteContactFlowModuleRequest)[K]
+      [K in keyof DeleteContactFlowModuleRequest & keyof Omit<DeleteContactFlowModuleRequest, "InstanceId">]: (DeleteContactFlowModuleRequest)[K]
     }>): Request<DeleteContactFlowModuleResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteContactFlowModule(
-          this.ops["DeleteContactFlowModule"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteHoursOfOperation(partialParams: ToOptional<{
-      [K in keyof DeleteHoursOfOperationRequest & keyof DeleteHoursOfOperationRequest]: (DeleteHoursOfOperationRequest & DeleteHoursOfOperationRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteHoursOfOperation(
-          this.ops["DeleteHoursOfOperation"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteInstance(partialParams: ToOptional<{
-      [K in keyof DeleteInstanceRequest & keyof DeleteInstanceRequest]: (DeleteInstanceRequest & DeleteInstanceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteInstance(
-          this.ops["DeleteInstance"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteIntegrationAssociation(partialParams: ToOptional<{
-      [K in keyof DeleteIntegrationAssociationRequest & keyof DeleteIntegrationAssociationRequest]: (DeleteIntegrationAssociationRequest & DeleteIntegrationAssociationRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteIntegrationAssociation(
-          this.ops["DeleteIntegrationAssociation"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteQuickConnect(partialParams: ToOptional<{
-      [K in keyof DeleteQuickConnectRequest & keyof DeleteQuickConnectRequest]: (DeleteQuickConnectRequest & DeleteQuickConnectRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteQuickConnect(
-          this.ops["DeleteQuickConnect"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteSecurityProfile(partialParams: ToOptional<{
-      [K in keyof DeleteSecurityProfileRequest & keyof DeleteSecurityProfileRequest]: (DeleteSecurityProfileRequest & DeleteSecurityProfileRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteSecurityProfile(
-          this.ops["DeleteSecurityProfile"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteUseCase(partialParams: ToOptional<{
-      [K in keyof DeleteUseCaseRequest & keyof DeleteUseCaseRequest]: (DeleteUseCaseRequest & DeleteUseCaseRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteUseCase(
-          this.ops["DeleteUseCase"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteUser(partialParams: ToOptional<{
-      [K in keyof DeleteUserRequest & keyof DeleteUserRequest]: (DeleteUserRequest & DeleteUserRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteUser(
-          this.ops["DeleteUser"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteUserHierarchyGroup(partialParams: ToOptional<{
-      [K in keyof DeleteUserHierarchyGroupRequest & keyof DeleteUserHierarchyGroupRequest]: (DeleteUserHierarchyGroupRequest & DeleteUserHierarchyGroupRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteUserHierarchyGroup(
-          this.ops["DeleteUserHierarchyGroup"].applicator.apply(partialParams)
+          this.ops["DeleteContactFlowModule"].apply(partialParams)
         );
     }
 
     invokeDeleteVocabulary(partialParams: ToOptional<{
-      [K in keyof DeleteVocabularyRequest & keyof DeleteVocabularyRequest]: (DeleteVocabularyRequest & DeleteVocabularyRequest)[K]
+      [K in keyof DeleteVocabularyRequest & keyof Omit<DeleteVocabularyRequest, "InstanceId">]: (DeleteVocabularyRequest)[K]
     }>): Request<DeleteVocabularyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteVocabulary(
-          this.ops["DeleteVocabulary"].applicator.apply(partialParams)
+          this.ops["DeleteVocabulary"].apply(partialParams)
         );
     }
 
     invokeDescribeAgentStatus(partialParams: ToOptional<{
-      [K in keyof DescribeAgentStatusRequest & keyof DescribeAgentStatusRequest]: (DescribeAgentStatusRequest & DescribeAgentStatusRequest)[K]
+      [K in keyof DescribeAgentStatusRequest & keyof Omit<DescribeAgentStatusRequest, "InstanceId">]: (DescribeAgentStatusRequest)[K]
     }>): Request<DescribeAgentStatusResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeAgentStatus(
-          this.ops["DescribeAgentStatus"].applicator.apply(partialParams)
+          this.ops["DescribeAgentStatus"].apply(partialParams)
         );
     }
 
     invokeDescribeContact(partialParams: ToOptional<{
-      [K in keyof DescribeContactRequest & keyof DescribeContactRequest]: (DescribeContactRequest & DescribeContactRequest)[K]
+      [K in keyof DescribeContactRequest & keyof Omit<DescribeContactRequest, "InstanceId">]: (DescribeContactRequest)[K]
     }>): Request<DescribeContactResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeContact(
-          this.ops["DescribeContact"].applicator.apply(partialParams)
+          this.ops["DescribeContact"].apply(partialParams)
         );
     }
 
     invokeDescribeContactFlow(partialParams: ToOptional<{
-      [K in keyof DescribeContactFlowRequest & keyof DescribeContactFlowRequest]: (DescribeContactFlowRequest & DescribeContactFlowRequest)[K]
+      [K in keyof DescribeContactFlowRequest & keyof Omit<DescribeContactFlowRequest, "InstanceId">]: (DescribeContactFlowRequest)[K]
     }>): Request<DescribeContactFlowResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeContactFlow(
-          this.ops["DescribeContactFlow"].applicator.apply(partialParams)
+          this.ops["DescribeContactFlow"].apply(partialParams)
         );
     }
 
     invokeDescribeContactFlowModule(partialParams: ToOptional<{
-      [K in keyof DescribeContactFlowModuleRequest & keyof DescribeContactFlowModuleRequest]: (DescribeContactFlowModuleRequest & DescribeContactFlowModuleRequest)[K]
+      [K in keyof DescribeContactFlowModuleRequest & keyof Omit<DescribeContactFlowModuleRequest, "InstanceId">]: (DescribeContactFlowModuleRequest)[K]
     }>): Request<DescribeContactFlowModuleResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeContactFlowModule(
-          this.ops["DescribeContactFlowModule"].applicator.apply(partialParams)
+          this.ops["DescribeContactFlowModule"].apply(partialParams)
         );
     }
 
     invokeDescribeHoursOfOperation(partialParams: ToOptional<{
-      [K in keyof DescribeHoursOfOperationRequest & keyof DescribeHoursOfOperationRequest]: (DescribeHoursOfOperationRequest & DescribeHoursOfOperationRequest)[K]
+      [K in keyof DescribeHoursOfOperationRequest & keyof Omit<DescribeHoursOfOperationRequest, "InstanceId">]: (DescribeHoursOfOperationRequest)[K]
     }>): Request<DescribeHoursOfOperationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeHoursOfOperation(
-          this.ops["DescribeHoursOfOperation"].applicator.apply(partialParams)
+          this.ops["DescribeHoursOfOperation"].apply(partialParams)
         );
     }
 
     invokeDescribeInstance(partialParams: ToOptional<{
-      [K in keyof DescribeInstanceRequest & keyof DescribeInstanceRequest]: (DescribeInstanceRequest & DescribeInstanceRequest)[K]
+      [K in keyof DescribeInstanceRequest & keyof Omit<DescribeInstanceRequest, "InstanceId">]: (DescribeInstanceRequest)[K]
     }>): Request<DescribeInstanceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeInstance(
-          this.ops["DescribeInstance"].applicator.apply(partialParams)
+          this.ops["DescribeInstance"].apply(partialParams)
         );
     }
 
     invokeDescribeInstanceAttribute(partialParams: ToOptional<{
-      [K in keyof DescribeInstanceAttributeRequest & keyof DescribeInstanceAttributeRequest]: (DescribeInstanceAttributeRequest & DescribeInstanceAttributeRequest)[K]
+      [K in keyof DescribeInstanceAttributeRequest & keyof Omit<DescribeInstanceAttributeRequest, "InstanceId">]: (DescribeInstanceAttributeRequest)[K]
     }>): Request<DescribeInstanceAttributeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeInstanceAttribute(
-          this.ops["DescribeInstanceAttribute"].applicator.apply(partialParams)
+          this.ops["DescribeInstanceAttribute"].apply(partialParams)
         );
     }
 
     invokeDescribeInstanceStorageConfig(partialParams: ToOptional<{
-      [K in keyof DescribeInstanceStorageConfigRequest & keyof DescribeInstanceStorageConfigRequest]: (DescribeInstanceStorageConfigRequest & DescribeInstanceStorageConfigRequest)[K]
+      [K in keyof DescribeInstanceStorageConfigRequest & keyof Omit<DescribeInstanceStorageConfigRequest, "InstanceId">]: (DescribeInstanceStorageConfigRequest)[K]
     }>): Request<DescribeInstanceStorageConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeInstanceStorageConfig(
-          this.ops["DescribeInstanceStorageConfig"].applicator.apply(partialParams)
+          this.ops["DescribeInstanceStorageConfig"].apply(partialParams)
         );
     }
 
     invokeDescribeQueue(partialParams: ToOptional<{
-      [K in keyof DescribeQueueRequest & keyof DescribeQueueRequest]: (DescribeQueueRequest & DescribeQueueRequest)[K]
+      [K in keyof DescribeQueueRequest & keyof Omit<DescribeQueueRequest, "InstanceId">]: (DescribeQueueRequest)[K]
     }>): Request<DescribeQueueResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeQueue(
-          this.ops["DescribeQueue"].applicator.apply(partialParams)
+          this.ops["DescribeQueue"].apply(partialParams)
         );
     }
 
     invokeDescribeQuickConnect(partialParams: ToOptional<{
-      [K in keyof DescribeQuickConnectRequest & keyof DescribeQuickConnectRequest]: (DescribeQuickConnectRequest & DescribeQuickConnectRequest)[K]
+      [K in keyof DescribeQuickConnectRequest & keyof Omit<DescribeQuickConnectRequest, "InstanceId">]: (DescribeQuickConnectRequest)[K]
     }>): Request<DescribeQuickConnectResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeQuickConnect(
-          this.ops["DescribeQuickConnect"].applicator.apply(partialParams)
+          this.ops["DescribeQuickConnect"].apply(partialParams)
         );
     }
 
     invokeDescribeRoutingProfile(partialParams: ToOptional<{
-      [K in keyof DescribeRoutingProfileRequest & keyof DescribeRoutingProfileRequest]: (DescribeRoutingProfileRequest & DescribeRoutingProfileRequest)[K]
+      [K in keyof DescribeRoutingProfileRequest & keyof Omit<DescribeRoutingProfileRequest, "InstanceId">]: (DescribeRoutingProfileRequest)[K]
     }>): Request<DescribeRoutingProfileResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeRoutingProfile(
-          this.ops["DescribeRoutingProfile"].applicator.apply(partialParams)
+          this.ops["DescribeRoutingProfile"].apply(partialParams)
         );
     }
 
     invokeDescribeSecurityProfile(partialParams: ToOptional<{
-      [K in keyof DescribeSecurityProfileRequest & keyof DescribeSecurityProfileRequest]: (DescribeSecurityProfileRequest & DescribeSecurityProfileRequest)[K]
+      [K in keyof DescribeSecurityProfileRequest & keyof Omit<DescribeSecurityProfileRequest, "InstanceId">]: (DescribeSecurityProfileRequest)[K]
     }>): Request<DescribeSecurityProfileResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeSecurityProfile(
-          this.ops["DescribeSecurityProfile"].applicator.apply(partialParams)
+          this.ops["DescribeSecurityProfile"].apply(partialParams)
         );
     }
 
     invokeDescribeUser(partialParams: ToOptional<{
-      [K in keyof DescribeUserRequest & keyof DescribeUserRequest]: (DescribeUserRequest & DescribeUserRequest)[K]
+      [K in keyof DescribeUserRequest & keyof Omit<DescribeUserRequest, "InstanceId">]: (DescribeUserRequest)[K]
     }>): Request<DescribeUserResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeUser(
-          this.ops["DescribeUser"].applicator.apply(partialParams)
+          this.ops["DescribeUser"].apply(partialParams)
         );
     }
 
     invokeDescribeUserHierarchyGroup(partialParams: ToOptional<{
-      [K in keyof DescribeUserHierarchyGroupRequest & keyof DescribeUserHierarchyGroupRequest]: (DescribeUserHierarchyGroupRequest & DescribeUserHierarchyGroupRequest)[K]
+      [K in keyof DescribeUserHierarchyGroupRequest & keyof Omit<DescribeUserHierarchyGroupRequest, "InstanceId">]: (DescribeUserHierarchyGroupRequest)[K]
     }>): Request<DescribeUserHierarchyGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeUserHierarchyGroup(
-          this.ops["DescribeUserHierarchyGroup"].applicator.apply(partialParams)
+          this.ops["DescribeUserHierarchyGroup"].apply(partialParams)
         );
     }
 
     invokeDescribeUserHierarchyStructure(partialParams: ToOptional<{
-      [K in keyof DescribeUserHierarchyStructureRequest & keyof DescribeUserHierarchyStructureRequest]: (DescribeUserHierarchyStructureRequest & DescribeUserHierarchyStructureRequest)[K]
+      [K in keyof DescribeUserHierarchyStructureRequest & keyof Omit<DescribeUserHierarchyStructureRequest, "InstanceId">]: (DescribeUserHierarchyStructureRequest)[K]
     }>): Request<DescribeUserHierarchyStructureResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeUserHierarchyStructure(
-          this.ops["DescribeUserHierarchyStructure"].applicator.apply(partialParams)
+          this.ops["DescribeUserHierarchyStructure"].apply(partialParams)
         );
     }
 
     invokeDescribeVocabulary(partialParams: ToOptional<{
-      [K in keyof DescribeVocabularyRequest & keyof DescribeVocabularyRequest]: (DescribeVocabularyRequest & DescribeVocabularyRequest)[K]
+      [K in keyof DescribeVocabularyRequest & keyof Omit<DescribeVocabularyRequest, "InstanceId">]: (DescribeVocabularyRequest)[K]
     }>): Request<DescribeVocabularyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeVocabulary(
-          this.ops["DescribeVocabulary"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDisassociateApprovedOrigin(partialParams: ToOptional<{
-      [K in keyof DisassociateApprovedOriginRequest & keyof DisassociateApprovedOriginRequest]: (DisassociateApprovedOriginRequest & DisassociateApprovedOriginRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disassociateApprovedOrigin(
-          this.ops["DisassociateApprovedOrigin"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDisassociateBot(partialParams: ToOptional<{
-      [K in keyof DisassociateBotRequest & keyof DisassociateBotRequest]: (DisassociateBotRequest & DisassociateBotRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disassociateBot(
-          this.ops["DisassociateBot"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDisassociateInstanceStorageConfig(partialParams: ToOptional<{
-      [K in keyof DisassociateInstanceStorageConfigRequest & keyof DisassociateInstanceStorageConfigRequest]: (DisassociateInstanceStorageConfigRequest & DisassociateInstanceStorageConfigRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disassociateInstanceStorageConfig(
-          this.ops["DisassociateInstanceStorageConfig"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDisassociateLambdaFunction(partialParams: ToOptional<{
-      [K in keyof DisassociateLambdaFunctionRequest & keyof DisassociateLambdaFunctionRequest]: (DisassociateLambdaFunctionRequest & DisassociateLambdaFunctionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disassociateLambdaFunction(
-          this.ops["DisassociateLambdaFunction"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDisassociateLexBot(partialParams: ToOptional<{
-      [K in keyof DisassociateLexBotRequest & keyof DisassociateLexBotRequest]: (DisassociateLexBotRequest & DisassociateLexBotRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disassociateLexBot(
-          this.ops["DisassociateLexBot"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDisassociateQueueQuickConnects(partialParams: ToOptional<{
-      [K in keyof DisassociateQueueQuickConnectsRequest & keyof DisassociateQueueQuickConnectsRequest]: (DisassociateQueueQuickConnectsRequest & DisassociateQueueQuickConnectsRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disassociateQueueQuickConnects(
-          this.ops["DisassociateQueueQuickConnects"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDisassociateRoutingProfileQueues(partialParams: ToOptional<{
-      [K in keyof DisassociateRoutingProfileQueuesRequest & keyof DisassociateRoutingProfileQueuesRequest]: (DisassociateRoutingProfileQueuesRequest & DisassociateRoutingProfileQueuesRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disassociateRoutingProfileQueues(
-          this.ops["DisassociateRoutingProfileQueues"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDisassociateSecurityKey(partialParams: ToOptional<{
-      [K in keyof DisassociateSecurityKeyRequest & keyof DisassociateSecurityKeyRequest]: (DisassociateSecurityKeyRequest & DisassociateSecurityKeyRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disassociateSecurityKey(
-          this.ops["DisassociateSecurityKey"].applicator.apply(partialParams)
+          this.ops["DescribeVocabulary"].apply(partialParams)
         );
     }
 
     invokeGetContactAttributes(partialParams: ToOptional<{
-      [K in keyof GetContactAttributesRequest & keyof GetContactAttributesRequest]: (GetContactAttributesRequest & GetContactAttributesRequest)[K]
+      [K in keyof GetContactAttributesRequest & keyof Omit<GetContactAttributesRequest, "InstanceId">]: (GetContactAttributesRequest)[K]
     }>): Request<GetContactAttributesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getContactAttributes(
-          this.ops["GetContactAttributes"].applicator.apply(partialParams)
+          this.ops["GetContactAttributes"].apply(partialParams)
         );
     }
 
     invokeGetCurrentMetricData(partialParams: ToOptional<{
-      [K in keyof GetCurrentMetricDataRequest & keyof GetCurrentMetricDataRequest]: (GetCurrentMetricDataRequest & GetCurrentMetricDataRequest)[K]
+      [K in keyof GetCurrentMetricDataRequest & keyof Omit<GetCurrentMetricDataRequest, "InstanceId">]: (GetCurrentMetricDataRequest)[K]
     }>): Request<GetCurrentMetricDataResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getCurrentMetricData(
-          this.ops["GetCurrentMetricData"].applicator.apply(partialParams)
+          this.ops["GetCurrentMetricData"].apply(partialParams)
         );
     }
 
     invokeGetFederationToken(partialParams: ToOptional<{
-      [K in keyof GetFederationTokenRequest & keyof GetFederationTokenRequest]: (GetFederationTokenRequest & GetFederationTokenRequest)[K]
+      [K in keyof GetFederationTokenRequest & keyof Omit<GetFederationTokenRequest, "InstanceId">]: (GetFederationTokenRequest)[K]
     }>): Request<GetFederationTokenResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getFederationToken(
-          this.ops["GetFederationToken"].applicator.apply(partialParams)
+          this.ops["GetFederationToken"].apply(partialParams)
         );
     }
 
     invokeGetMetricData(partialParams: ToOptional<{
-      [K in keyof GetMetricDataRequest & keyof GetMetricDataRequest]: (GetMetricDataRequest & GetMetricDataRequest)[K]
+      [K in keyof GetMetricDataRequest & keyof Omit<GetMetricDataRequest, "InstanceId">]: (GetMetricDataRequest)[K]
     }>): Request<GetMetricDataResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getMetricData(
-          this.ops["GetMetricData"].applicator.apply(partialParams)
+          this.ops["GetMetricData"].apply(partialParams)
         );
     }
 
     invokeListAgentStatuses(partialParams: ToOptional<{
-      [K in keyof ListAgentStatusRequest & keyof Omit<ListAgentStatusRequest, "InstanceId">]: (ListAgentStatusRequest & Omit<ListAgentStatusRequest, "InstanceId">)[K]
+      [K in keyof ListAgentStatusRequest & keyof Omit<ListAgentStatusRequest, "InstanceId">]: (ListAgentStatusRequest)[K]
     }>): Request<ListAgentStatusResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listAgentStatuses(
-          this.ops["ListAgentStatuses"].applicator.apply(partialParams)
+          this.ops["ListAgentStatuses"].apply(partialParams)
         );
     }
 
     invokeListApprovedOrigins(partialParams: ToOptional<{
-      [K in keyof ListApprovedOriginsRequest & keyof Omit<ListApprovedOriginsRequest, "InstanceId">]: (ListApprovedOriginsRequest & Omit<ListApprovedOriginsRequest, "InstanceId">)[K]
+      [K in keyof ListApprovedOriginsRequest & keyof Omit<ListApprovedOriginsRequest, "InstanceId">]: (ListApprovedOriginsRequest)[K]
     }>): Request<ListApprovedOriginsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listApprovedOrigins(
-          this.ops["ListApprovedOrigins"].applicator.apply(partialParams)
+          this.ops["ListApprovedOrigins"].apply(partialParams)
         );
     }
 
     invokeListBots(partialParams: ToOptional<{
-      [K in keyof ListBotsRequest & keyof Omit<ListBotsRequest, "InstanceId">]: (ListBotsRequest & Omit<ListBotsRequest, "InstanceId">)[K]
+      [K in keyof ListBotsRequest & keyof Omit<ListBotsRequest, "InstanceId">]: (ListBotsRequest)[K]
     }>): Request<ListBotsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listBots(
-          this.ops["ListBots"].applicator.apply(partialParams)
+          this.ops["ListBots"].apply(partialParams)
         );
     }
 
     invokeListContactFlowModules(partialParams: ToOptional<{
-      [K in keyof ListContactFlowModulesRequest & keyof Omit<ListContactFlowModulesRequest, "InstanceId">]: (ListContactFlowModulesRequest & Omit<ListContactFlowModulesRequest, "InstanceId">)[K]
+      [K in keyof ListContactFlowModulesRequest & keyof Omit<ListContactFlowModulesRequest, "InstanceId">]: (ListContactFlowModulesRequest)[K]
     }>): Request<ListContactFlowModulesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listContactFlowModules(
-          this.ops["ListContactFlowModules"].applicator.apply(partialParams)
+          this.ops["ListContactFlowModules"].apply(partialParams)
         );
     }
 
     invokeListContactFlows(partialParams: ToOptional<{
-      [K in keyof ListContactFlowsRequest & keyof Omit<ListContactFlowsRequest, "InstanceId">]: (ListContactFlowsRequest & Omit<ListContactFlowsRequest, "InstanceId">)[K]
+      [K in keyof ListContactFlowsRequest & keyof Omit<ListContactFlowsRequest, "InstanceId">]: (ListContactFlowsRequest)[K]
     }>): Request<ListContactFlowsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listContactFlows(
-          this.ops["ListContactFlows"].applicator.apply(partialParams)
+          this.ops["ListContactFlows"].apply(partialParams)
         );
     }
 
     invokeListContactReferences(partialParams: ToOptional<{
-      [K in keyof ListContactReferencesRequest & keyof Omit<ListContactReferencesRequest, "InstanceId">]: (ListContactReferencesRequest & Omit<ListContactReferencesRequest, "InstanceId">)[K]
+      [K in keyof ListContactReferencesRequest & keyof Omit<ListContactReferencesRequest, "InstanceId">]: (ListContactReferencesRequest)[K]
     }>): Request<ListContactReferencesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listContactReferences(
-          this.ops["ListContactReferences"].applicator.apply(partialParams)
+          this.ops["ListContactReferences"].apply(partialParams)
         );
     }
 
     invokeListDefaultVocabularies(partialParams: ToOptional<{
-      [K in keyof ListDefaultVocabulariesRequest & keyof Omit<ListDefaultVocabulariesRequest, "InstanceId">]: (ListDefaultVocabulariesRequest & Omit<ListDefaultVocabulariesRequest, "InstanceId">)[K]
+      [K in keyof ListDefaultVocabulariesRequest & keyof Omit<ListDefaultVocabulariesRequest, "InstanceId">]: (ListDefaultVocabulariesRequest)[K]
     }>): Request<ListDefaultVocabulariesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listDefaultVocabularies(
-          this.ops["ListDefaultVocabularies"].applicator.apply(partialParams)
+          this.ops["ListDefaultVocabularies"].apply(partialParams)
         );
     }
 
     invokeListHoursOfOperations(partialParams: ToOptional<{
-      [K in keyof ListHoursOfOperationsRequest & keyof Omit<ListHoursOfOperationsRequest, "InstanceId">]: (ListHoursOfOperationsRequest & Omit<ListHoursOfOperationsRequest, "InstanceId">)[K]
+      [K in keyof ListHoursOfOperationsRequest & keyof Omit<ListHoursOfOperationsRequest, "InstanceId">]: (ListHoursOfOperationsRequest)[K]
     }>): Request<ListHoursOfOperationsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listHoursOfOperations(
-          this.ops["ListHoursOfOperations"].applicator.apply(partialParams)
+          this.ops["ListHoursOfOperations"].apply(partialParams)
         );
     }
 
     invokeListInstanceAttributes(partialParams: ToOptional<{
-      [K in keyof ListInstanceAttributesRequest & keyof Omit<ListInstanceAttributesRequest, "InstanceId">]: (ListInstanceAttributesRequest & Omit<ListInstanceAttributesRequest, "InstanceId">)[K]
+      [K in keyof ListInstanceAttributesRequest & keyof Omit<ListInstanceAttributesRequest, "InstanceId">]: (ListInstanceAttributesRequest)[K]
     }>): Request<ListInstanceAttributesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listInstanceAttributes(
-          this.ops["ListInstanceAttributes"].applicator.apply(partialParams)
+          this.ops["ListInstanceAttributes"].apply(partialParams)
         );
     }
 
     invokeListInstanceStorageConfigs(partialParams: ToOptional<{
-      [K in keyof ListInstanceStorageConfigsRequest & keyof Omit<ListInstanceStorageConfigsRequest, "InstanceId">]: (ListInstanceStorageConfigsRequest & Omit<ListInstanceStorageConfigsRequest, "InstanceId">)[K]
+      [K in keyof ListInstanceStorageConfigsRequest & keyof Omit<ListInstanceStorageConfigsRequest, "InstanceId">]: (ListInstanceStorageConfigsRequest)[K]
     }>): Request<ListInstanceStorageConfigsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listInstanceStorageConfigs(
-          this.ops["ListInstanceStorageConfigs"].applicator.apply(partialParams)
+          this.ops["ListInstanceStorageConfigs"].apply(partialParams)
+        );
+    }
+
+    invokeListInstances(partialParams: ToOptional<{
+      [K in keyof ListInstancesRequest]: (ListInstancesRequest)[K]
+    }>): Request<ListInstancesResponse, AWSError> {
+        this.boot();
+        return this.client.listInstances(
+          this.ops["ListInstances"].apply(partialParams)
         );
     }
 
     invokeListIntegrationAssociations(partialParams: ToOptional<{
-      [K in keyof ListIntegrationAssociationsRequest & keyof Omit<ListIntegrationAssociationsRequest, "InstanceId">]: (ListIntegrationAssociationsRequest & Omit<ListIntegrationAssociationsRequest, "InstanceId">)[K]
+      [K in keyof ListIntegrationAssociationsRequest & keyof Omit<ListIntegrationAssociationsRequest, "InstanceId">]: (ListIntegrationAssociationsRequest)[K]
     }>): Request<ListIntegrationAssociationsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listIntegrationAssociations(
-          this.ops["ListIntegrationAssociations"].applicator.apply(partialParams)
+          this.ops["ListIntegrationAssociations"].apply(partialParams)
         );
     }
 
     invokeListLambdaFunctions(partialParams: ToOptional<{
-      [K in keyof ListLambdaFunctionsRequest & keyof Omit<ListLambdaFunctionsRequest, "InstanceId">]: (ListLambdaFunctionsRequest & Omit<ListLambdaFunctionsRequest, "InstanceId">)[K]
+      [K in keyof ListLambdaFunctionsRequest & keyof Omit<ListLambdaFunctionsRequest, "InstanceId">]: (ListLambdaFunctionsRequest)[K]
     }>): Request<ListLambdaFunctionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listLambdaFunctions(
-          this.ops["ListLambdaFunctions"].applicator.apply(partialParams)
+          this.ops["ListLambdaFunctions"].apply(partialParams)
         );
     }
 
     invokeListLexBots(partialParams: ToOptional<{
-      [K in keyof ListLexBotsRequest & keyof Omit<ListLexBotsRequest, "InstanceId">]: (ListLexBotsRequest & Omit<ListLexBotsRequest, "InstanceId">)[K]
+      [K in keyof ListLexBotsRequest & keyof Omit<ListLexBotsRequest, "InstanceId">]: (ListLexBotsRequest)[K]
     }>): Request<ListLexBotsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listLexBots(
-          this.ops["ListLexBots"].applicator.apply(partialParams)
+          this.ops["ListLexBots"].apply(partialParams)
         );
     }
 
     invokeListPhoneNumbers(partialParams: ToOptional<{
-      [K in keyof ListPhoneNumbersRequest & keyof Omit<ListPhoneNumbersRequest, "InstanceId">]: (ListPhoneNumbersRequest & Omit<ListPhoneNumbersRequest, "InstanceId">)[K]
+      [K in keyof ListPhoneNumbersRequest & keyof Omit<ListPhoneNumbersRequest, "InstanceId">]: (ListPhoneNumbersRequest)[K]
     }>): Request<ListPhoneNumbersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listPhoneNumbers(
-          this.ops["ListPhoneNumbers"].applicator.apply(partialParams)
+          this.ops["ListPhoneNumbers"].apply(partialParams)
         );
     }
 
     invokeListPrompts(partialParams: ToOptional<{
-      [K in keyof ListPromptsRequest & keyof Omit<ListPromptsRequest, "InstanceId">]: (ListPromptsRequest & Omit<ListPromptsRequest, "InstanceId">)[K]
+      [K in keyof ListPromptsRequest & keyof Omit<ListPromptsRequest, "InstanceId">]: (ListPromptsRequest)[K]
     }>): Request<ListPromptsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listPrompts(
-          this.ops["ListPrompts"].applicator.apply(partialParams)
+          this.ops["ListPrompts"].apply(partialParams)
         );
     }
 
     invokeListQueueQuickConnects(partialParams: ToOptional<{
-      [K in keyof ListQueueQuickConnectsRequest & keyof Omit<ListQueueQuickConnectsRequest, "InstanceId">]: (ListQueueQuickConnectsRequest & Omit<ListQueueQuickConnectsRequest, "InstanceId">)[K]
+      [K in keyof ListQueueQuickConnectsRequest & keyof Omit<ListQueueQuickConnectsRequest, "InstanceId">]: (ListQueueQuickConnectsRequest)[K]
     }>): Request<ListQueueQuickConnectsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listQueueQuickConnects(
-          this.ops["ListQueueQuickConnects"].applicator.apply(partialParams)
+          this.ops["ListQueueQuickConnects"].apply(partialParams)
         );
     }
 
     invokeListQueues(partialParams: ToOptional<{
-      [K in keyof ListQueuesRequest & keyof Omit<ListQueuesRequest, "InstanceId">]: (ListQueuesRequest & Omit<ListQueuesRequest, "InstanceId">)[K]
+      [K in keyof ListQueuesRequest & keyof Omit<ListQueuesRequest, "InstanceId">]: (ListQueuesRequest)[K]
     }>): Request<ListQueuesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listQueues(
-          this.ops["ListQueues"].applicator.apply(partialParams)
+          this.ops["ListQueues"].apply(partialParams)
         );
     }
 
     invokeListQuickConnects(partialParams: ToOptional<{
-      [K in keyof ListQuickConnectsRequest & keyof Omit<ListQuickConnectsRequest, "InstanceId">]: (ListQuickConnectsRequest & Omit<ListQuickConnectsRequest, "InstanceId">)[K]
+      [K in keyof ListQuickConnectsRequest & keyof Omit<ListQuickConnectsRequest, "InstanceId">]: (ListQuickConnectsRequest)[K]
     }>): Request<ListQuickConnectsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listQuickConnects(
-          this.ops["ListQuickConnects"].applicator.apply(partialParams)
+          this.ops["ListQuickConnects"].apply(partialParams)
         );
     }
 
     invokeListRoutingProfileQueues(partialParams: ToOptional<{
-      [K in keyof ListRoutingProfileQueuesRequest & keyof Omit<ListRoutingProfileQueuesRequest, "InstanceId">]: (ListRoutingProfileQueuesRequest & Omit<ListRoutingProfileQueuesRequest, "InstanceId">)[K]
+      [K in keyof ListRoutingProfileQueuesRequest & keyof Omit<ListRoutingProfileQueuesRequest, "InstanceId">]: (ListRoutingProfileQueuesRequest)[K]
     }>): Request<ListRoutingProfileQueuesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listRoutingProfileQueues(
-          this.ops["ListRoutingProfileQueues"].applicator.apply(partialParams)
+          this.ops["ListRoutingProfileQueues"].apply(partialParams)
         );
     }
 
     invokeListRoutingProfiles(partialParams: ToOptional<{
-      [K in keyof ListRoutingProfilesRequest & keyof Omit<ListRoutingProfilesRequest, "InstanceId">]: (ListRoutingProfilesRequest & Omit<ListRoutingProfilesRequest, "InstanceId">)[K]
+      [K in keyof ListRoutingProfilesRequest & keyof Omit<ListRoutingProfilesRequest, "InstanceId">]: (ListRoutingProfilesRequest)[K]
     }>): Request<ListRoutingProfilesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listRoutingProfiles(
-          this.ops["ListRoutingProfiles"].applicator.apply(partialParams)
+          this.ops["ListRoutingProfiles"].apply(partialParams)
         );
     }
 
     invokeListSecurityKeys(partialParams: ToOptional<{
-      [K in keyof ListSecurityKeysRequest & keyof Omit<ListSecurityKeysRequest, "InstanceId">]: (ListSecurityKeysRequest & Omit<ListSecurityKeysRequest, "InstanceId">)[K]
+      [K in keyof ListSecurityKeysRequest & keyof Omit<ListSecurityKeysRequest, "InstanceId">]: (ListSecurityKeysRequest)[K]
     }>): Request<ListSecurityKeysResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listSecurityKeys(
-          this.ops["ListSecurityKeys"].applicator.apply(partialParams)
+          this.ops["ListSecurityKeys"].apply(partialParams)
         );
     }
 
     invokeListSecurityProfilePermissions(partialParams: ToOptional<{
-      [K in keyof ListSecurityProfilePermissionsRequest & keyof Omit<ListSecurityProfilePermissionsRequest, "InstanceId">]: (ListSecurityProfilePermissionsRequest & Omit<ListSecurityProfilePermissionsRequest, "InstanceId">)[K]
+      [K in keyof ListSecurityProfilePermissionsRequest & keyof Omit<ListSecurityProfilePermissionsRequest, "InstanceId">]: (ListSecurityProfilePermissionsRequest)[K]
     }>): Request<ListSecurityProfilePermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listSecurityProfilePermissions(
-          this.ops["ListSecurityProfilePermissions"].applicator.apply(partialParams)
+          this.ops["ListSecurityProfilePermissions"].apply(partialParams)
         );
     }
 
     invokeListSecurityProfiles(partialParams: ToOptional<{
-      [K in keyof ListSecurityProfilesRequest & keyof Omit<ListSecurityProfilesRequest, "InstanceId">]: (ListSecurityProfilesRequest & Omit<ListSecurityProfilesRequest, "InstanceId">)[K]
+      [K in keyof ListSecurityProfilesRequest & keyof Omit<ListSecurityProfilesRequest, "InstanceId">]: (ListSecurityProfilesRequest)[K]
     }>): Request<ListSecurityProfilesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listSecurityProfiles(
-          this.ops["ListSecurityProfiles"].applicator.apply(partialParams)
+          this.ops["ListSecurityProfiles"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeListUseCases(partialParams: ToOptional<{
-      [K in keyof ListUseCasesRequest & keyof Omit<ListUseCasesRequest, "InstanceId">]: (ListUseCasesRequest & Omit<ListUseCasesRequest, "InstanceId">)[K]
+      [K in keyof ListUseCasesRequest & keyof Omit<ListUseCasesRequest, "InstanceId">]: (ListUseCasesRequest)[K]
     }>): Request<ListUseCasesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listUseCases(
-          this.ops["ListUseCases"].applicator.apply(partialParams)
+          this.ops["ListUseCases"].apply(partialParams)
         );
     }
 
     invokeListUserHierarchyGroups(partialParams: ToOptional<{
-      [K in keyof ListUserHierarchyGroupsRequest & keyof Omit<ListUserHierarchyGroupsRequest, "InstanceId">]: (ListUserHierarchyGroupsRequest & Omit<ListUserHierarchyGroupsRequest, "InstanceId">)[K]
+      [K in keyof ListUserHierarchyGroupsRequest & keyof Omit<ListUserHierarchyGroupsRequest, "InstanceId">]: (ListUserHierarchyGroupsRequest)[K]
     }>): Request<ListUserHierarchyGroupsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listUserHierarchyGroups(
-          this.ops["ListUserHierarchyGroups"].applicator.apply(partialParams)
+          this.ops["ListUserHierarchyGroups"].apply(partialParams)
         );
     }
 
     invokeListUsers(partialParams: ToOptional<{
-      [K in keyof ListUsersRequest & keyof Omit<ListUsersRequest, "InstanceId">]: (ListUsersRequest & Omit<ListUsersRequest, "InstanceId">)[K]
+      [K in keyof ListUsersRequest & keyof Omit<ListUsersRequest, "InstanceId">]: (ListUsersRequest)[K]
     }>): Request<ListUsersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listUsers(
-          this.ops["ListUsers"].applicator.apply(partialParams)
+          this.ops["ListUsers"].apply(partialParams)
         );
     }
 
     invokeResumeContactRecording(partialParams: ToOptional<{
-      [K in keyof ResumeContactRecordingRequest & keyof Omit<ResumeContactRecordingRequest, "InstanceId">]: (ResumeContactRecordingRequest & Omit<ResumeContactRecordingRequest, "InstanceId">)[K]
+      [K in keyof ResumeContactRecordingRequest & keyof Omit<ResumeContactRecordingRequest, "InstanceId">]: (ResumeContactRecordingRequest)[K]
     }>): Request<ResumeContactRecordingResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.resumeContactRecording(
-          this.ops["ResumeContactRecording"].applicator.apply(partialParams)
+          this.ops["ResumeContactRecording"].apply(partialParams)
         );
     }
 
     invokeSearchVocabularies(partialParams: ToOptional<{
-      [K in keyof SearchVocabulariesRequest & keyof Omit<SearchVocabulariesRequest, "InstanceId">]: (SearchVocabulariesRequest & Omit<SearchVocabulariesRequest, "InstanceId">)[K]
+      [K in keyof SearchVocabulariesRequest & keyof Omit<SearchVocabulariesRequest, "InstanceId">]: (SearchVocabulariesRequest)[K]
     }>): Request<SearchVocabulariesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.searchVocabularies(
-          this.ops["SearchVocabularies"].applicator.apply(partialParams)
+          this.ops["SearchVocabularies"].apply(partialParams)
         );
     }
 
     invokeStartChatContact(partialParams: ToOptional<{
-      [K in keyof StartChatContactRequest & keyof Omit<StartChatContactRequest, "InstanceId">]: (StartChatContactRequest & Omit<StartChatContactRequest, "InstanceId">)[K]
+      [K in keyof StartChatContactRequest & keyof Omit<StartChatContactRequest, "InstanceId">]: (StartChatContactRequest)[K]
     }>): Request<StartChatContactResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startChatContact(
-          this.ops["StartChatContact"].applicator.apply(partialParams)
+          this.ops["StartChatContact"].apply(partialParams)
         );
     }
 
     invokeStartContactRecording(partialParams: ToOptional<{
-      [K in keyof StartContactRecordingRequest & keyof Omit<StartContactRecordingRequest, "InstanceId">]: (StartContactRecordingRequest & Omit<StartContactRecordingRequest, "InstanceId">)[K]
+      [K in keyof StartContactRecordingRequest & keyof Omit<StartContactRecordingRequest, "InstanceId">]: (StartContactRecordingRequest)[K]
     }>): Request<StartContactRecordingResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startContactRecording(
-          this.ops["StartContactRecording"].applicator.apply(partialParams)
+          this.ops["StartContactRecording"].apply(partialParams)
         );
     }
 
     invokeStartContactStreaming(partialParams: ToOptional<{
-      [K in keyof StartContactStreamingRequest & keyof Omit<StartContactStreamingRequest, "InstanceId">]: (StartContactStreamingRequest & Omit<StartContactStreamingRequest, "InstanceId">)[K]
+      [K in keyof StartContactStreamingRequest & keyof Omit<StartContactStreamingRequest, "InstanceId">]: (StartContactStreamingRequest)[K]
     }>): Request<StartContactStreamingResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startContactStreaming(
-          this.ops["StartContactStreaming"].applicator.apply(partialParams)
+          this.ops["StartContactStreaming"].apply(partialParams)
         );
     }
 
     invokeStartOutboundVoiceContact(partialParams: ToOptional<{
-      [K in keyof StartOutboundVoiceContactRequest & keyof Omit<StartOutboundVoiceContactRequest, "InstanceId">]: (StartOutboundVoiceContactRequest & Omit<StartOutboundVoiceContactRequest, "InstanceId">)[K]
+      [K in keyof StartOutboundVoiceContactRequest & keyof Omit<StartOutboundVoiceContactRequest, "InstanceId">]: (StartOutboundVoiceContactRequest)[K]
     }>): Request<StartOutboundVoiceContactResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startOutboundVoiceContact(
-          this.ops["StartOutboundVoiceContact"].applicator.apply(partialParams)
+          this.ops["StartOutboundVoiceContact"].apply(partialParams)
         );
     }
 
     invokeStartTaskContact(partialParams: ToOptional<{
-      [K in keyof StartTaskContactRequest & keyof Omit<StartTaskContactRequest, "InstanceId">]: (StartTaskContactRequest & Omit<StartTaskContactRequest, "InstanceId">)[K]
+      [K in keyof StartTaskContactRequest & keyof Omit<StartTaskContactRequest, "InstanceId">]: (StartTaskContactRequest)[K]
     }>): Request<StartTaskContactResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startTaskContact(
-          this.ops["StartTaskContact"].applicator.apply(partialParams)
+          this.ops["StartTaskContact"].apply(partialParams)
         );
     }
 
     invokeStopContact(partialParams: ToOptional<{
-      [K in keyof StopContactRequest & keyof Omit<StopContactRequest, "InstanceId">]: (StopContactRequest & Omit<StopContactRequest, "InstanceId">)[K]
+      [K in keyof StopContactRequest & keyof Omit<StopContactRequest, "InstanceId">]: (StopContactRequest)[K]
     }>): Request<StopContactResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopContact(
-          this.ops["StopContact"].applicator.apply(partialParams)
+          this.ops["StopContact"].apply(partialParams)
         );
     }
 
     invokeStopContactRecording(partialParams: ToOptional<{
-      [K in keyof StopContactRecordingRequest & keyof Omit<StopContactRecordingRequest, "InstanceId">]: (StopContactRecordingRequest & Omit<StopContactRecordingRequest, "InstanceId">)[K]
+      [K in keyof StopContactRecordingRequest & keyof Omit<StopContactRecordingRequest, "InstanceId">]: (StopContactRecordingRequest)[K]
     }>): Request<StopContactRecordingResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopContactRecording(
-          this.ops["StopContactRecording"].applicator.apply(partialParams)
+          this.ops["StopContactRecording"].apply(partialParams)
         );
     }
 
     invokeStopContactStreaming(partialParams: ToOptional<{
-      [K in keyof StopContactStreamingRequest & keyof Omit<StopContactStreamingRequest, "InstanceId">]: (StopContactStreamingRequest & Omit<StopContactStreamingRequest, "InstanceId">)[K]
+      [K in keyof StopContactStreamingRequest & keyof Omit<StopContactStreamingRequest, "InstanceId">]: (StopContactStreamingRequest)[K]
     }>): Request<StopContactStreamingResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopContactStreaming(
-          this.ops["StopContactStreaming"].applicator.apply(partialParams)
+          this.ops["StopContactStreaming"].apply(partialParams)
         );
     }
 
     invokeSuspendContactRecording(partialParams: ToOptional<{
-      [K in keyof SuspendContactRecordingRequest & keyof Omit<SuspendContactRecordingRequest, "InstanceId">]: (SuspendContactRecordingRequest & Omit<SuspendContactRecordingRequest, "InstanceId">)[K]
+      [K in keyof SuspendContactRecordingRequest & keyof Omit<SuspendContactRecordingRequest, "InstanceId">]: (SuspendContactRecordingRequest)[K]
     }>): Request<SuspendContactRecordingResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.suspendContactRecording(
-          this.ops["SuspendContactRecording"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateAgentStatus(partialParams: ToOptional<{
-      [K in keyof UpdateAgentStatusRequest & keyof Omit<UpdateAgentStatusRequest, "InstanceId">]: (UpdateAgentStatusRequest & Omit<UpdateAgentStatusRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateAgentStatus(
-          this.ops["UpdateAgentStatus"].applicator.apply(partialParams)
+          this.ops["SuspendContactRecording"].apply(partialParams)
         );
     }
 
     invokeUpdateContact(partialParams: ToOptional<{
-      [K in keyof UpdateContactRequest & keyof Omit<UpdateContactRequest, "InstanceId">]: (UpdateContactRequest & Omit<UpdateContactRequest, "InstanceId">)[K]
+      [K in keyof UpdateContactRequest & keyof Omit<UpdateContactRequest, "InstanceId">]: (UpdateContactRequest)[K]
     }>): Request<UpdateContactResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateContact(
-          this.ops["UpdateContact"].applicator.apply(partialParams)
+          this.ops["UpdateContact"].apply(partialParams)
         );
     }
 
     invokeUpdateContactAttributes(partialParams: ToOptional<{
-      [K in keyof UpdateContactAttributesRequest & keyof Omit<UpdateContactAttributesRequest, "InstanceId">]: (UpdateContactAttributesRequest & Omit<UpdateContactAttributesRequest, "InstanceId">)[K]
+      [K in keyof UpdateContactAttributesRequest & keyof Omit<UpdateContactAttributesRequest, "InstanceId">]: (UpdateContactAttributesRequest)[K]
     }>): Request<UpdateContactAttributesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateContactAttributes(
-          this.ops["UpdateContactAttributes"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateContactFlowContent(partialParams: ToOptional<{
-      [K in keyof UpdateContactFlowContentRequest & keyof Omit<UpdateContactFlowContentRequest, "InstanceId">]: (UpdateContactFlowContentRequest & Omit<UpdateContactFlowContentRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateContactFlowContent(
-          this.ops["UpdateContactFlowContent"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateContactFlowMetadata(partialParams: ToOptional<{
-      [K in keyof UpdateContactFlowMetadataRequest & keyof Omit<UpdateContactFlowMetadataRequest, "InstanceId">]: (UpdateContactFlowMetadataRequest & Omit<UpdateContactFlowMetadataRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateContactFlowMetadata(
-          this.ops["UpdateContactFlowMetadata"].applicator.apply(partialParams)
+          this.ops["UpdateContactAttributes"].apply(partialParams)
         );
     }
 
     invokeUpdateContactFlowModuleContent(partialParams: ToOptional<{
-      [K in keyof UpdateContactFlowModuleContentRequest & keyof Omit<UpdateContactFlowModuleContentRequest, "InstanceId">]: (UpdateContactFlowModuleContentRequest & Omit<UpdateContactFlowModuleContentRequest, "InstanceId">)[K]
+      [K in keyof UpdateContactFlowModuleContentRequest & keyof Omit<UpdateContactFlowModuleContentRequest, "InstanceId">]: (UpdateContactFlowModuleContentRequest)[K]
     }>): Request<UpdateContactFlowModuleContentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateContactFlowModuleContent(
-          this.ops["UpdateContactFlowModuleContent"].applicator.apply(partialParams)
+          this.ops["UpdateContactFlowModuleContent"].apply(partialParams)
         );
     }
 
     invokeUpdateContactFlowModuleMetadata(partialParams: ToOptional<{
-      [K in keyof UpdateContactFlowModuleMetadataRequest & keyof Omit<UpdateContactFlowModuleMetadataRequest, "InstanceId">]: (UpdateContactFlowModuleMetadataRequest & Omit<UpdateContactFlowModuleMetadataRequest, "InstanceId">)[K]
+      [K in keyof UpdateContactFlowModuleMetadataRequest & keyof Omit<UpdateContactFlowModuleMetadataRequest, "InstanceId">]: (UpdateContactFlowModuleMetadataRequest)[K]
     }>): Request<UpdateContactFlowModuleMetadataResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateContactFlowModuleMetadata(
-          this.ops["UpdateContactFlowModuleMetadata"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateContactFlowName(partialParams: ToOptional<{
-      [K in keyof UpdateContactFlowNameRequest & keyof Omit<UpdateContactFlowNameRequest, "InstanceId">]: (UpdateContactFlowNameRequest & Omit<UpdateContactFlowNameRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateContactFlowName(
-          this.ops["UpdateContactFlowName"].applicator.apply(partialParams)
+          this.ops["UpdateContactFlowModuleMetadata"].apply(partialParams)
         );
     }
 
     invokeUpdateContactSchedule(partialParams: ToOptional<{
-      [K in keyof UpdateContactScheduleRequest & keyof Omit<UpdateContactScheduleRequest, "InstanceId">]: (UpdateContactScheduleRequest & Omit<UpdateContactScheduleRequest, "InstanceId">)[K]
+      [K in keyof UpdateContactScheduleRequest & keyof Omit<UpdateContactScheduleRequest, "InstanceId">]: (UpdateContactScheduleRequest)[K]
     }>): Request<UpdateContactScheduleResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateContactSchedule(
-          this.ops["UpdateContactSchedule"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateHoursOfOperation(partialParams: ToOptional<{
-      [K in keyof UpdateHoursOfOperationRequest & keyof Omit<UpdateHoursOfOperationRequest, "InstanceId">]: (UpdateHoursOfOperationRequest & Omit<UpdateHoursOfOperationRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateHoursOfOperation(
-          this.ops["UpdateHoursOfOperation"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateInstanceAttribute(partialParams: ToOptional<{
-      [K in keyof UpdateInstanceAttributeRequest & keyof Omit<UpdateInstanceAttributeRequest, "InstanceId">]: (UpdateInstanceAttributeRequest & Omit<UpdateInstanceAttributeRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateInstanceAttribute(
-          this.ops["UpdateInstanceAttribute"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateInstanceStorageConfig(partialParams: ToOptional<{
-      [K in keyof UpdateInstanceStorageConfigRequest & keyof Omit<UpdateInstanceStorageConfigRequest, "InstanceId">]: (UpdateInstanceStorageConfigRequest & Omit<UpdateInstanceStorageConfigRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateInstanceStorageConfig(
-          this.ops["UpdateInstanceStorageConfig"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateQueueHoursOfOperation(partialParams: ToOptional<{
-      [K in keyof UpdateQueueHoursOfOperationRequest & keyof Omit<UpdateQueueHoursOfOperationRequest, "InstanceId">]: (UpdateQueueHoursOfOperationRequest & Omit<UpdateQueueHoursOfOperationRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateQueueHoursOfOperation(
-          this.ops["UpdateQueueHoursOfOperation"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateQueueMaxContacts(partialParams: ToOptional<{
-      [K in keyof UpdateQueueMaxContactsRequest & keyof Omit<UpdateQueueMaxContactsRequest, "InstanceId">]: (UpdateQueueMaxContactsRequest & Omit<UpdateQueueMaxContactsRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateQueueMaxContacts(
-          this.ops["UpdateQueueMaxContacts"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateQueueName(partialParams: ToOptional<{
-      [K in keyof UpdateQueueNameRequest & keyof Omit<UpdateQueueNameRequest, "InstanceId">]: (UpdateQueueNameRequest & Omit<UpdateQueueNameRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateQueueName(
-          this.ops["UpdateQueueName"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateQueueOutboundCallerConfig(partialParams: ToOptional<{
-      [K in keyof UpdateQueueOutboundCallerConfigRequest & keyof Omit<UpdateQueueOutboundCallerConfigRequest, "InstanceId">]: (UpdateQueueOutboundCallerConfigRequest & Omit<UpdateQueueOutboundCallerConfigRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateQueueOutboundCallerConfig(
-          this.ops["UpdateQueueOutboundCallerConfig"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateQueueStatus(partialParams: ToOptional<{
-      [K in keyof UpdateQueueStatusRequest & keyof Omit<UpdateQueueStatusRequest, "InstanceId">]: (UpdateQueueStatusRequest & Omit<UpdateQueueStatusRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateQueueStatus(
-          this.ops["UpdateQueueStatus"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateQuickConnectConfig(partialParams: ToOptional<{
-      [K in keyof UpdateQuickConnectConfigRequest & keyof Omit<UpdateQuickConnectConfigRequest, "InstanceId">]: (UpdateQuickConnectConfigRequest & Omit<UpdateQuickConnectConfigRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateQuickConnectConfig(
-          this.ops["UpdateQuickConnectConfig"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateQuickConnectName(partialParams: ToOptional<{
-      [K in keyof UpdateQuickConnectNameRequest & keyof Omit<UpdateQuickConnectNameRequest, "InstanceId">]: (UpdateQuickConnectNameRequest & Omit<UpdateQuickConnectNameRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateQuickConnectName(
-          this.ops["UpdateQuickConnectName"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateRoutingProfileConcurrency(partialParams: ToOptional<{
-      [K in keyof UpdateRoutingProfileConcurrencyRequest & keyof Omit<UpdateRoutingProfileConcurrencyRequest, "InstanceId">]: (UpdateRoutingProfileConcurrencyRequest & Omit<UpdateRoutingProfileConcurrencyRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateRoutingProfileConcurrency(
-          this.ops["UpdateRoutingProfileConcurrency"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateRoutingProfileDefaultOutboundQueue(partialParams: ToOptional<{
-      [K in keyof UpdateRoutingProfileDefaultOutboundQueueRequest & keyof Omit<UpdateRoutingProfileDefaultOutboundQueueRequest, "InstanceId">]: (UpdateRoutingProfileDefaultOutboundQueueRequest & Omit<UpdateRoutingProfileDefaultOutboundQueueRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateRoutingProfileDefaultOutboundQueue(
-          this.ops["UpdateRoutingProfileDefaultOutboundQueue"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateRoutingProfileName(partialParams: ToOptional<{
-      [K in keyof UpdateRoutingProfileNameRequest & keyof Omit<UpdateRoutingProfileNameRequest, "InstanceId">]: (UpdateRoutingProfileNameRequest & Omit<UpdateRoutingProfileNameRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateRoutingProfileName(
-          this.ops["UpdateRoutingProfileName"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateRoutingProfileQueues(partialParams: ToOptional<{
-      [K in keyof UpdateRoutingProfileQueuesRequest & keyof Omit<UpdateRoutingProfileQueuesRequest, "InstanceId">]: (UpdateRoutingProfileQueuesRequest & Omit<UpdateRoutingProfileQueuesRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateRoutingProfileQueues(
-          this.ops["UpdateRoutingProfileQueues"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateSecurityProfile(partialParams: ToOptional<{
-      [K in keyof UpdateSecurityProfileRequest & keyof Omit<UpdateSecurityProfileRequest, "InstanceId">]: (UpdateSecurityProfileRequest & Omit<UpdateSecurityProfileRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateSecurityProfile(
-          this.ops["UpdateSecurityProfile"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateUserHierarchy(partialParams: ToOptional<{
-      [K in keyof UpdateUserHierarchyRequest & keyof Omit<UpdateUserHierarchyRequest, "InstanceId">]: (UpdateUserHierarchyRequest & Omit<UpdateUserHierarchyRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateUserHierarchy(
-          this.ops["UpdateUserHierarchy"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateUserHierarchyGroupName(partialParams: ToOptional<{
-      [K in keyof UpdateUserHierarchyGroupNameRequest & keyof Omit<UpdateUserHierarchyGroupNameRequest, "InstanceId">]: (UpdateUserHierarchyGroupNameRequest & Omit<UpdateUserHierarchyGroupNameRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateUserHierarchyGroupName(
-          this.ops["UpdateUserHierarchyGroupName"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateUserHierarchyStructure(partialParams: ToOptional<{
-      [K in keyof UpdateUserHierarchyStructureRequest & keyof Omit<UpdateUserHierarchyStructureRequest, "InstanceId">]: (UpdateUserHierarchyStructureRequest & Omit<UpdateUserHierarchyStructureRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateUserHierarchyStructure(
-          this.ops["UpdateUserHierarchyStructure"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateUserIdentityInfo(partialParams: ToOptional<{
-      [K in keyof UpdateUserIdentityInfoRequest & keyof Omit<UpdateUserIdentityInfoRequest, "InstanceId">]: (UpdateUserIdentityInfoRequest & Omit<UpdateUserIdentityInfoRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateUserIdentityInfo(
-          this.ops["UpdateUserIdentityInfo"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateUserPhoneConfig(partialParams: ToOptional<{
-      [K in keyof UpdateUserPhoneConfigRequest & keyof Omit<UpdateUserPhoneConfigRequest, "InstanceId">]: (UpdateUserPhoneConfigRequest & Omit<UpdateUserPhoneConfigRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateUserPhoneConfig(
-          this.ops["UpdateUserPhoneConfig"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateUserRoutingProfile(partialParams: ToOptional<{
-      [K in keyof UpdateUserRoutingProfileRequest & keyof Omit<UpdateUserRoutingProfileRequest, "InstanceId">]: (UpdateUserRoutingProfileRequest & Omit<UpdateUserRoutingProfileRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateUserRoutingProfile(
-          this.ops["UpdateUserRoutingProfile"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateUserSecurityProfiles(partialParams: ToOptional<{
-      [K in keyof UpdateUserSecurityProfilesRequest & keyof Omit<UpdateUserSecurityProfilesRequest, "InstanceId">]: (UpdateUserSecurityProfilesRequest & Omit<UpdateUserSecurityProfilesRequest, "InstanceId">)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateUserSecurityProfiles(
-          this.ops["UpdateUserSecurityProfiles"].applicator.apply(partialParams)
+          this.ops["UpdateContactSchedule"].apply(partialParams)
         );
     }
 }

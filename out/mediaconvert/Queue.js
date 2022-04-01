@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.mediaconvert.Queue {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.MediaConvert();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,133 +50,120 @@ class default_1 extends aws.mediaconvert.Queue {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAssociateCertificate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateCertificate(this.ops["AssociateCertificate"].applicator.apply(partialParams));
+        return this.client.associateCertificate(this.ops["AssociateCertificate"].apply(partialParams));
     }
     invokeCancelJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.cancelJob(this.ops["CancelJob"].applicator.apply(partialParams));
+        return this.client.cancelJob(this.ops["CancelJob"].apply(partialParams));
     }
     invokeCreateJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createJob(this.ops["CreateJob"].applicator.apply(partialParams));
+        return this.client.createJob(this.ops["CreateJob"].apply(partialParams));
     }
     invokeCreateJobTemplate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createJobTemplate(this.ops["CreateJobTemplate"].applicator.apply(partialParams));
+        return this.client.createJobTemplate(this.ops["CreateJobTemplate"].apply(partialParams));
     }
     invokeCreatePreset(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createPreset(this.ops["CreatePreset"].applicator.apply(partialParams));
+        return this.client.createPreset(this.ops["CreatePreset"].apply(partialParams));
     }
     invokeCreateQueue(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createQueue(this.ops["CreateQueue"].applicator.apply(partialParams));
+        return this.client.createQueue(this.ops["CreateQueue"].apply(partialParams));
     }
     invokeDeleteJobTemplate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteJobTemplate(this.ops["DeleteJobTemplate"].applicator.apply(partialParams));
+        return this.client.deleteJobTemplate(this.ops["DeleteJobTemplate"].apply(partialParams));
+    }
+    invokeDeletePolicy(partialParams) {
+        this.boot();
+        return this.client.deletePolicy(this.ops["DeletePolicy"].apply(partialParams));
     }
     invokeDeletePreset(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deletePreset(this.ops["DeletePreset"].applicator.apply(partialParams));
+        return this.client.deletePreset(this.ops["DeletePreset"].apply(partialParams));
     }
     invokeDeleteQueue(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteQueue(this.ops["DeleteQueue"].applicator.apply(partialParams));
+        return this.client.deleteQueue(this.ops["DeleteQueue"].apply(partialParams));
+    }
+    invokeDescribeEndpoints(partialParams) {
+        this.boot();
+        return this.client.describeEndpoints(this.ops["DescribeEndpoints"].apply(partialParams));
     }
     invokeDisassociateCertificate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateCertificate(this.ops["DisassociateCertificate"].applicator.apply(partialParams));
+        return this.client.disassociateCertificate(this.ops["DisassociateCertificate"].apply(partialParams));
     }
     invokeGetJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getJob(this.ops["GetJob"].applicator.apply(partialParams));
+        return this.client.getJob(this.ops["GetJob"].apply(partialParams));
     }
     invokeGetJobTemplate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getJobTemplate(this.ops["GetJobTemplate"].applicator.apply(partialParams));
+        return this.client.getJobTemplate(this.ops["GetJobTemplate"].apply(partialParams));
+    }
+    invokeGetPolicy(partialParams) {
+        this.boot();
+        return this.client.getPolicy(this.ops["GetPolicy"].apply(partialParams));
     }
     invokeGetPreset(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getPreset(this.ops["GetPreset"].applicator.apply(partialParams));
+        return this.client.getPreset(this.ops["GetPreset"].apply(partialParams));
     }
     invokeGetQueue(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getQueue(this.ops["GetQueue"].applicator.apply(partialParams));
+        return this.client.getQueue(this.ops["GetQueue"].apply(partialParams));
+    }
+    invokeListJobTemplates(partialParams) {
+        this.boot();
+        return this.client.listJobTemplates(this.ops["ListJobTemplates"].apply(partialParams));
+    }
+    invokeListJobs(partialParams) {
+        this.boot();
+        return this.client.listJobs(this.ops["ListJobs"].apply(partialParams));
+    }
+    invokeListPresets(partialParams) {
+        this.boot();
+        return this.client.listPresets(this.ops["ListPresets"].apply(partialParams));
+    }
+    invokeListQueues(partialParams) {
+        this.boot();
+        return this.client.listQueues(this.ops["ListQueues"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokePutPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putPolicy(this.ops["PutPolicy"].applicator.apply(partialParams));
+        return this.client.putPolicy(this.ops["PutPolicy"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateJobTemplate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateJobTemplate(this.ops["UpdateJobTemplate"].applicator.apply(partialParams));
+        return this.client.updateJobTemplate(this.ops["UpdateJobTemplate"].apply(partialParams));
     }
     invokeUpdatePreset(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updatePreset(this.ops["UpdatePreset"].applicator.apply(partialParams));
+        return this.client.updatePreset(this.ops["UpdatePreset"].apply(partialParams));
     }
     invokeUpdateQueue(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateQueue(this.ops["UpdateQueue"].applicator.apply(partialParams));
+        return this.client.updateQueue(this.ops["UpdateQueue"].apply(partialParams));
     }
 }
 exports.default = default_1;

@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.cloudtrail.Trail {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.CloudTrail();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,151 +50,124 @@ class default_1 extends aws.cloudtrail.Trail {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAddTags(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.addTags(this.ops["AddTags"].applicator.apply(partialParams));
+        return this.client.addTags(this.ops["AddTags"].apply(partialParams));
     }
     invokeCancelQuery(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.cancelQuery(this.ops["CancelQuery"].applicator.apply(partialParams));
+        return this.client.cancelQuery(this.ops["CancelQuery"].apply(partialParams));
     }
     invokeCreateEventDataStore(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createEventDataStore(this.ops["CreateEventDataStore"].applicator.apply(partialParams));
+        return this.client.createEventDataStore(this.ops["CreateEventDataStore"].apply(partialParams));
     }
     invokeCreateTrail(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createTrail(this.ops["CreateTrail"].applicator.apply(partialParams));
+        return this.client.createTrail(this.ops["CreateTrail"].apply(partialParams));
     }
     invokeDeleteEventDataStore(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteEventDataStore(this.ops["DeleteEventDataStore"].applicator.apply(partialParams));
+        return this.client.deleteEventDataStore(this.ops["DeleteEventDataStore"].apply(partialParams));
     }
     invokeDeleteTrail(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteTrail(this.ops["DeleteTrail"].applicator.apply(partialParams));
+        return this.client.deleteTrail(this.ops["DeleteTrail"].apply(partialParams));
     }
     invokeDescribeQuery(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeQuery(this.ops["DescribeQuery"].applicator.apply(partialParams));
+        return this.client.describeQuery(this.ops["DescribeQuery"].apply(partialParams));
+    }
+    invokeDescribeTrails(partialParams) {
+        this.boot();
+        return this.client.describeTrails(this.ops["DescribeTrails"].apply(partialParams));
     }
     invokeGetEventDataStore(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getEventDataStore(this.ops["GetEventDataStore"].applicator.apply(partialParams));
+        return this.client.getEventDataStore(this.ops["GetEventDataStore"].apply(partialParams));
     }
     invokeGetEventSelectors(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getEventSelectors(this.ops["GetEventSelectors"].applicator.apply(partialParams));
+        return this.client.getEventSelectors(this.ops["GetEventSelectors"].apply(partialParams));
     }
     invokeGetInsightSelectors(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getInsightSelectors(this.ops["GetInsightSelectors"].applicator.apply(partialParams));
+        return this.client.getInsightSelectors(this.ops["GetInsightSelectors"].apply(partialParams));
     }
     invokeGetQueryResults(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getQueryResults(this.ops["GetQueryResults"].applicator.apply(partialParams));
+        return this.client.getQueryResults(this.ops["GetQueryResults"].apply(partialParams));
     }
     invokeGetTrail(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getTrail(this.ops["GetTrail"].applicator.apply(partialParams));
+        return this.client.getTrail(this.ops["GetTrail"].apply(partialParams));
     }
     invokeGetTrailStatus(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getTrailStatus(this.ops["GetTrailStatus"].applicator.apply(partialParams));
+        return this.client.getTrailStatus(this.ops["GetTrailStatus"].apply(partialParams));
+    }
+    invokeListEventDataStores(partialParams) {
+        this.boot();
+        return this.client.listEventDataStores(this.ops["ListEventDataStores"].apply(partialParams));
+    }
+    invokeListPublicKeys(partialParams) {
+        this.boot();
+        return this.client.listPublicKeys(this.ops["ListPublicKeys"].apply(partialParams));
     }
     invokeListQueries(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listQueries(this.ops["ListQueries"].applicator.apply(partialParams));
+        return this.client.listQueries(this.ops["ListQueries"].apply(partialParams));
     }
     invokeListTags(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTags(this.ops["ListTags"].applicator.apply(partialParams));
+        return this.client.listTags(this.ops["ListTags"].apply(partialParams));
+    }
+    invokeListTrails(partialParams) {
+        this.boot();
+        return this.client.listTrails(this.ops["ListTrails"].apply(partialParams));
+    }
+    invokeLookupEvents(partialParams) {
+        this.boot();
+        return this.client.lookupEvents(this.ops["LookupEvents"].apply(partialParams));
     }
     invokePutEventSelectors(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putEventSelectors(this.ops["PutEventSelectors"].applicator.apply(partialParams));
+        return this.client.putEventSelectors(this.ops["PutEventSelectors"].apply(partialParams));
     }
     invokePutInsightSelectors(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putInsightSelectors(this.ops["PutInsightSelectors"].applicator.apply(partialParams));
+        return this.client.putInsightSelectors(this.ops["PutInsightSelectors"].apply(partialParams));
     }
     invokeRemoveTags(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.removeTags(this.ops["RemoveTags"].applicator.apply(partialParams));
+        return this.client.removeTags(this.ops["RemoveTags"].apply(partialParams));
     }
     invokeRestoreEventDataStore(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.restoreEventDataStore(this.ops["RestoreEventDataStore"].applicator.apply(partialParams));
+        return this.client.restoreEventDataStore(this.ops["RestoreEventDataStore"].apply(partialParams));
     }
     invokeStartLogging(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startLogging(this.ops["StartLogging"].applicator.apply(partialParams));
+        return this.client.startLogging(this.ops["StartLogging"].apply(partialParams));
     }
     invokeStartQuery(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startQuery(this.ops["StartQuery"].applicator.apply(partialParams));
+        return this.client.startQuery(this.ops["StartQuery"].apply(partialParams));
     }
     invokeStopLogging(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.stopLogging(this.ops["StopLogging"].applicator.apply(partialParams));
+        return this.client.stopLogging(this.ops["StopLogging"].apply(partialParams));
     }
     invokeUpdateEventDataStore(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateEventDataStore(this.ops["UpdateEventDataStore"].applicator.apply(partialParams));
+        return this.client.updateEventDataStore(this.ops["UpdateEventDataStore"].apply(partialParams));
     }
     invokeUpdateTrail(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateTrail(this.ops["UpdateTrail"].applicator.apply(partialParams));
+        return this.client.updateTrail(this.ops["UpdateTrail"].apply(partialParams));
     }
 }
 exports.default = default_1;

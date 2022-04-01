@@ -19,6 +19,7 @@ import {
     DescribeAnalysisSchemesRequest,
     DescribeAvailabilityOptionsRequest,
     DescribeDomainEndpointOptionsRequest,
+    DescribeDomainsRequest,
     DescribeExpressionsRequest,
     DescribeIndexFieldsRequest,
     DescribeScalingParametersRequest,
@@ -43,6 +44,7 @@ import {
     DescribeAnalysisSchemesResponse,
     DescribeAvailabilityOptionsResponse,
     DescribeDomainEndpointOptionsResponse,
+    DescribeDomainsResponse,
     DescribeExpressionsResponse,
     DescribeIndexFieldsResponse,
     DescribeScalingParametersResponse,
@@ -67,21 +69,24 @@ export default class extends aws.cloudsearch.DomainServiceAccessPolicy {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.cloudsearch.DomainServiceAccessPolicy>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.CloudSearch()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -91,270 +96,232 @@ export default class extends aws.cloudsearch.DomainServiceAccessPolicy {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeBuildSuggesters(partialParams: ToOptional<{
-      [K in keyof BuildSuggestersRequest & keyof BuildSuggestersRequest]: (BuildSuggestersRequest & BuildSuggestersRequest)[K]
+      [K in keyof BuildSuggestersRequest & keyof Omit<BuildSuggestersRequest, "DomainName">]: (BuildSuggestersRequest)[K]
     }>): Request<BuildSuggestersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.buildSuggesters(
-          this.ops["BuildSuggesters"].applicator.apply(partialParams)
+          this.ops["BuildSuggesters"].apply(partialParams)
         );
     }
 
     invokeCreateDomain(partialParams: ToOptional<{
-      [K in keyof CreateDomainRequest & keyof CreateDomainRequest]: (CreateDomainRequest & CreateDomainRequest)[K]
+      [K in keyof CreateDomainRequest & keyof Omit<CreateDomainRequest, "DomainName">]: (CreateDomainRequest)[K]
     }>): Request<CreateDomainResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDomain(
-          this.ops["CreateDomain"].applicator.apply(partialParams)
+          this.ops["CreateDomain"].apply(partialParams)
         );
     }
 
     invokeDefineAnalysisScheme(partialParams: ToOptional<{
-      [K in keyof DefineAnalysisSchemeRequest & keyof DefineAnalysisSchemeRequest]: (DefineAnalysisSchemeRequest & DefineAnalysisSchemeRequest)[K]
+      [K in keyof DefineAnalysisSchemeRequest & keyof Omit<DefineAnalysisSchemeRequest, "DomainName">]: (DefineAnalysisSchemeRequest)[K]
     }>): Request<DefineAnalysisSchemeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.defineAnalysisScheme(
-          this.ops["DefineAnalysisScheme"].applicator.apply(partialParams)
+          this.ops["DefineAnalysisScheme"].apply(partialParams)
         );
     }
 
     invokeDefineExpression(partialParams: ToOptional<{
-      [K in keyof DefineExpressionRequest & keyof DefineExpressionRequest]: (DefineExpressionRequest & DefineExpressionRequest)[K]
+      [K in keyof DefineExpressionRequest & keyof Omit<DefineExpressionRequest, "DomainName">]: (DefineExpressionRequest)[K]
     }>): Request<DefineExpressionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.defineExpression(
-          this.ops["DefineExpression"].applicator.apply(partialParams)
+          this.ops["DefineExpression"].apply(partialParams)
         );
     }
 
     invokeDefineIndexField(partialParams: ToOptional<{
-      [K in keyof DefineIndexFieldRequest & keyof DefineIndexFieldRequest]: (DefineIndexFieldRequest & DefineIndexFieldRequest)[K]
+      [K in keyof DefineIndexFieldRequest & keyof Omit<DefineIndexFieldRequest, "DomainName">]: (DefineIndexFieldRequest)[K]
     }>): Request<DefineIndexFieldResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.defineIndexField(
-          this.ops["DefineIndexField"].applicator.apply(partialParams)
+          this.ops["DefineIndexField"].apply(partialParams)
         );
     }
 
     invokeDefineSuggester(partialParams: ToOptional<{
-      [K in keyof DefineSuggesterRequest & keyof DefineSuggesterRequest]: (DefineSuggesterRequest & DefineSuggesterRequest)[K]
+      [K in keyof DefineSuggesterRequest & keyof Omit<DefineSuggesterRequest, "DomainName">]: (DefineSuggesterRequest)[K]
     }>): Request<DefineSuggesterResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.defineSuggester(
-          this.ops["DefineSuggester"].applicator.apply(partialParams)
+          this.ops["DefineSuggester"].apply(partialParams)
         );
     }
 
     invokeDeleteAnalysisScheme(partialParams: ToOptional<{
-      [K in keyof DeleteAnalysisSchemeRequest & keyof DeleteAnalysisSchemeRequest]: (DeleteAnalysisSchemeRequest & DeleteAnalysisSchemeRequest)[K]
+      [K in keyof DeleteAnalysisSchemeRequest & keyof Omit<DeleteAnalysisSchemeRequest, "DomainName">]: (DeleteAnalysisSchemeRequest)[K]
     }>): Request<DeleteAnalysisSchemeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteAnalysisScheme(
-          this.ops["DeleteAnalysisScheme"].applicator.apply(partialParams)
+          this.ops["DeleteAnalysisScheme"].apply(partialParams)
         );
     }
 
     invokeDeleteDomain(partialParams: ToOptional<{
-      [K in keyof DeleteDomainRequest & keyof DeleteDomainRequest]: (DeleteDomainRequest & DeleteDomainRequest)[K]
+      [K in keyof DeleteDomainRequest & keyof Omit<DeleteDomainRequest, "DomainName">]: (DeleteDomainRequest)[K]
     }>): Request<DeleteDomainResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDomain(
-          this.ops["DeleteDomain"].applicator.apply(partialParams)
+          this.ops["DeleteDomain"].apply(partialParams)
         );
     }
 
     invokeDeleteExpression(partialParams: ToOptional<{
-      [K in keyof DeleteExpressionRequest & keyof DeleteExpressionRequest]: (DeleteExpressionRequest & DeleteExpressionRequest)[K]
+      [K in keyof DeleteExpressionRequest & keyof Omit<DeleteExpressionRequest, "DomainName">]: (DeleteExpressionRequest)[K]
     }>): Request<DeleteExpressionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteExpression(
-          this.ops["DeleteExpression"].applicator.apply(partialParams)
+          this.ops["DeleteExpression"].apply(partialParams)
         );
     }
 
     invokeDeleteIndexField(partialParams: ToOptional<{
-      [K in keyof DeleteIndexFieldRequest & keyof DeleteIndexFieldRequest]: (DeleteIndexFieldRequest & DeleteIndexFieldRequest)[K]
+      [K in keyof DeleteIndexFieldRequest & keyof Omit<DeleteIndexFieldRequest, "DomainName">]: (DeleteIndexFieldRequest)[K]
     }>): Request<DeleteIndexFieldResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteIndexField(
-          this.ops["DeleteIndexField"].applicator.apply(partialParams)
+          this.ops["DeleteIndexField"].apply(partialParams)
         );
     }
 
     invokeDeleteSuggester(partialParams: ToOptional<{
-      [K in keyof DeleteSuggesterRequest & keyof DeleteSuggesterRequest]: (DeleteSuggesterRequest & DeleteSuggesterRequest)[K]
+      [K in keyof DeleteSuggesterRequest & keyof Omit<DeleteSuggesterRequest, "DomainName">]: (DeleteSuggesterRequest)[K]
     }>): Request<DeleteSuggesterResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteSuggester(
-          this.ops["DeleteSuggester"].applicator.apply(partialParams)
+          this.ops["DeleteSuggester"].apply(partialParams)
         );
     }
 
     invokeDescribeAnalysisSchemes(partialParams: ToOptional<{
-      [K in keyof DescribeAnalysisSchemesRequest & keyof DescribeAnalysisSchemesRequest]: (DescribeAnalysisSchemesRequest & DescribeAnalysisSchemesRequest)[K]
+      [K in keyof DescribeAnalysisSchemesRequest & keyof Omit<DescribeAnalysisSchemesRequest, "DomainName">]: (DescribeAnalysisSchemesRequest)[K]
     }>): Request<DescribeAnalysisSchemesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeAnalysisSchemes(
-          this.ops["DescribeAnalysisSchemes"].applicator.apply(partialParams)
+          this.ops["DescribeAnalysisSchemes"].apply(partialParams)
         );
     }
 
     invokeDescribeAvailabilityOptions(partialParams: ToOptional<{
-      [K in keyof DescribeAvailabilityOptionsRequest & keyof DescribeAvailabilityOptionsRequest]: (DescribeAvailabilityOptionsRequest & DescribeAvailabilityOptionsRequest)[K]
+      [K in keyof DescribeAvailabilityOptionsRequest & keyof Omit<DescribeAvailabilityOptionsRequest, "DomainName">]: (DescribeAvailabilityOptionsRequest)[K]
     }>): Request<DescribeAvailabilityOptionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeAvailabilityOptions(
-          this.ops["DescribeAvailabilityOptions"].applicator.apply(partialParams)
+          this.ops["DescribeAvailabilityOptions"].apply(partialParams)
         );
     }
 
     invokeDescribeDomainEndpointOptions(partialParams: ToOptional<{
-      [K in keyof DescribeDomainEndpointOptionsRequest & keyof DescribeDomainEndpointOptionsRequest]: (DescribeDomainEndpointOptionsRequest & DescribeDomainEndpointOptionsRequest)[K]
+      [K in keyof DescribeDomainEndpointOptionsRequest & keyof Omit<DescribeDomainEndpointOptionsRequest, "DomainName">]: (DescribeDomainEndpointOptionsRequest)[K]
     }>): Request<DescribeDomainEndpointOptionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDomainEndpointOptions(
-          this.ops["DescribeDomainEndpointOptions"].applicator.apply(partialParams)
+          this.ops["DescribeDomainEndpointOptions"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDomains(partialParams: ToOptional<{
+      [K in keyof DescribeDomainsRequest]: (DescribeDomainsRequest)[K]
+    }>): Request<DescribeDomainsResponse, AWSError> {
+        this.boot();
+        return this.client.describeDomains(
+          this.ops["DescribeDomains"].apply(partialParams)
         );
     }
 
     invokeDescribeExpressions(partialParams: ToOptional<{
-      [K in keyof DescribeExpressionsRequest & keyof DescribeExpressionsRequest]: (DescribeExpressionsRequest & DescribeExpressionsRequest)[K]
+      [K in keyof DescribeExpressionsRequest & keyof Omit<DescribeExpressionsRequest, "DomainName">]: (DescribeExpressionsRequest)[K]
     }>): Request<DescribeExpressionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeExpressions(
-          this.ops["DescribeExpressions"].applicator.apply(partialParams)
+          this.ops["DescribeExpressions"].apply(partialParams)
         );
     }
 
     invokeDescribeIndexFields(partialParams: ToOptional<{
-      [K in keyof DescribeIndexFieldsRequest & keyof DescribeIndexFieldsRequest]: (DescribeIndexFieldsRequest & DescribeIndexFieldsRequest)[K]
+      [K in keyof DescribeIndexFieldsRequest & keyof Omit<DescribeIndexFieldsRequest, "DomainName">]: (DescribeIndexFieldsRequest)[K]
     }>): Request<DescribeIndexFieldsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeIndexFields(
-          this.ops["DescribeIndexFields"].applicator.apply(partialParams)
+          this.ops["DescribeIndexFields"].apply(partialParams)
         );
     }
 
     invokeDescribeScalingParameters(partialParams: ToOptional<{
-      [K in keyof DescribeScalingParametersRequest & keyof DescribeScalingParametersRequest]: (DescribeScalingParametersRequest & DescribeScalingParametersRequest)[K]
+      [K in keyof DescribeScalingParametersRequest & keyof Omit<DescribeScalingParametersRequest, "DomainName">]: (DescribeScalingParametersRequest)[K]
     }>): Request<DescribeScalingParametersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeScalingParameters(
-          this.ops["DescribeScalingParameters"].applicator.apply(partialParams)
+          this.ops["DescribeScalingParameters"].apply(partialParams)
         );
     }
 
     invokeDescribeServiceAccessPolicies(partialParams: ToOptional<{
-      [K in keyof DescribeServiceAccessPoliciesRequest & keyof DescribeServiceAccessPoliciesRequest]: (DescribeServiceAccessPoliciesRequest & DescribeServiceAccessPoliciesRequest)[K]
+      [K in keyof DescribeServiceAccessPoliciesRequest & keyof Omit<DescribeServiceAccessPoliciesRequest, "DomainName">]: (DescribeServiceAccessPoliciesRequest)[K]
     }>): Request<DescribeServiceAccessPoliciesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeServiceAccessPolicies(
-          this.ops["DescribeServiceAccessPolicies"].applicator.apply(partialParams)
+          this.ops["DescribeServiceAccessPolicies"].apply(partialParams)
         );
     }
 
     invokeDescribeSuggesters(partialParams: ToOptional<{
-      [K in keyof DescribeSuggestersRequest & keyof DescribeSuggestersRequest]: (DescribeSuggestersRequest & DescribeSuggestersRequest)[K]
+      [K in keyof DescribeSuggestersRequest & keyof Omit<DescribeSuggestersRequest, "DomainName">]: (DescribeSuggestersRequest)[K]
     }>): Request<DescribeSuggestersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeSuggesters(
-          this.ops["DescribeSuggesters"].applicator.apply(partialParams)
+          this.ops["DescribeSuggesters"].apply(partialParams)
         );
     }
 
     invokeIndexDocuments(partialParams: ToOptional<{
-      [K in keyof IndexDocumentsRequest & keyof Omit<IndexDocumentsRequest, "DomainName">]: (IndexDocumentsRequest & Omit<IndexDocumentsRequest, "DomainName">)[K]
+      [K in keyof IndexDocumentsRequest & keyof Omit<IndexDocumentsRequest, "DomainName">]: (IndexDocumentsRequest)[K]
     }>): Request<IndexDocumentsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.indexDocuments(
-          this.ops["IndexDocuments"].applicator.apply(partialParams)
+          this.ops["IndexDocuments"].apply(partialParams)
         );
     }
 
     invokeUpdateAvailabilityOptions(partialParams: ToOptional<{
-      [K in keyof UpdateAvailabilityOptionsRequest & keyof Omit<UpdateAvailabilityOptionsRequest, "DomainName">]: (UpdateAvailabilityOptionsRequest & Omit<UpdateAvailabilityOptionsRequest, "DomainName">)[K]
+      [K in keyof UpdateAvailabilityOptionsRequest & keyof Omit<UpdateAvailabilityOptionsRequest, "DomainName">]: (UpdateAvailabilityOptionsRequest)[K]
     }>): Request<UpdateAvailabilityOptionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateAvailabilityOptions(
-          this.ops["UpdateAvailabilityOptions"].applicator.apply(partialParams)
+          this.ops["UpdateAvailabilityOptions"].apply(partialParams)
         );
     }
 
     invokeUpdateDomainEndpointOptions(partialParams: ToOptional<{
-      [K in keyof UpdateDomainEndpointOptionsRequest & keyof Omit<UpdateDomainEndpointOptionsRequest, "DomainName">]: (UpdateDomainEndpointOptionsRequest & Omit<UpdateDomainEndpointOptionsRequest, "DomainName">)[K]
+      [K in keyof UpdateDomainEndpointOptionsRequest & keyof Omit<UpdateDomainEndpointOptionsRequest, "DomainName">]: (UpdateDomainEndpointOptionsRequest)[K]
     }>): Request<UpdateDomainEndpointOptionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDomainEndpointOptions(
-          this.ops["UpdateDomainEndpointOptions"].applicator.apply(partialParams)
+          this.ops["UpdateDomainEndpointOptions"].apply(partialParams)
         );
     }
 
     invokeUpdateScalingParameters(partialParams: ToOptional<{
-      [K in keyof UpdateScalingParametersRequest & keyof Omit<UpdateScalingParametersRequest, "DomainName">]: (UpdateScalingParametersRequest & Omit<UpdateScalingParametersRequest, "DomainName">)[K]
+      [K in keyof UpdateScalingParametersRequest & keyof Omit<UpdateScalingParametersRequest, "DomainName">]: (UpdateScalingParametersRequest)[K]
     }>): Request<UpdateScalingParametersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateScalingParameters(
-          this.ops["UpdateScalingParameters"].applicator.apply(partialParams)
+          this.ops["UpdateScalingParameters"].apply(partialParams)
         );
     }
 
     invokeUpdateServiceAccessPolicies(partialParams: ToOptional<{
-      [K in keyof UpdateServiceAccessPoliciesRequest & keyof Omit<UpdateServiceAccessPoliciesRequest, "DomainName">]: (UpdateServiceAccessPoliciesRequest & Omit<UpdateServiceAccessPoliciesRequest, "DomainName">)[K]
+      [K in keyof UpdateServiceAccessPoliciesRequest & keyof Omit<UpdateServiceAccessPoliciesRequest, "DomainName">]: (UpdateServiceAccessPoliciesRequest)[K]
     }>): Request<UpdateServiceAccessPoliciesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateServiceAccessPolicies(
-          this.ops["UpdateServiceAccessPolicies"].applicator.apply(partialParams)
+          this.ops["UpdateServiceAccessPolicies"].apply(partialParams)
         );
     }
 }

@@ -5,88 +5,130 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
+    ActivateTypeInput,
     BatchDescribeTypeConfigurationsInput,
-    CancelUpdateStackInput,
     ContinueUpdateRollbackInput,
     CreateChangeSetInput,
     CreateStackInput,
     CreateStackInstancesInput,
     CreateStackSetInput,
+    DeactivateTypeInput,
     DeleteChangeSetInput,
-    DeleteStackInput,
     DeleteStackInstancesInput,
     DeleteStackSetInput,
+    DeregisterTypeInput,
+    DescribeAccountLimitsInput,
     DescribeChangeSetInput,
     DescribeChangeSetHooksInput,
+    DescribePublisherInput,
     DescribeStackDriftDetectionStatusInput,
+    DescribeStackEventsInput,
     DescribeStackInstanceInput,
     DescribeStackResourceInput,
     DescribeStackResourceDriftsInput,
+    DescribeStackResourcesInput,
     DescribeStackSetInput,
     DescribeStackSetOperationInput,
+    DescribeStacksInput,
+    DescribeTypeInput,
     DescribeTypeRegistrationInput,
     DetectStackDriftInput,
     DetectStackResourceDriftInput,
     DetectStackSetDriftInput,
+    EstimateTemplateCostInput,
     ExecuteChangeSetInput,
     GetStackPolicyInput,
+    GetTemplateInput,
+    GetTemplateSummaryInput,
     ImportStacksToStackSetInput,
     ListChangeSetsInput,
+    ListExportsInput,
     ListImportsInput,
     ListStackInstancesInput,
     ListStackResourcesInput,
     ListStackSetOperationResultsInput,
     ListStackSetOperationsInput,
+    ListStackSetsInput,
+    ListStacksInput,
+    ListTypeRegistrationsInput,
+    ListTypeVersionsInput,
+    ListTypesInput,
+    PublishTypeInput,
     RecordHandlerProgressInput,
+    RegisterPublisherInput,
     RegisterTypeInput,
     RollbackStackInput,
-    SetStackPolicyInput,
     SetTypeConfigurationInput,
-    SignalResourceInput,
+    SetTypeDefaultVersionInput,
     StopStackSetOperationInput,
+    TestTypeInput,
     UpdateStackInput,
     UpdateStackInstancesInput,
     UpdateStackSetInput,
     UpdateTerminationProtectionInput,
+    ValidateTemplateInput,
+    ActivateTypeOutput,
     BatchDescribeTypeConfigurationsOutput,
     ContinueUpdateRollbackOutput,
     CreateChangeSetOutput,
     CreateStackOutput,
     CreateStackInstancesOutput,
     CreateStackSetOutput,
+    DeactivateTypeOutput,
     DeleteChangeSetOutput,
     DeleteStackInstancesOutput,
     DeleteStackSetOutput,
+    DeregisterTypeOutput,
+    DescribeAccountLimitsOutput,
     DescribeChangeSetOutput,
     DescribeChangeSetHooksOutput,
+    DescribePublisherOutput,
     DescribeStackDriftDetectionStatusOutput,
+    DescribeStackEventsOutput,
     DescribeStackInstanceOutput,
     DescribeStackResourceOutput,
     DescribeStackResourceDriftsOutput,
+    DescribeStackResourcesOutput,
     DescribeStackSetOutput,
     DescribeStackSetOperationOutput,
+    DescribeStacksOutput,
+    DescribeTypeOutput,
     DescribeTypeRegistrationOutput,
     DetectStackDriftOutput,
     DetectStackResourceDriftOutput,
     DetectStackSetDriftOutput,
+    EstimateTemplateCostOutput,
     ExecuteChangeSetOutput,
     GetStackPolicyOutput,
+    GetTemplateOutput,
+    GetTemplateSummaryOutput,
     ImportStacksToStackSetOutput,
     ListChangeSetsOutput,
+    ListExportsOutput,
     ListImportsOutput,
     ListStackInstancesOutput,
     ListStackResourcesOutput,
     ListStackSetOperationResultsOutput,
     ListStackSetOperationsOutput,
+    ListStackSetsOutput,
+    ListStacksOutput,
+    ListTypeRegistrationsOutput,
+    ListTypeVersionsOutput,
+    ListTypesOutput,
+    PublishTypeOutput,
     RecordHandlerProgressOutput,
+    RegisterPublisherOutput,
     RegisterTypeOutput,
     RollbackStackOutput,
     SetTypeConfigurationOutput,
+    SetTypeDefaultVersionOutput,
     StopStackSetOperationOutput,
+    TestTypeOutput,
     UpdateStackOutput,
     UpdateStackInstancesOutput,
     UpdateStackSetOutput,
-    UpdateTerminationProtectionOutput
+    UpdateTerminationProtectionOutput,
+    ValidateTemplateOutput
 } from "aws-sdk/clients/cloudformation";
 const schema = require("../apis/cloudformation-2010-05-15.normal.json")
 import {getResourceOperations, upperCamelCase} from "../parse";
@@ -101,21 +143,24 @@ export default class extends aws.cloudformation.StackSetInstance {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.cloudformation.StackSetInstance>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.CloudFormation()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -125,479 +170,565 @@ export default class extends aws.cloudformation.StackSetInstance {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
-    invokeBatchDescribeTypeConfigurations(partialParams: ToOptional<{
-      [K in keyof BatchDescribeTypeConfigurationsInput & keyof BatchDescribeTypeConfigurationsInput & keyof BatchDescribeTypeConfigurationsInput & keyof BatchDescribeTypeConfigurationsInput & keyof BatchDescribeTypeConfigurationsInput & keyof BatchDescribeTypeConfigurationsInput]: (BatchDescribeTypeConfigurationsInput & BatchDescribeTypeConfigurationsInput & BatchDescribeTypeConfigurationsInput & BatchDescribeTypeConfigurationsInput & BatchDescribeTypeConfigurationsInput & BatchDescribeTypeConfigurationsInput)[K]
-    }>): Request<BatchDescribeTypeConfigurationsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeActivateType(partialParams: ToOptional<{
+      [K in keyof ActivateTypeInput]: (ActivateTypeInput)[K]
+    }>): Request<ActivateTypeOutput, AWSError> {
         this.boot();
-        return this.client.batchDescribeTypeConfigurations(
-          this.ops["BatchDescribeTypeConfigurations"].applicator.apply(partialParams)
+        return this.client.activateType(
+          this.ops["ActivateType"].apply(partialParams)
         );
     }
 
-    invokeCancelUpdateStack(partialParams: ToOptional<{
-      [K in keyof CancelUpdateStackInput & keyof CancelUpdateStackInput & keyof CancelUpdateStackInput & keyof CancelUpdateStackInput & keyof CancelUpdateStackInput & keyof CancelUpdateStackInput]: (CancelUpdateStackInput & CancelUpdateStackInput & CancelUpdateStackInput & CancelUpdateStackInput & CancelUpdateStackInput & CancelUpdateStackInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeBatchDescribeTypeConfigurations(partialParams: ToOptional<{
+      [K in keyof BatchDescribeTypeConfigurationsInput]: (BatchDescribeTypeConfigurationsInput)[K]
+    }>): Request<BatchDescribeTypeConfigurationsOutput, AWSError> {
         this.boot();
-        return this.client.cancelUpdateStack(
-          this.ops["CancelUpdateStack"].applicator.apply(partialParams)
+        return this.client.batchDescribeTypeConfigurations(
+          this.ops["BatchDescribeTypeConfigurations"].apply(partialParams)
         );
     }
 
     invokeContinueUpdateRollback(partialParams: ToOptional<{
-      [K in keyof ContinueUpdateRollbackInput & keyof ContinueUpdateRollbackInput & keyof ContinueUpdateRollbackInput & keyof ContinueUpdateRollbackInput & keyof ContinueUpdateRollbackInput & keyof ContinueUpdateRollbackInput]: (ContinueUpdateRollbackInput & ContinueUpdateRollbackInput & ContinueUpdateRollbackInput & ContinueUpdateRollbackInput & ContinueUpdateRollbackInput & ContinueUpdateRollbackInput)[K]
+      [K in keyof ContinueUpdateRollbackInput]: (ContinueUpdateRollbackInput)[K]
     }>): Request<ContinueUpdateRollbackOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.continueUpdateRollback(
-          this.ops["ContinueUpdateRollback"].applicator.apply(partialParams)
+          this.ops["ContinueUpdateRollback"].apply(partialParams)
         );
     }
 
     invokeCreateChangeSet(partialParams: ToOptional<{
-      [K in keyof CreateChangeSetInput & keyof CreateChangeSetInput & keyof CreateChangeSetInput & keyof CreateChangeSetInput & keyof CreateChangeSetInput & keyof CreateChangeSetInput]: (CreateChangeSetInput & CreateChangeSetInput & CreateChangeSetInput & CreateChangeSetInput & CreateChangeSetInput & CreateChangeSetInput)[K]
+      [K in keyof CreateChangeSetInput]: (CreateChangeSetInput)[K]
     }>): Request<CreateChangeSetOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createChangeSet(
-          this.ops["CreateChangeSet"].applicator.apply(partialParams)
+          this.ops["CreateChangeSet"].apply(partialParams)
         );
     }
 
     invokeCreateStack(partialParams: ToOptional<{
-      [K in keyof CreateStackInput & keyof CreateStackInput & keyof CreateStackInput & keyof CreateStackInput & keyof CreateStackInput & keyof CreateStackInput]: (CreateStackInput & CreateStackInput & CreateStackInput & CreateStackInput & CreateStackInput & CreateStackInput)[K]
+      [K in keyof CreateStackInput]: (CreateStackInput)[K]
     }>): Request<CreateStackOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createStack(
-          this.ops["CreateStack"].applicator.apply(partialParams)
+          this.ops["CreateStack"].apply(partialParams)
         );
     }
 
     invokeCreateStackInstances(partialParams: ToOptional<{
-      [K in keyof CreateStackInstancesInput & keyof CreateStackInstancesInput & keyof CreateStackInstancesInput & keyof CreateStackInstancesInput & keyof CreateStackInstancesInput & keyof CreateStackInstancesInput]: (CreateStackInstancesInput & CreateStackInstancesInput & CreateStackInstancesInput & CreateStackInstancesInput & CreateStackInstancesInput & CreateStackInstancesInput)[K]
+      [K in keyof CreateStackInstancesInput & keyof Omit<CreateStackInstancesInput, "StackSetName">]: (CreateStackInstancesInput)[K]
     }>): Request<CreateStackInstancesOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createStackInstances(
-          this.ops["CreateStackInstances"].applicator.apply(partialParams)
+          this.ops["CreateStackInstances"].apply(partialParams)
         );
     }
 
     invokeCreateStackSet(partialParams: ToOptional<{
-      [K in keyof CreateStackSetInput & keyof CreateStackSetInput & keyof CreateStackSetInput & keyof CreateStackSetInput & keyof CreateStackSetInput & keyof CreateStackSetInput]: (CreateStackSetInput & CreateStackSetInput & CreateStackSetInput & CreateStackSetInput & CreateStackSetInput & CreateStackSetInput)[K]
+      [K in keyof CreateStackSetInput & keyof Omit<CreateStackSetInput, "StackSetName">]: (CreateStackSetInput)[K]
     }>): Request<CreateStackSetOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createStackSet(
-          this.ops["CreateStackSet"].applicator.apply(partialParams)
+          this.ops["CreateStackSet"].apply(partialParams)
+        );
+    }
+
+    invokeDeactivateType(partialParams: ToOptional<{
+      [K in keyof DeactivateTypeInput]: (DeactivateTypeInput)[K]
+    }>): Request<DeactivateTypeOutput, AWSError> {
+        this.boot();
+        return this.client.deactivateType(
+          this.ops["DeactivateType"].apply(partialParams)
         );
     }
 
     invokeDeleteChangeSet(partialParams: ToOptional<{
-      [K in keyof DeleteChangeSetInput & keyof DeleteChangeSetInput & keyof DeleteChangeSetInput & keyof DeleteChangeSetInput & keyof DeleteChangeSetInput & keyof DeleteChangeSetInput]: (DeleteChangeSetInput & DeleteChangeSetInput & DeleteChangeSetInput & DeleteChangeSetInput & DeleteChangeSetInput & DeleteChangeSetInput)[K]
+      [K in keyof DeleteChangeSetInput]: (DeleteChangeSetInput)[K]
     }>): Request<DeleteChangeSetOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteChangeSet(
-          this.ops["DeleteChangeSet"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteStack(partialParams: ToOptional<{
-      [K in keyof DeleteStackInput & keyof DeleteStackInput & keyof DeleteStackInput & keyof DeleteStackInput & keyof DeleteStackInput & keyof DeleteStackInput]: (DeleteStackInput & DeleteStackInput & DeleteStackInput & DeleteStackInput & DeleteStackInput & DeleteStackInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteStack(
-          this.ops["DeleteStack"].applicator.apply(partialParams)
+          this.ops["DeleteChangeSet"].apply(partialParams)
         );
     }
 
     invokeDeleteStackInstances(partialParams: ToOptional<{
-      [K in keyof DeleteStackInstancesInput & keyof DeleteStackInstancesInput & keyof DeleteStackInstancesInput & keyof DeleteStackInstancesInput & keyof DeleteStackInstancesInput & keyof DeleteStackInstancesInput]: (DeleteStackInstancesInput & DeleteStackInstancesInput & DeleteStackInstancesInput & DeleteStackInstancesInput & DeleteStackInstancesInput & DeleteStackInstancesInput)[K]
+      [K in keyof DeleteStackInstancesInput & keyof Omit<DeleteStackInstancesInput, "StackSetName">]: (DeleteStackInstancesInput)[K]
     }>): Request<DeleteStackInstancesOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteStackInstances(
-          this.ops["DeleteStackInstances"].applicator.apply(partialParams)
+          this.ops["DeleteStackInstances"].apply(partialParams)
         );
     }
 
     invokeDeleteStackSet(partialParams: ToOptional<{
-      [K in keyof DeleteStackSetInput & keyof DeleteStackSetInput & keyof DeleteStackSetInput & keyof DeleteStackSetInput & keyof DeleteStackSetInput & keyof DeleteStackSetInput]: (DeleteStackSetInput & DeleteStackSetInput & DeleteStackSetInput & DeleteStackSetInput & DeleteStackSetInput & DeleteStackSetInput)[K]
+      [K in keyof DeleteStackSetInput & keyof Omit<DeleteStackSetInput, "StackSetName">]: (DeleteStackSetInput)[K]
     }>): Request<DeleteStackSetOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteStackSet(
-          this.ops["DeleteStackSet"].applicator.apply(partialParams)
+          this.ops["DeleteStackSet"].apply(partialParams)
+        );
+    }
+
+    invokeDeregisterType(partialParams: ToOptional<{
+      [K in keyof DeregisterTypeInput]: (DeregisterTypeInput)[K]
+    }>): Request<DeregisterTypeOutput, AWSError> {
+        this.boot();
+        return this.client.deregisterType(
+          this.ops["DeregisterType"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeAccountLimits(partialParams: ToOptional<{
+      [K in keyof DescribeAccountLimitsInput]: (DescribeAccountLimitsInput)[K]
+    }>): Request<DescribeAccountLimitsOutput, AWSError> {
+        this.boot();
+        return this.client.describeAccountLimits(
+          this.ops["DescribeAccountLimits"].apply(partialParams)
         );
     }
 
     invokeDescribeChangeSet(partialParams: ToOptional<{
-      [K in keyof DescribeChangeSetInput & keyof DescribeChangeSetInput & keyof DescribeChangeSetInput & keyof DescribeChangeSetInput & keyof DescribeChangeSetInput & keyof DescribeChangeSetInput]: (DescribeChangeSetInput & DescribeChangeSetInput & DescribeChangeSetInput & DescribeChangeSetInput & DescribeChangeSetInput & DescribeChangeSetInput)[K]
+      [K in keyof DescribeChangeSetInput]: (DescribeChangeSetInput)[K]
     }>): Request<DescribeChangeSetOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeChangeSet(
-          this.ops["DescribeChangeSet"].applicator.apply(partialParams)
+          this.ops["DescribeChangeSet"].apply(partialParams)
         );
     }
 
     invokeDescribeChangeSetHooks(partialParams: ToOptional<{
-      [K in keyof DescribeChangeSetHooksInput & keyof DescribeChangeSetHooksInput & keyof DescribeChangeSetHooksInput & keyof DescribeChangeSetHooksInput & keyof DescribeChangeSetHooksInput & keyof DescribeChangeSetHooksInput]: (DescribeChangeSetHooksInput & DescribeChangeSetHooksInput & DescribeChangeSetHooksInput & DescribeChangeSetHooksInput & DescribeChangeSetHooksInput & DescribeChangeSetHooksInput)[K]
+      [K in keyof DescribeChangeSetHooksInput]: (DescribeChangeSetHooksInput)[K]
     }>): Request<DescribeChangeSetHooksOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeChangeSetHooks(
-          this.ops["DescribeChangeSetHooks"].applicator.apply(partialParams)
+          this.ops["DescribeChangeSetHooks"].apply(partialParams)
+        );
+    }
+
+    invokeDescribePublisher(partialParams: ToOptional<{
+      [K in keyof DescribePublisherInput]: (DescribePublisherInput)[K]
+    }>): Request<DescribePublisherOutput, AWSError> {
+        this.boot();
+        return this.client.describePublisher(
+          this.ops["DescribePublisher"].apply(partialParams)
         );
     }
 
     invokeDescribeStackDriftDetectionStatus(partialParams: ToOptional<{
-      [K in keyof DescribeStackDriftDetectionStatusInput & keyof DescribeStackDriftDetectionStatusInput & keyof DescribeStackDriftDetectionStatusInput & keyof DescribeStackDriftDetectionStatusInput & keyof DescribeStackDriftDetectionStatusInput & keyof DescribeStackDriftDetectionStatusInput]: (DescribeStackDriftDetectionStatusInput & DescribeStackDriftDetectionStatusInput & DescribeStackDriftDetectionStatusInput & DescribeStackDriftDetectionStatusInput & DescribeStackDriftDetectionStatusInput & DescribeStackDriftDetectionStatusInput)[K]
+      [K in keyof DescribeStackDriftDetectionStatusInput]: (DescribeStackDriftDetectionStatusInput)[K]
     }>): Request<DescribeStackDriftDetectionStatusOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeStackDriftDetectionStatus(
-          this.ops["DescribeStackDriftDetectionStatus"].applicator.apply(partialParams)
+          this.ops["DescribeStackDriftDetectionStatus"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeStackEvents(partialParams: ToOptional<{
+      [K in keyof DescribeStackEventsInput]: (DescribeStackEventsInput)[K]
+    }>): Request<DescribeStackEventsOutput, AWSError> {
+        this.boot();
+        return this.client.describeStackEvents(
+          this.ops["DescribeStackEvents"].apply(partialParams)
         );
     }
 
     invokeDescribeStackInstance(partialParams: ToOptional<{
-      [K in keyof DescribeStackInstanceInput & keyof DescribeStackInstanceInput & keyof DescribeStackInstanceInput & keyof DescribeStackInstanceInput & keyof DescribeStackInstanceInput & keyof DescribeStackInstanceInput]: (DescribeStackInstanceInput & DescribeStackInstanceInput & DescribeStackInstanceInput & DescribeStackInstanceInput & DescribeStackInstanceInput & DescribeStackInstanceInput)[K]
+      [K in keyof DescribeStackInstanceInput & keyof Omit<DescribeStackInstanceInput, "StackSetName">]: (DescribeStackInstanceInput)[K]
     }>): Request<DescribeStackInstanceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeStackInstance(
-          this.ops["DescribeStackInstance"].applicator.apply(partialParams)
+          this.ops["DescribeStackInstance"].apply(partialParams)
         );
     }
 
     invokeDescribeStackResource(partialParams: ToOptional<{
-      [K in keyof DescribeStackResourceInput & keyof DescribeStackResourceInput & keyof DescribeStackResourceInput & keyof DescribeStackResourceInput & keyof DescribeStackResourceInput & keyof DescribeStackResourceInput]: (DescribeStackResourceInput & DescribeStackResourceInput & DescribeStackResourceInput & DescribeStackResourceInput & DescribeStackResourceInput & DescribeStackResourceInput)[K]
+      [K in keyof DescribeStackResourceInput]: (DescribeStackResourceInput)[K]
     }>): Request<DescribeStackResourceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeStackResource(
-          this.ops["DescribeStackResource"].applicator.apply(partialParams)
+          this.ops["DescribeStackResource"].apply(partialParams)
         );
     }
 
     invokeDescribeStackResourceDrifts(partialParams: ToOptional<{
-      [K in keyof DescribeStackResourceDriftsInput & keyof DescribeStackResourceDriftsInput & keyof DescribeStackResourceDriftsInput & keyof DescribeStackResourceDriftsInput & keyof DescribeStackResourceDriftsInput & keyof DescribeStackResourceDriftsInput]: (DescribeStackResourceDriftsInput & DescribeStackResourceDriftsInput & DescribeStackResourceDriftsInput & DescribeStackResourceDriftsInput & DescribeStackResourceDriftsInput & DescribeStackResourceDriftsInput)[K]
+      [K in keyof DescribeStackResourceDriftsInput]: (DescribeStackResourceDriftsInput)[K]
     }>): Request<DescribeStackResourceDriftsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeStackResourceDrifts(
-          this.ops["DescribeStackResourceDrifts"].applicator.apply(partialParams)
+          this.ops["DescribeStackResourceDrifts"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeStackResources(partialParams: ToOptional<{
+      [K in keyof DescribeStackResourcesInput]: (DescribeStackResourcesInput)[K]
+    }>): Request<DescribeStackResourcesOutput, AWSError> {
+        this.boot();
+        return this.client.describeStackResources(
+          this.ops["DescribeStackResources"].apply(partialParams)
         );
     }
 
     invokeDescribeStackSet(partialParams: ToOptional<{
-      [K in keyof DescribeStackSetInput & keyof DescribeStackSetInput & keyof DescribeStackSetInput & keyof DescribeStackSetInput & keyof DescribeStackSetInput & keyof DescribeStackSetInput]: (DescribeStackSetInput & DescribeStackSetInput & DescribeStackSetInput & DescribeStackSetInput & DescribeStackSetInput & DescribeStackSetInput)[K]
+      [K in keyof DescribeStackSetInput & keyof Omit<DescribeStackSetInput, "StackSetName">]: (DescribeStackSetInput)[K]
     }>): Request<DescribeStackSetOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeStackSet(
-          this.ops["DescribeStackSet"].applicator.apply(partialParams)
+          this.ops["DescribeStackSet"].apply(partialParams)
         );
     }
 
     invokeDescribeStackSetOperation(partialParams: ToOptional<{
-      [K in keyof DescribeStackSetOperationInput & keyof DescribeStackSetOperationInput & keyof DescribeStackSetOperationInput & keyof DescribeStackSetOperationInput & keyof DescribeStackSetOperationInput & keyof DescribeStackSetOperationInput]: (DescribeStackSetOperationInput & DescribeStackSetOperationInput & DescribeStackSetOperationInput & DescribeStackSetOperationInput & DescribeStackSetOperationInput & DescribeStackSetOperationInput)[K]
+      [K in keyof DescribeStackSetOperationInput & keyof Omit<DescribeStackSetOperationInput, "StackSetName">]: (DescribeStackSetOperationInput)[K]
     }>): Request<DescribeStackSetOperationOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeStackSetOperation(
-          this.ops["DescribeStackSetOperation"].applicator.apply(partialParams)
+          this.ops["DescribeStackSetOperation"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeStacks(partialParams: ToOptional<{
+      [K in keyof DescribeStacksInput]: (DescribeStacksInput)[K]
+    }>): Request<DescribeStacksOutput, AWSError> {
+        this.boot();
+        return this.client.describeStacks(
+          this.ops["DescribeStacks"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeType(partialParams: ToOptional<{
+      [K in keyof DescribeTypeInput]: (DescribeTypeInput)[K]
+    }>): Request<DescribeTypeOutput, AWSError> {
+        this.boot();
+        return this.client.describeType(
+          this.ops["DescribeType"].apply(partialParams)
         );
     }
 
     invokeDescribeTypeRegistration(partialParams: ToOptional<{
-      [K in keyof DescribeTypeRegistrationInput & keyof DescribeTypeRegistrationInput & keyof DescribeTypeRegistrationInput & keyof DescribeTypeRegistrationInput & keyof DescribeTypeRegistrationInput & keyof DescribeTypeRegistrationInput]: (DescribeTypeRegistrationInput & DescribeTypeRegistrationInput & DescribeTypeRegistrationInput & DescribeTypeRegistrationInput & DescribeTypeRegistrationInput & DescribeTypeRegistrationInput)[K]
+      [K in keyof DescribeTypeRegistrationInput]: (DescribeTypeRegistrationInput)[K]
     }>): Request<DescribeTypeRegistrationOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeTypeRegistration(
-          this.ops["DescribeTypeRegistration"].applicator.apply(partialParams)
+          this.ops["DescribeTypeRegistration"].apply(partialParams)
         );
     }
 
     invokeDetectStackDrift(partialParams: ToOptional<{
-      [K in keyof DetectStackDriftInput & keyof DetectStackDriftInput & keyof DetectStackDriftInput & keyof DetectStackDriftInput & keyof DetectStackDriftInput & keyof DetectStackDriftInput]: (DetectStackDriftInput & DetectStackDriftInput & DetectStackDriftInput & DetectStackDriftInput & DetectStackDriftInput & DetectStackDriftInput)[K]
+      [K in keyof DetectStackDriftInput]: (DetectStackDriftInput)[K]
     }>): Request<DetectStackDriftOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.detectStackDrift(
-          this.ops["DetectStackDrift"].applicator.apply(partialParams)
+          this.ops["DetectStackDrift"].apply(partialParams)
         );
     }
 
     invokeDetectStackResourceDrift(partialParams: ToOptional<{
-      [K in keyof DetectStackResourceDriftInput & keyof DetectStackResourceDriftInput & keyof DetectStackResourceDriftInput & keyof DetectStackResourceDriftInput & keyof DetectStackResourceDriftInput & keyof DetectStackResourceDriftInput]: (DetectStackResourceDriftInput & DetectStackResourceDriftInput & DetectStackResourceDriftInput & DetectStackResourceDriftInput & DetectStackResourceDriftInput & DetectStackResourceDriftInput)[K]
+      [K in keyof DetectStackResourceDriftInput]: (DetectStackResourceDriftInput)[K]
     }>): Request<DetectStackResourceDriftOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.detectStackResourceDrift(
-          this.ops["DetectStackResourceDrift"].applicator.apply(partialParams)
+          this.ops["DetectStackResourceDrift"].apply(partialParams)
         );
     }
 
     invokeDetectStackSetDrift(partialParams: ToOptional<{
-      [K in keyof DetectStackSetDriftInput & keyof DetectStackSetDriftInput & keyof DetectStackSetDriftInput & keyof DetectStackSetDriftInput & keyof DetectStackSetDriftInput & keyof DetectStackSetDriftInput]: (DetectStackSetDriftInput & DetectStackSetDriftInput & DetectStackSetDriftInput & DetectStackSetDriftInput & DetectStackSetDriftInput & DetectStackSetDriftInput)[K]
+      [K in keyof DetectStackSetDriftInput & keyof Omit<DetectStackSetDriftInput, "StackSetName">]: (DetectStackSetDriftInput)[K]
     }>): Request<DetectStackSetDriftOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.detectStackSetDrift(
-          this.ops["DetectStackSetDrift"].applicator.apply(partialParams)
+          this.ops["DetectStackSetDrift"].apply(partialParams)
+        );
+    }
+
+    invokeEstimateTemplateCost(partialParams: ToOptional<{
+      [K in keyof EstimateTemplateCostInput]: (EstimateTemplateCostInput)[K]
+    }>): Request<EstimateTemplateCostOutput, AWSError> {
+        this.boot();
+        return this.client.estimateTemplateCost(
+          this.ops["EstimateTemplateCost"].apply(partialParams)
         );
     }
 
     invokeExecuteChangeSet(partialParams: ToOptional<{
-      [K in keyof ExecuteChangeSetInput & keyof ExecuteChangeSetInput & keyof ExecuteChangeSetInput & keyof ExecuteChangeSetInput & keyof ExecuteChangeSetInput & keyof ExecuteChangeSetInput]: (ExecuteChangeSetInput & ExecuteChangeSetInput & ExecuteChangeSetInput & ExecuteChangeSetInput & ExecuteChangeSetInput & ExecuteChangeSetInput)[K]
+      [K in keyof ExecuteChangeSetInput]: (ExecuteChangeSetInput)[K]
     }>): Request<ExecuteChangeSetOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.executeChangeSet(
-          this.ops["ExecuteChangeSet"].applicator.apply(partialParams)
+          this.ops["ExecuteChangeSet"].apply(partialParams)
         );
     }
 
     invokeGetStackPolicy(partialParams: ToOptional<{
-      [K in keyof GetStackPolicyInput & keyof GetStackPolicyInput & keyof GetStackPolicyInput & keyof GetStackPolicyInput & keyof GetStackPolicyInput & keyof GetStackPolicyInput]: (GetStackPolicyInput & GetStackPolicyInput & GetStackPolicyInput & GetStackPolicyInput & GetStackPolicyInput & GetStackPolicyInput)[K]
+      [K in keyof GetStackPolicyInput]: (GetStackPolicyInput)[K]
     }>): Request<GetStackPolicyOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getStackPolicy(
-          this.ops["GetStackPolicy"].applicator.apply(partialParams)
+          this.ops["GetStackPolicy"].apply(partialParams)
+        );
+    }
+
+    invokeGetTemplate(partialParams: ToOptional<{
+      [K in keyof GetTemplateInput]: (GetTemplateInput)[K]
+    }>): Request<GetTemplateOutput, AWSError> {
+        this.boot();
+        return this.client.getTemplate(
+          this.ops["GetTemplate"].apply(partialParams)
+        );
+    }
+
+    invokeGetTemplateSummary(partialParams: ToOptional<{
+      [K in keyof GetTemplateSummaryInput]: (GetTemplateSummaryInput)[K]
+    }>): Request<GetTemplateSummaryOutput, AWSError> {
+        this.boot();
+        return this.client.getTemplateSummary(
+          this.ops["GetTemplateSummary"].apply(partialParams)
         );
     }
 
     invokeImportStacksToStackSet(partialParams: ToOptional<{
-      [K in keyof ImportStacksToStackSetInput & keyof ImportStacksToStackSetInput & keyof ImportStacksToStackSetInput & keyof ImportStacksToStackSetInput & keyof ImportStacksToStackSetInput & keyof ImportStacksToStackSetInput]: (ImportStacksToStackSetInput & ImportStacksToStackSetInput & ImportStacksToStackSetInput & ImportStacksToStackSetInput & ImportStacksToStackSetInput & ImportStacksToStackSetInput)[K]
+      [K in keyof ImportStacksToStackSetInput & keyof Omit<ImportStacksToStackSetInput, "StackSetName">]: (ImportStacksToStackSetInput)[K]
     }>): Request<ImportStacksToStackSetOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.importStacksToStackSet(
-          this.ops["ImportStacksToStackSet"].applicator.apply(partialParams)
+          this.ops["ImportStacksToStackSet"].apply(partialParams)
         );
     }
 
     invokeListChangeSets(partialParams: ToOptional<{
-      [K in keyof ListChangeSetsInput & keyof ListChangeSetsInput & keyof ListChangeSetsInput & keyof ListChangeSetsInput & keyof ListChangeSetsInput & keyof ListChangeSetsInput]: (ListChangeSetsInput & ListChangeSetsInput & ListChangeSetsInput & ListChangeSetsInput & ListChangeSetsInput & ListChangeSetsInput)[K]
+      [K in keyof ListChangeSetsInput]: (ListChangeSetsInput)[K]
     }>): Request<ListChangeSetsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listChangeSets(
-          this.ops["ListChangeSets"].applicator.apply(partialParams)
+          this.ops["ListChangeSets"].apply(partialParams)
+        );
+    }
+
+    invokeListExports(partialParams: ToOptional<{
+      [K in keyof ListExportsInput]: (ListExportsInput)[K]
+    }>): Request<ListExportsOutput, AWSError> {
+        this.boot();
+        return this.client.listExports(
+          this.ops["ListExports"].apply(partialParams)
         );
     }
 
     invokeListImports(partialParams: ToOptional<{
-      [K in keyof ListImportsInput & keyof ListImportsInput & keyof ListImportsInput & keyof ListImportsInput & keyof ListImportsInput & keyof ListImportsInput]: (ListImportsInput & ListImportsInput & ListImportsInput & ListImportsInput & ListImportsInput & ListImportsInput)[K]
+      [K in keyof ListImportsInput]: (ListImportsInput)[K]
     }>): Request<ListImportsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listImports(
-          this.ops["ListImports"].applicator.apply(partialParams)
+          this.ops["ListImports"].apply(partialParams)
         );
     }
 
     invokeListStackInstances(partialParams: ToOptional<{
-      [K in keyof ListStackInstancesInput & keyof ListStackInstancesInput & keyof ListStackInstancesInput & keyof ListStackInstancesInput & keyof ListStackInstancesInput & keyof ListStackInstancesInput]: (ListStackInstancesInput & ListStackInstancesInput & ListStackInstancesInput & ListStackInstancesInput & ListStackInstancesInput & ListStackInstancesInput)[K]
+      [K in keyof ListStackInstancesInput & keyof Omit<ListStackInstancesInput, "StackSetName">]: (ListStackInstancesInput)[K]
     }>): Request<ListStackInstancesOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listStackInstances(
-          this.ops["ListStackInstances"].applicator.apply(partialParams)
+          this.ops["ListStackInstances"].apply(partialParams)
         );
     }
 
     invokeListStackResources(partialParams: ToOptional<{
-      [K in keyof ListStackResourcesInput & keyof ListStackResourcesInput & keyof ListStackResourcesInput & keyof ListStackResourcesInput & keyof ListStackResourcesInput & keyof ListStackResourcesInput]: (ListStackResourcesInput & ListStackResourcesInput & ListStackResourcesInput & ListStackResourcesInput & ListStackResourcesInput & ListStackResourcesInput)[K]
+      [K in keyof ListStackResourcesInput]: (ListStackResourcesInput)[K]
     }>): Request<ListStackResourcesOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listStackResources(
-          this.ops["ListStackResources"].applicator.apply(partialParams)
+          this.ops["ListStackResources"].apply(partialParams)
         );
     }
 
     invokeListStackSetOperationResults(partialParams: ToOptional<{
-      [K in keyof ListStackSetOperationResultsInput & keyof ListStackSetOperationResultsInput & keyof ListStackSetOperationResultsInput & keyof ListStackSetOperationResultsInput & keyof ListStackSetOperationResultsInput & keyof ListStackSetOperationResultsInput]: (ListStackSetOperationResultsInput & ListStackSetOperationResultsInput & ListStackSetOperationResultsInput & ListStackSetOperationResultsInput & ListStackSetOperationResultsInput & ListStackSetOperationResultsInput)[K]
+      [K in keyof ListStackSetOperationResultsInput & keyof Omit<ListStackSetOperationResultsInput, "StackSetName">]: (ListStackSetOperationResultsInput)[K]
     }>): Request<ListStackSetOperationResultsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listStackSetOperationResults(
-          this.ops["ListStackSetOperationResults"].applicator.apply(partialParams)
+          this.ops["ListStackSetOperationResults"].apply(partialParams)
         );
     }
 
     invokeListStackSetOperations(partialParams: ToOptional<{
-      [K in keyof ListStackSetOperationsInput & keyof ListStackSetOperationsInput & keyof ListStackSetOperationsInput & keyof ListStackSetOperationsInput & keyof ListStackSetOperationsInput & keyof ListStackSetOperationsInput]: (ListStackSetOperationsInput & ListStackSetOperationsInput & ListStackSetOperationsInput & ListStackSetOperationsInput & ListStackSetOperationsInput & ListStackSetOperationsInput)[K]
+      [K in keyof ListStackSetOperationsInput & keyof Omit<ListStackSetOperationsInput, "StackSetName">]: (ListStackSetOperationsInput)[K]
     }>): Request<ListStackSetOperationsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listStackSetOperations(
-          this.ops["ListStackSetOperations"].applicator.apply(partialParams)
+          this.ops["ListStackSetOperations"].apply(partialParams)
+        );
+    }
+
+    invokeListStackSets(partialParams: ToOptional<{
+      [K in keyof ListStackSetsInput]: (ListStackSetsInput)[K]
+    }>): Request<ListStackSetsOutput, AWSError> {
+        this.boot();
+        return this.client.listStackSets(
+          this.ops["ListStackSets"].apply(partialParams)
+        );
+    }
+
+    invokeListStacks(partialParams: ToOptional<{
+      [K in keyof ListStacksInput]: (ListStacksInput)[K]
+    }>): Request<ListStacksOutput, AWSError> {
+        this.boot();
+        return this.client.listStacks(
+          this.ops["ListStacks"].apply(partialParams)
+        );
+    }
+
+    invokeListTypeRegistrations(partialParams: ToOptional<{
+      [K in keyof ListTypeRegistrationsInput]: (ListTypeRegistrationsInput)[K]
+    }>): Request<ListTypeRegistrationsOutput, AWSError> {
+        this.boot();
+        return this.client.listTypeRegistrations(
+          this.ops["ListTypeRegistrations"].apply(partialParams)
+        );
+    }
+
+    invokeListTypeVersions(partialParams: ToOptional<{
+      [K in keyof ListTypeVersionsInput]: (ListTypeVersionsInput)[K]
+    }>): Request<ListTypeVersionsOutput, AWSError> {
+        this.boot();
+        return this.client.listTypeVersions(
+          this.ops["ListTypeVersions"].apply(partialParams)
+        );
+    }
+
+    invokeListTypes(partialParams: ToOptional<{
+      [K in keyof ListTypesInput]: (ListTypesInput)[K]
+    }>): Request<ListTypesOutput, AWSError> {
+        this.boot();
+        return this.client.listTypes(
+          this.ops["ListTypes"].apply(partialParams)
+        );
+    }
+
+    invokePublishType(partialParams: ToOptional<{
+      [K in keyof PublishTypeInput]: (PublishTypeInput)[K]
+    }>): Request<PublishTypeOutput, AWSError> {
+        this.boot();
+        return this.client.publishType(
+          this.ops["PublishType"].apply(partialParams)
         );
     }
 
     invokeRecordHandlerProgress(partialParams: ToOptional<{
-      [K in keyof RecordHandlerProgressInput & keyof RecordHandlerProgressInput & keyof RecordHandlerProgressInput & keyof RecordHandlerProgressInput & keyof RecordHandlerProgressInput & keyof RecordHandlerProgressInput]: (RecordHandlerProgressInput & RecordHandlerProgressInput & RecordHandlerProgressInput & RecordHandlerProgressInput & RecordHandlerProgressInput & RecordHandlerProgressInput)[K]
+      [K in keyof RecordHandlerProgressInput]: (RecordHandlerProgressInput)[K]
     }>): Request<RecordHandlerProgressOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.recordHandlerProgress(
-          this.ops["RecordHandlerProgress"].applicator.apply(partialParams)
+          this.ops["RecordHandlerProgress"].apply(partialParams)
+        );
+    }
+
+    invokeRegisterPublisher(partialParams: ToOptional<{
+      [K in keyof RegisterPublisherInput]: (RegisterPublisherInput)[K]
+    }>): Request<RegisterPublisherOutput, AWSError> {
+        this.boot();
+        return this.client.registerPublisher(
+          this.ops["RegisterPublisher"].apply(partialParams)
         );
     }
 
     invokeRegisterType(partialParams: ToOptional<{
-      [K in keyof RegisterTypeInput & keyof RegisterTypeInput & keyof RegisterTypeInput & keyof RegisterTypeInput & keyof RegisterTypeInput & keyof RegisterTypeInput]: (RegisterTypeInput & RegisterTypeInput & RegisterTypeInput & RegisterTypeInput & RegisterTypeInput & RegisterTypeInput)[K]
+      [K in keyof RegisterTypeInput]: (RegisterTypeInput)[K]
     }>): Request<RegisterTypeOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.registerType(
-          this.ops["RegisterType"].applicator.apply(partialParams)
+          this.ops["RegisterType"].apply(partialParams)
         );
     }
 
     invokeRollbackStack(partialParams: ToOptional<{
-      [K in keyof RollbackStackInput & keyof RollbackStackInput & keyof RollbackStackInput & keyof RollbackStackInput & keyof RollbackStackInput & keyof RollbackStackInput]: (RollbackStackInput & RollbackStackInput & RollbackStackInput & RollbackStackInput & RollbackStackInput & RollbackStackInput)[K]
+      [K in keyof RollbackStackInput]: (RollbackStackInput)[K]
     }>): Request<RollbackStackOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.rollbackStack(
-          this.ops["RollbackStack"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeSetStackPolicy(partialParams: ToOptional<{
-      [K in keyof SetStackPolicyInput & keyof SetStackPolicyInput & keyof SetStackPolicyInput & keyof SetStackPolicyInput & keyof SetStackPolicyInput & keyof SetStackPolicyInput]: (SetStackPolicyInput & SetStackPolicyInput & SetStackPolicyInput & SetStackPolicyInput & SetStackPolicyInput & SetStackPolicyInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.setStackPolicy(
-          this.ops["SetStackPolicy"].applicator.apply(partialParams)
+          this.ops["RollbackStack"].apply(partialParams)
         );
     }
 
     invokeSetTypeConfiguration(partialParams: ToOptional<{
-      [K in keyof SetTypeConfigurationInput & keyof SetTypeConfigurationInput & keyof SetTypeConfigurationInput & keyof SetTypeConfigurationInput & keyof SetTypeConfigurationInput & keyof SetTypeConfigurationInput]: (SetTypeConfigurationInput & SetTypeConfigurationInput & SetTypeConfigurationInput & SetTypeConfigurationInput & SetTypeConfigurationInput & SetTypeConfigurationInput)[K]
+      [K in keyof SetTypeConfigurationInput]: (SetTypeConfigurationInput)[K]
     }>): Request<SetTypeConfigurationOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.setTypeConfiguration(
-          this.ops["SetTypeConfiguration"].applicator.apply(partialParams)
+          this.ops["SetTypeConfiguration"].apply(partialParams)
         );
     }
 
-    invokeSignalResource(partialParams: ToOptional<{
-      [K in keyof SignalResourceInput & keyof SignalResourceInput & keyof SignalResourceInput & keyof SignalResourceInput & keyof SignalResourceInput & keyof SignalResourceInput]: (SignalResourceInput & SignalResourceInput & SignalResourceInput & SignalResourceInput & SignalResourceInput & SignalResourceInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeSetTypeDefaultVersion(partialParams: ToOptional<{
+      [K in keyof SetTypeDefaultVersionInput]: (SetTypeDefaultVersionInput)[K]
+    }>): Request<SetTypeDefaultVersionOutput, AWSError> {
         this.boot();
-        return this.client.signalResource(
-          this.ops["SignalResource"].applicator.apply(partialParams)
+        return this.client.setTypeDefaultVersion(
+          this.ops["SetTypeDefaultVersion"].apply(partialParams)
         );
     }
 
     invokeStopStackSetOperation(partialParams: ToOptional<{
-      [K in keyof StopStackSetOperationInput & keyof StopStackSetOperationInput & keyof StopStackSetOperationInput & keyof StopStackSetOperationInput & keyof StopStackSetOperationInput & keyof Omit<StopStackSetOperationInput, "StackSetName">]: (StopStackSetOperationInput & StopStackSetOperationInput & StopStackSetOperationInput & StopStackSetOperationInput & StopStackSetOperationInput & Omit<StopStackSetOperationInput, "StackSetName">)[K]
+      [K in keyof StopStackSetOperationInput & keyof Omit<StopStackSetOperationInput, "StackSetName">]: (StopStackSetOperationInput)[K]
     }>): Request<StopStackSetOperationOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopStackSetOperation(
-          this.ops["StopStackSetOperation"].applicator.apply(partialParams)
+          this.ops["StopStackSetOperation"].apply(partialParams)
+        );
+    }
+
+    invokeTestType(partialParams: ToOptional<{
+      [K in keyof TestTypeInput]: (TestTypeInput)[K]
+    }>): Request<TestTypeOutput, AWSError> {
+        this.boot();
+        return this.client.testType(
+          this.ops["TestType"].apply(partialParams)
         );
     }
 
     invokeUpdateStack(partialParams: ToOptional<{
-      [K in keyof UpdateStackInput & keyof UpdateStackInput & keyof UpdateStackInput & keyof UpdateStackInput & keyof UpdateStackInput & keyof UpdateStackInput]: (UpdateStackInput & UpdateStackInput & UpdateStackInput & UpdateStackInput & UpdateStackInput & UpdateStackInput)[K]
+      [K in keyof UpdateStackInput]: (UpdateStackInput)[K]
     }>): Request<UpdateStackOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateStack(
-          this.ops["UpdateStack"].applicator.apply(partialParams)
+          this.ops["UpdateStack"].apply(partialParams)
         );
     }
 
     invokeUpdateStackInstances(partialParams: ToOptional<{
-      [K in keyof UpdateStackInstancesInput & keyof UpdateStackInstancesInput & keyof UpdateStackInstancesInput & keyof UpdateStackInstancesInput & keyof UpdateStackInstancesInput & keyof Omit<UpdateStackInstancesInput, "StackSetName">]: (UpdateStackInstancesInput & UpdateStackInstancesInput & UpdateStackInstancesInput & UpdateStackInstancesInput & UpdateStackInstancesInput & Omit<UpdateStackInstancesInput, "StackSetName">)[K]
+      [K in keyof UpdateStackInstancesInput & keyof Omit<UpdateStackInstancesInput, "StackSetName">]: (UpdateStackInstancesInput)[K]
     }>): Request<UpdateStackInstancesOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateStackInstances(
-          this.ops["UpdateStackInstances"].applicator.apply(partialParams)
+          this.ops["UpdateStackInstances"].apply(partialParams)
         );
     }
 
     invokeUpdateStackSet(partialParams: ToOptional<{
-      [K in keyof UpdateStackSetInput & keyof UpdateStackSetInput & keyof UpdateStackSetInput & keyof UpdateStackSetInput & keyof UpdateStackSetInput & keyof Omit<UpdateStackSetInput, "StackSetName">]: (UpdateStackSetInput & UpdateStackSetInput & UpdateStackSetInput & UpdateStackSetInput & UpdateStackSetInput & Omit<UpdateStackSetInput, "StackSetName">)[K]
+      [K in keyof UpdateStackSetInput & keyof Omit<UpdateStackSetInput, "StackSetName">]: (UpdateStackSetInput)[K]
     }>): Request<UpdateStackSetOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateStackSet(
-          this.ops["UpdateStackSet"].applicator.apply(partialParams)
+          this.ops["UpdateStackSet"].apply(partialParams)
         );
     }
 
     invokeUpdateTerminationProtection(partialParams: ToOptional<{
-      [K in keyof UpdateTerminationProtectionInput & keyof UpdateTerminationProtectionInput & keyof UpdateTerminationProtectionInput & keyof UpdateTerminationProtectionInput & keyof UpdateTerminationProtectionInput & keyof UpdateTerminationProtectionInput]: (UpdateTerminationProtectionInput & UpdateTerminationProtectionInput & UpdateTerminationProtectionInput & UpdateTerminationProtectionInput & UpdateTerminationProtectionInput & UpdateTerminationProtectionInput)[K]
+      [K in keyof UpdateTerminationProtectionInput]: (UpdateTerminationProtectionInput)[K]
     }>): Request<UpdateTerminationProtectionOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateTerminationProtection(
-          this.ops["UpdateTerminationProtection"].applicator.apply(partialParams)
+          this.ops["UpdateTerminationProtection"].apply(partialParams)
+        );
+    }
+
+    invokeValidateTemplate(partialParams: ToOptional<{
+      [K in keyof ValidateTemplateInput]: (ValidateTemplateInput)[K]
+    }>): Request<ValidateTemplateOutput, AWSError> {
+        this.boot();
+        return this.client.validateTemplate(
+          this.ops["ValidateTemplate"].apply(partialParams)
         );
     }
 }

@@ -43,6 +43,18 @@ function toPrimitiveShape(shape) {
     }
 }
 function getMatchApplicator(key, value, shapes) {
+    const types = {};
+    const applicators = {};
+    if (shapes[key] === undefined) {
+        return [applicators, types];
+    }
+    const shape = shapes[key];
+    applicators[key] = {
+        apply: (args) => 1,
+    };
+    return [applicators, types];
+}
+function _getMatchApplicator(key, value, shapes) {
     const typeMatch = {};
     const typeOverrides = {};
     const hasMatch = {};
@@ -53,14 +65,17 @@ function getMatchApplicator(key, value, shapes) {
         lastTypeNum = Object.keys(typeMatch).length;
         lastKeyNum = Object.keys(hasMatch).length;
         for (const [shapeName, shape] of Object.entries(shapes)) {
+            if (key === "TableName" && shapeName === "TableName") {
+                console.log(1);
+            }
             if (hasMatch[shapeName]) {
                 // already seen this
                 continue;
             }
             const pType = toPrimitiveShape(shape);
-            if (pType && pType === typeof value) {
+            if (pType && pType === value) { // Possibly bugged it
                 typeMatch[shapeName] = true;
-                if (key.toLowerCase() !== shapeName.toLowerCase()) {
+                if (key.toLowerCase() !== shapeName.toLowerCase()) { // Same CamelCase these
                     continue;
                 }
                 typeOverrides[shapeName] = pType;
@@ -69,7 +84,7 @@ function getMatchApplicator(key, value, shapes) {
                         return elem || value;
                     },
                 };
-                continue;
+                //continue
             }
             if (shape.type === "list") {
                 if (!hasMatch[shape.member.shape]) {
@@ -81,7 +96,7 @@ function getMatchApplicator(key, value, shapes) {
                         return list.map((item) => hasMatch[shape.member.shape].apply(item));
                     }
                 };
-                continue;
+                //continue;
             }
             if (shape.type === "structure" && shape.required) {
                 const overridenFields = [];
@@ -131,7 +146,10 @@ function getMatchApplicator(key, value, shapes) {
         Object.keys(typeMatch).length > lastTypeNum);
     return [hasMatch, typeOverrides];
 }
-function getOperations(key, value, schema, client) {
+function getOperations(key, value, schema) {
+    if (key === "TableName") {
+        console.log("TABLE");
+    }
     const [applicators, tmap] = getMatchApplicator(key, value, schema.shapes);
     const operations = schema.operations;
     const validOps = {};
@@ -144,7 +162,7 @@ function getOperations(key, value, schema, client) {
         }
         const inputShape = body.input.shape;
         const outputShape = body.output ? body.output.shape : "void";
-        const s3Method = (opName[0].toLowerCase() + opName.substring(1));
+        const s3Method = lowerCamelCase(opName);
         validOps[opName] = {
             operation: opName,
             applicator: applicators[inputShape],
@@ -155,28 +173,62 @@ function getOperations(key, value, schema, client) {
     }
     return validOps;
 }
-function getResourceOperations(resource, schema, client) {
+function getResourceOperations(resource, schema) {
     const resourceOps = {};
-    for (const [key, value] of Object.entries(resource)) {
-        const ops = getOperations(key, value, schema, client);
-        for (const [op, opSpec] of Object.entries(ops)) {
-            if (!resourceOps[op]) {
-                resourceOps[op] = opSpec;
+    for (const op of getInputOps(schema)) {
+        const shapeName = op.inputShapeName;
+        const shape = op.shape;
+        resourceOps[op.name] = {
+            op: op,
+            apply: (a) => a,
+        };
+        if (shape.type !== "structure") {
+            continue;
+        }
+        if (!shape.required) {
+            continue;
+        }
+        const liftedValues = {};
+        for (const field of shape.required) {
+            if (resource[field] === undefined) {
                 continue;
             }
-            const curOp = resourceOps[op];
-            curOp.applicator = {
-                apply: ((newApplicator, oldApplicator) => {
-                    return (elem) => newApplicator.apply(oldApplicator.apply(elem));
-                })(curOp.applicator, opSpec.applicator),
-            };
-            curOp.applicatorType = curOp.applicatorType.concat(opSpec.applicatorType);
-            //curOp.applicatorType = `(${curOp.applicatorType} | ${opSpec.applicatorType})`;
+            // common field between resource and operation
+            liftedValues[field] = resource[field];
         }
+        resourceOps[op.name] = {
+            op: op,
+            apply: (partial) => {
+                return Object.assign(Object.assign({}, partial), liftedValues);
+            },
+            omittedFields: Object.keys(liftedValues),
+        };
     }
     return resourceOps;
 }
 exports.getResourceOperations = getResourceOperations;
+function getInputOps(schema) {
+    return Object.values(schema.operations)
+        .filter((op) => {
+        if (op.input === undefined)
+            return false;
+        if (op.output === undefined)
+            return false; // TODO test this
+        const shape = schema.shapes[op.input.shape];
+        if (shape.type !== "structure")
+            return false;
+        return true;
+    })
+        .map((op) => {
+        const shape = schema.shapes[op.input.shape];
+        return {
+            name: op.name,
+            inputShapeName: op.input.shape,
+            outputShapeName: op.output.shape,
+            shape: schema.shapes[op.input.shape],
+        };
+    });
+}
 function lowerCamelCase(str) {
     return str[0].toLowerCase() + str.substring(1);
 }
@@ -193,17 +245,17 @@ class MethodFactory {
     render() {
         //${this.op.operation}(${this.args.map(([name, type]) =>`${name}: ${type}`).join(', ')}): ${this.returnType} {
         const op = this.op;
+        let omitType = "";
+        if (op.omittedFields !== undefined && op.omittedFields.length > 0) {
+            omitType = ` & keyof Omit<${op.op.inputShapeName}, ${(op.omittedFields || []).map(field => `"${field}"`).join(" | ")}>`;
+        }
         return `
-    invoke${upperCamelCase(op.operation)}(partialParams: ToOptional<{
-      [K in ${op.applicatorType.map((type) => {
-            return `keyof ${type}`;
-        }).join(' & ')}]: (${op.applicatorType.join(' & ')})[K]
-    }>): Request<${op.returnType}, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invoke${upperCamelCase(op.op.name)}(partialParams: ToOptional<{
+      [K in keyof ${op.op.inputShapeName}${omitType}]: (${op.op.inputShapeName})[K]
+    }>): Request<${op.op.outputShapeName}, AWSError> {
         this.boot();
-        return this.client.${lowerCamelCase(op.operation)}(
-          this.ops["${upperCamelCase(op.operation)}"].applicator.apply(partialParams)
+        return this.client.${lowerCamelCase(op.op.name)}(
+          this.ops["${upperCamelCase(op.op.name)}"].apply(partialParams)
         );
     }`;
     }
@@ -217,14 +269,25 @@ class ClassFactory {
     }
     render() {
         const [clientRef, client, serviceId] = this.client;
-        const [classRef, cls] = this.cls;
-        const ops = getResourceOperations(cls, require(this.schemaFile), client);
+        const [classRef, cls, resource] = this.cls;
+        const params = {};
+        Object.entries(cls).forEach(([key, value]) => {
+            params[upperCamelCase(key)] = value;
+            if (cls[upperCamelCase(resource) + upperCamelCase(key)] === undefined
+                && params[upperCamelCase(resource) + upperCamelCase(key)] === undefined) {
+                params[upperCamelCase(resource) + upperCamelCase(key)] = value;
+            }
+        });
+        if (resource === "Table") {
+            console.log("TABLE", params);
+        }
+        const ops = getResourceOperations(params, require(this.schemaFile));
         const methods = Object.entries(ops).map(([opName, op]) => {
             return new MethodFactory(op);
         });
         const typeList = methods
-            .map((method) => method.op.inputShape)
-            .concat(methods.map((method) => method.op.returnType))
+            .map((method) => method.op.op.inputShapeName)
+            .concat(methods.map((method) => method.op.op.outputShapeName))
             .filter((type) => {
             const filterList = [
                 "void",
@@ -258,21 +321,24 @@ export default class extends ${classRef} {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof ${classRef}>) {
         super(...args)
+        this.booted = false;
         this.client = new ${clientRef}()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -282,7 +348,8 @@ export default class extends ${classRef} {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 ${methods.map(method => method.render()).join('\n')}
 }`;
@@ -353,7 +420,7 @@ function main() {
                 console.error(`no resource found processing [key=${key}]`);
                 continue;
             }
-            fs.writeFileSync(`out/${service}/${resource}.ts`, (new ClassFactory([`${cloud}.${service}.${resource}`, schemaToResourceKeys(key)], [`awssdk.${awsServiceName}`, new awsSDK[awsServiceName](), awsServiceName], schema).render()));
+            fs.writeFileSync(`out/${service}/${resource}.ts`, (new ClassFactory([`${cloud}.${service}.${resource}`, schemaToResourceKeys(key), resource], [`awssdk.${awsServiceName}`, new awsSDK[awsServiceName](), awsServiceName], schema).render()));
         }
         catch (e) {
             console.error(`error processing [key=${key}] ${e}`);
@@ -364,12 +431,22 @@ function main() {
 if (require.main === module) {
     main();
     /*
+    const schema = require(findAWSSchema('dynamodb')!)
+    const awsSDK = require('aws-sdk');
+    console.log(new ClassFactory(
+      [`aws.dynamodb.Table`, schemaToResourceKeys("aws:dynamodb/table:Table"), "Table"],
+      [`awssdk.DynamoDB`, new (awsSDK['DynamoDB'] as any)(), 'DynamoDB'],
+      schema,
+    ).render())
+    //});
+    ///*
+    const awsSDK = require('aws-sdk');
     const schema = require(findAWSSchema('s3')!)
     //serializeFunction(() => {
       const resops = getResourceOperations({
         "Bucket": "mybuck",
-      }, schema, new awsSDK.S3())
-      console.log(resops['PutObject'].applicator.apply({Key: "Wew"}))
+      }, schema)
+      console.log(resops['PutObject'].apply({Key: "Wew"}))
     //});
-    */
+    //*/
 }

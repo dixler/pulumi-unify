@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.inspector.AssessmentTemplate {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.Inspector();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,187 +50,116 @@ class default_1 extends aws.inspector.AssessmentTemplate {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAddAttributesToFindings(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.addAttributesToFindings(this.ops["AddAttributesToFindings"].applicator.apply(partialParams));
+        return this.client.addAttributesToFindings(this.ops["AddAttributesToFindings"].apply(partialParams));
     }
     invokeCreateAssessmentTarget(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createAssessmentTarget(this.ops["CreateAssessmentTarget"].applicator.apply(partialParams));
+        return this.client.createAssessmentTarget(this.ops["CreateAssessmentTarget"].apply(partialParams));
     }
     invokeCreateAssessmentTemplate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createAssessmentTemplate(this.ops["CreateAssessmentTemplate"].applicator.apply(partialParams));
+        return this.client.createAssessmentTemplate(this.ops["CreateAssessmentTemplate"].apply(partialParams));
     }
     invokeCreateExclusionsPreview(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createExclusionsPreview(this.ops["CreateExclusionsPreview"].applicator.apply(partialParams));
+        return this.client.createExclusionsPreview(this.ops["CreateExclusionsPreview"].apply(partialParams));
     }
     invokeCreateResourceGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createResourceGroup(this.ops["CreateResourceGroup"].applicator.apply(partialParams));
-    }
-    invokeDeleteAssessmentRun(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteAssessmentRun(this.ops["DeleteAssessmentRun"].applicator.apply(partialParams));
-    }
-    invokeDeleteAssessmentTarget(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteAssessmentTarget(this.ops["DeleteAssessmentTarget"].applicator.apply(partialParams));
-    }
-    invokeDeleteAssessmentTemplate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteAssessmentTemplate(this.ops["DeleteAssessmentTemplate"].applicator.apply(partialParams));
+        return this.client.createResourceGroup(this.ops["CreateResourceGroup"].apply(partialParams));
     }
     invokeDescribeAssessmentRuns(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeAssessmentRuns(this.ops["DescribeAssessmentRuns"].applicator.apply(partialParams));
+        return this.client.describeAssessmentRuns(this.ops["DescribeAssessmentRuns"].apply(partialParams));
     }
     invokeDescribeAssessmentTargets(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeAssessmentTargets(this.ops["DescribeAssessmentTargets"].applicator.apply(partialParams));
+        return this.client.describeAssessmentTargets(this.ops["DescribeAssessmentTargets"].apply(partialParams));
     }
     invokeDescribeAssessmentTemplates(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeAssessmentTemplates(this.ops["DescribeAssessmentTemplates"].applicator.apply(partialParams));
+        return this.client.describeAssessmentTemplates(this.ops["DescribeAssessmentTemplates"].apply(partialParams));
     }
     invokeDescribeExclusions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeExclusions(this.ops["DescribeExclusions"].applicator.apply(partialParams));
+        return this.client.describeExclusions(this.ops["DescribeExclusions"].apply(partialParams));
     }
     invokeDescribeFindings(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeFindings(this.ops["DescribeFindings"].applicator.apply(partialParams));
+        return this.client.describeFindings(this.ops["DescribeFindings"].apply(partialParams));
     }
     invokeDescribeResourceGroups(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeResourceGroups(this.ops["DescribeResourceGroups"].applicator.apply(partialParams));
+        return this.client.describeResourceGroups(this.ops["DescribeResourceGroups"].apply(partialParams));
     }
     invokeDescribeRulesPackages(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeRulesPackages(this.ops["DescribeRulesPackages"].applicator.apply(partialParams));
+        return this.client.describeRulesPackages(this.ops["DescribeRulesPackages"].apply(partialParams));
     }
     invokeGetAssessmentReport(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getAssessmentReport(this.ops["GetAssessmentReport"].applicator.apply(partialParams));
+        return this.client.getAssessmentReport(this.ops["GetAssessmentReport"].apply(partialParams));
     }
     invokeGetExclusionsPreview(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getExclusionsPreview(this.ops["GetExclusionsPreview"].applicator.apply(partialParams));
+        return this.client.getExclusionsPreview(this.ops["GetExclusionsPreview"].apply(partialParams));
     }
     invokeGetTelemetryMetadata(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getTelemetryMetadata(this.ops["GetTelemetryMetadata"].applicator.apply(partialParams));
+        return this.client.getTelemetryMetadata(this.ops["GetTelemetryMetadata"].apply(partialParams));
     }
     invokeListAssessmentRunAgents(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listAssessmentRunAgents(this.ops["ListAssessmentRunAgents"].applicator.apply(partialParams));
+        return this.client.listAssessmentRunAgents(this.ops["ListAssessmentRunAgents"].apply(partialParams));
+    }
+    invokeListAssessmentRuns(partialParams) {
+        this.boot();
+        return this.client.listAssessmentRuns(this.ops["ListAssessmentRuns"].apply(partialParams));
+    }
+    invokeListAssessmentTargets(partialParams) {
+        this.boot();
+        return this.client.listAssessmentTargets(this.ops["ListAssessmentTargets"].apply(partialParams));
+    }
+    invokeListAssessmentTemplates(partialParams) {
+        this.boot();
+        return this.client.listAssessmentTemplates(this.ops["ListAssessmentTemplates"].apply(partialParams));
+    }
+    invokeListEventSubscriptions(partialParams) {
+        this.boot();
+        return this.client.listEventSubscriptions(this.ops["ListEventSubscriptions"].apply(partialParams));
     }
     invokeListExclusions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listExclusions(this.ops["ListExclusions"].applicator.apply(partialParams));
+        return this.client.listExclusions(this.ops["ListExclusions"].apply(partialParams));
+    }
+    invokeListFindings(partialParams) {
+        this.boot();
+        return this.client.listFindings(this.ops["ListFindings"].apply(partialParams));
+    }
+    invokeListRulesPackages(partialParams) {
+        this.boot();
+        return this.client.listRulesPackages(this.ops["ListRulesPackages"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokePreviewAgents(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.previewAgents(this.ops["PreviewAgents"].applicator.apply(partialParams));
-    }
-    invokeRegisterCrossAccountAccessRole(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.registerCrossAccountAccessRole(this.ops["RegisterCrossAccountAccessRole"].applicator.apply(partialParams));
+        return this.client.previewAgents(this.ops["PreviewAgents"].apply(partialParams));
     }
     invokeRemoveAttributesFromFindings(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.removeAttributesFromFindings(this.ops["RemoveAttributesFromFindings"].applicator.apply(partialParams));
-    }
-    invokeSetTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.setTagsForResource(this.ops["SetTagsForResource"].applicator.apply(partialParams));
+        return this.client.removeAttributesFromFindings(this.ops["RemoveAttributesFromFindings"].apply(partialParams));
     }
     invokeStartAssessmentRun(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startAssessmentRun(this.ops["StartAssessmentRun"].applicator.apply(partialParams));
-    }
-    invokeStopAssessmentRun(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.stopAssessmentRun(this.ops["StopAssessmentRun"].applicator.apply(partialParams));
-    }
-    invokeSubscribeToEvent(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.subscribeToEvent(this.ops["SubscribeToEvent"].applicator.apply(partialParams));
-    }
-    invokeUnsubscribeFromEvent(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.unsubscribeFromEvent(this.ops["UnsubscribeFromEvent"].applicator.apply(partialParams));
-    }
-    invokeUpdateAssessmentTarget(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateAssessmentTarget(this.ops["UpdateAssessmentTarget"].applicator.apply(partialParams));
+        return this.client.startAssessmentRun(this.ops["StartAssessmentRun"].apply(partialParams));
     }
 }
 exports.default = default_1;

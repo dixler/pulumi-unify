@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.securityhub.ActionTarget {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.SecurityHub();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,217 +50,232 @@ class default_1 extends aws.securityhub.ActionTarget {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAcceptAdministratorInvitation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.acceptAdministratorInvitation(this.ops["AcceptAdministratorInvitation"].applicator.apply(partialParams));
+        return this.client.acceptAdministratorInvitation(this.ops["AcceptAdministratorInvitation"].apply(partialParams));
     }
     invokeAcceptInvitation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.acceptInvitation(this.ops["AcceptInvitation"].applicator.apply(partialParams));
+        return this.client.acceptInvitation(this.ops["AcceptInvitation"].apply(partialParams));
     }
     invokeBatchDisableStandards(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.batchDisableStandards(this.ops["BatchDisableStandards"].applicator.apply(partialParams));
+        return this.client.batchDisableStandards(this.ops["BatchDisableStandards"].apply(partialParams));
     }
     invokeBatchEnableStandards(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.batchEnableStandards(this.ops["BatchEnableStandards"].applicator.apply(partialParams));
+        return this.client.batchEnableStandards(this.ops["BatchEnableStandards"].apply(partialParams));
     }
     invokeBatchImportFindings(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.batchImportFindings(this.ops["BatchImportFindings"].applicator.apply(partialParams));
+        return this.client.batchImportFindings(this.ops["BatchImportFindings"].apply(partialParams));
     }
     invokeBatchUpdateFindings(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.batchUpdateFindings(this.ops["BatchUpdateFindings"].applicator.apply(partialParams));
+        return this.client.batchUpdateFindings(this.ops["BatchUpdateFindings"].apply(partialParams));
     }
     invokeCreateActionTarget(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createActionTarget(this.ops["CreateActionTarget"].applicator.apply(partialParams));
+        return this.client.createActionTarget(this.ops["CreateActionTarget"].apply(partialParams));
     }
     invokeCreateFindingAggregator(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createFindingAggregator(this.ops["CreateFindingAggregator"].applicator.apply(partialParams));
+        return this.client.createFindingAggregator(this.ops["CreateFindingAggregator"].apply(partialParams));
     }
     invokeCreateInsight(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createInsight(this.ops["CreateInsight"].applicator.apply(partialParams));
+        return this.client.createInsight(this.ops["CreateInsight"].apply(partialParams));
     }
     invokeCreateMembers(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createMembers(this.ops["CreateMembers"].applicator.apply(partialParams));
+        return this.client.createMembers(this.ops["CreateMembers"].apply(partialParams));
     }
     invokeDeclineInvitations(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.declineInvitations(this.ops["DeclineInvitations"].applicator.apply(partialParams));
+        return this.client.declineInvitations(this.ops["DeclineInvitations"].apply(partialParams));
     }
     invokeDeleteActionTarget(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteActionTarget(this.ops["DeleteActionTarget"].applicator.apply(partialParams));
+        return this.client.deleteActionTarget(this.ops["DeleteActionTarget"].apply(partialParams));
     }
     invokeDeleteFindingAggregator(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteFindingAggregator(this.ops["DeleteFindingAggregator"].applicator.apply(partialParams));
+        return this.client.deleteFindingAggregator(this.ops["DeleteFindingAggregator"].apply(partialParams));
     }
     invokeDeleteInsight(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteInsight(this.ops["DeleteInsight"].applicator.apply(partialParams));
+        return this.client.deleteInsight(this.ops["DeleteInsight"].apply(partialParams));
     }
     invokeDeleteInvitations(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteInvitations(this.ops["DeleteInvitations"].applicator.apply(partialParams));
+        return this.client.deleteInvitations(this.ops["DeleteInvitations"].apply(partialParams));
     }
     invokeDeleteMembers(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteMembers(this.ops["DeleteMembers"].applicator.apply(partialParams));
+        return this.client.deleteMembers(this.ops["DeleteMembers"].apply(partialParams));
+    }
+    invokeDescribeActionTargets(partialParams) {
+        this.boot();
+        return this.client.describeActionTargets(this.ops["DescribeActionTargets"].apply(partialParams));
+    }
+    invokeDescribeHub(partialParams) {
+        this.boot();
+        return this.client.describeHub(this.ops["DescribeHub"].apply(partialParams));
+    }
+    invokeDescribeOrganizationConfiguration(partialParams) {
+        this.boot();
+        return this.client.describeOrganizationConfiguration(this.ops["DescribeOrganizationConfiguration"].apply(partialParams));
+    }
+    invokeDescribeProducts(partialParams) {
+        this.boot();
+        return this.client.describeProducts(this.ops["DescribeProducts"].apply(partialParams));
+    }
+    invokeDescribeStandards(partialParams) {
+        this.boot();
+        return this.client.describeStandards(this.ops["DescribeStandards"].apply(partialParams));
     }
     invokeDescribeStandardsControls(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeStandardsControls(this.ops["DescribeStandardsControls"].applicator.apply(partialParams));
+        return this.client.describeStandardsControls(this.ops["DescribeStandardsControls"].apply(partialParams));
     }
     invokeDisableImportFindingsForProduct(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disableImportFindingsForProduct(this.ops["DisableImportFindingsForProduct"].applicator.apply(partialParams));
+        return this.client.disableImportFindingsForProduct(this.ops["DisableImportFindingsForProduct"].apply(partialParams));
     }
     invokeDisableOrganizationAdminAccount(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disableOrganizationAdminAccount(this.ops["DisableOrganizationAdminAccount"].applicator.apply(partialParams));
+        return this.client.disableOrganizationAdminAccount(this.ops["DisableOrganizationAdminAccount"].apply(partialParams));
+    }
+    invokeDisableSecurityHub(partialParams) {
+        this.boot();
+        return this.client.disableSecurityHub(this.ops["DisableSecurityHub"].apply(partialParams));
+    }
+    invokeDisassociateFromAdministratorAccount(partialParams) {
+        this.boot();
+        return this.client.disassociateFromAdministratorAccount(this.ops["DisassociateFromAdministratorAccount"].apply(partialParams));
+    }
+    invokeDisassociateFromMasterAccount(partialParams) {
+        this.boot();
+        return this.client.disassociateFromMasterAccount(this.ops["DisassociateFromMasterAccount"].apply(partialParams));
     }
     invokeDisassociateMembers(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateMembers(this.ops["DisassociateMembers"].applicator.apply(partialParams));
+        return this.client.disassociateMembers(this.ops["DisassociateMembers"].apply(partialParams));
     }
     invokeEnableImportFindingsForProduct(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.enableImportFindingsForProduct(this.ops["EnableImportFindingsForProduct"].applicator.apply(partialParams));
+        return this.client.enableImportFindingsForProduct(this.ops["EnableImportFindingsForProduct"].apply(partialParams));
     }
     invokeEnableOrganizationAdminAccount(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.enableOrganizationAdminAccount(this.ops["EnableOrganizationAdminAccount"].applicator.apply(partialParams));
+        return this.client.enableOrganizationAdminAccount(this.ops["EnableOrganizationAdminAccount"].apply(partialParams));
+    }
+    invokeEnableSecurityHub(partialParams) {
+        this.boot();
+        return this.client.enableSecurityHub(this.ops["EnableSecurityHub"].apply(partialParams));
+    }
+    invokeGetAdministratorAccount(partialParams) {
+        this.boot();
+        return this.client.getAdministratorAccount(this.ops["GetAdministratorAccount"].apply(partialParams));
+    }
+    invokeGetEnabledStandards(partialParams) {
+        this.boot();
+        return this.client.getEnabledStandards(this.ops["GetEnabledStandards"].apply(partialParams));
     }
     invokeGetFindingAggregator(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getFindingAggregator(this.ops["GetFindingAggregator"].applicator.apply(partialParams));
+        return this.client.getFindingAggregator(this.ops["GetFindingAggregator"].apply(partialParams));
+    }
+    invokeGetFindings(partialParams) {
+        this.boot();
+        return this.client.getFindings(this.ops["GetFindings"].apply(partialParams));
     }
     invokeGetInsightResults(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getInsightResults(this.ops["GetInsightResults"].applicator.apply(partialParams));
+        return this.client.getInsightResults(this.ops["GetInsightResults"].apply(partialParams));
+    }
+    invokeGetInsights(partialParams) {
+        this.boot();
+        return this.client.getInsights(this.ops["GetInsights"].apply(partialParams));
+    }
+    invokeGetInvitationsCount(partialParams) {
+        this.boot();
+        return this.client.getInvitationsCount(this.ops["GetInvitationsCount"].apply(partialParams));
+    }
+    invokeGetMasterAccount(partialParams) {
+        this.boot();
+        return this.client.getMasterAccount(this.ops["GetMasterAccount"].apply(partialParams));
     }
     invokeGetMembers(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getMembers(this.ops["GetMembers"].applicator.apply(partialParams));
+        return this.client.getMembers(this.ops["GetMembers"].apply(partialParams));
     }
     invokeInviteMembers(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.inviteMembers(this.ops["InviteMembers"].applicator.apply(partialParams));
+        return this.client.inviteMembers(this.ops["InviteMembers"].apply(partialParams));
+    }
+    invokeListEnabledProductsForImport(partialParams) {
+        this.boot();
+        return this.client.listEnabledProductsForImport(this.ops["ListEnabledProductsForImport"].apply(partialParams));
+    }
+    invokeListFindingAggregators(partialParams) {
+        this.boot();
+        return this.client.listFindingAggregators(this.ops["ListFindingAggregators"].apply(partialParams));
+    }
+    invokeListInvitations(partialParams) {
+        this.boot();
+        return this.client.listInvitations(this.ops["ListInvitations"].apply(partialParams));
+    }
+    invokeListMembers(partialParams) {
+        this.boot();
+        return this.client.listMembers(this.ops["ListMembers"].apply(partialParams));
+    }
+    invokeListOrganizationAdminAccounts(partialParams) {
+        this.boot();
+        return this.client.listOrganizationAdminAccounts(this.ops["ListOrganizationAdminAccounts"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateActionTarget(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateActionTarget(this.ops["UpdateActionTarget"].applicator.apply(partialParams));
+        return this.client.updateActionTarget(this.ops["UpdateActionTarget"].apply(partialParams));
     }
     invokeUpdateFindingAggregator(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateFindingAggregator(this.ops["UpdateFindingAggregator"].applicator.apply(partialParams));
+        return this.client.updateFindingAggregator(this.ops["UpdateFindingAggregator"].apply(partialParams));
     }
     invokeUpdateFindings(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateFindings(this.ops["UpdateFindings"].applicator.apply(partialParams));
+        return this.client.updateFindings(this.ops["UpdateFindings"].apply(partialParams));
     }
     invokeUpdateInsight(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateInsight(this.ops["UpdateInsight"].applicator.apply(partialParams));
+        return this.client.updateInsight(this.ops["UpdateInsight"].apply(partialParams));
     }
     invokeUpdateOrganizationConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateOrganizationConfiguration(this.ops["UpdateOrganizationConfiguration"].applicator.apply(partialParams));
+        return this.client.updateOrganizationConfiguration(this.ops["UpdateOrganizationConfiguration"].apply(partialParams));
+    }
+    invokeUpdateSecurityHubConfiguration(partialParams) {
+        this.boot();
+        return this.client.updateSecurityHubConfiguration(this.ops["UpdateSecurityHubConfiguration"].apply(partialParams));
     }
     invokeUpdateStandardsControl(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateStandardsControl(this.ops["UpdateStandardsControl"].applicator.apply(partialParams));
+        return this.client.updateStandardsControl(this.ops["UpdateStandardsControl"].apply(partialParams));
     }
 }
 exports.default = default_1;

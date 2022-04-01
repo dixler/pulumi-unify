@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.sns.PlatformApplication {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.SNS();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,199 +50,128 @@ class default_1 extends aws.sns.PlatformApplication {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
-    }
-    invokeAddPermission(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.addPermission(this.ops["AddPermission"].applicator.apply(partialParams));
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeCheckIfPhoneNumberIsOptedOut(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.checkIfPhoneNumberIsOptedOut(this.ops["CheckIfPhoneNumberIsOptedOut"].applicator.apply(partialParams));
+        return this.client.checkIfPhoneNumberIsOptedOut(this.ops["CheckIfPhoneNumberIsOptedOut"].apply(partialParams));
     }
     invokeConfirmSubscription(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.confirmSubscription(this.ops["ConfirmSubscription"].applicator.apply(partialParams));
+        return this.client.confirmSubscription(this.ops["ConfirmSubscription"].apply(partialParams));
     }
     invokeCreatePlatformApplication(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createPlatformApplication(this.ops["CreatePlatformApplication"].applicator.apply(partialParams));
+        return this.client.createPlatformApplication(this.ops["CreatePlatformApplication"].apply(partialParams));
     }
     invokeCreatePlatformEndpoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createPlatformEndpoint(this.ops["CreatePlatformEndpoint"].applicator.apply(partialParams));
+        return this.client.createPlatformEndpoint(this.ops["CreatePlatformEndpoint"].apply(partialParams));
     }
     invokeCreateSMSSandboxPhoneNumber(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createSMSSandboxPhoneNumber(this.ops["CreateSMSSandboxPhoneNumber"].applicator.apply(partialParams));
+        return this.client.createSMSSandboxPhoneNumber(this.ops["CreateSMSSandboxPhoneNumber"].apply(partialParams));
     }
     invokeCreateTopic(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createTopic(this.ops["CreateTopic"].applicator.apply(partialParams));
-    }
-    invokeDeleteEndpoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteEndpoint(this.ops["DeleteEndpoint"].applicator.apply(partialParams));
-    }
-    invokeDeletePlatformApplication(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deletePlatformApplication(this.ops["DeletePlatformApplication"].applicator.apply(partialParams));
+        return this.client.createTopic(this.ops["CreateTopic"].apply(partialParams));
     }
     invokeDeleteSMSSandboxPhoneNumber(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteSMSSandboxPhoneNumber(this.ops["DeleteSMSSandboxPhoneNumber"].applicator.apply(partialParams));
-    }
-    invokeDeleteTopic(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteTopic(this.ops["DeleteTopic"].applicator.apply(partialParams));
+        return this.client.deleteSMSSandboxPhoneNumber(this.ops["DeleteSMSSandboxPhoneNumber"].apply(partialParams));
     }
     invokeGetEndpointAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getEndpointAttributes(this.ops["GetEndpointAttributes"].applicator.apply(partialParams));
+        return this.client.getEndpointAttributes(this.ops["GetEndpointAttributes"].apply(partialParams));
     }
     invokeGetPlatformApplicationAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getPlatformApplicationAttributes(this.ops["GetPlatformApplicationAttributes"].applicator.apply(partialParams));
+        return this.client.getPlatformApplicationAttributes(this.ops["GetPlatformApplicationAttributes"].apply(partialParams));
+    }
+    invokeGetSMSAttributes(partialParams) {
+        this.boot();
+        return this.client.getSMSAttributes(this.ops["GetSMSAttributes"].apply(partialParams));
+    }
+    invokeGetSMSSandboxAccountStatus(partialParams) {
+        this.boot();
+        return this.client.getSMSSandboxAccountStatus(this.ops["GetSMSSandboxAccountStatus"].apply(partialParams));
     }
     invokeGetSubscriptionAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getSubscriptionAttributes(this.ops["GetSubscriptionAttributes"].applicator.apply(partialParams));
+        return this.client.getSubscriptionAttributes(this.ops["GetSubscriptionAttributes"].apply(partialParams));
     }
     invokeGetTopicAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getTopicAttributes(this.ops["GetTopicAttributes"].applicator.apply(partialParams));
+        return this.client.getTopicAttributes(this.ops["GetTopicAttributes"].apply(partialParams));
     }
     invokeListEndpointsByPlatformApplication(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listEndpointsByPlatformApplication(this.ops["ListEndpointsByPlatformApplication"].applicator.apply(partialParams));
+        return this.client.listEndpointsByPlatformApplication(this.ops["ListEndpointsByPlatformApplication"].apply(partialParams));
+    }
+    invokeListOriginationNumbers(partialParams) {
+        this.boot();
+        return this.client.listOriginationNumbers(this.ops["ListOriginationNumbers"].apply(partialParams));
+    }
+    invokeListPhoneNumbersOptedOut(partialParams) {
+        this.boot();
+        return this.client.listPhoneNumbersOptedOut(this.ops["ListPhoneNumbersOptedOut"].apply(partialParams));
+    }
+    invokeListPlatformApplications(partialParams) {
+        this.boot();
+        return this.client.listPlatformApplications(this.ops["ListPlatformApplications"].apply(partialParams));
+    }
+    invokeListSMSSandboxPhoneNumbers(partialParams) {
+        this.boot();
+        return this.client.listSMSSandboxPhoneNumbers(this.ops["ListSMSSandboxPhoneNumbers"].apply(partialParams));
+    }
+    invokeListSubscriptions(partialParams) {
+        this.boot();
+        return this.client.listSubscriptions(this.ops["ListSubscriptions"].apply(partialParams));
     }
     invokeListSubscriptionsByTopic(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listSubscriptionsByTopic(this.ops["ListSubscriptionsByTopic"].applicator.apply(partialParams));
+        return this.client.listSubscriptionsByTopic(this.ops["ListSubscriptionsByTopic"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+    }
+    invokeListTopics(partialParams) {
+        this.boot();
+        return this.client.listTopics(this.ops["ListTopics"].apply(partialParams));
     }
     invokeOptInPhoneNumber(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.optInPhoneNumber(this.ops["OptInPhoneNumber"].applicator.apply(partialParams));
+        return this.client.optInPhoneNumber(this.ops["OptInPhoneNumber"].apply(partialParams));
     }
     invokePublish(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.publish(this.ops["Publish"].applicator.apply(partialParams));
+        return this.client.publish(this.ops["Publish"].apply(partialParams));
     }
     invokePublishBatch(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.publishBatch(this.ops["PublishBatch"].applicator.apply(partialParams));
-    }
-    invokeRemovePermission(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.removePermission(this.ops["RemovePermission"].applicator.apply(partialParams));
-    }
-    invokeSetEndpointAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.setEndpointAttributes(this.ops["SetEndpointAttributes"].applicator.apply(partialParams));
-    }
-    invokeSetPlatformApplicationAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.setPlatformApplicationAttributes(this.ops["SetPlatformApplicationAttributes"].applicator.apply(partialParams));
+        return this.client.publishBatch(this.ops["PublishBatch"].apply(partialParams));
     }
     invokeSetSMSAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.setSMSAttributes(this.ops["SetSMSAttributes"].applicator.apply(partialParams));
-    }
-    invokeSetSubscriptionAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.setSubscriptionAttributes(this.ops["SetSubscriptionAttributes"].applicator.apply(partialParams));
-    }
-    invokeSetTopicAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.setTopicAttributes(this.ops["SetTopicAttributes"].applicator.apply(partialParams));
+        return this.client.setSMSAttributes(this.ops["SetSMSAttributes"].apply(partialParams));
     }
     invokeSubscribe(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.subscribe(this.ops["Subscribe"].applicator.apply(partialParams));
+        return this.client.subscribe(this.ops["Subscribe"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
-    }
-    invokeUnsubscribe(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.unsubscribe(this.ops["Unsubscribe"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeVerifySMSSandboxPhoneNumber(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.verifySMSSandboxPhoneNumber(this.ops["VerifySMSSandboxPhoneNumber"].applicator.apply(partialParams));
+        return this.client.verifySMSSandboxPhoneNumber(this.ops["VerifySMSSandboxPhoneNumber"].apply(partialParams));
     }
 }
 exports.default = default_1;

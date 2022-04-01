@@ -249,21 +249,24 @@ export default class extends aws.quicksight.GroupMembership {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.quicksight.GroupMembership>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.QuickSight()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -273,1271 +276,1042 @@ export default class extends aws.quicksight.GroupMembership {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCancelIngestion(partialParams: ToOptional<{
-      [K in keyof CancelIngestionRequest & keyof Omit<CancelIngestionRequest, "AwsAccountId"> & keyof CancelIngestionRequest & keyof CancelIngestionRequest & keyof CancelIngestionRequest]: (CancelIngestionRequest & Omit<CancelIngestionRequest, "AwsAccountId"> & CancelIngestionRequest & CancelIngestionRequest & CancelIngestionRequest)[K]
+      [K in keyof CancelIngestionRequest & keyof Omit<CancelIngestionRequest, "AwsAccountId">]: (CancelIngestionRequest)[K]
     }>): Request<CancelIngestionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.cancelIngestion(
-          this.ops["CancelIngestion"].applicator.apply(partialParams)
+          this.ops["CancelIngestion"].apply(partialParams)
         );
     }
 
     invokeCreateAccountCustomization(partialParams: ToOptional<{
-      [K in keyof CreateAccountCustomizationRequest & keyof Omit<CreateAccountCustomizationRequest, "AwsAccountId"> & keyof CreateAccountCustomizationRequest & keyof CreateAccountCustomizationRequest & keyof CreateAccountCustomizationRequest]: (CreateAccountCustomizationRequest & Omit<CreateAccountCustomizationRequest, "AwsAccountId"> & CreateAccountCustomizationRequest & CreateAccountCustomizationRequest & CreateAccountCustomizationRequest)[K]
+      [K in keyof CreateAccountCustomizationRequest & keyof Omit<CreateAccountCustomizationRequest, "AwsAccountId">]: (CreateAccountCustomizationRequest)[K]
     }>): Request<CreateAccountCustomizationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createAccountCustomization(
-          this.ops["CreateAccountCustomization"].applicator.apply(partialParams)
+          this.ops["CreateAccountCustomization"].apply(partialParams)
         );
     }
 
     invokeCreateAnalysis(partialParams: ToOptional<{
-      [K in keyof CreateAnalysisRequest & keyof Omit<CreateAnalysisRequest, "AwsAccountId"> & keyof CreateAnalysisRequest & keyof CreateAnalysisRequest & keyof CreateAnalysisRequest]: (CreateAnalysisRequest & Omit<CreateAnalysisRequest, "AwsAccountId"> & CreateAnalysisRequest & CreateAnalysisRequest & CreateAnalysisRequest)[K]
+      [K in keyof CreateAnalysisRequest & keyof Omit<CreateAnalysisRequest, "AwsAccountId">]: (CreateAnalysisRequest)[K]
     }>): Request<CreateAnalysisResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createAnalysis(
-          this.ops["CreateAnalysis"].applicator.apply(partialParams)
+          this.ops["CreateAnalysis"].apply(partialParams)
         );
     }
 
     invokeCreateDashboard(partialParams: ToOptional<{
-      [K in keyof CreateDashboardRequest & keyof Omit<CreateDashboardRequest, "AwsAccountId"> & keyof CreateDashboardRequest & keyof CreateDashboardRequest & keyof CreateDashboardRequest]: (CreateDashboardRequest & Omit<CreateDashboardRequest, "AwsAccountId"> & CreateDashboardRequest & CreateDashboardRequest & CreateDashboardRequest)[K]
+      [K in keyof CreateDashboardRequest & keyof Omit<CreateDashboardRequest, "AwsAccountId">]: (CreateDashboardRequest)[K]
     }>): Request<CreateDashboardResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDashboard(
-          this.ops["CreateDashboard"].applicator.apply(partialParams)
+          this.ops["CreateDashboard"].apply(partialParams)
         );
     }
 
     invokeCreateDataSet(partialParams: ToOptional<{
-      [K in keyof CreateDataSetRequest & keyof Omit<CreateDataSetRequest, "AwsAccountId"> & keyof CreateDataSetRequest & keyof CreateDataSetRequest & keyof CreateDataSetRequest]: (CreateDataSetRequest & Omit<CreateDataSetRequest, "AwsAccountId"> & CreateDataSetRequest & CreateDataSetRequest & CreateDataSetRequest)[K]
+      [K in keyof CreateDataSetRequest & keyof Omit<CreateDataSetRequest, "AwsAccountId">]: (CreateDataSetRequest)[K]
     }>): Request<CreateDataSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDataSet(
-          this.ops["CreateDataSet"].applicator.apply(partialParams)
+          this.ops["CreateDataSet"].apply(partialParams)
         );
     }
 
     invokeCreateDataSource(partialParams: ToOptional<{
-      [K in keyof CreateDataSourceRequest & keyof Omit<CreateDataSourceRequest, "AwsAccountId"> & keyof CreateDataSourceRequest & keyof CreateDataSourceRequest & keyof CreateDataSourceRequest]: (CreateDataSourceRequest & Omit<CreateDataSourceRequest, "AwsAccountId"> & CreateDataSourceRequest & CreateDataSourceRequest & CreateDataSourceRequest)[K]
+      [K in keyof CreateDataSourceRequest & keyof Omit<CreateDataSourceRequest, "AwsAccountId">]: (CreateDataSourceRequest)[K]
     }>): Request<CreateDataSourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDataSource(
-          this.ops["CreateDataSource"].applicator.apply(partialParams)
+          this.ops["CreateDataSource"].apply(partialParams)
         );
     }
 
     invokeCreateFolder(partialParams: ToOptional<{
-      [K in keyof CreateFolderRequest & keyof Omit<CreateFolderRequest, "AwsAccountId"> & keyof CreateFolderRequest & keyof CreateFolderRequest & keyof CreateFolderRequest]: (CreateFolderRequest & Omit<CreateFolderRequest, "AwsAccountId"> & CreateFolderRequest & CreateFolderRequest & CreateFolderRequest)[K]
+      [K in keyof CreateFolderRequest & keyof Omit<CreateFolderRequest, "AwsAccountId">]: (CreateFolderRequest)[K]
     }>): Request<CreateFolderResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createFolder(
-          this.ops["CreateFolder"].applicator.apply(partialParams)
+          this.ops["CreateFolder"].apply(partialParams)
         );
     }
 
     invokeCreateFolderMembership(partialParams: ToOptional<{
-      [K in keyof CreateFolderMembershipRequest & keyof Omit<CreateFolderMembershipRequest, "AwsAccountId"> & keyof CreateFolderMembershipRequest & keyof CreateFolderMembershipRequest & keyof CreateFolderMembershipRequest]: (CreateFolderMembershipRequest & Omit<CreateFolderMembershipRequest, "AwsAccountId"> & CreateFolderMembershipRequest & CreateFolderMembershipRequest & CreateFolderMembershipRequest)[K]
+      [K in keyof CreateFolderMembershipRequest & keyof Omit<CreateFolderMembershipRequest, "AwsAccountId">]: (CreateFolderMembershipRequest)[K]
     }>): Request<CreateFolderMembershipResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createFolderMembership(
-          this.ops["CreateFolderMembership"].applicator.apply(partialParams)
+          this.ops["CreateFolderMembership"].apply(partialParams)
         );
     }
 
     invokeCreateGroup(partialParams: ToOptional<{
-      [K in keyof CreateGroupRequest & keyof Omit<CreateGroupRequest, "AwsAccountId"> & keyof CreateGroupRequest & keyof CreateGroupRequest & keyof CreateGroupRequest]: (CreateGroupRequest & Omit<CreateGroupRequest, "AwsAccountId"> & CreateGroupRequest & CreateGroupRequest & CreateGroupRequest)[K]
+      [K in keyof CreateGroupRequest & keyof Omit<CreateGroupRequest, "GroupName" | "AwsAccountId" | "Namespace">]: (CreateGroupRequest)[K]
     }>): Request<CreateGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createGroup(
-          this.ops["CreateGroup"].applicator.apply(partialParams)
+          this.ops["CreateGroup"].apply(partialParams)
         );
     }
 
     invokeCreateGroupMembership(partialParams: ToOptional<{
-      [K in keyof CreateGroupMembershipRequest & keyof Omit<CreateGroupMembershipRequest, "AwsAccountId"> & keyof CreateGroupMembershipRequest & keyof CreateGroupMembershipRequest & keyof CreateGroupMembershipRequest]: (CreateGroupMembershipRequest & Omit<CreateGroupMembershipRequest, "AwsAccountId"> & CreateGroupMembershipRequest & CreateGroupMembershipRequest & CreateGroupMembershipRequest)[K]
+      [K in keyof CreateGroupMembershipRequest & keyof Omit<CreateGroupMembershipRequest, "MemberName" | "GroupName" | "AwsAccountId" | "Namespace">]: (CreateGroupMembershipRequest)[K]
     }>): Request<CreateGroupMembershipResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createGroupMembership(
-          this.ops["CreateGroupMembership"].applicator.apply(partialParams)
+          this.ops["CreateGroupMembership"].apply(partialParams)
         );
     }
 
     invokeCreateIAMPolicyAssignment(partialParams: ToOptional<{
-      [K in keyof CreateIAMPolicyAssignmentRequest & keyof Omit<CreateIAMPolicyAssignmentRequest, "AwsAccountId"> & keyof CreateIAMPolicyAssignmentRequest & keyof CreateIAMPolicyAssignmentRequest & keyof CreateIAMPolicyAssignmentRequest]: (CreateIAMPolicyAssignmentRequest & Omit<CreateIAMPolicyAssignmentRequest, "AwsAccountId"> & CreateIAMPolicyAssignmentRequest & CreateIAMPolicyAssignmentRequest & CreateIAMPolicyAssignmentRequest)[K]
+      [K in keyof CreateIAMPolicyAssignmentRequest & keyof Omit<CreateIAMPolicyAssignmentRequest, "AwsAccountId" | "Namespace">]: (CreateIAMPolicyAssignmentRequest)[K]
     }>): Request<CreateIAMPolicyAssignmentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createIAMPolicyAssignment(
-          this.ops["CreateIAMPolicyAssignment"].applicator.apply(partialParams)
+          this.ops["CreateIAMPolicyAssignment"].apply(partialParams)
         );
     }
 
     invokeCreateIngestion(partialParams: ToOptional<{
-      [K in keyof CreateIngestionRequest & keyof Omit<CreateIngestionRequest, "AwsAccountId"> & keyof CreateIngestionRequest & keyof CreateIngestionRequest & keyof CreateIngestionRequest]: (CreateIngestionRequest & Omit<CreateIngestionRequest, "AwsAccountId"> & CreateIngestionRequest & CreateIngestionRequest & CreateIngestionRequest)[K]
+      [K in keyof CreateIngestionRequest & keyof Omit<CreateIngestionRequest, "AwsAccountId">]: (CreateIngestionRequest)[K]
     }>): Request<CreateIngestionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createIngestion(
-          this.ops["CreateIngestion"].applicator.apply(partialParams)
+          this.ops["CreateIngestion"].apply(partialParams)
         );
     }
 
     invokeCreateNamespace(partialParams: ToOptional<{
-      [K in keyof CreateNamespaceRequest & keyof Omit<CreateNamespaceRequest, "AwsAccountId"> & keyof CreateNamespaceRequest & keyof CreateNamespaceRequest & keyof CreateNamespaceRequest]: (CreateNamespaceRequest & Omit<CreateNamespaceRequest, "AwsAccountId"> & CreateNamespaceRequest & CreateNamespaceRequest & CreateNamespaceRequest)[K]
+      [K in keyof CreateNamespaceRequest & keyof Omit<CreateNamespaceRequest, "AwsAccountId" | "Namespace">]: (CreateNamespaceRequest)[K]
     }>): Request<CreateNamespaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createNamespace(
-          this.ops["CreateNamespace"].applicator.apply(partialParams)
+          this.ops["CreateNamespace"].apply(partialParams)
         );
     }
 
     invokeCreateTemplate(partialParams: ToOptional<{
-      [K in keyof CreateTemplateRequest & keyof Omit<CreateTemplateRequest, "AwsAccountId"> & keyof CreateTemplateRequest & keyof CreateTemplateRequest & keyof CreateTemplateRequest]: (CreateTemplateRequest & Omit<CreateTemplateRequest, "AwsAccountId"> & CreateTemplateRequest & CreateTemplateRequest & CreateTemplateRequest)[K]
+      [K in keyof CreateTemplateRequest & keyof Omit<CreateTemplateRequest, "AwsAccountId">]: (CreateTemplateRequest)[K]
     }>): Request<CreateTemplateResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createTemplate(
-          this.ops["CreateTemplate"].applicator.apply(partialParams)
+          this.ops["CreateTemplate"].apply(partialParams)
         );
     }
 
     invokeCreateTemplateAlias(partialParams: ToOptional<{
-      [K in keyof CreateTemplateAliasRequest & keyof Omit<CreateTemplateAliasRequest, "AwsAccountId"> & keyof CreateTemplateAliasRequest & keyof CreateTemplateAliasRequest & keyof CreateTemplateAliasRequest]: (CreateTemplateAliasRequest & Omit<CreateTemplateAliasRequest, "AwsAccountId"> & CreateTemplateAliasRequest & CreateTemplateAliasRequest & CreateTemplateAliasRequest)[K]
+      [K in keyof CreateTemplateAliasRequest & keyof Omit<CreateTemplateAliasRequest, "AwsAccountId">]: (CreateTemplateAliasRequest)[K]
     }>): Request<CreateTemplateAliasResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createTemplateAlias(
-          this.ops["CreateTemplateAlias"].applicator.apply(partialParams)
+          this.ops["CreateTemplateAlias"].apply(partialParams)
         );
     }
 
     invokeCreateTheme(partialParams: ToOptional<{
-      [K in keyof CreateThemeRequest & keyof Omit<CreateThemeRequest, "AwsAccountId"> & keyof CreateThemeRequest & keyof CreateThemeRequest & keyof CreateThemeRequest]: (CreateThemeRequest & Omit<CreateThemeRequest, "AwsAccountId"> & CreateThemeRequest & CreateThemeRequest & CreateThemeRequest)[K]
+      [K in keyof CreateThemeRequest & keyof Omit<CreateThemeRequest, "AwsAccountId">]: (CreateThemeRequest)[K]
     }>): Request<CreateThemeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createTheme(
-          this.ops["CreateTheme"].applicator.apply(partialParams)
+          this.ops["CreateTheme"].apply(partialParams)
         );
     }
 
     invokeCreateThemeAlias(partialParams: ToOptional<{
-      [K in keyof CreateThemeAliasRequest & keyof Omit<CreateThemeAliasRequest, "AwsAccountId"> & keyof CreateThemeAliasRequest & keyof CreateThemeAliasRequest & keyof CreateThemeAliasRequest]: (CreateThemeAliasRequest & Omit<CreateThemeAliasRequest, "AwsAccountId"> & CreateThemeAliasRequest & CreateThemeAliasRequest & CreateThemeAliasRequest)[K]
+      [K in keyof CreateThemeAliasRequest & keyof Omit<CreateThemeAliasRequest, "AwsAccountId">]: (CreateThemeAliasRequest)[K]
     }>): Request<CreateThemeAliasResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createThemeAlias(
-          this.ops["CreateThemeAlias"].applicator.apply(partialParams)
+          this.ops["CreateThemeAlias"].apply(partialParams)
         );
     }
 
     invokeDeleteAccountCustomization(partialParams: ToOptional<{
-      [K in keyof DeleteAccountCustomizationRequest & keyof Omit<DeleteAccountCustomizationRequest, "AwsAccountId"> & keyof DeleteAccountCustomizationRequest & keyof DeleteAccountCustomizationRequest & keyof DeleteAccountCustomizationRequest]: (DeleteAccountCustomizationRequest & Omit<DeleteAccountCustomizationRequest, "AwsAccountId"> & DeleteAccountCustomizationRequest & DeleteAccountCustomizationRequest & DeleteAccountCustomizationRequest)[K]
+      [K in keyof DeleteAccountCustomizationRequest & keyof Omit<DeleteAccountCustomizationRequest, "AwsAccountId">]: (DeleteAccountCustomizationRequest)[K]
     }>): Request<DeleteAccountCustomizationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteAccountCustomization(
-          this.ops["DeleteAccountCustomization"].applicator.apply(partialParams)
+          this.ops["DeleteAccountCustomization"].apply(partialParams)
         );
     }
 
     invokeDeleteAnalysis(partialParams: ToOptional<{
-      [K in keyof DeleteAnalysisRequest & keyof Omit<DeleteAnalysisRequest, "AwsAccountId"> & keyof DeleteAnalysisRequest & keyof DeleteAnalysisRequest & keyof DeleteAnalysisRequest]: (DeleteAnalysisRequest & Omit<DeleteAnalysisRequest, "AwsAccountId"> & DeleteAnalysisRequest & DeleteAnalysisRequest & DeleteAnalysisRequest)[K]
+      [K in keyof DeleteAnalysisRequest & keyof Omit<DeleteAnalysisRequest, "AwsAccountId">]: (DeleteAnalysisRequest)[K]
     }>): Request<DeleteAnalysisResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteAnalysis(
-          this.ops["DeleteAnalysis"].applicator.apply(partialParams)
+          this.ops["DeleteAnalysis"].apply(partialParams)
         );
     }
 
     invokeDeleteDashboard(partialParams: ToOptional<{
-      [K in keyof DeleteDashboardRequest & keyof Omit<DeleteDashboardRequest, "AwsAccountId"> & keyof DeleteDashboardRequest & keyof DeleteDashboardRequest & keyof DeleteDashboardRequest]: (DeleteDashboardRequest & Omit<DeleteDashboardRequest, "AwsAccountId"> & DeleteDashboardRequest & DeleteDashboardRequest & DeleteDashboardRequest)[K]
+      [K in keyof DeleteDashboardRequest & keyof Omit<DeleteDashboardRequest, "AwsAccountId">]: (DeleteDashboardRequest)[K]
     }>): Request<DeleteDashboardResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDashboard(
-          this.ops["DeleteDashboard"].applicator.apply(partialParams)
+          this.ops["DeleteDashboard"].apply(partialParams)
         );
     }
 
     invokeDeleteDataSet(partialParams: ToOptional<{
-      [K in keyof DeleteDataSetRequest & keyof Omit<DeleteDataSetRequest, "AwsAccountId"> & keyof DeleteDataSetRequest & keyof DeleteDataSetRequest & keyof DeleteDataSetRequest]: (DeleteDataSetRequest & Omit<DeleteDataSetRequest, "AwsAccountId"> & DeleteDataSetRequest & DeleteDataSetRequest & DeleteDataSetRequest)[K]
+      [K in keyof DeleteDataSetRequest & keyof Omit<DeleteDataSetRequest, "AwsAccountId">]: (DeleteDataSetRequest)[K]
     }>): Request<DeleteDataSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDataSet(
-          this.ops["DeleteDataSet"].applicator.apply(partialParams)
+          this.ops["DeleteDataSet"].apply(partialParams)
         );
     }
 
     invokeDeleteDataSource(partialParams: ToOptional<{
-      [K in keyof DeleteDataSourceRequest & keyof Omit<DeleteDataSourceRequest, "AwsAccountId"> & keyof DeleteDataSourceRequest & keyof DeleteDataSourceRequest & keyof DeleteDataSourceRequest]: (DeleteDataSourceRequest & Omit<DeleteDataSourceRequest, "AwsAccountId"> & DeleteDataSourceRequest & DeleteDataSourceRequest & DeleteDataSourceRequest)[K]
+      [K in keyof DeleteDataSourceRequest & keyof Omit<DeleteDataSourceRequest, "AwsAccountId">]: (DeleteDataSourceRequest)[K]
     }>): Request<DeleteDataSourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDataSource(
-          this.ops["DeleteDataSource"].applicator.apply(partialParams)
+          this.ops["DeleteDataSource"].apply(partialParams)
         );
     }
 
     invokeDeleteFolder(partialParams: ToOptional<{
-      [K in keyof DeleteFolderRequest & keyof Omit<DeleteFolderRequest, "AwsAccountId"> & keyof DeleteFolderRequest & keyof DeleteFolderRequest & keyof DeleteFolderRequest]: (DeleteFolderRequest & Omit<DeleteFolderRequest, "AwsAccountId"> & DeleteFolderRequest & DeleteFolderRequest & DeleteFolderRequest)[K]
+      [K in keyof DeleteFolderRequest & keyof Omit<DeleteFolderRequest, "AwsAccountId">]: (DeleteFolderRequest)[K]
     }>): Request<DeleteFolderResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteFolder(
-          this.ops["DeleteFolder"].applicator.apply(partialParams)
+          this.ops["DeleteFolder"].apply(partialParams)
         );
     }
 
     invokeDeleteFolderMembership(partialParams: ToOptional<{
-      [K in keyof DeleteFolderMembershipRequest & keyof Omit<DeleteFolderMembershipRequest, "AwsAccountId"> & keyof DeleteFolderMembershipRequest & keyof DeleteFolderMembershipRequest & keyof DeleteFolderMembershipRequest]: (DeleteFolderMembershipRequest & Omit<DeleteFolderMembershipRequest, "AwsAccountId"> & DeleteFolderMembershipRequest & DeleteFolderMembershipRequest & DeleteFolderMembershipRequest)[K]
+      [K in keyof DeleteFolderMembershipRequest & keyof Omit<DeleteFolderMembershipRequest, "AwsAccountId">]: (DeleteFolderMembershipRequest)[K]
     }>): Request<DeleteFolderMembershipResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteFolderMembership(
-          this.ops["DeleteFolderMembership"].applicator.apply(partialParams)
+          this.ops["DeleteFolderMembership"].apply(partialParams)
         );
     }
 
     invokeDeleteGroup(partialParams: ToOptional<{
-      [K in keyof DeleteGroupRequest & keyof Omit<DeleteGroupRequest, "AwsAccountId"> & keyof DeleteGroupRequest & keyof DeleteGroupRequest & keyof DeleteGroupRequest]: (DeleteGroupRequest & Omit<DeleteGroupRequest, "AwsAccountId"> & DeleteGroupRequest & DeleteGroupRequest & DeleteGroupRequest)[K]
+      [K in keyof DeleteGroupRequest & keyof Omit<DeleteGroupRequest, "GroupName" | "AwsAccountId" | "Namespace">]: (DeleteGroupRequest)[K]
     }>): Request<DeleteGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteGroup(
-          this.ops["DeleteGroup"].applicator.apply(partialParams)
+          this.ops["DeleteGroup"].apply(partialParams)
         );
     }
 
     invokeDeleteGroupMembership(partialParams: ToOptional<{
-      [K in keyof DeleteGroupMembershipRequest & keyof Omit<DeleteGroupMembershipRequest, "AwsAccountId"> & keyof DeleteGroupMembershipRequest & keyof DeleteGroupMembershipRequest & keyof DeleteGroupMembershipRequest]: (DeleteGroupMembershipRequest & Omit<DeleteGroupMembershipRequest, "AwsAccountId"> & DeleteGroupMembershipRequest & DeleteGroupMembershipRequest & DeleteGroupMembershipRequest)[K]
+      [K in keyof DeleteGroupMembershipRequest & keyof Omit<DeleteGroupMembershipRequest, "MemberName" | "GroupName" | "AwsAccountId" | "Namespace">]: (DeleteGroupMembershipRequest)[K]
     }>): Request<DeleteGroupMembershipResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteGroupMembership(
-          this.ops["DeleteGroupMembership"].applicator.apply(partialParams)
+          this.ops["DeleteGroupMembership"].apply(partialParams)
         );
     }
 
     invokeDeleteIAMPolicyAssignment(partialParams: ToOptional<{
-      [K in keyof DeleteIAMPolicyAssignmentRequest & keyof Omit<DeleteIAMPolicyAssignmentRequest, "AwsAccountId"> & keyof DeleteIAMPolicyAssignmentRequest & keyof DeleteIAMPolicyAssignmentRequest & keyof DeleteIAMPolicyAssignmentRequest]: (DeleteIAMPolicyAssignmentRequest & Omit<DeleteIAMPolicyAssignmentRequest, "AwsAccountId"> & DeleteIAMPolicyAssignmentRequest & DeleteIAMPolicyAssignmentRequest & DeleteIAMPolicyAssignmentRequest)[K]
+      [K in keyof DeleteIAMPolicyAssignmentRequest & keyof Omit<DeleteIAMPolicyAssignmentRequest, "AwsAccountId" | "Namespace">]: (DeleteIAMPolicyAssignmentRequest)[K]
     }>): Request<DeleteIAMPolicyAssignmentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteIAMPolicyAssignment(
-          this.ops["DeleteIAMPolicyAssignment"].applicator.apply(partialParams)
+          this.ops["DeleteIAMPolicyAssignment"].apply(partialParams)
         );
     }
 
     invokeDeleteNamespace(partialParams: ToOptional<{
-      [K in keyof DeleteNamespaceRequest & keyof Omit<DeleteNamespaceRequest, "AwsAccountId"> & keyof DeleteNamespaceRequest & keyof DeleteNamespaceRequest & keyof DeleteNamespaceRequest]: (DeleteNamespaceRequest & Omit<DeleteNamespaceRequest, "AwsAccountId"> & DeleteNamespaceRequest & DeleteNamespaceRequest & DeleteNamespaceRequest)[K]
+      [K in keyof DeleteNamespaceRequest & keyof Omit<DeleteNamespaceRequest, "AwsAccountId" | "Namespace">]: (DeleteNamespaceRequest)[K]
     }>): Request<DeleteNamespaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteNamespace(
-          this.ops["DeleteNamespace"].applicator.apply(partialParams)
+          this.ops["DeleteNamespace"].apply(partialParams)
         );
     }
 
     invokeDeleteTemplate(partialParams: ToOptional<{
-      [K in keyof DeleteTemplateRequest & keyof Omit<DeleteTemplateRequest, "AwsAccountId"> & keyof DeleteTemplateRequest & keyof DeleteTemplateRequest & keyof DeleteTemplateRequest]: (DeleteTemplateRequest & Omit<DeleteTemplateRequest, "AwsAccountId"> & DeleteTemplateRequest & DeleteTemplateRequest & DeleteTemplateRequest)[K]
+      [K in keyof DeleteTemplateRequest & keyof Omit<DeleteTemplateRequest, "AwsAccountId">]: (DeleteTemplateRequest)[K]
     }>): Request<DeleteTemplateResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteTemplate(
-          this.ops["DeleteTemplate"].applicator.apply(partialParams)
+          this.ops["DeleteTemplate"].apply(partialParams)
         );
     }
 
     invokeDeleteTemplateAlias(partialParams: ToOptional<{
-      [K in keyof DeleteTemplateAliasRequest & keyof Omit<DeleteTemplateAliasRequest, "AwsAccountId"> & keyof DeleteTemplateAliasRequest & keyof DeleteTemplateAliasRequest & keyof DeleteTemplateAliasRequest]: (DeleteTemplateAliasRequest & Omit<DeleteTemplateAliasRequest, "AwsAccountId"> & DeleteTemplateAliasRequest & DeleteTemplateAliasRequest & DeleteTemplateAliasRequest)[K]
+      [K in keyof DeleteTemplateAliasRequest & keyof Omit<DeleteTemplateAliasRequest, "AwsAccountId">]: (DeleteTemplateAliasRequest)[K]
     }>): Request<DeleteTemplateAliasResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteTemplateAlias(
-          this.ops["DeleteTemplateAlias"].applicator.apply(partialParams)
+          this.ops["DeleteTemplateAlias"].apply(partialParams)
         );
     }
 
     invokeDeleteTheme(partialParams: ToOptional<{
-      [K in keyof DeleteThemeRequest & keyof Omit<DeleteThemeRequest, "AwsAccountId"> & keyof DeleteThemeRequest & keyof DeleteThemeRequest & keyof DeleteThemeRequest]: (DeleteThemeRequest & Omit<DeleteThemeRequest, "AwsAccountId"> & DeleteThemeRequest & DeleteThemeRequest & DeleteThemeRequest)[K]
+      [K in keyof DeleteThemeRequest & keyof Omit<DeleteThemeRequest, "AwsAccountId">]: (DeleteThemeRequest)[K]
     }>): Request<DeleteThemeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteTheme(
-          this.ops["DeleteTheme"].applicator.apply(partialParams)
+          this.ops["DeleteTheme"].apply(partialParams)
         );
     }
 
     invokeDeleteThemeAlias(partialParams: ToOptional<{
-      [K in keyof DeleteThemeAliasRequest & keyof Omit<DeleteThemeAliasRequest, "AwsAccountId"> & keyof DeleteThemeAliasRequest & keyof DeleteThemeAliasRequest & keyof DeleteThemeAliasRequest]: (DeleteThemeAliasRequest & Omit<DeleteThemeAliasRequest, "AwsAccountId"> & DeleteThemeAliasRequest & DeleteThemeAliasRequest & DeleteThemeAliasRequest)[K]
+      [K in keyof DeleteThemeAliasRequest & keyof Omit<DeleteThemeAliasRequest, "AwsAccountId">]: (DeleteThemeAliasRequest)[K]
     }>): Request<DeleteThemeAliasResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteThemeAlias(
-          this.ops["DeleteThemeAlias"].applicator.apply(partialParams)
+          this.ops["DeleteThemeAlias"].apply(partialParams)
         );
     }
 
     invokeDeleteUser(partialParams: ToOptional<{
-      [K in keyof DeleteUserRequest & keyof Omit<DeleteUserRequest, "AwsAccountId"> & keyof DeleteUserRequest & keyof DeleteUserRequest & keyof DeleteUserRequest]: (DeleteUserRequest & Omit<DeleteUserRequest, "AwsAccountId"> & DeleteUserRequest & DeleteUserRequest & DeleteUserRequest)[K]
+      [K in keyof DeleteUserRequest & keyof Omit<DeleteUserRequest, "AwsAccountId" | "Namespace">]: (DeleteUserRequest)[K]
     }>): Request<DeleteUserResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteUser(
-          this.ops["DeleteUser"].applicator.apply(partialParams)
+          this.ops["DeleteUser"].apply(partialParams)
         );
     }
 
     invokeDeleteUserByPrincipalId(partialParams: ToOptional<{
-      [K in keyof DeleteUserByPrincipalIdRequest & keyof Omit<DeleteUserByPrincipalIdRequest, "AwsAccountId"> & keyof DeleteUserByPrincipalIdRequest & keyof DeleteUserByPrincipalIdRequest & keyof DeleteUserByPrincipalIdRequest]: (DeleteUserByPrincipalIdRequest & Omit<DeleteUserByPrincipalIdRequest, "AwsAccountId"> & DeleteUserByPrincipalIdRequest & DeleteUserByPrincipalIdRequest & DeleteUserByPrincipalIdRequest)[K]
+      [K in keyof DeleteUserByPrincipalIdRequest & keyof Omit<DeleteUserByPrincipalIdRequest, "AwsAccountId" | "Namespace">]: (DeleteUserByPrincipalIdRequest)[K]
     }>): Request<DeleteUserByPrincipalIdResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteUserByPrincipalId(
-          this.ops["DeleteUserByPrincipalId"].applicator.apply(partialParams)
+          this.ops["DeleteUserByPrincipalId"].apply(partialParams)
         );
     }
 
     invokeDescribeAccountCustomization(partialParams: ToOptional<{
-      [K in keyof DescribeAccountCustomizationRequest & keyof Omit<DescribeAccountCustomizationRequest, "AwsAccountId"> & keyof DescribeAccountCustomizationRequest & keyof DescribeAccountCustomizationRequest & keyof DescribeAccountCustomizationRequest]: (DescribeAccountCustomizationRequest & Omit<DescribeAccountCustomizationRequest, "AwsAccountId"> & DescribeAccountCustomizationRequest & DescribeAccountCustomizationRequest & DescribeAccountCustomizationRequest)[K]
+      [K in keyof DescribeAccountCustomizationRequest & keyof Omit<DescribeAccountCustomizationRequest, "AwsAccountId">]: (DescribeAccountCustomizationRequest)[K]
     }>): Request<DescribeAccountCustomizationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeAccountCustomization(
-          this.ops["DescribeAccountCustomization"].applicator.apply(partialParams)
+          this.ops["DescribeAccountCustomization"].apply(partialParams)
         );
     }
 
     invokeDescribeAccountSettings(partialParams: ToOptional<{
-      [K in keyof DescribeAccountSettingsRequest & keyof Omit<DescribeAccountSettingsRequest, "AwsAccountId"> & keyof DescribeAccountSettingsRequest & keyof DescribeAccountSettingsRequest & keyof DescribeAccountSettingsRequest]: (DescribeAccountSettingsRequest & Omit<DescribeAccountSettingsRequest, "AwsAccountId"> & DescribeAccountSettingsRequest & DescribeAccountSettingsRequest & DescribeAccountSettingsRequest)[K]
+      [K in keyof DescribeAccountSettingsRequest & keyof Omit<DescribeAccountSettingsRequest, "AwsAccountId">]: (DescribeAccountSettingsRequest)[K]
     }>): Request<DescribeAccountSettingsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeAccountSettings(
-          this.ops["DescribeAccountSettings"].applicator.apply(partialParams)
+          this.ops["DescribeAccountSettings"].apply(partialParams)
         );
     }
 
     invokeDescribeAnalysis(partialParams: ToOptional<{
-      [K in keyof DescribeAnalysisRequest & keyof Omit<DescribeAnalysisRequest, "AwsAccountId"> & keyof DescribeAnalysisRequest & keyof DescribeAnalysisRequest & keyof DescribeAnalysisRequest]: (DescribeAnalysisRequest & Omit<DescribeAnalysisRequest, "AwsAccountId"> & DescribeAnalysisRequest & DescribeAnalysisRequest & DescribeAnalysisRequest)[K]
+      [K in keyof DescribeAnalysisRequest & keyof Omit<DescribeAnalysisRequest, "AwsAccountId">]: (DescribeAnalysisRequest)[K]
     }>): Request<DescribeAnalysisResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeAnalysis(
-          this.ops["DescribeAnalysis"].applicator.apply(partialParams)
+          this.ops["DescribeAnalysis"].apply(partialParams)
         );
     }
 
     invokeDescribeAnalysisPermissions(partialParams: ToOptional<{
-      [K in keyof DescribeAnalysisPermissionsRequest & keyof Omit<DescribeAnalysisPermissionsRequest, "AwsAccountId"> & keyof DescribeAnalysisPermissionsRequest & keyof DescribeAnalysisPermissionsRequest & keyof DescribeAnalysisPermissionsRequest]: (DescribeAnalysisPermissionsRequest & Omit<DescribeAnalysisPermissionsRequest, "AwsAccountId"> & DescribeAnalysisPermissionsRequest & DescribeAnalysisPermissionsRequest & DescribeAnalysisPermissionsRequest)[K]
+      [K in keyof DescribeAnalysisPermissionsRequest & keyof Omit<DescribeAnalysisPermissionsRequest, "AwsAccountId">]: (DescribeAnalysisPermissionsRequest)[K]
     }>): Request<DescribeAnalysisPermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeAnalysisPermissions(
-          this.ops["DescribeAnalysisPermissions"].applicator.apply(partialParams)
+          this.ops["DescribeAnalysisPermissions"].apply(partialParams)
         );
     }
 
     invokeDescribeDashboard(partialParams: ToOptional<{
-      [K in keyof DescribeDashboardRequest & keyof Omit<DescribeDashboardRequest, "AwsAccountId"> & keyof DescribeDashboardRequest & keyof DescribeDashboardRequest & keyof DescribeDashboardRequest]: (DescribeDashboardRequest & Omit<DescribeDashboardRequest, "AwsAccountId"> & DescribeDashboardRequest & DescribeDashboardRequest & DescribeDashboardRequest)[K]
+      [K in keyof DescribeDashboardRequest & keyof Omit<DescribeDashboardRequest, "AwsAccountId">]: (DescribeDashboardRequest)[K]
     }>): Request<DescribeDashboardResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDashboard(
-          this.ops["DescribeDashboard"].applicator.apply(partialParams)
+          this.ops["DescribeDashboard"].apply(partialParams)
         );
     }
 
     invokeDescribeDashboardPermissions(partialParams: ToOptional<{
-      [K in keyof DescribeDashboardPermissionsRequest & keyof Omit<DescribeDashboardPermissionsRequest, "AwsAccountId"> & keyof DescribeDashboardPermissionsRequest & keyof DescribeDashboardPermissionsRequest & keyof DescribeDashboardPermissionsRequest]: (DescribeDashboardPermissionsRequest & Omit<DescribeDashboardPermissionsRequest, "AwsAccountId"> & DescribeDashboardPermissionsRequest & DescribeDashboardPermissionsRequest & DescribeDashboardPermissionsRequest)[K]
+      [K in keyof DescribeDashboardPermissionsRequest & keyof Omit<DescribeDashboardPermissionsRequest, "AwsAccountId">]: (DescribeDashboardPermissionsRequest)[K]
     }>): Request<DescribeDashboardPermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDashboardPermissions(
-          this.ops["DescribeDashboardPermissions"].applicator.apply(partialParams)
+          this.ops["DescribeDashboardPermissions"].apply(partialParams)
         );
     }
 
     invokeDescribeDataSet(partialParams: ToOptional<{
-      [K in keyof DescribeDataSetRequest & keyof Omit<DescribeDataSetRequest, "AwsAccountId"> & keyof DescribeDataSetRequest & keyof DescribeDataSetRequest & keyof DescribeDataSetRequest]: (DescribeDataSetRequest & Omit<DescribeDataSetRequest, "AwsAccountId"> & DescribeDataSetRequest & DescribeDataSetRequest & DescribeDataSetRequest)[K]
+      [K in keyof DescribeDataSetRequest & keyof Omit<DescribeDataSetRequest, "AwsAccountId">]: (DescribeDataSetRequest)[K]
     }>): Request<DescribeDataSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDataSet(
-          this.ops["DescribeDataSet"].applicator.apply(partialParams)
+          this.ops["DescribeDataSet"].apply(partialParams)
         );
     }
 
     invokeDescribeDataSetPermissions(partialParams: ToOptional<{
-      [K in keyof DescribeDataSetPermissionsRequest & keyof Omit<DescribeDataSetPermissionsRequest, "AwsAccountId"> & keyof DescribeDataSetPermissionsRequest & keyof DescribeDataSetPermissionsRequest & keyof DescribeDataSetPermissionsRequest]: (DescribeDataSetPermissionsRequest & Omit<DescribeDataSetPermissionsRequest, "AwsAccountId"> & DescribeDataSetPermissionsRequest & DescribeDataSetPermissionsRequest & DescribeDataSetPermissionsRequest)[K]
+      [K in keyof DescribeDataSetPermissionsRequest & keyof Omit<DescribeDataSetPermissionsRequest, "AwsAccountId">]: (DescribeDataSetPermissionsRequest)[K]
     }>): Request<DescribeDataSetPermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDataSetPermissions(
-          this.ops["DescribeDataSetPermissions"].applicator.apply(partialParams)
+          this.ops["DescribeDataSetPermissions"].apply(partialParams)
         );
     }
 
     invokeDescribeDataSource(partialParams: ToOptional<{
-      [K in keyof DescribeDataSourceRequest & keyof Omit<DescribeDataSourceRequest, "AwsAccountId"> & keyof DescribeDataSourceRequest & keyof DescribeDataSourceRequest & keyof DescribeDataSourceRequest]: (DescribeDataSourceRequest & Omit<DescribeDataSourceRequest, "AwsAccountId"> & DescribeDataSourceRequest & DescribeDataSourceRequest & DescribeDataSourceRequest)[K]
+      [K in keyof DescribeDataSourceRequest & keyof Omit<DescribeDataSourceRequest, "AwsAccountId">]: (DescribeDataSourceRequest)[K]
     }>): Request<DescribeDataSourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDataSource(
-          this.ops["DescribeDataSource"].applicator.apply(partialParams)
+          this.ops["DescribeDataSource"].apply(partialParams)
         );
     }
 
     invokeDescribeDataSourcePermissions(partialParams: ToOptional<{
-      [K in keyof DescribeDataSourcePermissionsRequest & keyof Omit<DescribeDataSourcePermissionsRequest, "AwsAccountId"> & keyof DescribeDataSourcePermissionsRequest & keyof DescribeDataSourcePermissionsRequest & keyof DescribeDataSourcePermissionsRequest]: (DescribeDataSourcePermissionsRequest & Omit<DescribeDataSourcePermissionsRequest, "AwsAccountId"> & DescribeDataSourcePermissionsRequest & DescribeDataSourcePermissionsRequest & DescribeDataSourcePermissionsRequest)[K]
+      [K in keyof DescribeDataSourcePermissionsRequest & keyof Omit<DescribeDataSourcePermissionsRequest, "AwsAccountId">]: (DescribeDataSourcePermissionsRequest)[K]
     }>): Request<DescribeDataSourcePermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDataSourcePermissions(
-          this.ops["DescribeDataSourcePermissions"].applicator.apply(partialParams)
+          this.ops["DescribeDataSourcePermissions"].apply(partialParams)
         );
     }
 
     invokeDescribeFolder(partialParams: ToOptional<{
-      [K in keyof DescribeFolderRequest & keyof Omit<DescribeFolderRequest, "AwsAccountId"> & keyof DescribeFolderRequest & keyof DescribeFolderRequest & keyof DescribeFolderRequest]: (DescribeFolderRequest & Omit<DescribeFolderRequest, "AwsAccountId"> & DescribeFolderRequest & DescribeFolderRequest & DescribeFolderRequest)[K]
+      [K in keyof DescribeFolderRequest & keyof Omit<DescribeFolderRequest, "AwsAccountId">]: (DescribeFolderRequest)[K]
     }>): Request<DescribeFolderResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeFolder(
-          this.ops["DescribeFolder"].applicator.apply(partialParams)
+          this.ops["DescribeFolder"].apply(partialParams)
         );
     }
 
     invokeDescribeFolderPermissions(partialParams: ToOptional<{
-      [K in keyof DescribeFolderPermissionsRequest & keyof Omit<DescribeFolderPermissionsRequest, "AwsAccountId"> & keyof DescribeFolderPermissionsRequest & keyof DescribeFolderPermissionsRequest & keyof DescribeFolderPermissionsRequest]: (DescribeFolderPermissionsRequest & Omit<DescribeFolderPermissionsRequest, "AwsAccountId"> & DescribeFolderPermissionsRequest & DescribeFolderPermissionsRequest & DescribeFolderPermissionsRequest)[K]
+      [K in keyof DescribeFolderPermissionsRequest & keyof Omit<DescribeFolderPermissionsRequest, "AwsAccountId">]: (DescribeFolderPermissionsRequest)[K]
     }>): Request<DescribeFolderPermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeFolderPermissions(
-          this.ops["DescribeFolderPermissions"].applicator.apply(partialParams)
+          this.ops["DescribeFolderPermissions"].apply(partialParams)
         );
     }
 
     invokeDescribeFolderResolvedPermissions(partialParams: ToOptional<{
-      [K in keyof DescribeFolderResolvedPermissionsRequest & keyof Omit<DescribeFolderResolvedPermissionsRequest, "AwsAccountId"> & keyof DescribeFolderResolvedPermissionsRequest & keyof DescribeFolderResolvedPermissionsRequest & keyof DescribeFolderResolvedPermissionsRequest]: (DescribeFolderResolvedPermissionsRequest & Omit<DescribeFolderResolvedPermissionsRequest, "AwsAccountId"> & DescribeFolderResolvedPermissionsRequest & DescribeFolderResolvedPermissionsRequest & DescribeFolderResolvedPermissionsRequest)[K]
+      [K in keyof DescribeFolderResolvedPermissionsRequest & keyof Omit<DescribeFolderResolvedPermissionsRequest, "AwsAccountId">]: (DescribeFolderResolvedPermissionsRequest)[K]
     }>): Request<DescribeFolderResolvedPermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeFolderResolvedPermissions(
-          this.ops["DescribeFolderResolvedPermissions"].applicator.apply(partialParams)
+          this.ops["DescribeFolderResolvedPermissions"].apply(partialParams)
         );
     }
 
     invokeDescribeGroup(partialParams: ToOptional<{
-      [K in keyof DescribeGroupRequest & keyof Omit<DescribeGroupRequest, "AwsAccountId"> & keyof DescribeGroupRequest & keyof DescribeGroupRequest & keyof DescribeGroupRequest]: (DescribeGroupRequest & Omit<DescribeGroupRequest, "AwsAccountId"> & DescribeGroupRequest & DescribeGroupRequest & DescribeGroupRequest)[K]
+      [K in keyof DescribeGroupRequest & keyof Omit<DescribeGroupRequest, "GroupName" | "AwsAccountId" | "Namespace">]: (DescribeGroupRequest)[K]
     }>): Request<DescribeGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeGroup(
-          this.ops["DescribeGroup"].applicator.apply(partialParams)
+          this.ops["DescribeGroup"].apply(partialParams)
         );
     }
 
     invokeDescribeIAMPolicyAssignment(partialParams: ToOptional<{
-      [K in keyof DescribeIAMPolicyAssignmentRequest & keyof Omit<DescribeIAMPolicyAssignmentRequest, "AwsAccountId"> & keyof DescribeIAMPolicyAssignmentRequest & keyof DescribeIAMPolicyAssignmentRequest & keyof DescribeIAMPolicyAssignmentRequest]: (DescribeIAMPolicyAssignmentRequest & Omit<DescribeIAMPolicyAssignmentRequest, "AwsAccountId"> & DescribeIAMPolicyAssignmentRequest & DescribeIAMPolicyAssignmentRequest & DescribeIAMPolicyAssignmentRequest)[K]
+      [K in keyof DescribeIAMPolicyAssignmentRequest & keyof Omit<DescribeIAMPolicyAssignmentRequest, "AwsAccountId" | "Namespace">]: (DescribeIAMPolicyAssignmentRequest)[K]
     }>): Request<DescribeIAMPolicyAssignmentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeIAMPolicyAssignment(
-          this.ops["DescribeIAMPolicyAssignment"].applicator.apply(partialParams)
+          this.ops["DescribeIAMPolicyAssignment"].apply(partialParams)
         );
     }
 
     invokeDescribeIngestion(partialParams: ToOptional<{
-      [K in keyof DescribeIngestionRequest & keyof Omit<DescribeIngestionRequest, "AwsAccountId"> & keyof DescribeIngestionRequest & keyof DescribeIngestionRequest & keyof DescribeIngestionRequest]: (DescribeIngestionRequest & Omit<DescribeIngestionRequest, "AwsAccountId"> & DescribeIngestionRequest & DescribeIngestionRequest & DescribeIngestionRequest)[K]
+      [K in keyof DescribeIngestionRequest & keyof Omit<DescribeIngestionRequest, "AwsAccountId">]: (DescribeIngestionRequest)[K]
     }>): Request<DescribeIngestionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeIngestion(
-          this.ops["DescribeIngestion"].applicator.apply(partialParams)
+          this.ops["DescribeIngestion"].apply(partialParams)
         );
     }
 
     invokeDescribeIpRestriction(partialParams: ToOptional<{
-      [K in keyof DescribeIpRestrictionRequest & keyof Omit<DescribeIpRestrictionRequest, "AwsAccountId"> & keyof DescribeIpRestrictionRequest & keyof DescribeIpRestrictionRequest & keyof DescribeIpRestrictionRequest]: (DescribeIpRestrictionRequest & Omit<DescribeIpRestrictionRequest, "AwsAccountId"> & DescribeIpRestrictionRequest & DescribeIpRestrictionRequest & DescribeIpRestrictionRequest)[K]
+      [K in keyof DescribeIpRestrictionRequest & keyof Omit<DescribeIpRestrictionRequest, "AwsAccountId">]: (DescribeIpRestrictionRequest)[K]
     }>): Request<DescribeIpRestrictionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeIpRestriction(
-          this.ops["DescribeIpRestriction"].applicator.apply(partialParams)
+          this.ops["DescribeIpRestriction"].apply(partialParams)
         );
     }
 
     invokeDescribeNamespace(partialParams: ToOptional<{
-      [K in keyof DescribeNamespaceRequest & keyof Omit<DescribeNamespaceRequest, "AwsAccountId"> & keyof DescribeNamespaceRequest & keyof DescribeNamespaceRequest & keyof DescribeNamespaceRequest]: (DescribeNamespaceRequest & Omit<DescribeNamespaceRequest, "AwsAccountId"> & DescribeNamespaceRequest & DescribeNamespaceRequest & DescribeNamespaceRequest)[K]
+      [K in keyof DescribeNamespaceRequest & keyof Omit<DescribeNamespaceRequest, "AwsAccountId" | "Namespace">]: (DescribeNamespaceRequest)[K]
     }>): Request<DescribeNamespaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeNamespace(
-          this.ops["DescribeNamespace"].applicator.apply(partialParams)
+          this.ops["DescribeNamespace"].apply(partialParams)
         );
     }
 
     invokeDescribeTemplate(partialParams: ToOptional<{
-      [K in keyof DescribeTemplateRequest & keyof Omit<DescribeTemplateRequest, "AwsAccountId"> & keyof DescribeTemplateRequest & keyof DescribeTemplateRequest & keyof DescribeTemplateRequest]: (DescribeTemplateRequest & Omit<DescribeTemplateRequest, "AwsAccountId"> & DescribeTemplateRequest & DescribeTemplateRequest & DescribeTemplateRequest)[K]
+      [K in keyof DescribeTemplateRequest & keyof Omit<DescribeTemplateRequest, "AwsAccountId">]: (DescribeTemplateRequest)[K]
     }>): Request<DescribeTemplateResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeTemplate(
-          this.ops["DescribeTemplate"].applicator.apply(partialParams)
+          this.ops["DescribeTemplate"].apply(partialParams)
         );
     }
 
     invokeDescribeTemplateAlias(partialParams: ToOptional<{
-      [K in keyof DescribeTemplateAliasRequest & keyof Omit<DescribeTemplateAliasRequest, "AwsAccountId"> & keyof DescribeTemplateAliasRequest & keyof DescribeTemplateAliasRequest & keyof DescribeTemplateAliasRequest]: (DescribeTemplateAliasRequest & Omit<DescribeTemplateAliasRequest, "AwsAccountId"> & DescribeTemplateAliasRequest & DescribeTemplateAliasRequest & DescribeTemplateAliasRequest)[K]
+      [K in keyof DescribeTemplateAliasRequest & keyof Omit<DescribeTemplateAliasRequest, "AwsAccountId">]: (DescribeTemplateAliasRequest)[K]
     }>): Request<DescribeTemplateAliasResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeTemplateAlias(
-          this.ops["DescribeTemplateAlias"].applicator.apply(partialParams)
+          this.ops["DescribeTemplateAlias"].apply(partialParams)
         );
     }
 
     invokeDescribeTemplatePermissions(partialParams: ToOptional<{
-      [K in keyof DescribeTemplatePermissionsRequest & keyof Omit<DescribeTemplatePermissionsRequest, "AwsAccountId"> & keyof DescribeTemplatePermissionsRequest & keyof DescribeTemplatePermissionsRequest & keyof DescribeTemplatePermissionsRequest]: (DescribeTemplatePermissionsRequest & Omit<DescribeTemplatePermissionsRequest, "AwsAccountId"> & DescribeTemplatePermissionsRequest & DescribeTemplatePermissionsRequest & DescribeTemplatePermissionsRequest)[K]
+      [K in keyof DescribeTemplatePermissionsRequest & keyof Omit<DescribeTemplatePermissionsRequest, "AwsAccountId">]: (DescribeTemplatePermissionsRequest)[K]
     }>): Request<DescribeTemplatePermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeTemplatePermissions(
-          this.ops["DescribeTemplatePermissions"].applicator.apply(partialParams)
+          this.ops["DescribeTemplatePermissions"].apply(partialParams)
         );
     }
 
     invokeDescribeTheme(partialParams: ToOptional<{
-      [K in keyof DescribeThemeRequest & keyof Omit<DescribeThemeRequest, "AwsAccountId"> & keyof DescribeThemeRequest & keyof DescribeThemeRequest & keyof DescribeThemeRequest]: (DescribeThemeRequest & Omit<DescribeThemeRequest, "AwsAccountId"> & DescribeThemeRequest & DescribeThemeRequest & DescribeThemeRequest)[K]
+      [K in keyof DescribeThemeRequest & keyof Omit<DescribeThemeRequest, "AwsAccountId">]: (DescribeThemeRequest)[K]
     }>): Request<DescribeThemeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeTheme(
-          this.ops["DescribeTheme"].applicator.apply(partialParams)
+          this.ops["DescribeTheme"].apply(partialParams)
         );
     }
 
     invokeDescribeThemeAlias(partialParams: ToOptional<{
-      [K in keyof DescribeThemeAliasRequest & keyof Omit<DescribeThemeAliasRequest, "AwsAccountId"> & keyof DescribeThemeAliasRequest & keyof DescribeThemeAliasRequest & keyof DescribeThemeAliasRequest]: (DescribeThemeAliasRequest & Omit<DescribeThemeAliasRequest, "AwsAccountId"> & DescribeThemeAliasRequest & DescribeThemeAliasRequest & DescribeThemeAliasRequest)[K]
+      [K in keyof DescribeThemeAliasRequest & keyof Omit<DescribeThemeAliasRequest, "AwsAccountId">]: (DescribeThemeAliasRequest)[K]
     }>): Request<DescribeThemeAliasResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeThemeAlias(
-          this.ops["DescribeThemeAlias"].applicator.apply(partialParams)
+          this.ops["DescribeThemeAlias"].apply(partialParams)
         );
     }
 
     invokeDescribeThemePermissions(partialParams: ToOptional<{
-      [K in keyof DescribeThemePermissionsRequest & keyof Omit<DescribeThemePermissionsRequest, "AwsAccountId"> & keyof DescribeThemePermissionsRequest & keyof DescribeThemePermissionsRequest & keyof DescribeThemePermissionsRequest]: (DescribeThemePermissionsRequest & Omit<DescribeThemePermissionsRequest, "AwsAccountId"> & DescribeThemePermissionsRequest & DescribeThemePermissionsRequest & DescribeThemePermissionsRequest)[K]
+      [K in keyof DescribeThemePermissionsRequest & keyof Omit<DescribeThemePermissionsRequest, "AwsAccountId">]: (DescribeThemePermissionsRequest)[K]
     }>): Request<DescribeThemePermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeThemePermissions(
-          this.ops["DescribeThemePermissions"].applicator.apply(partialParams)
+          this.ops["DescribeThemePermissions"].apply(partialParams)
         );
     }
 
     invokeDescribeUser(partialParams: ToOptional<{
-      [K in keyof DescribeUserRequest & keyof Omit<DescribeUserRequest, "AwsAccountId"> & keyof DescribeUserRequest & keyof DescribeUserRequest & keyof DescribeUserRequest]: (DescribeUserRequest & Omit<DescribeUserRequest, "AwsAccountId"> & DescribeUserRequest & DescribeUserRequest & DescribeUserRequest)[K]
+      [K in keyof DescribeUserRequest & keyof Omit<DescribeUserRequest, "AwsAccountId" | "Namespace">]: (DescribeUserRequest)[K]
     }>): Request<DescribeUserResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeUser(
-          this.ops["DescribeUser"].applicator.apply(partialParams)
+          this.ops["DescribeUser"].apply(partialParams)
         );
     }
 
     invokeGenerateEmbedUrlForAnonymousUser(partialParams: ToOptional<{
-      [K in keyof GenerateEmbedUrlForAnonymousUserRequest & keyof Omit<GenerateEmbedUrlForAnonymousUserRequest, "AwsAccountId"> & keyof GenerateEmbedUrlForAnonymousUserRequest & keyof GenerateEmbedUrlForAnonymousUserRequest & keyof GenerateEmbedUrlForAnonymousUserRequest]: (GenerateEmbedUrlForAnonymousUserRequest & Omit<GenerateEmbedUrlForAnonymousUserRequest, "AwsAccountId"> & GenerateEmbedUrlForAnonymousUserRequest & GenerateEmbedUrlForAnonymousUserRequest & GenerateEmbedUrlForAnonymousUserRequest)[K]
+      [K in keyof GenerateEmbedUrlForAnonymousUserRequest & keyof Omit<GenerateEmbedUrlForAnonymousUserRequest, "AwsAccountId" | "Namespace">]: (GenerateEmbedUrlForAnonymousUserRequest)[K]
     }>): Request<GenerateEmbedUrlForAnonymousUserResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.generateEmbedUrlForAnonymousUser(
-          this.ops["GenerateEmbedUrlForAnonymousUser"].applicator.apply(partialParams)
+          this.ops["GenerateEmbedUrlForAnonymousUser"].apply(partialParams)
         );
     }
 
     invokeGenerateEmbedUrlForRegisteredUser(partialParams: ToOptional<{
-      [K in keyof Omit<GenerateEmbedUrlForRegisteredUserRequest, "UserArn"> & keyof Omit<GenerateEmbedUrlForRegisteredUserRequest, "AwsAccountId"> & keyof GenerateEmbedUrlForRegisteredUserRequest & keyof GenerateEmbedUrlForRegisteredUserRequest & keyof GenerateEmbedUrlForRegisteredUserRequest]: (Omit<GenerateEmbedUrlForRegisteredUserRequest, "UserArn"> & Omit<GenerateEmbedUrlForRegisteredUserRequest, "AwsAccountId"> & GenerateEmbedUrlForRegisteredUserRequest & GenerateEmbedUrlForRegisteredUserRequest & GenerateEmbedUrlForRegisteredUserRequest)[K]
+      [K in keyof GenerateEmbedUrlForRegisteredUserRequest & keyof Omit<GenerateEmbedUrlForRegisteredUserRequest, "AwsAccountId">]: (GenerateEmbedUrlForRegisteredUserRequest)[K]
     }>): Request<GenerateEmbedUrlForRegisteredUserResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.generateEmbedUrlForRegisteredUser(
-          this.ops["GenerateEmbedUrlForRegisteredUser"].applicator.apply(partialParams)
+          this.ops["GenerateEmbedUrlForRegisteredUser"].apply(partialParams)
         );
     }
 
     invokeGetDashboardEmbedUrl(partialParams: ToOptional<{
-      [K in keyof GetDashboardEmbedUrlRequest & keyof Omit<GetDashboardEmbedUrlRequest, "AwsAccountId"> & keyof GetDashboardEmbedUrlRequest & keyof GetDashboardEmbedUrlRequest & keyof GetDashboardEmbedUrlRequest]: (GetDashboardEmbedUrlRequest & Omit<GetDashboardEmbedUrlRequest, "AwsAccountId"> & GetDashboardEmbedUrlRequest & GetDashboardEmbedUrlRequest & GetDashboardEmbedUrlRequest)[K]
+      [K in keyof GetDashboardEmbedUrlRequest & keyof Omit<GetDashboardEmbedUrlRequest, "AwsAccountId">]: (GetDashboardEmbedUrlRequest)[K]
     }>): Request<GetDashboardEmbedUrlResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDashboardEmbedUrl(
-          this.ops["GetDashboardEmbedUrl"].applicator.apply(partialParams)
+          this.ops["GetDashboardEmbedUrl"].apply(partialParams)
         );
     }
 
     invokeGetSessionEmbedUrl(partialParams: ToOptional<{
-      [K in keyof GetSessionEmbedUrlRequest & keyof Omit<GetSessionEmbedUrlRequest, "AwsAccountId"> & keyof GetSessionEmbedUrlRequest & keyof GetSessionEmbedUrlRequest & keyof GetSessionEmbedUrlRequest]: (GetSessionEmbedUrlRequest & Omit<GetSessionEmbedUrlRequest, "AwsAccountId"> & GetSessionEmbedUrlRequest & GetSessionEmbedUrlRequest & GetSessionEmbedUrlRequest)[K]
+      [K in keyof GetSessionEmbedUrlRequest & keyof Omit<GetSessionEmbedUrlRequest, "AwsAccountId">]: (GetSessionEmbedUrlRequest)[K]
     }>): Request<GetSessionEmbedUrlResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getSessionEmbedUrl(
-          this.ops["GetSessionEmbedUrl"].applicator.apply(partialParams)
+          this.ops["GetSessionEmbedUrl"].apply(partialParams)
         );
     }
 
     invokeListAnalyses(partialParams: ToOptional<{
-      [K in keyof ListAnalysesRequest & keyof Omit<ListAnalysesRequest, "AwsAccountId"> & keyof ListAnalysesRequest & keyof ListAnalysesRequest & keyof ListAnalysesRequest]: (ListAnalysesRequest & Omit<ListAnalysesRequest, "AwsAccountId"> & ListAnalysesRequest & ListAnalysesRequest & ListAnalysesRequest)[K]
+      [K in keyof ListAnalysesRequest & keyof Omit<ListAnalysesRequest, "AwsAccountId">]: (ListAnalysesRequest)[K]
     }>): Request<ListAnalysesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listAnalyses(
-          this.ops["ListAnalyses"].applicator.apply(partialParams)
+          this.ops["ListAnalyses"].apply(partialParams)
         );
     }
 
     invokeListDashboardVersions(partialParams: ToOptional<{
-      [K in keyof ListDashboardVersionsRequest & keyof Omit<ListDashboardVersionsRequest, "AwsAccountId"> & keyof ListDashboardVersionsRequest & keyof ListDashboardVersionsRequest & keyof ListDashboardVersionsRequest]: (ListDashboardVersionsRequest & Omit<ListDashboardVersionsRequest, "AwsAccountId"> & ListDashboardVersionsRequest & ListDashboardVersionsRequest & ListDashboardVersionsRequest)[K]
+      [K in keyof ListDashboardVersionsRequest & keyof Omit<ListDashboardVersionsRequest, "AwsAccountId">]: (ListDashboardVersionsRequest)[K]
     }>): Request<ListDashboardVersionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listDashboardVersions(
-          this.ops["ListDashboardVersions"].applicator.apply(partialParams)
+          this.ops["ListDashboardVersions"].apply(partialParams)
         );
     }
 
     invokeListDashboards(partialParams: ToOptional<{
-      [K in keyof ListDashboardsRequest & keyof Omit<ListDashboardsRequest, "AwsAccountId"> & keyof ListDashboardsRequest & keyof ListDashboardsRequest & keyof ListDashboardsRequest]: (ListDashboardsRequest & Omit<ListDashboardsRequest, "AwsAccountId"> & ListDashboardsRequest & ListDashboardsRequest & ListDashboardsRequest)[K]
+      [K in keyof ListDashboardsRequest & keyof Omit<ListDashboardsRequest, "AwsAccountId">]: (ListDashboardsRequest)[K]
     }>): Request<ListDashboardsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listDashboards(
-          this.ops["ListDashboards"].applicator.apply(partialParams)
+          this.ops["ListDashboards"].apply(partialParams)
         );
     }
 
     invokeListDataSets(partialParams: ToOptional<{
-      [K in keyof ListDataSetsRequest & keyof Omit<ListDataSetsRequest, "AwsAccountId"> & keyof ListDataSetsRequest & keyof ListDataSetsRequest & keyof ListDataSetsRequest]: (ListDataSetsRequest & Omit<ListDataSetsRequest, "AwsAccountId"> & ListDataSetsRequest & ListDataSetsRequest & ListDataSetsRequest)[K]
+      [K in keyof ListDataSetsRequest & keyof Omit<ListDataSetsRequest, "AwsAccountId">]: (ListDataSetsRequest)[K]
     }>): Request<ListDataSetsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listDataSets(
-          this.ops["ListDataSets"].applicator.apply(partialParams)
+          this.ops["ListDataSets"].apply(partialParams)
         );
     }
 
     invokeListDataSources(partialParams: ToOptional<{
-      [K in keyof ListDataSourcesRequest & keyof Omit<ListDataSourcesRequest, "AwsAccountId"> & keyof ListDataSourcesRequest & keyof ListDataSourcesRequest & keyof ListDataSourcesRequest]: (ListDataSourcesRequest & Omit<ListDataSourcesRequest, "AwsAccountId"> & ListDataSourcesRequest & ListDataSourcesRequest & ListDataSourcesRequest)[K]
+      [K in keyof ListDataSourcesRequest & keyof Omit<ListDataSourcesRequest, "AwsAccountId">]: (ListDataSourcesRequest)[K]
     }>): Request<ListDataSourcesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listDataSources(
-          this.ops["ListDataSources"].applicator.apply(partialParams)
+          this.ops["ListDataSources"].apply(partialParams)
         );
     }
 
     invokeListFolderMembers(partialParams: ToOptional<{
-      [K in keyof ListFolderMembersRequest & keyof Omit<ListFolderMembersRequest, "AwsAccountId"> & keyof ListFolderMembersRequest & keyof ListFolderMembersRequest & keyof ListFolderMembersRequest]: (ListFolderMembersRequest & Omit<ListFolderMembersRequest, "AwsAccountId"> & ListFolderMembersRequest & ListFolderMembersRequest & ListFolderMembersRequest)[K]
+      [K in keyof ListFolderMembersRequest & keyof Omit<ListFolderMembersRequest, "AwsAccountId">]: (ListFolderMembersRequest)[K]
     }>): Request<ListFolderMembersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listFolderMembers(
-          this.ops["ListFolderMembers"].applicator.apply(partialParams)
+          this.ops["ListFolderMembers"].apply(partialParams)
         );
     }
 
     invokeListFolders(partialParams: ToOptional<{
-      [K in keyof ListFoldersRequest & keyof Omit<ListFoldersRequest, "AwsAccountId"> & keyof ListFoldersRequest & keyof ListFoldersRequest & keyof ListFoldersRequest]: (ListFoldersRequest & Omit<ListFoldersRequest, "AwsAccountId"> & ListFoldersRequest & ListFoldersRequest & ListFoldersRequest)[K]
+      [K in keyof ListFoldersRequest & keyof Omit<ListFoldersRequest, "AwsAccountId">]: (ListFoldersRequest)[K]
     }>): Request<ListFoldersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listFolders(
-          this.ops["ListFolders"].applicator.apply(partialParams)
+          this.ops["ListFolders"].apply(partialParams)
         );
     }
 
     invokeListGroupMemberships(partialParams: ToOptional<{
-      [K in keyof ListGroupMembershipsRequest & keyof Omit<ListGroupMembershipsRequest, "AwsAccountId"> & keyof Omit<ListGroupMembershipsRequest, "GroupName"> & keyof ListGroupMembershipsRequest & keyof ListGroupMembershipsRequest]: (ListGroupMembershipsRequest & Omit<ListGroupMembershipsRequest, "AwsAccountId"> & Omit<ListGroupMembershipsRequest, "GroupName"> & ListGroupMembershipsRequest & ListGroupMembershipsRequest)[K]
+      [K in keyof ListGroupMembershipsRequest & keyof Omit<ListGroupMembershipsRequest, "GroupName" | "AwsAccountId" | "Namespace">]: (ListGroupMembershipsRequest)[K]
     }>): Request<ListGroupMembershipsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listGroupMemberships(
-          this.ops["ListGroupMemberships"].applicator.apply(partialParams)
+          this.ops["ListGroupMemberships"].apply(partialParams)
         );
     }
 
     invokeListGroups(partialParams: ToOptional<{
-      [K in keyof ListGroupsRequest & keyof Omit<ListGroupsRequest, "AwsAccountId"> & keyof ListGroupsRequest & keyof ListGroupsRequest & keyof ListGroupsRequest]: (ListGroupsRequest & Omit<ListGroupsRequest, "AwsAccountId"> & ListGroupsRequest & ListGroupsRequest & ListGroupsRequest)[K]
+      [K in keyof ListGroupsRequest & keyof Omit<ListGroupsRequest, "AwsAccountId" | "Namespace">]: (ListGroupsRequest)[K]
     }>): Request<ListGroupsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listGroups(
-          this.ops["ListGroups"].applicator.apply(partialParams)
+          this.ops["ListGroups"].apply(partialParams)
         );
     }
 
     invokeListIAMPolicyAssignments(partialParams: ToOptional<{
-      [K in keyof ListIAMPolicyAssignmentsRequest & keyof Omit<ListIAMPolicyAssignmentsRequest, "AwsAccountId"> & keyof ListIAMPolicyAssignmentsRequest & keyof ListIAMPolicyAssignmentsRequest & keyof ListIAMPolicyAssignmentsRequest]: (ListIAMPolicyAssignmentsRequest & Omit<ListIAMPolicyAssignmentsRequest, "AwsAccountId"> & ListIAMPolicyAssignmentsRequest & ListIAMPolicyAssignmentsRequest & ListIAMPolicyAssignmentsRequest)[K]
+      [K in keyof ListIAMPolicyAssignmentsRequest & keyof Omit<ListIAMPolicyAssignmentsRequest, "AwsAccountId" | "Namespace">]: (ListIAMPolicyAssignmentsRequest)[K]
     }>): Request<ListIAMPolicyAssignmentsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listIAMPolicyAssignments(
-          this.ops["ListIAMPolicyAssignments"].applicator.apply(partialParams)
+          this.ops["ListIAMPolicyAssignments"].apply(partialParams)
         );
     }
 
     invokeListIAMPolicyAssignmentsForUser(partialParams: ToOptional<{
-      [K in keyof ListIAMPolicyAssignmentsForUserRequest & keyof Omit<ListIAMPolicyAssignmentsForUserRequest, "AwsAccountId"> & keyof ListIAMPolicyAssignmentsForUserRequest & keyof ListIAMPolicyAssignmentsForUserRequest & keyof ListIAMPolicyAssignmentsForUserRequest]: (ListIAMPolicyAssignmentsForUserRequest & Omit<ListIAMPolicyAssignmentsForUserRequest, "AwsAccountId"> & ListIAMPolicyAssignmentsForUserRequest & ListIAMPolicyAssignmentsForUserRequest & ListIAMPolicyAssignmentsForUserRequest)[K]
+      [K in keyof ListIAMPolicyAssignmentsForUserRequest & keyof Omit<ListIAMPolicyAssignmentsForUserRequest, "AwsAccountId" | "Namespace">]: (ListIAMPolicyAssignmentsForUserRequest)[K]
     }>): Request<ListIAMPolicyAssignmentsForUserResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listIAMPolicyAssignmentsForUser(
-          this.ops["ListIAMPolicyAssignmentsForUser"].applicator.apply(partialParams)
+          this.ops["ListIAMPolicyAssignmentsForUser"].apply(partialParams)
         );
     }
 
     invokeListIngestions(partialParams: ToOptional<{
-      [K in keyof ListIngestionsRequest & keyof Omit<ListIngestionsRequest, "AwsAccountId"> & keyof ListIngestionsRequest & keyof ListIngestionsRequest & keyof ListIngestionsRequest]: (ListIngestionsRequest & Omit<ListIngestionsRequest, "AwsAccountId"> & ListIngestionsRequest & ListIngestionsRequest & ListIngestionsRequest)[K]
+      [K in keyof ListIngestionsRequest & keyof Omit<ListIngestionsRequest, "AwsAccountId">]: (ListIngestionsRequest)[K]
     }>): Request<ListIngestionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listIngestions(
-          this.ops["ListIngestions"].applicator.apply(partialParams)
+          this.ops["ListIngestions"].apply(partialParams)
         );
     }
 
     invokeListNamespaces(partialParams: ToOptional<{
-      [K in keyof ListNamespacesRequest & keyof Omit<ListNamespacesRequest, "AwsAccountId"> & keyof ListNamespacesRequest & keyof ListNamespacesRequest & keyof ListNamespacesRequest]: (ListNamespacesRequest & Omit<ListNamespacesRequest, "AwsAccountId"> & ListNamespacesRequest & ListNamespacesRequest & ListNamespacesRequest)[K]
+      [K in keyof ListNamespacesRequest & keyof Omit<ListNamespacesRequest, "AwsAccountId">]: (ListNamespacesRequest)[K]
     }>): Request<ListNamespacesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listNamespaces(
-          this.ops["ListNamespaces"].applicator.apply(partialParams)
+          this.ops["ListNamespaces"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof Omit<ListTagsForResourceRequest, "ResourceArn"> & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (Omit<ListTagsForResourceRequest, "ResourceArn"> & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeListTemplateAliases(partialParams: ToOptional<{
-      [K in keyof ListTemplateAliasesRequest & keyof Omit<ListTemplateAliasesRequest, "AwsAccountId"> & keyof ListTemplateAliasesRequest & keyof ListTemplateAliasesRequest & keyof ListTemplateAliasesRequest]: (ListTemplateAliasesRequest & Omit<ListTemplateAliasesRequest, "AwsAccountId"> & ListTemplateAliasesRequest & ListTemplateAliasesRequest & ListTemplateAliasesRequest)[K]
+      [K in keyof ListTemplateAliasesRequest & keyof Omit<ListTemplateAliasesRequest, "AwsAccountId">]: (ListTemplateAliasesRequest)[K]
     }>): Request<ListTemplateAliasesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTemplateAliases(
-          this.ops["ListTemplateAliases"].applicator.apply(partialParams)
+          this.ops["ListTemplateAliases"].apply(partialParams)
         );
     }
 
     invokeListTemplateVersions(partialParams: ToOptional<{
-      [K in keyof ListTemplateVersionsRequest & keyof Omit<ListTemplateVersionsRequest, "AwsAccountId"> & keyof ListTemplateVersionsRequest & keyof ListTemplateVersionsRequest & keyof ListTemplateVersionsRequest]: (ListTemplateVersionsRequest & Omit<ListTemplateVersionsRequest, "AwsAccountId"> & ListTemplateVersionsRequest & ListTemplateVersionsRequest & ListTemplateVersionsRequest)[K]
+      [K in keyof ListTemplateVersionsRequest & keyof Omit<ListTemplateVersionsRequest, "AwsAccountId">]: (ListTemplateVersionsRequest)[K]
     }>): Request<ListTemplateVersionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTemplateVersions(
-          this.ops["ListTemplateVersions"].applicator.apply(partialParams)
+          this.ops["ListTemplateVersions"].apply(partialParams)
         );
     }
 
     invokeListTemplates(partialParams: ToOptional<{
-      [K in keyof ListTemplatesRequest & keyof Omit<ListTemplatesRequest, "AwsAccountId"> & keyof ListTemplatesRequest & keyof ListTemplatesRequest & keyof ListTemplatesRequest]: (ListTemplatesRequest & Omit<ListTemplatesRequest, "AwsAccountId"> & ListTemplatesRequest & ListTemplatesRequest & ListTemplatesRequest)[K]
+      [K in keyof ListTemplatesRequest & keyof Omit<ListTemplatesRequest, "AwsAccountId">]: (ListTemplatesRequest)[K]
     }>): Request<ListTemplatesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTemplates(
-          this.ops["ListTemplates"].applicator.apply(partialParams)
+          this.ops["ListTemplates"].apply(partialParams)
         );
     }
 
     invokeListThemeAliases(partialParams: ToOptional<{
-      [K in keyof ListThemeAliasesRequest & keyof Omit<ListThemeAliasesRequest, "AwsAccountId"> & keyof ListThemeAliasesRequest & keyof ListThemeAliasesRequest & keyof ListThemeAliasesRequest]: (ListThemeAliasesRequest & Omit<ListThemeAliasesRequest, "AwsAccountId"> & ListThemeAliasesRequest & ListThemeAliasesRequest & ListThemeAliasesRequest)[K]
+      [K in keyof ListThemeAliasesRequest & keyof Omit<ListThemeAliasesRequest, "AwsAccountId">]: (ListThemeAliasesRequest)[K]
     }>): Request<ListThemeAliasesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listThemeAliases(
-          this.ops["ListThemeAliases"].applicator.apply(partialParams)
+          this.ops["ListThemeAliases"].apply(partialParams)
         );
     }
 
     invokeListThemeVersions(partialParams: ToOptional<{
-      [K in keyof ListThemeVersionsRequest & keyof Omit<ListThemeVersionsRequest, "AwsAccountId"> & keyof ListThemeVersionsRequest & keyof ListThemeVersionsRequest & keyof ListThemeVersionsRequest]: (ListThemeVersionsRequest & Omit<ListThemeVersionsRequest, "AwsAccountId"> & ListThemeVersionsRequest & ListThemeVersionsRequest & ListThemeVersionsRequest)[K]
+      [K in keyof ListThemeVersionsRequest & keyof Omit<ListThemeVersionsRequest, "AwsAccountId">]: (ListThemeVersionsRequest)[K]
     }>): Request<ListThemeVersionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listThemeVersions(
-          this.ops["ListThemeVersions"].applicator.apply(partialParams)
+          this.ops["ListThemeVersions"].apply(partialParams)
         );
     }
 
     invokeListThemes(partialParams: ToOptional<{
-      [K in keyof ListThemesRequest & keyof Omit<ListThemesRequest, "AwsAccountId"> & keyof ListThemesRequest & keyof ListThemesRequest & keyof ListThemesRequest]: (ListThemesRequest & Omit<ListThemesRequest, "AwsAccountId"> & ListThemesRequest & ListThemesRequest & ListThemesRequest)[K]
+      [K in keyof ListThemesRequest & keyof Omit<ListThemesRequest, "AwsAccountId">]: (ListThemesRequest)[K]
     }>): Request<ListThemesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listThemes(
-          this.ops["ListThemes"].applicator.apply(partialParams)
+          this.ops["ListThemes"].apply(partialParams)
         );
     }
 
     invokeListUserGroups(partialParams: ToOptional<{
-      [K in keyof ListUserGroupsRequest & keyof Omit<ListUserGroupsRequest, "AwsAccountId"> & keyof ListUserGroupsRequest & keyof ListUserGroupsRequest & keyof ListUserGroupsRequest]: (ListUserGroupsRequest & Omit<ListUserGroupsRequest, "AwsAccountId"> & ListUserGroupsRequest & ListUserGroupsRequest & ListUserGroupsRequest)[K]
+      [K in keyof ListUserGroupsRequest & keyof Omit<ListUserGroupsRequest, "AwsAccountId" | "Namespace">]: (ListUserGroupsRequest)[K]
     }>): Request<ListUserGroupsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listUserGroups(
-          this.ops["ListUserGroups"].applicator.apply(partialParams)
+          this.ops["ListUserGroups"].apply(partialParams)
         );
     }
 
     invokeListUsers(partialParams: ToOptional<{
-      [K in keyof ListUsersRequest & keyof Omit<ListUsersRequest, "AwsAccountId"> & keyof ListUsersRequest & keyof ListUsersRequest & keyof ListUsersRequest]: (ListUsersRequest & Omit<ListUsersRequest, "AwsAccountId"> & ListUsersRequest & ListUsersRequest & ListUsersRequest)[K]
+      [K in keyof ListUsersRequest & keyof Omit<ListUsersRequest, "AwsAccountId" | "Namespace">]: (ListUsersRequest)[K]
     }>): Request<ListUsersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listUsers(
-          this.ops["ListUsers"].applicator.apply(partialParams)
+          this.ops["ListUsers"].apply(partialParams)
         );
     }
 
     invokeRegisterUser(partialParams: ToOptional<{
-      [K in keyof RegisterUserRequest & keyof Omit<RegisterUserRequest, "AwsAccountId"> & keyof RegisterUserRequest & keyof RegisterUserRequest & keyof Omit<RegisterUserRequest, "Namespace">]: (RegisterUserRequest & Omit<RegisterUserRequest, "AwsAccountId"> & RegisterUserRequest & RegisterUserRequest & Omit<RegisterUserRequest, "Namespace">)[K]
+      [K in keyof RegisterUserRequest & keyof Omit<RegisterUserRequest, "AwsAccountId" | "Namespace">]: (RegisterUserRequest)[K]
     }>): Request<RegisterUserResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.registerUser(
-          this.ops["RegisterUser"].applicator.apply(partialParams)
+          this.ops["RegisterUser"].apply(partialParams)
         );
     }
 
     invokeRestoreAnalysis(partialParams: ToOptional<{
-      [K in keyof RestoreAnalysisRequest & keyof Omit<RestoreAnalysisRequest, "AwsAccountId"> & keyof RestoreAnalysisRequest & keyof RestoreAnalysisRequest & keyof RestoreAnalysisRequest]: (RestoreAnalysisRequest & Omit<RestoreAnalysisRequest, "AwsAccountId"> & RestoreAnalysisRequest & RestoreAnalysisRequest & RestoreAnalysisRequest)[K]
+      [K in keyof RestoreAnalysisRequest & keyof Omit<RestoreAnalysisRequest, "AwsAccountId">]: (RestoreAnalysisRequest)[K]
     }>): Request<RestoreAnalysisResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.restoreAnalysis(
-          this.ops["RestoreAnalysis"].applicator.apply(partialParams)
+          this.ops["RestoreAnalysis"].apply(partialParams)
         );
     }
 
     invokeSearchAnalyses(partialParams: ToOptional<{
-      [K in keyof SearchAnalysesRequest & keyof Omit<SearchAnalysesRequest, "AwsAccountId"> & keyof SearchAnalysesRequest & keyof SearchAnalysesRequest & keyof SearchAnalysesRequest]: (SearchAnalysesRequest & Omit<SearchAnalysesRequest, "AwsAccountId"> & SearchAnalysesRequest & SearchAnalysesRequest & SearchAnalysesRequest)[K]
+      [K in keyof SearchAnalysesRequest & keyof Omit<SearchAnalysesRequest, "AwsAccountId">]: (SearchAnalysesRequest)[K]
     }>): Request<SearchAnalysesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.searchAnalyses(
-          this.ops["SearchAnalyses"].applicator.apply(partialParams)
+          this.ops["SearchAnalyses"].apply(partialParams)
         );
     }
 
     invokeSearchDashboards(partialParams: ToOptional<{
-      [K in keyof SearchDashboardsRequest & keyof Omit<SearchDashboardsRequest, "AwsAccountId"> & keyof SearchDashboardsRequest & keyof SearchDashboardsRequest & keyof SearchDashboardsRequest]: (SearchDashboardsRequest & Omit<SearchDashboardsRequest, "AwsAccountId"> & SearchDashboardsRequest & SearchDashboardsRequest & SearchDashboardsRequest)[K]
+      [K in keyof SearchDashboardsRequest & keyof Omit<SearchDashboardsRequest, "AwsAccountId">]: (SearchDashboardsRequest)[K]
     }>): Request<SearchDashboardsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.searchDashboards(
-          this.ops["SearchDashboards"].applicator.apply(partialParams)
+          this.ops["SearchDashboards"].apply(partialParams)
         );
     }
 
     invokeSearchFolders(partialParams: ToOptional<{
-      [K in keyof SearchFoldersRequest & keyof Omit<SearchFoldersRequest, "AwsAccountId"> & keyof SearchFoldersRequest & keyof SearchFoldersRequest & keyof SearchFoldersRequest]: (SearchFoldersRequest & Omit<SearchFoldersRequest, "AwsAccountId"> & SearchFoldersRequest & SearchFoldersRequest & SearchFoldersRequest)[K]
+      [K in keyof SearchFoldersRequest & keyof Omit<SearchFoldersRequest, "AwsAccountId">]: (SearchFoldersRequest)[K]
     }>): Request<SearchFoldersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.searchFolders(
-          this.ops["SearchFolders"].applicator.apply(partialParams)
+          this.ops["SearchFolders"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof Omit<TagResourceRequest, "ResourceArn"> & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (Omit<TagResourceRequest, "ResourceArn"> & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof Omit<UntagResourceRequest, "ResourceArn"> & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (Omit<UntagResourceRequest, "ResourceArn"> & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateAccountCustomization(partialParams: ToOptional<{
-      [K in keyof UpdateAccountCustomizationRequest & keyof Omit<UpdateAccountCustomizationRequest, "AwsAccountId"> & keyof UpdateAccountCustomizationRequest & keyof UpdateAccountCustomizationRequest & keyof UpdateAccountCustomizationRequest]: (UpdateAccountCustomizationRequest & Omit<UpdateAccountCustomizationRequest, "AwsAccountId"> & UpdateAccountCustomizationRequest & UpdateAccountCustomizationRequest & UpdateAccountCustomizationRequest)[K]
+      [K in keyof UpdateAccountCustomizationRequest & keyof Omit<UpdateAccountCustomizationRequest, "AwsAccountId">]: (UpdateAccountCustomizationRequest)[K]
     }>): Request<UpdateAccountCustomizationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateAccountCustomization(
-          this.ops["UpdateAccountCustomization"].applicator.apply(partialParams)
+          this.ops["UpdateAccountCustomization"].apply(partialParams)
         );
     }
 
     invokeUpdateAccountSettings(partialParams: ToOptional<{
-      [K in keyof UpdateAccountSettingsRequest & keyof Omit<UpdateAccountSettingsRequest, "AwsAccountId"> & keyof UpdateAccountSettingsRequest & keyof UpdateAccountSettingsRequest & keyof Omit<UpdateAccountSettingsRequest, "DefaultNamespace">]: (UpdateAccountSettingsRequest & Omit<UpdateAccountSettingsRequest, "AwsAccountId"> & UpdateAccountSettingsRequest & UpdateAccountSettingsRequest & Omit<UpdateAccountSettingsRequest, "DefaultNamespace">)[K]
+      [K in keyof UpdateAccountSettingsRequest & keyof Omit<UpdateAccountSettingsRequest, "AwsAccountId">]: (UpdateAccountSettingsRequest)[K]
     }>): Request<UpdateAccountSettingsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateAccountSettings(
-          this.ops["UpdateAccountSettings"].applicator.apply(partialParams)
+          this.ops["UpdateAccountSettings"].apply(partialParams)
         );
     }
 
     invokeUpdateAnalysis(partialParams: ToOptional<{
-      [K in keyof UpdateAnalysisRequest & keyof Omit<UpdateAnalysisRequest, "AwsAccountId"> & keyof UpdateAnalysisRequest & keyof UpdateAnalysisRequest & keyof UpdateAnalysisRequest]: (UpdateAnalysisRequest & Omit<UpdateAnalysisRequest, "AwsAccountId"> & UpdateAnalysisRequest & UpdateAnalysisRequest & UpdateAnalysisRequest)[K]
+      [K in keyof UpdateAnalysisRequest & keyof Omit<UpdateAnalysisRequest, "AwsAccountId">]: (UpdateAnalysisRequest)[K]
     }>): Request<UpdateAnalysisResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateAnalysis(
-          this.ops["UpdateAnalysis"].applicator.apply(partialParams)
+          this.ops["UpdateAnalysis"].apply(partialParams)
         );
     }
 
     invokeUpdateAnalysisPermissions(partialParams: ToOptional<{
-      [K in keyof UpdateAnalysisPermissionsRequest & keyof Omit<UpdateAnalysisPermissionsRequest, "AwsAccountId"> & keyof UpdateAnalysisPermissionsRequest & keyof UpdateAnalysisPermissionsRequest & keyof UpdateAnalysisPermissionsRequest]: (UpdateAnalysisPermissionsRequest & Omit<UpdateAnalysisPermissionsRequest, "AwsAccountId"> & UpdateAnalysisPermissionsRequest & UpdateAnalysisPermissionsRequest & UpdateAnalysisPermissionsRequest)[K]
+      [K in keyof UpdateAnalysisPermissionsRequest & keyof Omit<UpdateAnalysisPermissionsRequest, "AwsAccountId">]: (UpdateAnalysisPermissionsRequest)[K]
     }>): Request<UpdateAnalysisPermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateAnalysisPermissions(
-          this.ops["UpdateAnalysisPermissions"].applicator.apply(partialParams)
+          this.ops["UpdateAnalysisPermissions"].apply(partialParams)
         );
     }
 
     invokeUpdateDashboard(partialParams: ToOptional<{
-      [K in keyof UpdateDashboardRequest & keyof Omit<UpdateDashboardRequest, "AwsAccountId"> & keyof UpdateDashboardRequest & keyof UpdateDashboardRequest & keyof UpdateDashboardRequest]: (UpdateDashboardRequest & Omit<UpdateDashboardRequest, "AwsAccountId"> & UpdateDashboardRequest & UpdateDashboardRequest & UpdateDashboardRequest)[K]
+      [K in keyof UpdateDashboardRequest & keyof Omit<UpdateDashboardRequest, "AwsAccountId">]: (UpdateDashboardRequest)[K]
     }>): Request<UpdateDashboardResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDashboard(
-          this.ops["UpdateDashboard"].applicator.apply(partialParams)
+          this.ops["UpdateDashboard"].apply(partialParams)
         );
     }
 
     invokeUpdateDashboardPermissions(partialParams: ToOptional<{
-      [K in keyof UpdateDashboardPermissionsRequest & keyof Omit<UpdateDashboardPermissionsRequest, "AwsAccountId"> & keyof UpdateDashboardPermissionsRequest & keyof UpdateDashboardPermissionsRequest & keyof UpdateDashboardPermissionsRequest]: (UpdateDashboardPermissionsRequest & Omit<UpdateDashboardPermissionsRequest, "AwsAccountId"> & UpdateDashboardPermissionsRequest & UpdateDashboardPermissionsRequest & UpdateDashboardPermissionsRequest)[K]
+      [K in keyof UpdateDashboardPermissionsRequest & keyof Omit<UpdateDashboardPermissionsRequest, "AwsAccountId">]: (UpdateDashboardPermissionsRequest)[K]
     }>): Request<UpdateDashboardPermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDashboardPermissions(
-          this.ops["UpdateDashboardPermissions"].applicator.apply(partialParams)
+          this.ops["UpdateDashboardPermissions"].apply(partialParams)
         );
     }
 
     invokeUpdateDashboardPublishedVersion(partialParams: ToOptional<{
-      [K in keyof UpdateDashboardPublishedVersionRequest & keyof Omit<UpdateDashboardPublishedVersionRequest, "AwsAccountId"> & keyof UpdateDashboardPublishedVersionRequest & keyof UpdateDashboardPublishedVersionRequest & keyof UpdateDashboardPublishedVersionRequest]: (UpdateDashboardPublishedVersionRequest & Omit<UpdateDashboardPublishedVersionRequest, "AwsAccountId"> & UpdateDashboardPublishedVersionRequest & UpdateDashboardPublishedVersionRequest & UpdateDashboardPublishedVersionRequest)[K]
+      [K in keyof UpdateDashboardPublishedVersionRequest & keyof Omit<UpdateDashboardPublishedVersionRequest, "AwsAccountId">]: (UpdateDashboardPublishedVersionRequest)[K]
     }>): Request<UpdateDashboardPublishedVersionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDashboardPublishedVersion(
-          this.ops["UpdateDashboardPublishedVersion"].applicator.apply(partialParams)
+          this.ops["UpdateDashboardPublishedVersion"].apply(partialParams)
         );
     }
 
     invokeUpdateDataSet(partialParams: ToOptional<{
-      [K in keyof UpdateDataSetRequest & keyof Omit<UpdateDataSetRequest, "AwsAccountId"> & keyof UpdateDataSetRequest & keyof UpdateDataSetRequest & keyof UpdateDataSetRequest]: (UpdateDataSetRequest & Omit<UpdateDataSetRequest, "AwsAccountId"> & UpdateDataSetRequest & UpdateDataSetRequest & UpdateDataSetRequest)[K]
+      [K in keyof UpdateDataSetRequest & keyof Omit<UpdateDataSetRequest, "AwsAccountId">]: (UpdateDataSetRequest)[K]
     }>): Request<UpdateDataSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDataSet(
-          this.ops["UpdateDataSet"].applicator.apply(partialParams)
+          this.ops["UpdateDataSet"].apply(partialParams)
         );
     }
 
     invokeUpdateDataSetPermissions(partialParams: ToOptional<{
-      [K in keyof UpdateDataSetPermissionsRequest & keyof Omit<UpdateDataSetPermissionsRequest, "AwsAccountId"> & keyof UpdateDataSetPermissionsRequest & keyof UpdateDataSetPermissionsRequest & keyof UpdateDataSetPermissionsRequest]: (UpdateDataSetPermissionsRequest & Omit<UpdateDataSetPermissionsRequest, "AwsAccountId"> & UpdateDataSetPermissionsRequest & UpdateDataSetPermissionsRequest & UpdateDataSetPermissionsRequest)[K]
+      [K in keyof UpdateDataSetPermissionsRequest & keyof Omit<UpdateDataSetPermissionsRequest, "AwsAccountId">]: (UpdateDataSetPermissionsRequest)[K]
     }>): Request<UpdateDataSetPermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDataSetPermissions(
-          this.ops["UpdateDataSetPermissions"].applicator.apply(partialParams)
+          this.ops["UpdateDataSetPermissions"].apply(partialParams)
         );
     }
 
     invokeUpdateDataSource(partialParams: ToOptional<{
-      [K in keyof UpdateDataSourceRequest & keyof Omit<UpdateDataSourceRequest, "AwsAccountId"> & keyof UpdateDataSourceRequest & keyof UpdateDataSourceRequest & keyof UpdateDataSourceRequest]: (UpdateDataSourceRequest & Omit<UpdateDataSourceRequest, "AwsAccountId"> & UpdateDataSourceRequest & UpdateDataSourceRequest & UpdateDataSourceRequest)[K]
+      [K in keyof UpdateDataSourceRequest & keyof Omit<UpdateDataSourceRequest, "AwsAccountId">]: (UpdateDataSourceRequest)[K]
     }>): Request<UpdateDataSourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDataSource(
-          this.ops["UpdateDataSource"].applicator.apply(partialParams)
+          this.ops["UpdateDataSource"].apply(partialParams)
         );
     }
 
     invokeUpdateDataSourcePermissions(partialParams: ToOptional<{
-      [K in keyof UpdateDataSourcePermissionsRequest & keyof Omit<UpdateDataSourcePermissionsRequest, "AwsAccountId"> & keyof UpdateDataSourcePermissionsRequest & keyof UpdateDataSourcePermissionsRequest & keyof UpdateDataSourcePermissionsRequest]: (UpdateDataSourcePermissionsRequest & Omit<UpdateDataSourcePermissionsRequest, "AwsAccountId"> & UpdateDataSourcePermissionsRequest & UpdateDataSourcePermissionsRequest & UpdateDataSourcePermissionsRequest)[K]
+      [K in keyof UpdateDataSourcePermissionsRequest & keyof Omit<UpdateDataSourcePermissionsRequest, "AwsAccountId">]: (UpdateDataSourcePermissionsRequest)[K]
     }>): Request<UpdateDataSourcePermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDataSourcePermissions(
-          this.ops["UpdateDataSourcePermissions"].applicator.apply(partialParams)
+          this.ops["UpdateDataSourcePermissions"].apply(partialParams)
         );
     }
 
     invokeUpdateFolder(partialParams: ToOptional<{
-      [K in keyof UpdateFolderRequest & keyof Omit<UpdateFolderRequest, "AwsAccountId"> & keyof UpdateFolderRequest & keyof UpdateFolderRequest & keyof UpdateFolderRequest]: (UpdateFolderRequest & Omit<UpdateFolderRequest, "AwsAccountId"> & UpdateFolderRequest & UpdateFolderRequest & UpdateFolderRequest)[K]
+      [K in keyof UpdateFolderRequest & keyof Omit<UpdateFolderRequest, "AwsAccountId">]: (UpdateFolderRequest)[K]
     }>): Request<UpdateFolderResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateFolder(
-          this.ops["UpdateFolder"].applicator.apply(partialParams)
+          this.ops["UpdateFolder"].apply(partialParams)
         );
     }
 
     invokeUpdateFolderPermissions(partialParams: ToOptional<{
-      [K in keyof UpdateFolderPermissionsRequest & keyof Omit<UpdateFolderPermissionsRequest, "AwsAccountId"> & keyof UpdateFolderPermissionsRequest & keyof UpdateFolderPermissionsRequest & keyof UpdateFolderPermissionsRequest]: (UpdateFolderPermissionsRequest & Omit<UpdateFolderPermissionsRequest, "AwsAccountId"> & UpdateFolderPermissionsRequest & UpdateFolderPermissionsRequest & UpdateFolderPermissionsRequest)[K]
+      [K in keyof UpdateFolderPermissionsRequest & keyof Omit<UpdateFolderPermissionsRequest, "AwsAccountId">]: (UpdateFolderPermissionsRequest)[K]
     }>): Request<UpdateFolderPermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateFolderPermissions(
-          this.ops["UpdateFolderPermissions"].applicator.apply(partialParams)
+          this.ops["UpdateFolderPermissions"].apply(partialParams)
         );
     }
 
     invokeUpdateGroup(partialParams: ToOptional<{
-      [K in keyof UpdateGroupRequest & keyof Omit<UpdateGroupRequest, "AwsAccountId"> & keyof Omit<UpdateGroupRequest, "GroupName"> & keyof UpdateGroupRequest & keyof Omit<UpdateGroupRequest, "Namespace">]: (UpdateGroupRequest & Omit<UpdateGroupRequest, "AwsAccountId"> & Omit<UpdateGroupRequest, "GroupName"> & UpdateGroupRequest & Omit<UpdateGroupRequest, "Namespace">)[K]
+      [K in keyof UpdateGroupRequest & keyof Omit<UpdateGroupRequest, "GroupName" | "AwsAccountId" | "Namespace">]: (UpdateGroupRequest)[K]
     }>): Request<UpdateGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateGroup(
-          this.ops["UpdateGroup"].applicator.apply(partialParams)
+          this.ops["UpdateGroup"].apply(partialParams)
         );
     }
 
     invokeUpdateIAMPolicyAssignment(partialParams: ToOptional<{
-      [K in keyof UpdateIAMPolicyAssignmentRequest & keyof Omit<UpdateIAMPolicyAssignmentRequest, "AwsAccountId"> & keyof UpdateIAMPolicyAssignmentRequest & keyof UpdateIAMPolicyAssignmentRequest & keyof Omit<UpdateIAMPolicyAssignmentRequest, "Namespace">]: (UpdateIAMPolicyAssignmentRequest & Omit<UpdateIAMPolicyAssignmentRequest, "AwsAccountId"> & UpdateIAMPolicyAssignmentRequest & UpdateIAMPolicyAssignmentRequest & Omit<UpdateIAMPolicyAssignmentRequest, "Namespace">)[K]
+      [K in keyof UpdateIAMPolicyAssignmentRequest & keyof Omit<UpdateIAMPolicyAssignmentRequest, "AwsAccountId" | "Namespace">]: (UpdateIAMPolicyAssignmentRequest)[K]
     }>): Request<UpdateIAMPolicyAssignmentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateIAMPolicyAssignment(
-          this.ops["UpdateIAMPolicyAssignment"].applicator.apply(partialParams)
+          this.ops["UpdateIAMPolicyAssignment"].apply(partialParams)
         );
     }
 
     invokeUpdateIpRestriction(partialParams: ToOptional<{
-      [K in keyof UpdateIpRestrictionRequest & keyof Omit<UpdateIpRestrictionRequest, "AwsAccountId"> & keyof UpdateIpRestrictionRequest & keyof UpdateIpRestrictionRequest & keyof UpdateIpRestrictionRequest]: (UpdateIpRestrictionRequest & Omit<UpdateIpRestrictionRequest, "AwsAccountId"> & UpdateIpRestrictionRequest & UpdateIpRestrictionRequest & UpdateIpRestrictionRequest)[K]
+      [K in keyof UpdateIpRestrictionRequest & keyof Omit<UpdateIpRestrictionRequest, "AwsAccountId">]: (UpdateIpRestrictionRequest)[K]
     }>): Request<UpdateIpRestrictionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateIpRestriction(
-          this.ops["UpdateIpRestriction"].applicator.apply(partialParams)
+          this.ops["UpdateIpRestriction"].apply(partialParams)
         );
     }
 
     invokeUpdateTemplate(partialParams: ToOptional<{
-      [K in keyof UpdateTemplateRequest & keyof Omit<UpdateTemplateRequest, "AwsAccountId"> & keyof UpdateTemplateRequest & keyof UpdateTemplateRequest & keyof UpdateTemplateRequest]: (UpdateTemplateRequest & Omit<UpdateTemplateRequest, "AwsAccountId"> & UpdateTemplateRequest & UpdateTemplateRequest & UpdateTemplateRequest)[K]
+      [K in keyof UpdateTemplateRequest & keyof Omit<UpdateTemplateRequest, "AwsAccountId">]: (UpdateTemplateRequest)[K]
     }>): Request<UpdateTemplateResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateTemplate(
-          this.ops["UpdateTemplate"].applicator.apply(partialParams)
+          this.ops["UpdateTemplate"].apply(partialParams)
         );
     }
 
     invokeUpdateTemplateAlias(partialParams: ToOptional<{
-      [K in keyof UpdateTemplateAliasRequest & keyof Omit<UpdateTemplateAliasRequest, "AwsAccountId"> & keyof UpdateTemplateAliasRequest & keyof UpdateTemplateAliasRequest & keyof UpdateTemplateAliasRequest]: (UpdateTemplateAliasRequest & Omit<UpdateTemplateAliasRequest, "AwsAccountId"> & UpdateTemplateAliasRequest & UpdateTemplateAliasRequest & UpdateTemplateAliasRequest)[K]
+      [K in keyof UpdateTemplateAliasRequest & keyof Omit<UpdateTemplateAliasRequest, "AwsAccountId">]: (UpdateTemplateAliasRequest)[K]
     }>): Request<UpdateTemplateAliasResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateTemplateAlias(
-          this.ops["UpdateTemplateAlias"].applicator.apply(partialParams)
+          this.ops["UpdateTemplateAlias"].apply(partialParams)
         );
     }
 
     invokeUpdateTemplatePermissions(partialParams: ToOptional<{
-      [K in keyof UpdateTemplatePermissionsRequest & keyof Omit<UpdateTemplatePermissionsRequest, "AwsAccountId"> & keyof UpdateTemplatePermissionsRequest & keyof UpdateTemplatePermissionsRequest & keyof UpdateTemplatePermissionsRequest]: (UpdateTemplatePermissionsRequest & Omit<UpdateTemplatePermissionsRequest, "AwsAccountId"> & UpdateTemplatePermissionsRequest & UpdateTemplatePermissionsRequest & UpdateTemplatePermissionsRequest)[K]
+      [K in keyof UpdateTemplatePermissionsRequest & keyof Omit<UpdateTemplatePermissionsRequest, "AwsAccountId">]: (UpdateTemplatePermissionsRequest)[K]
     }>): Request<UpdateTemplatePermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateTemplatePermissions(
-          this.ops["UpdateTemplatePermissions"].applicator.apply(partialParams)
+          this.ops["UpdateTemplatePermissions"].apply(partialParams)
         );
     }
 
     invokeUpdateTheme(partialParams: ToOptional<{
-      [K in keyof UpdateThemeRequest & keyof Omit<UpdateThemeRequest, "AwsAccountId"> & keyof UpdateThemeRequest & keyof UpdateThemeRequest & keyof UpdateThemeRequest]: (UpdateThemeRequest & Omit<UpdateThemeRequest, "AwsAccountId"> & UpdateThemeRequest & UpdateThemeRequest & UpdateThemeRequest)[K]
+      [K in keyof UpdateThemeRequest & keyof Omit<UpdateThemeRequest, "AwsAccountId">]: (UpdateThemeRequest)[K]
     }>): Request<UpdateThemeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateTheme(
-          this.ops["UpdateTheme"].applicator.apply(partialParams)
+          this.ops["UpdateTheme"].apply(partialParams)
         );
     }
 
     invokeUpdateThemeAlias(partialParams: ToOptional<{
-      [K in keyof UpdateThemeAliasRequest & keyof Omit<UpdateThemeAliasRequest, "AwsAccountId"> & keyof UpdateThemeAliasRequest & keyof UpdateThemeAliasRequest & keyof UpdateThemeAliasRequest]: (UpdateThemeAliasRequest & Omit<UpdateThemeAliasRequest, "AwsAccountId"> & UpdateThemeAliasRequest & UpdateThemeAliasRequest & UpdateThemeAliasRequest)[K]
+      [K in keyof UpdateThemeAliasRequest & keyof Omit<UpdateThemeAliasRequest, "AwsAccountId">]: (UpdateThemeAliasRequest)[K]
     }>): Request<UpdateThemeAliasResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateThemeAlias(
-          this.ops["UpdateThemeAlias"].applicator.apply(partialParams)
+          this.ops["UpdateThemeAlias"].apply(partialParams)
         );
     }
 
     invokeUpdateThemePermissions(partialParams: ToOptional<{
-      [K in keyof UpdateThemePermissionsRequest & keyof Omit<UpdateThemePermissionsRequest, "AwsAccountId"> & keyof UpdateThemePermissionsRequest & keyof UpdateThemePermissionsRequest & keyof UpdateThemePermissionsRequest]: (UpdateThemePermissionsRequest & Omit<UpdateThemePermissionsRequest, "AwsAccountId"> & UpdateThemePermissionsRequest & UpdateThemePermissionsRequest & UpdateThemePermissionsRequest)[K]
+      [K in keyof UpdateThemePermissionsRequest & keyof Omit<UpdateThemePermissionsRequest, "AwsAccountId">]: (UpdateThemePermissionsRequest)[K]
     }>): Request<UpdateThemePermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateThemePermissions(
-          this.ops["UpdateThemePermissions"].applicator.apply(partialParams)
+          this.ops["UpdateThemePermissions"].apply(partialParams)
         );
     }
 
     invokeUpdateUser(partialParams: ToOptional<{
-      [K in keyof UpdateUserRequest & keyof Omit<UpdateUserRequest, "AwsAccountId"> & keyof UpdateUserRequest & keyof UpdateUserRequest & keyof Omit<UpdateUserRequest, "Namespace">]: (UpdateUserRequest & Omit<UpdateUserRequest, "AwsAccountId"> & UpdateUserRequest & UpdateUserRequest & Omit<UpdateUserRequest, "Namespace">)[K]
+      [K in keyof UpdateUserRequest & keyof Omit<UpdateUserRequest, "AwsAccountId" | "Namespace">]: (UpdateUserRequest)[K]
     }>): Request<UpdateUserResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateUser(
-          this.ops["UpdateUser"].applicator.apply(partialParams)
+          this.ops["UpdateUser"].apply(partialParams)
         );
     }
 }

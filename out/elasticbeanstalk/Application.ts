@@ -6,36 +6,59 @@ import {AWSError} from 'aws-sdk/lib/error';
 
 import {
     ApplyEnvironmentManagedActionRequest,
-    AssociateEnvironmentOperationsRoleMessage,
     CheckDNSAvailabilityMessage,
+    ComposeEnvironmentsMessage,
     CreateApplicationMessage,
     CreateApplicationVersionMessage,
     CreateConfigurationTemplateMessage,
     CreateEnvironmentMessage,
     CreatePlatformVersionRequest,
-    DeleteApplicationMessage,
-    DeleteApplicationVersionMessage,
-    DeleteConfigurationTemplateMessage,
-    DeleteEnvironmentConfigurationMessage,
+    DeletePlatformVersionRequest,
+    DescribeApplicationVersionsMessage,
+    DescribeApplicationsMessage,
+    DescribeConfigurationOptionsMessage,
     DescribeConfigurationSettingsMessage,
-    DisassociateEnvironmentOperationsRoleMessage,
+    DescribeEnvironmentHealthRequest,
+    DescribeEnvironmentManagedActionHistoryRequest,
+    DescribeEnvironmentManagedActionsRequest,
+    DescribeEnvironmentResourcesMessage,
+    DescribeEnvironmentsMessage,
+    DescribeEventsMessage,
+    DescribeInstancesHealthRequest,
+    DescribePlatformVersionRequest,
+    ListPlatformBranchesRequest,
+    ListPlatformVersionsRequest,
     ListTagsForResourceMessage,
-    RequestEnvironmentInfoMessage,
     RetrieveEnvironmentInfoMessage,
+    TerminateEnvironmentMessage,
     UpdateApplicationMessage,
     UpdateApplicationResourceLifecycleMessage,
     UpdateApplicationVersionMessage,
     UpdateConfigurationTemplateMessage,
-    UpdateTagsForResourceMessage,
+    UpdateEnvironmentMessage,
     ValidateConfigurationSettingsMessage,
     ApplyEnvironmentManagedActionResult,
     CheckDNSAvailabilityResultMessage,
+    EnvironmentDescriptionsMessage,
     ApplicationDescriptionMessage,
     ApplicationVersionDescriptionMessage,
     ConfigurationSettingsDescription,
     EnvironmentDescription,
     CreatePlatformVersionResult,
+    DeletePlatformVersionResult,
+    ApplicationVersionDescriptionsMessage,
+    ApplicationDescriptionsMessage,
+    ConfigurationOptionsDescription,
     ConfigurationSettingsDescriptions,
+    DescribeEnvironmentHealthResult,
+    DescribeEnvironmentManagedActionHistoryResult,
+    DescribeEnvironmentManagedActionsResult,
+    EnvironmentResourceDescriptionsMessage,
+    EventDescriptionsMessage,
+    DescribeInstancesHealthResult,
+    DescribePlatformVersionResult,
+    ListPlatformBranchesResult,
+    ListPlatformVersionsResult,
     ResourceTagsDescriptionMessage,
     RetrieveEnvironmentInfoResultMessage,
     ApplicationResourceLifecycleDescriptionMessage,
@@ -54,21 +77,24 @@ export default class extends aws.elasticbeanstalk.Application {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.elasticbeanstalk.Application>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.ElasticBeanstalk()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -78,259 +104,295 @@ export default class extends aws.elasticbeanstalk.Application {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeApplyEnvironmentManagedAction(partialParams: ToOptional<{
-      [K in keyof ApplyEnvironmentManagedActionRequest & keyof ApplyEnvironmentManagedActionRequest & keyof ApplyEnvironmentManagedActionRequest]: (ApplyEnvironmentManagedActionRequest & ApplyEnvironmentManagedActionRequest & ApplyEnvironmentManagedActionRequest)[K]
+      [K in keyof ApplyEnvironmentManagedActionRequest]: (ApplyEnvironmentManagedActionRequest)[K]
     }>): Request<ApplyEnvironmentManagedActionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.applyEnvironmentManagedAction(
-          this.ops["ApplyEnvironmentManagedAction"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeAssociateEnvironmentOperationsRole(partialParams: ToOptional<{
-      [K in keyof AssociateEnvironmentOperationsRoleMessage & keyof AssociateEnvironmentOperationsRoleMessage & keyof AssociateEnvironmentOperationsRoleMessage]: (AssociateEnvironmentOperationsRoleMessage & AssociateEnvironmentOperationsRoleMessage & AssociateEnvironmentOperationsRoleMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.associateEnvironmentOperationsRole(
-          this.ops["AssociateEnvironmentOperationsRole"].applicator.apply(partialParams)
+          this.ops["ApplyEnvironmentManagedAction"].apply(partialParams)
         );
     }
 
     invokeCheckDNSAvailability(partialParams: ToOptional<{
-      [K in keyof CheckDNSAvailabilityMessage & keyof CheckDNSAvailabilityMessage & keyof CheckDNSAvailabilityMessage]: (CheckDNSAvailabilityMessage & CheckDNSAvailabilityMessage & CheckDNSAvailabilityMessage)[K]
+      [K in keyof CheckDNSAvailabilityMessage]: (CheckDNSAvailabilityMessage)[K]
     }>): Request<CheckDNSAvailabilityResultMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.checkDNSAvailability(
-          this.ops["CheckDNSAvailability"].applicator.apply(partialParams)
+          this.ops["CheckDNSAvailability"].apply(partialParams)
+        );
+    }
+
+    invokeComposeEnvironments(partialParams: ToOptional<{
+      [K in keyof ComposeEnvironmentsMessage]: (ComposeEnvironmentsMessage)[K]
+    }>): Request<EnvironmentDescriptionsMessage, AWSError> {
+        this.boot();
+        return this.client.composeEnvironments(
+          this.ops["ComposeEnvironments"].apply(partialParams)
         );
     }
 
     invokeCreateApplication(partialParams: ToOptional<{
-      [K in keyof CreateApplicationMessage & keyof CreateApplicationMessage & keyof CreateApplicationMessage]: (CreateApplicationMessage & CreateApplicationMessage & CreateApplicationMessage)[K]
+      [K in keyof CreateApplicationMessage & keyof Omit<CreateApplicationMessage, "ApplicationName">]: (CreateApplicationMessage)[K]
     }>): Request<ApplicationDescriptionMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createApplication(
-          this.ops["CreateApplication"].applicator.apply(partialParams)
+          this.ops["CreateApplication"].apply(partialParams)
         );
     }
 
     invokeCreateApplicationVersion(partialParams: ToOptional<{
-      [K in keyof CreateApplicationVersionMessage & keyof CreateApplicationVersionMessage & keyof CreateApplicationVersionMessage]: (CreateApplicationVersionMessage & CreateApplicationVersionMessage & CreateApplicationVersionMessage)[K]
+      [K in keyof CreateApplicationVersionMessage & keyof Omit<CreateApplicationVersionMessage, "ApplicationName">]: (CreateApplicationVersionMessage)[K]
     }>): Request<ApplicationVersionDescriptionMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createApplicationVersion(
-          this.ops["CreateApplicationVersion"].applicator.apply(partialParams)
+          this.ops["CreateApplicationVersion"].apply(partialParams)
         );
     }
 
     invokeCreateConfigurationTemplate(partialParams: ToOptional<{
-      [K in keyof CreateConfigurationTemplateMessage & keyof CreateConfigurationTemplateMessage & keyof CreateConfigurationTemplateMessage]: (CreateConfigurationTemplateMessage & CreateConfigurationTemplateMessage & CreateConfigurationTemplateMessage)[K]
+      [K in keyof CreateConfigurationTemplateMessage & keyof Omit<CreateConfigurationTemplateMessage, "ApplicationName">]: (CreateConfigurationTemplateMessage)[K]
     }>): Request<ConfigurationSettingsDescription, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createConfigurationTemplate(
-          this.ops["CreateConfigurationTemplate"].applicator.apply(partialParams)
+          this.ops["CreateConfigurationTemplate"].apply(partialParams)
         );
     }
 
     invokeCreateEnvironment(partialParams: ToOptional<{
-      [K in keyof CreateEnvironmentMessage & keyof CreateEnvironmentMessage & keyof CreateEnvironmentMessage]: (CreateEnvironmentMessage & CreateEnvironmentMessage & CreateEnvironmentMessage)[K]
+      [K in keyof CreateEnvironmentMessage & keyof Omit<CreateEnvironmentMessage, "ApplicationName">]: (CreateEnvironmentMessage)[K]
     }>): Request<EnvironmentDescription, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createEnvironment(
-          this.ops["CreateEnvironment"].applicator.apply(partialParams)
+          this.ops["CreateEnvironment"].apply(partialParams)
         );
     }
 
     invokeCreatePlatformVersion(partialParams: ToOptional<{
-      [K in keyof CreatePlatformVersionRequest & keyof CreatePlatformVersionRequest & keyof CreatePlatformVersionRequest]: (CreatePlatformVersionRequest & CreatePlatformVersionRequest & CreatePlatformVersionRequest)[K]
+      [K in keyof CreatePlatformVersionRequest]: (CreatePlatformVersionRequest)[K]
     }>): Request<CreatePlatformVersionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createPlatformVersion(
-          this.ops["CreatePlatformVersion"].applicator.apply(partialParams)
+          this.ops["CreatePlatformVersion"].apply(partialParams)
         );
     }
 
-    invokeDeleteApplication(partialParams: ToOptional<{
-      [K in keyof DeleteApplicationMessage & keyof DeleteApplicationMessage & keyof DeleteApplicationMessage]: (DeleteApplicationMessage & DeleteApplicationMessage & DeleteApplicationMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDeletePlatformVersion(partialParams: ToOptional<{
+      [K in keyof DeletePlatformVersionRequest]: (DeletePlatformVersionRequest)[K]
+    }>): Request<DeletePlatformVersionResult, AWSError> {
         this.boot();
-        return this.client.deleteApplication(
-          this.ops["DeleteApplication"].applicator.apply(partialParams)
+        return this.client.deletePlatformVersion(
+          this.ops["DeletePlatformVersion"].apply(partialParams)
         );
     }
 
-    invokeDeleteApplicationVersion(partialParams: ToOptional<{
-      [K in keyof DeleteApplicationVersionMessage & keyof DeleteApplicationVersionMessage & keyof DeleteApplicationVersionMessage]: (DeleteApplicationVersionMessage & DeleteApplicationVersionMessage & DeleteApplicationVersionMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDescribeApplicationVersions(partialParams: ToOptional<{
+      [K in keyof DescribeApplicationVersionsMessage]: (DescribeApplicationVersionsMessage)[K]
+    }>): Request<ApplicationVersionDescriptionsMessage, AWSError> {
         this.boot();
-        return this.client.deleteApplicationVersion(
-          this.ops["DeleteApplicationVersion"].applicator.apply(partialParams)
+        return this.client.describeApplicationVersions(
+          this.ops["DescribeApplicationVersions"].apply(partialParams)
         );
     }
 
-    invokeDeleteConfigurationTemplate(partialParams: ToOptional<{
-      [K in keyof DeleteConfigurationTemplateMessage & keyof DeleteConfigurationTemplateMessage & keyof DeleteConfigurationTemplateMessage]: (DeleteConfigurationTemplateMessage & DeleteConfigurationTemplateMessage & DeleteConfigurationTemplateMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDescribeApplications(partialParams: ToOptional<{
+      [K in keyof DescribeApplicationsMessage]: (DescribeApplicationsMessage)[K]
+    }>): Request<ApplicationDescriptionsMessage, AWSError> {
         this.boot();
-        return this.client.deleteConfigurationTemplate(
-          this.ops["DeleteConfigurationTemplate"].applicator.apply(partialParams)
+        return this.client.describeApplications(
+          this.ops["DescribeApplications"].apply(partialParams)
         );
     }
 
-    invokeDeleteEnvironmentConfiguration(partialParams: ToOptional<{
-      [K in keyof DeleteEnvironmentConfigurationMessage & keyof DeleteEnvironmentConfigurationMessage & keyof DeleteEnvironmentConfigurationMessage]: (DeleteEnvironmentConfigurationMessage & DeleteEnvironmentConfigurationMessage & DeleteEnvironmentConfigurationMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDescribeConfigurationOptions(partialParams: ToOptional<{
+      [K in keyof DescribeConfigurationOptionsMessage]: (DescribeConfigurationOptionsMessage)[K]
+    }>): Request<ConfigurationOptionsDescription, AWSError> {
         this.boot();
-        return this.client.deleteEnvironmentConfiguration(
-          this.ops["DeleteEnvironmentConfiguration"].applicator.apply(partialParams)
+        return this.client.describeConfigurationOptions(
+          this.ops["DescribeConfigurationOptions"].apply(partialParams)
         );
     }
 
     invokeDescribeConfigurationSettings(partialParams: ToOptional<{
-      [K in keyof DescribeConfigurationSettingsMessage & keyof DescribeConfigurationSettingsMessage & keyof DescribeConfigurationSettingsMessage]: (DescribeConfigurationSettingsMessage & DescribeConfigurationSettingsMessage & DescribeConfigurationSettingsMessage)[K]
+      [K in keyof DescribeConfigurationSettingsMessage & keyof Omit<DescribeConfigurationSettingsMessage, "ApplicationName">]: (DescribeConfigurationSettingsMessage)[K]
     }>): Request<ConfigurationSettingsDescriptions, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeConfigurationSettings(
-          this.ops["DescribeConfigurationSettings"].applicator.apply(partialParams)
+          this.ops["DescribeConfigurationSettings"].apply(partialParams)
         );
     }
 
-    invokeDisassociateEnvironmentOperationsRole(partialParams: ToOptional<{
-      [K in keyof DisassociateEnvironmentOperationsRoleMessage & keyof DisassociateEnvironmentOperationsRoleMessage & keyof DisassociateEnvironmentOperationsRoleMessage]: (DisassociateEnvironmentOperationsRoleMessage & DisassociateEnvironmentOperationsRoleMessage & DisassociateEnvironmentOperationsRoleMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDescribeEnvironmentHealth(partialParams: ToOptional<{
+      [K in keyof DescribeEnvironmentHealthRequest]: (DescribeEnvironmentHealthRequest)[K]
+    }>): Request<DescribeEnvironmentHealthResult, AWSError> {
         this.boot();
-        return this.client.disassociateEnvironmentOperationsRole(
-          this.ops["DisassociateEnvironmentOperationsRole"].applicator.apply(partialParams)
+        return this.client.describeEnvironmentHealth(
+          this.ops["DescribeEnvironmentHealth"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeEnvironmentManagedActionHistory(partialParams: ToOptional<{
+      [K in keyof DescribeEnvironmentManagedActionHistoryRequest]: (DescribeEnvironmentManagedActionHistoryRequest)[K]
+    }>): Request<DescribeEnvironmentManagedActionHistoryResult, AWSError> {
+        this.boot();
+        return this.client.describeEnvironmentManagedActionHistory(
+          this.ops["DescribeEnvironmentManagedActionHistory"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeEnvironmentManagedActions(partialParams: ToOptional<{
+      [K in keyof DescribeEnvironmentManagedActionsRequest]: (DescribeEnvironmentManagedActionsRequest)[K]
+    }>): Request<DescribeEnvironmentManagedActionsResult, AWSError> {
+        this.boot();
+        return this.client.describeEnvironmentManagedActions(
+          this.ops["DescribeEnvironmentManagedActions"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeEnvironmentResources(partialParams: ToOptional<{
+      [K in keyof DescribeEnvironmentResourcesMessage]: (DescribeEnvironmentResourcesMessage)[K]
+    }>): Request<EnvironmentResourceDescriptionsMessage, AWSError> {
+        this.boot();
+        return this.client.describeEnvironmentResources(
+          this.ops["DescribeEnvironmentResources"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeEnvironments(partialParams: ToOptional<{
+      [K in keyof DescribeEnvironmentsMessage]: (DescribeEnvironmentsMessage)[K]
+    }>): Request<EnvironmentDescriptionsMessage, AWSError> {
+        this.boot();
+        return this.client.describeEnvironments(
+          this.ops["DescribeEnvironments"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeEvents(partialParams: ToOptional<{
+      [K in keyof DescribeEventsMessage]: (DescribeEventsMessage)[K]
+    }>): Request<EventDescriptionsMessage, AWSError> {
+        this.boot();
+        return this.client.describeEvents(
+          this.ops["DescribeEvents"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeInstancesHealth(partialParams: ToOptional<{
+      [K in keyof DescribeInstancesHealthRequest]: (DescribeInstancesHealthRequest)[K]
+    }>): Request<DescribeInstancesHealthResult, AWSError> {
+        this.boot();
+        return this.client.describeInstancesHealth(
+          this.ops["DescribeInstancesHealth"].apply(partialParams)
+        );
+    }
+
+    invokeDescribePlatformVersion(partialParams: ToOptional<{
+      [K in keyof DescribePlatformVersionRequest]: (DescribePlatformVersionRequest)[K]
+    }>): Request<DescribePlatformVersionResult, AWSError> {
+        this.boot();
+        return this.client.describePlatformVersion(
+          this.ops["DescribePlatformVersion"].apply(partialParams)
+        );
+    }
+
+    invokeListPlatformBranches(partialParams: ToOptional<{
+      [K in keyof ListPlatformBranchesRequest]: (ListPlatformBranchesRequest)[K]
+    }>): Request<ListPlatformBranchesResult, AWSError> {
+        this.boot();
+        return this.client.listPlatformBranches(
+          this.ops["ListPlatformBranches"].apply(partialParams)
+        );
+    }
+
+    invokeListPlatformVersions(partialParams: ToOptional<{
+      [K in keyof ListPlatformVersionsRequest]: (ListPlatformVersionsRequest)[K]
+    }>): Request<ListPlatformVersionsResult, AWSError> {
+        this.boot();
+        return this.client.listPlatformVersions(
+          this.ops["ListPlatformVersions"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage & keyof ListTagsForResourceMessage]: (ListTagsForResourceMessage & ListTagsForResourceMessage & ListTagsForResourceMessage)[K]
+      [K in keyof ListTagsForResourceMessage]: (ListTagsForResourceMessage)[K]
     }>): Request<ResourceTagsDescriptionMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeRequestEnvironmentInfo(partialParams: ToOptional<{
-      [K in keyof RequestEnvironmentInfoMessage & keyof RequestEnvironmentInfoMessage & keyof RequestEnvironmentInfoMessage]: (RequestEnvironmentInfoMessage & RequestEnvironmentInfoMessage & RequestEnvironmentInfoMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.requestEnvironmentInfo(
-          this.ops["RequestEnvironmentInfo"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeRetrieveEnvironmentInfo(partialParams: ToOptional<{
-      [K in keyof RetrieveEnvironmentInfoMessage & keyof RetrieveEnvironmentInfoMessage & keyof RetrieveEnvironmentInfoMessage]: (RetrieveEnvironmentInfoMessage & RetrieveEnvironmentInfoMessage & RetrieveEnvironmentInfoMessage)[K]
+      [K in keyof RetrieveEnvironmentInfoMessage]: (RetrieveEnvironmentInfoMessage)[K]
     }>): Request<RetrieveEnvironmentInfoResultMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.retrieveEnvironmentInfo(
-          this.ops["RetrieveEnvironmentInfo"].applicator.apply(partialParams)
+          this.ops["RetrieveEnvironmentInfo"].apply(partialParams)
+        );
+    }
+
+    invokeTerminateEnvironment(partialParams: ToOptional<{
+      [K in keyof TerminateEnvironmentMessage]: (TerminateEnvironmentMessage)[K]
+    }>): Request<EnvironmentDescription, AWSError> {
+        this.boot();
+        return this.client.terminateEnvironment(
+          this.ops["TerminateEnvironment"].apply(partialParams)
         );
     }
 
     invokeUpdateApplication(partialParams: ToOptional<{
-      [K in keyof UpdateApplicationMessage & keyof UpdateApplicationMessage & keyof UpdateApplicationMessage]: (UpdateApplicationMessage & UpdateApplicationMessage & UpdateApplicationMessage)[K]
+      [K in keyof UpdateApplicationMessage & keyof Omit<UpdateApplicationMessage, "ApplicationName">]: (UpdateApplicationMessage)[K]
     }>): Request<ApplicationDescriptionMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateApplication(
-          this.ops["UpdateApplication"].applicator.apply(partialParams)
+          this.ops["UpdateApplication"].apply(partialParams)
         );
     }
 
     invokeUpdateApplicationResourceLifecycle(partialParams: ToOptional<{
-      [K in keyof UpdateApplicationResourceLifecycleMessage & keyof UpdateApplicationResourceLifecycleMessage & keyof UpdateApplicationResourceLifecycleMessage]: (UpdateApplicationResourceLifecycleMessage & UpdateApplicationResourceLifecycleMessage & UpdateApplicationResourceLifecycleMessage)[K]
+      [K in keyof UpdateApplicationResourceLifecycleMessage & keyof Omit<UpdateApplicationResourceLifecycleMessage, "ApplicationName">]: (UpdateApplicationResourceLifecycleMessage)[K]
     }>): Request<ApplicationResourceLifecycleDescriptionMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateApplicationResourceLifecycle(
-          this.ops["UpdateApplicationResourceLifecycle"].applicator.apply(partialParams)
+          this.ops["UpdateApplicationResourceLifecycle"].apply(partialParams)
         );
     }
 
     invokeUpdateApplicationVersion(partialParams: ToOptional<{
-      [K in keyof UpdateApplicationVersionMessage & keyof UpdateApplicationVersionMessage & keyof UpdateApplicationVersionMessage]: (UpdateApplicationVersionMessage & UpdateApplicationVersionMessage & UpdateApplicationVersionMessage)[K]
+      [K in keyof UpdateApplicationVersionMessage & keyof Omit<UpdateApplicationVersionMessage, "ApplicationName">]: (UpdateApplicationVersionMessage)[K]
     }>): Request<ApplicationVersionDescriptionMessage, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateApplicationVersion(
-          this.ops["UpdateApplicationVersion"].applicator.apply(partialParams)
+          this.ops["UpdateApplicationVersion"].apply(partialParams)
         );
     }
 
     invokeUpdateConfigurationTemplate(partialParams: ToOptional<{
-      [K in keyof UpdateConfigurationTemplateMessage & keyof UpdateConfigurationTemplateMessage & keyof UpdateConfigurationTemplateMessage]: (UpdateConfigurationTemplateMessage & UpdateConfigurationTemplateMessage & UpdateConfigurationTemplateMessage)[K]
+      [K in keyof UpdateConfigurationTemplateMessage & keyof Omit<UpdateConfigurationTemplateMessage, "ApplicationName">]: (UpdateConfigurationTemplateMessage)[K]
     }>): Request<ConfigurationSettingsDescription, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateConfigurationTemplate(
-          this.ops["UpdateConfigurationTemplate"].applicator.apply(partialParams)
+          this.ops["UpdateConfigurationTemplate"].apply(partialParams)
         );
     }
 
-    invokeUpdateTagsForResource(partialParams: ToOptional<{
-      [K in keyof UpdateTagsForResourceMessage & keyof UpdateTagsForResourceMessage & keyof UpdateTagsForResourceMessage]: (UpdateTagsForResourceMessage & UpdateTagsForResourceMessage & UpdateTagsForResourceMessage)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeUpdateEnvironment(partialParams: ToOptional<{
+      [K in keyof UpdateEnvironmentMessage]: (UpdateEnvironmentMessage)[K]
+    }>): Request<EnvironmentDescription, AWSError> {
         this.boot();
-        return this.client.updateTagsForResource(
-          this.ops["UpdateTagsForResource"].applicator.apply(partialParams)
+        return this.client.updateEnvironment(
+          this.ops["UpdateEnvironment"].apply(partialParams)
         );
     }
 
     invokeValidateConfigurationSettings(partialParams: ToOptional<{
-      [K in keyof ValidateConfigurationSettingsMessage & keyof ValidateConfigurationSettingsMessage & keyof ValidateConfigurationSettingsMessage]: (ValidateConfigurationSettingsMessage & ValidateConfigurationSettingsMessage & ValidateConfigurationSettingsMessage)[K]
+      [K in keyof ValidateConfigurationSettingsMessage & keyof Omit<ValidateConfigurationSettingsMessage, "ApplicationName">]: (ValidateConfigurationSettingsMessage)[K]
     }>): Request<ConfigurationSettingsValidationMessages, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.validateConfigurationSettings(
-          this.ops["ValidateConfigurationSettings"].applicator.apply(partialParams)
+          this.ops["ValidateConfigurationSettings"].apply(partialParams)
         );
     }
 }

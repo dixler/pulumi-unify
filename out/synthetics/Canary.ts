@@ -7,6 +7,9 @@ import {AWSError} from 'aws-sdk/lib/error';
 import {
     CreateCanaryRequest,
     DeleteCanaryRequest,
+    DescribeCanariesRequest,
+    DescribeCanariesLastRunRequest,
+    DescribeRuntimeVersionsRequest,
     GetCanaryRequest,
     GetCanaryRunsRequest,
     ListTagsForResourceRequest,
@@ -17,6 +20,9 @@ import {
     UpdateCanaryRequest,
     CreateCanaryResponse,
     DeleteCanaryResponse,
+    DescribeCanariesResponse,
+    DescribeCanariesLastRunResponse,
+    DescribeRuntimeVersionsResponse,
     GetCanaryResponse,
     GetCanaryRunsResponse,
     ListTagsForResourceResponse,
@@ -39,21 +45,24 @@ export default class extends aws.synthetics.Canary {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.synthetics.Canary>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.Synthetics()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -63,116 +72,124 @@ export default class extends aws.synthetics.Canary {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCreateCanary(partialParams: ToOptional<{
-      [K in keyof CreateCanaryRequest & keyof CreateCanaryRequest & keyof CreateCanaryRequest & keyof CreateCanaryRequest & keyof CreateCanaryRequest & keyof Omit<CreateCanaryRequest, "Name"> & keyof CreateCanaryRequest & keyof CreateCanaryRequest & keyof CreateCanaryRequest & keyof CreateCanaryRequest & keyof CreateCanaryRequest & keyof CreateCanaryRequest & keyof CreateCanaryRequest]: (CreateCanaryRequest & CreateCanaryRequest & CreateCanaryRequest & CreateCanaryRequest & CreateCanaryRequest & Omit<CreateCanaryRequest, "Name"> & CreateCanaryRequest & CreateCanaryRequest & CreateCanaryRequest & CreateCanaryRequest & CreateCanaryRequest & CreateCanaryRequest & CreateCanaryRequest)[K]
+      [K in keyof CreateCanaryRequest & keyof Omit<CreateCanaryRequest, "Name" | "ArtifactS3Location" | "ExecutionRoleArn" | "RuntimeVersion">]: (CreateCanaryRequest)[K]
     }>): Request<CreateCanaryResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createCanary(
-          this.ops["CreateCanary"].applicator.apply(partialParams)
+          this.ops["CreateCanary"].apply(partialParams)
         );
     }
 
     invokeDeleteCanary(partialParams: ToOptional<{
-      [K in keyof DeleteCanaryRequest & keyof DeleteCanaryRequest & keyof DeleteCanaryRequest & keyof DeleteCanaryRequest & keyof DeleteCanaryRequest & keyof Omit<DeleteCanaryRequest, "Name"> & keyof DeleteCanaryRequest & keyof DeleteCanaryRequest & keyof DeleteCanaryRequest & keyof DeleteCanaryRequest & keyof DeleteCanaryRequest & keyof DeleteCanaryRequest & keyof DeleteCanaryRequest]: (DeleteCanaryRequest & DeleteCanaryRequest & DeleteCanaryRequest & DeleteCanaryRequest & DeleteCanaryRequest & Omit<DeleteCanaryRequest, "Name"> & DeleteCanaryRequest & DeleteCanaryRequest & DeleteCanaryRequest & DeleteCanaryRequest & DeleteCanaryRequest & DeleteCanaryRequest & DeleteCanaryRequest)[K]
+      [K in keyof DeleteCanaryRequest & keyof Omit<DeleteCanaryRequest, "Name">]: (DeleteCanaryRequest)[K]
     }>): Request<DeleteCanaryResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteCanary(
-          this.ops["DeleteCanary"].applicator.apply(partialParams)
+          this.ops["DeleteCanary"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeCanaries(partialParams: ToOptional<{
+      [K in keyof DescribeCanariesRequest]: (DescribeCanariesRequest)[K]
+    }>): Request<DescribeCanariesResponse, AWSError> {
+        this.boot();
+        return this.client.describeCanaries(
+          this.ops["DescribeCanaries"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeCanariesLastRun(partialParams: ToOptional<{
+      [K in keyof DescribeCanariesLastRunRequest]: (DescribeCanariesLastRunRequest)[K]
+    }>): Request<DescribeCanariesLastRunResponse, AWSError> {
+        this.boot();
+        return this.client.describeCanariesLastRun(
+          this.ops["DescribeCanariesLastRun"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeRuntimeVersions(partialParams: ToOptional<{
+      [K in keyof DescribeRuntimeVersionsRequest]: (DescribeRuntimeVersionsRequest)[K]
+    }>): Request<DescribeRuntimeVersionsResponse, AWSError> {
+        this.boot();
+        return this.client.describeRuntimeVersions(
+          this.ops["DescribeRuntimeVersions"].apply(partialParams)
         );
     }
 
     invokeGetCanary(partialParams: ToOptional<{
-      [K in keyof GetCanaryRequest & keyof GetCanaryRequest & keyof GetCanaryRequest & keyof GetCanaryRequest & keyof GetCanaryRequest & keyof Omit<GetCanaryRequest, "Name"> & keyof GetCanaryRequest & keyof GetCanaryRequest & keyof GetCanaryRequest & keyof GetCanaryRequest & keyof GetCanaryRequest & keyof GetCanaryRequest & keyof GetCanaryRequest]: (GetCanaryRequest & GetCanaryRequest & GetCanaryRequest & GetCanaryRequest & GetCanaryRequest & Omit<GetCanaryRequest, "Name"> & GetCanaryRequest & GetCanaryRequest & GetCanaryRequest & GetCanaryRequest & GetCanaryRequest & GetCanaryRequest & GetCanaryRequest)[K]
+      [K in keyof GetCanaryRequest & keyof Omit<GetCanaryRequest, "Name">]: (GetCanaryRequest)[K]
     }>): Request<GetCanaryResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getCanary(
-          this.ops["GetCanary"].applicator.apply(partialParams)
+          this.ops["GetCanary"].apply(partialParams)
         );
     }
 
     invokeGetCanaryRuns(partialParams: ToOptional<{
-      [K in keyof GetCanaryRunsRequest & keyof GetCanaryRunsRequest & keyof GetCanaryRunsRequest & keyof GetCanaryRunsRequest & keyof GetCanaryRunsRequest & keyof Omit<GetCanaryRunsRequest, "Name"> & keyof GetCanaryRunsRequest & keyof GetCanaryRunsRequest & keyof GetCanaryRunsRequest & keyof GetCanaryRunsRequest & keyof GetCanaryRunsRequest & keyof GetCanaryRunsRequest & keyof GetCanaryRunsRequest]: (GetCanaryRunsRequest & GetCanaryRunsRequest & GetCanaryRunsRequest & GetCanaryRunsRequest & GetCanaryRunsRequest & Omit<GetCanaryRunsRequest, "Name"> & GetCanaryRunsRequest & GetCanaryRunsRequest & GetCanaryRunsRequest & GetCanaryRunsRequest & GetCanaryRunsRequest & GetCanaryRunsRequest & GetCanaryRunsRequest)[K]
+      [K in keyof GetCanaryRunsRequest & keyof Omit<GetCanaryRunsRequest, "Name">]: (GetCanaryRunsRequest)[K]
     }>): Request<GetCanaryRunsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getCanaryRuns(
-          this.ops["GetCanaryRuns"].applicator.apply(partialParams)
+          this.ops["GetCanaryRuns"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeStartCanary(partialParams: ToOptional<{
-      [K in keyof StartCanaryRequest & keyof StartCanaryRequest & keyof StartCanaryRequest & keyof StartCanaryRequest & keyof StartCanaryRequest & keyof Omit<StartCanaryRequest, "Name"> & keyof StartCanaryRequest & keyof StartCanaryRequest & keyof StartCanaryRequest & keyof StartCanaryRequest & keyof StartCanaryRequest & keyof StartCanaryRequest & keyof StartCanaryRequest]: (StartCanaryRequest & StartCanaryRequest & StartCanaryRequest & StartCanaryRequest & StartCanaryRequest & Omit<StartCanaryRequest, "Name"> & StartCanaryRequest & StartCanaryRequest & StartCanaryRequest & StartCanaryRequest & StartCanaryRequest & StartCanaryRequest & StartCanaryRequest)[K]
+      [K in keyof StartCanaryRequest & keyof Omit<StartCanaryRequest, "Name">]: (StartCanaryRequest)[K]
     }>): Request<StartCanaryResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startCanary(
-          this.ops["StartCanary"].applicator.apply(partialParams)
+          this.ops["StartCanary"].apply(partialParams)
         );
     }
 
     invokeStopCanary(partialParams: ToOptional<{
-      [K in keyof StopCanaryRequest & keyof StopCanaryRequest & keyof StopCanaryRequest & keyof StopCanaryRequest & keyof StopCanaryRequest & keyof Omit<StopCanaryRequest, "Name"> & keyof StopCanaryRequest & keyof StopCanaryRequest & keyof StopCanaryRequest & keyof StopCanaryRequest & keyof StopCanaryRequest & keyof StopCanaryRequest & keyof StopCanaryRequest]: (StopCanaryRequest & StopCanaryRequest & StopCanaryRequest & StopCanaryRequest & StopCanaryRequest & Omit<StopCanaryRequest, "Name"> & StopCanaryRequest & StopCanaryRequest & StopCanaryRequest & StopCanaryRequest & StopCanaryRequest & StopCanaryRequest & StopCanaryRequest)[K]
+      [K in keyof StopCanaryRequest & keyof Omit<StopCanaryRequest, "Name">]: (StopCanaryRequest)[K]
     }>): Request<StopCanaryResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopCanary(
-          this.ops["StopCanary"].applicator.apply(partialParams)
+          this.ops["StopCanary"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateCanary(partialParams: ToOptional<{
-      [K in keyof UpdateCanaryRequest & keyof UpdateCanaryRequest & keyof UpdateCanaryRequest & keyof UpdateCanaryRequest & keyof UpdateCanaryRequest & keyof Omit<UpdateCanaryRequest, "Name"> & keyof UpdateCanaryRequest & keyof UpdateCanaryRequest & keyof UpdateCanaryRequest & keyof UpdateCanaryRequest & keyof UpdateCanaryRequest & keyof UpdateCanaryRequest & keyof UpdateCanaryRequest]: (UpdateCanaryRequest & UpdateCanaryRequest & UpdateCanaryRequest & UpdateCanaryRequest & UpdateCanaryRequest & Omit<UpdateCanaryRequest, "Name"> & UpdateCanaryRequest & UpdateCanaryRequest & UpdateCanaryRequest & UpdateCanaryRequest & UpdateCanaryRequest & UpdateCanaryRequest & UpdateCanaryRequest)[K]
+      [K in keyof UpdateCanaryRequest & keyof Omit<UpdateCanaryRequest, "Name">]: (UpdateCanaryRequest)[K]
     }>): Request<UpdateCanaryResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateCanary(
-          this.ops["UpdateCanary"].applicator.apply(partialParams)
+          this.ops["UpdateCanary"].apply(partialParams)
         );
     }
 }

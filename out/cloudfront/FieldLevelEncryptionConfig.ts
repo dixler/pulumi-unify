@@ -5,7 +5,6 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    AssociateAliasRequest,
     CreateCachePolicyRequest,
     CreateCloudFrontOriginAccessIdentityRequest,
     CreateDistributionRequest,
@@ -22,18 +21,7 @@ import {
     CreateResponseHeadersPolicyRequest,
     CreateStreamingDistributionRequest,
     CreateStreamingDistributionWithTagsRequest,
-    DeleteCachePolicyRequest,
-    DeleteCloudFrontOriginAccessIdentityRequest,
-    DeleteDistributionRequest,
-    DeleteFieldLevelEncryptionConfigRequest,
-    DeleteFieldLevelEncryptionProfileRequest,
-    DeleteFunctionRequest,
-    DeleteKeyGroupRequest,
     DeleteMonitoringSubscriptionRequest,
-    DeleteOriginRequestPolicyRequest,
-    DeletePublicKeyRequest,
-    DeleteResponseHeadersPolicyRequest,
-    DeleteStreamingDistributionRequest,
     DescribeFunctionRequest,
     GetCachePolicyRequest,
     GetCachePolicyConfigRequest,
@@ -54,22 +42,34 @@ import {
     GetOriginRequestPolicyConfigRequest,
     GetPublicKeyRequest,
     GetPublicKeyConfigRequest,
+    GetRealtimeLogConfigRequest,
     GetResponseHeadersPolicyRequest,
     GetResponseHeadersPolicyConfigRequest,
     GetStreamingDistributionRequest,
     GetStreamingDistributionConfigRequest,
+    ListCachePoliciesRequest,
+    ListCloudFrontOriginAccessIdentitiesRequest,
     ListConflictingAliasesRequest,
+    ListDistributionsRequest,
     ListDistributionsByCachePolicyIdRequest,
     ListDistributionsByKeyGroupRequest,
     ListDistributionsByOriginRequestPolicyIdRequest,
+    ListDistributionsByRealtimeLogConfigRequest,
     ListDistributionsByResponseHeadersPolicyIdRequest,
     ListDistributionsByWebACLIdRequest,
+    ListFieldLevelEncryptionConfigsRequest,
+    ListFieldLevelEncryptionProfilesRequest,
+    ListFunctionsRequest,
     ListInvalidationsRequest,
+    ListKeyGroupsRequest,
+    ListOriginRequestPoliciesRequest,
+    ListPublicKeysRequest,
+    ListRealtimeLogConfigsRequest,
+    ListResponseHeadersPoliciesRequest,
+    ListStreamingDistributionsRequest,
     ListTagsForResourceRequest,
     PublishFunctionRequest,
-    TagResourceRequest,
     TestFunctionRequest,
-    UntagResourceRequest,
     UpdateCachePolicyRequest,
     UpdateCloudFrontOriginAccessIdentityRequest,
     UpdateDistributionRequest,
@@ -79,6 +79,7 @@ import {
     UpdateKeyGroupRequest,
     UpdateOriginRequestPolicyRequest,
     UpdatePublicKeyRequest,
+    UpdateRealtimeLogConfigRequest,
     UpdateResponseHeadersPolicyRequest,
     UpdateStreamingDistributionRequest,
     CreateCachePolicyResult,
@@ -118,17 +119,31 @@ import {
     GetOriginRequestPolicyConfigResult,
     GetPublicKeyResult,
     GetPublicKeyConfigResult,
+    GetRealtimeLogConfigResult,
     GetResponseHeadersPolicyResult,
     GetResponseHeadersPolicyConfigResult,
     GetStreamingDistributionResult,
     GetStreamingDistributionConfigResult,
+    ListCachePoliciesResult,
+    ListCloudFrontOriginAccessIdentitiesResult,
     ListConflictingAliasesResult,
+    ListDistributionsResult,
     ListDistributionsByCachePolicyIdResult,
     ListDistributionsByKeyGroupResult,
     ListDistributionsByOriginRequestPolicyIdResult,
+    ListDistributionsByRealtimeLogConfigResult,
     ListDistributionsByResponseHeadersPolicyIdResult,
     ListDistributionsByWebACLIdResult,
+    ListFieldLevelEncryptionConfigsResult,
+    ListFieldLevelEncryptionProfilesResult,
+    ListFunctionsResult,
     ListInvalidationsResult,
+    ListKeyGroupsResult,
+    ListOriginRequestPoliciesResult,
+    ListPublicKeysResult,
+    ListRealtimeLogConfigsResult,
+    ListResponseHeadersPoliciesResult,
+    ListStreamingDistributionsResult,
     ListTagsForResourceResult,
     PublishFunctionResult,
     TestFunctionResult,
@@ -141,6 +156,7 @@ import {
     UpdateKeyGroupResult,
     UpdateOriginRequestPolicyResult,
     UpdatePublicKeyResult,
+    UpdateRealtimeLogConfigResult,
     UpdateResponseHeadersPolicyResult,
     UpdateStreamingDistributionResult
 } from "aws-sdk/clients/cloudfront";
@@ -157,21 +173,24 @@ export default class extends aws.cloudfront.FieldLevelEncryptionConfig {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.cloudfront.FieldLevelEncryptionConfig>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.CloudFront()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -181,842 +200,700 @@ export default class extends aws.cloudfront.FieldLevelEncryptionConfig {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
-    invokeAssociateAlias(partialParams: ToOptional<{
-      [K in keyof AssociateAliasRequest & keyof AssociateAliasRequest & keyof AssociateAliasRequest]: (AssociateAliasRequest & AssociateAliasRequest & AssociateAliasRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.associateAlias(
-          this.ops["AssociateAlias"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeCreateCachePolicy(partialParams: ToOptional<{
-      [K in keyof CreateCachePolicyRequest & keyof CreateCachePolicyRequest & keyof CreateCachePolicyRequest]: (CreateCachePolicyRequest & CreateCachePolicyRequest & CreateCachePolicyRequest)[K]
+    invokeCreateCachePolicy2020_05_31(partialParams: ToOptional<{
+      [K in keyof CreateCachePolicyRequest]: (CreateCachePolicyRequest)[K]
     }>): Request<CreateCachePolicyResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createCachePolicy(
-          this.ops["CreateCachePolicy"].applicator.apply(partialParams)
+        return this.client.createCachePolicy2020_05_31(
+          this.ops["CreateCachePolicy2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeCreateCloudFrontOriginAccessIdentity(partialParams: ToOptional<{
-      [K in keyof CreateCloudFrontOriginAccessIdentityRequest & keyof CreateCloudFrontOriginAccessIdentityRequest & keyof CreateCloudFrontOriginAccessIdentityRequest]: (CreateCloudFrontOriginAccessIdentityRequest & CreateCloudFrontOriginAccessIdentityRequest & CreateCloudFrontOriginAccessIdentityRequest)[K]
+    invokeCreateCloudFrontOriginAccessIdentity2020_05_31(partialParams: ToOptional<{
+      [K in keyof CreateCloudFrontOriginAccessIdentityRequest]: (CreateCloudFrontOriginAccessIdentityRequest)[K]
     }>): Request<CreateCloudFrontOriginAccessIdentityResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createCloudFrontOriginAccessIdentity(
-          this.ops["CreateCloudFrontOriginAccessIdentity"].applicator.apply(partialParams)
+        return this.client.createCloudFrontOriginAccessIdentity2020_05_31(
+          this.ops["CreateCloudFrontOriginAccessIdentity2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeCreateDistribution(partialParams: ToOptional<{
-      [K in keyof CreateDistributionRequest & keyof CreateDistributionRequest & keyof CreateDistributionRequest]: (CreateDistributionRequest & CreateDistributionRequest & CreateDistributionRequest)[K]
+    invokeCreateDistribution2020_05_31(partialParams: ToOptional<{
+      [K in keyof CreateDistributionRequest]: (CreateDistributionRequest)[K]
     }>): Request<CreateDistributionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDistribution(
-          this.ops["CreateDistribution"].applicator.apply(partialParams)
+        return this.client.createDistribution2020_05_31(
+          this.ops["CreateDistribution2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeCreateDistributionWithTags(partialParams: ToOptional<{
-      [K in keyof CreateDistributionWithTagsRequest & keyof CreateDistributionWithTagsRequest & keyof CreateDistributionWithTagsRequest]: (CreateDistributionWithTagsRequest & CreateDistributionWithTagsRequest & CreateDistributionWithTagsRequest)[K]
+    invokeCreateDistributionWithTags2020_05_31(partialParams: ToOptional<{
+      [K in keyof CreateDistributionWithTagsRequest]: (CreateDistributionWithTagsRequest)[K]
     }>): Request<CreateDistributionWithTagsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDistributionWithTags(
-          this.ops["CreateDistributionWithTags"].applicator.apply(partialParams)
+        return this.client.createDistributionWithTags2020_05_31(
+          this.ops["CreateDistributionWithTags2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeCreateFieldLevelEncryptionConfig(partialParams: ToOptional<{
-      [K in keyof CreateFieldLevelEncryptionConfigRequest & keyof CreateFieldLevelEncryptionConfigRequest & keyof CreateFieldLevelEncryptionConfigRequest]: (CreateFieldLevelEncryptionConfigRequest & CreateFieldLevelEncryptionConfigRequest & CreateFieldLevelEncryptionConfigRequest)[K]
+    invokeCreateFieldLevelEncryptionConfig2020_05_31(partialParams: ToOptional<{
+      [K in keyof CreateFieldLevelEncryptionConfigRequest]: (CreateFieldLevelEncryptionConfigRequest)[K]
     }>): Request<CreateFieldLevelEncryptionConfigResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createFieldLevelEncryptionConfig(
-          this.ops["CreateFieldLevelEncryptionConfig"].applicator.apply(partialParams)
+        return this.client.createFieldLevelEncryptionConfig2020_05_31(
+          this.ops["CreateFieldLevelEncryptionConfig2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeCreateFieldLevelEncryptionProfile(partialParams: ToOptional<{
-      [K in keyof CreateFieldLevelEncryptionProfileRequest & keyof CreateFieldLevelEncryptionProfileRequest & keyof CreateFieldLevelEncryptionProfileRequest]: (CreateFieldLevelEncryptionProfileRequest & CreateFieldLevelEncryptionProfileRequest & CreateFieldLevelEncryptionProfileRequest)[K]
+    invokeCreateFieldLevelEncryptionProfile2020_05_31(partialParams: ToOptional<{
+      [K in keyof CreateFieldLevelEncryptionProfileRequest]: (CreateFieldLevelEncryptionProfileRequest)[K]
     }>): Request<CreateFieldLevelEncryptionProfileResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createFieldLevelEncryptionProfile(
-          this.ops["CreateFieldLevelEncryptionProfile"].applicator.apply(partialParams)
+        return this.client.createFieldLevelEncryptionProfile2020_05_31(
+          this.ops["CreateFieldLevelEncryptionProfile2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeCreateFunction(partialParams: ToOptional<{
-      [K in keyof CreateFunctionRequest & keyof CreateFunctionRequest & keyof CreateFunctionRequest]: (CreateFunctionRequest & CreateFunctionRequest & CreateFunctionRequest)[K]
+    invokeCreateFunction2020_05_31(partialParams: ToOptional<{
+      [K in keyof CreateFunctionRequest]: (CreateFunctionRequest)[K]
     }>): Request<CreateFunctionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createFunction(
-          this.ops["CreateFunction"].applicator.apply(partialParams)
+        return this.client.createFunction2020_05_31(
+          this.ops["CreateFunction2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeCreateInvalidation(partialParams: ToOptional<{
-      [K in keyof CreateInvalidationRequest & keyof CreateInvalidationRequest & keyof CreateInvalidationRequest]: (CreateInvalidationRequest & CreateInvalidationRequest & CreateInvalidationRequest)[K]
+    invokeCreateInvalidation2020_05_31(partialParams: ToOptional<{
+      [K in keyof CreateInvalidationRequest]: (CreateInvalidationRequest)[K]
     }>): Request<CreateInvalidationResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createInvalidation(
-          this.ops["CreateInvalidation"].applicator.apply(partialParams)
+        return this.client.createInvalidation2020_05_31(
+          this.ops["CreateInvalidation2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeCreateKeyGroup(partialParams: ToOptional<{
-      [K in keyof CreateKeyGroupRequest & keyof CreateKeyGroupRequest & keyof CreateKeyGroupRequest]: (CreateKeyGroupRequest & CreateKeyGroupRequest & CreateKeyGroupRequest)[K]
+    invokeCreateKeyGroup2020_05_31(partialParams: ToOptional<{
+      [K in keyof CreateKeyGroupRequest]: (CreateKeyGroupRequest)[K]
     }>): Request<CreateKeyGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createKeyGroup(
-          this.ops["CreateKeyGroup"].applicator.apply(partialParams)
+        return this.client.createKeyGroup2020_05_31(
+          this.ops["CreateKeyGroup2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeCreateMonitoringSubscription(partialParams: ToOptional<{
-      [K in keyof CreateMonitoringSubscriptionRequest & keyof CreateMonitoringSubscriptionRequest & keyof CreateMonitoringSubscriptionRequest]: (CreateMonitoringSubscriptionRequest & CreateMonitoringSubscriptionRequest & CreateMonitoringSubscriptionRequest)[K]
+    invokeCreateMonitoringSubscription2020_05_31(partialParams: ToOptional<{
+      [K in keyof CreateMonitoringSubscriptionRequest]: (CreateMonitoringSubscriptionRequest)[K]
     }>): Request<CreateMonitoringSubscriptionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createMonitoringSubscription(
-          this.ops["CreateMonitoringSubscription"].applicator.apply(partialParams)
+        return this.client.createMonitoringSubscription2020_05_31(
+          this.ops["CreateMonitoringSubscription2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeCreateOriginRequestPolicy(partialParams: ToOptional<{
-      [K in keyof CreateOriginRequestPolicyRequest & keyof CreateOriginRequestPolicyRequest & keyof CreateOriginRequestPolicyRequest]: (CreateOriginRequestPolicyRequest & CreateOriginRequestPolicyRequest & CreateOriginRequestPolicyRequest)[K]
+    invokeCreateOriginRequestPolicy2020_05_31(partialParams: ToOptional<{
+      [K in keyof CreateOriginRequestPolicyRequest]: (CreateOriginRequestPolicyRequest)[K]
     }>): Request<CreateOriginRequestPolicyResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createOriginRequestPolicy(
-          this.ops["CreateOriginRequestPolicy"].applicator.apply(partialParams)
+        return this.client.createOriginRequestPolicy2020_05_31(
+          this.ops["CreateOriginRequestPolicy2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeCreatePublicKey(partialParams: ToOptional<{
-      [K in keyof CreatePublicKeyRequest & keyof CreatePublicKeyRequest & keyof CreatePublicKeyRequest]: (CreatePublicKeyRequest & CreatePublicKeyRequest & CreatePublicKeyRequest)[K]
+    invokeCreatePublicKey2020_05_31(partialParams: ToOptional<{
+      [K in keyof CreatePublicKeyRequest]: (CreatePublicKeyRequest)[K]
     }>): Request<CreatePublicKeyResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createPublicKey(
-          this.ops["CreatePublicKey"].applicator.apply(partialParams)
+        return this.client.createPublicKey2020_05_31(
+          this.ops["CreatePublicKey2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeCreateRealtimeLogConfig(partialParams: ToOptional<{
-      [K in keyof CreateRealtimeLogConfigRequest & keyof CreateRealtimeLogConfigRequest & keyof CreateRealtimeLogConfigRequest]: (CreateRealtimeLogConfigRequest & CreateRealtimeLogConfigRequest & CreateRealtimeLogConfigRequest)[K]
+    invokeCreateRealtimeLogConfig2020_05_31(partialParams: ToOptional<{
+      [K in keyof CreateRealtimeLogConfigRequest]: (CreateRealtimeLogConfigRequest)[K]
     }>): Request<CreateRealtimeLogConfigResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createRealtimeLogConfig(
-          this.ops["CreateRealtimeLogConfig"].applicator.apply(partialParams)
+        return this.client.createRealtimeLogConfig2020_05_31(
+          this.ops["CreateRealtimeLogConfig2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeCreateResponseHeadersPolicy(partialParams: ToOptional<{
-      [K in keyof CreateResponseHeadersPolicyRequest & keyof CreateResponseHeadersPolicyRequest & keyof CreateResponseHeadersPolicyRequest]: (CreateResponseHeadersPolicyRequest & CreateResponseHeadersPolicyRequest & CreateResponseHeadersPolicyRequest)[K]
+    invokeCreateResponseHeadersPolicy2020_05_31(partialParams: ToOptional<{
+      [K in keyof CreateResponseHeadersPolicyRequest]: (CreateResponseHeadersPolicyRequest)[K]
     }>): Request<CreateResponseHeadersPolicyResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createResponseHeadersPolicy(
-          this.ops["CreateResponseHeadersPolicy"].applicator.apply(partialParams)
+        return this.client.createResponseHeadersPolicy2020_05_31(
+          this.ops["CreateResponseHeadersPolicy2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeCreateStreamingDistribution(partialParams: ToOptional<{
-      [K in keyof CreateStreamingDistributionRequest & keyof CreateStreamingDistributionRequest & keyof CreateStreamingDistributionRequest]: (CreateStreamingDistributionRequest & CreateStreamingDistributionRequest & CreateStreamingDistributionRequest)[K]
+    invokeCreateStreamingDistribution2020_05_31(partialParams: ToOptional<{
+      [K in keyof CreateStreamingDistributionRequest]: (CreateStreamingDistributionRequest)[K]
     }>): Request<CreateStreamingDistributionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createStreamingDistribution(
-          this.ops["CreateStreamingDistribution"].applicator.apply(partialParams)
+        return this.client.createStreamingDistribution2020_05_31(
+          this.ops["CreateStreamingDistribution2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeCreateStreamingDistributionWithTags(partialParams: ToOptional<{
-      [K in keyof CreateStreamingDistributionWithTagsRequest & keyof CreateStreamingDistributionWithTagsRequest & keyof CreateStreamingDistributionWithTagsRequest]: (CreateStreamingDistributionWithTagsRequest & CreateStreamingDistributionWithTagsRequest & CreateStreamingDistributionWithTagsRequest)[K]
+    invokeCreateStreamingDistributionWithTags2020_05_31(partialParams: ToOptional<{
+      [K in keyof CreateStreamingDistributionWithTagsRequest]: (CreateStreamingDistributionWithTagsRequest)[K]
     }>): Request<CreateStreamingDistributionWithTagsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createStreamingDistributionWithTags(
-          this.ops["CreateStreamingDistributionWithTags"].applicator.apply(partialParams)
+        return this.client.createStreamingDistributionWithTags2020_05_31(
+          this.ops["CreateStreamingDistributionWithTags2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeDeleteCachePolicy(partialParams: ToOptional<{
-      [K in keyof DeleteCachePolicyRequest & keyof DeleteCachePolicyRequest & keyof DeleteCachePolicyRequest]: (DeleteCachePolicyRequest & DeleteCachePolicyRequest & DeleteCachePolicyRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteCachePolicy(
-          this.ops["DeleteCachePolicy"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteCloudFrontOriginAccessIdentity(partialParams: ToOptional<{
-      [K in keyof DeleteCloudFrontOriginAccessIdentityRequest & keyof DeleteCloudFrontOriginAccessIdentityRequest & keyof DeleteCloudFrontOriginAccessIdentityRequest]: (DeleteCloudFrontOriginAccessIdentityRequest & DeleteCloudFrontOriginAccessIdentityRequest & DeleteCloudFrontOriginAccessIdentityRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteCloudFrontOriginAccessIdentity(
-          this.ops["DeleteCloudFrontOriginAccessIdentity"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteDistribution(partialParams: ToOptional<{
-      [K in keyof DeleteDistributionRequest & keyof DeleteDistributionRequest & keyof DeleteDistributionRequest]: (DeleteDistributionRequest & DeleteDistributionRequest & DeleteDistributionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteDistribution(
-          this.ops["DeleteDistribution"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteFieldLevelEncryptionConfig(partialParams: ToOptional<{
-      [K in keyof DeleteFieldLevelEncryptionConfigRequest & keyof DeleteFieldLevelEncryptionConfigRequest & keyof DeleteFieldLevelEncryptionConfigRequest]: (DeleteFieldLevelEncryptionConfigRequest & DeleteFieldLevelEncryptionConfigRequest & DeleteFieldLevelEncryptionConfigRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteFieldLevelEncryptionConfig(
-          this.ops["DeleteFieldLevelEncryptionConfig"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteFieldLevelEncryptionProfile(partialParams: ToOptional<{
-      [K in keyof DeleteFieldLevelEncryptionProfileRequest & keyof DeleteFieldLevelEncryptionProfileRequest & keyof DeleteFieldLevelEncryptionProfileRequest]: (DeleteFieldLevelEncryptionProfileRequest & DeleteFieldLevelEncryptionProfileRequest & DeleteFieldLevelEncryptionProfileRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteFieldLevelEncryptionProfile(
-          this.ops["DeleteFieldLevelEncryptionProfile"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteFunction(partialParams: ToOptional<{
-      [K in keyof DeleteFunctionRequest & keyof DeleteFunctionRequest & keyof DeleteFunctionRequest]: (DeleteFunctionRequest & DeleteFunctionRequest & DeleteFunctionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteFunction(
-          this.ops["DeleteFunction"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteKeyGroup(partialParams: ToOptional<{
-      [K in keyof DeleteKeyGroupRequest & keyof DeleteKeyGroupRequest & keyof DeleteKeyGroupRequest]: (DeleteKeyGroupRequest & DeleteKeyGroupRequest & DeleteKeyGroupRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteKeyGroup(
-          this.ops["DeleteKeyGroup"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteMonitoringSubscription(partialParams: ToOptional<{
-      [K in keyof DeleteMonitoringSubscriptionRequest & keyof DeleteMonitoringSubscriptionRequest & keyof DeleteMonitoringSubscriptionRequest]: (DeleteMonitoringSubscriptionRequest & DeleteMonitoringSubscriptionRequest & DeleteMonitoringSubscriptionRequest)[K]
+    invokeDeleteMonitoringSubscription2020_05_31(partialParams: ToOptional<{
+      [K in keyof DeleteMonitoringSubscriptionRequest]: (DeleteMonitoringSubscriptionRequest)[K]
     }>): Request<DeleteMonitoringSubscriptionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteMonitoringSubscription(
-          this.ops["DeleteMonitoringSubscription"].applicator.apply(partialParams)
+        return this.client.deleteMonitoringSubscription2020_05_31(
+          this.ops["DeleteMonitoringSubscription2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeDeleteOriginRequestPolicy(partialParams: ToOptional<{
-      [K in keyof DeleteOriginRequestPolicyRequest & keyof DeleteOriginRequestPolicyRequest & keyof DeleteOriginRequestPolicyRequest]: (DeleteOriginRequestPolicyRequest & DeleteOriginRequestPolicyRequest & DeleteOriginRequestPolicyRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteOriginRequestPolicy(
-          this.ops["DeleteOriginRequestPolicy"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeletePublicKey(partialParams: ToOptional<{
-      [K in keyof DeletePublicKeyRequest & keyof DeletePublicKeyRequest & keyof DeletePublicKeyRequest]: (DeletePublicKeyRequest & DeletePublicKeyRequest & DeletePublicKeyRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deletePublicKey(
-          this.ops["DeletePublicKey"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteResponseHeadersPolicy(partialParams: ToOptional<{
-      [K in keyof DeleteResponseHeadersPolicyRequest & keyof DeleteResponseHeadersPolicyRequest & keyof DeleteResponseHeadersPolicyRequest]: (DeleteResponseHeadersPolicyRequest & DeleteResponseHeadersPolicyRequest & DeleteResponseHeadersPolicyRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteResponseHeadersPolicy(
-          this.ops["DeleteResponseHeadersPolicy"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteStreamingDistribution(partialParams: ToOptional<{
-      [K in keyof DeleteStreamingDistributionRequest & keyof DeleteStreamingDistributionRequest & keyof DeleteStreamingDistributionRequest]: (DeleteStreamingDistributionRequest & DeleteStreamingDistributionRequest & DeleteStreamingDistributionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteStreamingDistribution(
-          this.ops["DeleteStreamingDistribution"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDescribeFunction(partialParams: ToOptional<{
-      [K in keyof DescribeFunctionRequest & keyof DescribeFunctionRequest & keyof DescribeFunctionRequest]: (DescribeFunctionRequest & DescribeFunctionRequest & DescribeFunctionRequest)[K]
+    invokeDescribeFunction2020_05_31(partialParams: ToOptional<{
+      [K in keyof DescribeFunctionRequest]: (DescribeFunctionRequest)[K]
     }>): Request<DescribeFunctionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeFunction(
-          this.ops["DescribeFunction"].applicator.apply(partialParams)
+        return this.client.describeFunction2020_05_31(
+          this.ops["DescribeFunction2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetCachePolicy(partialParams: ToOptional<{
-      [K in keyof GetCachePolicyRequest & keyof GetCachePolicyRequest & keyof GetCachePolicyRequest]: (GetCachePolicyRequest & GetCachePolicyRequest & GetCachePolicyRequest)[K]
+    invokeGetCachePolicy2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetCachePolicyRequest]: (GetCachePolicyRequest)[K]
     }>): Request<GetCachePolicyResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getCachePolicy(
-          this.ops["GetCachePolicy"].applicator.apply(partialParams)
+        return this.client.getCachePolicy2020_05_31(
+          this.ops["GetCachePolicy2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetCachePolicyConfig(partialParams: ToOptional<{
-      [K in keyof GetCachePolicyConfigRequest & keyof GetCachePolicyConfigRequest & keyof GetCachePolicyConfigRequest]: (GetCachePolicyConfigRequest & GetCachePolicyConfigRequest & GetCachePolicyConfigRequest)[K]
+    invokeGetCachePolicyConfig2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetCachePolicyConfigRequest]: (GetCachePolicyConfigRequest)[K]
     }>): Request<GetCachePolicyConfigResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getCachePolicyConfig(
-          this.ops["GetCachePolicyConfig"].applicator.apply(partialParams)
+        return this.client.getCachePolicyConfig2020_05_31(
+          this.ops["GetCachePolicyConfig2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetCloudFrontOriginAccessIdentity(partialParams: ToOptional<{
-      [K in keyof GetCloudFrontOriginAccessIdentityRequest & keyof GetCloudFrontOriginAccessIdentityRequest & keyof GetCloudFrontOriginAccessIdentityRequest]: (GetCloudFrontOriginAccessIdentityRequest & GetCloudFrontOriginAccessIdentityRequest & GetCloudFrontOriginAccessIdentityRequest)[K]
+    invokeGetCloudFrontOriginAccessIdentity2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetCloudFrontOriginAccessIdentityRequest]: (GetCloudFrontOriginAccessIdentityRequest)[K]
     }>): Request<GetCloudFrontOriginAccessIdentityResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getCloudFrontOriginAccessIdentity(
-          this.ops["GetCloudFrontOriginAccessIdentity"].applicator.apply(partialParams)
+        return this.client.getCloudFrontOriginAccessIdentity2020_05_31(
+          this.ops["GetCloudFrontOriginAccessIdentity2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetCloudFrontOriginAccessIdentityConfig(partialParams: ToOptional<{
-      [K in keyof GetCloudFrontOriginAccessIdentityConfigRequest & keyof GetCloudFrontOriginAccessIdentityConfigRequest & keyof GetCloudFrontOriginAccessIdentityConfigRequest]: (GetCloudFrontOriginAccessIdentityConfigRequest & GetCloudFrontOriginAccessIdentityConfigRequest & GetCloudFrontOriginAccessIdentityConfigRequest)[K]
+    invokeGetCloudFrontOriginAccessIdentityConfig2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetCloudFrontOriginAccessIdentityConfigRequest]: (GetCloudFrontOriginAccessIdentityConfigRequest)[K]
     }>): Request<GetCloudFrontOriginAccessIdentityConfigResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getCloudFrontOriginAccessIdentityConfig(
-          this.ops["GetCloudFrontOriginAccessIdentityConfig"].applicator.apply(partialParams)
+        return this.client.getCloudFrontOriginAccessIdentityConfig2020_05_31(
+          this.ops["GetCloudFrontOriginAccessIdentityConfig2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetDistribution(partialParams: ToOptional<{
-      [K in keyof GetDistributionRequest & keyof GetDistributionRequest & keyof GetDistributionRequest]: (GetDistributionRequest & GetDistributionRequest & GetDistributionRequest)[K]
+    invokeGetDistribution2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetDistributionRequest]: (GetDistributionRequest)[K]
     }>): Request<GetDistributionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getDistribution(
-          this.ops["GetDistribution"].applicator.apply(partialParams)
+        return this.client.getDistribution2020_05_31(
+          this.ops["GetDistribution2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetDistributionConfig(partialParams: ToOptional<{
-      [K in keyof GetDistributionConfigRequest & keyof GetDistributionConfigRequest & keyof GetDistributionConfigRequest]: (GetDistributionConfigRequest & GetDistributionConfigRequest & GetDistributionConfigRequest)[K]
+    invokeGetDistributionConfig2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetDistributionConfigRequest]: (GetDistributionConfigRequest)[K]
     }>): Request<GetDistributionConfigResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getDistributionConfig(
-          this.ops["GetDistributionConfig"].applicator.apply(partialParams)
+        return this.client.getDistributionConfig2020_05_31(
+          this.ops["GetDistributionConfig2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetFieldLevelEncryption(partialParams: ToOptional<{
-      [K in keyof GetFieldLevelEncryptionRequest & keyof GetFieldLevelEncryptionRequest & keyof GetFieldLevelEncryptionRequest]: (GetFieldLevelEncryptionRequest & GetFieldLevelEncryptionRequest & GetFieldLevelEncryptionRequest)[K]
+    invokeGetFieldLevelEncryption2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetFieldLevelEncryptionRequest]: (GetFieldLevelEncryptionRequest)[K]
     }>): Request<GetFieldLevelEncryptionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getFieldLevelEncryption(
-          this.ops["GetFieldLevelEncryption"].applicator.apply(partialParams)
+        return this.client.getFieldLevelEncryption2020_05_31(
+          this.ops["GetFieldLevelEncryption2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetFieldLevelEncryptionConfig(partialParams: ToOptional<{
-      [K in keyof GetFieldLevelEncryptionConfigRequest & keyof GetFieldLevelEncryptionConfigRequest & keyof GetFieldLevelEncryptionConfigRequest]: (GetFieldLevelEncryptionConfigRequest & GetFieldLevelEncryptionConfigRequest & GetFieldLevelEncryptionConfigRequest)[K]
+    invokeGetFieldLevelEncryptionConfig2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetFieldLevelEncryptionConfigRequest]: (GetFieldLevelEncryptionConfigRequest)[K]
     }>): Request<GetFieldLevelEncryptionConfigResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getFieldLevelEncryptionConfig(
-          this.ops["GetFieldLevelEncryptionConfig"].applicator.apply(partialParams)
+        return this.client.getFieldLevelEncryptionConfig2020_05_31(
+          this.ops["GetFieldLevelEncryptionConfig2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetFieldLevelEncryptionProfile(partialParams: ToOptional<{
-      [K in keyof GetFieldLevelEncryptionProfileRequest & keyof GetFieldLevelEncryptionProfileRequest & keyof GetFieldLevelEncryptionProfileRequest]: (GetFieldLevelEncryptionProfileRequest & GetFieldLevelEncryptionProfileRequest & GetFieldLevelEncryptionProfileRequest)[K]
+    invokeGetFieldLevelEncryptionProfile2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetFieldLevelEncryptionProfileRequest]: (GetFieldLevelEncryptionProfileRequest)[K]
     }>): Request<GetFieldLevelEncryptionProfileResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getFieldLevelEncryptionProfile(
-          this.ops["GetFieldLevelEncryptionProfile"].applicator.apply(partialParams)
+        return this.client.getFieldLevelEncryptionProfile2020_05_31(
+          this.ops["GetFieldLevelEncryptionProfile2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetFieldLevelEncryptionProfileConfig(partialParams: ToOptional<{
-      [K in keyof GetFieldLevelEncryptionProfileConfigRequest & keyof GetFieldLevelEncryptionProfileConfigRequest & keyof GetFieldLevelEncryptionProfileConfigRequest]: (GetFieldLevelEncryptionProfileConfigRequest & GetFieldLevelEncryptionProfileConfigRequest & GetFieldLevelEncryptionProfileConfigRequest)[K]
+    invokeGetFieldLevelEncryptionProfileConfig2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetFieldLevelEncryptionProfileConfigRequest]: (GetFieldLevelEncryptionProfileConfigRequest)[K]
     }>): Request<GetFieldLevelEncryptionProfileConfigResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getFieldLevelEncryptionProfileConfig(
-          this.ops["GetFieldLevelEncryptionProfileConfig"].applicator.apply(partialParams)
+        return this.client.getFieldLevelEncryptionProfileConfig2020_05_31(
+          this.ops["GetFieldLevelEncryptionProfileConfig2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetFunction(partialParams: ToOptional<{
-      [K in keyof GetFunctionRequest & keyof GetFunctionRequest & keyof GetFunctionRequest]: (GetFunctionRequest & GetFunctionRequest & GetFunctionRequest)[K]
+    invokeGetFunction2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetFunctionRequest]: (GetFunctionRequest)[K]
     }>): Request<GetFunctionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getFunction(
-          this.ops["GetFunction"].applicator.apply(partialParams)
+        return this.client.getFunction2020_05_31(
+          this.ops["GetFunction2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetInvalidation(partialParams: ToOptional<{
-      [K in keyof GetInvalidationRequest & keyof GetInvalidationRequest & keyof GetInvalidationRequest]: (GetInvalidationRequest & GetInvalidationRequest & GetInvalidationRequest)[K]
+    invokeGetInvalidation2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetInvalidationRequest]: (GetInvalidationRequest)[K]
     }>): Request<GetInvalidationResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getInvalidation(
-          this.ops["GetInvalidation"].applicator.apply(partialParams)
+        return this.client.getInvalidation2020_05_31(
+          this.ops["GetInvalidation2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetKeyGroup(partialParams: ToOptional<{
-      [K in keyof GetKeyGroupRequest & keyof GetKeyGroupRequest & keyof GetKeyGroupRequest]: (GetKeyGroupRequest & GetKeyGroupRequest & GetKeyGroupRequest)[K]
+    invokeGetKeyGroup2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetKeyGroupRequest]: (GetKeyGroupRequest)[K]
     }>): Request<GetKeyGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getKeyGroup(
-          this.ops["GetKeyGroup"].applicator.apply(partialParams)
+        return this.client.getKeyGroup2020_05_31(
+          this.ops["GetKeyGroup2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetKeyGroupConfig(partialParams: ToOptional<{
-      [K in keyof GetKeyGroupConfigRequest & keyof GetKeyGroupConfigRequest & keyof GetKeyGroupConfigRequest]: (GetKeyGroupConfigRequest & GetKeyGroupConfigRequest & GetKeyGroupConfigRequest)[K]
+    invokeGetKeyGroupConfig2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetKeyGroupConfigRequest]: (GetKeyGroupConfigRequest)[K]
     }>): Request<GetKeyGroupConfigResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getKeyGroupConfig(
-          this.ops["GetKeyGroupConfig"].applicator.apply(partialParams)
+        return this.client.getKeyGroupConfig2020_05_31(
+          this.ops["GetKeyGroupConfig2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetMonitoringSubscription(partialParams: ToOptional<{
-      [K in keyof GetMonitoringSubscriptionRequest & keyof GetMonitoringSubscriptionRequest & keyof GetMonitoringSubscriptionRequest]: (GetMonitoringSubscriptionRequest & GetMonitoringSubscriptionRequest & GetMonitoringSubscriptionRequest)[K]
+    invokeGetMonitoringSubscription2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetMonitoringSubscriptionRequest]: (GetMonitoringSubscriptionRequest)[K]
     }>): Request<GetMonitoringSubscriptionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getMonitoringSubscription(
-          this.ops["GetMonitoringSubscription"].applicator.apply(partialParams)
+        return this.client.getMonitoringSubscription2020_05_31(
+          this.ops["GetMonitoringSubscription2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetOriginRequestPolicy(partialParams: ToOptional<{
-      [K in keyof GetOriginRequestPolicyRequest & keyof GetOriginRequestPolicyRequest & keyof GetOriginRequestPolicyRequest]: (GetOriginRequestPolicyRequest & GetOriginRequestPolicyRequest & GetOriginRequestPolicyRequest)[K]
+    invokeGetOriginRequestPolicy2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetOriginRequestPolicyRequest]: (GetOriginRequestPolicyRequest)[K]
     }>): Request<GetOriginRequestPolicyResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getOriginRequestPolicy(
-          this.ops["GetOriginRequestPolicy"].applicator.apply(partialParams)
+        return this.client.getOriginRequestPolicy2020_05_31(
+          this.ops["GetOriginRequestPolicy2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetOriginRequestPolicyConfig(partialParams: ToOptional<{
-      [K in keyof GetOriginRequestPolicyConfigRequest & keyof GetOriginRequestPolicyConfigRequest & keyof GetOriginRequestPolicyConfigRequest]: (GetOriginRequestPolicyConfigRequest & GetOriginRequestPolicyConfigRequest & GetOriginRequestPolicyConfigRequest)[K]
+    invokeGetOriginRequestPolicyConfig2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetOriginRequestPolicyConfigRequest]: (GetOriginRequestPolicyConfigRequest)[K]
     }>): Request<GetOriginRequestPolicyConfigResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getOriginRequestPolicyConfig(
-          this.ops["GetOriginRequestPolicyConfig"].applicator.apply(partialParams)
+        return this.client.getOriginRequestPolicyConfig2020_05_31(
+          this.ops["GetOriginRequestPolicyConfig2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetPublicKey(partialParams: ToOptional<{
-      [K in keyof GetPublicKeyRequest & keyof GetPublicKeyRequest & keyof GetPublicKeyRequest]: (GetPublicKeyRequest & GetPublicKeyRequest & GetPublicKeyRequest)[K]
+    invokeGetPublicKey2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetPublicKeyRequest]: (GetPublicKeyRequest)[K]
     }>): Request<GetPublicKeyResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getPublicKey(
-          this.ops["GetPublicKey"].applicator.apply(partialParams)
+        return this.client.getPublicKey2020_05_31(
+          this.ops["GetPublicKey2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetPublicKeyConfig(partialParams: ToOptional<{
-      [K in keyof GetPublicKeyConfigRequest & keyof GetPublicKeyConfigRequest & keyof GetPublicKeyConfigRequest]: (GetPublicKeyConfigRequest & GetPublicKeyConfigRequest & GetPublicKeyConfigRequest)[K]
+    invokeGetPublicKeyConfig2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetPublicKeyConfigRequest]: (GetPublicKeyConfigRequest)[K]
     }>): Request<GetPublicKeyConfigResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getPublicKeyConfig(
-          this.ops["GetPublicKeyConfig"].applicator.apply(partialParams)
+        return this.client.getPublicKeyConfig2020_05_31(
+          this.ops["GetPublicKeyConfig2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetResponseHeadersPolicy(partialParams: ToOptional<{
-      [K in keyof GetResponseHeadersPolicyRequest & keyof GetResponseHeadersPolicyRequest & keyof GetResponseHeadersPolicyRequest]: (GetResponseHeadersPolicyRequest & GetResponseHeadersPolicyRequest & GetResponseHeadersPolicyRequest)[K]
+    invokeGetRealtimeLogConfig2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetRealtimeLogConfigRequest]: (GetRealtimeLogConfigRequest)[K]
+    }>): Request<GetRealtimeLogConfigResult, AWSError> {
+        this.boot();
+        return this.client.getRealtimeLogConfig2020_05_31(
+          this.ops["GetRealtimeLogConfig2020_05_31"].apply(partialParams)
+        );
+    }
+
+    invokeGetResponseHeadersPolicy2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetResponseHeadersPolicyRequest]: (GetResponseHeadersPolicyRequest)[K]
     }>): Request<GetResponseHeadersPolicyResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getResponseHeadersPolicy(
-          this.ops["GetResponseHeadersPolicy"].applicator.apply(partialParams)
+        return this.client.getResponseHeadersPolicy2020_05_31(
+          this.ops["GetResponseHeadersPolicy2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetResponseHeadersPolicyConfig(partialParams: ToOptional<{
-      [K in keyof GetResponseHeadersPolicyConfigRequest & keyof GetResponseHeadersPolicyConfigRequest & keyof GetResponseHeadersPolicyConfigRequest]: (GetResponseHeadersPolicyConfigRequest & GetResponseHeadersPolicyConfigRequest & GetResponseHeadersPolicyConfigRequest)[K]
+    invokeGetResponseHeadersPolicyConfig2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetResponseHeadersPolicyConfigRequest]: (GetResponseHeadersPolicyConfigRequest)[K]
     }>): Request<GetResponseHeadersPolicyConfigResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getResponseHeadersPolicyConfig(
-          this.ops["GetResponseHeadersPolicyConfig"].applicator.apply(partialParams)
+        return this.client.getResponseHeadersPolicyConfig2020_05_31(
+          this.ops["GetResponseHeadersPolicyConfig2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetStreamingDistribution(partialParams: ToOptional<{
-      [K in keyof GetStreamingDistributionRequest & keyof GetStreamingDistributionRequest & keyof GetStreamingDistributionRequest]: (GetStreamingDistributionRequest & GetStreamingDistributionRequest & GetStreamingDistributionRequest)[K]
+    invokeGetStreamingDistribution2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetStreamingDistributionRequest]: (GetStreamingDistributionRequest)[K]
     }>): Request<GetStreamingDistributionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getStreamingDistribution(
-          this.ops["GetStreamingDistribution"].applicator.apply(partialParams)
+        return this.client.getStreamingDistribution2020_05_31(
+          this.ops["GetStreamingDistribution2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeGetStreamingDistributionConfig(partialParams: ToOptional<{
-      [K in keyof GetStreamingDistributionConfigRequest & keyof GetStreamingDistributionConfigRequest & keyof GetStreamingDistributionConfigRequest]: (GetStreamingDistributionConfigRequest & GetStreamingDistributionConfigRequest & GetStreamingDistributionConfigRequest)[K]
+    invokeGetStreamingDistributionConfig2020_05_31(partialParams: ToOptional<{
+      [K in keyof GetStreamingDistributionConfigRequest]: (GetStreamingDistributionConfigRequest)[K]
     }>): Request<GetStreamingDistributionConfigResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getStreamingDistributionConfig(
-          this.ops["GetStreamingDistributionConfig"].applicator.apply(partialParams)
+        return this.client.getStreamingDistributionConfig2020_05_31(
+          this.ops["GetStreamingDistributionConfig2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeListConflictingAliases(partialParams: ToOptional<{
-      [K in keyof ListConflictingAliasesRequest & keyof ListConflictingAliasesRequest & keyof ListConflictingAliasesRequest]: (ListConflictingAliasesRequest & ListConflictingAliasesRequest & ListConflictingAliasesRequest)[K]
+    invokeListCachePolicies2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListCachePoliciesRequest]: (ListCachePoliciesRequest)[K]
+    }>): Request<ListCachePoliciesResult, AWSError> {
+        this.boot();
+        return this.client.listCachePolicies2020_05_31(
+          this.ops["ListCachePolicies2020_05_31"].apply(partialParams)
+        );
+    }
+
+    invokeListCloudFrontOriginAccessIdentities2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListCloudFrontOriginAccessIdentitiesRequest]: (ListCloudFrontOriginAccessIdentitiesRequest)[K]
+    }>): Request<ListCloudFrontOriginAccessIdentitiesResult, AWSError> {
+        this.boot();
+        return this.client.listCloudFrontOriginAccessIdentities2020_05_31(
+          this.ops["ListCloudFrontOriginAccessIdentities2020_05_31"].apply(partialParams)
+        );
+    }
+
+    invokeListConflictingAliases2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListConflictingAliasesRequest]: (ListConflictingAliasesRequest)[K]
     }>): Request<ListConflictingAliasesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listConflictingAliases(
-          this.ops["ListConflictingAliases"].applicator.apply(partialParams)
+        return this.client.listConflictingAliases2020_05_31(
+          this.ops["ListConflictingAliases2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeListDistributionsByCachePolicyId(partialParams: ToOptional<{
-      [K in keyof ListDistributionsByCachePolicyIdRequest & keyof ListDistributionsByCachePolicyIdRequest & keyof ListDistributionsByCachePolicyIdRequest]: (ListDistributionsByCachePolicyIdRequest & ListDistributionsByCachePolicyIdRequest & ListDistributionsByCachePolicyIdRequest)[K]
+    invokeListDistributions2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListDistributionsRequest]: (ListDistributionsRequest)[K]
+    }>): Request<ListDistributionsResult, AWSError> {
+        this.boot();
+        return this.client.listDistributions2020_05_31(
+          this.ops["ListDistributions2020_05_31"].apply(partialParams)
+        );
+    }
+
+    invokeListDistributionsByCachePolicyId2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListDistributionsByCachePolicyIdRequest]: (ListDistributionsByCachePolicyIdRequest)[K]
     }>): Request<ListDistributionsByCachePolicyIdResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listDistributionsByCachePolicyId(
-          this.ops["ListDistributionsByCachePolicyId"].applicator.apply(partialParams)
+        return this.client.listDistributionsByCachePolicyId2020_05_31(
+          this.ops["ListDistributionsByCachePolicyId2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeListDistributionsByKeyGroup(partialParams: ToOptional<{
-      [K in keyof ListDistributionsByKeyGroupRequest & keyof ListDistributionsByKeyGroupRequest & keyof ListDistributionsByKeyGroupRequest]: (ListDistributionsByKeyGroupRequest & ListDistributionsByKeyGroupRequest & ListDistributionsByKeyGroupRequest)[K]
+    invokeListDistributionsByKeyGroup2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListDistributionsByKeyGroupRequest]: (ListDistributionsByKeyGroupRequest)[K]
     }>): Request<ListDistributionsByKeyGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listDistributionsByKeyGroup(
-          this.ops["ListDistributionsByKeyGroup"].applicator.apply(partialParams)
+        return this.client.listDistributionsByKeyGroup2020_05_31(
+          this.ops["ListDistributionsByKeyGroup2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeListDistributionsByOriginRequestPolicyId(partialParams: ToOptional<{
-      [K in keyof ListDistributionsByOriginRequestPolicyIdRequest & keyof ListDistributionsByOriginRequestPolicyIdRequest & keyof ListDistributionsByOriginRequestPolicyIdRequest]: (ListDistributionsByOriginRequestPolicyIdRequest & ListDistributionsByOriginRequestPolicyIdRequest & ListDistributionsByOriginRequestPolicyIdRequest)[K]
+    invokeListDistributionsByOriginRequestPolicyId2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListDistributionsByOriginRequestPolicyIdRequest]: (ListDistributionsByOriginRequestPolicyIdRequest)[K]
     }>): Request<ListDistributionsByOriginRequestPolicyIdResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listDistributionsByOriginRequestPolicyId(
-          this.ops["ListDistributionsByOriginRequestPolicyId"].applicator.apply(partialParams)
+        return this.client.listDistributionsByOriginRequestPolicyId2020_05_31(
+          this.ops["ListDistributionsByOriginRequestPolicyId2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeListDistributionsByResponseHeadersPolicyId(partialParams: ToOptional<{
-      [K in keyof ListDistributionsByResponseHeadersPolicyIdRequest & keyof ListDistributionsByResponseHeadersPolicyIdRequest & keyof ListDistributionsByResponseHeadersPolicyIdRequest]: (ListDistributionsByResponseHeadersPolicyIdRequest & ListDistributionsByResponseHeadersPolicyIdRequest & ListDistributionsByResponseHeadersPolicyIdRequest)[K]
+    invokeListDistributionsByRealtimeLogConfig2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListDistributionsByRealtimeLogConfigRequest]: (ListDistributionsByRealtimeLogConfigRequest)[K]
+    }>): Request<ListDistributionsByRealtimeLogConfigResult, AWSError> {
+        this.boot();
+        return this.client.listDistributionsByRealtimeLogConfig2020_05_31(
+          this.ops["ListDistributionsByRealtimeLogConfig2020_05_31"].apply(partialParams)
+        );
+    }
+
+    invokeListDistributionsByResponseHeadersPolicyId2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListDistributionsByResponseHeadersPolicyIdRequest]: (ListDistributionsByResponseHeadersPolicyIdRequest)[K]
     }>): Request<ListDistributionsByResponseHeadersPolicyIdResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listDistributionsByResponseHeadersPolicyId(
-          this.ops["ListDistributionsByResponseHeadersPolicyId"].applicator.apply(partialParams)
+        return this.client.listDistributionsByResponseHeadersPolicyId2020_05_31(
+          this.ops["ListDistributionsByResponseHeadersPolicyId2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeListDistributionsByWebACLId(partialParams: ToOptional<{
-      [K in keyof ListDistributionsByWebACLIdRequest & keyof ListDistributionsByWebACLIdRequest & keyof ListDistributionsByWebACLIdRequest]: (ListDistributionsByWebACLIdRequest & ListDistributionsByWebACLIdRequest & ListDistributionsByWebACLIdRequest)[K]
+    invokeListDistributionsByWebACLId2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListDistributionsByWebACLIdRequest]: (ListDistributionsByWebACLIdRequest)[K]
     }>): Request<ListDistributionsByWebACLIdResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listDistributionsByWebACLId(
-          this.ops["ListDistributionsByWebACLId"].applicator.apply(partialParams)
+        return this.client.listDistributionsByWebACLId2020_05_31(
+          this.ops["ListDistributionsByWebACLId2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeListInvalidations(partialParams: ToOptional<{
-      [K in keyof ListInvalidationsRequest & keyof ListInvalidationsRequest & keyof ListInvalidationsRequest]: (ListInvalidationsRequest & ListInvalidationsRequest & ListInvalidationsRequest)[K]
+    invokeListFieldLevelEncryptionConfigs2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListFieldLevelEncryptionConfigsRequest]: (ListFieldLevelEncryptionConfigsRequest)[K]
+    }>): Request<ListFieldLevelEncryptionConfigsResult, AWSError> {
+        this.boot();
+        return this.client.listFieldLevelEncryptionConfigs2020_05_31(
+          this.ops["ListFieldLevelEncryptionConfigs2020_05_31"].apply(partialParams)
+        );
+    }
+
+    invokeListFieldLevelEncryptionProfiles2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListFieldLevelEncryptionProfilesRequest]: (ListFieldLevelEncryptionProfilesRequest)[K]
+    }>): Request<ListFieldLevelEncryptionProfilesResult, AWSError> {
+        this.boot();
+        return this.client.listFieldLevelEncryptionProfiles2020_05_31(
+          this.ops["ListFieldLevelEncryptionProfiles2020_05_31"].apply(partialParams)
+        );
+    }
+
+    invokeListFunctions2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListFunctionsRequest]: (ListFunctionsRequest)[K]
+    }>): Request<ListFunctionsResult, AWSError> {
+        this.boot();
+        return this.client.listFunctions2020_05_31(
+          this.ops["ListFunctions2020_05_31"].apply(partialParams)
+        );
+    }
+
+    invokeListInvalidations2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListInvalidationsRequest]: (ListInvalidationsRequest)[K]
     }>): Request<ListInvalidationsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listInvalidations(
-          this.ops["ListInvalidations"].applicator.apply(partialParams)
+        return this.client.listInvalidations2020_05_31(
+          this.ops["ListInvalidations2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+    invokeListKeyGroups2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListKeyGroupsRequest]: (ListKeyGroupsRequest)[K]
+    }>): Request<ListKeyGroupsResult, AWSError> {
+        this.boot();
+        return this.client.listKeyGroups2020_05_31(
+          this.ops["ListKeyGroups2020_05_31"].apply(partialParams)
+        );
+    }
+
+    invokeListOriginRequestPolicies2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListOriginRequestPoliciesRequest]: (ListOriginRequestPoliciesRequest)[K]
+    }>): Request<ListOriginRequestPoliciesResult, AWSError> {
+        this.boot();
+        return this.client.listOriginRequestPolicies2020_05_31(
+          this.ops["ListOriginRequestPolicies2020_05_31"].apply(partialParams)
+        );
+    }
+
+    invokeListPublicKeys2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListPublicKeysRequest]: (ListPublicKeysRequest)[K]
+    }>): Request<ListPublicKeysResult, AWSError> {
+        this.boot();
+        return this.client.listPublicKeys2020_05_31(
+          this.ops["ListPublicKeys2020_05_31"].apply(partialParams)
+        );
+    }
+
+    invokeListRealtimeLogConfigs2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListRealtimeLogConfigsRequest]: (ListRealtimeLogConfigsRequest)[K]
+    }>): Request<ListRealtimeLogConfigsResult, AWSError> {
+        this.boot();
+        return this.client.listRealtimeLogConfigs2020_05_31(
+          this.ops["ListRealtimeLogConfigs2020_05_31"].apply(partialParams)
+        );
+    }
+
+    invokeListResponseHeadersPolicies2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListResponseHeadersPoliciesRequest]: (ListResponseHeadersPoliciesRequest)[K]
+    }>): Request<ListResponseHeadersPoliciesResult, AWSError> {
+        this.boot();
+        return this.client.listResponseHeadersPolicies2020_05_31(
+          this.ops["ListResponseHeadersPolicies2020_05_31"].apply(partialParams)
+        );
+    }
+
+    invokeListStreamingDistributions2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListStreamingDistributionsRequest]: (ListStreamingDistributionsRequest)[K]
+    }>): Request<ListStreamingDistributionsResult, AWSError> {
+        this.boot();
+        return this.client.listStreamingDistributions2020_05_31(
+          this.ops["ListStreamingDistributions2020_05_31"].apply(partialParams)
+        );
+    }
+
+    invokeListTagsForResource2020_05_31(partialParams: ToOptional<{
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+        return this.client.listTagsForResource2020_05_31(
+          this.ops["ListTagsForResource2020_05_31"].apply(partialParams)
         );
     }
 
-    invokePublishFunction(partialParams: ToOptional<{
-      [K in keyof PublishFunctionRequest & keyof PublishFunctionRequest & keyof PublishFunctionRequest]: (PublishFunctionRequest & PublishFunctionRequest & PublishFunctionRequest)[K]
+    invokePublishFunction2020_05_31(partialParams: ToOptional<{
+      [K in keyof PublishFunctionRequest]: (PublishFunctionRequest)[K]
     }>): Request<PublishFunctionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.publishFunction(
-          this.ops["PublishFunction"].applicator.apply(partialParams)
+        return this.client.publishFunction2020_05_31(
+          this.ops["PublishFunction2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeTestFunction(partialParams: ToOptional<{
-      [K in keyof TestFunctionRequest & keyof TestFunctionRequest & keyof TestFunctionRequest]: (TestFunctionRequest & TestFunctionRequest & TestFunctionRequest)[K]
+    invokeTestFunction2020_05_31(partialParams: ToOptional<{
+      [K in keyof TestFunctionRequest]: (TestFunctionRequest)[K]
     }>): Request<TestFunctionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.testFunction(
-          this.ops["TestFunction"].applicator.apply(partialParams)
+        return this.client.testFunction2020_05_31(
+          this.ops["TestFunction2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateCachePolicy(partialParams: ToOptional<{
-      [K in keyof UpdateCachePolicyRequest & keyof UpdateCachePolicyRequest & keyof UpdateCachePolicyRequest]: (UpdateCachePolicyRequest & UpdateCachePolicyRequest & UpdateCachePolicyRequest)[K]
+    invokeUpdateCachePolicy2020_05_31(partialParams: ToOptional<{
+      [K in keyof UpdateCachePolicyRequest]: (UpdateCachePolicyRequest)[K]
     }>): Request<UpdateCachePolicyResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateCachePolicy(
-          this.ops["UpdateCachePolicy"].applicator.apply(partialParams)
+        return this.client.updateCachePolicy2020_05_31(
+          this.ops["UpdateCachePolicy2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeUpdateCloudFrontOriginAccessIdentity(partialParams: ToOptional<{
-      [K in keyof UpdateCloudFrontOriginAccessIdentityRequest & keyof UpdateCloudFrontOriginAccessIdentityRequest & keyof UpdateCloudFrontOriginAccessIdentityRequest]: (UpdateCloudFrontOriginAccessIdentityRequest & UpdateCloudFrontOriginAccessIdentityRequest & UpdateCloudFrontOriginAccessIdentityRequest)[K]
+    invokeUpdateCloudFrontOriginAccessIdentity2020_05_31(partialParams: ToOptional<{
+      [K in keyof UpdateCloudFrontOriginAccessIdentityRequest]: (UpdateCloudFrontOriginAccessIdentityRequest)[K]
     }>): Request<UpdateCloudFrontOriginAccessIdentityResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateCloudFrontOriginAccessIdentity(
-          this.ops["UpdateCloudFrontOriginAccessIdentity"].applicator.apply(partialParams)
+        return this.client.updateCloudFrontOriginAccessIdentity2020_05_31(
+          this.ops["UpdateCloudFrontOriginAccessIdentity2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeUpdateDistribution(partialParams: ToOptional<{
-      [K in keyof UpdateDistributionRequest & keyof UpdateDistributionRequest & keyof UpdateDistributionRequest]: (UpdateDistributionRequest & UpdateDistributionRequest & UpdateDistributionRequest)[K]
+    invokeUpdateDistribution2020_05_31(partialParams: ToOptional<{
+      [K in keyof UpdateDistributionRequest]: (UpdateDistributionRequest)[K]
     }>): Request<UpdateDistributionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateDistribution(
-          this.ops["UpdateDistribution"].applicator.apply(partialParams)
+        return this.client.updateDistribution2020_05_31(
+          this.ops["UpdateDistribution2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeUpdateFieldLevelEncryptionConfig(partialParams: ToOptional<{
-      [K in keyof UpdateFieldLevelEncryptionConfigRequest & keyof UpdateFieldLevelEncryptionConfigRequest & keyof UpdateFieldLevelEncryptionConfigRequest]: (UpdateFieldLevelEncryptionConfigRequest & UpdateFieldLevelEncryptionConfigRequest & UpdateFieldLevelEncryptionConfigRequest)[K]
+    invokeUpdateFieldLevelEncryptionConfig2020_05_31(partialParams: ToOptional<{
+      [K in keyof UpdateFieldLevelEncryptionConfigRequest]: (UpdateFieldLevelEncryptionConfigRequest)[K]
     }>): Request<UpdateFieldLevelEncryptionConfigResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateFieldLevelEncryptionConfig(
-          this.ops["UpdateFieldLevelEncryptionConfig"].applicator.apply(partialParams)
+        return this.client.updateFieldLevelEncryptionConfig2020_05_31(
+          this.ops["UpdateFieldLevelEncryptionConfig2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeUpdateFieldLevelEncryptionProfile(partialParams: ToOptional<{
-      [K in keyof UpdateFieldLevelEncryptionProfileRequest & keyof UpdateFieldLevelEncryptionProfileRequest & keyof UpdateFieldLevelEncryptionProfileRequest]: (UpdateFieldLevelEncryptionProfileRequest & UpdateFieldLevelEncryptionProfileRequest & UpdateFieldLevelEncryptionProfileRequest)[K]
+    invokeUpdateFieldLevelEncryptionProfile2020_05_31(partialParams: ToOptional<{
+      [K in keyof UpdateFieldLevelEncryptionProfileRequest]: (UpdateFieldLevelEncryptionProfileRequest)[K]
     }>): Request<UpdateFieldLevelEncryptionProfileResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateFieldLevelEncryptionProfile(
-          this.ops["UpdateFieldLevelEncryptionProfile"].applicator.apply(partialParams)
+        return this.client.updateFieldLevelEncryptionProfile2020_05_31(
+          this.ops["UpdateFieldLevelEncryptionProfile2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeUpdateFunction(partialParams: ToOptional<{
-      [K in keyof UpdateFunctionRequest & keyof UpdateFunctionRequest & keyof UpdateFunctionRequest]: (UpdateFunctionRequest & UpdateFunctionRequest & UpdateFunctionRequest)[K]
+    invokeUpdateFunction2020_05_31(partialParams: ToOptional<{
+      [K in keyof UpdateFunctionRequest]: (UpdateFunctionRequest)[K]
     }>): Request<UpdateFunctionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateFunction(
-          this.ops["UpdateFunction"].applicator.apply(partialParams)
+        return this.client.updateFunction2020_05_31(
+          this.ops["UpdateFunction2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeUpdateKeyGroup(partialParams: ToOptional<{
-      [K in keyof UpdateKeyGroupRequest & keyof UpdateKeyGroupRequest & keyof UpdateKeyGroupRequest]: (UpdateKeyGroupRequest & UpdateKeyGroupRequest & UpdateKeyGroupRequest)[K]
+    invokeUpdateKeyGroup2020_05_31(partialParams: ToOptional<{
+      [K in keyof UpdateKeyGroupRequest]: (UpdateKeyGroupRequest)[K]
     }>): Request<UpdateKeyGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateKeyGroup(
-          this.ops["UpdateKeyGroup"].applicator.apply(partialParams)
+        return this.client.updateKeyGroup2020_05_31(
+          this.ops["UpdateKeyGroup2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeUpdateOriginRequestPolicy(partialParams: ToOptional<{
-      [K in keyof UpdateOriginRequestPolicyRequest & keyof UpdateOriginRequestPolicyRequest & keyof UpdateOriginRequestPolicyRequest]: (UpdateOriginRequestPolicyRequest & UpdateOriginRequestPolicyRequest & UpdateOriginRequestPolicyRequest)[K]
+    invokeUpdateOriginRequestPolicy2020_05_31(partialParams: ToOptional<{
+      [K in keyof UpdateOriginRequestPolicyRequest]: (UpdateOriginRequestPolicyRequest)[K]
     }>): Request<UpdateOriginRequestPolicyResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateOriginRequestPolicy(
-          this.ops["UpdateOriginRequestPolicy"].applicator.apply(partialParams)
+        return this.client.updateOriginRequestPolicy2020_05_31(
+          this.ops["UpdateOriginRequestPolicy2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeUpdatePublicKey(partialParams: ToOptional<{
-      [K in keyof UpdatePublicKeyRequest & keyof UpdatePublicKeyRequest & keyof UpdatePublicKeyRequest]: (UpdatePublicKeyRequest & UpdatePublicKeyRequest & UpdatePublicKeyRequest)[K]
+    invokeUpdatePublicKey2020_05_31(partialParams: ToOptional<{
+      [K in keyof UpdatePublicKeyRequest]: (UpdatePublicKeyRequest)[K]
     }>): Request<UpdatePublicKeyResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updatePublicKey(
-          this.ops["UpdatePublicKey"].applicator.apply(partialParams)
+        return this.client.updatePublicKey2020_05_31(
+          this.ops["UpdatePublicKey2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeUpdateResponseHeadersPolicy(partialParams: ToOptional<{
-      [K in keyof UpdateResponseHeadersPolicyRequest & keyof UpdateResponseHeadersPolicyRequest & keyof UpdateResponseHeadersPolicyRequest]: (UpdateResponseHeadersPolicyRequest & UpdateResponseHeadersPolicyRequest & UpdateResponseHeadersPolicyRequest)[K]
+    invokeUpdateRealtimeLogConfig2020_05_31(partialParams: ToOptional<{
+      [K in keyof UpdateRealtimeLogConfigRequest]: (UpdateRealtimeLogConfigRequest)[K]
+    }>): Request<UpdateRealtimeLogConfigResult, AWSError> {
+        this.boot();
+        return this.client.updateRealtimeLogConfig2020_05_31(
+          this.ops["UpdateRealtimeLogConfig2020_05_31"].apply(partialParams)
+        );
+    }
+
+    invokeUpdateResponseHeadersPolicy2020_05_31(partialParams: ToOptional<{
+      [K in keyof UpdateResponseHeadersPolicyRequest]: (UpdateResponseHeadersPolicyRequest)[K]
     }>): Request<UpdateResponseHeadersPolicyResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateResponseHeadersPolicy(
-          this.ops["UpdateResponseHeadersPolicy"].applicator.apply(partialParams)
+        return this.client.updateResponseHeadersPolicy2020_05_31(
+          this.ops["UpdateResponseHeadersPolicy2020_05_31"].apply(partialParams)
         );
     }
 
-    invokeUpdateStreamingDistribution(partialParams: ToOptional<{
-      [K in keyof UpdateStreamingDistributionRequest & keyof UpdateStreamingDistributionRequest & keyof UpdateStreamingDistributionRequest]: (UpdateStreamingDistributionRequest & UpdateStreamingDistributionRequest & UpdateStreamingDistributionRequest)[K]
+    invokeUpdateStreamingDistribution2020_05_31(partialParams: ToOptional<{
+      [K in keyof UpdateStreamingDistributionRequest]: (UpdateStreamingDistributionRequest)[K]
     }>): Request<UpdateStreamingDistributionResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateStreamingDistribution(
-          this.ops["UpdateStreamingDistribution"].applicator.apply(partialParams)
+        return this.client.updateStreamingDistribution2020_05_31(
+          this.ops["UpdateStreamingDistribution2020_05_31"].apply(partialParams)
         );
     }
 }

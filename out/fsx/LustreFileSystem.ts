@@ -8,6 +8,7 @@ import {
     AssociateFileSystemAliasesRequest,
     CancelDataRepositoryTaskRequest,
     CopyBackupRequest,
+    CreateBackupRequest,
     CreateDataRepositoryAssociationRequest,
     CreateDataRepositoryTaskRequest,
     CreateFileSystemRequest,
@@ -22,7 +23,14 @@ import {
     DeleteSnapshotRequest,
     DeleteStorageVirtualMachineRequest,
     DeleteVolumeRequest,
+    DescribeBackupsRequest,
+    DescribeDataRepositoryAssociationsRequest,
+    DescribeDataRepositoryTasksRequest,
     DescribeFileSystemAliasesRequest,
+    DescribeFileSystemsRequest,
+    DescribeSnapshotsRequest,
+    DescribeStorageVirtualMachinesRequest,
+    DescribeVolumesRequest,
     DisassociateFileSystemAliasesRequest,
     ListTagsForResourceRequest,
     ReleaseFileSystemNfsV3LocksRequest,
@@ -37,6 +45,7 @@ import {
     AssociateFileSystemAliasesResponse,
     CancelDataRepositoryTaskResponse,
     CopyBackupResponse,
+    CreateBackupResponse,
     CreateDataRepositoryAssociationResponse,
     CreateDataRepositoryTaskResponse,
     CreateFileSystemResponse,
@@ -51,7 +60,14 @@ import {
     DeleteSnapshotResponse,
     DeleteStorageVirtualMachineResponse,
     DeleteVolumeResponse,
+    DescribeBackupsResponse,
+    DescribeDataRepositoryAssociationsResponse,
+    DescribeDataRepositoryTasksResponse,
     DescribeFileSystemAliasesResponse,
+    DescribeFileSystemsResponse,
+    DescribeSnapshotsResponse,
+    DescribeStorageVirtualMachinesResponse,
+    DescribeVolumesResponse,
     DisassociateFileSystemAliasesResponse,
     ListTagsForResourceResponse,
     ReleaseFileSystemNfsV3LocksResponse,
@@ -77,21 +93,24 @@ export default class extends aws.fsx.LustreFileSystem {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.fsx.LustreFileSystem>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.FSx()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -101,325 +120,340 @@ export default class extends aws.fsx.LustreFileSystem {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAssociateFileSystemAliases(partialParams: ToOptional<{
-      [K in keyof AssociateFileSystemAliasesRequest & keyof AssociateFileSystemAliasesRequest & keyof AssociateFileSystemAliasesRequest & keyof AssociateFileSystemAliasesRequest & keyof AssociateFileSystemAliasesRequest & keyof AssociateFileSystemAliasesRequest & keyof AssociateFileSystemAliasesRequest & keyof AssociateFileSystemAliasesRequest & keyof AssociateFileSystemAliasesRequest & keyof AssociateFileSystemAliasesRequest & keyof AssociateFileSystemAliasesRequest & keyof AssociateFileSystemAliasesRequest & keyof AssociateFileSystemAliasesRequest & keyof AssociateFileSystemAliasesRequest & keyof AssociateFileSystemAliasesRequest & keyof AssociateFileSystemAliasesRequest & keyof AssociateFileSystemAliasesRequest & keyof AssociateFileSystemAliasesRequest]: (AssociateFileSystemAliasesRequest & AssociateFileSystemAliasesRequest & AssociateFileSystemAliasesRequest & AssociateFileSystemAliasesRequest & AssociateFileSystemAliasesRequest & AssociateFileSystemAliasesRequest & AssociateFileSystemAliasesRequest & AssociateFileSystemAliasesRequest & AssociateFileSystemAliasesRequest & AssociateFileSystemAliasesRequest & AssociateFileSystemAliasesRequest & AssociateFileSystemAliasesRequest & AssociateFileSystemAliasesRequest & AssociateFileSystemAliasesRequest & AssociateFileSystemAliasesRequest & AssociateFileSystemAliasesRequest & AssociateFileSystemAliasesRequest & AssociateFileSystemAliasesRequest)[K]
+      [K in keyof AssociateFileSystemAliasesRequest]: (AssociateFileSystemAliasesRequest)[K]
     }>): Request<AssociateFileSystemAliasesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateFileSystemAliases(
-          this.ops["AssociateFileSystemAliases"].applicator.apply(partialParams)
+          this.ops["AssociateFileSystemAliases"].apply(partialParams)
         );
     }
 
     invokeCancelDataRepositoryTask(partialParams: ToOptional<{
-      [K in keyof CancelDataRepositoryTaskRequest & keyof CancelDataRepositoryTaskRequest & keyof CancelDataRepositoryTaskRequest & keyof CancelDataRepositoryTaskRequest & keyof CancelDataRepositoryTaskRequest & keyof CancelDataRepositoryTaskRequest & keyof CancelDataRepositoryTaskRequest & keyof CancelDataRepositoryTaskRequest & keyof CancelDataRepositoryTaskRequest & keyof CancelDataRepositoryTaskRequest & keyof CancelDataRepositoryTaskRequest & keyof CancelDataRepositoryTaskRequest & keyof CancelDataRepositoryTaskRequest & keyof CancelDataRepositoryTaskRequest & keyof CancelDataRepositoryTaskRequest & keyof CancelDataRepositoryTaskRequest & keyof CancelDataRepositoryTaskRequest & keyof CancelDataRepositoryTaskRequest]: (CancelDataRepositoryTaskRequest & CancelDataRepositoryTaskRequest & CancelDataRepositoryTaskRequest & CancelDataRepositoryTaskRequest & CancelDataRepositoryTaskRequest & CancelDataRepositoryTaskRequest & CancelDataRepositoryTaskRequest & CancelDataRepositoryTaskRequest & CancelDataRepositoryTaskRequest & CancelDataRepositoryTaskRequest & CancelDataRepositoryTaskRequest & CancelDataRepositoryTaskRequest & CancelDataRepositoryTaskRequest & CancelDataRepositoryTaskRequest & CancelDataRepositoryTaskRequest & CancelDataRepositoryTaskRequest & CancelDataRepositoryTaskRequest & CancelDataRepositoryTaskRequest)[K]
+      [K in keyof CancelDataRepositoryTaskRequest]: (CancelDataRepositoryTaskRequest)[K]
     }>): Request<CancelDataRepositoryTaskResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.cancelDataRepositoryTask(
-          this.ops["CancelDataRepositoryTask"].applicator.apply(partialParams)
+          this.ops["CancelDataRepositoryTask"].apply(partialParams)
         );
     }
 
     invokeCopyBackup(partialParams: ToOptional<{
-      [K in keyof CopyBackupRequest & keyof CopyBackupRequest & keyof CopyBackupRequest & keyof CopyBackupRequest & keyof CopyBackupRequest & keyof CopyBackupRequest & keyof CopyBackupRequest & keyof CopyBackupRequest & keyof CopyBackupRequest & keyof CopyBackupRequest & keyof CopyBackupRequest & keyof CopyBackupRequest & keyof CopyBackupRequest & keyof CopyBackupRequest & keyof CopyBackupRequest & keyof CopyBackupRequest & keyof CopyBackupRequest & keyof CopyBackupRequest]: (CopyBackupRequest & CopyBackupRequest & CopyBackupRequest & CopyBackupRequest & CopyBackupRequest & CopyBackupRequest & CopyBackupRequest & CopyBackupRequest & CopyBackupRequest & CopyBackupRequest & CopyBackupRequest & CopyBackupRequest & CopyBackupRequest & CopyBackupRequest & CopyBackupRequest & CopyBackupRequest & CopyBackupRequest & CopyBackupRequest)[K]
+      [K in keyof CopyBackupRequest]: (CopyBackupRequest)[K]
     }>): Request<CopyBackupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.copyBackup(
-          this.ops["CopyBackup"].applicator.apply(partialParams)
+          this.ops["CopyBackup"].apply(partialParams)
+        );
+    }
+
+    invokeCreateBackup(partialParams: ToOptional<{
+      [K in keyof CreateBackupRequest]: (CreateBackupRequest)[K]
+    }>): Request<CreateBackupResponse, AWSError> {
+        this.boot();
+        return this.client.createBackup(
+          this.ops["CreateBackup"].apply(partialParams)
         );
     }
 
     invokeCreateDataRepositoryAssociation(partialParams: ToOptional<{
-      [K in keyof CreateDataRepositoryAssociationRequest & keyof CreateDataRepositoryAssociationRequest & keyof CreateDataRepositoryAssociationRequest & keyof CreateDataRepositoryAssociationRequest & keyof CreateDataRepositoryAssociationRequest & keyof CreateDataRepositoryAssociationRequest & keyof CreateDataRepositoryAssociationRequest & keyof CreateDataRepositoryAssociationRequest & keyof CreateDataRepositoryAssociationRequest & keyof CreateDataRepositoryAssociationRequest & keyof CreateDataRepositoryAssociationRequest & keyof CreateDataRepositoryAssociationRequest & keyof CreateDataRepositoryAssociationRequest & keyof CreateDataRepositoryAssociationRequest & keyof CreateDataRepositoryAssociationRequest & keyof CreateDataRepositoryAssociationRequest & keyof CreateDataRepositoryAssociationRequest & keyof CreateDataRepositoryAssociationRequest]: (CreateDataRepositoryAssociationRequest & CreateDataRepositoryAssociationRequest & CreateDataRepositoryAssociationRequest & CreateDataRepositoryAssociationRequest & CreateDataRepositoryAssociationRequest & CreateDataRepositoryAssociationRequest & CreateDataRepositoryAssociationRequest & CreateDataRepositoryAssociationRequest & CreateDataRepositoryAssociationRequest & CreateDataRepositoryAssociationRequest & CreateDataRepositoryAssociationRequest & CreateDataRepositoryAssociationRequest & CreateDataRepositoryAssociationRequest & CreateDataRepositoryAssociationRequest & CreateDataRepositoryAssociationRequest & CreateDataRepositoryAssociationRequest & CreateDataRepositoryAssociationRequest & CreateDataRepositoryAssociationRequest)[K]
+      [K in keyof CreateDataRepositoryAssociationRequest]: (CreateDataRepositoryAssociationRequest)[K]
     }>): Request<CreateDataRepositoryAssociationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDataRepositoryAssociation(
-          this.ops["CreateDataRepositoryAssociation"].applicator.apply(partialParams)
+          this.ops["CreateDataRepositoryAssociation"].apply(partialParams)
         );
     }
 
     invokeCreateDataRepositoryTask(partialParams: ToOptional<{
-      [K in keyof CreateDataRepositoryTaskRequest & keyof CreateDataRepositoryTaskRequest & keyof CreateDataRepositoryTaskRequest & keyof CreateDataRepositoryTaskRequest & keyof CreateDataRepositoryTaskRequest & keyof CreateDataRepositoryTaskRequest & keyof CreateDataRepositoryTaskRequest & keyof CreateDataRepositoryTaskRequest & keyof CreateDataRepositoryTaskRequest & keyof CreateDataRepositoryTaskRequest & keyof CreateDataRepositoryTaskRequest & keyof CreateDataRepositoryTaskRequest & keyof CreateDataRepositoryTaskRequest & keyof CreateDataRepositoryTaskRequest & keyof CreateDataRepositoryTaskRequest & keyof CreateDataRepositoryTaskRequest & keyof CreateDataRepositoryTaskRequest & keyof CreateDataRepositoryTaskRequest]: (CreateDataRepositoryTaskRequest & CreateDataRepositoryTaskRequest & CreateDataRepositoryTaskRequest & CreateDataRepositoryTaskRequest & CreateDataRepositoryTaskRequest & CreateDataRepositoryTaskRequest & CreateDataRepositoryTaskRequest & CreateDataRepositoryTaskRequest & CreateDataRepositoryTaskRequest & CreateDataRepositoryTaskRequest & CreateDataRepositoryTaskRequest & CreateDataRepositoryTaskRequest & CreateDataRepositoryTaskRequest & CreateDataRepositoryTaskRequest & CreateDataRepositoryTaskRequest & CreateDataRepositoryTaskRequest & CreateDataRepositoryTaskRequest & CreateDataRepositoryTaskRequest)[K]
+      [K in keyof CreateDataRepositoryTaskRequest]: (CreateDataRepositoryTaskRequest)[K]
     }>): Request<CreateDataRepositoryTaskResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDataRepositoryTask(
-          this.ops["CreateDataRepositoryTask"].applicator.apply(partialParams)
+          this.ops["CreateDataRepositoryTask"].apply(partialParams)
         );
     }
 
     invokeCreateFileSystem(partialParams: ToOptional<{
-      [K in keyof CreateFileSystemRequest & keyof CreateFileSystemRequest & keyof CreateFileSystemRequest & keyof CreateFileSystemRequest & keyof CreateFileSystemRequest & keyof CreateFileSystemRequest & keyof CreateFileSystemRequest & keyof CreateFileSystemRequest & keyof CreateFileSystemRequest & keyof CreateFileSystemRequest & keyof CreateFileSystemRequest & keyof CreateFileSystemRequest & keyof CreateFileSystemRequest & keyof CreateFileSystemRequest & keyof CreateFileSystemRequest & keyof CreateFileSystemRequest & keyof CreateFileSystemRequest & keyof CreateFileSystemRequest]: (CreateFileSystemRequest & CreateFileSystemRequest & CreateFileSystemRequest & CreateFileSystemRequest & CreateFileSystemRequest & CreateFileSystemRequest & CreateFileSystemRequest & CreateFileSystemRequest & CreateFileSystemRequest & CreateFileSystemRequest & CreateFileSystemRequest & CreateFileSystemRequest & CreateFileSystemRequest & CreateFileSystemRequest & CreateFileSystemRequest & CreateFileSystemRequest & CreateFileSystemRequest & CreateFileSystemRequest)[K]
+      [K in keyof CreateFileSystemRequest & keyof Omit<CreateFileSystemRequest, "SubnetIds">]: (CreateFileSystemRequest)[K]
     }>): Request<CreateFileSystemResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createFileSystem(
-          this.ops["CreateFileSystem"].applicator.apply(partialParams)
+          this.ops["CreateFileSystem"].apply(partialParams)
         );
     }
 
     invokeCreateFileSystemFromBackup(partialParams: ToOptional<{
-      [K in keyof CreateFileSystemFromBackupRequest & keyof CreateFileSystemFromBackupRequest & keyof Omit<CreateFileSystemFromBackupRequest, "BackupId"> & keyof CreateFileSystemFromBackupRequest & keyof CreateFileSystemFromBackupRequest & keyof CreateFileSystemFromBackupRequest & keyof CreateFileSystemFromBackupRequest & keyof CreateFileSystemFromBackupRequest & keyof CreateFileSystemFromBackupRequest & keyof CreateFileSystemFromBackupRequest & keyof CreateFileSystemFromBackupRequest & keyof CreateFileSystemFromBackupRequest & keyof CreateFileSystemFromBackupRequest & keyof CreateFileSystemFromBackupRequest & keyof CreateFileSystemFromBackupRequest & keyof CreateFileSystemFromBackupRequest & keyof CreateFileSystemFromBackupRequest & keyof CreateFileSystemFromBackupRequest]: (CreateFileSystemFromBackupRequest & CreateFileSystemFromBackupRequest & Omit<CreateFileSystemFromBackupRequest, "BackupId"> & CreateFileSystemFromBackupRequest & CreateFileSystemFromBackupRequest & CreateFileSystemFromBackupRequest & CreateFileSystemFromBackupRequest & CreateFileSystemFromBackupRequest & CreateFileSystemFromBackupRequest & CreateFileSystemFromBackupRequest & CreateFileSystemFromBackupRequest & CreateFileSystemFromBackupRequest & CreateFileSystemFromBackupRequest & CreateFileSystemFromBackupRequest & CreateFileSystemFromBackupRequest & CreateFileSystemFromBackupRequest & CreateFileSystemFromBackupRequest & CreateFileSystemFromBackupRequest)[K]
+      [K in keyof CreateFileSystemFromBackupRequest & keyof Omit<CreateFileSystemFromBackupRequest, "BackupId" | "SubnetIds">]: (CreateFileSystemFromBackupRequest)[K]
     }>): Request<CreateFileSystemFromBackupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createFileSystemFromBackup(
-          this.ops["CreateFileSystemFromBackup"].applicator.apply(partialParams)
+          this.ops["CreateFileSystemFromBackup"].apply(partialParams)
         );
     }
 
     invokeCreateSnapshot(partialParams: ToOptional<{
-      [K in keyof CreateSnapshotRequest & keyof CreateSnapshotRequest & keyof CreateSnapshotRequest & keyof CreateSnapshotRequest & keyof CreateSnapshotRequest & keyof CreateSnapshotRequest & keyof CreateSnapshotRequest & keyof CreateSnapshotRequest & keyof CreateSnapshotRequest & keyof CreateSnapshotRequest & keyof CreateSnapshotRequest & keyof CreateSnapshotRequest & keyof CreateSnapshotRequest & keyof CreateSnapshotRequest & keyof CreateSnapshotRequest & keyof CreateSnapshotRequest & keyof CreateSnapshotRequest & keyof CreateSnapshotRequest]: (CreateSnapshotRequest & CreateSnapshotRequest & CreateSnapshotRequest & CreateSnapshotRequest & CreateSnapshotRequest & CreateSnapshotRequest & CreateSnapshotRequest & CreateSnapshotRequest & CreateSnapshotRequest & CreateSnapshotRequest & CreateSnapshotRequest & CreateSnapshotRequest & CreateSnapshotRequest & CreateSnapshotRequest & CreateSnapshotRequest & CreateSnapshotRequest & CreateSnapshotRequest & CreateSnapshotRequest)[K]
+      [K in keyof CreateSnapshotRequest]: (CreateSnapshotRequest)[K]
     }>): Request<CreateSnapshotResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createSnapshot(
-          this.ops["CreateSnapshot"].applicator.apply(partialParams)
+          this.ops["CreateSnapshot"].apply(partialParams)
         );
     }
 
     invokeCreateStorageVirtualMachine(partialParams: ToOptional<{
-      [K in keyof CreateStorageVirtualMachineRequest & keyof CreateStorageVirtualMachineRequest & keyof CreateStorageVirtualMachineRequest & keyof CreateStorageVirtualMachineRequest & keyof CreateStorageVirtualMachineRequest & keyof CreateStorageVirtualMachineRequest & keyof CreateStorageVirtualMachineRequest & keyof CreateStorageVirtualMachineRequest & keyof CreateStorageVirtualMachineRequest & keyof CreateStorageVirtualMachineRequest & keyof CreateStorageVirtualMachineRequest & keyof CreateStorageVirtualMachineRequest & keyof CreateStorageVirtualMachineRequest & keyof CreateStorageVirtualMachineRequest & keyof CreateStorageVirtualMachineRequest & keyof CreateStorageVirtualMachineRequest & keyof CreateStorageVirtualMachineRequest & keyof CreateStorageVirtualMachineRequest]: (CreateStorageVirtualMachineRequest & CreateStorageVirtualMachineRequest & CreateStorageVirtualMachineRequest & CreateStorageVirtualMachineRequest & CreateStorageVirtualMachineRequest & CreateStorageVirtualMachineRequest & CreateStorageVirtualMachineRequest & CreateStorageVirtualMachineRequest & CreateStorageVirtualMachineRequest & CreateStorageVirtualMachineRequest & CreateStorageVirtualMachineRequest & CreateStorageVirtualMachineRequest & CreateStorageVirtualMachineRequest & CreateStorageVirtualMachineRequest & CreateStorageVirtualMachineRequest & CreateStorageVirtualMachineRequest & CreateStorageVirtualMachineRequest & CreateStorageVirtualMachineRequest)[K]
+      [K in keyof CreateStorageVirtualMachineRequest]: (CreateStorageVirtualMachineRequest)[K]
     }>): Request<CreateStorageVirtualMachineResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createStorageVirtualMachine(
-          this.ops["CreateStorageVirtualMachine"].applicator.apply(partialParams)
+          this.ops["CreateStorageVirtualMachine"].apply(partialParams)
         );
     }
 
     invokeCreateVolume(partialParams: ToOptional<{
-      [K in keyof CreateVolumeRequest & keyof CreateVolumeRequest & keyof CreateVolumeRequest & keyof CreateVolumeRequest & keyof CreateVolumeRequest & keyof CreateVolumeRequest & keyof CreateVolumeRequest & keyof CreateVolumeRequest & keyof CreateVolumeRequest & keyof CreateVolumeRequest & keyof CreateVolumeRequest & keyof CreateVolumeRequest & keyof CreateVolumeRequest & keyof CreateVolumeRequest & keyof CreateVolumeRequest & keyof CreateVolumeRequest & keyof CreateVolumeRequest & keyof CreateVolumeRequest]: (CreateVolumeRequest & CreateVolumeRequest & CreateVolumeRequest & CreateVolumeRequest & CreateVolumeRequest & CreateVolumeRequest & CreateVolumeRequest & CreateVolumeRequest & CreateVolumeRequest & CreateVolumeRequest & CreateVolumeRequest & CreateVolumeRequest & CreateVolumeRequest & CreateVolumeRequest & CreateVolumeRequest & CreateVolumeRequest & CreateVolumeRequest & CreateVolumeRequest)[K]
+      [K in keyof CreateVolumeRequest]: (CreateVolumeRequest)[K]
     }>): Request<CreateVolumeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createVolume(
-          this.ops["CreateVolume"].applicator.apply(partialParams)
+          this.ops["CreateVolume"].apply(partialParams)
         );
     }
 
     invokeCreateVolumeFromBackup(partialParams: ToOptional<{
-      [K in keyof CreateVolumeFromBackupRequest & keyof CreateVolumeFromBackupRequest & keyof Omit<CreateVolumeFromBackupRequest, "BackupId"> & keyof CreateVolumeFromBackupRequest & keyof CreateVolumeFromBackupRequest & keyof CreateVolumeFromBackupRequest & keyof CreateVolumeFromBackupRequest & keyof CreateVolumeFromBackupRequest & keyof CreateVolumeFromBackupRequest & keyof CreateVolumeFromBackupRequest & keyof CreateVolumeFromBackupRequest & keyof CreateVolumeFromBackupRequest & keyof CreateVolumeFromBackupRequest & keyof CreateVolumeFromBackupRequest & keyof CreateVolumeFromBackupRequest & keyof CreateVolumeFromBackupRequest & keyof CreateVolumeFromBackupRequest & keyof CreateVolumeFromBackupRequest]: (CreateVolumeFromBackupRequest & CreateVolumeFromBackupRequest & Omit<CreateVolumeFromBackupRequest, "BackupId"> & CreateVolumeFromBackupRequest & CreateVolumeFromBackupRequest & CreateVolumeFromBackupRequest & CreateVolumeFromBackupRequest & CreateVolumeFromBackupRequest & CreateVolumeFromBackupRequest & CreateVolumeFromBackupRequest & CreateVolumeFromBackupRequest & CreateVolumeFromBackupRequest & CreateVolumeFromBackupRequest & CreateVolumeFromBackupRequest & CreateVolumeFromBackupRequest & CreateVolumeFromBackupRequest & CreateVolumeFromBackupRequest & CreateVolumeFromBackupRequest)[K]
+      [K in keyof CreateVolumeFromBackupRequest & keyof Omit<CreateVolumeFromBackupRequest, "BackupId">]: (CreateVolumeFromBackupRequest)[K]
     }>): Request<CreateVolumeFromBackupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createVolumeFromBackup(
-          this.ops["CreateVolumeFromBackup"].applicator.apply(partialParams)
+          this.ops["CreateVolumeFromBackup"].apply(partialParams)
         );
     }
 
     invokeDeleteBackup(partialParams: ToOptional<{
-      [K in keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof Omit<DeleteBackupRequest, "BackupId"> & keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest]: (DeleteBackupRequest & DeleteBackupRequest & Omit<DeleteBackupRequest, "BackupId"> & DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest)[K]
+      [K in keyof DeleteBackupRequest & keyof Omit<DeleteBackupRequest, "BackupId">]: (DeleteBackupRequest)[K]
     }>): Request<DeleteBackupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteBackup(
-          this.ops["DeleteBackup"].applicator.apply(partialParams)
+          this.ops["DeleteBackup"].apply(partialParams)
         );
     }
 
     invokeDeleteDataRepositoryAssociation(partialParams: ToOptional<{
-      [K in keyof DeleteDataRepositoryAssociationRequest & keyof DeleteDataRepositoryAssociationRequest & keyof DeleteDataRepositoryAssociationRequest & keyof DeleteDataRepositoryAssociationRequest & keyof DeleteDataRepositoryAssociationRequest & keyof DeleteDataRepositoryAssociationRequest & keyof DeleteDataRepositoryAssociationRequest & keyof DeleteDataRepositoryAssociationRequest & keyof DeleteDataRepositoryAssociationRequest & keyof DeleteDataRepositoryAssociationRequest & keyof DeleteDataRepositoryAssociationRequest & keyof DeleteDataRepositoryAssociationRequest & keyof DeleteDataRepositoryAssociationRequest & keyof DeleteDataRepositoryAssociationRequest & keyof DeleteDataRepositoryAssociationRequest & keyof DeleteDataRepositoryAssociationRequest & keyof DeleteDataRepositoryAssociationRequest & keyof DeleteDataRepositoryAssociationRequest]: (DeleteDataRepositoryAssociationRequest & DeleteDataRepositoryAssociationRequest & DeleteDataRepositoryAssociationRequest & DeleteDataRepositoryAssociationRequest & DeleteDataRepositoryAssociationRequest & DeleteDataRepositoryAssociationRequest & DeleteDataRepositoryAssociationRequest & DeleteDataRepositoryAssociationRequest & DeleteDataRepositoryAssociationRequest & DeleteDataRepositoryAssociationRequest & DeleteDataRepositoryAssociationRequest & DeleteDataRepositoryAssociationRequest & DeleteDataRepositoryAssociationRequest & DeleteDataRepositoryAssociationRequest & DeleteDataRepositoryAssociationRequest & DeleteDataRepositoryAssociationRequest & DeleteDataRepositoryAssociationRequest & DeleteDataRepositoryAssociationRequest)[K]
+      [K in keyof DeleteDataRepositoryAssociationRequest]: (DeleteDataRepositoryAssociationRequest)[K]
     }>): Request<DeleteDataRepositoryAssociationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDataRepositoryAssociation(
-          this.ops["DeleteDataRepositoryAssociation"].applicator.apply(partialParams)
+          this.ops["DeleteDataRepositoryAssociation"].apply(partialParams)
         );
     }
 
     invokeDeleteFileSystem(partialParams: ToOptional<{
-      [K in keyof DeleteFileSystemRequest & keyof DeleteFileSystemRequest & keyof DeleteFileSystemRequest & keyof DeleteFileSystemRequest & keyof DeleteFileSystemRequest & keyof DeleteFileSystemRequest & keyof DeleteFileSystemRequest & keyof DeleteFileSystemRequest & keyof DeleteFileSystemRequest & keyof DeleteFileSystemRequest & keyof DeleteFileSystemRequest & keyof DeleteFileSystemRequest & keyof DeleteFileSystemRequest & keyof DeleteFileSystemRequest & keyof DeleteFileSystemRequest & keyof DeleteFileSystemRequest & keyof DeleteFileSystemRequest & keyof DeleteFileSystemRequest]: (DeleteFileSystemRequest & DeleteFileSystemRequest & DeleteFileSystemRequest & DeleteFileSystemRequest & DeleteFileSystemRequest & DeleteFileSystemRequest & DeleteFileSystemRequest & DeleteFileSystemRequest & DeleteFileSystemRequest & DeleteFileSystemRequest & DeleteFileSystemRequest & DeleteFileSystemRequest & DeleteFileSystemRequest & DeleteFileSystemRequest & DeleteFileSystemRequest & DeleteFileSystemRequest & DeleteFileSystemRequest & DeleteFileSystemRequest)[K]
+      [K in keyof DeleteFileSystemRequest]: (DeleteFileSystemRequest)[K]
     }>): Request<DeleteFileSystemResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteFileSystem(
-          this.ops["DeleteFileSystem"].applicator.apply(partialParams)
+          this.ops["DeleteFileSystem"].apply(partialParams)
         );
     }
 
     invokeDeleteSnapshot(partialParams: ToOptional<{
-      [K in keyof DeleteSnapshotRequest & keyof DeleteSnapshotRequest & keyof DeleteSnapshotRequest & keyof DeleteSnapshotRequest & keyof DeleteSnapshotRequest & keyof DeleteSnapshotRequest & keyof DeleteSnapshotRequest & keyof DeleteSnapshotRequest & keyof DeleteSnapshotRequest & keyof DeleteSnapshotRequest & keyof DeleteSnapshotRequest & keyof DeleteSnapshotRequest & keyof DeleteSnapshotRequest & keyof DeleteSnapshotRequest & keyof DeleteSnapshotRequest & keyof DeleteSnapshotRequest & keyof DeleteSnapshotRequest & keyof DeleteSnapshotRequest]: (DeleteSnapshotRequest & DeleteSnapshotRequest & DeleteSnapshotRequest & DeleteSnapshotRequest & DeleteSnapshotRequest & DeleteSnapshotRequest & DeleteSnapshotRequest & DeleteSnapshotRequest & DeleteSnapshotRequest & DeleteSnapshotRequest & DeleteSnapshotRequest & DeleteSnapshotRequest & DeleteSnapshotRequest & DeleteSnapshotRequest & DeleteSnapshotRequest & DeleteSnapshotRequest & DeleteSnapshotRequest & DeleteSnapshotRequest)[K]
+      [K in keyof DeleteSnapshotRequest]: (DeleteSnapshotRequest)[K]
     }>): Request<DeleteSnapshotResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteSnapshot(
-          this.ops["DeleteSnapshot"].applicator.apply(partialParams)
+          this.ops["DeleteSnapshot"].apply(partialParams)
         );
     }
 
     invokeDeleteStorageVirtualMachine(partialParams: ToOptional<{
-      [K in keyof DeleteStorageVirtualMachineRequest & keyof DeleteStorageVirtualMachineRequest & keyof DeleteStorageVirtualMachineRequest & keyof DeleteStorageVirtualMachineRequest & keyof DeleteStorageVirtualMachineRequest & keyof DeleteStorageVirtualMachineRequest & keyof DeleteStorageVirtualMachineRequest & keyof DeleteStorageVirtualMachineRequest & keyof DeleteStorageVirtualMachineRequest & keyof DeleteStorageVirtualMachineRequest & keyof DeleteStorageVirtualMachineRequest & keyof DeleteStorageVirtualMachineRequest & keyof DeleteStorageVirtualMachineRequest & keyof DeleteStorageVirtualMachineRequest & keyof DeleteStorageVirtualMachineRequest & keyof DeleteStorageVirtualMachineRequest & keyof DeleteStorageVirtualMachineRequest & keyof DeleteStorageVirtualMachineRequest]: (DeleteStorageVirtualMachineRequest & DeleteStorageVirtualMachineRequest & DeleteStorageVirtualMachineRequest & DeleteStorageVirtualMachineRequest & DeleteStorageVirtualMachineRequest & DeleteStorageVirtualMachineRequest & DeleteStorageVirtualMachineRequest & DeleteStorageVirtualMachineRequest & DeleteStorageVirtualMachineRequest & DeleteStorageVirtualMachineRequest & DeleteStorageVirtualMachineRequest & DeleteStorageVirtualMachineRequest & DeleteStorageVirtualMachineRequest & DeleteStorageVirtualMachineRequest & DeleteStorageVirtualMachineRequest & DeleteStorageVirtualMachineRequest & DeleteStorageVirtualMachineRequest & DeleteStorageVirtualMachineRequest)[K]
+      [K in keyof DeleteStorageVirtualMachineRequest]: (DeleteStorageVirtualMachineRequest)[K]
     }>): Request<DeleteStorageVirtualMachineResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteStorageVirtualMachine(
-          this.ops["DeleteStorageVirtualMachine"].applicator.apply(partialParams)
+          this.ops["DeleteStorageVirtualMachine"].apply(partialParams)
         );
     }
 
     invokeDeleteVolume(partialParams: ToOptional<{
-      [K in keyof DeleteVolumeRequest & keyof DeleteVolumeRequest & keyof DeleteVolumeRequest & keyof DeleteVolumeRequest & keyof DeleteVolumeRequest & keyof DeleteVolumeRequest & keyof DeleteVolumeRequest & keyof DeleteVolumeRequest & keyof DeleteVolumeRequest & keyof DeleteVolumeRequest & keyof DeleteVolumeRequest & keyof DeleteVolumeRequest & keyof DeleteVolumeRequest & keyof DeleteVolumeRequest & keyof DeleteVolumeRequest & keyof DeleteVolumeRequest & keyof DeleteVolumeRequest & keyof DeleteVolumeRequest]: (DeleteVolumeRequest & DeleteVolumeRequest & DeleteVolumeRequest & DeleteVolumeRequest & DeleteVolumeRequest & DeleteVolumeRequest & DeleteVolumeRequest & DeleteVolumeRequest & DeleteVolumeRequest & DeleteVolumeRequest & DeleteVolumeRequest & DeleteVolumeRequest & DeleteVolumeRequest & DeleteVolumeRequest & DeleteVolumeRequest & DeleteVolumeRequest & DeleteVolumeRequest & DeleteVolumeRequest)[K]
+      [K in keyof DeleteVolumeRequest]: (DeleteVolumeRequest)[K]
     }>): Request<DeleteVolumeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteVolume(
-          this.ops["DeleteVolume"].applicator.apply(partialParams)
+          this.ops["DeleteVolume"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeBackups(partialParams: ToOptional<{
+      [K in keyof DescribeBackupsRequest]: (DescribeBackupsRequest)[K]
+    }>): Request<DescribeBackupsResponse, AWSError> {
+        this.boot();
+        return this.client.describeBackups(
+          this.ops["DescribeBackups"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDataRepositoryAssociations(partialParams: ToOptional<{
+      [K in keyof DescribeDataRepositoryAssociationsRequest]: (DescribeDataRepositoryAssociationsRequest)[K]
+    }>): Request<DescribeDataRepositoryAssociationsResponse, AWSError> {
+        this.boot();
+        return this.client.describeDataRepositoryAssociations(
+          this.ops["DescribeDataRepositoryAssociations"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDataRepositoryTasks(partialParams: ToOptional<{
+      [K in keyof DescribeDataRepositoryTasksRequest]: (DescribeDataRepositoryTasksRequest)[K]
+    }>): Request<DescribeDataRepositoryTasksResponse, AWSError> {
+        this.boot();
+        return this.client.describeDataRepositoryTasks(
+          this.ops["DescribeDataRepositoryTasks"].apply(partialParams)
         );
     }
 
     invokeDescribeFileSystemAliases(partialParams: ToOptional<{
-      [K in keyof DescribeFileSystemAliasesRequest & keyof DescribeFileSystemAliasesRequest & keyof DescribeFileSystemAliasesRequest & keyof DescribeFileSystemAliasesRequest & keyof DescribeFileSystemAliasesRequest & keyof DescribeFileSystemAliasesRequest & keyof DescribeFileSystemAliasesRequest & keyof DescribeFileSystemAliasesRequest & keyof DescribeFileSystemAliasesRequest & keyof DescribeFileSystemAliasesRequest & keyof DescribeFileSystemAliasesRequest & keyof DescribeFileSystemAliasesRequest & keyof DescribeFileSystemAliasesRequest & keyof DescribeFileSystemAliasesRequest & keyof DescribeFileSystemAliasesRequest & keyof DescribeFileSystemAliasesRequest & keyof DescribeFileSystemAliasesRequest & keyof DescribeFileSystemAliasesRequest]: (DescribeFileSystemAliasesRequest & DescribeFileSystemAliasesRequest & DescribeFileSystemAliasesRequest & DescribeFileSystemAliasesRequest & DescribeFileSystemAliasesRequest & DescribeFileSystemAliasesRequest & DescribeFileSystemAliasesRequest & DescribeFileSystemAliasesRequest & DescribeFileSystemAliasesRequest & DescribeFileSystemAliasesRequest & DescribeFileSystemAliasesRequest & DescribeFileSystemAliasesRequest & DescribeFileSystemAliasesRequest & DescribeFileSystemAliasesRequest & DescribeFileSystemAliasesRequest & DescribeFileSystemAliasesRequest & DescribeFileSystemAliasesRequest & DescribeFileSystemAliasesRequest)[K]
+      [K in keyof DescribeFileSystemAliasesRequest]: (DescribeFileSystemAliasesRequest)[K]
     }>): Request<DescribeFileSystemAliasesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeFileSystemAliases(
-          this.ops["DescribeFileSystemAliases"].applicator.apply(partialParams)
+          this.ops["DescribeFileSystemAliases"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeFileSystems(partialParams: ToOptional<{
+      [K in keyof DescribeFileSystemsRequest]: (DescribeFileSystemsRequest)[K]
+    }>): Request<DescribeFileSystemsResponse, AWSError> {
+        this.boot();
+        return this.client.describeFileSystems(
+          this.ops["DescribeFileSystems"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeSnapshots(partialParams: ToOptional<{
+      [K in keyof DescribeSnapshotsRequest]: (DescribeSnapshotsRequest)[K]
+    }>): Request<DescribeSnapshotsResponse, AWSError> {
+        this.boot();
+        return this.client.describeSnapshots(
+          this.ops["DescribeSnapshots"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeStorageVirtualMachines(partialParams: ToOptional<{
+      [K in keyof DescribeStorageVirtualMachinesRequest]: (DescribeStorageVirtualMachinesRequest)[K]
+    }>): Request<DescribeStorageVirtualMachinesResponse, AWSError> {
+        this.boot();
+        return this.client.describeStorageVirtualMachines(
+          this.ops["DescribeStorageVirtualMachines"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeVolumes(partialParams: ToOptional<{
+      [K in keyof DescribeVolumesRequest]: (DescribeVolumesRequest)[K]
+    }>): Request<DescribeVolumesResponse, AWSError> {
+        this.boot();
+        return this.client.describeVolumes(
+          this.ops["DescribeVolumes"].apply(partialParams)
         );
     }
 
     invokeDisassociateFileSystemAliases(partialParams: ToOptional<{
-      [K in keyof DisassociateFileSystemAliasesRequest & keyof DisassociateFileSystemAliasesRequest & keyof DisassociateFileSystemAliasesRequest & keyof DisassociateFileSystemAliasesRequest & keyof DisassociateFileSystemAliasesRequest & keyof DisassociateFileSystemAliasesRequest & keyof DisassociateFileSystemAliasesRequest & keyof DisassociateFileSystemAliasesRequest & keyof DisassociateFileSystemAliasesRequest & keyof DisassociateFileSystemAliasesRequest & keyof DisassociateFileSystemAliasesRequest & keyof DisassociateFileSystemAliasesRequest & keyof DisassociateFileSystemAliasesRequest & keyof DisassociateFileSystemAliasesRequest & keyof DisassociateFileSystemAliasesRequest & keyof DisassociateFileSystemAliasesRequest & keyof DisassociateFileSystemAliasesRequest & keyof DisassociateFileSystemAliasesRequest]: (DisassociateFileSystemAliasesRequest & DisassociateFileSystemAliasesRequest & DisassociateFileSystemAliasesRequest & DisassociateFileSystemAliasesRequest & DisassociateFileSystemAliasesRequest & DisassociateFileSystemAliasesRequest & DisassociateFileSystemAliasesRequest & DisassociateFileSystemAliasesRequest & DisassociateFileSystemAliasesRequest & DisassociateFileSystemAliasesRequest & DisassociateFileSystemAliasesRequest & DisassociateFileSystemAliasesRequest & DisassociateFileSystemAliasesRequest & DisassociateFileSystemAliasesRequest & DisassociateFileSystemAliasesRequest & DisassociateFileSystemAliasesRequest & DisassociateFileSystemAliasesRequest & DisassociateFileSystemAliasesRequest)[K]
+      [K in keyof DisassociateFileSystemAliasesRequest]: (DisassociateFileSystemAliasesRequest)[K]
     }>): Request<DisassociateFileSystemAliasesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateFileSystemAliases(
-          this.ops["DisassociateFileSystemAliases"].applicator.apply(partialParams)
+          this.ops["DisassociateFileSystemAliases"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeReleaseFileSystemNfsV3Locks(partialParams: ToOptional<{
-      [K in keyof ReleaseFileSystemNfsV3LocksRequest & keyof ReleaseFileSystemNfsV3LocksRequest & keyof ReleaseFileSystemNfsV3LocksRequest & keyof ReleaseFileSystemNfsV3LocksRequest & keyof ReleaseFileSystemNfsV3LocksRequest & keyof ReleaseFileSystemNfsV3LocksRequest & keyof ReleaseFileSystemNfsV3LocksRequest & keyof ReleaseFileSystemNfsV3LocksRequest & keyof ReleaseFileSystemNfsV3LocksRequest & keyof ReleaseFileSystemNfsV3LocksRequest & keyof ReleaseFileSystemNfsV3LocksRequest & keyof ReleaseFileSystemNfsV3LocksRequest & keyof ReleaseFileSystemNfsV3LocksRequest & keyof ReleaseFileSystemNfsV3LocksRequest & keyof ReleaseFileSystemNfsV3LocksRequest & keyof ReleaseFileSystemNfsV3LocksRequest & keyof ReleaseFileSystemNfsV3LocksRequest & keyof ReleaseFileSystemNfsV3LocksRequest]: (ReleaseFileSystemNfsV3LocksRequest & ReleaseFileSystemNfsV3LocksRequest & ReleaseFileSystemNfsV3LocksRequest & ReleaseFileSystemNfsV3LocksRequest & ReleaseFileSystemNfsV3LocksRequest & ReleaseFileSystemNfsV3LocksRequest & ReleaseFileSystemNfsV3LocksRequest & ReleaseFileSystemNfsV3LocksRequest & ReleaseFileSystemNfsV3LocksRequest & ReleaseFileSystemNfsV3LocksRequest & ReleaseFileSystemNfsV3LocksRequest & ReleaseFileSystemNfsV3LocksRequest & ReleaseFileSystemNfsV3LocksRequest & ReleaseFileSystemNfsV3LocksRequest & ReleaseFileSystemNfsV3LocksRequest & ReleaseFileSystemNfsV3LocksRequest & ReleaseFileSystemNfsV3LocksRequest & ReleaseFileSystemNfsV3LocksRequest)[K]
+      [K in keyof ReleaseFileSystemNfsV3LocksRequest]: (ReleaseFileSystemNfsV3LocksRequest)[K]
     }>): Request<ReleaseFileSystemNfsV3LocksResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.releaseFileSystemNfsV3Locks(
-          this.ops["ReleaseFileSystemNfsV3Locks"].applicator.apply(partialParams)
+          this.ops["ReleaseFileSystemNfsV3Locks"].apply(partialParams)
         );
     }
 
     invokeRestoreVolumeFromSnapshot(partialParams: ToOptional<{
-      [K in keyof RestoreVolumeFromSnapshotRequest & keyof RestoreVolumeFromSnapshotRequest & keyof RestoreVolumeFromSnapshotRequest & keyof RestoreVolumeFromSnapshotRequest & keyof RestoreVolumeFromSnapshotRequest & keyof RestoreVolumeFromSnapshotRequest & keyof RestoreVolumeFromSnapshotRequest & keyof RestoreVolumeFromSnapshotRequest & keyof RestoreVolumeFromSnapshotRequest & keyof RestoreVolumeFromSnapshotRequest & keyof RestoreVolumeFromSnapshotRequest & keyof RestoreVolumeFromSnapshotRequest & keyof RestoreVolumeFromSnapshotRequest & keyof RestoreVolumeFromSnapshotRequest & keyof RestoreVolumeFromSnapshotRequest & keyof RestoreVolumeFromSnapshotRequest & keyof RestoreVolumeFromSnapshotRequest & keyof RestoreVolumeFromSnapshotRequest]: (RestoreVolumeFromSnapshotRequest & RestoreVolumeFromSnapshotRequest & RestoreVolumeFromSnapshotRequest & RestoreVolumeFromSnapshotRequest & RestoreVolumeFromSnapshotRequest & RestoreVolumeFromSnapshotRequest & RestoreVolumeFromSnapshotRequest & RestoreVolumeFromSnapshotRequest & RestoreVolumeFromSnapshotRequest & RestoreVolumeFromSnapshotRequest & RestoreVolumeFromSnapshotRequest & RestoreVolumeFromSnapshotRequest & RestoreVolumeFromSnapshotRequest & RestoreVolumeFromSnapshotRequest & RestoreVolumeFromSnapshotRequest & RestoreVolumeFromSnapshotRequest & RestoreVolumeFromSnapshotRequest & RestoreVolumeFromSnapshotRequest)[K]
+      [K in keyof RestoreVolumeFromSnapshotRequest]: (RestoreVolumeFromSnapshotRequest)[K]
     }>): Request<RestoreVolumeFromSnapshotResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.restoreVolumeFromSnapshot(
-          this.ops["RestoreVolumeFromSnapshot"].applicator.apply(partialParams)
+          this.ops["RestoreVolumeFromSnapshot"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateDataRepositoryAssociation(partialParams: ToOptional<{
-      [K in keyof UpdateDataRepositoryAssociationRequest & keyof UpdateDataRepositoryAssociationRequest & keyof UpdateDataRepositoryAssociationRequest & keyof UpdateDataRepositoryAssociationRequest & keyof UpdateDataRepositoryAssociationRequest & keyof UpdateDataRepositoryAssociationRequest & keyof UpdateDataRepositoryAssociationRequest & keyof UpdateDataRepositoryAssociationRequest & keyof UpdateDataRepositoryAssociationRequest & keyof UpdateDataRepositoryAssociationRequest & keyof UpdateDataRepositoryAssociationRequest & keyof UpdateDataRepositoryAssociationRequest & keyof UpdateDataRepositoryAssociationRequest & keyof UpdateDataRepositoryAssociationRequest & keyof UpdateDataRepositoryAssociationRequest & keyof UpdateDataRepositoryAssociationRequest & keyof UpdateDataRepositoryAssociationRequest & keyof UpdateDataRepositoryAssociationRequest]: (UpdateDataRepositoryAssociationRequest & UpdateDataRepositoryAssociationRequest & UpdateDataRepositoryAssociationRequest & UpdateDataRepositoryAssociationRequest & UpdateDataRepositoryAssociationRequest & UpdateDataRepositoryAssociationRequest & UpdateDataRepositoryAssociationRequest & UpdateDataRepositoryAssociationRequest & UpdateDataRepositoryAssociationRequest & UpdateDataRepositoryAssociationRequest & UpdateDataRepositoryAssociationRequest & UpdateDataRepositoryAssociationRequest & UpdateDataRepositoryAssociationRequest & UpdateDataRepositoryAssociationRequest & UpdateDataRepositoryAssociationRequest & UpdateDataRepositoryAssociationRequest & UpdateDataRepositoryAssociationRequest & UpdateDataRepositoryAssociationRequest)[K]
+      [K in keyof UpdateDataRepositoryAssociationRequest]: (UpdateDataRepositoryAssociationRequest)[K]
     }>): Request<UpdateDataRepositoryAssociationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDataRepositoryAssociation(
-          this.ops["UpdateDataRepositoryAssociation"].applicator.apply(partialParams)
+          this.ops["UpdateDataRepositoryAssociation"].apply(partialParams)
         );
     }
 
     invokeUpdateFileSystem(partialParams: ToOptional<{
-      [K in keyof UpdateFileSystemRequest & keyof UpdateFileSystemRequest & keyof UpdateFileSystemRequest & keyof UpdateFileSystemRequest & keyof UpdateFileSystemRequest & keyof UpdateFileSystemRequest & keyof UpdateFileSystemRequest & keyof UpdateFileSystemRequest & keyof UpdateFileSystemRequest & keyof UpdateFileSystemRequest & keyof UpdateFileSystemRequest & keyof UpdateFileSystemRequest & keyof UpdateFileSystemRequest & keyof UpdateFileSystemRequest & keyof UpdateFileSystemRequest & keyof UpdateFileSystemRequest & keyof UpdateFileSystemRequest & keyof UpdateFileSystemRequest]: (UpdateFileSystemRequest & UpdateFileSystemRequest & UpdateFileSystemRequest & UpdateFileSystemRequest & UpdateFileSystemRequest & UpdateFileSystemRequest & UpdateFileSystemRequest & UpdateFileSystemRequest & UpdateFileSystemRequest & UpdateFileSystemRequest & UpdateFileSystemRequest & UpdateFileSystemRequest & UpdateFileSystemRequest & UpdateFileSystemRequest & UpdateFileSystemRequest & UpdateFileSystemRequest & UpdateFileSystemRequest & UpdateFileSystemRequest)[K]
+      [K in keyof UpdateFileSystemRequest]: (UpdateFileSystemRequest)[K]
     }>): Request<UpdateFileSystemResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateFileSystem(
-          this.ops["UpdateFileSystem"].applicator.apply(partialParams)
+          this.ops["UpdateFileSystem"].apply(partialParams)
         );
     }
 
     invokeUpdateSnapshot(partialParams: ToOptional<{
-      [K in keyof UpdateSnapshotRequest & keyof UpdateSnapshotRequest & keyof UpdateSnapshotRequest & keyof UpdateSnapshotRequest & keyof UpdateSnapshotRequest & keyof UpdateSnapshotRequest & keyof UpdateSnapshotRequest & keyof UpdateSnapshotRequest & keyof UpdateSnapshotRequest & keyof UpdateSnapshotRequest & keyof UpdateSnapshotRequest & keyof UpdateSnapshotRequest & keyof UpdateSnapshotRequest & keyof UpdateSnapshotRequest & keyof UpdateSnapshotRequest & keyof UpdateSnapshotRequest & keyof UpdateSnapshotRequest & keyof UpdateSnapshotRequest]: (UpdateSnapshotRequest & UpdateSnapshotRequest & UpdateSnapshotRequest & UpdateSnapshotRequest & UpdateSnapshotRequest & UpdateSnapshotRequest & UpdateSnapshotRequest & UpdateSnapshotRequest & UpdateSnapshotRequest & UpdateSnapshotRequest & UpdateSnapshotRequest & UpdateSnapshotRequest & UpdateSnapshotRequest & UpdateSnapshotRequest & UpdateSnapshotRequest & UpdateSnapshotRequest & UpdateSnapshotRequest & UpdateSnapshotRequest)[K]
+      [K in keyof UpdateSnapshotRequest]: (UpdateSnapshotRequest)[K]
     }>): Request<UpdateSnapshotResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateSnapshot(
-          this.ops["UpdateSnapshot"].applicator.apply(partialParams)
+          this.ops["UpdateSnapshot"].apply(partialParams)
         );
     }
 
     invokeUpdateStorageVirtualMachine(partialParams: ToOptional<{
-      [K in keyof UpdateStorageVirtualMachineRequest & keyof UpdateStorageVirtualMachineRequest & keyof UpdateStorageVirtualMachineRequest & keyof UpdateStorageVirtualMachineRequest & keyof UpdateStorageVirtualMachineRequest & keyof UpdateStorageVirtualMachineRequest & keyof UpdateStorageVirtualMachineRequest & keyof UpdateStorageVirtualMachineRequest & keyof UpdateStorageVirtualMachineRequest & keyof UpdateStorageVirtualMachineRequest & keyof UpdateStorageVirtualMachineRequest & keyof UpdateStorageVirtualMachineRequest & keyof UpdateStorageVirtualMachineRequest & keyof UpdateStorageVirtualMachineRequest & keyof UpdateStorageVirtualMachineRequest & keyof UpdateStorageVirtualMachineRequest & keyof UpdateStorageVirtualMachineRequest & keyof UpdateStorageVirtualMachineRequest]: (UpdateStorageVirtualMachineRequest & UpdateStorageVirtualMachineRequest & UpdateStorageVirtualMachineRequest & UpdateStorageVirtualMachineRequest & UpdateStorageVirtualMachineRequest & UpdateStorageVirtualMachineRequest & UpdateStorageVirtualMachineRequest & UpdateStorageVirtualMachineRequest & UpdateStorageVirtualMachineRequest & UpdateStorageVirtualMachineRequest & UpdateStorageVirtualMachineRequest & UpdateStorageVirtualMachineRequest & UpdateStorageVirtualMachineRequest & UpdateStorageVirtualMachineRequest & UpdateStorageVirtualMachineRequest & UpdateStorageVirtualMachineRequest & UpdateStorageVirtualMachineRequest & UpdateStorageVirtualMachineRequest)[K]
+      [K in keyof UpdateStorageVirtualMachineRequest]: (UpdateStorageVirtualMachineRequest)[K]
     }>): Request<UpdateStorageVirtualMachineResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateStorageVirtualMachine(
-          this.ops["UpdateStorageVirtualMachine"].applicator.apply(partialParams)
+          this.ops["UpdateStorageVirtualMachine"].apply(partialParams)
         );
     }
 
     invokeUpdateVolume(partialParams: ToOptional<{
-      [K in keyof UpdateVolumeRequest & keyof UpdateVolumeRequest & keyof UpdateVolumeRequest & keyof UpdateVolumeRequest & keyof UpdateVolumeRequest & keyof UpdateVolumeRequest & keyof UpdateVolumeRequest & keyof UpdateVolumeRequest & keyof UpdateVolumeRequest & keyof UpdateVolumeRequest & keyof UpdateVolumeRequest & keyof UpdateVolumeRequest & keyof UpdateVolumeRequest & keyof UpdateVolumeRequest & keyof UpdateVolumeRequest & keyof UpdateVolumeRequest & keyof UpdateVolumeRequest & keyof UpdateVolumeRequest]: (UpdateVolumeRequest & UpdateVolumeRequest & UpdateVolumeRequest & UpdateVolumeRequest & UpdateVolumeRequest & UpdateVolumeRequest & UpdateVolumeRequest & UpdateVolumeRequest & UpdateVolumeRequest & UpdateVolumeRequest & UpdateVolumeRequest & UpdateVolumeRequest & UpdateVolumeRequest & UpdateVolumeRequest & UpdateVolumeRequest & UpdateVolumeRequest & UpdateVolumeRequest & UpdateVolumeRequest)[K]
+      [K in keyof UpdateVolumeRequest]: (UpdateVolumeRequest)[K]
     }>): Request<UpdateVolumeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateVolume(
-          this.ops["UpdateVolume"].applicator.apply(partialParams)
+          this.ops["UpdateVolume"].apply(partialParams)
         );
     }
 }

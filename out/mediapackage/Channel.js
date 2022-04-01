@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.mediapackage.Channel {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.MediaPackage();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,103 +50,76 @@ class default_1 extends aws.mediapackage.Channel {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeConfigureLogs(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.configureLogs(this.ops["ConfigureLogs"].applicator.apply(partialParams));
+        return this.client.configureLogs(this.ops["ConfigureLogs"].apply(partialParams));
     }
     invokeCreateChannel(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createChannel(this.ops["CreateChannel"].applicator.apply(partialParams));
+        return this.client.createChannel(this.ops["CreateChannel"].apply(partialParams));
     }
     invokeCreateHarvestJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createHarvestJob(this.ops["CreateHarvestJob"].applicator.apply(partialParams));
+        return this.client.createHarvestJob(this.ops["CreateHarvestJob"].apply(partialParams));
     }
     invokeCreateOriginEndpoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createOriginEndpoint(this.ops["CreateOriginEndpoint"].applicator.apply(partialParams));
+        return this.client.createOriginEndpoint(this.ops["CreateOriginEndpoint"].apply(partialParams));
     }
     invokeDeleteChannel(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteChannel(this.ops["DeleteChannel"].applicator.apply(partialParams));
+        return this.client.deleteChannel(this.ops["DeleteChannel"].apply(partialParams));
     }
     invokeDeleteOriginEndpoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteOriginEndpoint(this.ops["DeleteOriginEndpoint"].applicator.apply(partialParams));
+        return this.client.deleteOriginEndpoint(this.ops["DeleteOriginEndpoint"].apply(partialParams));
     }
     invokeDescribeChannel(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeChannel(this.ops["DescribeChannel"].applicator.apply(partialParams));
+        return this.client.describeChannel(this.ops["DescribeChannel"].apply(partialParams));
     }
     invokeDescribeHarvestJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeHarvestJob(this.ops["DescribeHarvestJob"].applicator.apply(partialParams));
+        return this.client.describeHarvestJob(this.ops["DescribeHarvestJob"].apply(partialParams));
     }
     invokeDescribeOriginEndpoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeOriginEndpoint(this.ops["DescribeOriginEndpoint"].applicator.apply(partialParams));
+        return this.client.describeOriginEndpoint(this.ops["DescribeOriginEndpoint"].apply(partialParams));
+    }
+    invokeListChannels(partialParams) {
+        this.boot();
+        return this.client.listChannels(this.ops["ListChannels"].apply(partialParams));
+    }
+    invokeListHarvestJobs(partialParams) {
+        this.boot();
+        return this.client.listHarvestJobs(this.ops["ListHarvestJobs"].apply(partialParams));
+    }
+    invokeListOriginEndpoints(partialParams) {
+        this.boot();
+        return this.client.listOriginEndpoints(this.ops["ListOriginEndpoints"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeRotateChannelCredentials(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.rotateChannelCredentials(this.ops["RotateChannelCredentials"].applicator.apply(partialParams));
+        return this.client.rotateChannelCredentials(this.ops["RotateChannelCredentials"].apply(partialParams));
     }
     invokeRotateIngestEndpointCredentials(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.rotateIngestEndpointCredentials(this.ops["RotateIngestEndpointCredentials"].applicator.apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.rotateIngestEndpointCredentials(this.ops["RotateIngestEndpointCredentials"].apply(partialParams));
     }
     invokeUpdateChannel(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateChannel(this.ops["UpdateChannel"].applicator.apply(partialParams));
+        return this.client.updateChannel(this.ops["UpdateChannel"].apply(partialParams));
     }
     invokeUpdateOriginEndpoint(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateOriginEndpoint(this.ops["UpdateOriginEndpoint"].applicator.apply(partialParams));
+        return this.client.updateOriginEndpoint(this.ops["UpdateOriginEndpoint"].apply(partialParams));
     }
 }
 exports.default = default_1;

@@ -7,6 +7,7 @@ import {AWSError} from 'aws-sdk/lib/error';
 import {
     CreateLifecyclePolicyRequest,
     DeleteLifecyclePolicyRequest,
+    GetLifecyclePoliciesRequest,
     GetLifecyclePolicyRequest,
     ListTagsForResourceRequest,
     TagResourceRequest,
@@ -14,6 +15,7 @@ import {
     UpdateLifecyclePolicyRequest,
     CreateLifecyclePolicyResponse,
     DeleteLifecyclePolicyResponse,
+    GetLifecyclePoliciesResponse,
     GetLifecyclePolicyResponse,
     ListTagsForResourceResponse,
     TagResourceResponse,
@@ -33,21 +35,24 @@ export default class extends aws.dlm.LifecyclePolicy {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.dlm.LifecyclePolicy>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.DLM()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -57,83 +62,79 @@ export default class extends aws.dlm.LifecyclePolicy {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCreateLifecyclePolicy(partialParams: ToOptional<{
-      [K in keyof CreateLifecyclePolicyRequest & keyof CreateLifecyclePolicyRequest & keyof CreateLifecyclePolicyRequest & keyof CreateLifecyclePolicyRequest]: (CreateLifecyclePolicyRequest & CreateLifecyclePolicyRequest & CreateLifecyclePolicyRequest & CreateLifecyclePolicyRequest)[K]
+      [K in keyof CreateLifecyclePolicyRequest & keyof Omit<CreateLifecyclePolicyRequest, "ExecutionRoleArn" | "Description" | "State">]: (CreateLifecyclePolicyRequest)[K]
     }>): Request<CreateLifecyclePolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createLifecyclePolicy(
-          this.ops["CreateLifecyclePolicy"].applicator.apply(partialParams)
+          this.ops["CreateLifecyclePolicy"].apply(partialParams)
         );
     }
 
     invokeDeleteLifecyclePolicy(partialParams: ToOptional<{
-      [K in keyof DeleteLifecyclePolicyRequest & keyof DeleteLifecyclePolicyRequest & keyof DeleteLifecyclePolicyRequest & keyof DeleteLifecyclePolicyRequest]: (DeleteLifecyclePolicyRequest & DeleteLifecyclePolicyRequest & DeleteLifecyclePolicyRequest & DeleteLifecyclePolicyRequest)[K]
+      [K in keyof DeleteLifecyclePolicyRequest]: (DeleteLifecyclePolicyRequest)[K]
     }>): Request<DeleteLifecyclePolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteLifecyclePolicy(
-          this.ops["DeleteLifecyclePolicy"].applicator.apply(partialParams)
+          this.ops["DeleteLifecyclePolicy"].apply(partialParams)
+        );
+    }
+
+    invokeGetLifecyclePolicies(partialParams: ToOptional<{
+      [K in keyof GetLifecyclePoliciesRequest]: (GetLifecyclePoliciesRequest)[K]
+    }>): Request<GetLifecyclePoliciesResponse, AWSError> {
+        this.boot();
+        return this.client.getLifecyclePolicies(
+          this.ops["GetLifecyclePolicies"].apply(partialParams)
         );
     }
 
     invokeGetLifecyclePolicy(partialParams: ToOptional<{
-      [K in keyof GetLifecyclePolicyRequest & keyof GetLifecyclePolicyRequest & keyof GetLifecyclePolicyRequest & keyof GetLifecyclePolicyRequest]: (GetLifecyclePolicyRequest & GetLifecyclePolicyRequest & GetLifecyclePolicyRequest & GetLifecyclePolicyRequest)[K]
+      [K in keyof GetLifecyclePolicyRequest]: (GetLifecyclePolicyRequest)[K]
     }>): Request<GetLifecyclePolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getLifecyclePolicy(
-          this.ops["GetLifecyclePolicy"].applicator.apply(partialParams)
+          this.ops["GetLifecyclePolicy"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateLifecyclePolicy(partialParams: ToOptional<{
-      [K in keyof UpdateLifecyclePolicyRequest & keyof UpdateLifecyclePolicyRequest & keyof UpdateLifecyclePolicyRequest & keyof UpdateLifecyclePolicyRequest]: (UpdateLifecyclePolicyRequest & UpdateLifecyclePolicyRequest & UpdateLifecyclePolicyRequest & UpdateLifecyclePolicyRequest)[K]
+      [K in keyof UpdateLifecyclePolicyRequest]: (UpdateLifecyclePolicyRequest)[K]
     }>): Request<UpdateLifecyclePolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateLifecyclePolicy(
-          this.ops["UpdateLifecyclePolicy"].applicator.apply(partialParams)
+          this.ops["UpdateLifecyclePolicy"].apply(partialParams)
         );
     }
 }

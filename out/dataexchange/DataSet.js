@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.dataexchange.DataSet {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.DataExchange();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,157 +50,92 @@ class default_1 extends aws.dataexchange.DataSet {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
-    }
-    invokeCancelJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.cancelJob(this.ops["CancelJob"].applicator.apply(partialParams));
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeCreateDataSet(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDataSet(this.ops["CreateDataSet"].applicator.apply(partialParams));
+        return this.client.createDataSet(this.ops["CreateDataSet"].apply(partialParams));
     }
     invokeCreateEventAction(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createEventAction(this.ops["CreateEventAction"].applicator.apply(partialParams));
+        return this.client.createEventAction(this.ops["CreateEventAction"].apply(partialParams));
     }
     invokeCreateJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createJob(this.ops["CreateJob"].applicator.apply(partialParams));
+        return this.client.createJob(this.ops["CreateJob"].apply(partialParams));
     }
     invokeCreateRevision(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createRevision(this.ops["CreateRevision"].applicator.apply(partialParams));
-    }
-    invokeDeleteAsset(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteAsset(this.ops["DeleteAsset"].applicator.apply(partialParams));
-    }
-    invokeDeleteDataSet(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteDataSet(this.ops["DeleteDataSet"].applicator.apply(partialParams));
-    }
-    invokeDeleteEventAction(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteEventAction(this.ops["DeleteEventAction"].applicator.apply(partialParams));
-    }
-    invokeDeleteRevision(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteRevision(this.ops["DeleteRevision"].applicator.apply(partialParams));
+        return this.client.createRevision(this.ops["CreateRevision"].apply(partialParams));
     }
     invokeGetAsset(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getAsset(this.ops["GetAsset"].applicator.apply(partialParams));
+        return this.client.getAsset(this.ops["GetAsset"].apply(partialParams));
     }
     invokeGetDataSet(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getDataSet(this.ops["GetDataSet"].applicator.apply(partialParams));
+        return this.client.getDataSet(this.ops["GetDataSet"].apply(partialParams));
     }
     invokeGetEventAction(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getEventAction(this.ops["GetEventAction"].applicator.apply(partialParams));
+        return this.client.getEventAction(this.ops["GetEventAction"].apply(partialParams));
     }
     invokeGetJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getJob(this.ops["GetJob"].applicator.apply(partialParams));
+        return this.client.getJob(this.ops["GetJob"].apply(partialParams));
     }
     invokeGetRevision(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getRevision(this.ops["GetRevision"].applicator.apply(partialParams));
+        return this.client.getRevision(this.ops["GetRevision"].apply(partialParams));
     }
     invokeListDataSetRevisions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listDataSetRevisions(this.ops["ListDataSetRevisions"].applicator.apply(partialParams));
+        return this.client.listDataSetRevisions(this.ops["ListDataSetRevisions"].apply(partialParams));
+    }
+    invokeListDataSets(partialParams) {
+        this.boot();
+        return this.client.listDataSets(this.ops["ListDataSets"].apply(partialParams));
+    }
+    invokeListEventActions(partialParams) {
+        this.boot();
+        return this.client.listEventActions(this.ops["ListEventActions"].apply(partialParams));
+    }
+    invokeListJobs(partialParams) {
+        this.boot();
+        return this.client.listJobs(this.ops["ListJobs"].apply(partialParams));
     }
     invokeListRevisionAssets(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listRevisionAssets(this.ops["ListRevisionAssets"].applicator.apply(partialParams));
+        return this.client.listRevisionAssets(this.ops["ListRevisionAssets"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeSendApiAsset(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.sendApiAsset(this.ops["SendApiAsset"].applicator.apply(partialParams));
+        return this.client.sendApiAsset(this.ops["SendApiAsset"].apply(partialParams));
     }
     invokeStartJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startJob(this.ops["StartJob"].applicator.apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.startJob(this.ops["StartJob"].apply(partialParams));
     }
     invokeUpdateAsset(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateAsset(this.ops["UpdateAsset"].applicator.apply(partialParams));
+        return this.client.updateAsset(this.ops["UpdateAsset"].apply(partialParams));
     }
     invokeUpdateDataSet(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateDataSet(this.ops["UpdateDataSet"].applicator.apply(partialParams));
+        return this.client.updateDataSet(this.ops["UpdateDataSet"].apply(partialParams));
     }
     invokeUpdateEventAction(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateEventAction(this.ops["UpdateEventAction"].applicator.apply(partialParams));
+        return this.client.updateEventAction(this.ops["UpdateEventAction"].apply(partialParams));
     }
     invokeUpdateRevision(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateRevision(this.ops["UpdateRevision"].applicator.apply(partialParams));
+        return this.client.updateRevision(this.ops["UpdateRevision"].apply(partialParams));
     }
 }
 exports.default = default_1;

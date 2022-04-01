@@ -28,6 +28,7 @@ import {
     GetPermissionPolicyRequest,
     GetRateBasedStatementManagedKeysRequest,
     GetRegexPatternSetRequest,
+    GetRuleGroupRequest,
     GetSampledRequestsRequest,
     GetWebACLRequest,
     GetWebACLForResourceRequest,
@@ -75,6 +76,7 @@ import {
     GetPermissionPolicyResponse,
     GetRateBasedStatementManagedKeysResponse,
     GetRegexPatternSetResponse,
+    GetRuleGroupResponse,
     GetSampledRequestsResponse,
     GetWebACLResponse,
     GetWebACLForResourceResponse,
@@ -113,21 +115,24 @@ export default class extends aws.wafv2.WebAclAssociation {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.wafv2.WebAclAssociation>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.WAFV2()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -137,523 +142,439 @@ export default class extends aws.wafv2.WebAclAssociation {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAssociateWebACL(partialParams: ToOptional<{
-      [K in keyof AssociateWebACLRequest & keyof AssociateWebACLRequest]: (AssociateWebACLRequest & AssociateWebACLRequest)[K]
+      [K in keyof AssociateWebACLRequest & keyof Omit<AssociateWebACLRequest, "ResourceArn">]: (AssociateWebACLRequest)[K]
     }>): Request<AssociateWebACLResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateWebACL(
-          this.ops["AssociateWebACL"].applicator.apply(partialParams)
+          this.ops["AssociateWebACL"].apply(partialParams)
         );
     }
 
     invokeCheckCapacity(partialParams: ToOptional<{
-      [K in keyof CheckCapacityRequest & keyof CheckCapacityRequest]: (CheckCapacityRequest & CheckCapacityRequest)[K]
+      [K in keyof CheckCapacityRequest]: (CheckCapacityRequest)[K]
     }>): Request<CheckCapacityResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.checkCapacity(
-          this.ops["CheckCapacity"].applicator.apply(partialParams)
+          this.ops["CheckCapacity"].apply(partialParams)
         );
     }
 
     invokeCreateIPSet(partialParams: ToOptional<{
-      [K in keyof CreateIPSetRequest & keyof CreateIPSetRequest]: (CreateIPSetRequest & CreateIPSetRequest)[K]
+      [K in keyof CreateIPSetRequest]: (CreateIPSetRequest)[K]
     }>): Request<CreateIPSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createIPSet(
-          this.ops["CreateIPSet"].applicator.apply(partialParams)
+          this.ops["CreateIPSet"].apply(partialParams)
         );
     }
 
     invokeCreateRegexPatternSet(partialParams: ToOptional<{
-      [K in keyof CreateRegexPatternSetRequest & keyof CreateRegexPatternSetRequest]: (CreateRegexPatternSetRequest & CreateRegexPatternSetRequest)[K]
+      [K in keyof CreateRegexPatternSetRequest]: (CreateRegexPatternSetRequest)[K]
     }>): Request<CreateRegexPatternSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createRegexPatternSet(
-          this.ops["CreateRegexPatternSet"].applicator.apply(partialParams)
+          this.ops["CreateRegexPatternSet"].apply(partialParams)
         );
     }
 
     invokeCreateRuleGroup(partialParams: ToOptional<{
-      [K in keyof CreateRuleGroupRequest & keyof CreateRuleGroupRequest]: (CreateRuleGroupRequest & CreateRuleGroupRequest)[K]
+      [K in keyof CreateRuleGroupRequest]: (CreateRuleGroupRequest)[K]
     }>): Request<CreateRuleGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createRuleGroup(
-          this.ops["CreateRuleGroup"].applicator.apply(partialParams)
+          this.ops["CreateRuleGroup"].apply(partialParams)
         );
     }
 
     invokeCreateWebACL(partialParams: ToOptional<{
-      [K in keyof CreateWebACLRequest & keyof CreateWebACLRequest]: (CreateWebACLRequest & CreateWebACLRequest)[K]
+      [K in keyof CreateWebACLRequest]: (CreateWebACLRequest)[K]
     }>): Request<CreateWebACLResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createWebACL(
-          this.ops["CreateWebACL"].applicator.apply(partialParams)
+          this.ops["CreateWebACL"].apply(partialParams)
         );
     }
 
     invokeDeleteFirewallManagerRuleGroups(partialParams: ToOptional<{
-      [K in keyof DeleteFirewallManagerRuleGroupsRequest & keyof DeleteFirewallManagerRuleGroupsRequest]: (DeleteFirewallManagerRuleGroupsRequest & DeleteFirewallManagerRuleGroupsRequest)[K]
+      [K in keyof DeleteFirewallManagerRuleGroupsRequest]: (DeleteFirewallManagerRuleGroupsRequest)[K]
     }>): Request<DeleteFirewallManagerRuleGroupsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteFirewallManagerRuleGroups(
-          this.ops["DeleteFirewallManagerRuleGroups"].applicator.apply(partialParams)
+          this.ops["DeleteFirewallManagerRuleGroups"].apply(partialParams)
         );
     }
 
     invokeDeleteIPSet(partialParams: ToOptional<{
-      [K in keyof DeleteIPSetRequest & keyof DeleteIPSetRequest]: (DeleteIPSetRequest & DeleteIPSetRequest)[K]
+      [K in keyof DeleteIPSetRequest]: (DeleteIPSetRequest)[K]
     }>): Request<DeleteIPSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteIPSet(
-          this.ops["DeleteIPSet"].applicator.apply(partialParams)
+          this.ops["DeleteIPSet"].apply(partialParams)
         );
     }
 
     invokeDeleteLoggingConfiguration(partialParams: ToOptional<{
-      [K in keyof DeleteLoggingConfigurationRequest & keyof DeleteLoggingConfigurationRequest]: (DeleteLoggingConfigurationRequest & DeleteLoggingConfigurationRequest)[K]
+      [K in keyof DeleteLoggingConfigurationRequest & keyof Omit<DeleteLoggingConfigurationRequest, "ResourceArn">]: (DeleteLoggingConfigurationRequest)[K]
     }>): Request<DeleteLoggingConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteLoggingConfiguration(
-          this.ops["DeleteLoggingConfiguration"].applicator.apply(partialParams)
+          this.ops["DeleteLoggingConfiguration"].apply(partialParams)
         );
     }
 
     invokeDeletePermissionPolicy(partialParams: ToOptional<{
-      [K in keyof DeletePermissionPolicyRequest & keyof DeletePermissionPolicyRequest]: (DeletePermissionPolicyRequest & DeletePermissionPolicyRequest)[K]
+      [K in keyof DeletePermissionPolicyRequest & keyof Omit<DeletePermissionPolicyRequest, "ResourceArn">]: (DeletePermissionPolicyRequest)[K]
     }>): Request<DeletePermissionPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deletePermissionPolicy(
-          this.ops["DeletePermissionPolicy"].applicator.apply(partialParams)
+          this.ops["DeletePermissionPolicy"].apply(partialParams)
         );
     }
 
     invokeDeleteRegexPatternSet(partialParams: ToOptional<{
-      [K in keyof DeleteRegexPatternSetRequest & keyof DeleteRegexPatternSetRequest]: (DeleteRegexPatternSetRequest & DeleteRegexPatternSetRequest)[K]
+      [K in keyof DeleteRegexPatternSetRequest]: (DeleteRegexPatternSetRequest)[K]
     }>): Request<DeleteRegexPatternSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteRegexPatternSet(
-          this.ops["DeleteRegexPatternSet"].applicator.apply(partialParams)
+          this.ops["DeleteRegexPatternSet"].apply(partialParams)
         );
     }
 
     invokeDeleteRuleGroup(partialParams: ToOptional<{
-      [K in keyof DeleteRuleGroupRequest & keyof DeleteRuleGroupRequest]: (DeleteRuleGroupRequest & DeleteRuleGroupRequest)[K]
+      [K in keyof DeleteRuleGroupRequest]: (DeleteRuleGroupRequest)[K]
     }>): Request<DeleteRuleGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteRuleGroup(
-          this.ops["DeleteRuleGroup"].applicator.apply(partialParams)
+          this.ops["DeleteRuleGroup"].apply(partialParams)
         );
     }
 
     invokeDeleteWebACL(partialParams: ToOptional<{
-      [K in keyof DeleteWebACLRequest & keyof DeleteWebACLRequest]: (DeleteWebACLRequest & DeleteWebACLRequest)[K]
+      [K in keyof DeleteWebACLRequest]: (DeleteWebACLRequest)[K]
     }>): Request<DeleteWebACLResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteWebACL(
-          this.ops["DeleteWebACL"].applicator.apply(partialParams)
+          this.ops["DeleteWebACL"].apply(partialParams)
         );
     }
 
     invokeDescribeManagedRuleGroup(partialParams: ToOptional<{
-      [K in keyof DescribeManagedRuleGroupRequest & keyof DescribeManagedRuleGroupRequest]: (DescribeManagedRuleGroupRequest & DescribeManagedRuleGroupRequest)[K]
+      [K in keyof DescribeManagedRuleGroupRequest]: (DescribeManagedRuleGroupRequest)[K]
     }>): Request<DescribeManagedRuleGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeManagedRuleGroup(
-          this.ops["DescribeManagedRuleGroup"].applicator.apply(partialParams)
+          this.ops["DescribeManagedRuleGroup"].apply(partialParams)
         );
     }
 
     invokeDisassociateWebACL(partialParams: ToOptional<{
-      [K in keyof DisassociateWebACLRequest & keyof DisassociateWebACLRequest]: (DisassociateWebACLRequest & DisassociateWebACLRequest)[K]
+      [K in keyof DisassociateWebACLRequest & keyof Omit<DisassociateWebACLRequest, "ResourceArn">]: (DisassociateWebACLRequest)[K]
     }>): Request<DisassociateWebACLResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateWebACL(
-          this.ops["DisassociateWebACL"].applicator.apply(partialParams)
+          this.ops["DisassociateWebACL"].apply(partialParams)
         );
     }
 
     invokeGenerateMobileSdkReleaseUrl(partialParams: ToOptional<{
-      [K in keyof GenerateMobileSdkReleaseUrlRequest & keyof GenerateMobileSdkReleaseUrlRequest]: (GenerateMobileSdkReleaseUrlRequest & GenerateMobileSdkReleaseUrlRequest)[K]
+      [K in keyof GenerateMobileSdkReleaseUrlRequest]: (GenerateMobileSdkReleaseUrlRequest)[K]
     }>): Request<GenerateMobileSdkReleaseUrlResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.generateMobileSdkReleaseUrl(
-          this.ops["GenerateMobileSdkReleaseUrl"].applicator.apply(partialParams)
+          this.ops["GenerateMobileSdkReleaseUrl"].apply(partialParams)
         );
     }
 
     invokeGetIPSet(partialParams: ToOptional<{
-      [K in keyof GetIPSetRequest & keyof GetIPSetRequest]: (GetIPSetRequest & GetIPSetRequest)[K]
+      [K in keyof GetIPSetRequest]: (GetIPSetRequest)[K]
     }>): Request<GetIPSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getIPSet(
-          this.ops["GetIPSet"].applicator.apply(partialParams)
+          this.ops["GetIPSet"].apply(partialParams)
         );
     }
 
     invokeGetLoggingConfiguration(partialParams: ToOptional<{
-      [K in keyof GetLoggingConfigurationRequest & keyof GetLoggingConfigurationRequest]: (GetLoggingConfigurationRequest & GetLoggingConfigurationRequest)[K]
+      [K in keyof GetLoggingConfigurationRequest & keyof Omit<GetLoggingConfigurationRequest, "ResourceArn">]: (GetLoggingConfigurationRequest)[K]
     }>): Request<GetLoggingConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getLoggingConfiguration(
-          this.ops["GetLoggingConfiguration"].applicator.apply(partialParams)
+          this.ops["GetLoggingConfiguration"].apply(partialParams)
         );
     }
 
     invokeGetManagedRuleSet(partialParams: ToOptional<{
-      [K in keyof GetManagedRuleSetRequest & keyof GetManagedRuleSetRequest]: (GetManagedRuleSetRequest & GetManagedRuleSetRequest)[K]
+      [K in keyof GetManagedRuleSetRequest]: (GetManagedRuleSetRequest)[K]
     }>): Request<GetManagedRuleSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getManagedRuleSet(
-          this.ops["GetManagedRuleSet"].applicator.apply(partialParams)
+          this.ops["GetManagedRuleSet"].apply(partialParams)
         );
     }
 
     invokeGetMobileSdkRelease(partialParams: ToOptional<{
-      [K in keyof GetMobileSdkReleaseRequest & keyof GetMobileSdkReleaseRequest]: (GetMobileSdkReleaseRequest & GetMobileSdkReleaseRequest)[K]
+      [K in keyof GetMobileSdkReleaseRequest]: (GetMobileSdkReleaseRequest)[K]
     }>): Request<GetMobileSdkReleaseResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getMobileSdkRelease(
-          this.ops["GetMobileSdkRelease"].applicator.apply(partialParams)
+          this.ops["GetMobileSdkRelease"].apply(partialParams)
         );
     }
 
     invokeGetPermissionPolicy(partialParams: ToOptional<{
-      [K in keyof GetPermissionPolicyRequest & keyof GetPermissionPolicyRequest]: (GetPermissionPolicyRequest & GetPermissionPolicyRequest)[K]
+      [K in keyof GetPermissionPolicyRequest & keyof Omit<GetPermissionPolicyRequest, "ResourceArn">]: (GetPermissionPolicyRequest)[K]
     }>): Request<GetPermissionPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getPermissionPolicy(
-          this.ops["GetPermissionPolicy"].applicator.apply(partialParams)
+          this.ops["GetPermissionPolicy"].apply(partialParams)
         );
     }
 
     invokeGetRateBasedStatementManagedKeys(partialParams: ToOptional<{
-      [K in keyof GetRateBasedStatementManagedKeysRequest & keyof GetRateBasedStatementManagedKeysRequest]: (GetRateBasedStatementManagedKeysRequest & GetRateBasedStatementManagedKeysRequest)[K]
+      [K in keyof GetRateBasedStatementManagedKeysRequest]: (GetRateBasedStatementManagedKeysRequest)[K]
     }>): Request<GetRateBasedStatementManagedKeysResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRateBasedStatementManagedKeys(
-          this.ops["GetRateBasedStatementManagedKeys"].applicator.apply(partialParams)
+          this.ops["GetRateBasedStatementManagedKeys"].apply(partialParams)
         );
     }
 
     invokeGetRegexPatternSet(partialParams: ToOptional<{
-      [K in keyof GetRegexPatternSetRequest & keyof GetRegexPatternSetRequest]: (GetRegexPatternSetRequest & GetRegexPatternSetRequest)[K]
+      [K in keyof GetRegexPatternSetRequest]: (GetRegexPatternSetRequest)[K]
     }>): Request<GetRegexPatternSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRegexPatternSet(
-          this.ops["GetRegexPatternSet"].applicator.apply(partialParams)
+          this.ops["GetRegexPatternSet"].apply(partialParams)
+        );
+    }
+
+    invokeGetRuleGroup(partialParams: ToOptional<{
+      [K in keyof GetRuleGroupRequest]: (GetRuleGroupRequest)[K]
+    }>): Request<GetRuleGroupResponse, AWSError> {
+        this.boot();
+        return this.client.getRuleGroup(
+          this.ops["GetRuleGroup"].apply(partialParams)
         );
     }
 
     invokeGetSampledRequests(partialParams: ToOptional<{
-      [K in keyof GetSampledRequestsRequest & keyof GetSampledRequestsRequest]: (GetSampledRequestsRequest & GetSampledRequestsRequest)[K]
+      [K in keyof GetSampledRequestsRequest & keyof Omit<GetSampledRequestsRequest, "WebAclArn">]: (GetSampledRequestsRequest)[K]
     }>): Request<GetSampledRequestsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getSampledRequests(
-          this.ops["GetSampledRequests"].applicator.apply(partialParams)
+          this.ops["GetSampledRequests"].apply(partialParams)
         );
     }
 
     invokeGetWebACL(partialParams: ToOptional<{
-      [K in keyof GetWebACLRequest & keyof GetWebACLRequest]: (GetWebACLRequest & GetWebACLRequest)[K]
+      [K in keyof GetWebACLRequest]: (GetWebACLRequest)[K]
     }>): Request<GetWebACLResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getWebACL(
-          this.ops["GetWebACL"].applicator.apply(partialParams)
+          this.ops["GetWebACL"].apply(partialParams)
         );
     }
 
     invokeGetWebACLForResource(partialParams: ToOptional<{
-      [K in keyof GetWebACLForResourceRequest & keyof GetWebACLForResourceRequest]: (GetWebACLForResourceRequest & GetWebACLForResourceRequest)[K]
+      [K in keyof GetWebACLForResourceRequest & keyof Omit<GetWebACLForResourceRequest, "ResourceArn">]: (GetWebACLForResourceRequest)[K]
     }>): Request<GetWebACLForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getWebACLForResource(
-          this.ops["GetWebACLForResource"].applicator.apply(partialParams)
+          this.ops["GetWebACLForResource"].apply(partialParams)
         );
     }
 
     invokeListAvailableManagedRuleGroupVersions(partialParams: ToOptional<{
-      [K in keyof ListAvailableManagedRuleGroupVersionsRequest & keyof ListAvailableManagedRuleGroupVersionsRequest]: (ListAvailableManagedRuleGroupVersionsRequest & ListAvailableManagedRuleGroupVersionsRequest)[K]
+      [K in keyof ListAvailableManagedRuleGroupVersionsRequest]: (ListAvailableManagedRuleGroupVersionsRequest)[K]
     }>): Request<ListAvailableManagedRuleGroupVersionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listAvailableManagedRuleGroupVersions(
-          this.ops["ListAvailableManagedRuleGroupVersions"].applicator.apply(partialParams)
+          this.ops["ListAvailableManagedRuleGroupVersions"].apply(partialParams)
         );
     }
 
     invokeListAvailableManagedRuleGroups(partialParams: ToOptional<{
-      [K in keyof ListAvailableManagedRuleGroupsRequest & keyof ListAvailableManagedRuleGroupsRequest]: (ListAvailableManagedRuleGroupsRequest & ListAvailableManagedRuleGroupsRequest)[K]
+      [K in keyof ListAvailableManagedRuleGroupsRequest]: (ListAvailableManagedRuleGroupsRequest)[K]
     }>): Request<ListAvailableManagedRuleGroupsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listAvailableManagedRuleGroups(
-          this.ops["ListAvailableManagedRuleGroups"].applicator.apply(partialParams)
+          this.ops["ListAvailableManagedRuleGroups"].apply(partialParams)
         );
     }
 
     invokeListIPSets(partialParams: ToOptional<{
-      [K in keyof ListIPSetsRequest & keyof ListIPSetsRequest]: (ListIPSetsRequest & ListIPSetsRequest)[K]
+      [K in keyof ListIPSetsRequest]: (ListIPSetsRequest)[K]
     }>): Request<ListIPSetsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listIPSets(
-          this.ops["ListIPSets"].applicator.apply(partialParams)
+          this.ops["ListIPSets"].apply(partialParams)
         );
     }
 
     invokeListLoggingConfigurations(partialParams: ToOptional<{
-      [K in keyof ListLoggingConfigurationsRequest & keyof ListLoggingConfigurationsRequest]: (ListLoggingConfigurationsRequest & ListLoggingConfigurationsRequest)[K]
+      [K in keyof ListLoggingConfigurationsRequest]: (ListLoggingConfigurationsRequest)[K]
     }>): Request<ListLoggingConfigurationsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listLoggingConfigurations(
-          this.ops["ListLoggingConfigurations"].applicator.apply(partialParams)
+          this.ops["ListLoggingConfigurations"].apply(partialParams)
         );
     }
 
     invokeListManagedRuleSets(partialParams: ToOptional<{
-      [K in keyof ListManagedRuleSetsRequest & keyof ListManagedRuleSetsRequest]: (ListManagedRuleSetsRequest & ListManagedRuleSetsRequest)[K]
+      [K in keyof ListManagedRuleSetsRequest]: (ListManagedRuleSetsRequest)[K]
     }>): Request<ListManagedRuleSetsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listManagedRuleSets(
-          this.ops["ListManagedRuleSets"].applicator.apply(partialParams)
+          this.ops["ListManagedRuleSets"].apply(partialParams)
         );
     }
 
     invokeListMobileSdkReleases(partialParams: ToOptional<{
-      [K in keyof ListMobileSdkReleasesRequest & keyof ListMobileSdkReleasesRequest]: (ListMobileSdkReleasesRequest & ListMobileSdkReleasesRequest)[K]
+      [K in keyof ListMobileSdkReleasesRequest]: (ListMobileSdkReleasesRequest)[K]
     }>): Request<ListMobileSdkReleasesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listMobileSdkReleases(
-          this.ops["ListMobileSdkReleases"].applicator.apply(partialParams)
+          this.ops["ListMobileSdkReleases"].apply(partialParams)
         );
     }
 
     invokeListRegexPatternSets(partialParams: ToOptional<{
-      [K in keyof ListRegexPatternSetsRequest & keyof ListRegexPatternSetsRequest]: (ListRegexPatternSetsRequest & ListRegexPatternSetsRequest)[K]
+      [K in keyof ListRegexPatternSetsRequest]: (ListRegexPatternSetsRequest)[K]
     }>): Request<ListRegexPatternSetsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listRegexPatternSets(
-          this.ops["ListRegexPatternSets"].applicator.apply(partialParams)
+          this.ops["ListRegexPatternSets"].apply(partialParams)
         );
     }
 
     invokeListResourcesForWebACL(partialParams: ToOptional<{
-      [K in keyof ListResourcesForWebACLRequest & keyof ListResourcesForWebACLRequest]: (ListResourcesForWebACLRequest & ListResourcesForWebACLRequest)[K]
+      [K in keyof ListResourcesForWebACLRequest]: (ListResourcesForWebACLRequest)[K]
     }>): Request<ListResourcesForWebACLResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listResourcesForWebACL(
-          this.ops["ListResourcesForWebACL"].applicator.apply(partialParams)
+          this.ops["ListResourcesForWebACL"].apply(partialParams)
         );
     }
 
     invokeListRuleGroups(partialParams: ToOptional<{
-      [K in keyof ListRuleGroupsRequest & keyof ListRuleGroupsRequest]: (ListRuleGroupsRequest & ListRuleGroupsRequest)[K]
+      [K in keyof ListRuleGroupsRequest]: (ListRuleGroupsRequest)[K]
     }>): Request<ListRuleGroupsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listRuleGroups(
-          this.ops["ListRuleGroups"].applicator.apply(partialParams)
+          this.ops["ListRuleGroups"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeListWebACLs(partialParams: ToOptional<{
-      [K in keyof ListWebACLsRequest & keyof ListWebACLsRequest]: (ListWebACLsRequest & ListWebACLsRequest)[K]
+      [K in keyof ListWebACLsRequest]: (ListWebACLsRequest)[K]
     }>): Request<ListWebACLsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listWebACLs(
-          this.ops["ListWebACLs"].applicator.apply(partialParams)
+          this.ops["ListWebACLs"].apply(partialParams)
         );
     }
 
     invokePutLoggingConfiguration(partialParams: ToOptional<{
-      [K in keyof PutLoggingConfigurationRequest & keyof PutLoggingConfigurationRequest]: (PutLoggingConfigurationRequest & PutLoggingConfigurationRequest)[K]
+      [K in keyof PutLoggingConfigurationRequest]: (PutLoggingConfigurationRequest)[K]
     }>): Request<PutLoggingConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putLoggingConfiguration(
-          this.ops["PutLoggingConfiguration"].applicator.apply(partialParams)
+          this.ops["PutLoggingConfiguration"].apply(partialParams)
         );
     }
 
     invokePutManagedRuleSetVersions(partialParams: ToOptional<{
-      [K in keyof PutManagedRuleSetVersionsRequest & keyof PutManagedRuleSetVersionsRequest]: (PutManagedRuleSetVersionsRequest & PutManagedRuleSetVersionsRequest)[K]
+      [K in keyof PutManagedRuleSetVersionsRequest]: (PutManagedRuleSetVersionsRequest)[K]
     }>): Request<PutManagedRuleSetVersionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putManagedRuleSetVersions(
-          this.ops["PutManagedRuleSetVersions"].applicator.apply(partialParams)
+          this.ops["PutManagedRuleSetVersions"].apply(partialParams)
         );
     }
 
     invokePutPermissionPolicy(partialParams: ToOptional<{
-      [K in keyof PutPermissionPolicyRequest & keyof PutPermissionPolicyRequest]: (PutPermissionPolicyRequest & PutPermissionPolicyRequest)[K]
+      [K in keyof PutPermissionPolicyRequest & keyof Omit<PutPermissionPolicyRequest, "ResourceArn">]: (PutPermissionPolicyRequest)[K]
     }>): Request<PutPermissionPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putPermissionPolicy(
-          this.ops["PutPermissionPolicy"].applicator.apply(partialParams)
+          this.ops["PutPermissionPolicy"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof Omit<TagResourceRequest, "ResourceARN"> & keyof TagResourceRequest]: (Omit<TagResourceRequest, "ResourceARN"> & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof Omit<UntagResourceRequest, "ResourceARN"> & keyof UntagResourceRequest]: (Omit<UntagResourceRequest, "ResourceARN"> & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateIPSet(partialParams: ToOptional<{
-      [K in keyof UpdateIPSetRequest & keyof UpdateIPSetRequest]: (UpdateIPSetRequest & UpdateIPSetRequest)[K]
+      [K in keyof UpdateIPSetRequest]: (UpdateIPSetRequest)[K]
     }>): Request<UpdateIPSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateIPSet(
-          this.ops["UpdateIPSet"].applicator.apply(partialParams)
+          this.ops["UpdateIPSet"].apply(partialParams)
         );
     }
 
     invokeUpdateManagedRuleSetVersionExpiryDate(partialParams: ToOptional<{
-      [K in keyof UpdateManagedRuleSetVersionExpiryDateRequest & keyof UpdateManagedRuleSetVersionExpiryDateRequest]: (UpdateManagedRuleSetVersionExpiryDateRequest & UpdateManagedRuleSetVersionExpiryDateRequest)[K]
+      [K in keyof UpdateManagedRuleSetVersionExpiryDateRequest]: (UpdateManagedRuleSetVersionExpiryDateRequest)[K]
     }>): Request<UpdateManagedRuleSetVersionExpiryDateResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateManagedRuleSetVersionExpiryDate(
-          this.ops["UpdateManagedRuleSetVersionExpiryDate"].applicator.apply(partialParams)
+          this.ops["UpdateManagedRuleSetVersionExpiryDate"].apply(partialParams)
         );
     }
 
     invokeUpdateRegexPatternSet(partialParams: ToOptional<{
-      [K in keyof UpdateRegexPatternSetRequest & keyof UpdateRegexPatternSetRequest]: (UpdateRegexPatternSetRequest & UpdateRegexPatternSetRequest)[K]
+      [K in keyof UpdateRegexPatternSetRequest]: (UpdateRegexPatternSetRequest)[K]
     }>): Request<UpdateRegexPatternSetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateRegexPatternSet(
-          this.ops["UpdateRegexPatternSet"].applicator.apply(partialParams)
+          this.ops["UpdateRegexPatternSet"].apply(partialParams)
         );
     }
 
     invokeUpdateRuleGroup(partialParams: ToOptional<{
-      [K in keyof UpdateRuleGroupRequest & keyof UpdateRuleGroupRequest]: (UpdateRuleGroupRequest & UpdateRuleGroupRequest)[K]
+      [K in keyof UpdateRuleGroupRequest]: (UpdateRuleGroupRequest)[K]
     }>): Request<UpdateRuleGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateRuleGroup(
-          this.ops["UpdateRuleGroup"].applicator.apply(partialParams)
+          this.ops["UpdateRuleGroup"].apply(partialParams)
         );
     }
 
     invokeUpdateWebACL(partialParams: ToOptional<{
-      [K in keyof UpdateWebACLRequest & keyof UpdateWebACLRequest]: (UpdateWebACLRequest & UpdateWebACLRequest)[K]
+      [K in keyof UpdateWebACLRequest]: (UpdateWebACLRequest)[K]
     }>): Request<UpdateWebACLResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateWebACL(
-          this.ops["UpdateWebACL"].applicator.apply(partialParams)
+          this.ops["UpdateWebACL"].apply(partialParams)
         );
     }
 }

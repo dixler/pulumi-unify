@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.codepipeline.Webhook {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.CodePipeline();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,211 +50,128 @@ class default_1 extends aws.codepipeline.Webhook {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAcknowledgeJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.acknowledgeJob(this.ops["AcknowledgeJob"].applicator.apply(partialParams));
+        return this.client.acknowledgeJob(this.ops["AcknowledgeJob"].apply(partialParams));
     }
     invokeAcknowledgeThirdPartyJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.acknowledgeThirdPartyJob(this.ops["AcknowledgeThirdPartyJob"].applicator.apply(partialParams));
+        return this.client.acknowledgeThirdPartyJob(this.ops["AcknowledgeThirdPartyJob"].apply(partialParams));
     }
     invokeCreateCustomActionType(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createCustomActionType(this.ops["CreateCustomActionType"].applicator.apply(partialParams));
+        return this.client.createCustomActionType(this.ops["CreateCustomActionType"].apply(partialParams));
     }
     invokeCreatePipeline(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createPipeline(this.ops["CreatePipeline"].applicator.apply(partialParams));
-    }
-    invokeDeleteCustomActionType(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteCustomActionType(this.ops["DeleteCustomActionType"].applicator.apply(partialParams));
-    }
-    invokeDeletePipeline(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deletePipeline(this.ops["DeletePipeline"].applicator.apply(partialParams));
+        return this.client.createPipeline(this.ops["CreatePipeline"].apply(partialParams));
     }
     invokeDeleteWebhook(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteWebhook(this.ops["DeleteWebhook"].applicator.apply(partialParams));
+        return this.client.deleteWebhook(this.ops["DeleteWebhook"].apply(partialParams));
     }
-    invokeDisableStageTransition(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDeregisterWebhookWithThirdParty(partialParams) {
         this.boot();
-        return this.client.disableStageTransition(this.ops["DisableStageTransition"].applicator.apply(partialParams));
-    }
-    invokeEnableStageTransition(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.enableStageTransition(this.ops["EnableStageTransition"].applicator.apply(partialParams));
+        return this.client.deregisterWebhookWithThirdParty(this.ops["DeregisterWebhookWithThirdParty"].apply(partialParams));
     }
     invokeGetActionType(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getActionType(this.ops["GetActionType"].applicator.apply(partialParams));
+        return this.client.getActionType(this.ops["GetActionType"].apply(partialParams));
     }
     invokeGetJobDetails(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getJobDetails(this.ops["GetJobDetails"].applicator.apply(partialParams));
+        return this.client.getJobDetails(this.ops["GetJobDetails"].apply(partialParams));
     }
     invokeGetPipeline(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getPipeline(this.ops["GetPipeline"].applicator.apply(partialParams));
+        return this.client.getPipeline(this.ops["GetPipeline"].apply(partialParams));
     }
     invokeGetPipelineExecution(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getPipelineExecution(this.ops["GetPipelineExecution"].applicator.apply(partialParams));
+        return this.client.getPipelineExecution(this.ops["GetPipelineExecution"].apply(partialParams));
     }
     invokeGetPipelineState(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getPipelineState(this.ops["GetPipelineState"].applicator.apply(partialParams));
+        return this.client.getPipelineState(this.ops["GetPipelineState"].apply(partialParams));
     }
     invokeGetThirdPartyJobDetails(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getThirdPartyJobDetails(this.ops["GetThirdPartyJobDetails"].applicator.apply(partialParams));
+        return this.client.getThirdPartyJobDetails(this.ops["GetThirdPartyJobDetails"].apply(partialParams));
     }
     invokeListActionExecutions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listActionExecutions(this.ops["ListActionExecutions"].applicator.apply(partialParams));
+        return this.client.listActionExecutions(this.ops["ListActionExecutions"].apply(partialParams));
+    }
+    invokeListActionTypes(partialParams) {
+        this.boot();
+        return this.client.listActionTypes(this.ops["ListActionTypes"].apply(partialParams));
     }
     invokeListPipelineExecutions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listPipelineExecutions(this.ops["ListPipelineExecutions"].applicator.apply(partialParams));
+        return this.client.listPipelineExecutions(this.ops["ListPipelineExecutions"].apply(partialParams));
+    }
+    invokeListPipelines(partialParams) {
+        this.boot();
+        return this.client.listPipelines(this.ops["ListPipelines"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+    }
+    invokeListWebhooks(partialParams) {
+        this.boot();
+        return this.client.listWebhooks(this.ops["ListWebhooks"].apply(partialParams));
     }
     invokePollForJobs(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.pollForJobs(this.ops["PollForJobs"].applicator.apply(partialParams));
+        return this.client.pollForJobs(this.ops["PollForJobs"].apply(partialParams));
     }
     invokePollForThirdPartyJobs(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.pollForThirdPartyJobs(this.ops["PollForThirdPartyJobs"].applicator.apply(partialParams));
+        return this.client.pollForThirdPartyJobs(this.ops["PollForThirdPartyJobs"].apply(partialParams));
     }
     invokePutActionRevision(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putActionRevision(this.ops["PutActionRevision"].applicator.apply(partialParams));
+        return this.client.putActionRevision(this.ops["PutActionRevision"].apply(partialParams));
     }
     invokePutApprovalResult(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putApprovalResult(this.ops["PutApprovalResult"].applicator.apply(partialParams));
-    }
-    invokePutJobFailureResult(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.putJobFailureResult(this.ops["PutJobFailureResult"].applicator.apply(partialParams));
-    }
-    invokePutJobSuccessResult(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.putJobSuccessResult(this.ops["PutJobSuccessResult"].applicator.apply(partialParams));
-    }
-    invokePutThirdPartyJobFailureResult(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.putThirdPartyJobFailureResult(this.ops["PutThirdPartyJobFailureResult"].applicator.apply(partialParams));
-    }
-    invokePutThirdPartyJobSuccessResult(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.putThirdPartyJobSuccessResult(this.ops["PutThirdPartyJobSuccessResult"].applicator.apply(partialParams));
+        return this.client.putApprovalResult(this.ops["PutApprovalResult"].apply(partialParams));
     }
     invokePutWebhook(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putWebhook(this.ops["PutWebhook"].applicator.apply(partialParams));
+        return this.client.putWebhook(this.ops["PutWebhook"].apply(partialParams));
+    }
+    invokeRegisterWebhookWithThirdParty(partialParams) {
+        this.boot();
+        return this.client.registerWebhookWithThirdParty(this.ops["RegisterWebhookWithThirdParty"].apply(partialParams));
     }
     invokeRetryStageExecution(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.retryStageExecution(this.ops["RetryStageExecution"].applicator.apply(partialParams));
+        return this.client.retryStageExecution(this.ops["RetryStageExecution"].apply(partialParams));
     }
     invokeStartPipelineExecution(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startPipelineExecution(this.ops["StartPipelineExecution"].applicator.apply(partialParams));
+        return this.client.startPipelineExecution(this.ops["StartPipelineExecution"].apply(partialParams));
     }
     invokeStopPipelineExecution(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.stopPipelineExecution(this.ops["StopPipelineExecution"].applicator.apply(partialParams));
+        return this.client.stopPipelineExecution(this.ops["StopPipelineExecution"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
-    }
-    invokeUpdateActionType(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateActionType(this.ops["UpdateActionType"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdatePipeline(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updatePipeline(this.ops["UpdatePipeline"].applicator.apply(partialParams));
+        return this.client.updatePipeline(this.ops["UpdatePipeline"].apply(partialParams));
     }
 }
 exports.default = default_1;

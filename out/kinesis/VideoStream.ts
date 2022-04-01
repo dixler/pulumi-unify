@@ -5,35 +5,32 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    AddTagsToStreamInput,
-    CreateStreamInput,
-    DecreaseStreamRetentionPeriodInput,
-    DeleteStreamInput,
+    DescribeLimitsInput,
     DescribeStreamInput,
+    DescribeStreamConsumerInput,
     DescribeStreamSummaryInput,
     DisableEnhancedMonitoringInput,
     EnableEnhancedMonitoringInput,
     GetRecordsInput,
     GetShardIteratorInput,
-    IncreaseStreamRetentionPeriodInput,
+    ListShardsInput,
     ListStreamConsumersInput,
+    ListStreamsInput,
     ListTagsForStreamInput,
-    MergeShardsInput,
     PutRecordInput,
     PutRecordsInput,
     RegisterStreamConsumerInput,
-    RemoveTagsFromStreamInput,
-    SplitShardInput,
-    StartStreamEncryptionInput,
-    StopStreamEncryptionInput,
     UpdateShardCountInput,
-    UpdateStreamModeInput,
+    DescribeLimitsOutput,
     DescribeStreamOutput,
+    DescribeStreamConsumerOutput,
     DescribeStreamSummaryOutput,
     EnhancedMonitoringOutput,
     GetRecordsOutput,
     GetShardIteratorOutput,
+    ListShardsOutput,
     ListStreamConsumersOutput,
+    ListStreamsOutput,
     ListTagsForStreamOutput,
     PutRecordOutput,
     PutRecordsOutput,
@@ -53,21 +50,24 @@ export default class extends aws.kinesis.VideoStream {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.kinesis.VideoStream>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.Kinesis()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -77,259 +77,151 @@ export default class extends aws.kinesis.VideoStream {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
-    invokeAddTagsToStream(partialParams: ToOptional<{
-      [K in keyof AddTagsToStreamInput & keyof AddTagsToStreamInput & keyof AddTagsToStreamInput & keyof AddTagsToStreamInput & keyof AddTagsToStreamInput & keyof AddTagsToStreamInput & keyof AddTagsToStreamInput]: (AddTagsToStreamInput & AddTagsToStreamInput & AddTagsToStreamInput & AddTagsToStreamInput & AddTagsToStreamInput & AddTagsToStreamInput & AddTagsToStreamInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDescribeLimits(partialParams: ToOptional<{
+      [K in keyof DescribeLimitsInput]: (DescribeLimitsInput)[K]
+    }>): Request<DescribeLimitsOutput, AWSError> {
         this.boot();
-        return this.client.addTagsToStream(
-          this.ops["AddTagsToStream"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeCreateStream(partialParams: ToOptional<{
-      [K in keyof CreateStreamInput & keyof CreateStreamInput & keyof CreateStreamInput & keyof CreateStreamInput & keyof CreateStreamInput & keyof CreateStreamInput & keyof CreateStreamInput]: (CreateStreamInput & CreateStreamInput & CreateStreamInput & CreateStreamInput & CreateStreamInput & CreateStreamInput & CreateStreamInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.createStream(
-          this.ops["CreateStream"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDecreaseStreamRetentionPeriod(partialParams: ToOptional<{
-      [K in keyof DecreaseStreamRetentionPeriodInput & keyof DecreaseStreamRetentionPeriodInput & keyof DecreaseStreamRetentionPeriodInput & keyof DecreaseStreamRetentionPeriodInput & keyof DecreaseStreamRetentionPeriodInput & keyof DecreaseStreamRetentionPeriodInput & keyof DecreaseStreamRetentionPeriodInput]: (DecreaseStreamRetentionPeriodInput & DecreaseStreamRetentionPeriodInput & DecreaseStreamRetentionPeriodInput & DecreaseStreamRetentionPeriodInput & DecreaseStreamRetentionPeriodInput & DecreaseStreamRetentionPeriodInput & DecreaseStreamRetentionPeriodInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.decreaseStreamRetentionPeriod(
-          this.ops["DecreaseStreamRetentionPeriod"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteStream(partialParams: ToOptional<{
-      [K in keyof DeleteStreamInput & keyof DeleteStreamInput & keyof DeleteStreamInput & keyof DeleteStreamInput & keyof DeleteStreamInput & keyof DeleteStreamInput & keyof DeleteStreamInput]: (DeleteStreamInput & DeleteStreamInput & DeleteStreamInput & DeleteStreamInput & DeleteStreamInput & DeleteStreamInput & DeleteStreamInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteStream(
-          this.ops["DeleteStream"].applicator.apply(partialParams)
+        return this.client.describeLimits(
+          this.ops["DescribeLimits"].apply(partialParams)
         );
     }
 
     invokeDescribeStream(partialParams: ToOptional<{
-      [K in keyof DescribeStreamInput & keyof DescribeStreamInput & keyof DescribeStreamInput & keyof DescribeStreamInput & keyof DescribeStreamInput & keyof DescribeStreamInput & keyof DescribeStreamInput]: (DescribeStreamInput & DescribeStreamInput & DescribeStreamInput & DescribeStreamInput & DescribeStreamInput & DescribeStreamInput & DescribeStreamInput)[K]
+      [K in keyof DescribeStreamInput]: (DescribeStreamInput)[K]
     }>): Request<DescribeStreamOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeStream(
-          this.ops["DescribeStream"].applicator.apply(partialParams)
+          this.ops["DescribeStream"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeStreamConsumer(partialParams: ToOptional<{
+      [K in keyof DescribeStreamConsumerInput]: (DescribeStreamConsumerInput)[K]
+    }>): Request<DescribeStreamConsumerOutput, AWSError> {
+        this.boot();
+        return this.client.describeStreamConsumer(
+          this.ops["DescribeStreamConsumer"].apply(partialParams)
         );
     }
 
     invokeDescribeStreamSummary(partialParams: ToOptional<{
-      [K in keyof DescribeStreamSummaryInput & keyof DescribeStreamSummaryInput & keyof DescribeStreamSummaryInput & keyof DescribeStreamSummaryInput & keyof DescribeStreamSummaryInput & keyof DescribeStreamSummaryInput & keyof DescribeStreamSummaryInput]: (DescribeStreamSummaryInput & DescribeStreamSummaryInput & DescribeStreamSummaryInput & DescribeStreamSummaryInput & DescribeStreamSummaryInput & DescribeStreamSummaryInput & DescribeStreamSummaryInput)[K]
+      [K in keyof DescribeStreamSummaryInput]: (DescribeStreamSummaryInput)[K]
     }>): Request<DescribeStreamSummaryOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeStreamSummary(
-          this.ops["DescribeStreamSummary"].applicator.apply(partialParams)
+          this.ops["DescribeStreamSummary"].apply(partialParams)
         );
     }
 
     invokeDisableEnhancedMonitoring(partialParams: ToOptional<{
-      [K in keyof DisableEnhancedMonitoringInput & keyof DisableEnhancedMonitoringInput & keyof DisableEnhancedMonitoringInput & keyof DisableEnhancedMonitoringInput & keyof DisableEnhancedMonitoringInput & keyof DisableEnhancedMonitoringInput & keyof DisableEnhancedMonitoringInput]: (DisableEnhancedMonitoringInput & DisableEnhancedMonitoringInput & DisableEnhancedMonitoringInput & DisableEnhancedMonitoringInput & DisableEnhancedMonitoringInput & DisableEnhancedMonitoringInput & DisableEnhancedMonitoringInput)[K]
+      [K in keyof DisableEnhancedMonitoringInput]: (DisableEnhancedMonitoringInput)[K]
     }>): Request<EnhancedMonitoringOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disableEnhancedMonitoring(
-          this.ops["DisableEnhancedMonitoring"].applicator.apply(partialParams)
+          this.ops["DisableEnhancedMonitoring"].apply(partialParams)
         );
     }
 
     invokeEnableEnhancedMonitoring(partialParams: ToOptional<{
-      [K in keyof EnableEnhancedMonitoringInput & keyof EnableEnhancedMonitoringInput & keyof EnableEnhancedMonitoringInput & keyof EnableEnhancedMonitoringInput & keyof EnableEnhancedMonitoringInput & keyof EnableEnhancedMonitoringInput & keyof EnableEnhancedMonitoringInput]: (EnableEnhancedMonitoringInput & EnableEnhancedMonitoringInput & EnableEnhancedMonitoringInput & EnableEnhancedMonitoringInput & EnableEnhancedMonitoringInput & EnableEnhancedMonitoringInput & EnableEnhancedMonitoringInput)[K]
+      [K in keyof EnableEnhancedMonitoringInput]: (EnableEnhancedMonitoringInput)[K]
     }>): Request<EnhancedMonitoringOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.enableEnhancedMonitoring(
-          this.ops["EnableEnhancedMonitoring"].applicator.apply(partialParams)
+          this.ops["EnableEnhancedMonitoring"].apply(partialParams)
         );
     }
 
     invokeGetRecords(partialParams: ToOptional<{
-      [K in keyof GetRecordsInput & keyof GetRecordsInput & keyof GetRecordsInput & keyof GetRecordsInput & keyof GetRecordsInput & keyof GetRecordsInput & keyof GetRecordsInput]: (GetRecordsInput & GetRecordsInput & GetRecordsInput & GetRecordsInput & GetRecordsInput & GetRecordsInput & GetRecordsInput)[K]
+      [K in keyof GetRecordsInput]: (GetRecordsInput)[K]
     }>): Request<GetRecordsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getRecords(
-          this.ops["GetRecords"].applicator.apply(partialParams)
+          this.ops["GetRecords"].apply(partialParams)
         );
     }
 
     invokeGetShardIterator(partialParams: ToOptional<{
-      [K in keyof GetShardIteratorInput & keyof GetShardIteratorInput & keyof GetShardIteratorInput & keyof GetShardIteratorInput & keyof GetShardIteratorInput & keyof GetShardIteratorInput & keyof GetShardIteratorInput]: (GetShardIteratorInput & GetShardIteratorInput & GetShardIteratorInput & GetShardIteratorInput & GetShardIteratorInput & GetShardIteratorInput & GetShardIteratorInput)[K]
+      [K in keyof GetShardIteratorInput]: (GetShardIteratorInput)[K]
     }>): Request<GetShardIteratorOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getShardIterator(
-          this.ops["GetShardIterator"].applicator.apply(partialParams)
+          this.ops["GetShardIterator"].apply(partialParams)
         );
     }
 
-    invokeIncreaseStreamRetentionPeriod(partialParams: ToOptional<{
-      [K in keyof IncreaseStreamRetentionPeriodInput & keyof IncreaseStreamRetentionPeriodInput & keyof IncreaseStreamRetentionPeriodInput & keyof IncreaseStreamRetentionPeriodInput & keyof IncreaseStreamRetentionPeriodInput & keyof IncreaseStreamRetentionPeriodInput & keyof IncreaseStreamRetentionPeriodInput]: (IncreaseStreamRetentionPeriodInput & IncreaseStreamRetentionPeriodInput & IncreaseStreamRetentionPeriodInput & IncreaseStreamRetentionPeriodInput & IncreaseStreamRetentionPeriodInput & IncreaseStreamRetentionPeriodInput & IncreaseStreamRetentionPeriodInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeListShards(partialParams: ToOptional<{
+      [K in keyof ListShardsInput]: (ListShardsInput)[K]
+    }>): Request<ListShardsOutput, AWSError> {
         this.boot();
-        return this.client.increaseStreamRetentionPeriod(
-          this.ops["IncreaseStreamRetentionPeriod"].applicator.apply(partialParams)
+        return this.client.listShards(
+          this.ops["ListShards"].apply(partialParams)
         );
     }
 
     invokeListStreamConsumers(partialParams: ToOptional<{
-      [K in keyof ListStreamConsumersInput & keyof ListStreamConsumersInput & keyof ListStreamConsumersInput & keyof ListStreamConsumersInput & keyof ListStreamConsumersInput & keyof ListStreamConsumersInput & keyof ListStreamConsumersInput]: (ListStreamConsumersInput & ListStreamConsumersInput & ListStreamConsumersInput & ListStreamConsumersInput & ListStreamConsumersInput & ListStreamConsumersInput & ListStreamConsumersInput)[K]
+      [K in keyof ListStreamConsumersInput]: (ListStreamConsumersInput)[K]
     }>): Request<ListStreamConsumersOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listStreamConsumers(
-          this.ops["ListStreamConsumers"].applicator.apply(partialParams)
+          this.ops["ListStreamConsumers"].apply(partialParams)
+        );
+    }
+
+    invokeListStreams(partialParams: ToOptional<{
+      [K in keyof ListStreamsInput]: (ListStreamsInput)[K]
+    }>): Request<ListStreamsOutput, AWSError> {
+        this.boot();
+        return this.client.listStreams(
+          this.ops["ListStreams"].apply(partialParams)
         );
     }
 
     invokeListTagsForStream(partialParams: ToOptional<{
-      [K in keyof ListTagsForStreamInput & keyof ListTagsForStreamInput & keyof ListTagsForStreamInput & keyof ListTagsForStreamInput & keyof ListTagsForStreamInput & keyof ListTagsForStreamInput & keyof ListTagsForStreamInput]: (ListTagsForStreamInput & ListTagsForStreamInput & ListTagsForStreamInput & ListTagsForStreamInput & ListTagsForStreamInput & ListTagsForStreamInput & ListTagsForStreamInput)[K]
+      [K in keyof ListTagsForStreamInput]: (ListTagsForStreamInput)[K]
     }>): Request<ListTagsForStreamOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForStream(
-          this.ops["ListTagsForStream"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeMergeShards(partialParams: ToOptional<{
-      [K in keyof MergeShardsInput & keyof MergeShardsInput & keyof MergeShardsInput & keyof MergeShardsInput & keyof MergeShardsInput & keyof MergeShardsInput & keyof MergeShardsInput]: (MergeShardsInput & MergeShardsInput & MergeShardsInput & MergeShardsInput & MergeShardsInput & MergeShardsInput & MergeShardsInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.mergeShards(
-          this.ops["MergeShards"].applicator.apply(partialParams)
+          this.ops["ListTagsForStream"].apply(partialParams)
         );
     }
 
     invokePutRecord(partialParams: ToOptional<{
-      [K in keyof PutRecordInput & keyof PutRecordInput & keyof PutRecordInput & keyof PutRecordInput & keyof PutRecordInput & keyof PutRecordInput & keyof PutRecordInput]: (PutRecordInput & PutRecordInput & PutRecordInput & PutRecordInput & PutRecordInput & PutRecordInput & PutRecordInput)[K]
+      [K in keyof PutRecordInput]: (PutRecordInput)[K]
     }>): Request<PutRecordOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putRecord(
-          this.ops["PutRecord"].applicator.apply(partialParams)
+          this.ops["PutRecord"].apply(partialParams)
         );
     }
 
     invokePutRecords(partialParams: ToOptional<{
-      [K in keyof PutRecordsInput & keyof PutRecordsInput & keyof PutRecordsInput & keyof PutRecordsInput & keyof PutRecordsInput & keyof PutRecordsInput & keyof PutRecordsInput]: (PutRecordsInput & PutRecordsInput & PutRecordsInput & PutRecordsInput & PutRecordsInput & PutRecordsInput & PutRecordsInput)[K]
+      [K in keyof PutRecordsInput]: (PutRecordsInput)[K]
     }>): Request<PutRecordsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putRecords(
-          this.ops["PutRecords"].applicator.apply(partialParams)
+          this.ops["PutRecords"].apply(partialParams)
         );
     }
 
     invokeRegisterStreamConsumer(partialParams: ToOptional<{
-      [K in keyof RegisterStreamConsumerInput & keyof RegisterStreamConsumerInput & keyof RegisterStreamConsumerInput & keyof RegisterStreamConsumerInput & keyof RegisterStreamConsumerInput & keyof RegisterStreamConsumerInput & keyof RegisterStreamConsumerInput]: (RegisterStreamConsumerInput & RegisterStreamConsumerInput & RegisterStreamConsumerInput & RegisterStreamConsumerInput & RegisterStreamConsumerInput & RegisterStreamConsumerInput & RegisterStreamConsumerInput)[K]
+      [K in keyof RegisterStreamConsumerInput]: (RegisterStreamConsumerInput)[K]
     }>): Request<RegisterStreamConsumerOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.registerStreamConsumer(
-          this.ops["RegisterStreamConsumer"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeRemoveTagsFromStream(partialParams: ToOptional<{
-      [K in keyof RemoveTagsFromStreamInput & keyof RemoveTagsFromStreamInput & keyof RemoveTagsFromStreamInput & keyof RemoveTagsFromStreamInput & keyof RemoveTagsFromStreamInput & keyof RemoveTagsFromStreamInput & keyof RemoveTagsFromStreamInput]: (RemoveTagsFromStreamInput & RemoveTagsFromStreamInput & RemoveTagsFromStreamInput & RemoveTagsFromStreamInput & RemoveTagsFromStreamInput & RemoveTagsFromStreamInput & RemoveTagsFromStreamInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.removeTagsFromStream(
-          this.ops["RemoveTagsFromStream"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeSplitShard(partialParams: ToOptional<{
-      [K in keyof SplitShardInput & keyof SplitShardInput & keyof SplitShardInput & keyof SplitShardInput & keyof SplitShardInput & keyof SplitShardInput & keyof SplitShardInput]: (SplitShardInput & SplitShardInput & SplitShardInput & SplitShardInput & SplitShardInput & SplitShardInput & SplitShardInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.splitShard(
-          this.ops["SplitShard"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeStartStreamEncryption(partialParams: ToOptional<{
-      [K in keyof StartStreamEncryptionInput & keyof StartStreamEncryptionInput & keyof StartStreamEncryptionInput & keyof StartStreamEncryptionInput & keyof StartStreamEncryptionInput & keyof StartStreamEncryptionInput & keyof StartStreamEncryptionInput]: (StartStreamEncryptionInput & StartStreamEncryptionInput & StartStreamEncryptionInput & StartStreamEncryptionInput & StartStreamEncryptionInput & StartStreamEncryptionInput & StartStreamEncryptionInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.startStreamEncryption(
-          this.ops["StartStreamEncryption"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeStopStreamEncryption(partialParams: ToOptional<{
-      [K in keyof StopStreamEncryptionInput & keyof StopStreamEncryptionInput & keyof StopStreamEncryptionInput & keyof StopStreamEncryptionInput & keyof StopStreamEncryptionInput & keyof StopStreamEncryptionInput & keyof StopStreamEncryptionInput]: (StopStreamEncryptionInput & StopStreamEncryptionInput & StopStreamEncryptionInput & StopStreamEncryptionInput & StopStreamEncryptionInput & StopStreamEncryptionInput & StopStreamEncryptionInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.stopStreamEncryption(
-          this.ops["StopStreamEncryption"].applicator.apply(partialParams)
+          this.ops["RegisterStreamConsumer"].apply(partialParams)
         );
     }
 
     invokeUpdateShardCount(partialParams: ToOptional<{
-      [K in keyof UpdateShardCountInput & keyof UpdateShardCountInput & keyof UpdateShardCountInput & keyof UpdateShardCountInput & keyof UpdateShardCountInput & keyof UpdateShardCountInput & keyof UpdateShardCountInput]: (UpdateShardCountInput & UpdateShardCountInput & UpdateShardCountInput & UpdateShardCountInput & UpdateShardCountInput & UpdateShardCountInput & UpdateShardCountInput)[K]
+      [K in keyof UpdateShardCountInput]: (UpdateShardCountInput)[K]
     }>): Request<UpdateShardCountOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateShardCount(
-          this.ops["UpdateShardCount"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateStreamMode(partialParams: ToOptional<{
-      [K in keyof UpdateStreamModeInput & keyof UpdateStreamModeInput & keyof UpdateStreamModeInput & keyof UpdateStreamModeInput & keyof UpdateStreamModeInput & keyof UpdateStreamModeInput & keyof UpdateStreamModeInput]: (UpdateStreamModeInput & UpdateStreamModeInput & UpdateStreamModeInput & UpdateStreamModeInput & UpdateStreamModeInput & UpdateStreamModeInput & UpdateStreamModeInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateStreamMode(
-          this.ops["UpdateStreamMode"].applicator.apply(partialParams)
+          this.ops["UpdateShardCount"].apply(partialParams)
         );
     }
 }

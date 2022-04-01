@@ -6,8 +6,9 @@ import {AWSError} from 'aws-sdk/lib/error';
 
 import {
     CreateEndpointRequest,
-    DeleteEndpointRequest,
-    CreateEndpointResult
+    ListEndpointsRequest,
+    CreateEndpointResult,
+    ListEndpointsResult
 } from "aws-sdk/clients/s3outposts";
 const schema = require("../apis/s3outposts-2017-07-25.normal.json")
 import {getResourceOperations, upperCamelCase} from "../parse";
@@ -22,21 +23,24 @@ export default class extends aws.s3outposts.Endpoint {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.s3outposts.Endpoint>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.S3Outposts()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -46,28 +50,25 @@ export default class extends aws.s3outposts.Endpoint {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCreateEndpoint(partialParams: ToOptional<{
-      [K in keyof CreateEndpointRequest & keyof CreateEndpointRequest & keyof CreateEndpointRequest & keyof CreateEndpointRequest & keyof CreateEndpointRequest & keyof CreateEndpointRequest]: (CreateEndpointRequest & CreateEndpointRequest & CreateEndpointRequest & CreateEndpointRequest & CreateEndpointRequest & CreateEndpointRequest)[K]
+      [K in keyof CreateEndpointRequest & keyof Omit<CreateEndpointRequest, "OutpostId" | "SubnetId" | "SecurityGroupId">]: (CreateEndpointRequest)[K]
     }>): Request<CreateEndpointResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createEndpoint(
-          this.ops["CreateEndpoint"].applicator.apply(partialParams)
+          this.ops["CreateEndpoint"].apply(partialParams)
         );
     }
 
-    invokeDeleteEndpoint(partialParams: ToOptional<{
-      [K in keyof DeleteEndpointRequest & keyof DeleteEndpointRequest & keyof DeleteEndpointRequest & keyof DeleteEndpointRequest & keyof DeleteEndpointRequest & keyof DeleteEndpointRequest]: (DeleteEndpointRequest & DeleteEndpointRequest & DeleteEndpointRequest & DeleteEndpointRequest & DeleteEndpointRequest & DeleteEndpointRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeListEndpoints(partialParams: ToOptional<{
+      [K in keyof ListEndpointsRequest]: (ListEndpointsRequest)[K]
+    }>): Request<ListEndpointsResult, AWSError> {
         this.boot();
-        return this.client.deleteEndpoint(
-          this.ops["DeleteEndpoint"].applicator.apply(partialParams)
+        return this.client.listEndpoints(
+          this.ops["ListEndpoints"].apply(partialParams)
         );
     }
 }

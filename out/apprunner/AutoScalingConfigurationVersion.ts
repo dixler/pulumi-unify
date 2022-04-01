@@ -19,8 +19,12 @@ import {
     DescribeServiceRequest,
     DescribeVpcConnectorRequest,
     DisassociateCustomDomainRequest,
+    ListAutoScalingConfigurationsRequest,
+    ListConnectionsRequest,
     ListOperationsRequest,
+    ListServicesRequest,
     ListTagsForResourceRequest,
+    ListVpcConnectorsRequest,
     PauseServiceRequest,
     ResumeServiceRequest,
     StartDeploymentRequest,
@@ -41,8 +45,12 @@ import {
     DescribeServiceResponse,
     DescribeVpcConnectorResponse,
     DisassociateCustomDomainResponse,
+    ListAutoScalingConfigurationsResponse,
+    ListConnectionsResponse,
     ListOperationsResponse,
+    ListServicesResponse,
     ListTagsForResourceResponse,
+    ListVpcConnectorsResponse,
     PauseServiceResponse,
     ResumeServiceResponse,
     StartDeploymentResponse,
@@ -63,21 +71,24 @@ export default class extends aws.apprunner.AutoScalingConfigurationVersion {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.apprunner.AutoScalingConfigurationVersion>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.AppRunner()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -87,248 +98,241 @@ export default class extends aws.apprunner.AutoScalingConfigurationVersion {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAssociateCustomDomain(partialParams: ToOptional<{
-      [K in keyof AssociateCustomDomainRequest & keyof AssociateCustomDomainRequest & keyof AssociateCustomDomainRequest]: (AssociateCustomDomainRequest & AssociateCustomDomainRequest & AssociateCustomDomainRequest)[K]
+      [K in keyof AssociateCustomDomainRequest]: (AssociateCustomDomainRequest)[K]
     }>): Request<AssociateCustomDomainResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateCustomDomain(
-          this.ops["AssociateCustomDomain"].applicator.apply(partialParams)
+          this.ops["AssociateCustomDomain"].apply(partialParams)
         );
     }
 
     invokeCreateAutoScalingConfiguration(partialParams: ToOptional<{
-      [K in keyof CreateAutoScalingConfigurationRequest & keyof Omit<CreateAutoScalingConfigurationRequest, "AutoScalingConfigurationName"> & keyof CreateAutoScalingConfigurationRequest]: (CreateAutoScalingConfigurationRequest & Omit<CreateAutoScalingConfigurationRequest, "AutoScalingConfigurationName"> & CreateAutoScalingConfigurationRequest)[K]
+      [K in keyof CreateAutoScalingConfigurationRequest & keyof Omit<CreateAutoScalingConfigurationRequest, "AutoScalingConfigurationName">]: (CreateAutoScalingConfigurationRequest)[K]
     }>): Request<CreateAutoScalingConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createAutoScalingConfiguration(
-          this.ops["CreateAutoScalingConfiguration"].applicator.apply(partialParams)
+          this.ops["CreateAutoScalingConfiguration"].apply(partialParams)
         );
     }
 
     invokeCreateConnection(partialParams: ToOptional<{
-      [K in keyof CreateConnectionRequest & keyof CreateConnectionRequest & keyof CreateConnectionRequest]: (CreateConnectionRequest & CreateConnectionRequest & CreateConnectionRequest)[K]
+      [K in keyof CreateConnectionRequest]: (CreateConnectionRequest)[K]
     }>): Request<CreateConnectionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createConnection(
-          this.ops["CreateConnection"].applicator.apply(partialParams)
+          this.ops["CreateConnection"].apply(partialParams)
         );
     }
 
     invokeCreateService(partialParams: ToOptional<{
-      [K in keyof CreateServiceRequest & keyof CreateServiceRequest & keyof CreateServiceRequest]: (CreateServiceRequest & CreateServiceRequest & CreateServiceRequest)[K]
+      [K in keyof CreateServiceRequest]: (CreateServiceRequest)[K]
     }>): Request<CreateServiceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createService(
-          this.ops["CreateService"].applicator.apply(partialParams)
+          this.ops["CreateService"].apply(partialParams)
         );
     }
 
     invokeCreateVpcConnector(partialParams: ToOptional<{
-      [K in keyof CreateVpcConnectorRequest & keyof CreateVpcConnectorRequest & keyof CreateVpcConnectorRequest]: (CreateVpcConnectorRequest & CreateVpcConnectorRequest & CreateVpcConnectorRequest)[K]
+      [K in keyof CreateVpcConnectorRequest]: (CreateVpcConnectorRequest)[K]
     }>): Request<CreateVpcConnectorResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createVpcConnector(
-          this.ops["CreateVpcConnector"].applicator.apply(partialParams)
+          this.ops["CreateVpcConnector"].apply(partialParams)
         );
     }
 
     invokeDeleteAutoScalingConfiguration(partialParams: ToOptional<{
-      [K in keyof DeleteAutoScalingConfigurationRequest & keyof DeleteAutoScalingConfigurationRequest & keyof DeleteAutoScalingConfigurationRequest]: (DeleteAutoScalingConfigurationRequest & DeleteAutoScalingConfigurationRequest & DeleteAutoScalingConfigurationRequest)[K]
+      [K in keyof DeleteAutoScalingConfigurationRequest]: (DeleteAutoScalingConfigurationRequest)[K]
     }>): Request<DeleteAutoScalingConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteAutoScalingConfiguration(
-          this.ops["DeleteAutoScalingConfiguration"].applicator.apply(partialParams)
+          this.ops["DeleteAutoScalingConfiguration"].apply(partialParams)
         );
     }
 
     invokeDeleteConnection(partialParams: ToOptional<{
-      [K in keyof DeleteConnectionRequest & keyof DeleteConnectionRequest & keyof DeleteConnectionRequest]: (DeleteConnectionRequest & DeleteConnectionRequest & DeleteConnectionRequest)[K]
+      [K in keyof DeleteConnectionRequest]: (DeleteConnectionRequest)[K]
     }>): Request<DeleteConnectionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteConnection(
-          this.ops["DeleteConnection"].applicator.apply(partialParams)
+          this.ops["DeleteConnection"].apply(partialParams)
         );
     }
 
     invokeDeleteService(partialParams: ToOptional<{
-      [K in keyof DeleteServiceRequest & keyof DeleteServiceRequest & keyof DeleteServiceRequest]: (DeleteServiceRequest & DeleteServiceRequest & DeleteServiceRequest)[K]
+      [K in keyof DeleteServiceRequest]: (DeleteServiceRequest)[K]
     }>): Request<DeleteServiceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteService(
-          this.ops["DeleteService"].applicator.apply(partialParams)
+          this.ops["DeleteService"].apply(partialParams)
         );
     }
 
     invokeDeleteVpcConnector(partialParams: ToOptional<{
-      [K in keyof DeleteVpcConnectorRequest & keyof DeleteVpcConnectorRequest & keyof DeleteVpcConnectorRequest]: (DeleteVpcConnectorRequest & DeleteVpcConnectorRequest & DeleteVpcConnectorRequest)[K]
+      [K in keyof DeleteVpcConnectorRequest]: (DeleteVpcConnectorRequest)[K]
     }>): Request<DeleteVpcConnectorResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteVpcConnector(
-          this.ops["DeleteVpcConnector"].applicator.apply(partialParams)
+          this.ops["DeleteVpcConnector"].apply(partialParams)
         );
     }
 
     invokeDescribeAutoScalingConfiguration(partialParams: ToOptional<{
-      [K in keyof DescribeAutoScalingConfigurationRequest & keyof DescribeAutoScalingConfigurationRequest & keyof DescribeAutoScalingConfigurationRequest]: (DescribeAutoScalingConfigurationRequest & DescribeAutoScalingConfigurationRequest & DescribeAutoScalingConfigurationRequest)[K]
+      [K in keyof DescribeAutoScalingConfigurationRequest]: (DescribeAutoScalingConfigurationRequest)[K]
     }>): Request<DescribeAutoScalingConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeAutoScalingConfiguration(
-          this.ops["DescribeAutoScalingConfiguration"].applicator.apply(partialParams)
+          this.ops["DescribeAutoScalingConfiguration"].apply(partialParams)
         );
     }
 
     invokeDescribeCustomDomains(partialParams: ToOptional<{
-      [K in keyof DescribeCustomDomainsRequest & keyof DescribeCustomDomainsRequest & keyof DescribeCustomDomainsRequest]: (DescribeCustomDomainsRequest & DescribeCustomDomainsRequest & DescribeCustomDomainsRequest)[K]
+      [K in keyof DescribeCustomDomainsRequest]: (DescribeCustomDomainsRequest)[K]
     }>): Request<DescribeCustomDomainsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeCustomDomains(
-          this.ops["DescribeCustomDomains"].applicator.apply(partialParams)
+          this.ops["DescribeCustomDomains"].apply(partialParams)
         );
     }
 
     invokeDescribeService(partialParams: ToOptional<{
-      [K in keyof DescribeServiceRequest & keyof DescribeServiceRequest & keyof DescribeServiceRequest]: (DescribeServiceRequest & DescribeServiceRequest & DescribeServiceRequest)[K]
+      [K in keyof DescribeServiceRequest]: (DescribeServiceRequest)[K]
     }>): Request<DescribeServiceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeService(
-          this.ops["DescribeService"].applicator.apply(partialParams)
+          this.ops["DescribeService"].apply(partialParams)
         );
     }
 
     invokeDescribeVpcConnector(partialParams: ToOptional<{
-      [K in keyof DescribeVpcConnectorRequest & keyof DescribeVpcConnectorRequest & keyof DescribeVpcConnectorRequest]: (DescribeVpcConnectorRequest & DescribeVpcConnectorRequest & DescribeVpcConnectorRequest)[K]
+      [K in keyof DescribeVpcConnectorRequest]: (DescribeVpcConnectorRequest)[K]
     }>): Request<DescribeVpcConnectorResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeVpcConnector(
-          this.ops["DescribeVpcConnector"].applicator.apply(partialParams)
+          this.ops["DescribeVpcConnector"].apply(partialParams)
         );
     }
 
     invokeDisassociateCustomDomain(partialParams: ToOptional<{
-      [K in keyof DisassociateCustomDomainRequest & keyof DisassociateCustomDomainRequest & keyof DisassociateCustomDomainRequest]: (DisassociateCustomDomainRequest & DisassociateCustomDomainRequest & DisassociateCustomDomainRequest)[K]
+      [K in keyof DisassociateCustomDomainRequest]: (DisassociateCustomDomainRequest)[K]
     }>): Request<DisassociateCustomDomainResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateCustomDomain(
-          this.ops["DisassociateCustomDomain"].applicator.apply(partialParams)
+          this.ops["DisassociateCustomDomain"].apply(partialParams)
+        );
+    }
+
+    invokeListAutoScalingConfigurations(partialParams: ToOptional<{
+      [K in keyof ListAutoScalingConfigurationsRequest]: (ListAutoScalingConfigurationsRequest)[K]
+    }>): Request<ListAutoScalingConfigurationsResponse, AWSError> {
+        this.boot();
+        return this.client.listAutoScalingConfigurations(
+          this.ops["ListAutoScalingConfigurations"].apply(partialParams)
+        );
+    }
+
+    invokeListConnections(partialParams: ToOptional<{
+      [K in keyof ListConnectionsRequest]: (ListConnectionsRequest)[K]
+    }>): Request<ListConnectionsResponse, AWSError> {
+        this.boot();
+        return this.client.listConnections(
+          this.ops["ListConnections"].apply(partialParams)
         );
     }
 
     invokeListOperations(partialParams: ToOptional<{
-      [K in keyof ListOperationsRequest & keyof ListOperationsRequest & keyof ListOperationsRequest]: (ListOperationsRequest & ListOperationsRequest & ListOperationsRequest)[K]
+      [K in keyof ListOperationsRequest]: (ListOperationsRequest)[K]
     }>): Request<ListOperationsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listOperations(
-          this.ops["ListOperations"].applicator.apply(partialParams)
+          this.ops["ListOperations"].apply(partialParams)
+        );
+    }
+
+    invokeListServices(partialParams: ToOptional<{
+      [K in keyof ListServicesRequest]: (ListServicesRequest)[K]
+    }>): Request<ListServicesResponse, AWSError> {
+        this.boot();
+        return this.client.listServices(
+          this.ops["ListServices"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
+        );
+    }
+
+    invokeListVpcConnectors(partialParams: ToOptional<{
+      [K in keyof ListVpcConnectorsRequest]: (ListVpcConnectorsRequest)[K]
+    }>): Request<ListVpcConnectorsResponse, AWSError> {
+        this.boot();
+        return this.client.listVpcConnectors(
+          this.ops["ListVpcConnectors"].apply(partialParams)
         );
     }
 
     invokePauseService(partialParams: ToOptional<{
-      [K in keyof PauseServiceRequest & keyof PauseServiceRequest & keyof PauseServiceRequest]: (PauseServiceRequest & PauseServiceRequest & PauseServiceRequest)[K]
+      [K in keyof PauseServiceRequest]: (PauseServiceRequest)[K]
     }>): Request<PauseServiceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.pauseService(
-          this.ops["PauseService"].applicator.apply(partialParams)
+          this.ops["PauseService"].apply(partialParams)
         );
     }
 
     invokeResumeService(partialParams: ToOptional<{
-      [K in keyof ResumeServiceRequest & keyof ResumeServiceRequest & keyof ResumeServiceRequest]: (ResumeServiceRequest & ResumeServiceRequest & ResumeServiceRequest)[K]
+      [K in keyof ResumeServiceRequest]: (ResumeServiceRequest)[K]
     }>): Request<ResumeServiceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.resumeService(
-          this.ops["ResumeService"].applicator.apply(partialParams)
+          this.ops["ResumeService"].apply(partialParams)
         );
     }
 
     invokeStartDeployment(partialParams: ToOptional<{
-      [K in keyof StartDeploymentRequest & keyof StartDeploymentRequest & keyof StartDeploymentRequest]: (StartDeploymentRequest & StartDeploymentRequest & StartDeploymentRequest)[K]
+      [K in keyof StartDeploymentRequest]: (StartDeploymentRequest)[K]
     }>): Request<StartDeploymentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startDeployment(
-          this.ops["StartDeployment"].applicator.apply(partialParams)
+          this.ops["StartDeployment"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateService(partialParams: ToOptional<{
-      [K in keyof UpdateServiceRequest & keyof UpdateServiceRequest & keyof UpdateServiceRequest]: (UpdateServiceRequest & UpdateServiceRequest & UpdateServiceRequest)[K]
+      [K in keyof UpdateServiceRequest]: (UpdateServiceRequest)[K]
     }>): Request<UpdateServiceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateService(
-          this.ops["UpdateService"].applicator.apply(partialParams)
+          this.ops["UpdateService"].apply(partialParams)
         );
     }
 }

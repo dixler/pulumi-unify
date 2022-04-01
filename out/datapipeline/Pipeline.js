@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.datapipeline.Pipeline {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.DataPipeline();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,115 +50,76 @@ class default_1 extends aws.datapipeline.Pipeline {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeActivatePipeline(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.activatePipeline(this.ops["ActivatePipeline"].applicator.apply(partialParams));
+        return this.client.activatePipeline(this.ops["ActivatePipeline"].apply(partialParams));
     }
     invokeAddTags(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.addTags(this.ops["AddTags"].applicator.apply(partialParams));
+        return this.client.addTags(this.ops["AddTags"].apply(partialParams));
     }
     invokeCreatePipeline(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createPipeline(this.ops["CreatePipeline"].applicator.apply(partialParams));
+        return this.client.createPipeline(this.ops["CreatePipeline"].apply(partialParams));
     }
     invokeDeactivatePipeline(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deactivatePipeline(this.ops["DeactivatePipeline"].applicator.apply(partialParams));
-    }
-    invokeDeletePipeline(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deletePipeline(this.ops["DeletePipeline"].applicator.apply(partialParams));
+        return this.client.deactivatePipeline(this.ops["DeactivatePipeline"].apply(partialParams));
     }
     invokeDescribeObjects(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeObjects(this.ops["DescribeObjects"].applicator.apply(partialParams));
+        return this.client.describeObjects(this.ops["DescribeObjects"].apply(partialParams));
     }
     invokeDescribePipelines(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describePipelines(this.ops["DescribePipelines"].applicator.apply(partialParams));
+        return this.client.describePipelines(this.ops["DescribePipelines"].apply(partialParams));
     }
     invokeEvaluateExpression(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.evaluateExpression(this.ops["EvaluateExpression"].applicator.apply(partialParams));
+        return this.client.evaluateExpression(this.ops["EvaluateExpression"].apply(partialParams));
     }
     invokeGetPipelineDefinition(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getPipelineDefinition(this.ops["GetPipelineDefinition"].applicator.apply(partialParams));
+        return this.client.getPipelineDefinition(this.ops["GetPipelineDefinition"].apply(partialParams));
+    }
+    invokeListPipelines(partialParams) {
+        this.boot();
+        return this.client.listPipelines(this.ops["ListPipelines"].apply(partialParams));
     }
     invokePollForTask(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.pollForTask(this.ops["PollForTask"].applicator.apply(partialParams));
+        return this.client.pollForTask(this.ops["PollForTask"].apply(partialParams));
     }
     invokePutPipelineDefinition(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putPipelineDefinition(this.ops["PutPipelineDefinition"].applicator.apply(partialParams));
+        return this.client.putPipelineDefinition(this.ops["PutPipelineDefinition"].apply(partialParams));
     }
     invokeQueryObjects(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.queryObjects(this.ops["QueryObjects"].applicator.apply(partialParams));
+        return this.client.queryObjects(this.ops["QueryObjects"].apply(partialParams));
     }
     invokeRemoveTags(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.removeTags(this.ops["RemoveTags"].applicator.apply(partialParams));
+        return this.client.removeTags(this.ops["RemoveTags"].apply(partialParams));
     }
     invokeReportTaskProgress(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.reportTaskProgress(this.ops["ReportTaskProgress"].applicator.apply(partialParams));
+        return this.client.reportTaskProgress(this.ops["ReportTaskProgress"].apply(partialParams));
     }
     invokeReportTaskRunnerHeartbeat(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.reportTaskRunnerHeartbeat(this.ops["ReportTaskRunnerHeartbeat"].applicator.apply(partialParams));
-    }
-    invokeSetStatus(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.setStatus(this.ops["SetStatus"].applicator.apply(partialParams));
+        return this.client.reportTaskRunnerHeartbeat(this.ops["ReportTaskRunnerHeartbeat"].apply(partialParams));
     }
     invokeSetTaskStatus(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.setTaskStatus(this.ops["SetTaskStatus"].applicator.apply(partialParams));
+        return this.client.setTaskStatus(this.ops["SetTaskStatus"].apply(partialParams));
     }
     invokeValidatePipelineDefinition(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.validatePipelineDefinition(this.ops["ValidatePipelineDefinition"].applicator.apply(partialParams));
+        return this.client.validatePipelineDefinition(this.ops["ValidatePipelineDefinition"].apply(partialParams));
     }
 }
 exports.default = default_1;

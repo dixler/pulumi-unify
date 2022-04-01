@@ -10,11 +10,6 @@ import {
     CreateDeploymentStrategyRequest,
     CreateEnvironmentRequest,
     CreateHostedConfigurationVersionRequest,
-    DeleteApplicationRequest,
-    DeleteConfigurationProfileRequest,
-    DeleteDeploymentStrategyRequest,
-    DeleteEnvironmentRequest,
-    DeleteHostedConfigurationVersionRequest,
     GetApplicationRequest,
     GetConfigurationRequest,
     GetConfigurationProfileRequest,
@@ -22,20 +17,19 @@ import {
     GetDeploymentStrategyRequest,
     GetEnvironmentRequest,
     GetHostedConfigurationVersionRequest,
+    ListApplicationsRequest,
     ListConfigurationProfilesRequest,
+    ListDeploymentStrategiesRequest,
     ListDeploymentsRequest,
     ListEnvironmentsRequest,
     ListHostedConfigurationVersionsRequest,
     ListTagsForResourceRequest,
     StartDeploymentRequest,
     StopDeploymentRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
     UpdateApplicationRequest,
     UpdateConfigurationProfileRequest,
     UpdateDeploymentStrategyRequest,
     UpdateEnvironmentRequest,
-    ValidateConfigurationRequest,
     Application,
     ConfigurationProfile,
     DeploymentStrategy,
@@ -43,7 +37,9 @@ import {
     HostedConfigurationVersion,
     Configuration,
     Deployment,
+    Applications,
     ConfigurationProfiles,
+    DeploymentStrategies,
     Deployments,
     Environments,
     HostedConfigurationVersions,
@@ -62,21 +58,24 @@ export default class extends aws.appconfig.Application {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.appconfig.Application>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.AppConfig()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -86,347 +85,232 @@ export default class extends aws.appconfig.Application {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCreateApplication(partialParams: ToOptional<{
-      [K in keyof CreateApplicationRequest & keyof CreateApplicationRequest & keyof CreateApplicationRequest]: (CreateApplicationRequest & CreateApplicationRequest & CreateApplicationRequest)[K]
+      [K in keyof CreateApplicationRequest & keyof Omit<CreateApplicationRequest, "Name">]: (CreateApplicationRequest)[K]
     }>): Request<Application, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createApplication(
-          this.ops["CreateApplication"].applicator.apply(partialParams)
+          this.ops["CreateApplication"].apply(partialParams)
         );
     }
 
     invokeCreateConfigurationProfile(partialParams: ToOptional<{
-      [K in keyof CreateConfigurationProfileRequest & keyof CreateConfigurationProfileRequest & keyof CreateConfigurationProfileRequest]: (CreateConfigurationProfileRequest & CreateConfigurationProfileRequest & CreateConfigurationProfileRequest)[K]
+      [K in keyof CreateConfigurationProfileRequest & keyof Omit<CreateConfigurationProfileRequest, "Name">]: (CreateConfigurationProfileRequest)[K]
     }>): Request<ConfigurationProfile, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createConfigurationProfile(
-          this.ops["CreateConfigurationProfile"].applicator.apply(partialParams)
+          this.ops["CreateConfigurationProfile"].apply(partialParams)
         );
     }
 
     invokeCreateDeploymentStrategy(partialParams: ToOptional<{
-      [K in keyof CreateDeploymentStrategyRequest & keyof CreateDeploymentStrategyRequest & keyof CreateDeploymentStrategyRequest]: (CreateDeploymentStrategyRequest & CreateDeploymentStrategyRequest & CreateDeploymentStrategyRequest)[K]
+      [K in keyof CreateDeploymentStrategyRequest & keyof Omit<CreateDeploymentStrategyRequest, "Name">]: (CreateDeploymentStrategyRequest)[K]
     }>): Request<DeploymentStrategy, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDeploymentStrategy(
-          this.ops["CreateDeploymentStrategy"].applicator.apply(partialParams)
+          this.ops["CreateDeploymentStrategy"].apply(partialParams)
         );
     }
 
     invokeCreateEnvironment(partialParams: ToOptional<{
-      [K in keyof CreateEnvironmentRequest & keyof CreateEnvironmentRequest & keyof CreateEnvironmentRequest]: (CreateEnvironmentRequest & CreateEnvironmentRequest & CreateEnvironmentRequest)[K]
+      [K in keyof CreateEnvironmentRequest & keyof Omit<CreateEnvironmentRequest, "Name">]: (CreateEnvironmentRequest)[K]
     }>): Request<Environment, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createEnvironment(
-          this.ops["CreateEnvironment"].applicator.apply(partialParams)
+          this.ops["CreateEnvironment"].apply(partialParams)
         );
     }
 
     invokeCreateHostedConfigurationVersion(partialParams: ToOptional<{
-      [K in keyof CreateHostedConfigurationVersionRequest & keyof CreateHostedConfigurationVersionRequest & keyof CreateHostedConfigurationVersionRequest]: (CreateHostedConfigurationVersionRequest & CreateHostedConfigurationVersionRequest & CreateHostedConfigurationVersionRequest)[K]
+      [K in keyof CreateHostedConfigurationVersionRequest]: (CreateHostedConfigurationVersionRequest)[K]
     }>): Request<HostedConfigurationVersion, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createHostedConfigurationVersion(
-          this.ops["CreateHostedConfigurationVersion"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteApplication(partialParams: ToOptional<{
-      [K in keyof DeleteApplicationRequest & keyof DeleteApplicationRequest & keyof DeleteApplicationRequest]: (DeleteApplicationRequest & DeleteApplicationRequest & DeleteApplicationRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteApplication(
-          this.ops["DeleteApplication"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteConfigurationProfile(partialParams: ToOptional<{
-      [K in keyof DeleteConfigurationProfileRequest & keyof DeleteConfigurationProfileRequest & keyof DeleteConfigurationProfileRequest]: (DeleteConfigurationProfileRequest & DeleteConfigurationProfileRequest & DeleteConfigurationProfileRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteConfigurationProfile(
-          this.ops["DeleteConfigurationProfile"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteDeploymentStrategy(partialParams: ToOptional<{
-      [K in keyof DeleteDeploymentStrategyRequest & keyof DeleteDeploymentStrategyRequest & keyof DeleteDeploymentStrategyRequest]: (DeleteDeploymentStrategyRequest & DeleteDeploymentStrategyRequest & DeleteDeploymentStrategyRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteDeploymentStrategy(
-          this.ops["DeleteDeploymentStrategy"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteEnvironment(partialParams: ToOptional<{
-      [K in keyof DeleteEnvironmentRequest & keyof DeleteEnvironmentRequest & keyof DeleteEnvironmentRequest]: (DeleteEnvironmentRequest & DeleteEnvironmentRequest & DeleteEnvironmentRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteEnvironment(
-          this.ops["DeleteEnvironment"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteHostedConfigurationVersion(partialParams: ToOptional<{
-      [K in keyof DeleteHostedConfigurationVersionRequest & keyof DeleteHostedConfigurationVersionRequest & keyof DeleteHostedConfigurationVersionRequest]: (DeleteHostedConfigurationVersionRequest & DeleteHostedConfigurationVersionRequest & DeleteHostedConfigurationVersionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteHostedConfigurationVersion(
-          this.ops["DeleteHostedConfigurationVersion"].applicator.apply(partialParams)
+          this.ops["CreateHostedConfigurationVersion"].apply(partialParams)
         );
     }
 
     invokeGetApplication(partialParams: ToOptional<{
-      [K in keyof GetApplicationRequest & keyof GetApplicationRequest & keyof GetApplicationRequest]: (GetApplicationRequest & GetApplicationRequest & GetApplicationRequest)[K]
+      [K in keyof GetApplicationRequest]: (GetApplicationRequest)[K]
     }>): Request<Application, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getApplication(
-          this.ops["GetApplication"].applicator.apply(partialParams)
+          this.ops["GetApplication"].apply(partialParams)
         );
     }
 
     invokeGetConfiguration(partialParams: ToOptional<{
-      [K in keyof GetConfigurationRequest & keyof GetConfigurationRequest & keyof GetConfigurationRequest]: (GetConfigurationRequest & GetConfigurationRequest & GetConfigurationRequest)[K]
+      [K in keyof GetConfigurationRequest]: (GetConfigurationRequest)[K]
     }>): Request<Configuration, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getConfiguration(
-          this.ops["GetConfiguration"].applicator.apply(partialParams)
+          this.ops["GetConfiguration"].apply(partialParams)
         );
     }
 
     invokeGetConfigurationProfile(partialParams: ToOptional<{
-      [K in keyof GetConfigurationProfileRequest & keyof GetConfigurationProfileRequest & keyof GetConfigurationProfileRequest]: (GetConfigurationProfileRequest & GetConfigurationProfileRequest & GetConfigurationProfileRequest)[K]
+      [K in keyof GetConfigurationProfileRequest]: (GetConfigurationProfileRequest)[K]
     }>): Request<ConfigurationProfile, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getConfigurationProfile(
-          this.ops["GetConfigurationProfile"].applicator.apply(partialParams)
+          this.ops["GetConfigurationProfile"].apply(partialParams)
         );
     }
 
     invokeGetDeployment(partialParams: ToOptional<{
-      [K in keyof GetDeploymentRequest & keyof GetDeploymentRequest & keyof GetDeploymentRequest]: (GetDeploymentRequest & GetDeploymentRequest & GetDeploymentRequest)[K]
+      [K in keyof GetDeploymentRequest]: (GetDeploymentRequest)[K]
     }>): Request<Deployment, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDeployment(
-          this.ops["GetDeployment"].applicator.apply(partialParams)
+          this.ops["GetDeployment"].apply(partialParams)
         );
     }
 
     invokeGetDeploymentStrategy(partialParams: ToOptional<{
-      [K in keyof GetDeploymentStrategyRequest & keyof GetDeploymentStrategyRequest & keyof GetDeploymentStrategyRequest]: (GetDeploymentStrategyRequest & GetDeploymentStrategyRequest & GetDeploymentStrategyRequest)[K]
+      [K in keyof GetDeploymentStrategyRequest]: (GetDeploymentStrategyRequest)[K]
     }>): Request<DeploymentStrategy, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDeploymentStrategy(
-          this.ops["GetDeploymentStrategy"].applicator.apply(partialParams)
+          this.ops["GetDeploymentStrategy"].apply(partialParams)
         );
     }
 
     invokeGetEnvironment(partialParams: ToOptional<{
-      [K in keyof GetEnvironmentRequest & keyof GetEnvironmentRequest & keyof GetEnvironmentRequest]: (GetEnvironmentRequest & GetEnvironmentRequest & GetEnvironmentRequest)[K]
+      [K in keyof GetEnvironmentRequest]: (GetEnvironmentRequest)[K]
     }>): Request<Environment, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getEnvironment(
-          this.ops["GetEnvironment"].applicator.apply(partialParams)
+          this.ops["GetEnvironment"].apply(partialParams)
         );
     }
 
     invokeGetHostedConfigurationVersion(partialParams: ToOptional<{
-      [K in keyof GetHostedConfigurationVersionRequest & keyof GetHostedConfigurationVersionRequest & keyof GetHostedConfigurationVersionRequest]: (GetHostedConfigurationVersionRequest & GetHostedConfigurationVersionRequest & GetHostedConfigurationVersionRequest)[K]
+      [K in keyof GetHostedConfigurationVersionRequest]: (GetHostedConfigurationVersionRequest)[K]
     }>): Request<HostedConfigurationVersion, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getHostedConfigurationVersion(
-          this.ops["GetHostedConfigurationVersion"].applicator.apply(partialParams)
+          this.ops["GetHostedConfigurationVersion"].apply(partialParams)
+        );
+    }
+
+    invokeListApplications(partialParams: ToOptional<{
+      [K in keyof ListApplicationsRequest]: (ListApplicationsRequest)[K]
+    }>): Request<Applications, AWSError> {
+        this.boot();
+        return this.client.listApplications(
+          this.ops["ListApplications"].apply(partialParams)
         );
     }
 
     invokeListConfigurationProfiles(partialParams: ToOptional<{
-      [K in keyof ListConfigurationProfilesRequest & keyof ListConfigurationProfilesRequest & keyof ListConfigurationProfilesRequest]: (ListConfigurationProfilesRequest & ListConfigurationProfilesRequest & ListConfigurationProfilesRequest)[K]
+      [K in keyof ListConfigurationProfilesRequest]: (ListConfigurationProfilesRequest)[K]
     }>): Request<ConfigurationProfiles, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listConfigurationProfiles(
-          this.ops["ListConfigurationProfiles"].applicator.apply(partialParams)
+          this.ops["ListConfigurationProfiles"].apply(partialParams)
+        );
+    }
+
+    invokeListDeploymentStrategies(partialParams: ToOptional<{
+      [K in keyof ListDeploymentStrategiesRequest]: (ListDeploymentStrategiesRequest)[K]
+    }>): Request<DeploymentStrategies, AWSError> {
+        this.boot();
+        return this.client.listDeploymentStrategies(
+          this.ops["ListDeploymentStrategies"].apply(partialParams)
         );
     }
 
     invokeListDeployments(partialParams: ToOptional<{
-      [K in keyof ListDeploymentsRequest & keyof ListDeploymentsRequest & keyof ListDeploymentsRequest]: (ListDeploymentsRequest & ListDeploymentsRequest & ListDeploymentsRequest)[K]
+      [K in keyof ListDeploymentsRequest]: (ListDeploymentsRequest)[K]
     }>): Request<Deployments, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listDeployments(
-          this.ops["ListDeployments"].applicator.apply(partialParams)
+          this.ops["ListDeployments"].apply(partialParams)
         );
     }
 
     invokeListEnvironments(partialParams: ToOptional<{
-      [K in keyof ListEnvironmentsRequest & keyof ListEnvironmentsRequest & keyof ListEnvironmentsRequest]: (ListEnvironmentsRequest & ListEnvironmentsRequest & ListEnvironmentsRequest)[K]
+      [K in keyof ListEnvironmentsRequest]: (ListEnvironmentsRequest)[K]
     }>): Request<Environments, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listEnvironments(
-          this.ops["ListEnvironments"].applicator.apply(partialParams)
+          this.ops["ListEnvironments"].apply(partialParams)
         );
     }
 
     invokeListHostedConfigurationVersions(partialParams: ToOptional<{
-      [K in keyof ListHostedConfigurationVersionsRequest & keyof ListHostedConfigurationVersionsRequest & keyof ListHostedConfigurationVersionsRequest]: (ListHostedConfigurationVersionsRequest & ListHostedConfigurationVersionsRequest & ListHostedConfigurationVersionsRequest)[K]
+      [K in keyof ListHostedConfigurationVersionsRequest]: (ListHostedConfigurationVersionsRequest)[K]
     }>): Request<HostedConfigurationVersions, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listHostedConfigurationVersions(
-          this.ops["ListHostedConfigurationVersions"].applicator.apply(partialParams)
+          this.ops["ListHostedConfigurationVersions"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof Omit<ListTagsForResourceRequest, "ResourceArn"> & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (Omit<ListTagsForResourceRequest, "ResourceArn"> & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ResourceTags, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeStartDeployment(partialParams: ToOptional<{
-      [K in keyof StartDeploymentRequest & keyof StartDeploymentRequest & keyof StartDeploymentRequest]: (StartDeploymentRequest & StartDeploymentRequest & StartDeploymentRequest)[K]
+      [K in keyof StartDeploymentRequest]: (StartDeploymentRequest)[K]
     }>): Request<Deployment, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startDeployment(
-          this.ops["StartDeployment"].applicator.apply(partialParams)
+          this.ops["StartDeployment"].apply(partialParams)
         );
     }
 
     invokeStopDeployment(partialParams: ToOptional<{
-      [K in keyof StopDeploymentRequest & keyof StopDeploymentRequest & keyof StopDeploymentRequest]: (StopDeploymentRequest & StopDeploymentRequest & StopDeploymentRequest)[K]
+      [K in keyof StopDeploymentRequest]: (StopDeploymentRequest)[K]
     }>): Request<Deployment, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopDeployment(
-          this.ops["StopDeployment"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof Omit<TagResourceRequest, "ResourceArn"> & keyof TagResourceRequest & keyof TagResourceRequest]: (Omit<TagResourceRequest, "ResourceArn"> & TagResourceRequest & TagResourceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof Omit<UntagResourceRequest, "ResourceArn"> & keyof UntagResourceRequest & keyof UntagResourceRequest]: (Omit<UntagResourceRequest, "ResourceArn"> & UntagResourceRequest & UntagResourceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["StopDeployment"].apply(partialParams)
         );
     }
 
     invokeUpdateApplication(partialParams: ToOptional<{
-      [K in keyof UpdateApplicationRequest & keyof UpdateApplicationRequest & keyof UpdateApplicationRequest]: (UpdateApplicationRequest & UpdateApplicationRequest & UpdateApplicationRequest)[K]
+      [K in keyof UpdateApplicationRequest]: (UpdateApplicationRequest)[K]
     }>): Request<Application, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateApplication(
-          this.ops["UpdateApplication"].applicator.apply(partialParams)
+          this.ops["UpdateApplication"].apply(partialParams)
         );
     }
 
     invokeUpdateConfigurationProfile(partialParams: ToOptional<{
-      [K in keyof UpdateConfigurationProfileRequest & keyof UpdateConfigurationProfileRequest & keyof UpdateConfigurationProfileRequest]: (UpdateConfigurationProfileRequest & UpdateConfigurationProfileRequest & UpdateConfigurationProfileRequest)[K]
+      [K in keyof UpdateConfigurationProfileRequest]: (UpdateConfigurationProfileRequest)[K]
     }>): Request<ConfigurationProfile, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateConfigurationProfile(
-          this.ops["UpdateConfigurationProfile"].applicator.apply(partialParams)
+          this.ops["UpdateConfigurationProfile"].apply(partialParams)
         );
     }
 
     invokeUpdateDeploymentStrategy(partialParams: ToOptional<{
-      [K in keyof UpdateDeploymentStrategyRequest & keyof UpdateDeploymentStrategyRequest & keyof UpdateDeploymentStrategyRequest]: (UpdateDeploymentStrategyRequest & UpdateDeploymentStrategyRequest & UpdateDeploymentStrategyRequest)[K]
+      [K in keyof UpdateDeploymentStrategyRequest]: (UpdateDeploymentStrategyRequest)[K]
     }>): Request<DeploymentStrategy, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDeploymentStrategy(
-          this.ops["UpdateDeploymentStrategy"].applicator.apply(partialParams)
+          this.ops["UpdateDeploymentStrategy"].apply(partialParams)
         );
     }
 
     invokeUpdateEnvironment(partialParams: ToOptional<{
-      [K in keyof UpdateEnvironmentRequest & keyof UpdateEnvironmentRequest & keyof UpdateEnvironmentRequest]: (UpdateEnvironmentRequest & UpdateEnvironmentRequest & UpdateEnvironmentRequest)[K]
+      [K in keyof UpdateEnvironmentRequest]: (UpdateEnvironmentRequest)[K]
     }>): Request<Environment, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateEnvironment(
-          this.ops["UpdateEnvironment"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeValidateConfiguration(partialParams: ToOptional<{
-      [K in keyof ValidateConfigurationRequest & keyof ValidateConfigurationRequest & keyof ValidateConfigurationRequest]: (ValidateConfigurationRequest & ValidateConfigurationRequest & ValidateConfigurationRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.validateConfiguration(
-          this.ops["ValidateConfiguration"].applicator.apply(partialParams)
+          this.ops["UpdateEnvironment"].apply(partialParams)
         );
     }
 }

@@ -1,25 +1,20 @@
 import * as aws from "@pulumi/aws";
-import Bucket from "out/s3/Bucket";
+import Table from "unify/dynamodb/Table";
+import Bucket from "unify/s3/Bucket";
+import Instance from "unify/ec2/Instance";
 
 const mybucket = new Bucket("myResource", {
   "bucket": "wew9018",
 })
 
 new aws.lambda.CallbackFunction("myfun", {
-  callback: (event, context, cb): any => {
-    try {
-      const val = mybucket.invokePutObject({
-        Key: "wew1",
-        Body: "yay",
-      }).promise().then((val) => {
-        console.log(val);
-      });
-      return val
-    } catch(e) {
-      console.log(e);
-      return
+    callback: async (event, context, cb) => {
+        const val = await mybucket.invokePutObject({
+            Key: `wew1-${(new Date()).toISOString()}`,
+            Body: "yay",
+        }).promise()
+        return val;
     }
-  }
 })
 
 /*

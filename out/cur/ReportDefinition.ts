@@ -5,8 +5,12 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
+    DeleteReportDefinitionRequest,
+    DescribeReportDefinitionsRequest,
     ModifyReportDefinitionRequest,
     PutReportDefinitionRequest,
+    DeleteReportDefinitionResponse,
+    DescribeReportDefinitionsResponse,
     ModifyReportDefinitionResponse,
     PutReportDefinitionResponse
 } from "aws-sdk/clients/cur";
@@ -23,21 +27,24 @@ export default class extends aws.cur.ReportDefinition {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.cur.ReportDefinition>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.CUR()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -47,28 +54,43 @@ export default class extends aws.cur.ReportDefinition {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
+    }
+
+    invokeDeleteReportDefinition(partialParams: ToOptional<{
+      [K in keyof DeleteReportDefinitionRequest]: (DeleteReportDefinitionRequest)[K]
+    }>): Request<DeleteReportDefinitionResponse, AWSError> {
+        this.boot();
+        return this.client.deleteReportDefinition(
+          this.ops["DeleteReportDefinition"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeReportDefinitions(partialParams: ToOptional<{
+      [K in keyof DescribeReportDefinitionsRequest]: (DescribeReportDefinitionsRequest)[K]
+    }>): Request<DescribeReportDefinitionsResponse, AWSError> {
+        this.boot();
+        return this.client.describeReportDefinitions(
+          this.ops["DescribeReportDefinitions"].apply(partialParams)
+        );
     }
 
     invokeModifyReportDefinition(partialParams: ToOptional<{
-      [K in keyof ModifyReportDefinitionRequest & keyof ModifyReportDefinitionRequest & keyof ModifyReportDefinitionRequest & keyof ModifyReportDefinitionRequest & keyof ModifyReportDefinitionRequest & keyof ModifyReportDefinitionRequest & keyof ModifyReportDefinitionRequest & keyof ModifyReportDefinitionRequest & keyof ModifyReportDefinitionRequest]: (ModifyReportDefinitionRequest & ModifyReportDefinitionRequest & ModifyReportDefinitionRequest & ModifyReportDefinitionRequest & ModifyReportDefinitionRequest & ModifyReportDefinitionRequest & ModifyReportDefinitionRequest & ModifyReportDefinitionRequest & ModifyReportDefinitionRequest)[K]
+      [K in keyof ModifyReportDefinitionRequest & keyof Omit<ModifyReportDefinitionRequest, "ReportName">]: (ModifyReportDefinitionRequest)[K]
     }>): Request<ModifyReportDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyReportDefinition(
-          this.ops["ModifyReportDefinition"].applicator.apply(partialParams)
+          this.ops["ModifyReportDefinition"].apply(partialParams)
         );
     }
 
     invokePutReportDefinition(partialParams: ToOptional<{
-      [K in keyof PutReportDefinitionRequest & keyof PutReportDefinitionRequest & keyof PutReportDefinitionRequest & keyof PutReportDefinitionRequest & keyof PutReportDefinitionRequest & keyof PutReportDefinitionRequest & keyof PutReportDefinitionRequest & keyof PutReportDefinitionRequest & keyof PutReportDefinitionRequest]: (PutReportDefinitionRequest & PutReportDefinitionRequest & PutReportDefinitionRequest & PutReportDefinitionRequest & PutReportDefinitionRequest & PutReportDefinitionRequest & PutReportDefinitionRequest & PutReportDefinitionRequest & PutReportDefinitionRequest)[K]
+      [K in keyof PutReportDefinitionRequest]: (PutReportDefinitionRequest)[K]
     }>): Request<PutReportDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putReportDefinition(
-          this.ops["PutReportDefinition"].applicator.apply(partialParams)
+          this.ops["PutReportDefinition"].apply(partialParams)
         );
     }
 }

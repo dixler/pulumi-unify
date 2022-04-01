@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.shield.Protection {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.Shield();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,127 +50,152 @@ class default_1 extends aws.shield.Protection {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAssociateDRTLogBucket(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateDRTLogBucket(this.ops["AssociateDRTLogBucket"].applicator.apply(partialParams));
+        return this.client.associateDRTLogBucket(this.ops["AssociateDRTLogBucket"].apply(partialParams));
     }
     invokeAssociateDRTRole(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateDRTRole(this.ops["AssociateDRTRole"].applicator.apply(partialParams));
+        return this.client.associateDRTRole(this.ops["AssociateDRTRole"].apply(partialParams));
     }
     invokeAssociateHealthCheck(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateHealthCheck(this.ops["AssociateHealthCheck"].applicator.apply(partialParams));
+        return this.client.associateHealthCheck(this.ops["AssociateHealthCheck"].apply(partialParams));
     }
     invokeAssociateProactiveEngagementDetails(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateProactiveEngagementDetails(this.ops["AssociateProactiveEngagementDetails"].applicator.apply(partialParams));
+        return this.client.associateProactiveEngagementDetails(this.ops["AssociateProactiveEngagementDetails"].apply(partialParams));
     }
     invokeCreateProtection(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createProtection(this.ops["CreateProtection"].applicator.apply(partialParams));
+        return this.client.createProtection(this.ops["CreateProtection"].apply(partialParams));
     }
     invokeCreateProtectionGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createProtectionGroup(this.ops["CreateProtectionGroup"].applicator.apply(partialParams));
+        return this.client.createProtectionGroup(this.ops["CreateProtectionGroup"].apply(partialParams));
+    }
+    invokeCreateSubscription(partialParams) {
+        this.boot();
+        return this.client.createSubscription(this.ops["CreateSubscription"].apply(partialParams));
     }
     invokeDeleteProtection(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteProtection(this.ops["DeleteProtection"].applicator.apply(partialParams));
+        return this.client.deleteProtection(this.ops["DeleteProtection"].apply(partialParams));
     }
     invokeDeleteProtectionGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteProtectionGroup(this.ops["DeleteProtectionGroup"].applicator.apply(partialParams));
+        return this.client.deleteProtectionGroup(this.ops["DeleteProtectionGroup"].apply(partialParams));
+    }
+    invokeDeleteSubscription(partialParams) {
+        this.boot();
+        return this.client.deleteSubscription(this.ops["DeleteSubscription"].apply(partialParams));
     }
     invokeDescribeAttack(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeAttack(this.ops["DescribeAttack"].applicator.apply(partialParams));
+        return this.client.describeAttack(this.ops["DescribeAttack"].apply(partialParams));
+    }
+    invokeDescribeAttackStatistics(partialParams) {
+        this.boot();
+        return this.client.describeAttackStatistics(this.ops["DescribeAttackStatistics"].apply(partialParams));
+    }
+    invokeDescribeDRTAccess(partialParams) {
+        this.boot();
+        return this.client.describeDRTAccess(this.ops["DescribeDRTAccess"].apply(partialParams));
+    }
+    invokeDescribeEmergencyContactSettings(partialParams) {
+        this.boot();
+        return this.client.describeEmergencyContactSettings(this.ops["DescribeEmergencyContactSettings"].apply(partialParams));
+    }
+    invokeDescribeProtection(partialParams) {
+        this.boot();
+        return this.client.describeProtection(this.ops["DescribeProtection"].apply(partialParams));
     }
     invokeDescribeProtectionGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeProtectionGroup(this.ops["DescribeProtectionGroup"].applicator.apply(partialParams));
+        return this.client.describeProtectionGroup(this.ops["DescribeProtectionGroup"].apply(partialParams));
+    }
+    invokeDescribeSubscription(partialParams) {
+        this.boot();
+        return this.client.describeSubscription(this.ops["DescribeSubscription"].apply(partialParams));
     }
     invokeDisableApplicationLayerAutomaticResponse(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disableApplicationLayerAutomaticResponse(this.ops["DisableApplicationLayerAutomaticResponse"].applicator.apply(partialParams));
+        return this.client.disableApplicationLayerAutomaticResponse(this.ops["DisableApplicationLayerAutomaticResponse"].apply(partialParams));
+    }
+    invokeDisableProactiveEngagement(partialParams) {
+        this.boot();
+        return this.client.disableProactiveEngagement(this.ops["DisableProactiveEngagement"].apply(partialParams));
     }
     invokeDisassociateDRTLogBucket(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateDRTLogBucket(this.ops["DisassociateDRTLogBucket"].applicator.apply(partialParams));
+        return this.client.disassociateDRTLogBucket(this.ops["DisassociateDRTLogBucket"].apply(partialParams));
+    }
+    invokeDisassociateDRTRole(partialParams) {
+        this.boot();
+        return this.client.disassociateDRTRole(this.ops["DisassociateDRTRole"].apply(partialParams));
     }
     invokeDisassociateHealthCheck(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateHealthCheck(this.ops["DisassociateHealthCheck"].applicator.apply(partialParams));
+        return this.client.disassociateHealthCheck(this.ops["DisassociateHealthCheck"].apply(partialParams));
     }
     invokeEnableApplicationLayerAutomaticResponse(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.enableApplicationLayerAutomaticResponse(this.ops["EnableApplicationLayerAutomaticResponse"].applicator.apply(partialParams));
+        return this.client.enableApplicationLayerAutomaticResponse(this.ops["EnableApplicationLayerAutomaticResponse"].apply(partialParams));
+    }
+    invokeEnableProactiveEngagement(partialParams) {
+        this.boot();
+        return this.client.enableProactiveEngagement(this.ops["EnableProactiveEngagement"].apply(partialParams));
+    }
+    invokeGetSubscriptionState(partialParams) {
+        this.boot();
+        return this.client.getSubscriptionState(this.ops["GetSubscriptionState"].apply(partialParams));
+    }
+    invokeListAttacks(partialParams) {
+        this.boot();
+        return this.client.listAttacks(this.ops["ListAttacks"].apply(partialParams));
+    }
+    invokeListProtectionGroups(partialParams) {
+        this.boot();
+        return this.client.listProtectionGroups(this.ops["ListProtectionGroups"].apply(partialParams));
+    }
+    invokeListProtections(partialParams) {
+        this.boot();
+        return this.client.listProtections(this.ops["ListProtections"].apply(partialParams));
     }
     invokeListResourcesInProtectionGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listResourcesInProtectionGroup(this.ops["ListResourcesInProtectionGroup"].applicator.apply(partialParams));
+        return this.client.listResourcesInProtectionGroup(this.ops["ListResourcesInProtectionGroup"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateApplicationLayerAutomaticResponse(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateApplicationLayerAutomaticResponse(this.ops["UpdateApplicationLayerAutomaticResponse"].applicator.apply(partialParams));
+        return this.client.updateApplicationLayerAutomaticResponse(this.ops["UpdateApplicationLayerAutomaticResponse"].apply(partialParams));
+    }
+    invokeUpdateEmergencyContactSettings(partialParams) {
+        this.boot();
+        return this.client.updateEmergencyContactSettings(this.ops["UpdateEmergencyContactSettings"].apply(partialParams));
     }
     invokeUpdateProtectionGroup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateProtectionGroup(this.ops["UpdateProtectionGroup"].applicator.apply(partialParams));
+        return this.client.updateProtectionGroup(this.ops["UpdateProtectionGroup"].apply(partialParams));
+    }
+    invokeUpdateSubscription(partialParams) {
+        this.boot();
+        return this.client.updateSubscription(this.ops["UpdateSubscription"].apply(partialParams));
     }
 }
 exports.default = default_1;

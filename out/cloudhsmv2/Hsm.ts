@@ -11,6 +11,8 @@ import {
     DeleteBackupRequest,
     DeleteClusterRequest,
     DeleteHsmRequest,
+    DescribeBackupsRequest,
+    DescribeClustersRequest,
     InitializeClusterRequest,
     ListTagsRequest,
     ModifyBackupAttributesRequest,
@@ -24,6 +26,8 @@ import {
     DeleteBackupResponse,
     DeleteClusterResponse,
     DeleteHsmResponse,
+    DescribeBackupsResponse,
+    DescribeClustersResponse,
     InitializeClusterResponse,
     ListTagsResponse,
     ModifyBackupAttributesResponse,
@@ -45,21 +49,24 @@ export default class extends aws.cloudhsmv2.Hsm {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.cloudhsmv2.Hsm>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.CloudHSMV2()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -69,149 +76,142 @@ export default class extends aws.cloudhsmv2.Hsm {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCopyBackupToRegion(partialParams: ToOptional<{
-      [K in keyof CopyBackupToRegionRequest & keyof CopyBackupToRegionRequest & keyof CopyBackupToRegionRequest & keyof CopyBackupToRegionRequest & keyof CopyBackupToRegionRequest & keyof CopyBackupToRegionRequest & keyof CopyBackupToRegionRequest]: (CopyBackupToRegionRequest & CopyBackupToRegionRequest & CopyBackupToRegionRequest & CopyBackupToRegionRequest & CopyBackupToRegionRequest & CopyBackupToRegionRequest & CopyBackupToRegionRequest)[K]
+      [K in keyof CopyBackupToRegionRequest]: (CopyBackupToRegionRequest)[K]
     }>): Request<CopyBackupToRegionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.copyBackupToRegion(
-          this.ops["CopyBackupToRegion"].applicator.apply(partialParams)
+          this.ops["CopyBackupToRegion"].apply(partialParams)
         );
     }
 
     invokeCreateCluster(partialParams: ToOptional<{
-      [K in keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest]: (CreateClusterRequest & CreateClusterRequest & CreateClusterRequest & CreateClusterRequest & CreateClusterRequest & CreateClusterRequest & CreateClusterRequest)[K]
+      [K in keyof CreateClusterRequest]: (CreateClusterRequest)[K]
     }>): Request<CreateClusterResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createCluster(
-          this.ops["CreateCluster"].applicator.apply(partialParams)
+          this.ops["CreateCluster"].apply(partialParams)
         );
     }
 
     invokeCreateHsm(partialParams: ToOptional<{
-      [K in keyof CreateHsmRequest & keyof Omit<CreateHsmRequest, "ClusterId"> & keyof CreateHsmRequest & keyof CreateHsmRequest & keyof CreateHsmRequest & keyof CreateHsmRequest & keyof CreateHsmRequest]: (CreateHsmRequest & Omit<CreateHsmRequest, "ClusterId"> & CreateHsmRequest & CreateHsmRequest & CreateHsmRequest & CreateHsmRequest & CreateHsmRequest)[K]
+      [K in keyof CreateHsmRequest & keyof Omit<CreateHsmRequest, "ClusterId" | "AvailabilityZone">]: (CreateHsmRequest)[K]
     }>): Request<CreateHsmResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createHsm(
-          this.ops["CreateHsm"].applicator.apply(partialParams)
+          this.ops["CreateHsm"].apply(partialParams)
         );
     }
 
     invokeDeleteBackup(partialParams: ToOptional<{
-      [K in keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest & keyof DeleteBackupRequest]: (DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest & DeleteBackupRequest)[K]
+      [K in keyof DeleteBackupRequest]: (DeleteBackupRequest)[K]
     }>): Request<DeleteBackupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteBackup(
-          this.ops["DeleteBackup"].applicator.apply(partialParams)
+          this.ops["DeleteBackup"].apply(partialParams)
         );
     }
 
     invokeDeleteCluster(partialParams: ToOptional<{
-      [K in keyof DeleteClusterRequest & keyof Omit<DeleteClusterRequest, "ClusterId"> & keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest]: (DeleteClusterRequest & Omit<DeleteClusterRequest, "ClusterId"> & DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest)[K]
+      [K in keyof DeleteClusterRequest & keyof Omit<DeleteClusterRequest, "ClusterId">]: (DeleteClusterRequest)[K]
     }>): Request<DeleteClusterResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteCluster(
-          this.ops["DeleteCluster"].applicator.apply(partialParams)
+          this.ops["DeleteCluster"].apply(partialParams)
         );
     }
 
     invokeDeleteHsm(partialParams: ToOptional<{
-      [K in keyof DeleteHsmRequest & keyof Omit<DeleteHsmRequest, "ClusterId"> & keyof DeleteHsmRequest & keyof DeleteHsmRequest & keyof DeleteHsmRequest & keyof DeleteHsmRequest & keyof DeleteHsmRequest]: (DeleteHsmRequest & Omit<DeleteHsmRequest, "ClusterId"> & DeleteHsmRequest & DeleteHsmRequest & DeleteHsmRequest & DeleteHsmRequest & DeleteHsmRequest)[K]
+      [K in keyof DeleteHsmRequest & keyof Omit<DeleteHsmRequest, "ClusterId">]: (DeleteHsmRequest)[K]
     }>): Request<DeleteHsmResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteHsm(
-          this.ops["DeleteHsm"].applicator.apply(partialParams)
+          this.ops["DeleteHsm"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeBackups(partialParams: ToOptional<{
+      [K in keyof DescribeBackupsRequest]: (DescribeBackupsRequest)[K]
+    }>): Request<DescribeBackupsResponse, AWSError> {
+        this.boot();
+        return this.client.describeBackups(
+          this.ops["DescribeBackups"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeClusters(partialParams: ToOptional<{
+      [K in keyof DescribeClustersRequest]: (DescribeClustersRequest)[K]
+    }>): Request<DescribeClustersResponse, AWSError> {
+        this.boot();
+        return this.client.describeClusters(
+          this.ops["DescribeClusters"].apply(partialParams)
         );
     }
 
     invokeInitializeCluster(partialParams: ToOptional<{
-      [K in keyof InitializeClusterRequest & keyof Omit<InitializeClusterRequest, "ClusterId"> & keyof InitializeClusterRequest & keyof InitializeClusterRequest & keyof InitializeClusterRequest & keyof InitializeClusterRequest & keyof InitializeClusterRequest]: (InitializeClusterRequest & Omit<InitializeClusterRequest, "ClusterId"> & InitializeClusterRequest & InitializeClusterRequest & InitializeClusterRequest & InitializeClusterRequest & InitializeClusterRequest)[K]
+      [K in keyof InitializeClusterRequest & keyof Omit<InitializeClusterRequest, "ClusterId">]: (InitializeClusterRequest)[K]
     }>): Request<InitializeClusterResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.initializeCluster(
-          this.ops["InitializeCluster"].applicator.apply(partialParams)
+          this.ops["InitializeCluster"].apply(partialParams)
         );
     }
 
     invokeListTags(partialParams: ToOptional<{
-      [K in keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest]: (ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest)[K]
+      [K in keyof ListTagsRequest]: (ListTagsRequest)[K]
     }>): Request<ListTagsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTags(
-          this.ops["ListTags"].applicator.apply(partialParams)
+          this.ops["ListTags"].apply(partialParams)
         );
     }
 
     invokeModifyBackupAttributes(partialParams: ToOptional<{
-      [K in keyof ModifyBackupAttributesRequest & keyof ModifyBackupAttributesRequest & keyof ModifyBackupAttributesRequest & keyof ModifyBackupAttributesRequest & keyof ModifyBackupAttributesRequest & keyof ModifyBackupAttributesRequest & keyof ModifyBackupAttributesRequest]: (ModifyBackupAttributesRequest & ModifyBackupAttributesRequest & ModifyBackupAttributesRequest & ModifyBackupAttributesRequest & ModifyBackupAttributesRequest & ModifyBackupAttributesRequest & ModifyBackupAttributesRequest)[K]
+      [K in keyof ModifyBackupAttributesRequest]: (ModifyBackupAttributesRequest)[K]
     }>): Request<ModifyBackupAttributesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyBackupAttributes(
-          this.ops["ModifyBackupAttributes"].applicator.apply(partialParams)
+          this.ops["ModifyBackupAttributes"].apply(partialParams)
         );
     }
 
     invokeModifyCluster(partialParams: ToOptional<{
-      [K in keyof ModifyClusterRequest & keyof Omit<ModifyClusterRequest, "ClusterId"> & keyof ModifyClusterRequest & keyof ModifyClusterRequest & keyof ModifyClusterRequest & keyof ModifyClusterRequest & keyof ModifyClusterRequest]: (ModifyClusterRequest & Omit<ModifyClusterRequest, "ClusterId"> & ModifyClusterRequest & ModifyClusterRequest & ModifyClusterRequest & ModifyClusterRequest & ModifyClusterRequest)[K]
+      [K in keyof ModifyClusterRequest & keyof Omit<ModifyClusterRequest, "ClusterId">]: (ModifyClusterRequest)[K]
     }>): Request<ModifyClusterResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.modifyCluster(
-          this.ops["ModifyCluster"].applicator.apply(partialParams)
+          this.ops["ModifyCluster"].apply(partialParams)
         );
     }
 
     invokeRestoreBackup(partialParams: ToOptional<{
-      [K in keyof RestoreBackupRequest & keyof RestoreBackupRequest & keyof RestoreBackupRequest & keyof RestoreBackupRequest & keyof RestoreBackupRequest & keyof RestoreBackupRequest & keyof RestoreBackupRequest]: (RestoreBackupRequest & RestoreBackupRequest & RestoreBackupRequest & RestoreBackupRequest & RestoreBackupRequest & RestoreBackupRequest & RestoreBackupRequest)[K]
+      [K in keyof RestoreBackupRequest]: (RestoreBackupRequest)[K]
     }>): Request<RestoreBackupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.restoreBackup(
-          this.ops["RestoreBackup"].applicator.apply(partialParams)
+          this.ops["RestoreBackup"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 }

@@ -5,34 +5,37 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    AssociateAdminAccountRequest,
-    DeleteAppsListRequest,
-    DeletePolicyRequest,
-    DeleteProtocolsListRequest,
+    GetAdminAccountRequest,
     GetAppsListRequest,
     GetComplianceDetailRequest,
+    GetNotificationChannelRequest,
     GetPolicyRequest,
     GetProtectionStatusRequest,
     GetProtocolsListRequest,
     GetViolationDetailsRequest,
     ListAppsListsRequest,
     ListComplianceStatusRequest,
+    ListMemberAccountsRequest,
+    ListPoliciesRequest,
     ListProtocolsListsRequest,
     ListTagsForResourceRequest,
     PutAppsListRequest,
-    PutNotificationChannelRequest,
     PutPolicyRequest,
     PutProtocolsListRequest,
     TagResourceRequest,
     UntagResourceRequest,
+    GetAdminAccountResponse,
     GetAppsListResponse,
     GetComplianceDetailResponse,
+    GetNotificationChannelResponse,
     GetPolicyResponse,
     GetProtectionStatusResponse,
     GetProtocolsListResponse,
     GetViolationDetailsResponse,
     ListAppsListsResponse,
     ListComplianceStatusResponse,
+    ListMemberAccountsResponse,
+    ListPoliciesResponse,
     ListProtocolsListsResponse,
     ListTagsForResourceResponse,
     PutAppsListResponse,
@@ -54,21 +57,24 @@ export default class extends aws.fms.AdminAccount {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.fms.AdminAccount>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.FMS()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -78,226 +84,178 @@ export default class extends aws.fms.AdminAccount {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
-    invokeAssociateAdminAccount(partialParams: ToOptional<{
-      [K in keyof AssociateAdminAccountRequest]: (AssociateAdminAccountRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeGetAdminAccount(partialParams: ToOptional<{
+      [K in keyof GetAdminAccountRequest]: (GetAdminAccountRequest)[K]
+    }>): Request<GetAdminAccountResponse, AWSError> {
         this.boot();
-        return this.client.associateAdminAccount(
-          this.ops["AssociateAdminAccount"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteAppsList(partialParams: ToOptional<{
-      [K in keyof DeleteAppsListRequest]: (DeleteAppsListRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteAppsList(
-          this.ops["DeleteAppsList"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeletePolicy(partialParams: ToOptional<{
-      [K in keyof DeletePolicyRequest]: (DeletePolicyRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deletePolicy(
-          this.ops["DeletePolicy"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteProtocolsList(partialParams: ToOptional<{
-      [K in keyof DeleteProtocolsListRequest]: (DeleteProtocolsListRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteProtocolsList(
-          this.ops["DeleteProtocolsList"].applicator.apply(partialParams)
+        return this.client.getAdminAccount(
+          this.ops["GetAdminAccount"].apply(partialParams)
         );
     }
 
     invokeGetAppsList(partialParams: ToOptional<{
       [K in keyof GetAppsListRequest]: (GetAppsListRequest)[K]
     }>): Request<GetAppsListResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getAppsList(
-          this.ops["GetAppsList"].applicator.apply(partialParams)
+          this.ops["GetAppsList"].apply(partialParams)
         );
     }
 
     invokeGetComplianceDetail(partialParams: ToOptional<{
       [K in keyof GetComplianceDetailRequest]: (GetComplianceDetailRequest)[K]
     }>): Request<GetComplianceDetailResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getComplianceDetail(
-          this.ops["GetComplianceDetail"].applicator.apply(partialParams)
+          this.ops["GetComplianceDetail"].apply(partialParams)
+        );
+    }
+
+    invokeGetNotificationChannel(partialParams: ToOptional<{
+      [K in keyof GetNotificationChannelRequest]: (GetNotificationChannelRequest)[K]
+    }>): Request<GetNotificationChannelResponse, AWSError> {
+        this.boot();
+        return this.client.getNotificationChannel(
+          this.ops["GetNotificationChannel"].apply(partialParams)
         );
     }
 
     invokeGetPolicy(partialParams: ToOptional<{
       [K in keyof GetPolicyRequest]: (GetPolicyRequest)[K]
     }>): Request<GetPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getPolicy(
-          this.ops["GetPolicy"].applicator.apply(partialParams)
+          this.ops["GetPolicy"].apply(partialParams)
         );
     }
 
     invokeGetProtectionStatus(partialParams: ToOptional<{
       [K in keyof GetProtectionStatusRequest]: (GetProtectionStatusRequest)[K]
     }>): Request<GetProtectionStatusResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getProtectionStatus(
-          this.ops["GetProtectionStatus"].applicator.apply(partialParams)
+          this.ops["GetProtectionStatus"].apply(partialParams)
         );
     }
 
     invokeGetProtocolsList(partialParams: ToOptional<{
       [K in keyof GetProtocolsListRequest]: (GetProtocolsListRequest)[K]
     }>): Request<GetProtocolsListResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getProtocolsList(
-          this.ops["GetProtocolsList"].applicator.apply(partialParams)
+          this.ops["GetProtocolsList"].apply(partialParams)
         );
     }
 
     invokeGetViolationDetails(partialParams: ToOptional<{
       [K in keyof GetViolationDetailsRequest]: (GetViolationDetailsRequest)[K]
     }>): Request<GetViolationDetailsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getViolationDetails(
-          this.ops["GetViolationDetails"].applicator.apply(partialParams)
+          this.ops["GetViolationDetails"].apply(partialParams)
         );
     }
 
     invokeListAppsLists(partialParams: ToOptional<{
       [K in keyof ListAppsListsRequest]: (ListAppsListsRequest)[K]
     }>): Request<ListAppsListsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listAppsLists(
-          this.ops["ListAppsLists"].applicator.apply(partialParams)
+          this.ops["ListAppsLists"].apply(partialParams)
         );
     }
 
     invokeListComplianceStatus(partialParams: ToOptional<{
       [K in keyof ListComplianceStatusRequest]: (ListComplianceStatusRequest)[K]
     }>): Request<ListComplianceStatusResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listComplianceStatus(
-          this.ops["ListComplianceStatus"].applicator.apply(partialParams)
+          this.ops["ListComplianceStatus"].apply(partialParams)
+        );
+    }
+
+    invokeListMemberAccounts(partialParams: ToOptional<{
+      [K in keyof ListMemberAccountsRequest]: (ListMemberAccountsRequest)[K]
+    }>): Request<ListMemberAccountsResponse, AWSError> {
+        this.boot();
+        return this.client.listMemberAccounts(
+          this.ops["ListMemberAccounts"].apply(partialParams)
+        );
+    }
+
+    invokeListPolicies(partialParams: ToOptional<{
+      [K in keyof ListPoliciesRequest]: (ListPoliciesRequest)[K]
+    }>): Request<ListPoliciesResponse, AWSError> {
+        this.boot();
+        return this.client.listPolicies(
+          this.ops["ListPolicies"].apply(partialParams)
         );
     }
 
     invokeListProtocolsLists(partialParams: ToOptional<{
       [K in keyof ListProtocolsListsRequest]: (ListProtocolsListsRequest)[K]
     }>): Request<ListProtocolsListsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listProtocolsLists(
-          this.ops["ListProtocolsLists"].applicator.apply(partialParams)
+          this.ops["ListProtocolsLists"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokePutAppsList(partialParams: ToOptional<{
       [K in keyof PutAppsListRequest]: (PutAppsListRequest)[K]
     }>): Request<PutAppsListResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putAppsList(
-          this.ops["PutAppsList"].applicator.apply(partialParams)
-        );
-    }
-
-    invokePutNotificationChannel(partialParams: ToOptional<{
-      [K in keyof PutNotificationChannelRequest]: (PutNotificationChannelRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.putNotificationChannel(
-          this.ops["PutNotificationChannel"].applicator.apply(partialParams)
+          this.ops["PutAppsList"].apply(partialParams)
         );
     }
 
     invokePutPolicy(partialParams: ToOptional<{
       [K in keyof PutPolicyRequest]: (PutPolicyRequest)[K]
     }>): Request<PutPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putPolicy(
-          this.ops["PutPolicy"].applicator.apply(partialParams)
+          this.ops["PutPolicy"].apply(partialParams)
         );
     }
 
     invokePutProtocolsList(partialParams: ToOptional<{
       [K in keyof PutProtocolsListRequest]: (PutProtocolsListRequest)[K]
     }>): Request<PutProtocolsListResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putProtocolsList(
-          this.ops["PutProtocolsList"].applicator.apply(partialParams)
+          this.ops["PutProtocolsList"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
       [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
       [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 }

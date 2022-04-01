@@ -10,6 +10,7 @@ import {
     DeleteResourceInput,
     GetResourceInput,
     GetResourceRequestStatusInput,
+    ListResourceRequestsInput,
     ListResourcesInput,
     UpdateResourceInput,
     CancelResourceRequestOutput,
@@ -17,6 +18,7 @@ import {
     DeleteResourceOutput,
     GetResourceOutput,
     GetResourceRequestStatusOutput,
+    ListResourceRequestsOutput,
     ListResourcesOutput,
     UpdateResourceOutput
 } from "aws-sdk/clients/cloudcontrol";
@@ -33,21 +35,24 @@ export default class extends aws.cloudcontrol.Resource {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.cloudcontrol.Resource>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.CloudControl()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -57,83 +62,79 @@ export default class extends aws.cloudcontrol.Resource {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCancelResourceRequest(partialParams: ToOptional<{
-      [K in keyof CancelResourceRequestInput & keyof CancelResourceRequestInput & keyof CancelResourceRequestInput & keyof CancelResourceRequestInput & keyof CancelResourceRequestInput & keyof CancelResourceRequestInput]: (CancelResourceRequestInput & CancelResourceRequestInput & CancelResourceRequestInput & CancelResourceRequestInput & CancelResourceRequestInput & CancelResourceRequestInput)[K]
+      [K in keyof CancelResourceRequestInput]: (CancelResourceRequestInput)[K]
     }>): Request<CancelResourceRequestOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.cancelResourceRequest(
-          this.ops["CancelResourceRequest"].applicator.apply(partialParams)
+          this.ops["CancelResourceRequest"].apply(partialParams)
         );
     }
 
     invokeCreateResource(partialParams: ToOptional<{
-      [K in keyof CreateResourceInput & keyof CreateResourceInput & keyof CreateResourceInput & keyof CreateResourceInput & keyof CreateResourceInput & keyof CreateResourceInput]: (CreateResourceInput & CreateResourceInput & CreateResourceInput & CreateResourceInput & CreateResourceInput & CreateResourceInput)[K]
+      [K in keyof CreateResourceInput & keyof Omit<CreateResourceInput, "TypeName" | "DesiredState">]: (CreateResourceInput)[K]
     }>): Request<CreateResourceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createResource(
-          this.ops["CreateResource"].applicator.apply(partialParams)
+          this.ops["CreateResource"].apply(partialParams)
         );
     }
 
     invokeDeleteResource(partialParams: ToOptional<{
-      [K in keyof DeleteResourceInput & keyof DeleteResourceInput & keyof DeleteResourceInput & keyof DeleteResourceInput & keyof DeleteResourceInput & keyof DeleteResourceInput]: (DeleteResourceInput & DeleteResourceInput & DeleteResourceInput & DeleteResourceInput & DeleteResourceInput & DeleteResourceInput)[K]
+      [K in keyof DeleteResourceInput & keyof Omit<DeleteResourceInput, "TypeName">]: (DeleteResourceInput)[K]
     }>): Request<DeleteResourceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteResource(
-          this.ops["DeleteResource"].applicator.apply(partialParams)
+          this.ops["DeleteResource"].apply(partialParams)
         );
     }
 
     invokeGetResource(partialParams: ToOptional<{
-      [K in keyof GetResourceInput & keyof GetResourceInput & keyof GetResourceInput & keyof GetResourceInput & keyof GetResourceInput & keyof GetResourceInput]: (GetResourceInput & GetResourceInput & GetResourceInput & GetResourceInput & GetResourceInput & GetResourceInput)[K]
+      [K in keyof GetResourceInput & keyof Omit<GetResourceInput, "TypeName">]: (GetResourceInput)[K]
     }>): Request<GetResourceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getResource(
-          this.ops["GetResource"].applicator.apply(partialParams)
+          this.ops["GetResource"].apply(partialParams)
         );
     }
 
     invokeGetResourceRequestStatus(partialParams: ToOptional<{
-      [K in keyof GetResourceRequestStatusInput & keyof GetResourceRequestStatusInput & keyof GetResourceRequestStatusInput & keyof GetResourceRequestStatusInput & keyof GetResourceRequestStatusInput & keyof GetResourceRequestStatusInput]: (GetResourceRequestStatusInput & GetResourceRequestStatusInput & GetResourceRequestStatusInput & GetResourceRequestStatusInput & GetResourceRequestStatusInput & GetResourceRequestStatusInput)[K]
+      [K in keyof GetResourceRequestStatusInput]: (GetResourceRequestStatusInput)[K]
     }>): Request<GetResourceRequestStatusOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getResourceRequestStatus(
-          this.ops["GetResourceRequestStatus"].applicator.apply(partialParams)
+          this.ops["GetResourceRequestStatus"].apply(partialParams)
+        );
+    }
+
+    invokeListResourceRequests(partialParams: ToOptional<{
+      [K in keyof ListResourceRequestsInput]: (ListResourceRequestsInput)[K]
+    }>): Request<ListResourceRequestsOutput, AWSError> {
+        this.boot();
+        return this.client.listResourceRequests(
+          this.ops["ListResourceRequests"].apply(partialParams)
         );
     }
 
     invokeListResources(partialParams: ToOptional<{
-      [K in keyof ListResourcesInput & keyof ListResourcesInput & keyof ListResourcesInput & keyof ListResourcesInput & keyof ListResourcesInput & keyof ListResourcesInput]: (ListResourcesInput & ListResourcesInput & ListResourcesInput & ListResourcesInput & ListResourcesInput & ListResourcesInput)[K]
+      [K in keyof ListResourcesInput & keyof Omit<ListResourcesInput, "TypeName">]: (ListResourcesInput)[K]
     }>): Request<ListResourcesOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listResources(
-          this.ops["ListResources"].applicator.apply(partialParams)
+          this.ops["ListResources"].apply(partialParams)
         );
     }
 
     invokeUpdateResource(partialParams: ToOptional<{
-      [K in keyof UpdateResourceInput & keyof UpdateResourceInput & keyof UpdateResourceInput & keyof UpdateResourceInput & keyof Omit<UpdateResourceInput, "TypeName"> & keyof UpdateResourceInput]: (UpdateResourceInput & UpdateResourceInput & UpdateResourceInput & UpdateResourceInput & Omit<UpdateResourceInput, "TypeName"> & UpdateResourceInput)[K]
+      [K in keyof UpdateResourceInput & keyof Omit<UpdateResourceInput, "TypeName">]: (UpdateResourceInput)[K]
     }>): Request<UpdateResourceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateResource(
-          this.ops["UpdateResource"].applicator.apply(partialParams)
+          this.ops["UpdateResource"].apply(partialParams)
         );
     }
 }

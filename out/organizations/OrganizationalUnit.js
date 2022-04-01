@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.organizations.OrganizationalUnit {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.Organizations();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,241 +50,152 @@ class default_1 extends aws.organizations.OrganizationalUnit {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAcceptHandshake(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.acceptHandshake(this.ops["AcceptHandshake"].applicator.apply(partialParams));
-    }
-    invokeAttachPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.attachPolicy(this.ops["AttachPolicy"].applicator.apply(partialParams));
+        return this.client.acceptHandshake(this.ops["AcceptHandshake"].apply(partialParams));
     }
     invokeCancelHandshake(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.cancelHandshake(this.ops["CancelHandshake"].applicator.apply(partialParams));
+        return this.client.cancelHandshake(this.ops["CancelHandshake"].apply(partialParams));
     }
     invokeCreateAccount(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createAccount(this.ops["CreateAccount"].applicator.apply(partialParams));
+        return this.client.createAccount(this.ops["CreateAccount"].apply(partialParams));
     }
     invokeCreateGovCloudAccount(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createGovCloudAccount(this.ops["CreateGovCloudAccount"].applicator.apply(partialParams));
+        return this.client.createGovCloudAccount(this.ops["CreateGovCloudAccount"].apply(partialParams));
+    }
+    invokeCreateOrganization(partialParams) {
+        this.boot();
+        return this.client.createOrganization(this.ops["CreateOrganization"].apply(partialParams));
     }
     invokeCreateOrganizationalUnit(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createOrganizationalUnit(this.ops["CreateOrganizationalUnit"].applicator.apply(partialParams));
+        return this.client.createOrganizationalUnit(this.ops["CreateOrganizationalUnit"].apply(partialParams));
     }
     invokeCreatePolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createPolicy(this.ops["CreatePolicy"].applicator.apply(partialParams));
+        return this.client.createPolicy(this.ops["CreatePolicy"].apply(partialParams));
     }
     invokeDeclineHandshake(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.declineHandshake(this.ops["DeclineHandshake"].applicator.apply(partialParams));
-    }
-    invokeDeleteOrganizationalUnit(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteOrganizationalUnit(this.ops["DeleteOrganizationalUnit"].applicator.apply(partialParams));
-    }
-    invokeDeletePolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deletePolicy(this.ops["DeletePolicy"].applicator.apply(partialParams));
-    }
-    invokeDeregisterDelegatedAdministrator(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deregisterDelegatedAdministrator(this.ops["DeregisterDelegatedAdministrator"].applicator.apply(partialParams));
+        return this.client.declineHandshake(this.ops["DeclineHandshake"].apply(partialParams));
     }
     invokeDescribeAccount(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeAccount(this.ops["DescribeAccount"].applicator.apply(partialParams));
+        return this.client.describeAccount(this.ops["DescribeAccount"].apply(partialParams));
     }
     invokeDescribeCreateAccountStatus(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeCreateAccountStatus(this.ops["DescribeCreateAccountStatus"].applicator.apply(partialParams));
+        return this.client.describeCreateAccountStatus(this.ops["DescribeCreateAccountStatus"].apply(partialParams));
     }
     invokeDescribeEffectivePolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeEffectivePolicy(this.ops["DescribeEffectivePolicy"].applicator.apply(partialParams));
+        return this.client.describeEffectivePolicy(this.ops["DescribeEffectivePolicy"].apply(partialParams));
     }
     invokeDescribeHandshake(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeHandshake(this.ops["DescribeHandshake"].applicator.apply(partialParams));
+        return this.client.describeHandshake(this.ops["DescribeHandshake"].apply(partialParams));
     }
     invokeDescribeOrganizationalUnit(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeOrganizationalUnit(this.ops["DescribeOrganizationalUnit"].applicator.apply(partialParams));
+        return this.client.describeOrganizationalUnit(this.ops["DescribeOrganizationalUnit"].apply(partialParams));
     }
     invokeDescribePolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describePolicy(this.ops["DescribePolicy"].applicator.apply(partialParams));
-    }
-    invokeDetachPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.detachPolicy(this.ops["DetachPolicy"].applicator.apply(partialParams));
-    }
-    invokeDisableAWSServiceAccess(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disableAWSServiceAccess(this.ops["DisableAWSServiceAccess"].applicator.apply(partialParams));
+        return this.client.describePolicy(this.ops["DescribePolicy"].apply(partialParams));
     }
     invokeDisablePolicyType(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disablePolicyType(this.ops["DisablePolicyType"].applicator.apply(partialParams));
+        return this.client.disablePolicyType(this.ops["DisablePolicyType"].apply(partialParams));
     }
-    invokeEnableAWSServiceAccess(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeEnableAllFeatures(partialParams) {
         this.boot();
-        return this.client.enableAWSServiceAccess(this.ops["EnableAWSServiceAccess"].applicator.apply(partialParams));
+        return this.client.enableAllFeatures(this.ops["EnableAllFeatures"].apply(partialParams));
     }
     invokeEnablePolicyType(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.enablePolicyType(this.ops["EnablePolicyType"].applicator.apply(partialParams));
+        return this.client.enablePolicyType(this.ops["EnablePolicyType"].apply(partialParams));
     }
     invokeInviteAccountToOrganization(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.inviteAccountToOrganization(this.ops["InviteAccountToOrganization"].applicator.apply(partialParams));
+        return this.client.inviteAccountToOrganization(this.ops["InviteAccountToOrganization"].apply(partialParams));
+    }
+    invokeListAWSServiceAccessForOrganization(partialParams) {
+        this.boot();
+        return this.client.listAWSServiceAccessForOrganization(this.ops["ListAWSServiceAccessForOrganization"].apply(partialParams));
+    }
+    invokeListAccounts(partialParams) {
+        this.boot();
+        return this.client.listAccounts(this.ops["ListAccounts"].apply(partialParams));
     }
     invokeListAccountsForParent(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listAccountsForParent(this.ops["ListAccountsForParent"].applicator.apply(partialParams));
+        return this.client.listAccountsForParent(this.ops["ListAccountsForParent"].apply(partialParams));
     }
     invokeListChildren(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listChildren(this.ops["ListChildren"].applicator.apply(partialParams));
+        return this.client.listChildren(this.ops["ListChildren"].apply(partialParams));
+    }
+    invokeListCreateAccountStatus(partialParams) {
+        this.boot();
+        return this.client.listCreateAccountStatus(this.ops["ListCreateAccountStatus"].apply(partialParams));
+    }
+    invokeListDelegatedAdministrators(partialParams) {
+        this.boot();
+        return this.client.listDelegatedAdministrators(this.ops["ListDelegatedAdministrators"].apply(partialParams));
     }
     invokeListDelegatedServicesForAccount(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listDelegatedServicesForAccount(this.ops["ListDelegatedServicesForAccount"].applicator.apply(partialParams));
+        return this.client.listDelegatedServicesForAccount(this.ops["ListDelegatedServicesForAccount"].apply(partialParams));
+    }
+    invokeListHandshakesForAccount(partialParams) {
+        this.boot();
+        return this.client.listHandshakesForAccount(this.ops["ListHandshakesForAccount"].apply(partialParams));
+    }
+    invokeListHandshakesForOrganization(partialParams) {
+        this.boot();
+        return this.client.listHandshakesForOrganization(this.ops["ListHandshakesForOrganization"].apply(partialParams));
     }
     invokeListOrganizationalUnitsForParent(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listOrganizationalUnitsForParent(this.ops["ListOrganizationalUnitsForParent"].applicator.apply(partialParams));
+        return this.client.listOrganizationalUnitsForParent(this.ops["ListOrganizationalUnitsForParent"].apply(partialParams));
     }
     invokeListParents(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listParents(this.ops["ListParents"].applicator.apply(partialParams));
+        return this.client.listParents(this.ops["ListParents"].apply(partialParams));
     }
     invokeListPolicies(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listPolicies(this.ops["ListPolicies"].applicator.apply(partialParams));
+        return this.client.listPolicies(this.ops["ListPolicies"].apply(partialParams));
     }
     invokeListPoliciesForTarget(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listPoliciesForTarget(this.ops["ListPoliciesForTarget"].applicator.apply(partialParams));
+        return this.client.listPoliciesForTarget(this.ops["ListPoliciesForTarget"].apply(partialParams));
+    }
+    invokeListRoots(partialParams) {
+        this.boot();
+        return this.client.listRoots(this.ops["ListRoots"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeListTargetsForPolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTargetsForPolicy(this.ops["ListTargetsForPolicy"].applicator.apply(partialParams));
-    }
-    invokeMoveAccount(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.moveAccount(this.ops["MoveAccount"].applicator.apply(partialParams));
-    }
-    invokeRegisterDelegatedAdministrator(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.registerDelegatedAdministrator(this.ops["RegisterDelegatedAdministrator"].applicator.apply(partialParams));
-    }
-    invokeRemoveAccountFromOrganization(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.removeAccountFromOrganization(this.ops["RemoveAccountFromOrganization"].applicator.apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.listTargetsForPolicy(this.ops["ListTargetsForPolicy"].apply(partialParams));
     }
     invokeUpdateOrganizationalUnit(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateOrganizationalUnit(this.ops["UpdateOrganizationalUnit"].applicator.apply(partialParams));
+        return this.client.updateOrganizationalUnit(this.ops["UpdateOrganizationalUnit"].apply(partialParams));
     }
     invokeUpdatePolicy(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updatePolicy(this.ops["UpdatePolicy"].applicator.apply(partialParams));
+        return this.client.updatePolicy(this.ops["UpdatePolicy"].apply(partialParams));
     }
 }
 exports.default = default_1;

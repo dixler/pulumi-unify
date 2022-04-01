@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.elasticbeanstalk.ApplicationVersion {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.ElasticBeanstalk();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,145 +50,136 @@ class default_1 extends aws.elasticbeanstalk.ApplicationVersion {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeApplyEnvironmentManagedAction(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.applyEnvironmentManagedAction(this.ops["ApplyEnvironmentManagedAction"].applicator.apply(partialParams));
-    }
-    invokeAssociateEnvironmentOperationsRole(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.associateEnvironmentOperationsRole(this.ops["AssociateEnvironmentOperationsRole"].applicator.apply(partialParams));
+        return this.client.applyEnvironmentManagedAction(this.ops["ApplyEnvironmentManagedAction"].apply(partialParams));
     }
     invokeCheckDNSAvailability(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.checkDNSAvailability(this.ops["CheckDNSAvailability"].applicator.apply(partialParams));
+        return this.client.checkDNSAvailability(this.ops["CheckDNSAvailability"].apply(partialParams));
+    }
+    invokeComposeEnvironments(partialParams) {
+        this.boot();
+        return this.client.composeEnvironments(this.ops["ComposeEnvironments"].apply(partialParams));
     }
     invokeCreateApplication(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createApplication(this.ops["CreateApplication"].applicator.apply(partialParams));
+        return this.client.createApplication(this.ops["CreateApplication"].apply(partialParams));
     }
     invokeCreateApplicationVersion(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createApplicationVersion(this.ops["CreateApplicationVersion"].applicator.apply(partialParams));
+        return this.client.createApplicationVersion(this.ops["CreateApplicationVersion"].apply(partialParams));
     }
     invokeCreateConfigurationTemplate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createConfigurationTemplate(this.ops["CreateConfigurationTemplate"].applicator.apply(partialParams));
+        return this.client.createConfigurationTemplate(this.ops["CreateConfigurationTemplate"].apply(partialParams));
     }
     invokeCreateEnvironment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createEnvironment(this.ops["CreateEnvironment"].applicator.apply(partialParams));
+        return this.client.createEnvironment(this.ops["CreateEnvironment"].apply(partialParams));
     }
     invokeCreatePlatformVersion(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createPlatformVersion(this.ops["CreatePlatformVersion"].applicator.apply(partialParams));
+        return this.client.createPlatformVersion(this.ops["CreatePlatformVersion"].apply(partialParams));
     }
-    invokeDeleteApplication(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDeletePlatformVersion(partialParams) {
         this.boot();
-        return this.client.deleteApplication(this.ops["DeleteApplication"].applicator.apply(partialParams));
+        return this.client.deletePlatformVersion(this.ops["DeletePlatformVersion"].apply(partialParams));
     }
-    invokeDeleteApplicationVersion(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDescribeApplicationVersions(partialParams) {
         this.boot();
-        return this.client.deleteApplicationVersion(this.ops["DeleteApplicationVersion"].applicator.apply(partialParams));
+        return this.client.describeApplicationVersions(this.ops["DescribeApplicationVersions"].apply(partialParams));
     }
-    invokeDeleteConfigurationTemplate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDescribeApplications(partialParams) {
         this.boot();
-        return this.client.deleteConfigurationTemplate(this.ops["DeleteConfigurationTemplate"].applicator.apply(partialParams));
+        return this.client.describeApplications(this.ops["DescribeApplications"].apply(partialParams));
     }
-    invokeDeleteEnvironmentConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDescribeConfigurationOptions(partialParams) {
         this.boot();
-        return this.client.deleteEnvironmentConfiguration(this.ops["DeleteEnvironmentConfiguration"].applicator.apply(partialParams));
+        return this.client.describeConfigurationOptions(this.ops["DescribeConfigurationOptions"].apply(partialParams));
     }
     invokeDescribeConfigurationSettings(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeConfigurationSettings(this.ops["DescribeConfigurationSettings"].applicator.apply(partialParams));
+        return this.client.describeConfigurationSettings(this.ops["DescribeConfigurationSettings"].apply(partialParams));
     }
-    invokeDisassociateEnvironmentOperationsRole(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDescribeEnvironmentHealth(partialParams) {
         this.boot();
-        return this.client.disassociateEnvironmentOperationsRole(this.ops["DisassociateEnvironmentOperationsRole"].applicator.apply(partialParams));
+        return this.client.describeEnvironmentHealth(this.ops["DescribeEnvironmentHealth"].apply(partialParams));
+    }
+    invokeDescribeEnvironmentManagedActionHistory(partialParams) {
+        this.boot();
+        return this.client.describeEnvironmentManagedActionHistory(this.ops["DescribeEnvironmentManagedActionHistory"].apply(partialParams));
+    }
+    invokeDescribeEnvironmentManagedActions(partialParams) {
+        this.boot();
+        return this.client.describeEnvironmentManagedActions(this.ops["DescribeEnvironmentManagedActions"].apply(partialParams));
+    }
+    invokeDescribeEnvironmentResources(partialParams) {
+        this.boot();
+        return this.client.describeEnvironmentResources(this.ops["DescribeEnvironmentResources"].apply(partialParams));
+    }
+    invokeDescribeEnvironments(partialParams) {
+        this.boot();
+        return this.client.describeEnvironments(this.ops["DescribeEnvironments"].apply(partialParams));
+    }
+    invokeDescribeEvents(partialParams) {
+        this.boot();
+        return this.client.describeEvents(this.ops["DescribeEvents"].apply(partialParams));
+    }
+    invokeDescribeInstancesHealth(partialParams) {
+        this.boot();
+        return this.client.describeInstancesHealth(this.ops["DescribeInstancesHealth"].apply(partialParams));
+    }
+    invokeDescribePlatformVersion(partialParams) {
+        this.boot();
+        return this.client.describePlatformVersion(this.ops["DescribePlatformVersion"].apply(partialParams));
+    }
+    invokeListPlatformBranches(partialParams) {
+        this.boot();
+        return this.client.listPlatformBranches(this.ops["ListPlatformBranches"].apply(partialParams));
+    }
+    invokeListPlatformVersions(partialParams) {
+        this.boot();
+        return this.client.listPlatformVersions(this.ops["ListPlatformVersions"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
-    }
-    invokeRequestEnvironmentInfo(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.requestEnvironmentInfo(this.ops["RequestEnvironmentInfo"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeRetrieveEnvironmentInfo(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.retrieveEnvironmentInfo(this.ops["RetrieveEnvironmentInfo"].applicator.apply(partialParams));
+        return this.client.retrieveEnvironmentInfo(this.ops["RetrieveEnvironmentInfo"].apply(partialParams));
+    }
+    invokeTerminateEnvironment(partialParams) {
+        this.boot();
+        return this.client.terminateEnvironment(this.ops["TerminateEnvironment"].apply(partialParams));
     }
     invokeUpdateApplication(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateApplication(this.ops["UpdateApplication"].applicator.apply(partialParams));
+        return this.client.updateApplication(this.ops["UpdateApplication"].apply(partialParams));
     }
     invokeUpdateApplicationResourceLifecycle(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateApplicationResourceLifecycle(this.ops["UpdateApplicationResourceLifecycle"].applicator.apply(partialParams));
+        return this.client.updateApplicationResourceLifecycle(this.ops["UpdateApplicationResourceLifecycle"].apply(partialParams));
     }
     invokeUpdateApplicationVersion(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateApplicationVersion(this.ops["UpdateApplicationVersion"].applicator.apply(partialParams));
+        return this.client.updateApplicationVersion(this.ops["UpdateApplicationVersion"].apply(partialParams));
     }
     invokeUpdateConfigurationTemplate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateConfigurationTemplate(this.ops["UpdateConfigurationTemplate"].applicator.apply(partialParams));
+        return this.client.updateConfigurationTemplate(this.ops["UpdateConfigurationTemplate"].apply(partialParams));
     }
-    invokeUpdateTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeUpdateEnvironment(partialParams) {
         this.boot();
-        return this.client.updateTagsForResource(this.ops["UpdateTagsForResource"].applicator.apply(partialParams));
+        return this.client.updateEnvironment(this.ops["UpdateEnvironment"].apply(partialParams));
     }
     invokeValidateConfigurationSettings(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.validateConfigurationSettings(this.ops["ValidateConfigurationSettings"].applicator.apply(partialParams));
+        return this.client.validateConfigurationSettings(this.ops["ValidateConfigurationSettings"].apply(partialParams));
     }
 }
 exports.default = default_1;

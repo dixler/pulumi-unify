@@ -36,7 +36,9 @@ import {
     GetTypeRequest,
     ListApiKeysRequest,
     ListDataSourcesRequest,
+    ListDomainNamesRequest,
     ListFunctionsRequest,
+    ListGraphqlApisRequest,
     ListResolversRequest,
     ListResolversByFunctionRequest,
     ListTagsForResourceRequest,
@@ -83,7 +85,9 @@ import {
     GetTypeResponse,
     ListApiKeysResponse,
     ListDataSourcesResponse,
+    ListDomainNamesResponse,
     ListFunctionsResponse,
+    ListGraphqlApisResponse,
     ListResolversResponse,
     ListResolversByFunctionResponse,
     ListTagsForResourceResponse,
@@ -113,21 +117,24 @@ export default class extends aws.appsync.DomainNameApiAssociation {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.appsync.DomainNameApiAssociation>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.AppSync()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -137,523 +144,448 @@ export default class extends aws.appsync.DomainNameApiAssociation {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAssociateApi(partialParams: ToOptional<{
-      [K in keyof AssociateApiRequest & keyof AssociateApiRequest]: (AssociateApiRequest & AssociateApiRequest)[K]
+      [K in keyof AssociateApiRequest]: (AssociateApiRequest)[K]
     }>): Request<AssociateApiResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateApi(
-          this.ops["AssociateApi"].applicator.apply(partialParams)
+          this.ops["AssociateApi"].apply(partialParams)
         );
     }
 
     invokeCreateApiCache(partialParams: ToOptional<{
-      [K in keyof CreateApiCacheRequest & keyof CreateApiCacheRequest]: (CreateApiCacheRequest & CreateApiCacheRequest)[K]
+      [K in keyof CreateApiCacheRequest]: (CreateApiCacheRequest)[K]
     }>): Request<CreateApiCacheResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createApiCache(
-          this.ops["CreateApiCache"].applicator.apply(partialParams)
+          this.ops["CreateApiCache"].apply(partialParams)
         );
     }
 
     invokeCreateApiKey(partialParams: ToOptional<{
-      [K in keyof CreateApiKeyRequest & keyof CreateApiKeyRequest]: (CreateApiKeyRequest & CreateApiKeyRequest)[K]
+      [K in keyof CreateApiKeyRequest]: (CreateApiKeyRequest)[K]
     }>): Request<CreateApiKeyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createApiKey(
-          this.ops["CreateApiKey"].applicator.apply(partialParams)
+          this.ops["CreateApiKey"].apply(partialParams)
         );
     }
 
     invokeCreateDataSource(partialParams: ToOptional<{
-      [K in keyof CreateDataSourceRequest & keyof CreateDataSourceRequest]: (CreateDataSourceRequest & CreateDataSourceRequest)[K]
+      [K in keyof CreateDataSourceRequest]: (CreateDataSourceRequest)[K]
     }>): Request<CreateDataSourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDataSource(
-          this.ops["CreateDataSource"].applicator.apply(partialParams)
+          this.ops["CreateDataSource"].apply(partialParams)
         );
     }
 
     invokeCreateDomainName(partialParams: ToOptional<{
-      [K in keyof CreateDomainNameRequest & keyof CreateDomainNameRequest]: (CreateDomainNameRequest & CreateDomainNameRequest)[K]
+      [K in keyof CreateDomainNameRequest]: (CreateDomainNameRequest)[K]
     }>): Request<CreateDomainNameResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDomainName(
-          this.ops["CreateDomainName"].applicator.apply(partialParams)
+          this.ops["CreateDomainName"].apply(partialParams)
         );
     }
 
     invokeCreateFunction(partialParams: ToOptional<{
-      [K in keyof CreateFunctionRequest & keyof CreateFunctionRequest]: (CreateFunctionRequest & CreateFunctionRequest)[K]
+      [K in keyof CreateFunctionRequest]: (CreateFunctionRequest)[K]
     }>): Request<CreateFunctionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createFunction(
-          this.ops["CreateFunction"].applicator.apply(partialParams)
+          this.ops["CreateFunction"].apply(partialParams)
         );
     }
 
     invokeCreateGraphqlApi(partialParams: ToOptional<{
-      [K in keyof CreateGraphqlApiRequest & keyof CreateGraphqlApiRequest]: (CreateGraphqlApiRequest & CreateGraphqlApiRequest)[K]
+      [K in keyof CreateGraphqlApiRequest]: (CreateGraphqlApiRequest)[K]
     }>): Request<CreateGraphqlApiResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createGraphqlApi(
-          this.ops["CreateGraphqlApi"].applicator.apply(partialParams)
+          this.ops["CreateGraphqlApi"].apply(partialParams)
         );
     }
 
     invokeCreateResolver(partialParams: ToOptional<{
-      [K in keyof CreateResolverRequest & keyof CreateResolverRequest]: (CreateResolverRequest & CreateResolverRequest)[K]
+      [K in keyof CreateResolverRequest]: (CreateResolverRequest)[K]
     }>): Request<CreateResolverResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createResolver(
-          this.ops["CreateResolver"].applicator.apply(partialParams)
+          this.ops["CreateResolver"].apply(partialParams)
         );
     }
 
     invokeCreateType(partialParams: ToOptional<{
-      [K in keyof CreateTypeRequest & keyof CreateTypeRequest]: (CreateTypeRequest & CreateTypeRequest)[K]
+      [K in keyof CreateTypeRequest]: (CreateTypeRequest)[K]
     }>): Request<CreateTypeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createType(
-          this.ops["CreateType"].applicator.apply(partialParams)
+          this.ops["CreateType"].apply(partialParams)
         );
     }
 
     invokeDeleteApiCache(partialParams: ToOptional<{
-      [K in keyof DeleteApiCacheRequest & keyof DeleteApiCacheRequest]: (DeleteApiCacheRequest & DeleteApiCacheRequest)[K]
+      [K in keyof DeleteApiCacheRequest]: (DeleteApiCacheRequest)[K]
     }>): Request<DeleteApiCacheResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteApiCache(
-          this.ops["DeleteApiCache"].applicator.apply(partialParams)
+          this.ops["DeleteApiCache"].apply(partialParams)
         );
     }
 
     invokeDeleteApiKey(partialParams: ToOptional<{
-      [K in keyof DeleteApiKeyRequest & keyof DeleteApiKeyRequest]: (DeleteApiKeyRequest & DeleteApiKeyRequest)[K]
+      [K in keyof DeleteApiKeyRequest]: (DeleteApiKeyRequest)[K]
     }>): Request<DeleteApiKeyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteApiKey(
-          this.ops["DeleteApiKey"].applicator.apply(partialParams)
+          this.ops["DeleteApiKey"].apply(partialParams)
         );
     }
 
     invokeDeleteDataSource(partialParams: ToOptional<{
-      [K in keyof DeleteDataSourceRequest & keyof DeleteDataSourceRequest]: (DeleteDataSourceRequest & DeleteDataSourceRequest)[K]
+      [K in keyof DeleteDataSourceRequest]: (DeleteDataSourceRequest)[K]
     }>): Request<DeleteDataSourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDataSource(
-          this.ops["DeleteDataSource"].applicator.apply(partialParams)
+          this.ops["DeleteDataSource"].apply(partialParams)
         );
     }
 
     invokeDeleteDomainName(partialParams: ToOptional<{
-      [K in keyof DeleteDomainNameRequest & keyof DeleteDomainNameRequest]: (DeleteDomainNameRequest & DeleteDomainNameRequest)[K]
+      [K in keyof DeleteDomainNameRequest]: (DeleteDomainNameRequest)[K]
     }>): Request<DeleteDomainNameResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDomainName(
-          this.ops["DeleteDomainName"].applicator.apply(partialParams)
+          this.ops["DeleteDomainName"].apply(partialParams)
         );
     }
 
     invokeDeleteFunction(partialParams: ToOptional<{
-      [K in keyof DeleteFunctionRequest & keyof DeleteFunctionRequest]: (DeleteFunctionRequest & DeleteFunctionRequest)[K]
+      [K in keyof DeleteFunctionRequest]: (DeleteFunctionRequest)[K]
     }>): Request<DeleteFunctionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteFunction(
-          this.ops["DeleteFunction"].applicator.apply(partialParams)
+          this.ops["DeleteFunction"].apply(partialParams)
         );
     }
 
     invokeDeleteGraphqlApi(partialParams: ToOptional<{
-      [K in keyof DeleteGraphqlApiRequest & keyof DeleteGraphqlApiRequest]: (DeleteGraphqlApiRequest & DeleteGraphqlApiRequest)[K]
+      [K in keyof DeleteGraphqlApiRequest]: (DeleteGraphqlApiRequest)[K]
     }>): Request<DeleteGraphqlApiResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteGraphqlApi(
-          this.ops["DeleteGraphqlApi"].applicator.apply(partialParams)
+          this.ops["DeleteGraphqlApi"].apply(partialParams)
         );
     }
 
     invokeDeleteResolver(partialParams: ToOptional<{
-      [K in keyof DeleteResolverRequest & keyof DeleteResolverRequest]: (DeleteResolverRequest & DeleteResolverRequest)[K]
+      [K in keyof DeleteResolverRequest]: (DeleteResolverRequest)[K]
     }>): Request<DeleteResolverResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteResolver(
-          this.ops["DeleteResolver"].applicator.apply(partialParams)
+          this.ops["DeleteResolver"].apply(partialParams)
         );
     }
 
     invokeDeleteType(partialParams: ToOptional<{
-      [K in keyof DeleteTypeRequest & keyof DeleteTypeRequest]: (DeleteTypeRequest & DeleteTypeRequest)[K]
+      [K in keyof DeleteTypeRequest]: (DeleteTypeRequest)[K]
     }>): Request<DeleteTypeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteType(
-          this.ops["DeleteType"].applicator.apply(partialParams)
+          this.ops["DeleteType"].apply(partialParams)
         );
     }
 
     invokeDisassociateApi(partialParams: ToOptional<{
-      [K in keyof DisassociateApiRequest & keyof DisassociateApiRequest]: (DisassociateApiRequest & DisassociateApiRequest)[K]
+      [K in keyof DisassociateApiRequest]: (DisassociateApiRequest)[K]
     }>): Request<DisassociateApiResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateApi(
-          this.ops["DisassociateApi"].applicator.apply(partialParams)
+          this.ops["DisassociateApi"].apply(partialParams)
         );
     }
 
     invokeFlushApiCache(partialParams: ToOptional<{
-      [K in keyof FlushApiCacheRequest & keyof FlushApiCacheRequest]: (FlushApiCacheRequest & FlushApiCacheRequest)[K]
+      [K in keyof FlushApiCacheRequest]: (FlushApiCacheRequest)[K]
     }>): Request<FlushApiCacheResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.flushApiCache(
-          this.ops["FlushApiCache"].applicator.apply(partialParams)
+          this.ops["FlushApiCache"].apply(partialParams)
         );
     }
 
     invokeGetApiAssociation(partialParams: ToOptional<{
-      [K in keyof GetApiAssociationRequest & keyof Omit<GetApiAssociationRequest, "domainName">]: (GetApiAssociationRequest & Omit<GetApiAssociationRequest, "domainName">)[K]
+      [K in keyof GetApiAssociationRequest]: (GetApiAssociationRequest)[K]
     }>): Request<GetApiAssociationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getApiAssociation(
-          this.ops["GetApiAssociation"].applicator.apply(partialParams)
+          this.ops["GetApiAssociation"].apply(partialParams)
         );
     }
 
     invokeGetApiCache(partialParams: ToOptional<{
-      [K in keyof GetApiCacheRequest & keyof GetApiCacheRequest]: (GetApiCacheRequest & GetApiCacheRequest)[K]
+      [K in keyof GetApiCacheRequest]: (GetApiCacheRequest)[K]
     }>): Request<GetApiCacheResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getApiCache(
-          this.ops["GetApiCache"].applicator.apply(partialParams)
+          this.ops["GetApiCache"].apply(partialParams)
         );
     }
 
     invokeGetDataSource(partialParams: ToOptional<{
-      [K in keyof GetDataSourceRequest & keyof GetDataSourceRequest]: (GetDataSourceRequest & GetDataSourceRequest)[K]
+      [K in keyof GetDataSourceRequest]: (GetDataSourceRequest)[K]
     }>): Request<GetDataSourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDataSource(
-          this.ops["GetDataSource"].applicator.apply(partialParams)
+          this.ops["GetDataSource"].apply(partialParams)
         );
     }
 
     invokeGetDomainName(partialParams: ToOptional<{
-      [K in keyof GetDomainNameRequest & keyof Omit<GetDomainNameRequest, "domainName">]: (GetDomainNameRequest & Omit<GetDomainNameRequest, "domainName">)[K]
+      [K in keyof GetDomainNameRequest]: (GetDomainNameRequest)[K]
     }>): Request<GetDomainNameResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDomainName(
-          this.ops["GetDomainName"].applicator.apply(partialParams)
+          this.ops["GetDomainName"].apply(partialParams)
         );
     }
 
     invokeGetFunction(partialParams: ToOptional<{
-      [K in keyof GetFunctionRequest & keyof GetFunctionRequest]: (GetFunctionRequest & GetFunctionRequest)[K]
+      [K in keyof GetFunctionRequest]: (GetFunctionRequest)[K]
     }>): Request<GetFunctionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getFunction(
-          this.ops["GetFunction"].applicator.apply(partialParams)
+          this.ops["GetFunction"].apply(partialParams)
         );
     }
 
     invokeGetGraphqlApi(partialParams: ToOptional<{
-      [K in keyof GetGraphqlApiRequest & keyof GetGraphqlApiRequest]: (GetGraphqlApiRequest & GetGraphqlApiRequest)[K]
+      [K in keyof GetGraphqlApiRequest]: (GetGraphqlApiRequest)[K]
     }>): Request<GetGraphqlApiResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getGraphqlApi(
-          this.ops["GetGraphqlApi"].applicator.apply(partialParams)
+          this.ops["GetGraphqlApi"].apply(partialParams)
         );
     }
 
     invokeGetIntrospectionSchema(partialParams: ToOptional<{
-      [K in keyof GetIntrospectionSchemaRequest & keyof GetIntrospectionSchemaRequest]: (GetIntrospectionSchemaRequest & GetIntrospectionSchemaRequest)[K]
+      [K in keyof GetIntrospectionSchemaRequest]: (GetIntrospectionSchemaRequest)[K]
     }>): Request<GetIntrospectionSchemaResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getIntrospectionSchema(
-          this.ops["GetIntrospectionSchema"].applicator.apply(partialParams)
+          this.ops["GetIntrospectionSchema"].apply(partialParams)
         );
     }
 
     invokeGetResolver(partialParams: ToOptional<{
-      [K in keyof GetResolverRequest & keyof GetResolverRequest]: (GetResolverRequest & GetResolverRequest)[K]
+      [K in keyof GetResolverRequest]: (GetResolverRequest)[K]
     }>): Request<GetResolverResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getResolver(
-          this.ops["GetResolver"].applicator.apply(partialParams)
+          this.ops["GetResolver"].apply(partialParams)
         );
     }
 
     invokeGetSchemaCreationStatus(partialParams: ToOptional<{
-      [K in keyof GetSchemaCreationStatusRequest & keyof GetSchemaCreationStatusRequest]: (GetSchemaCreationStatusRequest & GetSchemaCreationStatusRequest)[K]
+      [K in keyof GetSchemaCreationStatusRequest]: (GetSchemaCreationStatusRequest)[K]
     }>): Request<GetSchemaCreationStatusResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getSchemaCreationStatus(
-          this.ops["GetSchemaCreationStatus"].applicator.apply(partialParams)
+          this.ops["GetSchemaCreationStatus"].apply(partialParams)
         );
     }
 
     invokeGetType(partialParams: ToOptional<{
-      [K in keyof GetTypeRequest & keyof GetTypeRequest]: (GetTypeRequest & GetTypeRequest)[K]
+      [K in keyof GetTypeRequest]: (GetTypeRequest)[K]
     }>): Request<GetTypeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getType(
-          this.ops["GetType"].applicator.apply(partialParams)
+          this.ops["GetType"].apply(partialParams)
         );
     }
 
     invokeListApiKeys(partialParams: ToOptional<{
-      [K in keyof ListApiKeysRequest & keyof ListApiKeysRequest]: (ListApiKeysRequest & ListApiKeysRequest)[K]
+      [K in keyof ListApiKeysRequest]: (ListApiKeysRequest)[K]
     }>): Request<ListApiKeysResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listApiKeys(
-          this.ops["ListApiKeys"].applicator.apply(partialParams)
+          this.ops["ListApiKeys"].apply(partialParams)
         );
     }
 
     invokeListDataSources(partialParams: ToOptional<{
-      [K in keyof ListDataSourcesRequest & keyof ListDataSourcesRequest]: (ListDataSourcesRequest & ListDataSourcesRequest)[K]
+      [K in keyof ListDataSourcesRequest]: (ListDataSourcesRequest)[K]
     }>): Request<ListDataSourcesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listDataSources(
-          this.ops["ListDataSources"].applicator.apply(partialParams)
+          this.ops["ListDataSources"].apply(partialParams)
+        );
+    }
+
+    invokeListDomainNames(partialParams: ToOptional<{
+      [K in keyof ListDomainNamesRequest]: (ListDomainNamesRequest)[K]
+    }>): Request<ListDomainNamesResponse, AWSError> {
+        this.boot();
+        return this.client.listDomainNames(
+          this.ops["ListDomainNames"].apply(partialParams)
         );
     }
 
     invokeListFunctions(partialParams: ToOptional<{
-      [K in keyof ListFunctionsRequest & keyof ListFunctionsRequest]: (ListFunctionsRequest & ListFunctionsRequest)[K]
+      [K in keyof ListFunctionsRequest]: (ListFunctionsRequest)[K]
     }>): Request<ListFunctionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listFunctions(
-          this.ops["ListFunctions"].applicator.apply(partialParams)
+          this.ops["ListFunctions"].apply(partialParams)
+        );
+    }
+
+    invokeListGraphqlApis(partialParams: ToOptional<{
+      [K in keyof ListGraphqlApisRequest]: (ListGraphqlApisRequest)[K]
+    }>): Request<ListGraphqlApisResponse, AWSError> {
+        this.boot();
+        return this.client.listGraphqlApis(
+          this.ops["ListGraphqlApis"].apply(partialParams)
         );
     }
 
     invokeListResolvers(partialParams: ToOptional<{
-      [K in keyof ListResolversRequest & keyof ListResolversRequest]: (ListResolversRequest & ListResolversRequest)[K]
+      [K in keyof ListResolversRequest]: (ListResolversRequest)[K]
     }>): Request<ListResolversResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listResolvers(
-          this.ops["ListResolvers"].applicator.apply(partialParams)
+          this.ops["ListResolvers"].apply(partialParams)
         );
     }
 
     invokeListResolversByFunction(partialParams: ToOptional<{
-      [K in keyof ListResolversByFunctionRequest & keyof ListResolversByFunctionRequest]: (ListResolversByFunctionRequest & ListResolversByFunctionRequest)[K]
+      [K in keyof ListResolversByFunctionRequest]: (ListResolversByFunctionRequest)[K]
     }>): Request<ListResolversByFunctionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listResolversByFunction(
-          this.ops["ListResolversByFunction"].applicator.apply(partialParams)
+          this.ops["ListResolversByFunction"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeListTypes(partialParams: ToOptional<{
-      [K in keyof ListTypesRequest & keyof ListTypesRequest]: (ListTypesRequest & ListTypesRequest)[K]
+      [K in keyof ListTypesRequest]: (ListTypesRequest)[K]
     }>): Request<ListTypesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTypes(
-          this.ops["ListTypes"].applicator.apply(partialParams)
+          this.ops["ListTypes"].apply(partialParams)
         );
     }
 
     invokeStartSchemaCreation(partialParams: ToOptional<{
-      [K in keyof StartSchemaCreationRequest & keyof StartSchemaCreationRequest]: (StartSchemaCreationRequest & StartSchemaCreationRequest)[K]
+      [K in keyof StartSchemaCreationRequest]: (StartSchemaCreationRequest)[K]
     }>): Request<StartSchemaCreationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startSchemaCreation(
-          this.ops["StartSchemaCreation"].applicator.apply(partialParams)
+          this.ops["StartSchemaCreation"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateApiCache(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateApiCacheRequest, "apiId"> & keyof UpdateApiCacheRequest]: (Omit<UpdateApiCacheRequest, "apiId"> & UpdateApiCacheRequest)[K]
+      [K in keyof UpdateApiCacheRequest]: (UpdateApiCacheRequest)[K]
     }>): Request<UpdateApiCacheResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateApiCache(
-          this.ops["UpdateApiCache"].applicator.apply(partialParams)
+          this.ops["UpdateApiCache"].apply(partialParams)
         );
     }
 
     invokeUpdateApiKey(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateApiKeyRequest, "apiId"> & keyof UpdateApiKeyRequest]: (Omit<UpdateApiKeyRequest, "apiId"> & UpdateApiKeyRequest)[K]
+      [K in keyof UpdateApiKeyRequest]: (UpdateApiKeyRequest)[K]
     }>): Request<UpdateApiKeyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateApiKey(
-          this.ops["UpdateApiKey"].applicator.apply(partialParams)
+          this.ops["UpdateApiKey"].apply(partialParams)
         );
     }
 
     invokeUpdateDataSource(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateDataSourceRequest, "apiId"> & keyof UpdateDataSourceRequest]: (Omit<UpdateDataSourceRequest, "apiId"> & UpdateDataSourceRequest)[K]
+      [K in keyof UpdateDataSourceRequest]: (UpdateDataSourceRequest)[K]
     }>): Request<UpdateDataSourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDataSource(
-          this.ops["UpdateDataSource"].applicator.apply(partialParams)
+          this.ops["UpdateDataSource"].apply(partialParams)
         );
     }
 
     invokeUpdateDomainName(partialParams: ToOptional<{
-      [K in keyof UpdateDomainNameRequest & keyof Omit<UpdateDomainNameRequest, "domainName">]: (UpdateDomainNameRequest & Omit<UpdateDomainNameRequest, "domainName">)[K]
+      [K in keyof UpdateDomainNameRequest]: (UpdateDomainNameRequest)[K]
     }>): Request<UpdateDomainNameResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDomainName(
-          this.ops["UpdateDomainName"].applicator.apply(partialParams)
+          this.ops["UpdateDomainName"].apply(partialParams)
         );
     }
 
     invokeUpdateFunction(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateFunctionRequest, "apiId"> & keyof UpdateFunctionRequest]: (Omit<UpdateFunctionRequest, "apiId"> & UpdateFunctionRequest)[K]
+      [K in keyof UpdateFunctionRequest]: (UpdateFunctionRequest)[K]
     }>): Request<UpdateFunctionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateFunction(
-          this.ops["UpdateFunction"].applicator.apply(partialParams)
+          this.ops["UpdateFunction"].apply(partialParams)
         );
     }
 
     invokeUpdateGraphqlApi(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateGraphqlApiRequest, "apiId"> & keyof UpdateGraphqlApiRequest]: (Omit<UpdateGraphqlApiRequest, "apiId"> & UpdateGraphqlApiRequest)[K]
+      [K in keyof UpdateGraphqlApiRequest]: (UpdateGraphqlApiRequest)[K]
     }>): Request<UpdateGraphqlApiResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateGraphqlApi(
-          this.ops["UpdateGraphqlApi"].applicator.apply(partialParams)
+          this.ops["UpdateGraphqlApi"].apply(partialParams)
         );
     }
 
     invokeUpdateResolver(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateResolverRequest, "apiId"> & keyof UpdateResolverRequest]: (Omit<UpdateResolverRequest, "apiId"> & UpdateResolverRequest)[K]
+      [K in keyof UpdateResolverRequest]: (UpdateResolverRequest)[K]
     }>): Request<UpdateResolverResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateResolver(
-          this.ops["UpdateResolver"].applicator.apply(partialParams)
+          this.ops["UpdateResolver"].apply(partialParams)
         );
     }
 
     invokeUpdateType(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateTypeRequest, "apiId"> & keyof UpdateTypeRequest]: (Omit<UpdateTypeRequest, "apiId"> & UpdateTypeRequest)[K]
+      [K in keyof UpdateTypeRequest]: (UpdateTypeRequest)[K]
     }>): Request<UpdateTypeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateType(
-          this.ops["UpdateType"].applicator.apply(partialParams)
+          this.ops["UpdateType"].apply(partialParams)
         );
     }
 }

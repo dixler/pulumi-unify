@@ -25,6 +25,7 @@ import {
     GetDomainAssociationRequest,
     GetJobRequest,
     GetWebhookRequest,
+    ListAppsRequest,
     ListArtifactsRequest,
     ListBackendEnvironmentsRequest,
     ListBranchesRequest,
@@ -61,6 +62,7 @@ import {
     GetDomainAssociationResult,
     GetJobResult,
     GetWebhookResult,
+    ListAppsResult,
     ListArtifactsResult,
     ListBackendEnvironmentsResult,
     ListBranchesResult,
@@ -91,21 +93,24 @@ export default class extends aws.amplify.App {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.amplify.App>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.Amplify()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -115,402 +120,340 @@ export default class extends aws.amplify.App {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCreateApp(partialParams: ToOptional<{
-      [K in keyof CreateAppRequest & keyof CreateAppRequest & keyof CreateAppRequest & keyof CreateAppRequest & keyof CreateAppRequest & keyof CreateAppRequest & keyof CreateAppRequest & keyof CreateAppRequest & keyof CreateAppRequest & keyof CreateAppRequest & keyof CreateAppRequest]: (CreateAppRequest & CreateAppRequest & CreateAppRequest & CreateAppRequest & CreateAppRequest & CreateAppRequest & CreateAppRequest & CreateAppRequest & CreateAppRequest & CreateAppRequest & CreateAppRequest)[K]
+      [K in keyof CreateAppRequest]: (CreateAppRequest)[K]
     }>): Request<CreateAppResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createApp(
-          this.ops["CreateApp"].applicator.apply(partialParams)
+          this.ops["CreateApp"].apply(partialParams)
         );
     }
 
     invokeCreateBackendEnvironment(partialParams: ToOptional<{
-      [K in keyof CreateBackendEnvironmentRequest & keyof CreateBackendEnvironmentRequest & keyof CreateBackendEnvironmentRequest & keyof CreateBackendEnvironmentRequest & keyof CreateBackendEnvironmentRequest & keyof CreateBackendEnvironmentRequest & keyof CreateBackendEnvironmentRequest & keyof CreateBackendEnvironmentRequest & keyof CreateBackendEnvironmentRequest & keyof CreateBackendEnvironmentRequest & keyof CreateBackendEnvironmentRequest]: (CreateBackendEnvironmentRequest & CreateBackendEnvironmentRequest & CreateBackendEnvironmentRequest & CreateBackendEnvironmentRequest & CreateBackendEnvironmentRequest & CreateBackendEnvironmentRequest & CreateBackendEnvironmentRequest & CreateBackendEnvironmentRequest & CreateBackendEnvironmentRequest & CreateBackendEnvironmentRequest & CreateBackendEnvironmentRequest)[K]
+      [K in keyof CreateBackendEnvironmentRequest]: (CreateBackendEnvironmentRequest)[K]
     }>): Request<CreateBackendEnvironmentResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createBackendEnvironment(
-          this.ops["CreateBackendEnvironment"].applicator.apply(partialParams)
+          this.ops["CreateBackendEnvironment"].apply(partialParams)
         );
     }
 
     invokeCreateBranch(partialParams: ToOptional<{
-      [K in keyof CreateBranchRequest & keyof CreateBranchRequest & keyof CreateBranchRequest & keyof CreateBranchRequest & keyof CreateBranchRequest & keyof CreateBranchRequest & keyof CreateBranchRequest & keyof CreateBranchRequest & keyof CreateBranchRequest & keyof CreateBranchRequest & keyof CreateBranchRequest]: (CreateBranchRequest & CreateBranchRequest & CreateBranchRequest & CreateBranchRequest & CreateBranchRequest & CreateBranchRequest & CreateBranchRequest & CreateBranchRequest & CreateBranchRequest & CreateBranchRequest & CreateBranchRequest)[K]
+      [K in keyof CreateBranchRequest]: (CreateBranchRequest)[K]
     }>): Request<CreateBranchResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createBranch(
-          this.ops["CreateBranch"].applicator.apply(partialParams)
+          this.ops["CreateBranch"].apply(partialParams)
         );
     }
 
     invokeCreateDeployment(partialParams: ToOptional<{
-      [K in keyof CreateDeploymentRequest & keyof CreateDeploymentRequest & keyof CreateDeploymentRequest & keyof CreateDeploymentRequest & keyof CreateDeploymentRequest & keyof CreateDeploymentRequest & keyof CreateDeploymentRequest & keyof CreateDeploymentRequest & keyof CreateDeploymentRequest & keyof CreateDeploymentRequest & keyof CreateDeploymentRequest]: (CreateDeploymentRequest & CreateDeploymentRequest & CreateDeploymentRequest & CreateDeploymentRequest & CreateDeploymentRequest & CreateDeploymentRequest & CreateDeploymentRequest & CreateDeploymentRequest & CreateDeploymentRequest & CreateDeploymentRequest & CreateDeploymentRequest)[K]
+      [K in keyof CreateDeploymentRequest]: (CreateDeploymentRequest)[K]
     }>): Request<CreateDeploymentResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDeployment(
-          this.ops["CreateDeployment"].applicator.apply(partialParams)
+          this.ops["CreateDeployment"].apply(partialParams)
         );
     }
 
     invokeCreateDomainAssociation(partialParams: ToOptional<{
-      [K in keyof CreateDomainAssociationRequest & keyof CreateDomainAssociationRequest & keyof CreateDomainAssociationRequest & keyof CreateDomainAssociationRequest & keyof CreateDomainAssociationRequest & keyof CreateDomainAssociationRequest & keyof CreateDomainAssociationRequest & keyof CreateDomainAssociationRequest & keyof CreateDomainAssociationRequest & keyof CreateDomainAssociationRequest & keyof CreateDomainAssociationRequest]: (CreateDomainAssociationRequest & CreateDomainAssociationRequest & CreateDomainAssociationRequest & CreateDomainAssociationRequest & CreateDomainAssociationRequest & CreateDomainAssociationRequest & CreateDomainAssociationRequest & CreateDomainAssociationRequest & CreateDomainAssociationRequest & CreateDomainAssociationRequest & CreateDomainAssociationRequest)[K]
+      [K in keyof CreateDomainAssociationRequest]: (CreateDomainAssociationRequest)[K]
     }>): Request<CreateDomainAssociationResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDomainAssociation(
-          this.ops["CreateDomainAssociation"].applicator.apply(partialParams)
+          this.ops["CreateDomainAssociation"].apply(partialParams)
         );
     }
 
     invokeCreateWebhook(partialParams: ToOptional<{
-      [K in keyof CreateWebhookRequest & keyof CreateWebhookRequest & keyof CreateWebhookRequest & keyof CreateWebhookRequest & keyof CreateWebhookRequest & keyof CreateWebhookRequest & keyof CreateWebhookRequest & keyof CreateWebhookRequest & keyof CreateWebhookRequest & keyof CreateWebhookRequest & keyof CreateWebhookRequest]: (CreateWebhookRequest & CreateWebhookRequest & CreateWebhookRequest & CreateWebhookRequest & CreateWebhookRequest & CreateWebhookRequest & CreateWebhookRequest & CreateWebhookRequest & CreateWebhookRequest & CreateWebhookRequest & CreateWebhookRequest)[K]
+      [K in keyof CreateWebhookRequest]: (CreateWebhookRequest)[K]
     }>): Request<CreateWebhookResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createWebhook(
-          this.ops["CreateWebhook"].applicator.apply(partialParams)
+          this.ops["CreateWebhook"].apply(partialParams)
         );
     }
 
     invokeDeleteApp(partialParams: ToOptional<{
-      [K in keyof DeleteAppRequest & keyof DeleteAppRequest & keyof DeleteAppRequest & keyof DeleteAppRequest & keyof DeleteAppRequest & keyof DeleteAppRequest & keyof DeleteAppRequest & keyof DeleteAppRequest & keyof DeleteAppRequest & keyof DeleteAppRequest & keyof DeleteAppRequest]: (DeleteAppRequest & DeleteAppRequest & DeleteAppRequest & DeleteAppRequest & DeleteAppRequest & DeleteAppRequest & DeleteAppRequest & DeleteAppRequest & DeleteAppRequest & DeleteAppRequest & DeleteAppRequest)[K]
+      [K in keyof DeleteAppRequest]: (DeleteAppRequest)[K]
     }>): Request<DeleteAppResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteApp(
-          this.ops["DeleteApp"].applicator.apply(partialParams)
+          this.ops["DeleteApp"].apply(partialParams)
         );
     }
 
     invokeDeleteBackendEnvironment(partialParams: ToOptional<{
-      [K in keyof DeleteBackendEnvironmentRequest & keyof DeleteBackendEnvironmentRequest & keyof DeleteBackendEnvironmentRequest & keyof DeleteBackendEnvironmentRequest & keyof DeleteBackendEnvironmentRequest & keyof DeleteBackendEnvironmentRequest & keyof DeleteBackendEnvironmentRequest & keyof DeleteBackendEnvironmentRequest & keyof DeleteBackendEnvironmentRequest & keyof DeleteBackendEnvironmentRequest & keyof DeleteBackendEnvironmentRequest]: (DeleteBackendEnvironmentRequest & DeleteBackendEnvironmentRequest & DeleteBackendEnvironmentRequest & DeleteBackendEnvironmentRequest & DeleteBackendEnvironmentRequest & DeleteBackendEnvironmentRequest & DeleteBackendEnvironmentRequest & DeleteBackendEnvironmentRequest & DeleteBackendEnvironmentRequest & DeleteBackendEnvironmentRequest & DeleteBackendEnvironmentRequest)[K]
+      [K in keyof DeleteBackendEnvironmentRequest]: (DeleteBackendEnvironmentRequest)[K]
     }>): Request<DeleteBackendEnvironmentResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteBackendEnvironment(
-          this.ops["DeleteBackendEnvironment"].applicator.apply(partialParams)
+          this.ops["DeleteBackendEnvironment"].apply(partialParams)
         );
     }
 
     invokeDeleteBranch(partialParams: ToOptional<{
-      [K in keyof DeleteBranchRequest & keyof DeleteBranchRequest & keyof DeleteBranchRequest & keyof DeleteBranchRequest & keyof DeleteBranchRequest & keyof DeleteBranchRequest & keyof DeleteBranchRequest & keyof DeleteBranchRequest & keyof DeleteBranchRequest & keyof DeleteBranchRequest & keyof DeleteBranchRequest]: (DeleteBranchRequest & DeleteBranchRequest & DeleteBranchRequest & DeleteBranchRequest & DeleteBranchRequest & DeleteBranchRequest & DeleteBranchRequest & DeleteBranchRequest & DeleteBranchRequest & DeleteBranchRequest & DeleteBranchRequest)[K]
+      [K in keyof DeleteBranchRequest]: (DeleteBranchRequest)[K]
     }>): Request<DeleteBranchResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteBranch(
-          this.ops["DeleteBranch"].applicator.apply(partialParams)
+          this.ops["DeleteBranch"].apply(partialParams)
         );
     }
 
     invokeDeleteDomainAssociation(partialParams: ToOptional<{
-      [K in keyof DeleteDomainAssociationRequest & keyof DeleteDomainAssociationRequest & keyof DeleteDomainAssociationRequest & keyof DeleteDomainAssociationRequest & keyof DeleteDomainAssociationRequest & keyof DeleteDomainAssociationRequest & keyof DeleteDomainAssociationRequest & keyof DeleteDomainAssociationRequest & keyof DeleteDomainAssociationRequest & keyof DeleteDomainAssociationRequest & keyof DeleteDomainAssociationRequest]: (DeleteDomainAssociationRequest & DeleteDomainAssociationRequest & DeleteDomainAssociationRequest & DeleteDomainAssociationRequest & DeleteDomainAssociationRequest & DeleteDomainAssociationRequest & DeleteDomainAssociationRequest & DeleteDomainAssociationRequest & DeleteDomainAssociationRequest & DeleteDomainAssociationRequest & DeleteDomainAssociationRequest)[K]
+      [K in keyof DeleteDomainAssociationRequest]: (DeleteDomainAssociationRequest)[K]
     }>): Request<DeleteDomainAssociationResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteDomainAssociation(
-          this.ops["DeleteDomainAssociation"].applicator.apply(partialParams)
+          this.ops["DeleteDomainAssociation"].apply(partialParams)
         );
     }
 
     invokeDeleteJob(partialParams: ToOptional<{
-      [K in keyof DeleteJobRequest & keyof DeleteJobRequest & keyof DeleteJobRequest & keyof DeleteJobRequest & keyof DeleteJobRequest & keyof DeleteJobRequest & keyof DeleteJobRequest & keyof DeleteJobRequest & keyof DeleteJobRequest & keyof DeleteJobRequest & keyof DeleteJobRequest]: (DeleteJobRequest & DeleteJobRequest & DeleteJobRequest & DeleteJobRequest & DeleteJobRequest & DeleteJobRequest & DeleteJobRequest & DeleteJobRequest & DeleteJobRequest & DeleteJobRequest & DeleteJobRequest)[K]
+      [K in keyof DeleteJobRequest]: (DeleteJobRequest)[K]
     }>): Request<DeleteJobResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteJob(
-          this.ops["DeleteJob"].applicator.apply(partialParams)
+          this.ops["DeleteJob"].apply(partialParams)
         );
     }
 
     invokeDeleteWebhook(partialParams: ToOptional<{
-      [K in keyof DeleteWebhookRequest & keyof DeleteWebhookRequest & keyof DeleteWebhookRequest & keyof DeleteWebhookRequest & keyof DeleteWebhookRequest & keyof DeleteWebhookRequest & keyof DeleteWebhookRequest & keyof DeleteWebhookRequest & keyof DeleteWebhookRequest & keyof DeleteWebhookRequest & keyof DeleteWebhookRequest]: (DeleteWebhookRequest & DeleteWebhookRequest & DeleteWebhookRequest & DeleteWebhookRequest & DeleteWebhookRequest & DeleteWebhookRequest & DeleteWebhookRequest & DeleteWebhookRequest & DeleteWebhookRequest & DeleteWebhookRequest & DeleteWebhookRequest)[K]
+      [K in keyof DeleteWebhookRequest]: (DeleteWebhookRequest)[K]
     }>): Request<DeleteWebhookResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteWebhook(
-          this.ops["DeleteWebhook"].applicator.apply(partialParams)
+          this.ops["DeleteWebhook"].apply(partialParams)
         );
     }
 
     invokeGenerateAccessLogs(partialParams: ToOptional<{
-      [K in keyof GenerateAccessLogsRequest & keyof GenerateAccessLogsRequest & keyof GenerateAccessLogsRequest & keyof GenerateAccessLogsRequest & keyof GenerateAccessLogsRequest & keyof GenerateAccessLogsRequest & keyof GenerateAccessLogsRequest & keyof GenerateAccessLogsRequest & keyof GenerateAccessLogsRequest & keyof GenerateAccessLogsRequest & keyof GenerateAccessLogsRequest]: (GenerateAccessLogsRequest & GenerateAccessLogsRequest & GenerateAccessLogsRequest & GenerateAccessLogsRequest & GenerateAccessLogsRequest & GenerateAccessLogsRequest & GenerateAccessLogsRequest & GenerateAccessLogsRequest & GenerateAccessLogsRequest & GenerateAccessLogsRequest & GenerateAccessLogsRequest)[K]
+      [K in keyof GenerateAccessLogsRequest]: (GenerateAccessLogsRequest)[K]
     }>): Request<GenerateAccessLogsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.generateAccessLogs(
-          this.ops["GenerateAccessLogs"].applicator.apply(partialParams)
+          this.ops["GenerateAccessLogs"].apply(partialParams)
         );
     }
 
     invokeGetApp(partialParams: ToOptional<{
-      [K in keyof GetAppRequest & keyof GetAppRequest & keyof GetAppRequest & keyof GetAppRequest & keyof GetAppRequest & keyof GetAppRequest & keyof GetAppRequest & keyof GetAppRequest & keyof GetAppRequest & keyof GetAppRequest & keyof GetAppRequest]: (GetAppRequest & GetAppRequest & GetAppRequest & GetAppRequest & GetAppRequest & GetAppRequest & GetAppRequest & GetAppRequest & GetAppRequest & GetAppRequest & GetAppRequest)[K]
+      [K in keyof GetAppRequest]: (GetAppRequest)[K]
     }>): Request<GetAppResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getApp(
-          this.ops["GetApp"].applicator.apply(partialParams)
+          this.ops["GetApp"].apply(partialParams)
         );
     }
 
     invokeGetArtifactUrl(partialParams: ToOptional<{
-      [K in keyof GetArtifactUrlRequest & keyof GetArtifactUrlRequest & keyof GetArtifactUrlRequest & keyof GetArtifactUrlRequest & keyof GetArtifactUrlRequest & keyof GetArtifactUrlRequest & keyof GetArtifactUrlRequest & keyof GetArtifactUrlRequest & keyof GetArtifactUrlRequest & keyof GetArtifactUrlRequest & keyof GetArtifactUrlRequest]: (GetArtifactUrlRequest & GetArtifactUrlRequest & GetArtifactUrlRequest & GetArtifactUrlRequest & GetArtifactUrlRequest & GetArtifactUrlRequest & GetArtifactUrlRequest & GetArtifactUrlRequest & GetArtifactUrlRequest & GetArtifactUrlRequest & GetArtifactUrlRequest)[K]
+      [K in keyof GetArtifactUrlRequest]: (GetArtifactUrlRequest)[K]
     }>): Request<GetArtifactUrlResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getArtifactUrl(
-          this.ops["GetArtifactUrl"].applicator.apply(partialParams)
+          this.ops["GetArtifactUrl"].apply(partialParams)
         );
     }
 
     invokeGetBackendEnvironment(partialParams: ToOptional<{
-      [K in keyof GetBackendEnvironmentRequest & keyof GetBackendEnvironmentRequest & keyof GetBackendEnvironmentRequest & keyof GetBackendEnvironmentRequest & keyof GetBackendEnvironmentRequest & keyof GetBackendEnvironmentRequest & keyof GetBackendEnvironmentRequest & keyof GetBackendEnvironmentRequest & keyof GetBackendEnvironmentRequest & keyof GetBackendEnvironmentRequest & keyof GetBackendEnvironmentRequest]: (GetBackendEnvironmentRequest & GetBackendEnvironmentRequest & GetBackendEnvironmentRequest & GetBackendEnvironmentRequest & GetBackendEnvironmentRequest & GetBackendEnvironmentRequest & GetBackendEnvironmentRequest & GetBackendEnvironmentRequest & GetBackendEnvironmentRequest & GetBackendEnvironmentRequest & GetBackendEnvironmentRequest)[K]
+      [K in keyof GetBackendEnvironmentRequest]: (GetBackendEnvironmentRequest)[K]
     }>): Request<GetBackendEnvironmentResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getBackendEnvironment(
-          this.ops["GetBackendEnvironment"].applicator.apply(partialParams)
+          this.ops["GetBackendEnvironment"].apply(partialParams)
         );
     }
 
     invokeGetBranch(partialParams: ToOptional<{
-      [K in keyof GetBranchRequest & keyof GetBranchRequest & keyof GetBranchRequest & keyof GetBranchRequest & keyof GetBranchRequest & keyof GetBranchRequest & keyof GetBranchRequest & keyof GetBranchRequest & keyof GetBranchRequest & keyof GetBranchRequest & keyof GetBranchRequest]: (GetBranchRequest & GetBranchRequest & GetBranchRequest & GetBranchRequest & GetBranchRequest & GetBranchRequest & GetBranchRequest & GetBranchRequest & GetBranchRequest & GetBranchRequest & GetBranchRequest)[K]
+      [K in keyof GetBranchRequest]: (GetBranchRequest)[K]
     }>): Request<GetBranchResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getBranch(
-          this.ops["GetBranch"].applicator.apply(partialParams)
+          this.ops["GetBranch"].apply(partialParams)
         );
     }
 
     invokeGetDomainAssociation(partialParams: ToOptional<{
-      [K in keyof GetDomainAssociationRequest & keyof GetDomainAssociationRequest & keyof GetDomainAssociationRequest & keyof GetDomainAssociationRequest & keyof GetDomainAssociationRequest & keyof GetDomainAssociationRequest & keyof GetDomainAssociationRequest & keyof GetDomainAssociationRequest & keyof GetDomainAssociationRequest & keyof GetDomainAssociationRequest & keyof GetDomainAssociationRequest]: (GetDomainAssociationRequest & GetDomainAssociationRequest & GetDomainAssociationRequest & GetDomainAssociationRequest & GetDomainAssociationRequest & GetDomainAssociationRequest & GetDomainAssociationRequest & GetDomainAssociationRequest & GetDomainAssociationRequest & GetDomainAssociationRequest & GetDomainAssociationRequest)[K]
+      [K in keyof GetDomainAssociationRequest]: (GetDomainAssociationRequest)[K]
     }>): Request<GetDomainAssociationResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDomainAssociation(
-          this.ops["GetDomainAssociation"].applicator.apply(partialParams)
+          this.ops["GetDomainAssociation"].apply(partialParams)
         );
     }
 
     invokeGetJob(partialParams: ToOptional<{
-      [K in keyof GetJobRequest & keyof GetJobRequest & keyof GetJobRequest & keyof GetJobRequest & keyof GetJobRequest & keyof GetJobRequest & keyof GetJobRequest & keyof GetJobRequest & keyof GetJobRequest & keyof GetJobRequest & keyof GetJobRequest]: (GetJobRequest & GetJobRequest & GetJobRequest & GetJobRequest & GetJobRequest & GetJobRequest & GetJobRequest & GetJobRequest & GetJobRequest & GetJobRequest & GetJobRequest)[K]
+      [K in keyof GetJobRequest]: (GetJobRequest)[K]
     }>): Request<GetJobResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getJob(
-          this.ops["GetJob"].applicator.apply(partialParams)
+          this.ops["GetJob"].apply(partialParams)
         );
     }
 
     invokeGetWebhook(partialParams: ToOptional<{
-      [K in keyof GetWebhookRequest & keyof GetWebhookRequest & keyof GetWebhookRequest & keyof GetWebhookRequest & keyof GetWebhookRequest & keyof GetWebhookRequest & keyof GetWebhookRequest & keyof GetWebhookRequest & keyof GetWebhookRequest & keyof GetWebhookRequest & keyof GetWebhookRequest]: (GetWebhookRequest & GetWebhookRequest & GetWebhookRequest & GetWebhookRequest & GetWebhookRequest & GetWebhookRequest & GetWebhookRequest & GetWebhookRequest & GetWebhookRequest & GetWebhookRequest & GetWebhookRequest)[K]
+      [K in keyof GetWebhookRequest]: (GetWebhookRequest)[K]
     }>): Request<GetWebhookResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getWebhook(
-          this.ops["GetWebhook"].applicator.apply(partialParams)
+          this.ops["GetWebhook"].apply(partialParams)
+        );
+    }
+
+    invokeListApps(partialParams: ToOptional<{
+      [K in keyof ListAppsRequest]: (ListAppsRequest)[K]
+    }>): Request<ListAppsResult, AWSError> {
+        this.boot();
+        return this.client.listApps(
+          this.ops["ListApps"].apply(partialParams)
         );
     }
 
     invokeListArtifacts(partialParams: ToOptional<{
-      [K in keyof ListArtifactsRequest & keyof ListArtifactsRequest & keyof ListArtifactsRequest & keyof ListArtifactsRequest & keyof ListArtifactsRequest & keyof ListArtifactsRequest & keyof ListArtifactsRequest & keyof ListArtifactsRequest & keyof ListArtifactsRequest & keyof ListArtifactsRequest & keyof ListArtifactsRequest]: (ListArtifactsRequest & ListArtifactsRequest & ListArtifactsRequest & ListArtifactsRequest & ListArtifactsRequest & ListArtifactsRequest & ListArtifactsRequest & ListArtifactsRequest & ListArtifactsRequest & ListArtifactsRequest & ListArtifactsRequest)[K]
+      [K in keyof ListArtifactsRequest]: (ListArtifactsRequest)[K]
     }>): Request<ListArtifactsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listArtifacts(
-          this.ops["ListArtifacts"].applicator.apply(partialParams)
+          this.ops["ListArtifacts"].apply(partialParams)
         );
     }
 
     invokeListBackendEnvironments(partialParams: ToOptional<{
-      [K in keyof ListBackendEnvironmentsRequest & keyof ListBackendEnvironmentsRequest & keyof ListBackendEnvironmentsRequest & keyof ListBackendEnvironmentsRequest & keyof ListBackendEnvironmentsRequest & keyof ListBackendEnvironmentsRequest & keyof ListBackendEnvironmentsRequest & keyof ListBackendEnvironmentsRequest & keyof ListBackendEnvironmentsRequest & keyof ListBackendEnvironmentsRequest & keyof ListBackendEnvironmentsRequest]: (ListBackendEnvironmentsRequest & ListBackendEnvironmentsRequest & ListBackendEnvironmentsRequest & ListBackendEnvironmentsRequest & ListBackendEnvironmentsRequest & ListBackendEnvironmentsRequest & ListBackendEnvironmentsRequest & ListBackendEnvironmentsRequest & ListBackendEnvironmentsRequest & ListBackendEnvironmentsRequest & ListBackendEnvironmentsRequest)[K]
+      [K in keyof ListBackendEnvironmentsRequest]: (ListBackendEnvironmentsRequest)[K]
     }>): Request<ListBackendEnvironmentsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listBackendEnvironments(
-          this.ops["ListBackendEnvironments"].applicator.apply(partialParams)
+          this.ops["ListBackendEnvironments"].apply(partialParams)
         );
     }
 
     invokeListBranches(partialParams: ToOptional<{
-      [K in keyof ListBranchesRequest & keyof ListBranchesRequest & keyof ListBranchesRequest & keyof ListBranchesRequest & keyof ListBranchesRequest & keyof ListBranchesRequest & keyof ListBranchesRequest & keyof ListBranchesRequest & keyof ListBranchesRequest & keyof ListBranchesRequest & keyof ListBranchesRequest]: (ListBranchesRequest & ListBranchesRequest & ListBranchesRequest & ListBranchesRequest & ListBranchesRequest & ListBranchesRequest & ListBranchesRequest & ListBranchesRequest & ListBranchesRequest & ListBranchesRequest & ListBranchesRequest)[K]
+      [K in keyof ListBranchesRequest]: (ListBranchesRequest)[K]
     }>): Request<ListBranchesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listBranches(
-          this.ops["ListBranches"].applicator.apply(partialParams)
+          this.ops["ListBranches"].apply(partialParams)
         );
     }
 
     invokeListDomainAssociations(partialParams: ToOptional<{
-      [K in keyof ListDomainAssociationsRequest & keyof ListDomainAssociationsRequest & keyof ListDomainAssociationsRequest & keyof ListDomainAssociationsRequest & keyof ListDomainAssociationsRequest & keyof ListDomainAssociationsRequest & keyof ListDomainAssociationsRequest & keyof ListDomainAssociationsRequest & keyof ListDomainAssociationsRequest & keyof ListDomainAssociationsRequest & keyof ListDomainAssociationsRequest]: (ListDomainAssociationsRequest & ListDomainAssociationsRequest & ListDomainAssociationsRequest & ListDomainAssociationsRequest & ListDomainAssociationsRequest & ListDomainAssociationsRequest & ListDomainAssociationsRequest & ListDomainAssociationsRequest & ListDomainAssociationsRequest & ListDomainAssociationsRequest & ListDomainAssociationsRequest)[K]
+      [K in keyof ListDomainAssociationsRequest]: (ListDomainAssociationsRequest)[K]
     }>): Request<ListDomainAssociationsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listDomainAssociations(
-          this.ops["ListDomainAssociations"].applicator.apply(partialParams)
+          this.ops["ListDomainAssociations"].apply(partialParams)
         );
     }
 
     invokeListJobs(partialParams: ToOptional<{
-      [K in keyof ListJobsRequest & keyof ListJobsRequest & keyof ListJobsRequest & keyof ListJobsRequest & keyof ListJobsRequest & keyof ListJobsRequest & keyof ListJobsRequest & keyof ListJobsRequest & keyof ListJobsRequest & keyof ListJobsRequest & keyof ListJobsRequest]: (ListJobsRequest & ListJobsRequest & ListJobsRequest & ListJobsRequest & ListJobsRequest & ListJobsRequest & ListJobsRequest & ListJobsRequest & ListJobsRequest & ListJobsRequest & ListJobsRequest)[K]
+      [K in keyof ListJobsRequest]: (ListJobsRequest)[K]
     }>): Request<ListJobsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listJobs(
-          this.ops["ListJobs"].applicator.apply(partialParams)
+          this.ops["ListJobs"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeListWebhooks(partialParams: ToOptional<{
-      [K in keyof ListWebhooksRequest & keyof ListWebhooksRequest & keyof ListWebhooksRequest & keyof ListWebhooksRequest & keyof ListWebhooksRequest & keyof ListWebhooksRequest & keyof ListWebhooksRequest & keyof ListWebhooksRequest & keyof ListWebhooksRequest & keyof ListWebhooksRequest & keyof ListWebhooksRequest]: (ListWebhooksRequest & ListWebhooksRequest & ListWebhooksRequest & ListWebhooksRequest & ListWebhooksRequest & ListWebhooksRequest & ListWebhooksRequest & ListWebhooksRequest & ListWebhooksRequest & ListWebhooksRequest & ListWebhooksRequest)[K]
+      [K in keyof ListWebhooksRequest]: (ListWebhooksRequest)[K]
     }>): Request<ListWebhooksResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listWebhooks(
-          this.ops["ListWebhooks"].applicator.apply(partialParams)
+          this.ops["ListWebhooks"].apply(partialParams)
         );
     }
 
     invokeStartDeployment(partialParams: ToOptional<{
-      [K in keyof StartDeploymentRequest & keyof StartDeploymentRequest & keyof StartDeploymentRequest & keyof StartDeploymentRequest & keyof StartDeploymentRequest & keyof StartDeploymentRequest & keyof StartDeploymentRequest & keyof StartDeploymentRequest & keyof StartDeploymentRequest & keyof StartDeploymentRequest & keyof StartDeploymentRequest]: (StartDeploymentRequest & StartDeploymentRequest & StartDeploymentRequest & StartDeploymentRequest & StartDeploymentRequest & StartDeploymentRequest & StartDeploymentRequest & StartDeploymentRequest & StartDeploymentRequest & StartDeploymentRequest & StartDeploymentRequest)[K]
+      [K in keyof StartDeploymentRequest]: (StartDeploymentRequest)[K]
     }>): Request<StartDeploymentResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startDeployment(
-          this.ops["StartDeployment"].applicator.apply(partialParams)
+          this.ops["StartDeployment"].apply(partialParams)
         );
     }
 
     invokeStartJob(partialParams: ToOptional<{
-      [K in keyof StartJobRequest & keyof StartJobRequest & keyof StartJobRequest & keyof StartJobRequest & keyof StartJobRequest & keyof StartJobRequest & keyof StartJobRequest & keyof StartJobRequest & keyof StartJobRequest & keyof StartJobRequest & keyof StartJobRequest]: (StartJobRequest & StartJobRequest & StartJobRequest & StartJobRequest & StartJobRequest & StartJobRequest & StartJobRequest & StartJobRequest & StartJobRequest & StartJobRequest & StartJobRequest)[K]
+      [K in keyof StartJobRequest]: (StartJobRequest)[K]
     }>): Request<StartJobResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startJob(
-          this.ops["StartJob"].applicator.apply(partialParams)
+          this.ops["StartJob"].apply(partialParams)
         );
     }
 
     invokeStopJob(partialParams: ToOptional<{
-      [K in keyof StopJobRequest & keyof StopJobRequest & keyof StopJobRequest & keyof StopJobRequest & keyof StopJobRequest & keyof StopJobRequest & keyof StopJobRequest & keyof StopJobRequest & keyof StopJobRequest & keyof StopJobRequest & keyof StopJobRequest]: (StopJobRequest & StopJobRequest & StopJobRequest & StopJobRequest & StopJobRequest & StopJobRequest & StopJobRequest & StopJobRequest & StopJobRequest & StopJobRequest & StopJobRequest)[K]
+      [K in keyof StopJobRequest]: (StopJobRequest)[K]
     }>): Request<StopJobResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopJob(
-          this.ops["StopJob"].applicator.apply(partialParams)
+          this.ops["StopJob"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateApp(partialParams: ToOptional<{
-      [K in keyof UpdateAppRequest & keyof UpdateAppRequest & keyof UpdateAppRequest & keyof UpdateAppRequest & keyof UpdateAppRequest & keyof UpdateAppRequest & keyof UpdateAppRequest & keyof UpdateAppRequest & keyof UpdateAppRequest & keyof UpdateAppRequest & keyof UpdateAppRequest]: (UpdateAppRequest & UpdateAppRequest & UpdateAppRequest & UpdateAppRequest & UpdateAppRequest & UpdateAppRequest & UpdateAppRequest & UpdateAppRequest & UpdateAppRequest & UpdateAppRequest & UpdateAppRequest)[K]
+      [K in keyof UpdateAppRequest]: (UpdateAppRequest)[K]
     }>): Request<UpdateAppResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateApp(
-          this.ops["UpdateApp"].applicator.apply(partialParams)
+          this.ops["UpdateApp"].apply(partialParams)
         );
     }
 
     invokeUpdateBranch(partialParams: ToOptional<{
-      [K in keyof UpdateBranchRequest & keyof UpdateBranchRequest & keyof UpdateBranchRequest & keyof UpdateBranchRequest & keyof UpdateBranchRequest & keyof UpdateBranchRequest & keyof UpdateBranchRequest & keyof UpdateBranchRequest & keyof UpdateBranchRequest & keyof UpdateBranchRequest & keyof UpdateBranchRequest]: (UpdateBranchRequest & UpdateBranchRequest & UpdateBranchRequest & UpdateBranchRequest & UpdateBranchRequest & UpdateBranchRequest & UpdateBranchRequest & UpdateBranchRequest & UpdateBranchRequest & UpdateBranchRequest & UpdateBranchRequest)[K]
+      [K in keyof UpdateBranchRequest]: (UpdateBranchRequest)[K]
     }>): Request<UpdateBranchResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateBranch(
-          this.ops["UpdateBranch"].applicator.apply(partialParams)
+          this.ops["UpdateBranch"].apply(partialParams)
         );
     }
 
     invokeUpdateDomainAssociation(partialParams: ToOptional<{
-      [K in keyof UpdateDomainAssociationRequest & keyof UpdateDomainAssociationRequest & keyof UpdateDomainAssociationRequest & keyof UpdateDomainAssociationRequest & keyof UpdateDomainAssociationRequest & keyof UpdateDomainAssociationRequest & keyof UpdateDomainAssociationRequest & keyof UpdateDomainAssociationRequest & keyof UpdateDomainAssociationRequest & keyof UpdateDomainAssociationRequest & keyof UpdateDomainAssociationRequest]: (UpdateDomainAssociationRequest & UpdateDomainAssociationRequest & UpdateDomainAssociationRequest & UpdateDomainAssociationRequest & UpdateDomainAssociationRequest & UpdateDomainAssociationRequest & UpdateDomainAssociationRequest & UpdateDomainAssociationRequest & UpdateDomainAssociationRequest & UpdateDomainAssociationRequest & UpdateDomainAssociationRequest)[K]
+      [K in keyof UpdateDomainAssociationRequest]: (UpdateDomainAssociationRequest)[K]
     }>): Request<UpdateDomainAssociationResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDomainAssociation(
-          this.ops["UpdateDomainAssociation"].applicator.apply(partialParams)
+          this.ops["UpdateDomainAssociation"].apply(partialParams)
         );
     }
 
     invokeUpdateWebhook(partialParams: ToOptional<{
-      [K in keyof UpdateWebhookRequest & keyof UpdateWebhookRequest & keyof UpdateWebhookRequest & keyof UpdateWebhookRequest & keyof UpdateWebhookRequest & keyof UpdateWebhookRequest & keyof UpdateWebhookRequest & keyof UpdateWebhookRequest & keyof UpdateWebhookRequest & keyof UpdateWebhookRequest & keyof UpdateWebhookRequest]: (UpdateWebhookRequest & UpdateWebhookRequest & UpdateWebhookRequest & UpdateWebhookRequest & UpdateWebhookRequest & UpdateWebhookRequest & UpdateWebhookRequest & UpdateWebhookRequest & UpdateWebhookRequest & UpdateWebhookRequest & UpdateWebhookRequest)[K]
+      [K in keyof UpdateWebhookRequest]: (UpdateWebhookRequest)[K]
     }>): Request<UpdateWebhookResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateWebhook(
-          this.ops["UpdateWebhook"].applicator.apply(partialParams)
+          this.ops["UpdateWebhook"].apply(partialParams)
         );
     }
 }

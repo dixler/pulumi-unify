@@ -9,8 +9,10 @@ import {
     CreateEnvironmentMembershipRequest,
     DeleteEnvironmentRequest,
     DeleteEnvironmentMembershipRequest,
+    DescribeEnvironmentMembershipsRequest,
     DescribeEnvironmentStatusRequest,
     DescribeEnvironmentsRequest,
+    ListEnvironmentsRequest,
     ListTagsForResourceRequest,
     TagResourceRequest,
     UntagResourceRequest,
@@ -20,8 +22,10 @@ import {
     CreateEnvironmentMembershipResult,
     DeleteEnvironmentResult,
     DeleteEnvironmentMembershipResult,
+    DescribeEnvironmentMembershipsResult,
     DescribeEnvironmentStatusResult,
     DescribeEnvironmentsResult,
+    ListEnvironmentsResult,
     ListTagsForResourceResponse,
     TagResourceResponse,
     UntagResourceResponse,
@@ -41,21 +45,24 @@ export default class extends aws.cloud9.EnvironmentMembership {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.cloud9.EnvironmentMembership>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.Cloud9()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -65,127 +72,124 @@ export default class extends aws.cloud9.EnvironmentMembership {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCreateEnvironmentEC2(partialParams: ToOptional<{
-      [K in keyof CreateEnvironmentEC2Request & keyof CreateEnvironmentEC2Request & keyof CreateEnvironmentEC2Request & keyof CreateEnvironmentEC2Request]: (CreateEnvironmentEC2Request & CreateEnvironmentEC2Request & CreateEnvironmentEC2Request & CreateEnvironmentEC2Request)[K]
+      [K in keyof CreateEnvironmentEC2Request]: (CreateEnvironmentEC2Request)[K]
     }>): Request<CreateEnvironmentEC2Result, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createEnvironmentEC2(
-          this.ops["CreateEnvironmentEC2"].applicator.apply(partialParams)
+          this.ops["CreateEnvironmentEC2"].apply(partialParams)
         );
     }
 
     invokeCreateEnvironmentMembership(partialParams: ToOptional<{
-      [K in keyof CreateEnvironmentMembershipRequest & keyof CreateEnvironmentMembershipRequest & keyof CreateEnvironmentMembershipRequest & keyof CreateEnvironmentMembershipRequest]: (CreateEnvironmentMembershipRequest & CreateEnvironmentMembershipRequest & CreateEnvironmentMembershipRequest & CreateEnvironmentMembershipRequest)[K]
+      [K in keyof CreateEnvironmentMembershipRequest]: (CreateEnvironmentMembershipRequest)[K]
     }>): Request<CreateEnvironmentMembershipResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createEnvironmentMembership(
-          this.ops["CreateEnvironmentMembership"].applicator.apply(partialParams)
+          this.ops["CreateEnvironmentMembership"].apply(partialParams)
         );
     }
 
     invokeDeleteEnvironment(partialParams: ToOptional<{
-      [K in keyof DeleteEnvironmentRequest & keyof DeleteEnvironmentRequest & keyof DeleteEnvironmentRequest & keyof DeleteEnvironmentRequest]: (DeleteEnvironmentRequest & DeleteEnvironmentRequest & DeleteEnvironmentRequest & DeleteEnvironmentRequest)[K]
+      [K in keyof DeleteEnvironmentRequest]: (DeleteEnvironmentRequest)[K]
     }>): Request<DeleteEnvironmentResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteEnvironment(
-          this.ops["DeleteEnvironment"].applicator.apply(partialParams)
+          this.ops["DeleteEnvironment"].apply(partialParams)
         );
     }
 
     invokeDeleteEnvironmentMembership(partialParams: ToOptional<{
-      [K in keyof DeleteEnvironmentMembershipRequest & keyof DeleteEnvironmentMembershipRequest & keyof DeleteEnvironmentMembershipRequest & keyof DeleteEnvironmentMembershipRequest]: (DeleteEnvironmentMembershipRequest & DeleteEnvironmentMembershipRequest & DeleteEnvironmentMembershipRequest & DeleteEnvironmentMembershipRequest)[K]
+      [K in keyof DeleteEnvironmentMembershipRequest]: (DeleteEnvironmentMembershipRequest)[K]
     }>): Request<DeleteEnvironmentMembershipResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteEnvironmentMembership(
-          this.ops["DeleteEnvironmentMembership"].applicator.apply(partialParams)
+          this.ops["DeleteEnvironmentMembership"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeEnvironmentMemberships(partialParams: ToOptional<{
+      [K in keyof DescribeEnvironmentMembershipsRequest]: (DescribeEnvironmentMembershipsRequest)[K]
+    }>): Request<DescribeEnvironmentMembershipsResult, AWSError> {
+        this.boot();
+        return this.client.describeEnvironmentMemberships(
+          this.ops["DescribeEnvironmentMemberships"].apply(partialParams)
         );
     }
 
     invokeDescribeEnvironmentStatus(partialParams: ToOptional<{
-      [K in keyof DescribeEnvironmentStatusRequest & keyof DescribeEnvironmentStatusRequest & keyof DescribeEnvironmentStatusRequest & keyof DescribeEnvironmentStatusRequest]: (DescribeEnvironmentStatusRequest & DescribeEnvironmentStatusRequest & DescribeEnvironmentStatusRequest & DescribeEnvironmentStatusRequest)[K]
+      [K in keyof DescribeEnvironmentStatusRequest]: (DescribeEnvironmentStatusRequest)[K]
     }>): Request<DescribeEnvironmentStatusResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeEnvironmentStatus(
-          this.ops["DescribeEnvironmentStatus"].applicator.apply(partialParams)
+          this.ops["DescribeEnvironmentStatus"].apply(partialParams)
         );
     }
 
     invokeDescribeEnvironments(partialParams: ToOptional<{
-      [K in keyof DescribeEnvironmentsRequest & keyof DescribeEnvironmentsRequest & keyof DescribeEnvironmentsRequest & keyof DescribeEnvironmentsRequest]: (DescribeEnvironmentsRequest & DescribeEnvironmentsRequest & DescribeEnvironmentsRequest & DescribeEnvironmentsRequest)[K]
+      [K in keyof DescribeEnvironmentsRequest]: (DescribeEnvironmentsRequest)[K]
     }>): Request<DescribeEnvironmentsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeEnvironments(
-          this.ops["DescribeEnvironments"].applicator.apply(partialParams)
+          this.ops["DescribeEnvironments"].apply(partialParams)
+        );
+    }
+
+    invokeListEnvironments(partialParams: ToOptional<{
+      [K in keyof ListEnvironmentsRequest]: (ListEnvironmentsRequest)[K]
+    }>): Request<ListEnvironmentsResult, AWSError> {
+        this.boot();
+        return this.client.listEnvironments(
+          this.ops["ListEnvironments"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateEnvironment(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateEnvironmentRequest, "environmentId"> & keyof UpdateEnvironmentRequest & keyof UpdateEnvironmentRequest & keyof UpdateEnvironmentRequest]: (Omit<UpdateEnvironmentRequest, "environmentId"> & UpdateEnvironmentRequest & UpdateEnvironmentRequest & UpdateEnvironmentRequest)[K]
+      [K in keyof UpdateEnvironmentRequest]: (UpdateEnvironmentRequest)[K]
     }>): Request<UpdateEnvironmentResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateEnvironment(
-          this.ops["UpdateEnvironment"].applicator.apply(partialParams)
+          this.ops["UpdateEnvironment"].apply(partialParams)
         );
     }
 
     invokeUpdateEnvironmentMembership(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateEnvironmentMembershipRequest, "environmentId"> & keyof Omit<UpdateEnvironmentMembershipRequest, "permissions"> & keyof UpdateEnvironmentMembershipRequest & keyof UpdateEnvironmentMembershipRequest]: (Omit<UpdateEnvironmentMembershipRequest, "environmentId"> & Omit<UpdateEnvironmentMembershipRequest, "permissions"> & UpdateEnvironmentMembershipRequest & UpdateEnvironmentMembershipRequest)[K]
+      [K in keyof UpdateEnvironmentMembershipRequest]: (UpdateEnvironmentMembershipRequest)[K]
     }>): Request<UpdateEnvironmentMembershipResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateEnvironmentMembership(
-          this.ops["UpdateEnvironmentMembership"].applicator.apply(partialParams)
+          this.ops["UpdateEnvironmentMembership"].apply(partialParams)
         );
     }
 }

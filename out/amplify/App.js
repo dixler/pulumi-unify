@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.amplify.App {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.Amplify();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,223 +50,156 @@ class default_1 extends aws.amplify.App {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeCreateApp(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createApp(this.ops["CreateApp"].applicator.apply(partialParams));
+        return this.client.createApp(this.ops["CreateApp"].apply(partialParams));
     }
     invokeCreateBackendEnvironment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createBackendEnvironment(this.ops["CreateBackendEnvironment"].applicator.apply(partialParams));
+        return this.client.createBackendEnvironment(this.ops["CreateBackendEnvironment"].apply(partialParams));
     }
     invokeCreateBranch(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createBranch(this.ops["CreateBranch"].applicator.apply(partialParams));
+        return this.client.createBranch(this.ops["CreateBranch"].apply(partialParams));
     }
     invokeCreateDeployment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDeployment(this.ops["CreateDeployment"].applicator.apply(partialParams));
+        return this.client.createDeployment(this.ops["CreateDeployment"].apply(partialParams));
     }
     invokeCreateDomainAssociation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDomainAssociation(this.ops["CreateDomainAssociation"].applicator.apply(partialParams));
+        return this.client.createDomainAssociation(this.ops["CreateDomainAssociation"].apply(partialParams));
     }
     invokeCreateWebhook(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createWebhook(this.ops["CreateWebhook"].applicator.apply(partialParams));
+        return this.client.createWebhook(this.ops["CreateWebhook"].apply(partialParams));
     }
     invokeDeleteApp(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteApp(this.ops["DeleteApp"].applicator.apply(partialParams));
+        return this.client.deleteApp(this.ops["DeleteApp"].apply(partialParams));
     }
     invokeDeleteBackendEnvironment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteBackendEnvironment(this.ops["DeleteBackendEnvironment"].applicator.apply(partialParams));
+        return this.client.deleteBackendEnvironment(this.ops["DeleteBackendEnvironment"].apply(partialParams));
     }
     invokeDeleteBranch(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteBranch(this.ops["DeleteBranch"].applicator.apply(partialParams));
+        return this.client.deleteBranch(this.ops["DeleteBranch"].apply(partialParams));
     }
     invokeDeleteDomainAssociation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteDomainAssociation(this.ops["DeleteDomainAssociation"].applicator.apply(partialParams));
+        return this.client.deleteDomainAssociation(this.ops["DeleteDomainAssociation"].apply(partialParams));
     }
     invokeDeleteJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteJob(this.ops["DeleteJob"].applicator.apply(partialParams));
+        return this.client.deleteJob(this.ops["DeleteJob"].apply(partialParams));
     }
     invokeDeleteWebhook(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteWebhook(this.ops["DeleteWebhook"].applicator.apply(partialParams));
+        return this.client.deleteWebhook(this.ops["DeleteWebhook"].apply(partialParams));
     }
     invokeGenerateAccessLogs(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.generateAccessLogs(this.ops["GenerateAccessLogs"].applicator.apply(partialParams));
+        return this.client.generateAccessLogs(this.ops["GenerateAccessLogs"].apply(partialParams));
     }
     invokeGetApp(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getApp(this.ops["GetApp"].applicator.apply(partialParams));
+        return this.client.getApp(this.ops["GetApp"].apply(partialParams));
     }
     invokeGetArtifactUrl(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getArtifactUrl(this.ops["GetArtifactUrl"].applicator.apply(partialParams));
+        return this.client.getArtifactUrl(this.ops["GetArtifactUrl"].apply(partialParams));
     }
     invokeGetBackendEnvironment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getBackendEnvironment(this.ops["GetBackendEnvironment"].applicator.apply(partialParams));
+        return this.client.getBackendEnvironment(this.ops["GetBackendEnvironment"].apply(partialParams));
     }
     invokeGetBranch(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getBranch(this.ops["GetBranch"].applicator.apply(partialParams));
+        return this.client.getBranch(this.ops["GetBranch"].apply(partialParams));
     }
     invokeGetDomainAssociation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getDomainAssociation(this.ops["GetDomainAssociation"].applicator.apply(partialParams));
+        return this.client.getDomainAssociation(this.ops["GetDomainAssociation"].apply(partialParams));
     }
     invokeGetJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getJob(this.ops["GetJob"].applicator.apply(partialParams));
+        return this.client.getJob(this.ops["GetJob"].apply(partialParams));
     }
     invokeGetWebhook(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getWebhook(this.ops["GetWebhook"].applicator.apply(partialParams));
+        return this.client.getWebhook(this.ops["GetWebhook"].apply(partialParams));
+    }
+    invokeListApps(partialParams) {
+        this.boot();
+        return this.client.listApps(this.ops["ListApps"].apply(partialParams));
     }
     invokeListArtifacts(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listArtifacts(this.ops["ListArtifacts"].applicator.apply(partialParams));
+        return this.client.listArtifacts(this.ops["ListArtifacts"].apply(partialParams));
     }
     invokeListBackendEnvironments(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listBackendEnvironments(this.ops["ListBackendEnvironments"].applicator.apply(partialParams));
+        return this.client.listBackendEnvironments(this.ops["ListBackendEnvironments"].apply(partialParams));
     }
     invokeListBranches(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listBranches(this.ops["ListBranches"].applicator.apply(partialParams));
+        return this.client.listBranches(this.ops["ListBranches"].apply(partialParams));
     }
     invokeListDomainAssociations(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listDomainAssociations(this.ops["ListDomainAssociations"].applicator.apply(partialParams));
+        return this.client.listDomainAssociations(this.ops["ListDomainAssociations"].apply(partialParams));
     }
     invokeListJobs(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listJobs(this.ops["ListJobs"].applicator.apply(partialParams));
+        return this.client.listJobs(this.ops["ListJobs"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeListWebhooks(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listWebhooks(this.ops["ListWebhooks"].applicator.apply(partialParams));
+        return this.client.listWebhooks(this.ops["ListWebhooks"].apply(partialParams));
     }
     invokeStartDeployment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startDeployment(this.ops["StartDeployment"].applicator.apply(partialParams));
+        return this.client.startDeployment(this.ops["StartDeployment"].apply(partialParams));
     }
     invokeStartJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startJob(this.ops["StartJob"].applicator.apply(partialParams));
+        return this.client.startJob(this.ops["StartJob"].apply(partialParams));
     }
     invokeStopJob(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.stopJob(this.ops["StopJob"].applicator.apply(partialParams));
+        return this.client.stopJob(this.ops["StopJob"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateApp(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateApp(this.ops["UpdateApp"].applicator.apply(partialParams));
+        return this.client.updateApp(this.ops["UpdateApp"].apply(partialParams));
     }
     invokeUpdateBranch(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateBranch(this.ops["UpdateBranch"].applicator.apply(partialParams));
+        return this.client.updateBranch(this.ops["UpdateBranch"].apply(partialParams));
     }
     invokeUpdateDomainAssociation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateDomainAssociation(this.ops["UpdateDomainAssociation"].applicator.apply(partialParams));
+        return this.client.updateDomainAssociation(this.ops["UpdateDomainAssociation"].apply(partialParams));
     }
     invokeUpdateWebhook(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateWebhook(this.ops["UpdateWebhook"].applicator.apply(partialParams));
+        return this.client.updateWebhook(this.ops["UpdateWebhook"].apply(partialParams));
     }
 }
 exports.default = default_1;

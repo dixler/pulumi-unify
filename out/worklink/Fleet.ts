@@ -23,6 +23,7 @@ import {
     DisassociateWebsiteCertificateAuthorityRequest,
     ListDevicesRequest,
     ListDomainsRequest,
+    ListFleetsRequest,
     ListTagsForResourceRequest,
     ListWebsiteAuthorizationProvidersRequest,
     ListWebsiteCertificateAuthoritiesRequest,
@@ -55,6 +56,7 @@ import {
     DisassociateWebsiteCertificateAuthorityResponse,
     ListDevicesResponse,
     ListDomainsResponse,
+    ListFleetsResponse,
     ListTagsForResourceResponse,
     ListWebsiteAuthorizationProvidersResponse,
     ListWebsiteCertificateAuthoritiesResponse,
@@ -83,21 +85,24 @@ export default class extends aws.worklink.Fleet {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.worklink.Fleet>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.WorkLink()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -107,358 +112,304 @@ export default class extends aws.worklink.Fleet {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAssociateDomain(partialParams: ToOptional<{
-      [K in keyof AssociateDomainRequest & keyof AssociateDomainRequest & keyof AssociateDomainRequest & keyof AssociateDomainRequest & keyof AssociateDomainRequest & keyof AssociateDomainRequest & keyof AssociateDomainRequest & keyof AssociateDomainRequest]: (AssociateDomainRequest & AssociateDomainRequest & AssociateDomainRequest & AssociateDomainRequest & AssociateDomainRequest & AssociateDomainRequest & AssociateDomainRequest & AssociateDomainRequest)[K]
+      [K in keyof AssociateDomainRequest & keyof Omit<AssociateDomainRequest, "FleetArn">]: (AssociateDomainRequest)[K]
     }>): Request<AssociateDomainResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateDomain(
-          this.ops["AssociateDomain"].applicator.apply(partialParams)
+          this.ops["AssociateDomain"].apply(partialParams)
         );
     }
 
     invokeAssociateWebsiteAuthorizationProvider(partialParams: ToOptional<{
-      [K in keyof AssociateWebsiteAuthorizationProviderRequest & keyof AssociateWebsiteAuthorizationProviderRequest & keyof AssociateWebsiteAuthorizationProviderRequest & keyof AssociateWebsiteAuthorizationProviderRequest & keyof AssociateWebsiteAuthorizationProviderRequest & keyof AssociateWebsiteAuthorizationProviderRequest & keyof AssociateWebsiteAuthorizationProviderRequest & keyof AssociateWebsiteAuthorizationProviderRequest]: (AssociateWebsiteAuthorizationProviderRequest & AssociateWebsiteAuthorizationProviderRequest & AssociateWebsiteAuthorizationProviderRequest & AssociateWebsiteAuthorizationProviderRequest & AssociateWebsiteAuthorizationProviderRequest & AssociateWebsiteAuthorizationProviderRequest & AssociateWebsiteAuthorizationProviderRequest & AssociateWebsiteAuthorizationProviderRequest)[K]
+      [K in keyof AssociateWebsiteAuthorizationProviderRequest & keyof Omit<AssociateWebsiteAuthorizationProviderRequest, "FleetArn">]: (AssociateWebsiteAuthorizationProviderRequest)[K]
     }>): Request<AssociateWebsiteAuthorizationProviderResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateWebsiteAuthorizationProvider(
-          this.ops["AssociateWebsiteAuthorizationProvider"].applicator.apply(partialParams)
+          this.ops["AssociateWebsiteAuthorizationProvider"].apply(partialParams)
         );
     }
 
     invokeAssociateWebsiteCertificateAuthority(partialParams: ToOptional<{
-      [K in keyof AssociateWebsiteCertificateAuthorityRequest & keyof AssociateWebsiteCertificateAuthorityRequest & keyof AssociateWebsiteCertificateAuthorityRequest & keyof AssociateWebsiteCertificateAuthorityRequest & keyof AssociateWebsiteCertificateAuthorityRequest & keyof AssociateWebsiteCertificateAuthorityRequest & keyof AssociateWebsiteCertificateAuthorityRequest & keyof AssociateWebsiteCertificateAuthorityRequest]: (AssociateWebsiteCertificateAuthorityRequest & AssociateWebsiteCertificateAuthorityRequest & AssociateWebsiteCertificateAuthorityRequest & AssociateWebsiteCertificateAuthorityRequest & AssociateWebsiteCertificateAuthorityRequest & AssociateWebsiteCertificateAuthorityRequest & AssociateWebsiteCertificateAuthorityRequest & AssociateWebsiteCertificateAuthorityRequest)[K]
+      [K in keyof AssociateWebsiteCertificateAuthorityRequest & keyof Omit<AssociateWebsiteCertificateAuthorityRequest, "FleetArn">]: (AssociateWebsiteCertificateAuthorityRequest)[K]
     }>): Request<AssociateWebsiteCertificateAuthorityResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateWebsiteCertificateAuthority(
-          this.ops["AssociateWebsiteCertificateAuthority"].applicator.apply(partialParams)
+          this.ops["AssociateWebsiteCertificateAuthority"].apply(partialParams)
         );
     }
 
     invokeCreateFleet(partialParams: ToOptional<{
-      [K in keyof CreateFleetRequest & keyof CreateFleetRequest & keyof CreateFleetRequest & keyof CreateFleetRequest & keyof CreateFleetRequest & keyof CreateFleetRequest & keyof CreateFleetRequest & keyof CreateFleetRequest]: (CreateFleetRequest & CreateFleetRequest & CreateFleetRequest & CreateFleetRequest & CreateFleetRequest & CreateFleetRequest & CreateFleetRequest & CreateFleetRequest)[K]
+      [K in keyof CreateFleetRequest & keyof Omit<CreateFleetRequest, "FleetName">]: (CreateFleetRequest)[K]
     }>): Request<CreateFleetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createFleet(
-          this.ops["CreateFleet"].applicator.apply(partialParams)
+          this.ops["CreateFleet"].apply(partialParams)
         );
     }
 
     invokeDeleteFleet(partialParams: ToOptional<{
-      [K in keyof DeleteFleetRequest & keyof DeleteFleetRequest & keyof DeleteFleetRequest & keyof DeleteFleetRequest & keyof DeleteFleetRequest & keyof DeleteFleetRequest & keyof DeleteFleetRequest & keyof DeleteFleetRequest]: (DeleteFleetRequest & DeleteFleetRequest & DeleteFleetRequest & DeleteFleetRequest & DeleteFleetRequest & DeleteFleetRequest & DeleteFleetRequest & DeleteFleetRequest)[K]
+      [K in keyof DeleteFleetRequest & keyof Omit<DeleteFleetRequest, "FleetArn">]: (DeleteFleetRequest)[K]
     }>): Request<DeleteFleetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteFleet(
-          this.ops["DeleteFleet"].applicator.apply(partialParams)
+          this.ops["DeleteFleet"].apply(partialParams)
         );
     }
 
     invokeDescribeAuditStreamConfiguration(partialParams: ToOptional<{
-      [K in keyof DescribeAuditStreamConfigurationRequest & keyof DescribeAuditStreamConfigurationRequest & keyof DescribeAuditStreamConfigurationRequest & keyof DescribeAuditStreamConfigurationRequest & keyof DescribeAuditStreamConfigurationRequest & keyof DescribeAuditStreamConfigurationRequest & keyof DescribeAuditStreamConfigurationRequest & keyof DescribeAuditStreamConfigurationRequest]: (DescribeAuditStreamConfigurationRequest & DescribeAuditStreamConfigurationRequest & DescribeAuditStreamConfigurationRequest & DescribeAuditStreamConfigurationRequest & DescribeAuditStreamConfigurationRequest & DescribeAuditStreamConfigurationRequest & DescribeAuditStreamConfigurationRequest & DescribeAuditStreamConfigurationRequest)[K]
+      [K in keyof DescribeAuditStreamConfigurationRequest & keyof Omit<DescribeAuditStreamConfigurationRequest, "FleetArn">]: (DescribeAuditStreamConfigurationRequest)[K]
     }>): Request<DescribeAuditStreamConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeAuditStreamConfiguration(
-          this.ops["DescribeAuditStreamConfiguration"].applicator.apply(partialParams)
+          this.ops["DescribeAuditStreamConfiguration"].apply(partialParams)
         );
     }
 
     invokeDescribeCompanyNetworkConfiguration(partialParams: ToOptional<{
-      [K in keyof DescribeCompanyNetworkConfigurationRequest & keyof DescribeCompanyNetworkConfigurationRequest & keyof DescribeCompanyNetworkConfigurationRequest & keyof DescribeCompanyNetworkConfigurationRequest & keyof DescribeCompanyNetworkConfigurationRequest & keyof DescribeCompanyNetworkConfigurationRequest & keyof DescribeCompanyNetworkConfigurationRequest & keyof DescribeCompanyNetworkConfigurationRequest]: (DescribeCompanyNetworkConfigurationRequest & DescribeCompanyNetworkConfigurationRequest & DescribeCompanyNetworkConfigurationRequest & DescribeCompanyNetworkConfigurationRequest & DescribeCompanyNetworkConfigurationRequest & DescribeCompanyNetworkConfigurationRequest & DescribeCompanyNetworkConfigurationRequest & DescribeCompanyNetworkConfigurationRequest)[K]
+      [K in keyof DescribeCompanyNetworkConfigurationRequest & keyof Omit<DescribeCompanyNetworkConfigurationRequest, "FleetArn">]: (DescribeCompanyNetworkConfigurationRequest)[K]
     }>): Request<DescribeCompanyNetworkConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeCompanyNetworkConfiguration(
-          this.ops["DescribeCompanyNetworkConfiguration"].applicator.apply(partialParams)
+          this.ops["DescribeCompanyNetworkConfiguration"].apply(partialParams)
         );
     }
 
     invokeDescribeDevice(partialParams: ToOptional<{
-      [K in keyof DescribeDeviceRequest & keyof DescribeDeviceRequest & keyof DescribeDeviceRequest & keyof DescribeDeviceRequest & keyof DescribeDeviceRequest & keyof DescribeDeviceRequest & keyof DescribeDeviceRequest & keyof DescribeDeviceRequest]: (DescribeDeviceRequest & DescribeDeviceRequest & DescribeDeviceRequest & DescribeDeviceRequest & DescribeDeviceRequest & DescribeDeviceRequest & DescribeDeviceRequest & DescribeDeviceRequest)[K]
+      [K in keyof DescribeDeviceRequest & keyof Omit<DescribeDeviceRequest, "FleetArn">]: (DescribeDeviceRequest)[K]
     }>): Request<DescribeDeviceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDevice(
-          this.ops["DescribeDevice"].applicator.apply(partialParams)
+          this.ops["DescribeDevice"].apply(partialParams)
         );
     }
 
     invokeDescribeDevicePolicyConfiguration(partialParams: ToOptional<{
-      [K in keyof DescribeDevicePolicyConfigurationRequest & keyof DescribeDevicePolicyConfigurationRequest & keyof DescribeDevicePolicyConfigurationRequest & keyof DescribeDevicePolicyConfigurationRequest & keyof DescribeDevicePolicyConfigurationRequest & keyof DescribeDevicePolicyConfigurationRequest & keyof DescribeDevicePolicyConfigurationRequest & keyof DescribeDevicePolicyConfigurationRequest]: (DescribeDevicePolicyConfigurationRequest & DescribeDevicePolicyConfigurationRequest & DescribeDevicePolicyConfigurationRequest & DescribeDevicePolicyConfigurationRequest & DescribeDevicePolicyConfigurationRequest & DescribeDevicePolicyConfigurationRequest & DescribeDevicePolicyConfigurationRequest & DescribeDevicePolicyConfigurationRequest)[K]
+      [K in keyof DescribeDevicePolicyConfigurationRequest & keyof Omit<DescribeDevicePolicyConfigurationRequest, "FleetArn">]: (DescribeDevicePolicyConfigurationRequest)[K]
     }>): Request<DescribeDevicePolicyConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDevicePolicyConfiguration(
-          this.ops["DescribeDevicePolicyConfiguration"].applicator.apply(partialParams)
+          this.ops["DescribeDevicePolicyConfiguration"].apply(partialParams)
         );
     }
 
     invokeDescribeDomain(partialParams: ToOptional<{
-      [K in keyof DescribeDomainRequest & keyof DescribeDomainRequest & keyof DescribeDomainRequest & keyof DescribeDomainRequest & keyof DescribeDomainRequest & keyof DescribeDomainRequest & keyof DescribeDomainRequest & keyof DescribeDomainRequest]: (DescribeDomainRequest & DescribeDomainRequest & DescribeDomainRequest & DescribeDomainRequest & DescribeDomainRequest & DescribeDomainRequest & DescribeDomainRequest & DescribeDomainRequest)[K]
+      [K in keyof DescribeDomainRequest & keyof Omit<DescribeDomainRequest, "FleetArn">]: (DescribeDomainRequest)[K]
     }>): Request<DescribeDomainResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDomain(
-          this.ops["DescribeDomain"].applicator.apply(partialParams)
+          this.ops["DescribeDomain"].apply(partialParams)
         );
     }
 
     invokeDescribeFleetMetadata(partialParams: ToOptional<{
-      [K in keyof DescribeFleetMetadataRequest & keyof DescribeFleetMetadataRequest & keyof DescribeFleetMetadataRequest & keyof DescribeFleetMetadataRequest & keyof DescribeFleetMetadataRequest & keyof DescribeFleetMetadataRequest & keyof DescribeFleetMetadataRequest & keyof DescribeFleetMetadataRequest]: (DescribeFleetMetadataRequest & DescribeFleetMetadataRequest & DescribeFleetMetadataRequest & DescribeFleetMetadataRequest & DescribeFleetMetadataRequest & DescribeFleetMetadataRequest & DescribeFleetMetadataRequest & DescribeFleetMetadataRequest)[K]
+      [K in keyof DescribeFleetMetadataRequest & keyof Omit<DescribeFleetMetadataRequest, "FleetArn">]: (DescribeFleetMetadataRequest)[K]
     }>): Request<DescribeFleetMetadataResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeFleetMetadata(
-          this.ops["DescribeFleetMetadata"].applicator.apply(partialParams)
+          this.ops["DescribeFleetMetadata"].apply(partialParams)
         );
     }
 
     invokeDescribeIdentityProviderConfiguration(partialParams: ToOptional<{
-      [K in keyof DescribeIdentityProviderConfigurationRequest & keyof DescribeIdentityProviderConfigurationRequest & keyof DescribeIdentityProviderConfigurationRequest & keyof DescribeIdentityProviderConfigurationRequest & keyof DescribeIdentityProviderConfigurationRequest & keyof DescribeIdentityProviderConfigurationRequest & keyof DescribeIdentityProviderConfigurationRequest & keyof DescribeIdentityProviderConfigurationRequest]: (DescribeIdentityProviderConfigurationRequest & DescribeIdentityProviderConfigurationRequest & DescribeIdentityProviderConfigurationRequest & DescribeIdentityProviderConfigurationRequest & DescribeIdentityProviderConfigurationRequest & DescribeIdentityProviderConfigurationRequest & DescribeIdentityProviderConfigurationRequest & DescribeIdentityProviderConfigurationRequest)[K]
+      [K in keyof DescribeIdentityProviderConfigurationRequest & keyof Omit<DescribeIdentityProviderConfigurationRequest, "FleetArn">]: (DescribeIdentityProviderConfigurationRequest)[K]
     }>): Request<DescribeIdentityProviderConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeIdentityProviderConfiguration(
-          this.ops["DescribeIdentityProviderConfiguration"].applicator.apply(partialParams)
+          this.ops["DescribeIdentityProviderConfiguration"].apply(partialParams)
         );
     }
 
     invokeDescribeWebsiteCertificateAuthority(partialParams: ToOptional<{
-      [K in keyof DescribeWebsiteCertificateAuthorityRequest & keyof DescribeWebsiteCertificateAuthorityRequest & keyof DescribeWebsiteCertificateAuthorityRequest & keyof DescribeWebsiteCertificateAuthorityRequest & keyof DescribeWebsiteCertificateAuthorityRequest & keyof DescribeWebsiteCertificateAuthorityRequest & keyof DescribeWebsiteCertificateAuthorityRequest & keyof DescribeWebsiteCertificateAuthorityRequest]: (DescribeWebsiteCertificateAuthorityRequest & DescribeWebsiteCertificateAuthorityRequest & DescribeWebsiteCertificateAuthorityRequest & DescribeWebsiteCertificateAuthorityRequest & DescribeWebsiteCertificateAuthorityRequest & DescribeWebsiteCertificateAuthorityRequest & DescribeWebsiteCertificateAuthorityRequest & DescribeWebsiteCertificateAuthorityRequest)[K]
+      [K in keyof DescribeWebsiteCertificateAuthorityRequest & keyof Omit<DescribeWebsiteCertificateAuthorityRequest, "FleetArn">]: (DescribeWebsiteCertificateAuthorityRequest)[K]
     }>): Request<DescribeWebsiteCertificateAuthorityResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeWebsiteCertificateAuthority(
-          this.ops["DescribeWebsiteCertificateAuthority"].applicator.apply(partialParams)
+          this.ops["DescribeWebsiteCertificateAuthority"].apply(partialParams)
         );
     }
 
     invokeDisassociateDomain(partialParams: ToOptional<{
-      [K in keyof DisassociateDomainRequest & keyof DisassociateDomainRequest & keyof DisassociateDomainRequest & keyof DisassociateDomainRequest & keyof DisassociateDomainRequest & keyof DisassociateDomainRequest & keyof DisassociateDomainRequest & keyof DisassociateDomainRequest]: (DisassociateDomainRequest & DisassociateDomainRequest & DisassociateDomainRequest & DisassociateDomainRequest & DisassociateDomainRequest & DisassociateDomainRequest & DisassociateDomainRequest & DisassociateDomainRequest)[K]
+      [K in keyof DisassociateDomainRequest & keyof Omit<DisassociateDomainRequest, "FleetArn">]: (DisassociateDomainRequest)[K]
     }>): Request<DisassociateDomainResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateDomain(
-          this.ops["DisassociateDomain"].applicator.apply(partialParams)
+          this.ops["DisassociateDomain"].apply(partialParams)
         );
     }
 
     invokeDisassociateWebsiteAuthorizationProvider(partialParams: ToOptional<{
-      [K in keyof DisassociateWebsiteAuthorizationProviderRequest & keyof DisassociateWebsiteAuthorizationProviderRequest & keyof DisassociateWebsiteAuthorizationProviderRequest & keyof DisassociateWebsiteAuthorizationProviderRequest & keyof DisassociateWebsiteAuthorizationProviderRequest & keyof DisassociateWebsiteAuthorizationProviderRequest & keyof DisassociateWebsiteAuthorizationProviderRequest & keyof DisassociateWebsiteAuthorizationProviderRequest]: (DisassociateWebsiteAuthorizationProviderRequest & DisassociateWebsiteAuthorizationProviderRequest & DisassociateWebsiteAuthorizationProviderRequest & DisassociateWebsiteAuthorizationProviderRequest & DisassociateWebsiteAuthorizationProviderRequest & DisassociateWebsiteAuthorizationProviderRequest & DisassociateWebsiteAuthorizationProviderRequest & DisassociateWebsiteAuthorizationProviderRequest)[K]
+      [K in keyof DisassociateWebsiteAuthorizationProviderRequest & keyof Omit<DisassociateWebsiteAuthorizationProviderRequest, "FleetArn">]: (DisassociateWebsiteAuthorizationProviderRequest)[K]
     }>): Request<DisassociateWebsiteAuthorizationProviderResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateWebsiteAuthorizationProvider(
-          this.ops["DisassociateWebsiteAuthorizationProvider"].applicator.apply(partialParams)
+          this.ops["DisassociateWebsiteAuthorizationProvider"].apply(partialParams)
         );
     }
 
     invokeDisassociateWebsiteCertificateAuthority(partialParams: ToOptional<{
-      [K in keyof DisassociateWebsiteCertificateAuthorityRequest & keyof DisassociateWebsiteCertificateAuthorityRequest & keyof DisassociateWebsiteCertificateAuthorityRequest & keyof DisassociateWebsiteCertificateAuthorityRequest & keyof DisassociateWebsiteCertificateAuthorityRequest & keyof DisassociateWebsiteCertificateAuthorityRequest & keyof DisassociateWebsiteCertificateAuthorityRequest & keyof DisassociateWebsiteCertificateAuthorityRequest]: (DisassociateWebsiteCertificateAuthorityRequest & DisassociateWebsiteCertificateAuthorityRequest & DisassociateWebsiteCertificateAuthorityRequest & DisassociateWebsiteCertificateAuthorityRequest & DisassociateWebsiteCertificateAuthorityRequest & DisassociateWebsiteCertificateAuthorityRequest & DisassociateWebsiteCertificateAuthorityRequest & DisassociateWebsiteCertificateAuthorityRequest)[K]
+      [K in keyof DisassociateWebsiteCertificateAuthorityRequest & keyof Omit<DisassociateWebsiteCertificateAuthorityRequest, "FleetArn">]: (DisassociateWebsiteCertificateAuthorityRequest)[K]
     }>): Request<DisassociateWebsiteCertificateAuthorityResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateWebsiteCertificateAuthority(
-          this.ops["DisassociateWebsiteCertificateAuthority"].applicator.apply(partialParams)
+          this.ops["DisassociateWebsiteCertificateAuthority"].apply(partialParams)
         );
     }
 
     invokeListDevices(partialParams: ToOptional<{
-      [K in keyof ListDevicesRequest & keyof ListDevicesRequest & keyof ListDevicesRequest & keyof ListDevicesRequest & keyof ListDevicesRequest & keyof ListDevicesRequest & keyof ListDevicesRequest & keyof ListDevicesRequest]: (ListDevicesRequest & ListDevicesRequest & ListDevicesRequest & ListDevicesRequest & ListDevicesRequest & ListDevicesRequest & ListDevicesRequest & ListDevicesRequest)[K]
+      [K in keyof ListDevicesRequest & keyof Omit<ListDevicesRequest, "FleetArn">]: (ListDevicesRequest)[K]
     }>): Request<ListDevicesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listDevices(
-          this.ops["ListDevices"].applicator.apply(partialParams)
+          this.ops["ListDevices"].apply(partialParams)
         );
     }
 
     invokeListDomains(partialParams: ToOptional<{
-      [K in keyof ListDomainsRequest & keyof ListDomainsRequest & keyof ListDomainsRequest & keyof ListDomainsRequest & keyof ListDomainsRequest & keyof ListDomainsRequest & keyof ListDomainsRequest & keyof ListDomainsRequest]: (ListDomainsRequest & ListDomainsRequest & ListDomainsRequest & ListDomainsRequest & ListDomainsRequest & ListDomainsRequest & ListDomainsRequest & ListDomainsRequest)[K]
+      [K in keyof ListDomainsRequest & keyof Omit<ListDomainsRequest, "FleetArn">]: (ListDomainsRequest)[K]
     }>): Request<ListDomainsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listDomains(
-          this.ops["ListDomains"].applicator.apply(partialParams)
+          this.ops["ListDomains"].apply(partialParams)
+        );
+    }
+
+    invokeListFleets(partialParams: ToOptional<{
+      [K in keyof ListFleetsRequest]: (ListFleetsRequest)[K]
+    }>): Request<ListFleetsResponse, AWSError> {
+        this.boot();
+        return this.client.listFleets(
+          this.ops["ListFleets"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeListWebsiteAuthorizationProviders(partialParams: ToOptional<{
-      [K in keyof ListWebsiteAuthorizationProvidersRequest & keyof ListWebsiteAuthorizationProvidersRequest & keyof ListWebsiteAuthorizationProvidersRequest & keyof ListWebsiteAuthorizationProvidersRequest & keyof ListWebsiteAuthorizationProvidersRequest & keyof ListWebsiteAuthorizationProvidersRequest & keyof ListWebsiteAuthorizationProvidersRequest & keyof ListWebsiteAuthorizationProvidersRequest]: (ListWebsiteAuthorizationProvidersRequest & ListWebsiteAuthorizationProvidersRequest & ListWebsiteAuthorizationProvidersRequest & ListWebsiteAuthorizationProvidersRequest & ListWebsiteAuthorizationProvidersRequest & ListWebsiteAuthorizationProvidersRequest & ListWebsiteAuthorizationProvidersRequest & ListWebsiteAuthorizationProvidersRequest)[K]
+      [K in keyof ListWebsiteAuthorizationProvidersRequest & keyof Omit<ListWebsiteAuthorizationProvidersRequest, "FleetArn">]: (ListWebsiteAuthorizationProvidersRequest)[K]
     }>): Request<ListWebsiteAuthorizationProvidersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listWebsiteAuthorizationProviders(
-          this.ops["ListWebsiteAuthorizationProviders"].applicator.apply(partialParams)
+          this.ops["ListWebsiteAuthorizationProviders"].apply(partialParams)
         );
     }
 
     invokeListWebsiteCertificateAuthorities(partialParams: ToOptional<{
-      [K in keyof ListWebsiteCertificateAuthoritiesRequest & keyof ListWebsiteCertificateAuthoritiesRequest & keyof ListWebsiteCertificateAuthoritiesRequest & keyof ListWebsiteCertificateAuthoritiesRequest & keyof ListWebsiteCertificateAuthoritiesRequest & keyof ListWebsiteCertificateAuthoritiesRequest & keyof ListWebsiteCertificateAuthoritiesRequest & keyof ListWebsiteCertificateAuthoritiesRequest]: (ListWebsiteCertificateAuthoritiesRequest & ListWebsiteCertificateAuthoritiesRequest & ListWebsiteCertificateAuthoritiesRequest & ListWebsiteCertificateAuthoritiesRequest & ListWebsiteCertificateAuthoritiesRequest & ListWebsiteCertificateAuthoritiesRequest & ListWebsiteCertificateAuthoritiesRequest & ListWebsiteCertificateAuthoritiesRequest)[K]
+      [K in keyof ListWebsiteCertificateAuthoritiesRequest & keyof Omit<ListWebsiteCertificateAuthoritiesRequest, "FleetArn">]: (ListWebsiteCertificateAuthoritiesRequest)[K]
     }>): Request<ListWebsiteCertificateAuthoritiesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listWebsiteCertificateAuthorities(
-          this.ops["ListWebsiteCertificateAuthorities"].applicator.apply(partialParams)
+          this.ops["ListWebsiteCertificateAuthorities"].apply(partialParams)
         );
     }
 
     invokeRestoreDomainAccess(partialParams: ToOptional<{
-      [K in keyof RestoreDomainAccessRequest & keyof RestoreDomainAccessRequest & keyof RestoreDomainAccessRequest & keyof RestoreDomainAccessRequest & keyof RestoreDomainAccessRequest & keyof RestoreDomainAccessRequest & keyof RestoreDomainAccessRequest & keyof RestoreDomainAccessRequest]: (RestoreDomainAccessRequest & RestoreDomainAccessRequest & RestoreDomainAccessRequest & RestoreDomainAccessRequest & RestoreDomainAccessRequest & RestoreDomainAccessRequest & RestoreDomainAccessRequest & RestoreDomainAccessRequest)[K]
+      [K in keyof RestoreDomainAccessRequest & keyof Omit<RestoreDomainAccessRequest, "FleetArn">]: (RestoreDomainAccessRequest)[K]
     }>): Request<RestoreDomainAccessResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.restoreDomainAccess(
-          this.ops["RestoreDomainAccess"].applicator.apply(partialParams)
+          this.ops["RestoreDomainAccess"].apply(partialParams)
         );
     }
 
     invokeRevokeDomainAccess(partialParams: ToOptional<{
-      [K in keyof RevokeDomainAccessRequest & keyof RevokeDomainAccessRequest & keyof RevokeDomainAccessRequest & keyof RevokeDomainAccessRequest & keyof RevokeDomainAccessRequest & keyof RevokeDomainAccessRequest & keyof RevokeDomainAccessRequest & keyof RevokeDomainAccessRequest]: (RevokeDomainAccessRequest & RevokeDomainAccessRequest & RevokeDomainAccessRequest & RevokeDomainAccessRequest & RevokeDomainAccessRequest & RevokeDomainAccessRequest & RevokeDomainAccessRequest & RevokeDomainAccessRequest)[K]
+      [K in keyof RevokeDomainAccessRequest & keyof Omit<RevokeDomainAccessRequest, "FleetArn">]: (RevokeDomainAccessRequest)[K]
     }>): Request<RevokeDomainAccessResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.revokeDomainAccess(
-          this.ops["RevokeDomainAccess"].applicator.apply(partialParams)
+          this.ops["RevokeDomainAccess"].apply(partialParams)
         );
     }
 
     invokeSignOutUser(partialParams: ToOptional<{
-      [K in keyof SignOutUserRequest & keyof SignOutUserRequest & keyof SignOutUserRequest & keyof SignOutUserRequest & keyof SignOutUserRequest & keyof SignOutUserRequest & keyof SignOutUserRequest & keyof SignOutUserRequest]: (SignOutUserRequest & SignOutUserRequest & SignOutUserRequest & SignOutUserRequest & SignOutUserRequest & SignOutUserRequest & SignOutUserRequest & SignOutUserRequest)[K]
+      [K in keyof SignOutUserRequest & keyof Omit<SignOutUserRequest, "FleetArn">]: (SignOutUserRequest)[K]
     }>): Request<SignOutUserResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.signOutUser(
-          this.ops["SignOutUser"].applicator.apply(partialParams)
+          this.ops["SignOutUser"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateAuditStreamConfiguration(partialParams: ToOptional<{
-      [K in keyof UpdateAuditStreamConfigurationRequest & keyof UpdateAuditStreamConfigurationRequest & keyof UpdateAuditStreamConfigurationRequest & keyof UpdateAuditStreamConfigurationRequest & keyof UpdateAuditStreamConfigurationRequest & keyof UpdateAuditStreamConfigurationRequest & keyof UpdateAuditStreamConfigurationRequest & keyof UpdateAuditStreamConfigurationRequest]: (UpdateAuditStreamConfigurationRequest & UpdateAuditStreamConfigurationRequest & UpdateAuditStreamConfigurationRequest & UpdateAuditStreamConfigurationRequest & UpdateAuditStreamConfigurationRequest & UpdateAuditStreamConfigurationRequest & UpdateAuditStreamConfigurationRequest & UpdateAuditStreamConfigurationRequest)[K]
+      [K in keyof UpdateAuditStreamConfigurationRequest & keyof Omit<UpdateAuditStreamConfigurationRequest, "FleetArn">]: (UpdateAuditStreamConfigurationRequest)[K]
     }>): Request<UpdateAuditStreamConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateAuditStreamConfiguration(
-          this.ops["UpdateAuditStreamConfiguration"].applicator.apply(partialParams)
+          this.ops["UpdateAuditStreamConfiguration"].apply(partialParams)
         );
     }
 
     invokeUpdateCompanyNetworkConfiguration(partialParams: ToOptional<{
-      [K in keyof UpdateCompanyNetworkConfigurationRequest & keyof UpdateCompanyNetworkConfigurationRequest & keyof UpdateCompanyNetworkConfigurationRequest & keyof UpdateCompanyNetworkConfigurationRequest & keyof UpdateCompanyNetworkConfigurationRequest & keyof UpdateCompanyNetworkConfigurationRequest & keyof UpdateCompanyNetworkConfigurationRequest & keyof UpdateCompanyNetworkConfigurationRequest]: (UpdateCompanyNetworkConfigurationRequest & UpdateCompanyNetworkConfigurationRequest & UpdateCompanyNetworkConfigurationRequest & UpdateCompanyNetworkConfigurationRequest & UpdateCompanyNetworkConfigurationRequest & UpdateCompanyNetworkConfigurationRequest & UpdateCompanyNetworkConfigurationRequest & UpdateCompanyNetworkConfigurationRequest)[K]
+      [K in keyof UpdateCompanyNetworkConfigurationRequest & keyof Omit<UpdateCompanyNetworkConfigurationRequest, "FleetArn">]: (UpdateCompanyNetworkConfigurationRequest)[K]
     }>): Request<UpdateCompanyNetworkConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateCompanyNetworkConfiguration(
-          this.ops["UpdateCompanyNetworkConfiguration"].applicator.apply(partialParams)
+          this.ops["UpdateCompanyNetworkConfiguration"].apply(partialParams)
         );
     }
 
     invokeUpdateDevicePolicyConfiguration(partialParams: ToOptional<{
-      [K in keyof UpdateDevicePolicyConfigurationRequest & keyof UpdateDevicePolicyConfigurationRequest & keyof UpdateDevicePolicyConfigurationRequest & keyof UpdateDevicePolicyConfigurationRequest & keyof UpdateDevicePolicyConfigurationRequest & keyof UpdateDevicePolicyConfigurationRequest & keyof UpdateDevicePolicyConfigurationRequest & keyof UpdateDevicePolicyConfigurationRequest]: (UpdateDevicePolicyConfigurationRequest & UpdateDevicePolicyConfigurationRequest & UpdateDevicePolicyConfigurationRequest & UpdateDevicePolicyConfigurationRequest & UpdateDevicePolicyConfigurationRequest & UpdateDevicePolicyConfigurationRequest & UpdateDevicePolicyConfigurationRequest & UpdateDevicePolicyConfigurationRequest)[K]
+      [K in keyof UpdateDevicePolicyConfigurationRequest & keyof Omit<UpdateDevicePolicyConfigurationRequest, "FleetArn">]: (UpdateDevicePolicyConfigurationRequest)[K]
     }>): Request<UpdateDevicePolicyConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDevicePolicyConfiguration(
-          this.ops["UpdateDevicePolicyConfiguration"].applicator.apply(partialParams)
+          this.ops["UpdateDevicePolicyConfiguration"].apply(partialParams)
         );
     }
 
     invokeUpdateDomainMetadata(partialParams: ToOptional<{
-      [K in keyof UpdateDomainMetadataRequest & keyof UpdateDomainMetadataRequest & keyof UpdateDomainMetadataRequest & keyof UpdateDomainMetadataRequest & keyof UpdateDomainMetadataRequest & keyof UpdateDomainMetadataRequest & keyof UpdateDomainMetadataRequest & keyof UpdateDomainMetadataRequest]: (UpdateDomainMetadataRequest & UpdateDomainMetadataRequest & UpdateDomainMetadataRequest & UpdateDomainMetadataRequest & UpdateDomainMetadataRequest & UpdateDomainMetadataRequest & UpdateDomainMetadataRequest & UpdateDomainMetadataRequest)[K]
+      [K in keyof UpdateDomainMetadataRequest & keyof Omit<UpdateDomainMetadataRequest, "FleetArn">]: (UpdateDomainMetadataRequest)[K]
     }>): Request<UpdateDomainMetadataResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDomainMetadata(
-          this.ops["UpdateDomainMetadata"].applicator.apply(partialParams)
+          this.ops["UpdateDomainMetadata"].apply(partialParams)
         );
     }
 
     invokeUpdateFleetMetadata(partialParams: ToOptional<{
-      [K in keyof UpdateFleetMetadataRequest & keyof UpdateFleetMetadataRequest & keyof UpdateFleetMetadataRequest & keyof UpdateFleetMetadataRequest & keyof UpdateFleetMetadataRequest & keyof UpdateFleetMetadataRequest & keyof UpdateFleetMetadataRequest & keyof UpdateFleetMetadataRequest]: (UpdateFleetMetadataRequest & UpdateFleetMetadataRequest & UpdateFleetMetadataRequest & UpdateFleetMetadataRequest & UpdateFleetMetadataRequest & UpdateFleetMetadataRequest & UpdateFleetMetadataRequest & UpdateFleetMetadataRequest)[K]
+      [K in keyof UpdateFleetMetadataRequest & keyof Omit<UpdateFleetMetadataRequest, "FleetArn">]: (UpdateFleetMetadataRequest)[K]
     }>): Request<UpdateFleetMetadataResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateFleetMetadata(
-          this.ops["UpdateFleetMetadata"].applicator.apply(partialParams)
+          this.ops["UpdateFleetMetadata"].apply(partialParams)
         );
     }
 
     invokeUpdateIdentityProviderConfiguration(partialParams: ToOptional<{
-      [K in keyof UpdateIdentityProviderConfigurationRequest & keyof UpdateIdentityProviderConfigurationRequest & keyof UpdateIdentityProviderConfigurationRequest & keyof UpdateIdentityProviderConfigurationRequest & keyof UpdateIdentityProviderConfigurationRequest & keyof UpdateIdentityProviderConfigurationRequest & keyof UpdateIdentityProviderConfigurationRequest & keyof UpdateIdentityProviderConfigurationRequest]: (UpdateIdentityProviderConfigurationRequest & UpdateIdentityProviderConfigurationRequest & UpdateIdentityProviderConfigurationRequest & UpdateIdentityProviderConfigurationRequest & UpdateIdentityProviderConfigurationRequest & UpdateIdentityProviderConfigurationRequest & UpdateIdentityProviderConfigurationRequest & UpdateIdentityProviderConfigurationRequest)[K]
+      [K in keyof UpdateIdentityProviderConfigurationRequest & keyof Omit<UpdateIdentityProviderConfigurationRequest, "FleetArn">]: (UpdateIdentityProviderConfigurationRequest)[K]
     }>): Request<UpdateIdentityProviderConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateIdentityProviderConfiguration(
-          this.ops["UpdateIdentityProviderConfiguration"].applicator.apply(partialParams)
+          this.ops["UpdateIdentityProviderConfiguration"].apply(partialParams)
         );
     }
 }

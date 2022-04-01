@@ -19,9 +19,7 @@ import {
     CreateCompilationJobRequest,
     CreateContextRequest,
     CreateDataQualityJobDefinitionRequest,
-    CreateDeviceFleetRequest,
     CreateDomainRequest,
-    CreateEdgePackagingJobRequest,
     CreateEndpointInput,
     CreateEndpointConfigInput,
     CreateExperimentRequest,
@@ -36,6 +34,7 @@ import {
     CreateModelInput,
     CreateModelBiasJobDefinitionRequest,
     CreateModelExplainabilityJobDefinitionRequest,
+    CreateModelPackageInput,
     CreateModelPackageGroupInput,
     CreateModelQualityJobDefinitionRequest,
     CreateMonitoringScheduleRequest,
@@ -55,43 +54,20 @@ import {
     CreateWorkforceRequest,
     CreateWorkteamRequest,
     DeleteActionRequest,
-    DeleteAlgorithmInput,
-    DeleteAppRequest,
-    DeleteAppImageConfigRequest,
+    DeleteArtifactRequest,
     DeleteAssociationRequest,
-    DeleteCodeRepositoryInput,
     DeleteContextRequest,
-    DeleteDataQualityJobDefinitionRequest,
-    DeleteDeviceFleetRequest,
-    DeleteDomainRequest,
-    DeleteEndpointInput,
-    DeleteEndpointConfigInput,
     DeleteExperimentRequest,
-    DeleteFeatureGroupRequest,
     DeleteFlowDefinitionRequest,
     DeleteHumanTaskUiRequest,
     DeleteImageRequest,
     DeleteImageVersionRequest,
-    DeleteModelInput,
-    DeleteModelBiasJobDefinitionRequest,
-    DeleteModelExplainabilityJobDefinitionRequest,
-    DeleteModelPackageInput,
-    DeleteModelPackageGroupInput,
-    DeleteModelPackageGroupPolicyInput,
-    DeleteModelQualityJobDefinitionRequest,
-    DeleteMonitoringScheduleRequest,
-    DeleteNotebookInstanceInput,
-    DeleteNotebookInstanceLifecycleConfigInput,
     DeletePipelineRequest,
-    DeleteProjectInput,
-    DeleteStudioLifecycleConfigRequest,
     DeleteTagsInput,
     DeleteTrialRequest,
     DeleteTrialComponentRequest,
-    DeleteUserProfileRequest,
     DeleteWorkforceRequest,
     DeleteWorkteamRequest,
-    DeregisterDevicesRequest,
     DescribeActionRequest,
     DescribeAlgorithmInput,
     DescribeAppRequest,
@@ -141,48 +117,85 @@ import {
     DescribeUserProfileRequest,
     DescribeWorkforceRequest,
     DescribeWorkteamRequest,
+    DisableSagemakerServicecatalogPortfolioInput,
     DisassociateTrialComponentRequest,
+    EnableSagemakerServicecatalogPortfolioInput,
     GetDeviceFleetReportRequest,
     GetLineageGroupPolicyRequest,
     GetModelPackageGroupPolicyInput,
+    GetSagemakerServicecatalogPortfolioStatusInput,
     GetSearchSuggestionsRequest,
+    ListActionsRequest,
+    ListAlgorithmsInput,
+    ListAppImageConfigsRequest,
+    ListAppsRequest,
+    ListArtifactsRequest,
+    ListAssociationsRequest,
+    ListAutoMLJobsRequest,
     ListCandidatesForAutoMLJobRequest,
+    ListCodeRepositoriesInput,
+    ListCompilationJobsRequest,
+    ListContextsRequest,
+    ListDataQualityJobDefinitionsRequest,
+    ListDeviceFleetsRequest,
+    ListDevicesRequest,
+    ListDomainsRequest,
+    ListEdgePackagingJobsRequest,
+    ListEndpointConfigsInput,
+    ListEndpointsInput,
+    ListExperimentsRequest,
+    ListFeatureGroupsRequest,
+    ListFlowDefinitionsRequest,
+    ListHumanTaskUisRequest,
+    ListHyperParameterTuningJobsRequest,
     ListImageVersionsRequest,
+    ListImagesRequest,
+    ListInferenceRecommendationsJobsRequest,
+    ListLabelingJobsRequest,
     ListLabelingJobsForWorkteamRequest,
+    ListLineageGroupsRequest,
+    ListModelBiasJobDefinitionsRequest,
+    ListModelExplainabilityJobDefinitionsRequest,
+    ListModelMetadataRequest,
+    ListModelPackageGroupsInput,
+    ListModelPackagesInput,
+    ListModelQualityJobDefinitionsRequest,
+    ListModelsInput,
+    ListMonitoringExecutionsRequest,
+    ListMonitoringSchedulesRequest,
+    ListNotebookInstanceLifecycleConfigsInput,
+    ListNotebookInstancesInput,
+    ListPipelineExecutionStepsRequest,
     ListPipelineExecutionsRequest,
     ListPipelineParametersForExecutionRequest,
+    ListPipelinesRequest,
+    ListProcessingJobsRequest,
+    ListProjectsInput,
+    ListStudioLifecycleConfigsRequest,
+    ListSubscribedWorkteamsRequest,
     ListTagsInput,
+    ListTrainingJobsRequest,
     ListTrainingJobsForHyperParameterTuningJobRequest,
+    ListTransformJobsRequest,
+    ListTrialComponentsRequest,
+    ListTrialsRequest,
+    ListUserProfilesRequest,
+    ListWorkforcesRequest,
+    ListWorkteamsRequest,
     PutModelPackageGroupPolicyInput,
     QueryLineageRequest,
-    RegisterDevicesRequest,
     RenderUiTemplateRequest,
     RetryPipelineExecutionRequest,
     SearchRequest,
     SendPipelineExecutionStepFailureRequest,
     SendPipelineExecutionStepSuccessRequest,
-    StartMonitoringScheduleRequest,
-    StartNotebookInstanceInput,
     StartPipelineExecutionRequest,
-    StopAutoMLJobRequest,
-    StopCompilationJobRequest,
-    StopEdgePackagingJobRequest,
-    StopHyperParameterTuningJobRequest,
-    StopInferenceRecommendationsJobRequest,
-    StopLabelingJobRequest,
-    StopMonitoringScheduleRequest,
-    StopNotebookInstanceInput,
     StopPipelineExecutionRequest,
-    StopProcessingJobRequest,
-    StopTrainingJobRequest,
-    StopTransformJobRequest,
     UpdateActionRequest,
     UpdateAppImageConfigRequest,
     UpdateArtifactRequest,
     UpdateCodeRepositoryInput,
     UpdateContextRequest,
-    UpdateDeviceFleetRequest,
-    UpdateDevicesRequest,
     UpdateDomainRequest,
     UpdateEndpointInput,
     UpdateEndpointWeightsAndCapacitiesInput,
@@ -230,6 +243,7 @@ import {
     CreateModelOutput,
     CreateModelBiasJobDefinitionResponse,
     CreateModelExplainabilityJobDefinitionResponse,
+    CreateModelPackageOutput,
     CreateModelPackageGroupOutput,
     CreateModelQualityJobDefinitionResponse,
     CreateMonitoringScheduleResponse,
@@ -249,6 +263,7 @@ import {
     CreateWorkforceResponse,
     CreateWorkteamResponse,
     DeleteActionResponse,
+    DeleteArtifactResponse,
     DeleteAssociationResponse,
     DeleteContextResponse,
     DeleteExperimentResponse,
@@ -311,18 +326,71 @@ import {
     DescribeUserProfileResponse,
     DescribeWorkforceResponse,
     DescribeWorkteamResponse,
+    DisableSagemakerServicecatalogPortfolioOutput,
     DisassociateTrialComponentResponse,
+    EnableSagemakerServicecatalogPortfolioOutput,
     GetDeviceFleetReportResponse,
     GetLineageGroupPolicyResponse,
     GetModelPackageGroupPolicyOutput,
+    GetSagemakerServicecatalogPortfolioStatusOutput,
     GetSearchSuggestionsResponse,
+    ListActionsResponse,
+    ListAlgorithmsOutput,
+    ListAppImageConfigsResponse,
+    ListAppsResponse,
+    ListArtifactsResponse,
+    ListAssociationsResponse,
+    ListAutoMLJobsResponse,
     ListCandidatesForAutoMLJobResponse,
+    ListCodeRepositoriesOutput,
+    ListCompilationJobsResponse,
+    ListContextsResponse,
+    ListDataQualityJobDefinitionsResponse,
+    ListDeviceFleetsResponse,
+    ListDevicesResponse,
+    ListDomainsResponse,
+    ListEdgePackagingJobsResponse,
+    ListEndpointConfigsOutput,
+    ListEndpointsOutput,
+    ListExperimentsResponse,
+    ListFeatureGroupsResponse,
+    ListFlowDefinitionsResponse,
+    ListHumanTaskUisResponse,
+    ListHyperParameterTuningJobsResponse,
     ListImageVersionsResponse,
+    ListImagesResponse,
+    ListInferenceRecommendationsJobsResponse,
+    ListLabelingJobsResponse,
     ListLabelingJobsForWorkteamResponse,
+    ListLineageGroupsResponse,
+    ListModelBiasJobDefinitionsResponse,
+    ListModelExplainabilityJobDefinitionsResponse,
+    ListModelMetadataResponse,
+    ListModelPackageGroupsOutput,
+    ListModelPackagesOutput,
+    ListModelQualityJobDefinitionsResponse,
+    ListModelsOutput,
+    ListMonitoringExecutionsResponse,
+    ListMonitoringSchedulesResponse,
+    ListNotebookInstanceLifecycleConfigsOutput,
+    ListNotebookInstancesOutput,
+    ListPipelineExecutionStepsResponse,
     ListPipelineExecutionsResponse,
     ListPipelineParametersForExecutionResponse,
+    ListPipelinesResponse,
+    ListProcessingJobsResponse,
+    ListProjectsOutput,
+    ListStudioLifecycleConfigsResponse,
+    ListSubscribedWorkteamsResponse,
     ListTagsOutput,
+    ListTrainingJobsResponse,
     ListTrainingJobsForHyperParameterTuningJobResponse,
+    ListTransformJobsResponse,
+    ListTrialComponentsResponse,
+    ListTrialsResponse,
+    ListUserProfilesResponse,
+    ListWorkforcesResponse,
+    ListWorkteamsResponse,
     PutModelPackageGroupPolicyOutput,
     QueryLineageResponse,
     RenderUiTemplateResponse,
@@ -369,21 +437,24 @@ export default class extends aws.sagemaker.ImageVersion {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.sagemaker.ImageVersion>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.SageMaker()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -393,2162 +464,1888 @@ export default class extends aws.sagemaker.ImageVersion {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAddAssociation(partialParams: ToOptional<{
-      [K in keyof AddAssociationRequest & keyof AddAssociationRequest & keyof AddAssociationRequest & keyof AddAssociationRequest & keyof AddAssociationRequest]: (AddAssociationRequest & AddAssociationRequest & AddAssociationRequest & AddAssociationRequest & AddAssociationRequest)[K]
+      [K in keyof AddAssociationRequest]: (AddAssociationRequest)[K]
     }>): Request<AddAssociationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addAssociation(
-          this.ops["AddAssociation"].applicator.apply(partialParams)
+          this.ops["AddAssociation"].apply(partialParams)
         );
     }
 
     invokeAddTags(partialParams: ToOptional<{
-      [K in keyof AddTagsInput & keyof AddTagsInput & keyof AddTagsInput & keyof AddTagsInput & keyof AddTagsInput]: (AddTagsInput & AddTagsInput & AddTagsInput & AddTagsInput & AddTagsInput)[K]
+      [K in keyof AddTagsInput]: (AddTagsInput)[K]
     }>): Request<AddTagsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addTags(
-          this.ops["AddTags"].applicator.apply(partialParams)
+          this.ops["AddTags"].apply(partialParams)
         );
     }
 
     invokeAssociateTrialComponent(partialParams: ToOptional<{
-      [K in keyof AssociateTrialComponentRequest & keyof AssociateTrialComponentRequest & keyof AssociateTrialComponentRequest & keyof AssociateTrialComponentRequest & keyof AssociateTrialComponentRequest]: (AssociateTrialComponentRequest & AssociateTrialComponentRequest & AssociateTrialComponentRequest & AssociateTrialComponentRequest & AssociateTrialComponentRequest)[K]
+      [K in keyof AssociateTrialComponentRequest]: (AssociateTrialComponentRequest)[K]
     }>): Request<AssociateTrialComponentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateTrialComponent(
-          this.ops["AssociateTrialComponent"].applicator.apply(partialParams)
+          this.ops["AssociateTrialComponent"].apply(partialParams)
         );
     }
 
     invokeBatchDescribeModelPackage(partialParams: ToOptional<{
-      [K in keyof BatchDescribeModelPackageInput & keyof BatchDescribeModelPackageInput & keyof BatchDescribeModelPackageInput & keyof BatchDescribeModelPackageInput & keyof BatchDescribeModelPackageInput]: (BatchDescribeModelPackageInput & BatchDescribeModelPackageInput & BatchDescribeModelPackageInput & BatchDescribeModelPackageInput & BatchDescribeModelPackageInput)[K]
+      [K in keyof BatchDescribeModelPackageInput]: (BatchDescribeModelPackageInput)[K]
     }>): Request<BatchDescribeModelPackageOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.batchDescribeModelPackage(
-          this.ops["BatchDescribeModelPackage"].applicator.apply(partialParams)
+          this.ops["BatchDescribeModelPackage"].apply(partialParams)
         );
     }
 
     invokeCreateAction(partialParams: ToOptional<{
-      [K in keyof CreateActionRequest & keyof CreateActionRequest & keyof CreateActionRequest & keyof CreateActionRequest & keyof CreateActionRequest]: (CreateActionRequest & CreateActionRequest & CreateActionRequest & CreateActionRequest & CreateActionRequest)[K]
+      [K in keyof CreateActionRequest]: (CreateActionRequest)[K]
     }>): Request<CreateActionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createAction(
-          this.ops["CreateAction"].applicator.apply(partialParams)
+          this.ops["CreateAction"].apply(partialParams)
         );
     }
 
     invokeCreateAlgorithm(partialParams: ToOptional<{
-      [K in keyof CreateAlgorithmInput & keyof CreateAlgorithmInput & keyof CreateAlgorithmInput & keyof CreateAlgorithmInput & keyof CreateAlgorithmInput]: (CreateAlgorithmInput & CreateAlgorithmInput & CreateAlgorithmInput & CreateAlgorithmInput & CreateAlgorithmInput)[K]
+      [K in keyof CreateAlgorithmInput]: (CreateAlgorithmInput)[K]
     }>): Request<CreateAlgorithmOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createAlgorithm(
-          this.ops["CreateAlgorithm"].applicator.apply(partialParams)
+          this.ops["CreateAlgorithm"].apply(partialParams)
         );
     }
 
     invokeCreateApp(partialParams: ToOptional<{
-      [K in keyof CreateAppRequest & keyof CreateAppRequest & keyof CreateAppRequest & keyof CreateAppRequest & keyof CreateAppRequest]: (CreateAppRequest & CreateAppRequest & CreateAppRequest & CreateAppRequest & CreateAppRequest)[K]
+      [K in keyof CreateAppRequest]: (CreateAppRequest)[K]
     }>): Request<CreateAppResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createApp(
-          this.ops["CreateApp"].applicator.apply(partialParams)
+          this.ops["CreateApp"].apply(partialParams)
         );
     }
 
     invokeCreateAppImageConfig(partialParams: ToOptional<{
-      [K in keyof CreateAppImageConfigRequest & keyof CreateAppImageConfigRequest & keyof CreateAppImageConfigRequest & keyof CreateAppImageConfigRequest & keyof CreateAppImageConfigRequest]: (CreateAppImageConfigRequest & CreateAppImageConfigRequest & CreateAppImageConfigRequest & CreateAppImageConfigRequest & CreateAppImageConfigRequest)[K]
+      [K in keyof CreateAppImageConfigRequest]: (CreateAppImageConfigRequest)[K]
     }>): Request<CreateAppImageConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createAppImageConfig(
-          this.ops["CreateAppImageConfig"].applicator.apply(partialParams)
+          this.ops["CreateAppImageConfig"].apply(partialParams)
         );
     }
 
     invokeCreateArtifact(partialParams: ToOptional<{
-      [K in keyof CreateArtifactRequest & keyof CreateArtifactRequest & keyof CreateArtifactRequest & keyof CreateArtifactRequest & keyof CreateArtifactRequest]: (CreateArtifactRequest & CreateArtifactRequest & CreateArtifactRequest & CreateArtifactRequest & CreateArtifactRequest)[K]
+      [K in keyof CreateArtifactRequest]: (CreateArtifactRequest)[K]
     }>): Request<CreateArtifactResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createArtifact(
-          this.ops["CreateArtifact"].applicator.apply(partialParams)
+          this.ops["CreateArtifact"].apply(partialParams)
         );
     }
 
     invokeCreateAutoMLJob(partialParams: ToOptional<{
-      [K in keyof CreateAutoMLJobRequest & keyof CreateAutoMLJobRequest & keyof CreateAutoMLJobRequest & keyof CreateAutoMLJobRequest & keyof CreateAutoMLJobRequest]: (CreateAutoMLJobRequest & CreateAutoMLJobRequest & CreateAutoMLJobRequest & CreateAutoMLJobRequest & CreateAutoMLJobRequest)[K]
+      [K in keyof CreateAutoMLJobRequest]: (CreateAutoMLJobRequest)[K]
     }>): Request<CreateAutoMLJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createAutoMLJob(
-          this.ops["CreateAutoMLJob"].applicator.apply(partialParams)
+          this.ops["CreateAutoMLJob"].apply(partialParams)
         );
     }
 
     invokeCreateCodeRepository(partialParams: ToOptional<{
-      [K in keyof CreateCodeRepositoryInput & keyof CreateCodeRepositoryInput & keyof CreateCodeRepositoryInput & keyof CreateCodeRepositoryInput & keyof CreateCodeRepositoryInput]: (CreateCodeRepositoryInput & CreateCodeRepositoryInput & CreateCodeRepositoryInput & CreateCodeRepositoryInput & CreateCodeRepositoryInput)[K]
+      [K in keyof CreateCodeRepositoryInput]: (CreateCodeRepositoryInput)[K]
     }>): Request<CreateCodeRepositoryOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createCodeRepository(
-          this.ops["CreateCodeRepository"].applicator.apply(partialParams)
+          this.ops["CreateCodeRepository"].apply(partialParams)
         );
     }
 
     invokeCreateCompilationJob(partialParams: ToOptional<{
-      [K in keyof CreateCompilationJobRequest & keyof CreateCompilationJobRequest & keyof CreateCompilationJobRequest & keyof CreateCompilationJobRequest & keyof CreateCompilationJobRequest]: (CreateCompilationJobRequest & CreateCompilationJobRequest & CreateCompilationJobRequest & CreateCompilationJobRequest & CreateCompilationJobRequest)[K]
+      [K in keyof CreateCompilationJobRequest]: (CreateCompilationJobRequest)[K]
     }>): Request<CreateCompilationJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createCompilationJob(
-          this.ops["CreateCompilationJob"].applicator.apply(partialParams)
+          this.ops["CreateCompilationJob"].apply(partialParams)
         );
     }
 
     invokeCreateContext(partialParams: ToOptional<{
-      [K in keyof CreateContextRequest & keyof CreateContextRequest & keyof CreateContextRequest & keyof CreateContextRequest & keyof CreateContextRequest]: (CreateContextRequest & CreateContextRequest & CreateContextRequest & CreateContextRequest & CreateContextRequest)[K]
+      [K in keyof CreateContextRequest]: (CreateContextRequest)[K]
     }>): Request<CreateContextResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createContext(
-          this.ops["CreateContext"].applicator.apply(partialParams)
+          this.ops["CreateContext"].apply(partialParams)
         );
     }
 
     invokeCreateDataQualityJobDefinition(partialParams: ToOptional<{
-      [K in keyof CreateDataQualityJobDefinitionRequest & keyof CreateDataQualityJobDefinitionRequest & keyof CreateDataQualityJobDefinitionRequest & keyof CreateDataQualityJobDefinitionRequest & keyof CreateDataQualityJobDefinitionRequest]: (CreateDataQualityJobDefinitionRequest & CreateDataQualityJobDefinitionRequest & CreateDataQualityJobDefinitionRequest & CreateDataQualityJobDefinitionRequest & CreateDataQualityJobDefinitionRequest)[K]
+      [K in keyof CreateDataQualityJobDefinitionRequest]: (CreateDataQualityJobDefinitionRequest)[K]
     }>): Request<CreateDataQualityJobDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDataQualityJobDefinition(
-          this.ops["CreateDataQualityJobDefinition"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeCreateDeviceFleet(partialParams: ToOptional<{
-      [K in keyof CreateDeviceFleetRequest & keyof CreateDeviceFleetRequest & keyof CreateDeviceFleetRequest & keyof CreateDeviceFleetRequest & keyof CreateDeviceFleetRequest]: (CreateDeviceFleetRequest & CreateDeviceFleetRequest & CreateDeviceFleetRequest & CreateDeviceFleetRequest & CreateDeviceFleetRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.createDeviceFleet(
-          this.ops["CreateDeviceFleet"].applicator.apply(partialParams)
+          this.ops["CreateDataQualityJobDefinition"].apply(partialParams)
         );
     }
 
     invokeCreateDomain(partialParams: ToOptional<{
-      [K in keyof CreateDomainRequest & keyof CreateDomainRequest & keyof CreateDomainRequest & keyof CreateDomainRequest & keyof CreateDomainRequest]: (CreateDomainRequest & CreateDomainRequest & CreateDomainRequest & CreateDomainRequest & CreateDomainRequest)[K]
+      [K in keyof CreateDomainRequest]: (CreateDomainRequest)[K]
     }>): Request<CreateDomainResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createDomain(
-          this.ops["CreateDomain"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeCreateEdgePackagingJob(partialParams: ToOptional<{
-      [K in keyof CreateEdgePackagingJobRequest & keyof CreateEdgePackagingJobRequest & keyof CreateEdgePackagingJobRequest & keyof CreateEdgePackagingJobRequest & keyof CreateEdgePackagingJobRequest]: (CreateEdgePackagingJobRequest & CreateEdgePackagingJobRequest & CreateEdgePackagingJobRequest & CreateEdgePackagingJobRequest & CreateEdgePackagingJobRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.createEdgePackagingJob(
-          this.ops["CreateEdgePackagingJob"].applicator.apply(partialParams)
+          this.ops["CreateDomain"].apply(partialParams)
         );
     }
 
     invokeCreateEndpoint(partialParams: ToOptional<{
-      [K in keyof CreateEndpointInput & keyof CreateEndpointInput & keyof CreateEndpointInput & keyof CreateEndpointInput & keyof CreateEndpointInput]: (CreateEndpointInput & CreateEndpointInput & CreateEndpointInput & CreateEndpointInput & CreateEndpointInput)[K]
+      [K in keyof CreateEndpointInput]: (CreateEndpointInput)[K]
     }>): Request<CreateEndpointOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createEndpoint(
-          this.ops["CreateEndpoint"].applicator.apply(partialParams)
+          this.ops["CreateEndpoint"].apply(partialParams)
         );
     }
 
     invokeCreateEndpointConfig(partialParams: ToOptional<{
-      [K in keyof CreateEndpointConfigInput & keyof CreateEndpointConfigInput & keyof CreateEndpointConfigInput & keyof CreateEndpointConfigInput & keyof CreateEndpointConfigInput]: (CreateEndpointConfigInput & CreateEndpointConfigInput & CreateEndpointConfigInput & CreateEndpointConfigInput & CreateEndpointConfigInput)[K]
+      [K in keyof CreateEndpointConfigInput]: (CreateEndpointConfigInput)[K]
     }>): Request<CreateEndpointConfigOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createEndpointConfig(
-          this.ops["CreateEndpointConfig"].applicator.apply(partialParams)
+          this.ops["CreateEndpointConfig"].apply(partialParams)
         );
     }
 
     invokeCreateExperiment(partialParams: ToOptional<{
-      [K in keyof CreateExperimentRequest & keyof CreateExperimentRequest & keyof CreateExperimentRequest & keyof CreateExperimentRequest & keyof CreateExperimentRequest]: (CreateExperimentRequest & CreateExperimentRequest & CreateExperimentRequest & CreateExperimentRequest & CreateExperimentRequest)[K]
+      [K in keyof CreateExperimentRequest]: (CreateExperimentRequest)[K]
     }>): Request<CreateExperimentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createExperiment(
-          this.ops["CreateExperiment"].applicator.apply(partialParams)
+          this.ops["CreateExperiment"].apply(partialParams)
         );
     }
 
     invokeCreateFeatureGroup(partialParams: ToOptional<{
-      [K in keyof CreateFeatureGroupRequest & keyof CreateFeatureGroupRequest & keyof CreateFeatureGroupRequest & keyof CreateFeatureGroupRequest & keyof CreateFeatureGroupRequest]: (CreateFeatureGroupRequest & CreateFeatureGroupRequest & CreateFeatureGroupRequest & CreateFeatureGroupRequest & CreateFeatureGroupRequest)[K]
+      [K in keyof CreateFeatureGroupRequest]: (CreateFeatureGroupRequest)[K]
     }>): Request<CreateFeatureGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createFeatureGroup(
-          this.ops["CreateFeatureGroup"].applicator.apply(partialParams)
+          this.ops["CreateFeatureGroup"].apply(partialParams)
         );
     }
 
     invokeCreateFlowDefinition(partialParams: ToOptional<{
-      [K in keyof CreateFlowDefinitionRequest & keyof CreateFlowDefinitionRequest & keyof CreateFlowDefinitionRequest & keyof CreateFlowDefinitionRequest & keyof CreateFlowDefinitionRequest]: (CreateFlowDefinitionRequest & CreateFlowDefinitionRequest & CreateFlowDefinitionRequest & CreateFlowDefinitionRequest & CreateFlowDefinitionRequest)[K]
+      [K in keyof CreateFlowDefinitionRequest]: (CreateFlowDefinitionRequest)[K]
     }>): Request<CreateFlowDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createFlowDefinition(
-          this.ops["CreateFlowDefinition"].applicator.apply(partialParams)
+          this.ops["CreateFlowDefinition"].apply(partialParams)
         );
     }
 
     invokeCreateHumanTaskUi(partialParams: ToOptional<{
-      [K in keyof CreateHumanTaskUiRequest & keyof CreateHumanTaskUiRequest & keyof CreateHumanTaskUiRequest & keyof CreateHumanTaskUiRequest & keyof CreateHumanTaskUiRequest]: (CreateHumanTaskUiRequest & CreateHumanTaskUiRequest & CreateHumanTaskUiRequest & CreateHumanTaskUiRequest & CreateHumanTaskUiRequest)[K]
+      [K in keyof CreateHumanTaskUiRequest]: (CreateHumanTaskUiRequest)[K]
     }>): Request<CreateHumanTaskUiResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createHumanTaskUi(
-          this.ops["CreateHumanTaskUi"].applicator.apply(partialParams)
+          this.ops["CreateHumanTaskUi"].apply(partialParams)
         );
     }
 
     invokeCreateHyperParameterTuningJob(partialParams: ToOptional<{
-      [K in keyof CreateHyperParameterTuningJobRequest & keyof CreateHyperParameterTuningJobRequest & keyof CreateHyperParameterTuningJobRequest & keyof CreateHyperParameterTuningJobRequest & keyof CreateHyperParameterTuningJobRequest]: (CreateHyperParameterTuningJobRequest & CreateHyperParameterTuningJobRequest & CreateHyperParameterTuningJobRequest & CreateHyperParameterTuningJobRequest & CreateHyperParameterTuningJobRequest)[K]
+      [K in keyof CreateHyperParameterTuningJobRequest]: (CreateHyperParameterTuningJobRequest)[K]
     }>): Request<CreateHyperParameterTuningJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createHyperParameterTuningJob(
-          this.ops["CreateHyperParameterTuningJob"].applicator.apply(partialParams)
+          this.ops["CreateHyperParameterTuningJob"].apply(partialParams)
         );
     }
 
     invokeCreateImage(partialParams: ToOptional<{
-      [K in keyof CreateImageRequest & keyof CreateImageRequest & keyof CreateImageRequest & keyof CreateImageRequest & keyof CreateImageRequest]: (CreateImageRequest & CreateImageRequest & CreateImageRequest & CreateImageRequest & CreateImageRequest)[K]
+      [K in keyof CreateImageRequest & keyof Omit<CreateImageRequest, "ImageName">]: (CreateImageRequest)[K]
     }>): Request<CreateImageResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createImage(
-          this.ops["CreateImage"].applicator.apply(partialParams)
+          this.ops["CreateImage"].apply(partialParams)
         );
     }
 
     invokeCreateImageVersion(partialParams: ToOptional<{
-      [K in keyof CreateImageVersionRequest & keyof CreateImageVersionRequest & keyof CreateImageVersionRequest & keyof CreateImageVersionRequest & keyof CreateImageVersionRequest]: (CreateImageVersionRequest & CreateImageVersionRequest & CreateImageVersionRequest & CreateImageVersionRequest & CreateImageVersionRequest)[K]
+      [K in keyof CreateImageVersionRequest & keyof Omit<CreateImageVersionRequest, "BaseImage" | "ImageName">]: (CreateImageVersionRequest)[K]
     }>): Request<CreateImageVersionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createImageVersion(
-          this.ops["CreateImageVersion"].applicator.apply(partialParams)
+          this.ops["CreateImageVersion"].apply(partialParams)
         );
     }
 
     invokeCreateInferenceRecommendationsJob(partialParams: ToOptional<{
-      [K in keyof CreateInferenceRecommendationsJobRequest & keyof CreateInferenceRecommendationsJobRequest & keyof CreateInferenceRecommendationsJobRequest & keyof CreateInferenceRecommendationsJobRequest & keyof CreateInferenceRecommendationsJobRequest]: (CreateInferenceRecommendationsJobRequest & CreateInferenceRecommendationsJobRequest & CreateInferenceRecommendationsJobRequest & CreateInferenceRecommendationsJobRequest & CreateInferenceRecommendationsJobRequest)[K]
+      [K in keyof CreateInferenceRecommendationsJobRequest]: (CreateInferenceRecommendationsJobRequest)[K]
     }>): Request<CreateInferenceRecommendationsJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createInferenceRecommendationsJob(
-          this.ops["CreateInferenceRecommendationsJob"].applicator.apply(partialParams)
+          this.ops["CreateInferenceRecommendationsJob"].apply(partialParams)
         );
     }
 
     invokeCreateLabelingJob(partialParams: ToOptional<{
-      [K in keyof CreateLabelingJobRequest & keyof CreateLabelingJobRequest & keyof CreateLabelingJobRequest & keyof CreateLabelingJobRequest & keyof CreateLabelingJobRequest]: (CreateLabelingJobRequest & CreateLabelingJobRequest & CreateLabelingJobRequest & CreateLabelingJobRequest & CreateLabelingJobRequest)[K]
+      [K in keyof CreateLabelingJobRequest]: (CreateLabelingJobRequest)[K]
     }>): Request<CreateLabelingJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createLabelingJob(
-          this.ops["CreateLabelingJob"].applicator.apply(partialParams)
+          this.ops["CreateLabelingJob"].apply(partialParams)
         );
     }
 
     invokeCreateModel(partialParams: ToOptional<{
-      [K in keyof CreateModelInput & keyof CreateModelInput & keyof CreateModelInput & keyof CreateModelInput & keyof CreateModelInput]: (CreateModelInput & CreateModelInput & CreateModelInput & CreateModelInput & CreateModelInput)[K]
+      [K in keyof CreateModelInput]: (CreateModelInput)[K]
     }>): Request<CreateModelOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createModel(
-          this.ops["CreateModel"].applicator.apply(partialParams)
+          this.ops["CreateModel"].apply(partialParams)
         );
     }
 
     invokeCreateModelBiasJobDefinition(partialParams: ToOptional<{
-      [K in keyof CreateModelBiasJobDefinitionRequest & keyof CreateModelBiasJobDefinitionRequest & keyof CreateModelBiasJobDefinitionRequest & keyof CreateModelBiasJobDefinitionRequest & keyof CreateModelBiasJobDefinitionRequest]: (CreateModelBiasJobDefinitionRequest & CreateModelBiasJobDefinitionRequest & CreateModelBiasJobDefinitionRequest & CreateModelBiasJobDefinitionRequest & CreateModelBiasJobDefinitionRequest)[K]
+      [K in keyof CreateModelBiasJobDefinitionRequest]: (CreateModelBiasJobDefinitionRequest)[K]
     }>): Request<CreateModelBiasJobDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createModelBiasJobDefinition(
-          this.ops["CreateModelBiasJobDefinition"].applicator.apply(partialParams)
+          this.ops["CreateModelBiasJobDefinition"].apply(partialParams)
         );
     }
 
     invokeCreateModelExplainabilityJobDefinition(partialParams: ToOptional<{
-      [K in keyof CreateModelExplainabilityJobDefinitionRequest & keyof CreateModelExplainabilityJobDefinitionRequest & keyof CreateModelExplainabilityJobDefinitionRequest & keyof CreateModelExplainabilityJobDefinitionRequest & keyof CreateModelExplainabilityJobDefinitionRequest]: (CreateModelExplainabilityJobDefinitionRequest & CreateModelExplainabilityJobDefinitionRequest & CreateModelExplainabilityJobDefinitionRequest & CreateModelExplainabilityJobDefinitionRequest & CreateModelExplainabilityJobDefinitionRequest)[K]
+      [K in keyof CreateModelExplainabilityJobDefinitionRequest]: (CreateModelExplainabilityJobDefinitionRequest)[K]
     }>): Request<CreateModelExplainabilityJobDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createModelExplainabilityJobDefinition(
-          this.ops["CreateModelExplainabilityJobDefinition"].applicator.apply(partialParams)
+          this.ops["CreateModelExplainabilityJobDefinition"].apply(partialParams)
+        );
+    }
+
+    invokeCreateModelPackage(partialParams: ToOptional<{
+      [K in keyof CreateModelPackageInput]: (CreateModelPackageInput)[K]
+    }>): Request<CreateModelPackageOutput, AWSError> {
+        this.boot();
+        return this.client.createModelPackage(
+          this.ops["CreateModelPackage"].apply(partialParams)
         );
     }
 
     invokeCreateModelPackageGroup(partialParams: ToOptional<{
-      [K in keyof CreateModelPackageGroupInput & keyof CreateModelPackageGroupInput & keyof CreateModelPackageGroupInput & keyof CreateModelPackageGroupInput & keyof CreateModelPackageGroupInput]: (CreateModelPackageGroupInput & CreateModelPackageGroupInput & CreateModelPackageGroupInput & CreateModelPackageGroupInput & CreateModelPackageGroupInput)[K]
+      [K in keyof CreateModelPackageGroupInput]: (CreateModelPackageGroupInput)[K]
     }>): Request<CreateModelPackageGroupOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createModelPackageGroup(
-          this.ops["CreateModelPackageGroup"].applicator.apply(partialParams)
+          this.ops["CreateModelPackageGroup"].apply(partialParams)
         );
     }
 
     invokeCreateModelQualityJobDefinition(partialParams: ToOptional<{
-      [K in keyof CreateModelQualityJobDefinitionRequest & keyof CreateModelQualityJobDefinitionRequest & keyof CreateModelQualityJobDefinitionRequest & keyof CreateModelQualityJobDefinitionRequest & keyof CreateModelQualityJobDefinitionRequest]: (CreateModelQualityJobDefinitionRequest & CreateModelQualityJobDefinitionRequest & CreateModelQualityJobDefinitionRequest & CreateModelQualityJobDefinitionRequest & CreateModelQualityJobDefinitionRequest)[K]
+      [K in keyof CreateModelQualityJobDefinitionRequest]: (CreateModelQualityJobDefinitionRequest)[K]
     }>): Request<CreateModelQualityJobDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createModelQualityJobDefinition(
-          this.ops["CreateModelQualityJobDefinition"].applicator.apply(partialParams)
+          this.ops["CreateModelQualityJobDefinition"].apply(partialParams)
         );
     }
 
     invokeCreateMonitoringSchedule(partialParams: ToOptional<{
-      [K in keyof CreateMonitoringScheduleRequest & keyof CreateMonitoringScheduleRequest & keyof CreateMonitoringScheduleRequest & keyof CreateMonitoringScheduleRequest & keyof CreateMonitoringScheduleRequest]: (CreateMonitoringScheduleRequest & CreateMonitoringScheduleRequest & CreateMonitoringScheduleRequest & CreateMonitoringScheduleRequest & CreateMonitoringScheduleRequest)[K]
+      [K in keyof CreateMonitoringScheduleRequest]: (CreateMonitoringScheduleRequest)[K]
     }>): Request<CreateMonitoringScheduleResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createMonitoringSchedule(
-          this.ops["CreateMonitoringSchedule"].applicator.apply(partialParams)
+          this.ops["CreateMonitoringSchedule"].apply(partialParams)
         );
     }
 
     invokeCreateNotebookInstance(partialParams: ToOptional<{
-      [K in keyof CreateNotebookInstanceInput & keyof CreateNotebookInstanceInput & keyof CreateNotebookInstanceInput & keyof CreateNotebookInstanceInput & keyof CreateNotebookInstanceInput]: (CreateNotebookInstanceInput & CreateNotebookInstanceInput & CreateNotebookInstanceInput & CreateNotebookInstanceInput & CreateNotebookInstanceInput)[K]
+      [K in keyof CreateNotebookInstanceInput]: (CreateNotebookInstanceInput)[K]
     }>): Request<CreateNotebookInstanceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createNotebookInstance(
-          this.ops["CreateNotebookInstance"].applicator.apply(partialParams)
+          this.ops["CreateNotebookInstance"].apply(partialParams)
         );
     }
 
     invokeCreateNotebookInstanceLifecycleConfig(partialParams: ToOptional<{
-      [K in keyof CreateNotebookInstanceLifecycleConfigInput & keyof CreateNotebookInstanceLifecycleConfigInput & keyof CreateNotebookInstanceLifecycleConfigInput & keyof CreateNotebookInstanceLifecycleConfigInput & keyof CreateNotebookInstanceLifecycleConfigInput]: (CreateNotebookInstanceLifecycleConfigInput & CreateNotebookInstanceLifecycleConfigInput & CreateNotebookInstanceLifecycleConfigInput & CreateNotebookInstanceLifecycleConfigInput & CreateNotebookInstanceLifecycleConfigInput)[K]
+      [K in keyof CreateNotebookInstanceLifecycleConfigInput]: (CreateNotebookInstanceLifecycleConfigInput)[K]
     }>): Request<CreateNotebookInstanceLifecycleConfigOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createNotebookInstanceLifecycleConfig(
-          this.ops["CreateNotebookInstanceLifecycleConfig"].applicator.apply(partialParams)
+          this.ops["CreateNotebookInstanceLifecycleConfig"].apply(partialParams)
         );
     }
 
     invokeCreatePipeline(partialParams: ToOptional<{
-      [K in keyof CreatePipelineRequest & keyof CreatePipelineRequest & keyof CreatePipelineRequest & keyof CreatePipelineRequest & keyof CreatePipelineRequest]: (CreatePipelineRequest & CreatePipelineRequest & CreatePipelineRequest & CreatePipelineRequest & CreatePipelineRequest)[K]
+      [K in keyof CreatePipelineRequest]: (CreatePipelineRequest)[K]
     }>): Request<CreatePipelineResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createPipeline(
-          this.ops["CreatePipeline"].applicator.apply(partialParams)
+          this.ops["CreatePipeline"].apply(partialParams)
         );
     }
 
     invokeCreatePresignedDomainUrl(partialParams: ToOptional<{
-      [K in keyof CreatePresignedDomainUrlRequest & keyof CreatePresignedDomainUrlRequest & keyof CreatePresignedDomainUrlRequest & keyof CreatePresignedDomainUrlRequest & keyof CreatePresignedDomainUrlRequest]: (CreatePresignedDomainUrlRequest & CreatePresignedDomainUrlRequest & CreatePresignedDomainUrlRequest & CreatePresignedDomainUrlRequest & CreatePresignedDomainUrlRequest)[K]
+      [K in keyof CreatePresignedDomainUrlRequest]: (CreatePresignedDomainUrlRequest)[K]
     }>): Request<CreatePresignedDomainUrlResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createPresignedDomainUrl(
-          this.ops["CreatePresignedDomainUrl"].applicator.apply(partialParams)
+          this.ops["CreatePresignedDomainUrl"].apply(partialParams)
         );
     }
 
     invokeCreatePresignedNotebookInstanceUrl(partialParams: ToOptional<{
-      [K in keyof CreatePresignedNotebookInstanceUrlInput & keyof CreatePresignedNotebookInstanceUrlInput & keyof CreatePresignedNotebookInstanceUrlInput & keyof CreatePresignedNotebookInstanceUrlInput & keyof CreatePresignedNotebookInstanceUrlInput]: (CreatePresignedNotebookInstanceUrlInput & CreatePresignedNotebookInstanceUrlInput & CreatePresignedNotebookInstanceUrlInput & CreatePresignedNotebookInstanceUrlInput & CreatePresignedNotebookInstanceUrlInput)[K]
+      [K in keyof CreatePresignedNotebookInstanceUrlInput]: (CreatePresignedNotebookInstanceUrlInput)[K]
     }>): Request<CreatePresignedNotebookInstanceUrlOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createPresignedNotebookInstanceUrl(
-          this.ops["CreatePresignedNotebookInstanceUrl"].applicator.apply(partialParams)
+          this.ops["CreatePresignedNotebookInstanceUrl"].apply(partialParams)
         );
     }
 
     invokeCreateProcessingJob(partialParams: ToOptional<{
-      [K in keyof CreateProcessingJobRequest & keyof CreateProcessingJobRequest & keyof CreateProcessingJobRequest & keyof CreateProcessingJobRequest & keyof CreateProcessingJobRequest]: (CreateProcessingJobRequest & CreateProcessingJobRequest & CreateProcessingJobRequest & CreateProcessingJobRequest & CreateProcessingJobRequest)[K]
+      [K in keyof CreateProcessingJobRequest]: (CreateProcessingJobRequest)[K]
     }>): Request<CreateProcessingJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createProcessingJob(
-          this.ops["CreateProcessingJob"].applicator.apply(partialParams)
+          this.ops["CreateProcessingJob"].apply(partialParams)
         );
     }
 
     invokeCreateProject(partialParams: ToOptional<{
-      [K in keyof CreateProjectInput & keyof CreateProjectInput & keyof CreateProjectInput & keyof CreateProjectInput & keyof CreateProjectInput]: (CreateProjectInput & CreateProjectInput & CreateProjectInput & CreateProjectInput & CreateProjectInput)[K]
+      [K in keyof CreateProjectInput]: (CreateProjectInput)[K]
     }>): Request<CreateProjectOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createProject(
-          this.ops["CreateProject"].applicator.apply(partialParams)
+          this.ops["CreateProject"].apply(partialParams)
         );
     }
 
     invokeCreateStudioLifecycleConfig(partialParams: ToOptional<{
-      [K in keyof CreateStudioLifecycleConfigRequest & keyof CreateStudioLifecycleConfigRequest & keyof CreateStudioLifecycleConfigRequest & keyof CreateStudioLifecycleConfigRequest & keyof CreateStudioLifecycleConfigRequest]: (CreateStudioLifecycleConfigRequest & CreateStudioLifecycleConfigRequest & CreateStudioLifecycleConfigRequest & CreateStudioLifecycleConfigRequest & CreateStudioLifecycleConfigRequest)[K]
+      [K in keyof CreateStudioLifecycleConfigRequest]: (CreateStudioLifecycleConfigRequest)[K]
     }>): Request<CreateStudioLifecycleConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createStudioLifecycleConfig(
-          this.ops["CreateStudioLifecycleConfig"].applicator.apply(partialParams)
+          this.ops["CreateStudioLifecycleConfig"].apply(partialParams)
         );
     }
 
     invokeCreateTrainingJob(partialParams: ToOptional<{
-      [K in keyof CreateTrainingJobRequest & keyof CreateTrainingJobRequest & keyof CreateTrainingJobRequest & keyof CreateTrainingJobRequest & keyof CreateTrainingJobRequest]: (CreateTrainingJobRequest & CreateTrainingJobRequest & CreateTrainingJobRequest & CreateTrainingJobRequest & CreateTrainingJobRequest)[K]
+      [K in keyof CreateTrainingJobRequest]: (CreateTrainingJobRequest)[K]
     }>): Request<CreateTrainingJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createTrainingJob(
-          this.ops["CreateTrainingJob"].applicator.apply(partialParams)
+          this.ops["CreateTrainingJob"].apply(partialParams)
         );
     }
 
     invokeCreateTransformJob(partialParams: ToOptional<{
-      [K in keyof CreateTransformJobRequest & keyof CreateTransformJobRequest & keyof CreateTransformJobRequest & keyof CreateTransformJobRequest & keyof CreateTransformJobRequest]: (CreateTransformJobRequest & CreateTransformJobRequest & CreateTransformJobRequest & CreateTransformJobRequest & CreateTransformJobRequest)[K]
+      [K in keyof CreateTransformJobRequest]: (CreateTransformJobRequest)[K]
     }>): Request<CreateTransformJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createTransformJob(
-          this.ops["CreateTransformJob"].applicator.apply(partialParams)
+          this.ops["CreateTransformJob"].apply(partialParams)
         );
     }
 
     invokeCreateTrial(partialParams: ToOptional<{
-      [K in keyof CreateTrialRequest & keyof CreateTrialRequest & keyof CreateTrialRequest & keyof CreateTrialRequest & keyof CreateTrialRequest]: (CreateTrialRequest & CreateTrialRequest & CreateTrialRequest & CreateTrialRequest & CreateTrialRequest)[K]
+      [K in keyof CreateTrialRequest]: (CreateTrialRequest)[K]
     }>): Request<CreateTrialResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createTrial(
-          this.ops["CreateTrial"].applicator.apply(partialParams)
+          this.ops["CreateTrial"].apply(partialParams)
         );
     }
 
     invokeCreateTrialComponent(partialParams: ToOptional<{
-      [K in keyof CreateTrialComponentRequest & keyof CreateTrialComponentRequest & keyof CreateTrialComponentRequest & keyof CreateTrialComponentRequest & keyof CreateTrialComponentRequest]: (CreateTrialComponentRequest & CreateTrialComponentRequest & CreateTrialComponentRequest & CreateTrialComponentRequest & CreateTrialComponentRequest)[K]
+      [K in keyof CreateTrialComponentRequest]: (CreateTrialComponentRequest)[K]
     }>): Request<CreateTrialComponentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createTrialComponent(
-          this.ops["CreateTrialComponent"].applicator.apply(partialParams)
+          this.ops["CreateTrialComponent"].apply(partialParams)
         );
     }
 
     invokeCreateUserProfile(partialParams: ToOptional<{
-      [K in keyof CreateUserProfileRequest & keyof CreateUserProfileRequest & keyof CreateUserProfileRequest & keyof CreateUserProfileRequest & keyof CreateUserProfileRequest]: (CreateUserProfileRequest & CreateUserProfileRequest & CreateUserProfileRequest & CreateUserProfileRequest & CreateUserProfileRequest)[K]
+      [K in keyof CreateUserProfileRequest]: (CreateUserProfileRequest)[K]
     }>): Request<CreateUserProfileResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createUserProfile(
-          this.ops["CreateUserProfile"].applicator.apply(partialParams)
+          this.ops["CreateUserProfile"].apply(partialParams)
         );
     }
 
     invokeCreateWorkforce(partialParams: ToOptional<{
-      [K in keyof CreateWorkforceRequest & keyof CreateWorkforceRequest & keyof CreateWorkforceRequest & keyof CreateWorkforceRequest & keyof CreateWorkforceRequest]: (CreateWorkforceRequest & CreateWorkforceRequest & CreateWorkforceRequest & CreateWorkforceRequest & CreateWorkforceRequest)[K]
+      [K in keyof CreateWorkforceRequest]: (CreateWorkforceRequest)[K]
     }>): Request<CreateWorkforceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createWorkforce(
-          this.ops["CreateWorkforce"].applicator.apply(partialParams)
+          this.ops["CreateWorkforce"].apply(partialParams)
         );
     }
 
     invokeCreateWorkteam(partialParams: ToOptional<{
-      [K in keyof CreateWorkteamRequest & keyof CreateWorkteamRequest & keyof CreateWorkteamRequest & keyof CreateWorkteamRequest & keyof CreateWorkteamRequest]: (CreateWorkteamRequest & CreateWorkteamRequest & CreateWorkteamRequest & CreateWorkteamRequest & CreateWorkteamRequest)[K]
+      [K in keyof CreateWorkteamRequest]: (CreateWorkteamRequest)[K]
     }>): Request<CreateWorkteamResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createWorkteam(
-          this.ops["CreateWorkteam"].applicator.apply(partialParams)
+          this.ops["CreateWorkteam"].apply(partialParams)
         );
     }
 
     invokeDeleteAction(partialParams: ToOptional<{
-      [K in keyof DeleteActionRequest & keyof DeleteActionRequest & keyof DeleteActionRequest & keyof DeleteActionRequest & keyof DeleteActionRequest]: (DeleteActionRequest & DeleteActionRequest & DeleteActionRequest & DeleteActionRequest & DeleteActionRequest)[K]
+      [K in keyof DeleteActionRequest]: (DeleteActionRequest)[K]
     }>): Request<DeleteActionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteAction(
-          this.ops["DeleteAction"].applicator.apply(partialParams)
+          this.ops["DeleteAction"].apply(partialParams)
         );
     }
 
-    invokeDeleteAlgorithm(partialParams: ToOptional<{
-      [K in keyof DeleteAlgorithmInput & keyof DeleteAlgorithmInput & keyof DeleteAlgorithmInput & keyof DeleteAlgorithmInput & keyof DeleteAlgorithmInput]: (DeleteAlgorithmInput & DeleteAlgorithmInput & DeleteAlgorithmInput & DeleteAlgorithmInput & DeleteAlgorithmInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeDeleteArtifact(partialParams: ToOptional<{
+      [K in keyof DeleteArtifactRequest]: (DeleteArtifactRequest)[K]
+    }>): Request<DeleteArtifactResponse, AWSError> {
         this.boot();
-        return this.client.deleteAlgorithm(
-          this.ops["DeleteAlgorithm"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteApp(partialParams: ToOptional<{
-      [K in keyof DeleteAppRequest & keyof DeleteAppRequest & keyof DeleteAppRequest & keyof DeleteAppRequest & keyof DeleteAppRequest]: (DeleteAppRequest & DeleteAppRequest & DeleteAppRequest & DeleteAppRequest & DeleteAppRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteApp(
-          this.ops["DeleteApp"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteAppImageConfig(partialParams: ToOptional<{
-      [K in keyof DeleteAppImageConfigRequest & keyof DeleteAppImageConfigRequest & keyof DeleteAppImageConfigRequest & keyof DeleteAppImageConfigRequest & keyof DeleteAppImageConfigRequest]: (DeleteAppImageConfigRequest & DeleteAppImageConfigRequest & DeleteAppImageConfigRequest & DeleteAppImageConfigRequest & DeleteAppImageConfigRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteAppImageConfig(
-          this.ops["DeleteAppImageConfig"].applicator.apply(partialParams)
+        return this.client.deleteArtifact(
+          this.ops["DeleteArtifact"].apply(partialParams)
         );
     }
 
     invokeDeleteAssociation(partialParams: ToOptional<{
-      [K in keyof DeleteAssociationRequest & keyof DeleteAssociationRequest & keyof DeleteAssociationRequest & keyof DeleteAssociationRequest & keyof DeleteAssociationRequest]: (DeleteAssociationRequest & DeleteAssociationRequest & DeleteAssociationRequest & DeleteAssociationRequest & DeleteAssociationRequest)[K]
+      [K in keyof DeleteAssociationRequest]: (DeleteAssociationRequest)[K]
     }>): Request<DeleteAssociationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteAssociation(
-          this.ops["DeleteAssociation"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteCodeRepository(partialParams: ToOptional<{
-      [K in keyof DeleteCodeRepositoryInput & keyof DeleteCodeRepositoryInput & keyof DeleteCodeRepositoryInput & keyof DeleteCodeRepositoryInput & keyof DeleteCodeRepositoryInput]: (DeleteCodeRepositoryInput & DeleteCodeRepositoryInput & DeleteCodeRepositoryInput & DeleteCodeRepositoryInput & DeleteCodeRepositoryInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteCodeRepository(
-          this.ops["DeleteCodeRepository"].applicator.apply(partialParams)
+          this.ops["DeleteAssociation"].apply(partialParams)
         );
     }
 
     invokeDeleteContext(partialParams: ToOptional<{
-      [K in keyof DeleteContextRequest & keyof DeleteContextRequest & keyof DeleteContextRequest & keyof DeleteContextRequest & keyof DeleteContextRequest]: (DeleteContextRequest & DeleteContextRequest & DeleteContextRequest & DeleteContextRequest & DeleteContextRequest)[K]
+      [K in keyof DeleteContextRequest]: (DeleteContextRequest)[K]
     }>): Request<DeleteContextResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteContext(
-          this.ops["DeleteContext"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteDataQualityJobDefinition(partialParams: ToOptional<{
-      [K in keyof DeleteDataQualityJobDefinitionRequest & keyof DeleteDataQualityJobDefinitionRequest & keyof DeleteDataQualityJobDefinitionRequest & keyof DeleteDataQualityJobDefinitionRequest & keyof DeleteDataQualityJobDefinitionRequest]: (DeleteDataQualityJobDefinitionRequest & DeleteDataQualityJobDefinitionRequest & DeleteDataQualityJobDefinitionRequest & DeleteDataQualityJobDefinitionRequest & DeleteDataQualityJobDefinitionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteDataQualityJobDefinition(
-          this.ops["DeleteDataQualityJobDefinition"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteDeviceFleet(partialParams: ToOptional<{
-      [K in keyof DeleteDeviceFleetRequest & keyof DeleteDeviceFleetRequest & keyof DeleteDeviceFleetRequest & keyof DeleteDeviceFleetRequest & keyof DeleteDeviceFleetRequest]: (DeleteDeviceFleetRequest & DeleteDeviceFleetRequest & DeleteDeviceFleetRequest & DeleteDeviceFleetRequest & DeleteDeviceFleetRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteDeviceFleet(
-          this.ops["DeleteDeviceFleet"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteDomain(partialParams: ToOptional<{
-      [K in keyof DeleteDomainRequest & keyof DeleteDomainRequest & keyof DeleteDomainRequest & keyof DeleteDomainRequest & keyof DeleteDomainRequest]: (DeleteDomainRequest & DeleteDomainRequest & DeleteDomainRequest & DeleteDomainRequest & DeleteDomainRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteDomain(
-          this.ops["DeleteDomain"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteEndpoint(partialParams: ToOptional<{
-      [K in keyof DeleteEndpointInput & keyof DeleteEndpointInput & keyof DeleteEndpointInput & keyof DeleteEndpointInput & keyof DeleteEndpointInput]: (DeleteEndpointInput & DeleteEndpointInput & DeleteEndpointInput & DeleteEndpointInput & DeleteEndpointInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteEndpoint(
-          this.ops["DeleteEndpoint"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteEndpointConfig(partialParams: ToOptional<{
-      [K in keyof DeleteEndpointConfigInput & keyof DeleteEndpointConfigInput & keyof DeleteEndpointConfigInput & keyof DeleteEndpointConfigInput & keyof DeleteEndpointConfigInput]: (DeleteEndpointConfigInput & DeleteEndpointConfigInput & DeleteEndpointConfigInput & DeleteEndpointConfigInput & DeleteEndpointConfigInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteEndpointConfig(
-          this.ops["DeleteEndpointConfig"].applicator.apply(partialParams)
+          this.ops["DeleteContext"].apply(partialParams)
         );
     }
 
     invokeDeleteExperiment(partialParams: ToOptional<{
-      [K in keyof DeleteExperimentRequest & keyof DeleteExperimentRequest & keyof DeleteExperimentRequest & keyof DeleteExperimentRequest & keyof DeleteExperimentRequest]: (DeleteExperimentRequest & DeleteExperimentRequest & DeleteExperimentRequest & DeleteExperimentRequest & DeleteExperimentRequest)[K]
+      [K in keyof DeleteExperimentRequest]: (DeleteExperimentRequest)[K]
     }>): Request<DeleteExperimentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteExperiment(
-          this.ops["DeleteExperiment"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteFeatureGroup(partialParams: ToOptional<{
-      [K in keyof DeleteFeatureGroupRequest & keyof DeleteFeatureGroupRequest & keyof DeleteFeatureGroupRequest & keyof DeleteFeatureGroupRequest & keyof DeleteFeatureGroupRequest]: (DeleteFeatureGroupRequest & DeleteFeatureGroupRequest & DeleteFeatureGroupRequest & DeleteFeatureGroupRequest & DeleteFeatureGroupRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteFeatureGroup(
-          this.ops["DeleteFeatureGroup"].applicator.apply(partialParams)
+          this.ops["DeleteExperiment"].apply(partialParams)
         );
     }
 
     invokeDeleteFlowDefinition(partialParams: ToOptional<{
-      [K in keyof DeleteFlowDefinitionRequest & keyof DeleteFlowDefinitionRequest & keyof DeleteFlowDefinitionRequest & keyof DeleteFlowDefinitionRequest & keyof DeleteFlowDefinitionRequest]: (DeleteFlowDefinitionRequest & DeleteFlowDefinitionRequest & DeleteFlowDefinitionRequest & DeleteFlowDefinitionRequest & DeleteFlowDefinitionRequest)[K]
+      [K in keyof DeleteFlowDefinitionRequest]: (DeleteFlowDefinitionRequest)[K]
     }>): Request<DeleteFlowDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteFlowDefinition(
-          this.ops["DeleteFlowDefinition"].applicator.apply(partialParams)
+          this.ops["DeleteFlowDefinition"].apply(partialParams)
         );
     }
 
     invokeDeleteHumanTaskUi(partialParams: ToOptional<{
-      [K in keyof DeleteHumanTaskUiRequest & keyof DeleteHumanTaskUiRequest & keyof DeleteHumanTaskUiRequest & keyof DeleteHumanTaskUiRequest & keyof DeleteHumanTaskUiRequest]: (DeleteHumanTaskUiRequest & DeleteHumanTaskUiRequest & DeleteHumanTaskUiRequest & DeleteHumanTaskUiRequest & DeleteHumanTaskUiRequest)[K]
+      [K in keyof DeleteHumanTaskUiRequest]: (DeleteHumanTaskUiRequest)[K]
     }>): Request<DeleteHumanTaskUiResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteHumanTaskUi(
-          this.ops["DeleteHumanTaskUi"].applicator.apply(partialParams)
+          this.ops["DeleteHumanTaskUi"].apply(partialParams)
         );
     }
 
     invokeDeleteImage(partialParams: ToOptional<{
-      [K in keyof DeleteImageRequest & keyof DeleteImageRequest & keyof DeleteImageRequest & keyof DeleteImageRequest & keyof DeleteImageRequest]: (DeleteImageRequest & DeleteImageRequest & DeleteImageRequest & DeleteImageRequest & DeleteImageRequest)[K]
+      [K in keyof DeleteImageRequest & keyof Omit<DeleteImageRequest, "ImageName">]: (DeleteImageRequest)[K]
     }>): Request<DeleteImageResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteImage(
-          this.ops["DeleteImage"].applicator.apply(partialParams)
+          this.ops["DeleteImage"].apply(partialParams)
         );
     }
 
     invokeDeleteImageVersion(partialParams: ToOptional<{
-      [K in keyof DeleteImageVersionRequest & keyof DeleteImageVersionRequest & keyof DeleteImageVersionRequest & keyof DeleteImageVersionRequest & keyof DeleteImageVersionRequest]: (DeleteImageVersionRequest & DeleteImageVersionRequest & DeleteImageVersionRequest & DeleteImageVersionRequest & DeleteImageVersionRequest)[K]
+      [K in keyof DeleteImageVersionRequest & keyof Omit<DeleteImageVersionRequest, "ImageName">]: (DeleteImageVersionRequest)[K]
     }>): Request<DeleteImageVersionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteImageVersion(
-          this.ops["DeleteImageVersion"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteModel(partialParams: ToOptional<{
-      [K in keyof DeleteModelInput & keyof DeleteModelInput & keyof DeleteModelInput & keyof DeleteModelInput & keyof DeleteModelInput]: (DeleteModelInput & DeleteModelInput & DeleteModelInput & DeleteModelInput & DeleteModelInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteModel(
-          this.ops["DeleteModel"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteModelBiasJobDefinition(partialParams: ToOptional<{
-      [K in keyof DeleteModelBiasJobDefinitionRequest & keyof DeleteModelBiasJobDefinitionRequest & keyof DeleteModelBiasJobDefinitionRequest & keyof DeleteModelBiasJobDefinitionRequest & keyof DeleteModelBiasJobDefinitionRequest]: (DeleteModelBiasJobDefinitionRequest & DeleteModelBiasJobDefinitionRequest & DeleteModelBiasJobDefinitionRequest & DeleteModelBiasJobDefinitionRequest & DeleteModelBiasJobDefinitionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteModelBiasJobDefinition(
-          this.ops["DeleteModelBiasJobDefinition"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteModelExplainabilityJobDefinition(partialParams: ToOptional<{
-      [K in keyof DeleteModelExplainabilityJobDefinitionRequest & keyof DeleteModelExplainabilityJobDefinitionRequest & keyof DeleteModelExplainabilityJobDefinitionRequest & keyof DeleteModelExplainabilityJobDefinitionRequest & keyof DeleteModelExplainabilityJobDefinitionRequest]: (DeleteModelExplainabilityJobDefinitionRequest & DeleteModelExplainabilityJobDefinitionRequest & DeleteModelExplainabilityJobDefinitionRequest & DeleteModelExplainabilityJobDefinitionRequest & DeleteModelExplainabilityJobDefinitionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteModelExplainabilityJobDefinition(
-          this.ops["DeleteModelExplainabilityJobDefinition"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteModelPackage(partialParams: ToOptional<{
-      [K in keyof DeleteModelPackageInput & keyof DeleteModelPackageInput & keyof DeleteModelPackageInput & keyof DeleteModelPackageInput & keyof DeleteModelPackageInput]: (DeleteModelPackageInput & DeleteModelPackageInput & DeleteModelPackageInput & DeleteModelPackageInput & DeleteModelPackageInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteModelPackage(
-          this.ops["DeleteModelPackage"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteModelPackageGroup(partialParams: ToOptional<{
-      [K in keyof DeleteModelPackageGroupInput & keyof DeleteModelPackageGroupInput & keyof DeleteModelPackageGroupInput & keyof DeleteModelPackageGroupInput & keyof DeleteModelPackageGroupInput]: (DeleteModelPackageGroupInput & DeleteModelPackageGroupInput & DeleteModelPackageGroupInput & DeleteModelPackageGroupInput & DeleteModelPackageGroupInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteModelPackageGroup(
-          this.ops["DeleteModelPackageGroup"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteModelPackageGroupPolicy(partialParams: ToOptional<{
-      [K in keyof DeleteModelPackageGroupPolicyInput & keyof DeleteModelPackageGroupPolicyInput & keyof DeleteModelPackageGroupPolicyInput & keyof DeleteModelPackageGroupPolicyInput & keyof DeleteModelPackageGroupPolicyInput]: (DeleteModelPackageGroupPolicyInput & DeleteModelPackageGroupPolicyInput & DeleteModelPackageGroupPolicyInput & DeleteModelPackageGroupPolicyInput & DeleteModelPackageGroupPolicyInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteModelPackageGroupPolicy(
-          this.ops["DeleteModelPackageGroupPolicy"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteModelQualityJobDefinition(partialParams: ToOptional<{
-      [K in keyof DeleteModelQualityJobDefinitionRequest & keyof DeleteModelQualityJobDefinitionRequest & keyof DeleteModelQualityJobDefinitionRequest & keyof DeleteModelQualityJobDefinitionRequest & keyof DeleteModelQualityJobDefinitionRequest]: (DeleteModelQualityJobDefinitionRequest & DeleteModelQualityJobDefinitionRequest & DeleteModelQualityJobDefinitionRequest & DeleteModelQualityJobDefinitionRequest & DeleteModelQualityJobDefinitionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteModelQualityJobDefinition(
-          this.ops["DeleteModelQualityJobDefinition"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteMonitoringSchedule(partialParams: ToOptional<{
-      [K in keyof DeleteMonitoringScheduleRequest & keyof DeleteMonitoringScheduleRequest & keyof DeleteMonitoringScheduleRequest & keyof DeleteMonitoringScheduleRequest & keyof DeleteMonitoringScheduleRequest]: (DeleteMonitoringScheduleRequest & DeleteMonitoringScheduleRequest & DeleteMonitoringScheduleRequest & DeleteMonitoringScheduleRequest & DeleteMonitoringScheduleRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteMonitoringSchedule(
-          this.ops["DeleteMonitoringSchedule"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteNotebookInstance(partialParams: ToOptional<{
-      [K in keyof DeleteNotebookInstanceInput & keyof DeleteNotebookInstanceInput & keyof DeleteNotebookInstanceInput & keyof DeleteNotebookInstanceInput & keyof DeleteNotebookInstanceInput]: (DeleteNotebookInstanceInput & DeleteNotebookInstanceInput & DeleteNotebookInstanceInput & DeleteNotebookInstanceInput & DeleteNotebookInstanceInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteNotebookInstance(
-          this.ops["DeleteNotebookInstance"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteNotebookInstanceLifecycleConfig(partialParams: ToOptional<{
-      [K in keyof DeleteNotebookInstanceLifecycleConfigInput & keyof DeleteNotebookInstanceLifecycleConfigInput & keyof DeleteNotebookInstanceLifecycleConfigInput & keyof DeleteNotebookInstanceLifecycleConfigInput & keyof DeleteNotebookInstanceLifecycleConfigInput]: (DeleteNotebookInstanceLifecycleConfigInput & DeleteNotebookInstanceLifecycleConfigInput & DeleteNotebookInstanceLifecycleConfigInput & DeleteNotebookInstanceLifecycleConfigInput & DeleteNotebookInstanceLifecycleConfigInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteNotebookInstanceLifecycleConfig(
-          this.ops["DeleteNotebookInstanceLifecycleConfig"].applicator.apply(partialParams)
+          this.ops["DeleteImageVersion"].apply(partialParams)
         );
     }
 
     invokeDeletePipeline(partialParams: ToOptional<{
-      [K in keyof DeletePipelineRequest & keyof DeletePipelineRequest & keyof DeletePipelineRequest & keyof DeletePipelineRequest & keyof DeletePipelineRequest]: (DeletePipelineRequest & DeletePipelineRequest & DeletePipelineRequest & DeletePipelineRequest & DeletePipelineRequest)[K]
+      [K in keyof DeletePipelineRequest]: (DeletePipelineRequest)[K]
     }>): Request<DeletePipelineResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deletePipeline(
-          this.ops["DeletePipeline"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteProject(partialParams: ToOptional<{
-      [K in keyof DeleteProjectInput & keyof DeleteProjectInput & keyof DeleteProjectInput & keyof DeleteProjectInput & keyof DeleteProjectInput]: (DeleteProjectInput & DeleteProjectInput & DeleteProjectInput & DeleteProjectInput & DeleteProjectInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteProject(
-          this.ops["DeleteProject"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteStudioLifecycleConfig(partialParams: ToOptional<{
-      [K in keyof DeleteStudioLifecycleConfigRequest & keyof DeleteStudioLifecycleConfigRequest & keyof DeleteStudioLifecycleConfigRequest & keyof DeleteStudioLifecycleConfigRequest & keyof DeleteStudioLifecycleConfigRequest]: (DeleteStudioLifecycleConfigRequest & DeleteStudioLifecycleConfigRequest & DeleteStudioLifecycleConfigRequest & DeleteStudioLifecycleConfigRequest & DeleteStudioLifecycleConfigRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteStudioLifecycleConfig(
-          this.ops["DeleteStudioLifecycleConfig"].applicator.apply(partialParams)
+          this.ops["DeletePipeline"].apply(partialParams)
         );
     }
 
     invokeDeleteTags(partialParams: ToOptional<{
-      [K in keyof DeleteTagsInput & keyof DeleteTagsInput & keyof DeleteTagsInput & keyof DeleteTagsInput & keyof DeleteTagsInput]: (DeleteTagsInput & DeleteTagsInput & DeleteTagsInput & DeleteTagsInput & DeleteTagsInput)[K]
+      [K in keyof DeleteTagsInput]: (DeleteTagsInput)[K]
     }>): Request<DeleteTagsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteTags(
-          this.ops["DeleteTags"].applicator.apply(partialParams)
+          this.ops["DeleteTags"].apply(partialParams)
         );
     }
 
     invokeDeleteTrial(partialParams: ToOptional<{
-      [K in keyof DeleteTrialRequest & keyof DeleteTrialRequest & keyof DeleteTrialRequest & keyof DeleteTrialRequest & keyof DeleteTrialRequest]: (DeleteTrialRequest & DeleteTrialRequest & DeleteTrialRequest & DeleteTrialRequest & DeleteTrialRequest)[K]
+      [K in keyof DeleteTrialRequest]: (DeleteTrialRequest)[K]
     }>): Request<DeleteTrialResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteTrial(
-          this.ops["DeleteTrial"].applicator.apply(partialParams)
+          this.ops["DeleteTrial"].apply(partialParams)
         );
     }
 
     invokeDeleteTrialComponent(partialParams: ToOptional<{
-      [K in keyof DeleteTrialComponentRequest & keyof DeleteTrialComponentRequest & keyof DeleteTrialComponentRequest & keyof DeleteTrialComponentRequest & keyof DeleteTrialComponentRequest]: (DeleteTrialComponentRequest & DeleteTrialComponentRequest & DeleteTrialComponentRequest & DeleteTrialComponentRequest & DeleteTrialComponentRequest)[K]
+      [K in keyof DeleteTrialComponentRequest]: (DeleteTrialComponentRequest)[K]
     }>): Request<DeleteTrialComponentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteTrialComponent(
-          this.ops["DeleteTrialComponent"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteUserProfile(partialParams: ToOptional<{
-      [K in keyof DeleteUserProfileRequest & keyof DeleteUserProfileRequest & keyof DeleteUserProfileRequest & keyof DeleteUserProfileRequest & keyof DeleteUserProfileRequest]: (DeleteUserProfileRequest & DeleteUserProfileRequest & DeleteUserProfileRequest & DeleteUserProfileRequest & DeleteUserProfileRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteUserProfile(
-          this.ops["DeleteUserProfile"].applicator.apply(partialParams)
+          this.ops["DeleteTrialComponent"].apply(partialParams)
         );
     }
 
     invokeDeleteWorkforce(partialParams: ToOptional<{
-      [K in keyof DeleteWorkforceRequest & keyof DeleteWorkforceRequest & keyof DeleteWorkforceRequest & keyof DeleteWorkforceRequest & keyof DeleteWorkforceRequest]: (DeleteWorkforceRequest & DeleteWorkforceRequest & DeleteWorkforceRequest & DeleteWorkforceRequest & DeleteWorkforceRequest)[K]
+      [K in keyof DeleteWorkforceRequest]: (DeleteWorkforceRequest)[K]
     }>): Request<DeleteWorkforceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteWorkforce(
-          this.ops["DeleteWorkforce"].applicator.apply(partialParams)
+          this.ops["DeleteWorkforce"].apply(partialParams)
         );
     }
 
     invokeDeleteWorkteam(partialParams: ToOptional<{
-      [K in keyof DeleteWorkteamRequest & keyof DeleteWorkteamRequest & keyof DeleteWorkteamRequest & keyof DeleteWorkteamRequest & keyof DeleteWorkteamRequest]: (DeleteWorkteamRequest & DeleteWorkteamRequest & DeleteWorkteamRequest & DeleteWorkteamRequest & DeleteWorkteamRequest)[K]
+      [K in keyof DeleteWorkteamRequest]: (DeleteWorkteamRequest)[K]
     }>): Request<DeleteWorkteamResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteWorkteam(
-          this.ops["DeleteWorkteam"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeregisterDevices(partialParams: ToOptional<{
-      [K in keyof DeregisterDevicesRequest & keyof DeregisterDevicesRequest & keyof DeregisterDevicesRequest & keyof DeregisterDevicesRequest & keyof DeregisterDevicesRequest]: (DeregisterDevicesRequest & DeregisterDevicesRequest & DeregisterDevicesRequest & DeregisterDevicesRequest & DeregisterDevicesRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deregisterDevices(
-          this.ops["DeregisterDevices"].applicator.apply(partialParams)
+          this.ops["DeleteWorkteam"].apply(partialParams)
         );
     }
 
     invokeDescribeAction(partialParams: ToOptional<{
-      [K in keyof DescribeActionRequest & keyof DescribeActionRequest & keyof DescribeActionRequest & keyof DescribeActionRequest & keyof DescribeActionRequest]: (DescribeActionRequest & DescribeActionRequest & DescribeActionRequest & DescribeActionRequest & DescribeActionRequest)[K]
+      [K in keyof DescribeActionRequest]: (DescribeActionRequest)[K]
     }>): Request<DescribeActionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeAction(
-          this.ops["DescribeAction"].applicator.apply(partialParams)
+          this.ops["DescribeAction"].apply(partialParams)
         );
     }
 
     invokeDescribeAlgorithm(partialParams: ToOptional<{
-      [K in keyof DescribeAlgorithmInput & keyof DescribeAlgorithmInput & keyof DescribeAlgorithmInput & keyof DescribeAlgorithmInput & keyof DescribeAlgorithmInput]: (DescribeAlgorithmInput & DescribeAlgorithmInput & DescribeAlgorithmInput & DescribeAlgorithmInput & DescribeAlgorithmInput)[K]
+      [K in keyof DescribeAlgorithmInput]: (DescribeAlgorithmInput)[K]
     }>): Request<DescribeAlgorithmOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeAlgorithm(
-          this.ops["DescribeAlgorithm"].applicator.apply(partialParams)
+          this.ops["DescribeAlgorithm"].apply(partialParams)
         );
     }
 
     invokeDescribeApp(partialParams: ToOptional<{
-      [K in keyof DescribeAppRequest & keyof DescribeAppRequest & keyof DescribeAppRequest & keyof DescribeAppRequest & keyof DescribeAppRequest]: (DescribeAppRequest & DescribeAppRequest & DescribeAppRequest & DescribeAppRequest & DescribeAppRequest)[K]
+      [K in keyof DescribeAppRequest]: (DescribeAppRequest)[K]
     }>): Request<DescribeAppResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeApp(
-          this.ops["DescribeApp"].applicator.apply(partialParams)
+          this.ops["DescribeApp"].apply(partialParams)
         );
     }
 
     invokeDescribeAppImageConfig(partialParams: ToOptional<{
-      [K in keyof DescribeAppImageConfigRequest & keyof DescribeAppImageConfigRequest & keyof DescribeAppImageConfigRequest & keyof DescribeAppImageConfigRequest & keyof DescribeAppImageConfigRequest]: (DescribeAppImageConfigRequest & DescribeAppImageConfigRequest & DescribeAppImageConfigRequest & DescribeAppImageConfigRequest & DescribeAppImageConfigRequest)[K]
+      [K in keyof DescribeAppImageConfigRequest]: (DescribeAppImageConfigRequest)[K]
     }>): Request<DescribeAppImageConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeAppImageConfig(
-          this.ops["DescribeAppImageConfig"].applicator.apply(partialParams)
+          this.ops["DescribeAppImageConfig"].apply(partialParams)
         );
     }
 
     invokeDescribeArtifact(partialParams: ToOptional<{
-      [K in keyof DescribeArtifactRequest & keyof DescribeArtifactRequest & keyof DescribeArtifactRequest & keyof DescribeArtifactRequest & keyof DescribeArtifactRequest]: (DescribeArtifactRequest & DescribeArtifactRequest & DescribeArtifactRequest & DescribeArtifactRequest & DescribeArtifactRequest)[K]
+      [K in keyof DescribeArtifactRequest]: (DescribeArtifactRequest)[K]
     }>): Request<DescribeArtifactResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeArtifact(
-          this.ops["DescribeArtifact"].applicator.apply(partialParams)
+          this.ops["DescribeArtifact"].apply(partialParams)
         );
     }
 
     invokeDescribeAutoMLJob(partialParams: ToOptional<{
-      [K in keyof DescribeAutoMLJobRequest & keyof DescribeAutoMLJobRequest & keyof DescribeAutoMLJobRequest & keyof DescribeAutoMLJobRequest & keyof DescribeAutoMLJobRequest]: (DescribeAutoMLJobRequest & DescribeAutoMLJobRequest & DescribeAutoMLJobRequest & DescribeAutoMLJobRequest & DescribeAutoMLJobRequest)[K]
+      [K in keyof DescribeAutoMLJobRequest]: (DescribeAutoMLJobRequest)[K]
     }>): Request<DescribeAutoMLJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeAutoMLJob(
-          this.ops["DescribeAutoMLJob"].applicator.apply(partialParams)
+          this.ops["DescribeAutoMLJob"].apply(partialParams)
         );
     }
 
     invokeDescribeCodeRepository(partialParams: ToOptional<{
-      [K in keyof DescribeCodeRepositoryInput & keyof DescribeCodeRepositoryInput & keyof DescribeCodeRepositoryInput & keyof DescribeCodeRepositoryInput & keyof DescribeCodeRepositoryInput]: (DescribeCodeRepositoryInput & DescribeCodeRepositoryInput & DescribeCodeRepositoryInput & DescribeCodeRepositoryInput & DescribeCodeRepositoryInput)[K]
+      [K in keyof DescribeCodeRepositoryInput]: (DescribeCodeRepositoryInput)[K]
     }>): Request<DescribeCodeRepositoryOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeCodeRepository(
-          this.ops["DescribeCodeRepository"].applicator.apply(partialParams)
+          this.ops["DescribeCodeRepository"].apply(partialParams)
         );
     }
 
     invokeDescribeCompilationJob(partialParams: ToOptional<{
-      [K in keyof DescribeCompilationJobRequest & keyof DescribeCompilationJobRequest & keyof DescribeCompilationJobRequest & keyof DescribeCompilationJobRequest & keyof DescribeCompilationJobRequest]: (DescribeCompilationJobRequest & DescribeCompilationJobRequest & DescribeCompilationJobRequest & DescribeCompilationJobRequest & DescribeCompilationJobRequest)[K]
+      [K in keyof DescribeCompilationJobRequest]: (DescribeCompilationJobRequest)[K]
     }>): Request<DescribeCompilationJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeCompilationJob(
-          this.ops["DescribeCompilationJob"].applicator.apply(partialParams)
+          this.ops["DescribeCompilationJob"].apply(partialParams)
         );
     }
 
     invokeDescribeContext(partialParams: ToOptional<{
-      [K in keyof DescribeContextRequest & keyof DescribeContextRequest & keyof DescribeContextRequest & keyof DescribeContextRequest & keyof DescribeContextRequest]: (DescribeContextRequest & DescribeContextRequest & DescribeContextRequest & DescribeContextRequest & DescribeContextRequest)[K]
+      [K in keyof DescribeContextRequest]: (DescribeContextRequest)[K]
     }>): Request<DescribeContextResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeContext(
-          this.ops["DescribeContext"].applicator.apply(partialParams)
+          this.ops["DescribeContext"].apply(partialParams)
         );
     }
 
     invokeDescribeDataQualityJobDefinition(partialParams: ToOptional<{
-      [K in keyof DescribeDataQualityJobDefinitionRequest & keyof DescribeDataQualityJobDefinitionRequest & keyof DescribeDataQualityJobDefinitionRequest & keyof DescribeDataQualityJobDefinitionRequest & keyof DescribeDataQualityJobDefinitionRequest]: (DescribeDataQualityJobDefinitionRequest & DescribeDataQualityJobDefinitionRequest & DescribeDataQualityJobDefinitionRequest & DescribeDataQualityJobDefinitionRequest & DescribeDataQualityJobDefinitionRequest)[K]
+      [K in keyof DescribeDataQualityJobDefinitionRequest]: (DescribeDataQualityJobDefinitionRequest)[K]
     }>): Request<DescribeDataQualityJobDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDataQualityJobDefinition(
-          this.ops["DescribeDataQualityJobDefinition"].applicator.apply(partialParams)
+          this.ops["DescribeDataQualityJobDefinition"].apply(partialParams)
         );
     }
 
     invokeDescribeDevice(partialParams: ToOptional<{
-      [K in keyof DescribeDeviceRequest & keyof DescribeDeviceRequest & keyof DescribeDeviceRequest & keyof DescribeDeviceRequest & keyof DescribeDeviceRequest]: (DescribeDeviceRequest & DescribeDeviceRequest & DescribeDeviceRequest & DescribeDeviceRequest & DescribeDeviceRequest)[K]
+      [K in keyof DescribeDeviceRequest]: (DescribeDeviceRequest)[K]
     }>): Request<DescribeDeviceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDevice(
-          this.ops["DescribeDevice"].applicator.apply(partialParams)
+          this.ops["DescribeDevice"].apply(partialParams)
         );
     }
 
     invokeDescribeDeviceFleet(partialParams: ToOptional<{
-      [K in keyof DescribeDeviceFleetRequest & keyof DescribeDeviceFleetRequest & keyof DescribeDeviceFleetRequest & keyof DescribeDeviceFleetRequest & keyof DescribeDeviceFleetRequest]: (DescribeDeviceFleetRequest & DescribeDeviceFleetRequest & DescribeDeviceFleetRequest & DescribeDeviceFleetRequest & DescribeDeviceFleetRequest)[K]
+      [K in keyof DescribeDeviceFleetRequest]: (DescribeDeviceFleetRequest)[K]
     }>): Request<DescribeDeviceFleetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDeviceFleet(
-          this.ops["DescribeDeviceFleet"].applicator.apply(partialParams)
+          this.ops["DescribeDeviceFleet"].apply(partialParams)
         );
     }
 
     invokeDescribeDomain(partialParams: ToOptional<{
-      [K in keyof DescribeDomainRequest & keyof DescribeDomainRequest & keyof DescribeDomainRequest & keyof DescribeDomainRequest & keyof DescribeDomainRequest]: (DescribeDomainRequest & DescribeDomainRequest & DescribeDomainRequest & DescribeDomainRequest & DescribeDomainRequest)[K]
+      [K in keyof DescribeDomainRequest]: (DescribeDomainRequest)[K]
     }>): Request<DescribeDomainResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeDomain(
-          this.ops["DescribeDomain"].applicator.apply(partialParams)
+          this.ops["DescribeDomain"].apply(partialParams)
         );
     }
 
     invokeDescribeEdgePackagingJob(partialParams: ToOptional<{
-      [K in keyof DescribeEdgePackagingJobRequest & keyof DescribeEdgePackagingJobRequest & keyof DescribeEdgePackagingJobRequest & keyof DescribeEdgePackagingJobRequest & keyof DescribeEdgePackagingJobRequest]: (DescribeEdgePackagingJobRequest & DescribeEdgePackagingJobRequest & DescribeEdgePackagingJobRequest & DescribeEdgePackagingJobRequest & DescribeEdgePackagingJobRequest)[K]
+      [K in keyof DescribeEdgePackagingJobRequest]: (DescribeEdgePackagingJobRequest)[K]
     }>): Request<DescribeEdgePackagingJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeEdgePackagingJob(
-          this.ops["DescribeEdgePackagingJob"].applicator.apply(partialParams)
+          this.ops["DescribeEdgePackagingJob"].apply(partialParams)
         );
     }
 
     invokeDescribeEndpoint(partialParams: ToOptional<{
-      [K in keyof DescribeEndpointInput & keyof DescribeEndpointInput & keyof DescribeEndpointInput & keyof DescribeEndpointInput & keyof DescribeEndpointInput]: (DescribeEndpointInput & DescribeEndpointInput & DescribeEndpointInput & DescribeEndpointInput & DescribeEndpointInput)[K]
+      [K in keyof DescribeEndpointInput]: (DescribeEndpointInput)[K]
     }>): Request<DescribeEndpointOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeEndpoint(
-          this.ops["DescribeEndpoint"].applicator.apply(partialParams)
+          this.ops["DescribeEndpoint"].apply(partialParams)
         );
     }
 
     invokeDescribeEndpointConfig(partialParams: ToOptional<{
-      [K in keyof DescribeEndpointConfigInput & keyof DescribeEndpointConfigInput & keyof DescribeEndpointConfigInput & keyof DescribeEndpointConfigInput & keyof DescribeEndpointConfigInput]: (DescribeEndpointConfigInput & DescribeEndpointConfigInput & DescribeEndpointConfigInput & DescribeEndpointConfigInput & DescribeEndpointConfigInput)[K]
+      [K in keyof DescribeEndpointConfigInput]: (DescribeEndpointConfigInput)[K]
     }>): Request<DescribeEndpointConfigOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeEndpointConfig(
-          this.ops["DescribeEndpointConfig"].applicator.apply(partialParams)
+          this.ops["DescribeEndpointConfig"].apply(partialParams)
         );
     }
 
     invokeDescribeExperiment(partialParams: ToOptional<{
-      [K in keyof DescribeExperimentRequest & keyof DescribeExperimentRequest & keyof DescribeExperimentRequest & keyof DescribeExperimentRequest & keyof DescribeExperimentRequest]: (DescribeExperimentRequest & DescribeExperimentRequest & DescribeExperimentRequest & DescribeExperimentRequest & DescribeExperimentRequest)[K]
+      [K in keyof DescribeExperimentRequest]: (DescribeExperimentRequest)[K]
     }>): Request<DescribeExperimentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeExperiment(
-          this.ops["DescribeExperiment"].applicator.apply(partialParams)
+          this.ops["DescribeExperiment"].apply(partialParams)
         );
     }
 
     invokeDescribeFeatureGroup(partialParams: ToOptional<{
-      [K in keyof DescribeFeatureGroupRequest & keyof DescribeFeatureGroupRequest & keyof DescribeFeatureGroupRequest & keyof DescribeFeatureGroupRequest & keyof DescribeFeatureGroupRequest]: (DescribeFeatureGroupRequest & DescribeFeatureGroupRequest & DescribeFeatureGroupRequest & DescribeFeatureGroupRequest & DescribeFeatureGroupRequest)[K]
+      [K in keyof DescribeFeatureGroupRequest]: (DescribeFeatureGroupRequest)[K]
     }>): Request<DescribeFeatureGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeFeatureGroup(
-          this.ops["DescribeFeatureGroup"].applicator.apply(partialParams)
+          this.ops["DescribeFeatureGroup"].apply(partialParams)
         );
     }
 
     invokeDescribeFlowDefinition(partialParams: ToOptional<{
-      [K in keyof DescribeFlowDefinitionRequest & keyof DescribeFlowDefinitionRequest & keyof DescribeFlowDefinitionRequest & keyof DescribeFlowDefinitionRequest & keyof DescribeFlowDefinitionRequest]: (DescribeFlowDefinitionRequest & DescribeFlowDefinitionRequest & DescribeFlowDefinitionRequest & DescribeFlowDefinitionRequest & DescribeFlowDefinitionRequest)[K]
+      [K in keyof DescribeFlowDefinitionRequest]: (DescribeFlowDefinitionRequest)[K]
     }>): Request<DescribeFlowDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeFlowDefinition(
-          this.ops["DescribeFlowDefinition"].applicator.apply(partialParams)
+          this.ops["DescribeFlowDefinition"].apply(partialParams)
         );
     }
 
     invokeDescribeHumanTaskUi(partialParams: ToOptional<{
-      [K in keyof DescribeHumanTaskUiRequest & keyof DescribeHumanTaskUiRequest & keyof DescribeHumanTaskUiRequest & keyof DescribeHumanTaskUiRequest & keyof DescribeHumanTaskUiRequest]: (DescribeHumanTaskUiRequest & DescribeHumanTaskUiRequest & DescribeHumanTaskUiRequest & DescribeHumanTaskUiRequest & DescribeHumanTaskUiRequest)[K]
+      [K in keyof DescribeHumanTaskUiRequest]: (DescribeHumanTaskUiRequest)[K]
     }>): Request<DescribeHumanTaskUiResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeHumanTaskUi(
-          this.ops["DescribeHumanTaskUi"].applicator.apply(partialParams)
+          this.ops["DescribeHumanTaskUi"].apply(partialParams)
         );
     }
 
     invokeDescribeHyperParameterTuningJob(partialParams: ToOptional<{
-      [K in keyof DescribeHyperParameterTuningJobRequest & keyof DescribeHyperParameterTuningJobRequest & keyof DescribeHyperParameterTuningJobRequest & keyof DescribeHyperParameterTuningJobRequest & keyof DescribeHyperParameterTuningJobRequest]: (DescribeHyperParameterTuningJobRequest & DescribeHyperParameterTuningJobRequest & DescribeHyperParameterTuningJobRequest & DescribeHyperParameterTuningJobRequest & DescribeHyperParameterTuningJobRequest)[K]
+      [K in keyof DescribeHyperParameterTuningJobRequest]: (DescribeHyperParameterTuningJobRequest)[K]
     }>): Request<DescribeHyperParameterTuningJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeHyperParameterTuningJob(
-          this.ops["DescribeHyperParameterTuningJob"].applicator.apply(partialParams)
+          this.ops["DescribeHyperParameterTuningJob"].apply(partialParams)
         );
     }
 
     invokeDescribeImage(partialParams: ToOptional<{
-      [K in keyof DescribeImageRequest & keyof DescribeImageRequest & keyof DescribeImageRequest & keyof DescribeImageRequest & keyof DescribeImageRequest]: (DescribeImageRequest & DescribeImageRequest & DescribeImageRequest & DescribeImageRequest & DescribeImageRequest)[K]
+      [K in keyof DescribeImageRequest & keyof Omit<DescribeImageRequest, "ImageName">]: (DescribeImageRequest)[K]
     }>): Request<DescribeImageResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeImage(
-          this.ops["DescribeImage"].applicator.apply(partialParams)
+          this.ops["DescribeImage"].apply(partialParams)
         );
     }
 
     invokeDescribeImageVersion(partialParams: ToOptional<{
-      [K in keyof DescribeImageVersionRequest & keyof DescribeImageVersionRequest & keyof DescribeImageVersionRequest & keyof DescribeImageVersionRequest & keyof DescribeImageVersionRequest]: (DescribeImageVersionRequest & DescribeImageVersionRequest & DescribeImageVersionRequest & DescribeImageVersionRequest & DescribeImageVersionRequest)[K]
+      [K in keyof DescribeImageVersionRequest & keyof Omit<DescribeImageVersionRequest, "ImageName">]: (DescribeImageVersionRequest)[K]
     }>): Request<DescribeImageVersionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeImageVersion(
-          this.ops["DescribeImageVersion"].applicator.apply(partialParams)
+          this.ops["DescribeImageVersion"].apply(partialParams)
         );
     }
 
     invokeDescribeInferenceRecommendationsJob(partialParams: ToOptional<{
-      [K in keyof DescribeInferenceRecommendationsJobRequest & keyof DescribeInferenceRecommendationsJobRequest & keyof DescribeInferenceRecommendationsJobRequest & keyof DescribeInferenceRecommendationsJobRequest & keyof DescribeInferenceRecommendationsJobRequest]: (DescribeInferenceRecommendationsJobRequest & DescribeInferenceRecommendationsJobRequest & DescribeInferenceRecommendationsJobRequest & DescribeInferenceRecommendationsJobRequest & DescribeInferenceRecommendationsJobRequest)[K]
+      [K in keyof DescribeInferenceRecommendationsJobRequest]: (DescribeInferenceRecommendationsJobRequest)[K]
     }>): Request<DescribeInferenceRecommendationsJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeInferenceRecommendationsJob(
-          this.ops["DescribeInferenceRecommendationsJob"].applicator.apply(partialParams)
+          this.ops["DescribeInferenceRecommendationsJob"].apply(partialParams)
         );
     }
 
     invokeDescribeLabelingJob(partialParams: ToOptional<{
-      [K in keyof DescribeLabelingJobRequest & keyof DescribeLabelingJobRequest & keyof DescribeLabelingJobRequest & keyof DescribeLabelingJobRequest & keyof DescribeLabelingJobRequest]: (DescribeLabelingJobRequest & DescribeLabelingJobRequest & DescribeLabelingJobRequest & DescribeLabelingJobRequest & DescribeLabelingJobRequest)[K]
+      [K in keyof DescribeLabelingJobRequest]: (DescribeLabelingJobRequest)[K]
     }>): Request<DescribeLabelingJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeLabelingJob(
-          this.ops["DescribeLabelingJob"].applicator.apply(partialParams)
+          this.ops["DescribeLabelingJob"].apply(partialParams)
         );
     }
 
     invokeDescribeLineageGroup(partialParams: ToOptional<{
-      [K in keyof DescribeLineageGroupRequest & keyof DescribeLineageGroupRequest & keyof DescribeLineageGroupRequest & keyof DescribeLineageGroupRequest & keyof DescribeLineageGroupRequest]: (DescribeLineageGroupRequest & DescribeLineageGroupRequest & DescribeLineageGroupRequest & DescribeLineageGroupRequest & DescribeLineageGroupRequest)[K]
+      [K in keyof DescribeLineageGroupRequest]: (DescribeLineageGroupRequest)[K]
     }>): Request<DescribeLineageGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeLineageGroup(
-          this.ops["DescribeLineageGroup"].applicator.apply(partialParams)
+          this.ops["DescribeLineageGroup"].apply(partialParams)
         );
     }
 
     invokeDescribeModel(partialParams: ToOptional<{
-      [K in keyof DescribeModelInput & keyof DescribeModelInput & keyof DescribeModelInput & keyof DescribeModelInput & keyof DescribeModelInput]: (DescribeModelInput & DescribeModelInput & DescribeModelInput & DescribeModelInput & DescribeModelInput)[K]
+      [K in keyof DescribeModelInput]: (DescribeModelInput)[K]
     }>): Request<DescribeModelOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeModel(
-          this.ops["DescribeModel"].applicator.apply(partialParams)
+          this.ops["DescribeModel"].apply(partialParams)
         );
     }
 
     invokeDescribeModelBiasJobDefinition(partialParams: ToOptional<{
-      [K in keyof DescribeModelBiasJobDefinitionRequest & keyof DescribeModelBiasJobDefinitionRequest & keyof DescribeModelBiasJobDefinitionRequest & keyof DescribeModelBiasJobDefinitionRequest & keyof DescribeModelBiasJobDefinitionRequest]: (DescribeModelBiasJobDefinitionRequest & DescribeModelBiasJobDefinitionRequest & DescribeModelBiasJobDefinitionRequest & DescribeModelBiasJobDefinitionRequest & DescribeModelBiasJobDefinitionRequest)[K]
+      [K in keyof DescribeModelBiasJobDefinitionRequest]: (DescribeModelBiasJobDefinitionRequest)[K]
     }>): Request<DescribeModelBiasJobDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeModelBiasJobDefinition(
-          this.ops["DescribeModelBiasJobDefinition"].applicator.apply(partialParams)
+          this.ops["DescribeModelBiasJobDefinition"].apply(partialParams)
         );
     }
 
     invokeDescribeModelExplainabilityJobDefinition(partialParams: ToOptional<{
-      [K in keyof DescribeModelExplainabilityJobDefinitionRequest & keyof DescribeModelExplainabilityJobDefinitionRequest & keyof DescribeModelExplainabilityJobDefinitionRequest & keyof DescribeModelExplainabilityJobDefinitionRequest & keyof DescribeModelExplainabilityJobDefinitionRequest]: (DescribeModelExplainabilityJobDefinitionRequest & DescribeModelExplainabilityJobDefinitionRequest & DescribeModelExplainabilityJobDefinitionRequest & DescribeModelExplainabilityJobDefinitionRequest & DescribeModelExplainabilityJobDefinitionRequest)[K]
+      [K in keyof DescribeModelExplainabilityJobDefinitionRequest]: (DescribeModelExplainabilityJobDefinitionRequest)[K]
     }>): Request<DescribeModelExplainabilityJobDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeModelExplainabilityJobDefinition(
-          this.ops["DescribeModelExplainabilityJobDefinition"].applicator.apply(partialParams)
+          this.ops["DescribeModelExplainabilityJobDefinition"].apply(partialParams)
         );
     }
 
     invokeDescribeModelPackage(partialParams: ToOptional<{
-      [K in keyof DescribeModelPackageInput & keyof DescribeModelPackageInput & keyof DescribeModelPackageInput & keyof DescribeModelPackageInput & keyof DescribeModelPackageInput]: (DescribeModelPackageInput & DescribeModelPackageInput & DescribeModelPackageInput & DescribeModelPackageInput & DescribeModelPackageInput)[K]
+      [K in keyof DescribeModelPackageInput]: (DescribeModelPackageInput)[K]
     }>): Request<DescribeModelPackageOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeModelPackage(
-          this.ops["DescribeModelPackage"].applicator.apply(partialParams)
+          this.ops["DescribeModelPackage"].apply(partialParams)
         );
     }
 
     invokeDescribeModelPackageGroup(partialParams: ToOptional<{
-      [K in keyof DescribeModelPackageGroupInput & keyof DescribeModelPackageGroupInput & keyof DescribeModelPackageGroupInput & keyof DescribeModelPackageGroupInput & keyof DescribeModelPackageGroupInput]: (DescribeModelPackageGroupInput & DescribeModelPackageGroupInput & DescribeModelPackageGroupInput & DescribeModelPackageGroupInput & DescribeModelPackageGroupInput)[K]
+      [K in keyof DescribeModelPackageGroupInput]: (DescribeModelPackageGroupInput)[K]
     }>): Request<DescribeModelPackageGroupOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeModelPackageGroup(
-          this.ops["DescribeModelPackageGroup"].applicator.apply(partialParams)
+          this.ops["DescribeModelPackageGroup"].apply(partialParams)
         );
     }
 
     invokeDescribeModelQualityJobDefinition(partialParams: ToOptional<{
-      [K in keyof DescribeModelQualityJobDefinitionRequest & keyof DescribeModelQualityJobDefinitionRequest & keyof DescribeModelQualityJobDefinitionRequest & keyof DescribeModelQualityJobDefinitionRequest & keyof DescribeModelQualityJobDefinitionRequest]: (DescribeModelQualityJobDefinitionRequest & DescribeModelQualityJobDefinitionRequest & DescribeModelQualityJobDefinitionRequest & DescribeModelQualityJobDefinitionRequest & DescribeModelQualityJobDefinitionRequest)[K]
+      [K in keyof DescribeModelQualityJobDefinitionRequest]: (DescribeModelQualityJobDefinitionRequest)[K]
     }>): Request<DescribeModelQualityJobDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeModelQualityJobDefinition(
-          this.ops["DescribeModelQualityJobDefinition"].applicator.apply(partialParams)
+          this.ops["DescribeModelQualityJobDefinition"].apply(partialParams)
         );
     }
 
     invokeDescribeMonitoringSchedule(partialParams: ToOptional<{
-      [K in keyof DescribeMonitoringScheduleRequest & keyof DescribeMonitoringScheduleRequest & keyof DescribeMonitoringScheduleRequest & keyof DescribeMonitoringScheduleRequest & keyof DescribeMonitoringScheduleRequest]: (DescribeMonitoringScheduleRequest & DescribeMonitoringScheduleRequest & DescribeMonitoringScheduleRequest & DescribeMonitoringScheduleRequest & DescribeMonitoringScheduleRequest)[K]
+      [K in keyof DescribeMonitoringScheduleRequest]: (DescribeMonitoringScheduleRequest)[K]
     }>): Request<DescribeMonitoringScheduleResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeMonitoringSchedule(
-          this.ops["DescribeMonitoringSchedule"].applicator.apply(partialParams)
+          this.ops["DescribeMonitoringSchedule"].apply(partialParams)
         );
     }
 
     invokeDescribeNotebookInstance(partialParams: ToOptional<{
-      [K in keyof DescribeNotebookInstanceInput & keyof DescribeNotebookInstanceInput & keyof DescribeNotebookInstanceInput & keyof DescribeNotebookInstanceInput & keyof DescribeNotebookInstanceInput]: (DescribeNotebookInstanceInput & DescribeNotebookInstanceInput & DescribeNotebookInstanceInput & DescribeNotebookInstanceInput & DescribeNotebookInstanceInput)[K]
+      [K in keyof DescribeNotebookInstanceInput]: (DescribeNotebookInstanceInput)[K]
     }>): Request<DescribeNotebookInstanceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeNotebookInstance(
-          this.ops["DescribeNotebookInstance"].applicator.apply(partialParams)
+          this.ops["DescribeNotebookInstance"].apply(partialParams)
         );
     }
 
     invokeDescribeNotebookInstanceLifecycleConfig(partialParams: ToOptional<{
-      [K in keyof DescribeNotebookInstanceLifecycleConfigInput & keyof DescribeNotebookInstanceLifecycleConfigInput & keyof DescribeNotebookInstanceLifecycleConfigInput & keyof DescribeNotebookInstanceLifecycleConfigInput & keyof DescribeNotebookInstanceLifecycleConfigInput]: (DescribeNotebookInstanceLifecycleConfigInput & DescribeNotebookInstanceLifecycleConfigInput & DescribeNotebookInstanceLifecycleConfigInput & DescribeNotebookInstanceLifecycleConfigInput & DescribeNotebookInstanceLifecycleConfigInput)[K]
+      [K in keyof DescribeNotebookInstanceLifecycleConfigInput]: (DescribeNotebookInstanceLifecycleConfigInput)[K]
     }>): Request<DescribeNotebookInstanceLifecycleConfigOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeNotebookInstanceLifecycleConfig(
-          this.ops["DescribeNotebookInstanceLifecycleConfig"].applicator.apply(partialParams)
+          this.ops["DescribeNotebookInstanceLifecycleConfig"].apply(partialParams)
         );
     }
 
     invokeDescribePipeline(partialParams: ToOptional<{
-      [K in keyof DescribePipelineRequest & keyof DescribePipelineRequest & keyof DescribePipelineRequest & keyof DescribePipelineRequest & keyof DescribePipelineRequest]: (DescribePipelineRequest & DescribePipelineRequest & DescribePipelineRequest & DescribePipelineRequest & DescribePipelineRequest)[K]
+      [K in keyof DescribePipelineRequest]: (DescribePipelineRequest)[K]
     }>): Request<DescribePipelineResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describePipeline(
-          this.ops["DescribePipeline"].applicator.apply(partialParams)
+          this.ops["DescribePipeline"].apply(partialParams)
         );
     }
 
     invokeDescribePipelineDefinitionForExecution(partialParams: ToOptional<{
-      [K in keyof DescribePipelineDefinitionForExecutionRequest & keyof DescribePipelineDefinitionForExecutionRequest & keyof DescribePipelineDefinitionForExecutionRequest & keyof DescribePipelineDefinitionForExecutionRequest & keyof DescribePipelineDefinitionForExecutionRequest]: (DescribePipelineDefinitionForExecutionRequest & DescribePipelineDefinitionForExecutionRequest & DescribePipelineDefinitionForExecutionRequest & DescribePipelineDefinitionForExecutionRequest & DescribePipelineDefinitionForExecutionRequest)[K]
+      [K in keyof DescribePipelineDefinitionForExecutionRequest]: (DescribePipelineDefinitionForExecutionRequest)[K]
     }>): Request<DescribePipelineDefinitionForExecutionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describePipelineDefinitionForExecution(
-          this.ops["DescribePipelineDefinitionForExecution"].applicator.apply(partialParams)
+          this.ops["DescribePipelineDefinitionForExecution"].apply(partialParams)
         );
     }
 
     invokeDescribePipelineExecution(partialParams: ToOptional<{
-      [K in keyof DescribePipelineExecutionRequest & keyof DescribePipelineExecutionRequest & keyof DescribePipelineExecutionRequest & keyof DescribePipelineExecutionRequest & keyof DescribePipelineExecutionRequest]: (DescribePipelineExecutionRequest & DescribePipelineExecutionRequest & DescribePipelineExecutionRequest & DescribePipelineExecutionRequest & DescribePipelineExecutionRequest)[K]
+      [K in keyof DescribePipelineExecutionRequest]: (DescribePipelineExecutionRequest)[K]
     }>): Request<DescribePipelineExecutionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describePipelineExecution(
-          this.ops["DescribePipelineExecution"].applicator.apply(partialParams)
+          this.ops["DescribePipelineExecution"].apply(partialParams)
         );
     }
 
     invokeDescribeProcessingJob(partialParams: ToOptional<{
-      [K in keyof DescribeProcessingJobRequest & keyof DescribeProcessingJobRequest & keyof DescribeProcessingJobRequest & keyof DescribeProcessingJobRequest & keyof DescribeProcessingJobRequest]: (DescribeProcessingJobRequest & DescribeProcessingJobRequest & DescribeProcessingJobRequest & DescribeProcessingJobRequest & DescribeProcessingJobRequest)[K]
+      [K in keyof DescribeProcessingJobRequest]: (DescribeProcessingJobRequest)[K]
     }>): Request<DescribeProcessingJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeProcessingJob(
-          this.ops["DescribeProcessingJob"].applicator.apply(partialParams)
+          this.ops["DescribeProcessingJob"].apply(partialParams)
         );
     }
 
     invokeDescribeProject(partialParams: ToOptional<{
-      [K in keyof DescribeProjectInput & keyof DescribeProjectInput & keyof DescribeProjectInput & keyof DescribeProjectInput & keyof DescribeProjectInput]: (DescribeProjectInput & DescribeProjectInput & DescribeProjectInput & DescribeProjectInput & DescribeProjectInput)[K]
+      [K in keyof DescribeProjectInput]: (DescribeProjectInput)[K]
     }>): Request<DescribeProjectOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeProject(
-          this.ops["DescribeProject"].applicator.apply(partialParams)
+          this.ops["DescribeProject"].apply(partialParams)
         );
     }
 
     invokeDescribeStudioLifecycleConfig(partialParams: ToOptional<{
-      [K in keyof DescribeStudioLifecycleConfigRequest & keyof DescribeStudioLifecycleConfigRequest & keyof DescribeStudioLifecycleConfigRequest & keyof DescribeStudioLifecycleConfigRequest & keyof DescribeStudioLifecycleConfigRequest]: (DescribeStudioLifecycleConfigRequest & DescribeStudioLifecycleConfigRequest & DescribeStudioLifecycleConfigRequest & DescribeStudioLifecycleConfigRequest & DescribeStudioLifecycleConfigRequest)[K]
+      [K in keyof DescribeStudioLifecycleConfigRequest]: (DescribeStudioLifecycleConfigRequest)[K]
     }>): Request<DescribeStudioLifecycleConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeStudioLifecycleConfig(
-          this.ops["DescribeStudioLifecycleConfig"].applicator.apply(partialParams)
+          this.ops["DescribeStudioLifecycleConfig"].apply(partialParams)
         );
     }
 
     invokeDescribeSubscribedWorkteam(partialParams: ToOptional<{
-      [K in keyof DescribeSubscribedWorkteamRequest & keyof DescribeSubscribedWorkteamRequest & keyof DescribeSubscribedWorkteamRequest & keyof DescribeSubscribedWorkteamRequest & keyof DescribeSubscribedWorkteamRequest]: (DescribeSubscribedWorkteamRequest & DescribeSubscribedWorkteamRequest & DescribeSubscribedWorkteamRequest & DescribeSubscribedWorkteamRequest & DescribeSubscribedWorkteamRequest)[K]
+      [K in keyof DescribeSubscribedWorkteamRequest]: (DescribeSubscribedWorkteamRequest)[K]
     }>): Request<DescribeSubscribedWorkteamResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeSubscribedWorkteam(
-          this.ops["DescribeSubscribedWorkteam"].applicator.apply(partialParams)
+          this.ops["DescribeSubscribedWorkteam"].apply(partialParams)
         );
     }
 
     invokeDescribeTrainingJob(partialParams: ToOptional<{
-      [K in keyof DescribeTrainingJobRequest & keyof DescribeTrainingJobRequest & keyof DescribeTrainingJobRequest & keyof DescribeTrainingJobRequest & keyof DescribeTrainingJobRequest]: (DescribeTrainingJobRequest & DescribeTrainingJobRequest & DescribeTrainingJobRequest & DescribeTrainingJobRequest & DescribeTrainingJobRequest)[K]
+      [K in keyof DescribeTrainingJobRequest]: (DescribeTrainingJobRequest)[K]
     }>): Request<DescribeTrainingJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeTrainingJob(
-          this.ops["DescribeTrainingJob"].applicator.apply(partialParams)
+          this.ops["DescribeTrainingJob"].apply(partialParams)
         );
     }
 
     invokeDescribeTransformJob(partialParams: ToOptional<{
-      [K in keyof DescribeTransformJobRequest & keyof DescribeTransformJobRequest & keyof DescribeTransformJobRequest & keyof DescribeTransformJobRequest & keyof DescribeTransformJobRequest]: (DescribeTransformJobRequest & DescribeTransformJobRequest & DescribeTransformJobRequest & DescribeTransformJobRequest & DescribeTransformJobRequest)[K]
+      [K in keyof DescribeTransformJobRequest]: (DescribeTransformJobRequest)[K]
     }>): Request<DescribeTransformJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeTransformJob(
-          this.ops["DescribeTransformJob"].applicator.apply(partialParams)
+          this.ops["DescribeTransformJob"].apply(partialParams)
         );
     }
 
     invokeDescribeTrial(partialParams: ToOptional<{
-      [K in keyof DescribeTrialRequest & keyof DescribeTrialRequest & keyof DescribeTrialRequest & keyof DescribeTrialRequest & keyof DescribeTrialRequest]: (DescribeTrialRequest & DescribeTrialRequest & DescribeTrialRequest & DescribeTrialRequest & DescribeTrialRequest)[K]
+      [K in keyof DescribeTrialRequest]: (DescribeTrialRequest)[K]
     }>): Request<DescribeTrialResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeTrial(
-          this.ops["DescribeTrial"].applicator.apply(partialParams)
+          this.ops["DescribeTrial"].apply(partialParams)
         );
     }
 
     invokeDescribeTrialComponent(partialParams: ToOptional<{
-      [K in keyof DescribeTrialComponentRequest & keyof DescribeTrialComponentRequest & keyof DescribeTrialComponentRequest & keyof DescribeTrialComponentRequest & keyof DescribeTrialComponentRequest]: (DescribeTrialComponentRequest & DescribeTrialComponentRequest & DescribeTrialComponentRequest & DescribeTrialComponentRequest & DescribeTrialComponentRequest)[K]
+      [K in keyof DescribeTrialComponentRequest]: (DescribeTrialComponentRequest)[K]
     }>): Request<DescribeTrialComponentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeTrialComponent(
-          this.ops["DescribeTrialComponent"].applicator.apply(partialParams)
+          this.ops["DescribeTrialComponent"].apply(partialParams)
         );
     }
 
     invokeDescribeUserProfile(partialParams: ToOptional<{
-      [K in keyof DescribeUserProfileRequest & keyof DescribeUserProfileRequest & keyof DescribeUserProfileRequest & keyof DescribeUserProfileRequest & keyof DescribeUserProfileRequest]: (DescribeUserProfileRequest & DescribeUserProfileRequest & DescribeUserProfileRequest & DescribeUserProfileRequest & DescribeUserProfileRequest)[K]
+      [K in keyof DescribeUserProfileRequest]: (DescribeUserProfileRequest)[K]
     }>): Request<DescribeUserProfileResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeUserProfile(
-          this.ops["DescribeUserProfile"].applicator.apply(partialParams)
+          this.ops["DescribeUserProfile"].apply(partialParams)
         );
     }
 
     invokeDescribeWorkforce(partialParams: ToOptional<{
-      [K in keyof DescribeWorkforceRequest & keyof DescribeWorkforceRequest & keyof DescribeWorkforceRequest & keyof DescribeWorkforceRequest & keyof DescribeWorkforceRequest]: (DescribeWorkforceRequest & DescribeWorkforceRequest & DescribeWorkforceRequest & DescribeWorkforceRequest & DescribeWorkforceRequest)[K]
+      [K in keyof DescribeWorkforceRequest]: (DescribeWorkforceRequest)[K]
     }>): Request<DescribeWorkforceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeWorkforce(
-          this.ops["DescribeWorkforce"].applicator.apply(partialParams)
+          this.ops["DescribeWorkforce"].apply(partialParams)
         );
     }
 
     invokeDescribeWorkteam(partialParams: ToOptional<{
-      [K in keyof DescribeWorkteamRequest & keyof DescribeWorkteamRequest & keyof DescribeWorkteamRequest & keyof DescribeWorkteamRequest & keyof DescribeWorkteamRequest]: (DescribeWorkteamRequest & DescribeWorkteamRequest & DescribeWorkteamRequest & DescribeWorkteamRequest & DescribeWorkteamRequest)[K]
+      [K in keyof DescribeWorkteamRequest]: (DescribeWorkteamRequest)[K]
     }>): Request<DescribeWorkteamResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeWorkteam(
-          this.ops["DescribeWorkteam"].applicator.apply(partialParams)
+          this.ops["DescribeWorkteam"].apply(partialParams)
+        );
+    }
+
+    invokeDisableSagemakerServicecatalogPortfolio(partialParams: ToOptional<{
+      [K in keyof DisableSagemakerServicecatalogPortfolioInput]: (DisableSagemakerServicecatalogPortfolioInput)[K]
+    }>): Request<DisableSagemakerServicecatalogPortfolioOutput, AWSError> {
+        this.boot();
+        return this.client.disableSagemakerServicecatalogPortfolio(
+          this.ops["DisableSagemakerServicecatalogPortfolio"].apply(partialParams)
         );
     }
 
     invokeDisassociateTrialComponent(partialParams: ToOptional<{
-      [K in keyof DisassociateTrialComponentRequest & keyof DisassociateTrialComponentRequest & keyof DisassociateTrialComponentRequest & keyof DisassociateTrialComponentRequest & keyof DisassociateTrialComponentRequest]: (DisassociateTrialComponentRequest & DisassociateTrialComponentRequest & DisassociateTrialComponentRequest & DisassociateTrialComponentRequest & DisassociateTrialComponentRequest)[K]
+      [K in keyof DisassociateTrialComponentRequest]: (DisassociateTrialComponentRequest)[K]
     }>): Request<DisassociateTrialComponentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateTrialComponent(
-          this.ops["DisassociateTrialComponent"].applicator.apply(partialParams)
+          this.ops["DisassociateTrialComponent"].apply(partialParams)
+        );
+    }
+
+    invokeEnableSagemakerServicecatalogPortfolio(partialParams: ToOptional<{
+      [K in keyof EnableSagemakerServicecatalogPortfolioInput]: (EnableSagemakerServicecatalogPortfolioInput)[K]
+    }>): Request<EnableSagemakerServicecatalogPortfolioOutput, AWSError> {
+        this.boot();
+        return this.client.enableSagemakerServicecatalogPortfolio(
+          this.ops["EnableSagemakerServicecatalogPortfolio"].apply(partialParams)
         );
     }
 
     invokeGetDeviceFleetReport(partialParams: ToOptional<{
-      [K in keyof GetDeviceFleetReportRequest & keyof GetDeviceFleetReportRequest & keyof GetDeviceFleetReportRequest & keyof GetDeviceFleetReportRequest & keyof GetDeviceFleetReportRequest]: (GetDeviceFleetReportRequest & GetDeviceFleetReportRequest & GetDeviceFleetReportRequest & GetDeviceFleetReportRequest & GetDeviceFleetReportRequest)[K]
+      [K in keyof GetDeviceFleetReportRequest]: (GetDeviceFleetReportRequest)[K]
     }>): Request<GetDeviceFleetReportResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getDeviceFleetReport(
-          this.ops["GetDeviceFleetReport"].applicator.apply(partialParams)
+          this.ops["GetDeviceFleetReport"].apply(partialParams)
         );
     }
 
     invokeGetLineageGroupPolicy(partialParams: ToOptional<{
-      [K in keyof GetLineageGroupPolicyRequest & keyof GetLineageGroupPolicyRequest & keyof GetLineageGroupPolicyRequest & keyof GetLineageGroupPolicyRequest & keyof GetLineageGroupPolicyRequest]: (GetLineageGroupPolicyRequest & GetLineageGroupPolicyRequest & GetLineageGroupPolicyRequest & GetLineageGroupPolicyRequest & GetLineageGroupPolicyRequest)[K]
+      [K in keyof GetLineageGroupPolicyRequest]: (GetLineageGroupPolicyRequest)[K]
     }>): Request<GetLineageGroupPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getLineageGroupPolicy(
-          this.ops["GetLineageGroupPolicy"].applicator.apply(partialParams)
+          this.ops["GetLineageGroupPolicy"].apply(partialParams)
         );
     }
 
     invokeGetModelPackageGroupPolicy(partialParams: ToOptional<{
-      [K in keyof GetModelPackageGroupPolicyInput & keyof GetModelPackageGroupPolicyInput & keyof GetModelPackageGroupPolicyInput & keyof GetModelPackageGroupPolicyInput & keyof GetModelPackageGroupPolicyInput]: (GetModelPackageGroupPolicyInput & GetModelPackageGroupPolicyInput & GetModelPackageGroupPolicyInput & GetModelPackageGroupPolicyInput & GetModelPackageGroupPolicyInput)[K]
+      [K in keyof GetModelPackageGroupPolicyInput]: (GetModelPackageGroupPolicyInput)[K]
     }>): Request<GetModelPackageGroupPolicyOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getModelPackageGroupPolicy(
-          this.ops["GetModelPackageGroupPolicy"].applicator.apply(partialParams)
+          this.ops["GetModelPackageGroupPolicy"].apply(partialParams)
+        );
+    }
+
+    invokeGetSagemakerServicecatalogPortfolioStatus(partialParams: ToOptional<{
+      [K in keyof GetSagemakerServicecatalogPortfolioStatusInput]: (GetSagemakerServicecatalogPortfolioStatusInput)[K]
+    }>): Request<GetSagemakerServicecatalogPortfolioStatusOutput, AWSError> {
+        this.boot();
+        return this.client.getSagemakerServicecatalogPortfolioStatus(
+          this.ops["GetSagemakerServicecatalogPortfolioStatus"].apply(partialParams)
         );
     }
 
     invokeGetSearchSuggestions(partialParams: ToOptional<{
-      [K in keyof GetSearchSuggestionsRequest & keyof GetSearchSuggestionsRequest & keyof GetSearchSuggestionsRequest & keyof GetSearchSuggestionsRequest & keyof GetSearchSuggestionsRequest]: (GetSearchSuggestionsRequest & GetSearchSuggestionsRequest & GetSearchSuggestionsRequest & GetSearchSuggestionsRequest & GetSearchSuggestionsRequest)[K]
+      [K in keyof GetSearchSuggestionsRequest]: (GetSearchSuggestionsRequest)[K]
     }>): Request<GetSearchSuggestionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getSearchSuggestions(
-          this.ops["GetSearchSuggestions"].applicator.apply(partialParams)
+          this.ops["GetSearchSuggestions"].apply(partialParams)
+        );
+    }
+
+    invokeListActions(partialParams: ToOptional<{
+      [K in keyof ListActionsRequest]: (ListActionsRequest)[K]
+    }>): Request<ListActionsResponse, AWSError> {
+        this.boot();
+        return this.client.listActions(
+          this.ops["ListActions"].apply(partialParams)
+        );
+    }
+
+    invokeListAlgorithms(partialParams: ToOptional<{
+      [K in keyof ListAlgorithmsInput]: (ListAlgorithmsInput)[K]
+    }>): Request<ListAlgorithmsOutput, AWSError> {
+        this.boot();
+        return this.client.listAlgorithms(
+          this.ops["ListAlgorithms"].apply(partialParams)
+        );
+    }
+
+    invokeListAppImageConfigs(partialParams: ToOptional<{
+      [K in keyof ListAppImageConfigsRequest]: (ListAppImageConfigsRequest)[K]
+    }>): Request<ListAppImageConfigsResponse, AWSError> {
+        this.boot();
+        return this.client.listAppImageConfigs(
+          this.ops["ListAppImageConfigs"].apply(partialParams)
+        );
+    }
+
+    invokeListApps(partialParams: ToOptional<{
+      [K in keyof ListAppsRequest]: (ListAppsRequest)[K]
+    }>): Request<ListAppsResponse, AWSError> {
+        this.boot();
+        return this.client.listApps(
+          this.ops["ListApps"].apply(partialParams)
+        );
+    }
+
+    invokeListArtifacts(partialParams: ToOptional<{
+      [K in keyof ListArtifactsRequest]: (ListArtifactsRequest)[K]
+    }>): Request<ListArtifactsResponse, AWSError> {
+        this.boot();
+        return this.client.listArtifacts(
+          this.ops["ListArtifacts"].apply(partialParams)
+        );
+    }
+
+    invokeListAssociations(partialParams: ToOptional<{
+      [K in keyof ListAssociationsRequest]: (ListAssociationsRequest)[K]
+    }>): Request<ListAssociationsResponse, AWSError> {
+        this.boot();
+        return this.client.listAssociations(
+          this.ops["ListAssociations"].apply(partialParams)
+        );
+    }
+
+    invokeListAutoMLJobs(partialParams: ToOptional<{
+      [K in keyof ListAutoMLJobsRequest]: (ListAutoMLJobsRequest)[K]
+    }>): Request<ListAutoMLJobsResponse, AWSError> {
+        this.boot();
+        return this.client.listAutoMLJobs(
+          this.ops["ListAutoMLJobs"].apply(partialParams)
         );
     }
 
     invokeListCandidatesForAutoMLJob(partialParams: ToOptional<{
-      [K in keyof ListCandidatesForAutoMLJobRequest & keyof ListCandidatesForAutoMLJobRequest & keyof ListCandidatesForAutoMLJobRequest & keyof ListCandidatesForAutoMLJobRequest & keyof ListCandidatesForAutoMLJobRequest]: (ListCandidatesForAutoMLJobRequest & ListCandidatesForAutoMLJobRequest & ListCandidatesForAutoMLJobRequest & ListCandidatesForAutoMLJobRequest & ListCandidatesForAutoMLJobRequest)[K]
+      [K in keyof ListCandidatesForAutoMLJobRequest]: (ListCandidatesForAutoMLJobRequest)[K]
     }>): Request<ListCandidatesForAutoMLJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listCandidatesForAutoMLJob(
-          this.ops["ListCandidatesForAutoMLJob"].applicator.apply(partialParams)
+          this.ops["ListCandidatesForAutoMLJob"].apply(partialParams)
+        );
+    }
+
+    invokeListCodeRepositories(partialParams: ToOptional<{
+      [K in keyof ListCodeRepositoriesInput]: (ListCodeRepositoriesInput)[K]
+    }>): Request<ListCodeRepositoriesOutput, AWSError> {
+        this.boot();
+        return this.client.listCodeRepositories(
+          this.ops["ListCodeRepositories"].apply(partialParams)
+        );
+    }
+
+    invokeListCompilationJobs(partialParams: ToOptional<{
+      [K in keyof ListCompilationJobsRequest]: (ListCompilationJobsRequest)[K]
+    }>): Request<ListCompilationJobsResponse, AWSError> {
+        this.boot();
+        return this.client.listCompilationJobs(
+          this.ops["ListCompilationJobs"].apply(partialParams)
+        );
+    }
+
+    invokeListContexts(partialParams: ToOptional<{
+      [K in keyof ListContextsRequest]: (ListContextsRequest)[K]
+    }>): Request<ListContextsResponse, AWSError> {
+        this.boot();
+        return this.client.listContexts(
+          this.ops["ListContexts"].apply(partialParams)
+        );
+    }
+
+    invokeListDataQualityJobDefinitions(partialParams: ToOptional<{
+      [K in keyof ListDataQualityJobDefinitionsRequest]: (ListDataQualityJobDefinitionsRequest)[K]
+    }>): Request<ListDataQualityJobDefinitionsResponse, AWSError> {
+        this.boot();
+        return this.client.listDataQualityJobDefinitions(
+          this.ops["ListDataQualityJobDefinitions"].apply(partialParams)
+        );
+    }
+
+    invokeListDeviceFleets(partialParams: ToOptional<{
+      [K in keyof ListDeviceFleetsRequest]: (ListDeviceFleetsRequest)[K]
+    }>): Request<ListDeviceFleetsResponse, AWSError> {
+        this.boot();
+        return this.client.listDeviceFleets(
+          this.ops["ListDeviceFleets"].apply(partialParams)
+        );
+    }
+
+    invokeListDevices(partialParams: ToOptional<{
+      [K in keyof ListDevicesRequest]: (ListDevicesRequest)[K]
+    }>): Request<ListDevicesResponse, AWSError> {
+        this.boot();
+        return this.client.listDevices(
+          this.ops["ListDevices"].apply(partialParams)
+        );
+    }
+
+    invokeListDomains(partialParams: ToOptional<{
+      [K in keyof ListDomainsRequest]: (ListDomainsRequest)[K]
+    }>): Request<ListDomainsResponse, AWSError> {
+        this.boot();
+        return this.client.listDomains(
+          this.ops["ListDomains"].apply(partialParams)
+        );
+    }
+
+    invokeListEdgePackagingJobs(partialParams: ToOptional<{
+      [K in keyof ListEdgePackagingJobsRequest]: (ListEdgePackagingJobsRequest)[K]
+    }>): Request<ListEdgePackagingJobsResponse, AWSError> {
+        this.boot();
+        return this.client.listEdgePackagingJobs(
+          this.ops["ListEdgePackagingJobs"].apply(partialParams)
+        );
+    }
+
+    invokeListEndpointConfigs(partialParams: ToOptional<{
+      [K in keyof ListEndpointConfigsInput]: (ListEndpointConfigsInput)[K]
+    }>): Request<ListEndpointConfigsOutput, AWSError> {
+        this.boot();
+        return this.client.listEndpointConfigs(
+          this.ops["ListEndpointConfigs"].apply(partialParams)
+        );
+    }
+
+    invokeListEndpoints(partialParams: ToOptional<{
+      [K in keyof ListEndpointsInput]: (ListEndpointsInput)[K]
+    }>): Request<ListEndpointsOutput, AWSError> {
+        this.boot();
+        return this.client.listEndpoints(
+          this.ops["ListEndpoints"].apply(partialParams)
+        );
+    }
+
+    invokeListExperiments(partialParams: ToOptional<{
+      [K in keyof ListExperimentsRequest]: (ListExperimentsRequest)[K]
+    }>): Request<ListExperimentsResponse, AWSError> {
+        this.boot();
+        return this.client.listExperiments(
+          this.ops["ListExperiments"].apply(partialParams)
+        );
+    }
+
+    invokeListFeatureGroups(partialParams: ToOptional<{
+      [K in keyof ListFeatureGroupsRequest]: (ListFeatureGroupsRequest)[K]
+    }>): Request<ListFeatureGroupsResponse, AWSError> {
+        this.boot();
+        return this.client.listFeatureGroups(
+          this.ops["ListFeatureGroups"].apply(partialParams)
+        );
+    }
+
+    invokeListFlowDefinitions(partialParams: ToOptional<{
+      [K in keyof ListFlowDefinitionsRequest]: (ListFlowDefinitionsRequest)[K]
+    }>): Request<ListFlowDefinitionsResponse, AWSError> {
+        this.boot();
+        return this.client.listFlowDefinitions(
+          this.ops["ListFlowDefinitions"].apply(partialParams)
+        );
+    }
+
+    invokeListHumanTaskUis(partialParams: ToOptional<{
+      [K in keyof ListHumanTaskUisRequest]: (ListHumanTaskUisRequest)[K]
+    }>): Request<ListHumanTaskUisResponse, AWSError> {
+        this.boot();
+        return this.client.listHumanTaskUis(
+          this.ops["ListHumanTaskUis"].apply(partialParams)
+        );
+    }
+
+    invokeListHyperParameterTuningJobs(partialParams: ToOptional<{
+      [K in keyof ListHyperParameterTuningJobsRequest]: (ListHyperParameterTuningJobsRequest)[K]
+    }>): Request<ListHyperParameterTuningJobsResponse, AWSError> {
+        this.boot();
+        return this.client.listHyperParameterTuningJobs(
+          this.ops["ListHyperParameterTuningJobs"].apply(partialParams)
         );
     }
 
     invokeListImageVersions(partialParams: ToOptional<{
-      [K in keyof ListImageVersionsRequest & keyof ListImageVersionsRequest & keyof ListImageVersionsRequest & keyof ListImageVersionsRequest & keyof Omit<ListImageVersionsRequest, "ImageName">]: (ListImageVersionsRequest & ListImageVersionsRequest & ListImageVersionsRequest & ListImageVersionsRequest & Omit<ListImageVersionsRequest, "ImageName">)[K]
+      [K in keyof ListImageVersionsRequest & keyof Omit<ListImageVersionsRequest, "ImageName">]: (ListImageVersionsRequest)[K]
     }>): Request<ListImageVersionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listImageVersions(
-          this.ops["ListImageVersions"].applicator.apply(partialParams)
+          this.ops["ListImageVersions"].apply(partialParams)
+        );
+    }
+
+    invokeListImages(partialParams: ToOptional<{
+      [K in keyof ListImagesRequest]: (ListImagesRequest)[K]
+    }>): Request<ListImagesResponse, AWSError> {
+        this.boot();
+        return this.client.listImages(
+          this.ops["ListImages"].apply(partialParams)
+        );
+    }
+
+    invokeListInferenceRecommendationsJobs(partialParams: ToOptional<{
+      [K in keyof ListInferenceRecommendationsJobsRequest]: (ListInferenceRecommendationsJobsRequest)[K]
+    }>): Request<ListInferenceRecommendationsJobsResponse, AWSError> {
+        this.boot();
+        return this.client.listInferenceRecommendationsJobs(
+          this.ops["ListInferenceRecommendationsJobs"].apply(partialParams)
+        );
+    }
+
+    invokeListLabelingJobs(partialParams: ToOptional<{
+      [K in keyof ListLabelingJobsRequest]: (ListLabelingJobsRequest)[K]
+    }>): Request<ListLabelingJobsResponse, AWSError> {
+        this.boot();
+        return this.client.listLabelingJobs(
+          this.ops["ListLabelingJobs"].apply(partialParams)
         );
     }
 
     invokeListLabelingJobsForWorkteam(partialParams: ToOptional<{
-      [K in keyof ListLabelingJobsForWorkteamRequest & keyof ListLabelingJobsForWorkteamRequest & keyof ListLabelingJobsForWorkteamRequest & keyof ListLabelingJobsForWorkteamRequest & keyof ListLabelingJobsForWorkteamRequest]: (ListLabelingJobsForWorkteamRequest & ListLabelingJobsForWorkteamRequest & ListLabelingJobsForWorkteamRequest & ListLabelingJobsForWorkteamRequest & ListLabelingJobsForWorkteamRequest)[K]
+      [K in keyof ListLabelingJobsForWorkteamRequest]: (ListLabelingJobsForWorkteamRequest)[K]
     }>): Request<ListLabelingJobsForWorkteamResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listLabelingJobsForWorkteam(
-          this.ops["ListLabelingJobsForWorkteam"].applicator.apply(partialParams)
+          this.ops["ListLabelingJobsForWorkteam"].apply(partialParams)
+        );
+    }
+
+    invokeListLineageGroups(partialParams: ToOptional<{
+      [K in keyof ListLineageGroupsRequest]: (ListLineageGroupsRequest)[K]
+    }>): Request<ListLineageGroupsResponse, AWSError> {
+        this.boot();
+        return this.client.listLineageGroups(
+          this.ops["ListLineageGroups"].apply(partialParams)
+        );
+    }
+
+    invokeListModelBiasJobDefinitions(partialParams: ToOptional<{
+      [K in keyof ListModelBiasJobDefinitionsRequest]: (ListModelBiasJobDefinitionsRequest)[K]
+    }>): Request<ListModelBiasJobDefinitionsResponse, AWSError> {
+        this.boot();
+        return this.client.listModelBiasJobDefinitions(
+          this.ops["ListModelBiasJobDefinitions"].apply(partialParams)
+        );
+    }
+
+    invokeListModelExplainabilityJobDefinitions(partialParams: ToOptional<{
+      [K in keyof ListModelExplainabilityJobDefinitionsRequest]: (ListModelExplainabilityJobDefinitionsRequest)[K]
+    }>): Request<ListModelExplainabilityJobDefinitionsResponse, AWSError> {
+        this.boot();
+        return this.client.listModelExplainabilityJobDefinitions(
+          this.ops["ListModelExplainabilityJobDefinitions"].apply(partialParams)
+        );
+    }
+
+    invokeListModelMetadata(partialParams: ToOptional<{
+      [K in keyof ListModelMetadataRequest]: (ListModelMetadataRequest)[K]
+    }>): Request<ListModelMetadataResponse, AWSError> {
+        this.boot();
+        return this.client.listModelMetadata(
+          this.ops["ListModelMetadata"].apply(partialParams)
+        );
+    }
+
+    invokeListModelPackageGroups(partialParams: ToOptional<{
+      [K in keyof ListModelPackageGroupsInput]: (ListModelPackageGroupsInput)[K]
+    }>): Request<ListModelPackageGroupsOutput, AWSError> {
+        this.boot();
+        return this.client.listModelPackageGroups(
+          this.ops["ListModelPackageGroups"].apply(partialParams)
+        );
+    }
+
+    invokeListModelPackages(partialParams: ToOptional<{
+      [K in keyof ListModelPackagesInput]: (ListModelPackagesInput)[K]
+    }>): Request<ListModelPackagesOutput, AWSError> {
+        this.boot();
+        return this.client.listModelPackages(
+          this.ops["ListModelPackages"].apply(partialParams)
+        );
+    }
+
+    invokeListModelQualityJobDefinitions(partialParams: ToOptional<{
+      [K in keyof ListModelQualityJobDefinitionsRequest]: (ListModelQualityJobDefinitionsRequest)[K]
+    }>): Request<ListModelQualityJobDefinitionsResponse, AWSError> {
+        this.boot();
+        return this.client.listModelQualityJobDefinitions(
+          this.ops["ListModelQualityJobDefinitions"].apply(partialParams)
+        );
+    }
+
+    invokeListModels(partialParams: ToOptional<{
+      [K in keyof ListModelsInput]: (ListModelsInput)[K]
+    }>): Request<ListModelsOutput, AWSError> {
+        this.boot();
+        return this.client.listModels(
+          this.ops["ListModels"].apply(partialParams)
+        );
+    }
+
+    invokeListMonitoringExecutions(partialParams: ToOptional<{
+      [K in keyof ListMonitoringExecutionsRequest]: (ListMonitoringExecutionsRequest)[K]
+    }>): Request<ListMonitoringExecutionsResponse, AWSError> {
+        this.boot();
+        return this.client.listMonitoringExecutions(
+          this.ops["ListMonitoringExecutions"].apply(partialParams)
+        );
+    }
+
+    invokeListMonitoringSchedules(partialParams: ToOptional<{
+      [K in keyof ListMonitoringSchedulesRequest]: (ListMonitoringSchedulesRequest)[K]
+    }>): Request<ListMonitoringSchedulesResponse, AWSError> {
+        this.boot();
+        return this.client.listMonitoringSchedules(
+          this.ops["ListMonitoringSchedules"].apply(partialParams)
+        );
+    }
+
+    invokeListNotebookInstanceLifecycleConfigs(partialParams: ToOptional<{
+      [K in keyof ListNotebookInstanceLifecycleConfigsInput]: (ListNotebookInstanceLifecycleConfigsInput)[K]
+    }>): Request<ListNotebookInstanceLifecycleConfigsOutput, AWSError> {
+        this.boot();
+        return this.client.listNotebookInstanceLifecycleConfigs(
+          this.ops["ListNotebookInstanceLifecycleConfigs"].apply(partialParams)
+        );
+    }
+
+    invokeListNotebookInstances(partialParams: ToOptional<{
+      [K in keyof ListNotebookInstancesInput]: (ListNotebookInstancesInput)[K]
+    }>): Request<ListNotebookInstancesOutput, AWSError> {
+        this.boot();
+        return this.client.listNotebookInstances(
+          this.ops["ListNotebookInstances"].apply(partialParams)
+        );
+    }
+
+    invokeListPipelineExecutionSteps(partialParams: ToOptional<{
+      [K in keyof ListPipelineExecutionStepsRequest]: (ListPipelineExecutionStepsRequest)[K]
+    }>): Request<ListPipelineExecutionStepsResponse, AWSError> {
+        this.boot();
+        return this.client.listPipelineExecutionSteps(
+          this.ops["ListPipelineExecutionSteps"].apply(partialParams)
         );
     }
 
     invokeListPipelineExecutions(partialParams: ToOptional<{
-      [K in keyof ListPipelineExecutionsRequest & keyof ListPipelineExecutionsRequest & keyof ListPipelineExecutionsRequest & keyof ListPipelineExecutionsRequest & keyof ListPipelineExecutionsRequest]: (ListPipelineExecutionsRequest & ListPipelineExecutionsRequest & ListPipelineExecutionsRequest & ListPipelineExecutionsRequest & ListPipelineExecutionsRequest)[K]
+      [K in keyof ListPipelineExecutionsRequest]: (ListPipelineExecutionsRequest)[K]
     }>): Request<ListPipelineExecutionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listPipelineExecutions(
-          this.ops["ListPipelineExecutions"].applicator.apply(partialParams)
+          this.ops["ListPipelineExecutions"].apply(partialParams)
         );
     }
 
     invokeListPipelineParametersForExecution(partialParams: ToOptional<{
-      [K in keyof ListPipelineParametersForExecutionRequest & keyof ListPipelineParametersForExecutionRequest & keyof ListPipelineParametersForExecutionRequest & keyof ListPipelineParametersForExecutionRequest & keyof ListPipelineParametersForExecutionRequest]: (ListPipelineParametersForExecutionRequest & ListPipelineParametersForExecutionRequest & ListPipelineParametersForExecutionRequest & ListPipelineParametersForExecutionRequest & ListPipelineParametersForExecutionRequest)[K]
+      [K in keyof ListPipelineParametersForExecutionRequest]: (ListPipelineParametersForExecutionRequest)[K]
     }>): Request<ListPipelineParametersForExecutionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listPipelineParametersForExecution(
-          this.ops["ListPipelineParametersForExecution"].applicator.apply(partialParams)
+          this.ops["ListPipelineParametersForExecution"].apply(partialParams)
+        );
+    }
+
+    invokeListPipelines(partialParams: ToOptional<{
+      [K in keyof ListPipelinesRequest]: (ListPipelinesRequest)[K]
+    }>): Request<ListPipelinesResponse, AWSError> {
+        this.boot();
+        return this.client.listPipelines(
+          this.ops["ListPipelines"].apply(partialParams)
+        );
+    }
+
+    invokeListProcessingJobs(partialParams: ToOptional<{
+      [K in keyof ListProcessingJobsRequest]: (ListProcessingJobsRequest)[K]
+    }>): Request<ListProcessingJobsResponse, AWSError> {
+        this.boot();
+        return this.client.listProcessingJobs(
+          this.ops["ListProcessingJobs"].apply(partialParams)
+        );
+    }
+
+    invokeListProjects(partialParams: ToOptional<{
+      [K in keyof ListProjectsInput]: (ListProjectsInput)[K]
+    }>): Request<ListProjectsOutput, AWSError> {
+        this.boot();
+        return this.client.listProjects(
+          this.ops["ListProjects"].apply(partialParams)
+        );
+    }
+
+    invokeListStudioLifecycleConfigs(partialParams: ToOptional<{
+      [K in keyof ListStudioLifecycleConfigsRequest]: (ListStudioLifecycleConfigsRequest)[K]
+    }>): Request<ListStudioLifecycleConfigsResponse, AWSError> {
+        this.boot();
+        return this.client.listStudioLifecycleConfigs(
+          this.ops["ListStudioLifecycleConfigs"].apply(partialParams)
+        );
+    }
+
+    invokeListSubscribedWorkteams(partialParams: ToOptional<{
+      [K in keyof ListSubscribedWorkteamsRequest]: (ListSubscribedWorkteamsRequest)[K]
+    }>): Request<ListSubscribedWorkteamsResponse, AWSError> {
+        this.boot();
+        return this.client.listSubscribedWorkteams(
+          this.ops["ListSubscribedWorkteams"].apply(partialParams)
         );
     }
 
     invokeListTags(partialParams: ToOptional<{
-      [K in keyof ListTagsInput & keyof ListTagsInput & keyof ListTagsInput & keyof ListTagsInput & keyof ListTagsInput]: (ListTagsInput & ListTagsInput & ListTagsInput & ListTagsInput & ListTagsInput)[K]
+      [K in keyof ListTagsInput]: (ListTagsInput)[K]
     }>): Request<ListTagsOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTags(
-          this.ops["ListTags"].applicator.apply(partialParams)
+          this.ops["ListTags"].apply(partialParams)
+        );
+    }
+
+    invokeListTrainingJobs(partialParams: ToOptional<{
+      [K in keyof ListTrainingJobsRequest]: (ListTrainingJobsRequest)[K]
+    }>): Request<ListTrainingJobsResponse, AWSError> {
+        this.boot();
+        return this.client.listTrainingJobs(
+          this.ops["ListTrainingJobs"].apply(partialParams)
         );
     }
 
     invokeListTrainingJobsForHyperParameterTuningJob(partialParams: ToOptional<{
-      [K in keyof ListTrainingJobsForHyperParameterTuningJobRequest & keyof ListTrainingJobsForHyperParameterTuningJobRequest & keyof ListTrainingJobsForHyperParameterTuningJobRequest & keyof ListTrainingJobsForHyperParameterTuningJobRequest & keyof ListTrainingJobsForHyperParameterTuningJobRequest]: (ListTrainingJobsForHyperParameterTuningJobRequest & ListTrainingJobsForHyperParameterTuningJobRequest & ListTrainingJobsForHyperParameterTuningJobRequest & ListTrainingJobsForHyperParameterTuningJobRequest & ListTrainingJobsForHyperParameterTuningJobRequest)[K]
+      [K in keyof ListTrainingJobsForHyperParameterTuningJobRequest]: (ListTrainingJobsForHyperParameterTuningJobRequest)[K]
     }>): Request<ListTrainingJobsForHyperParameterTuningJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTrainingJobsForHyperParameterTuningJob(
-          this.ops["ListTrainingJobsForHyperParameterTuningJob"].applicator.apply(partialParams)
+          this.ops["ListTrainingJobsForHyperParameterTuningJob"].apply(partialParams)
+        );
+    }
+
+    invokeListTransformJobs(partialParams: ToOptional<{
+      [K in keyof ListTransformJobsRequest]: (ListTransformJobsRequest)[K]
+    }>): Request<ListTransformJobsResponse, AWSError> {
+        this.boot();
+        return this.client.listTransformJobs(
+          this.ops["ListTransformJobs"].apply(partialParams)
+        );
+    }
+
+    invokeListTrialComponents(partialParams: ToOptional<{
+      [K in keyof ListTrialComponentsRequest]: (ListTrialComponentsRequest)[K]
+    }>): Request<ListTrialComponentsResponse, AWSError> {
+        this.boot();
+        return this.client.listTrialComponents(
+          this.ops["ListTrialComponents"].apply(partialParams)
+        );
+    }
+
+    invokeListTrials(partialParams: ToOptional<{
+      [K in keyof ListTrialsRequest]: (ListTrialsRequest)[K]
+    }>): Request<ListTrialsResponse, AWSError> {
+        this.boot();
+        return this.client.listTrials(
+          this.ops["ListTrials"].apply(partialParams)
+        );
+    }
+
+    invokeListUserProfiles(partialParams: ToOptional<{
+      [K in keyof ListUserProfilesRequest]: (ListUserProfilesRequest)[K]
+    }>): Request<ListUserProfilesResponse, AWSError> {
+        this.boot();
+        return this.client.listUserProfiles(
+          this.ops["ListUserProfiles"].apply(partialParams)
+        );
+    }
+
+    invokeListWorkforces(partialParams: ToOptional<{
+      [K in keyof ListWorkforcesRequest]: (ListWorkforcesRequest)[K]
+    }>): Request<ListWorkforcesResponse, AWSError> {
+        this.boot();
+        return this.client.listWorkforces(
+          this.ops["ListWorkforces"].apply(partialParams)
+        );
+    }
+
+    invokeListWorkteams(partialParams: ToOptional<{
+      [K in keyof ListWorkteamsRequest]: (ListWorkteamsRequest)[K]
+    }>): Request<ListWorkteamsResponse, AWSError> {
+        this.boot();
+        return this.client.listWorkteams(
+          this.ops["ListWorkteams"].apply(partialParams)
         );
     }
 
     invokePutModelPackageGroupPolicy(partialParams: ToOptional<{
-      [K in keyof PutModelPackageGroupPolicyInput & keyof PutModelPackageGroupPolicyInput & keyof PutModelPackageGroupPolicyInput & keyof PutModelPackageGroupPolicyInput & keyof PutModelPackageGroupPolicyInput]: (PutModelPackageGroupPolicyInput & PutModelPackageGroupPolicyInput & PutModelPackageGroupPolicyInput & PutModelPackageGroupPolicyInput & PutModelPackageGroupPolicyInput)[K]
+      [K in keyof PutModelPackageGroupPolicyInput]: (PutModelPackageGroupPolicyInput)[K]
     }>): Request<PutModelPackageGroupPolicyOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putModelPackageGroupPolicy(
-          this.ops["PutModelPackageGroupPolicy"].applicator.apply(partialParams)
+          this.ops["PutModelPackageGroupPolicy"].apply(partialParams)
         );
     }
 
     invokeQueryLineage(partialParams: ToOptional<{
-      [K in keyof QueryLineageRequest & keyof QueryLineageRequest & keyof QueryLineageRequest & keyof QueryLineageRequest & keyof QueryLineageRequest]: (QueryLineageRequest & QueryLineageRequest & QueryLineageRequest & QueryLineageRequest & QueryLineageRequest)[K]
+      [K in keyof QueryLineageRequest]: (QueryLineageRequest)[K]
     }>): Request<QueryLineageResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.queryLineage(
-          this.ops["QueryLineage"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeRegisterDevices(partialParams: ToOptional<{
-      [K in keyof RegisterDevicesRequest & keyof RegisterDevicesRequest & keyof RegisterDevicesRequest & keyof RegisterDevicesRequest & keyof RegisterDevicesRequest]: (RegisterDevicesRequest & RegisterDevicesRequest & RegisterDevicesRequest & RegisterDevicesRequest & RegisterDevicesRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.registerDevices(
-          this.ops["RegisterDevices"].applicator.apply(partialParams)
+          this.ops["QueryLineage"].apply(partialParams)
         );
     }
 
     invokeRenderUiTemplate(partialParams: ToOptional<{
-      [K in keyof RenderUiTemplateRequest & keyof RenderUiTemplateRequest & keyof RenderUiTemplateRequest & keyof RenderUiTemplateRequest & keyof RenderUiTemplateRequest]: (RenderUiTemplateRequest & RenderUiTemplateRequest & RenderUiTemplateRequest & RenderUiTemplateRequest & RenderUiTemplateRequest)[K]
+      [K in keyof RenderUiTemplateRequest]: (RenderUiTemplateRequest)[K]
     }>): Request<RenderUiTemplateResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.renderUiTemplate(
-          this.ops["RenderUiTemplate"].applicator.apply(partialParams)
+          this.ops["RenderUiTemplate"].apply(partialParams)
         );
     }
 
     invokeRetryPipelineExecution(partialParams: ToOptional<{
-      [K in keyof RetryPipelineExecutionRequest & keyof RetryPipelineExecutionRequest & keyof RetryPipelineExecutionRequest & keyof RetryPipelineExecutionRequest & keyof RetryPipelineExecutionRequest]: (RetryPipelineExecutionRequest & RetryPipelineExecutionRequest & RetryPipelineExecutionRequest & RetryPipelineExecutionRequest & RetryPipelineExecutionRequest)[K]
+      [K in keyof RetryPipelineExecutionRequest]: (RetryPipelineExecutionRequest)[K]
     }>): Request<RetryPipelineExecutionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.retryPipelineExecution(
-          this.ops["RetryPipelineExecution"].applicator.apply(partialParams)
+          this.ops["RetryPipelineExecution"].apply(partialParams)
         );
     }
 
     invokeSearch(partialParams: ToOptional<{
-      [K in keyof SearchRequest & keyof SearchRequest & keyof SearchRequest & keyof SearchRequest & keyof SearchRequest]: (SearchRequest & SearchRequest & SearchRequest & SearchRequest & SearchRequest)[K]
+      [K in keyof SearchRequest]: (SearchRequest)[K]
     }>): Request<SearchResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.search(
-          this.ops["Search"].applicator.apply(partialParams)
+          this.ops["Search"].apply(partialParams)
         );
     }
 
     invokeSendPipelineExecutionStepFailure(partialParams: ToOptional<{
-      [K in keyof SendPipelineExecutionStepFailureRequest & keyof SendPipelineExecutionStepFailureRequest & keyof SendPipelineExecutionStepFailureRequest & keyof SendPipelineExecutionStepFailureRequest & keyof SendPipelineExecutionStepFailureRequest]: (SendPipelineExecutionStepFailureRequest & SendPipelineExecutionStepFailureRequest & SendPipelineExecutionStepFailureRequest & SendPipelineExecutionStepFailureRequest & SendPipelineExecutionStepFailureRequest)[K]
+      [K in keyof SendPipelineExecutionStepFailureRequest]: (SendPipelineExecutionStepFailureRequest)[K]
     }>): Request<SendPipelineExecutionStepFailureResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.sendPipelineExecutionStepFailure(
-          this.ops["SendPipelineExecutionStepFailure"].applicator.apply(partialParams)
+          this.ops["SendPipelineExecutionStepFailure"].apply(partialParams)
         );
     }
 
     invokeSendPipelineExecutionStepSuccess(partialParams: ToOptional<{
-      [K in keyof SendPipelineExecutionStepSuccessRequest & keyof SendPipelineExecutionStepSuccessRequest & keyof SendPipelineExecutionStepSuccessRequest & keyof SendPipelineExecutionStepSuccessRequest & keyof SendPipelineExecutionStepSuccessRequest]: (SendPipelineExecutionStepSuccessRequest & SendPipelineExecutionStepSuccessRequest & SendPipelineExecutionStepSuccessRequest & SendPipelineExecutionStepSuccessRequest & SendPipelineExecutionStepSuccessRequest)[K]
+      [K in keyof SendPipelineExecutionStepSuccessRequest]: (SendPipelineExecutionStepSuccessRequest)[K]
     }>): Request<SendPipelineExecutionStepSuccessResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.sendPipelineExecutionStepSuccess(
-          this.ops["SendPipelineExecutionStepSuccess"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeStartMonitoringSchedule(partialParams: ToOptional<{
-      [K in keyof StartMonitoringScheduleRequest & keyof StartMonitoringScheduleRequest & keyof StartMonitoringScheduleRequest & keyof StartMonitoringScheduleRequest & keyof StartMonitoringScheduleRequest]: (StartMonitoringScheduleRequest & StartMonitoringScheduleRequest & StartMonitoringScheduleRequest & StartMonitoringScheduleRequest & StartMonitoringScheduleRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.startMonitoringSchedule(
-          this.ops["StartMonitoringSchedule"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeStartNotebookInstance(partialParams: ToOptional<{
-      [K in keyof StartNotebookInstanceInput & keyof StartNotebookInstanceInput & keyof StartNotebookInstanceInput & keyof StartNotebookInstanceInput & keyof StartNotebookInstanceInput]: (StartNotebookInstanceInput & StartNotebookInstanceInput & StartNotebookInstanceInput & StartNotebookInstanceInput & StartNotebookInstanceInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.startNotebookInstance(
-          this.ops["StartNotebookInstance"].applicator.apply(partialParams)
+          this.ops["SendPipelineExecutionStepSuccess"].apply(partialParams)
         );
     }
 
     invokeStartPipelineExecution(partialParams: ToOptional<{
-      [K in keyof StartPipelineExecutionRequest & keyof StartPipelineExecutionRequest & keyof StartPipelineExecutionRequest & keyof StartPipelineExecutionRequest & keyof StartPipelineExecutionRequest]: (StartPipelineExecutionRequest & StartPipelineExecutionRequest & StartPipelineExecutionRequest & StartPipelineExecutionRequest & StartPipelineExecutionRequest)[K]
+      [K in keyof StartPipelineExecutionRequest]: (StartPipelineExecutionRequest)[K]
     }>): Request<StartPipelineExecutionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startPipelineExecution(
-          this.ops["StartPipelineExecution"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeStopAutoMLJob(partialParams: ToOptional<{
-      [K in keyof StopAutoMLJobRequest & keyof StopAutoMLJobRequest & keyof StopAutoMLJobRequest & keyof StopAutoMLJobRequest & keyof StopAutoMLJobRequest]: (StopAutoMLJobRequest & StopAutoMLJobRequest & StopAutoMLJobRequest & StopAutoMLJobRequest & StopAutoMLJobRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.stopAutoMLJob(
-          this.ops["StopAutoMLJob"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeStopCompilationJob(partialParams: ToOptional<{
-      [K in keyof StopCompilationJobRequest & keyof StopCompilationJobRequest & keyof StopCompilationJobRequest & keyof StopCompilationJobRequest & keyof StopCompilationJobRequest]: (StopCompilationJobRequest & StopCompilationJobRequest & StopCompilationJobRequest & StopCompilationJobRequest & StopCompilationJobRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.stopCompilationJob(
-          this.ops["StopCompilationJob"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeStopEdgePackagingJob(partialParams: ToOptional<{
-      [K in keyof StopEdgePackagingJobRequest & keyof StopEdgePackagingJobRequest & keyof StopEdgePackagingJobRequest & keyof StopEdgePackagingJobRequest & keyof StopEdgePackagingJobRequest]: (StopEdgePackagingJobRequest & StopEdgePackagingJobRequest & StopEdgePackagingJobRequest & StopEdgePackagingJobRequest & StopEdgePackagingJobRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.stopEdgePackagingJob(
-          this.ops["StopEdgePackagingJob"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeStopHyperParameterTuningJob(partialParams: ToOptional<{
-      [K in keyof StopHyperParameterTuningJobRequest & keyof StopHyperParameterTuningJobRequest & keyof StopHyperParameterTuningJobRequest & keyof StopHyperParameterTuningJobRequest & keyof StopHyperParameterTuningJobRequest]: (StopHyperParameterTuningJobRequest & StopHyperParameterTuningJobRequest & StopHyperParameterTuningJobRequest & StopHyperParameterTuningJobRequest & StopHyperParameterTuningJobRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.stopHyperParameterTuningJob(
-          this.ops["StopHyperParameterTuningJob"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeStopInferenceRecommendationsJob(partialParams: ToOptional<{
-      [K in keyof StopInferenceRecommendationsJobRequest & keyof StopInferenceRecommendationsJobRequest & keyof StopInferenceRecommendationsJobRequest & keyof StopInferenceRecommendationsJobRequest & keyof StopInferenceRecommendationsJobRequest]: (StopInferenceRecommendationsJobRequest & StopInferenceRecommendationsJobRequest & StopInferenceRecommendationsJobRequest & StopInferenceRecommendationsJobRequest & StopInferenceRecommendationsJobRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.stopInferenceRecommendationsJob(
-          this.ops["StopInferenceRecommendationsJob"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeStopLabelingJob(partialParams: ToOptional<{
-      [K in keyof StopLabelingJobRequest & keyof StopLabelingJobRequest & keyof StopLabelingJobRequest & keyof StopLabelingJobRequest & keyof StopLabelingJobRequest]: (StopLabelingJobRequest & StopLabelingJobRequest & StopLabelingJobRequest & StopLabelingJobRequest & StopLabelingJobRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.stopLabelingJob(
-          this.ops["StopLabelingJob"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeStopMonitoringSchedule(partialParams: ToOptional<{
-      [K in keyof StopMonitoringScheduleRequest & keyof StopMonitoringScheduleRequest & keyof StopMonitoringScheduleRequest & keyof StopMonitoringScheduleRequest & keyof StopMonitoringScheduleRequest]: (StopMonitoringScheduleRequest & StopMonitoringScheduleRequest & StopMonitoringScheduleRequest & StopMonitoringScheduleRequest & StopMonitoringScheduleRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.stopMonitoringSchedule(
-          this.ops["StopMonitoringSchedule"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeStopNotebookInstance(partialParams: ToOptional<{
-      [K in keyof StopNotebookInstanceInput & keyof StopNotebookInstanceInput & keyof StopNotebookInstanceInput & keyof StopNotebookInstanceInput & keyof StopNotebookInstanceInput]: (StopNotebookInstanceInput & StopNotebookInstanceInput & StopNotebookInstanceInput & StopNotebookInstanceInput & StopNotebookInstanceInput)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.stopNotebookInstance(
-          this.ops["StopNotebookInstance"].applicator.apply(partialParams)
+          this.ops["StartPipelineExecution"].apply(partialParams)
         );
     }
 
     invokeStopPipelineExecution(partialParams: ToOptional<{
-      [K in keyof StopPipelineExecutionRequest & keyof StopPipelineExecutionRequest & keyof StopPipelineExecutionRequest & keyof StopPipelineExecutionRequest & keyof StopPipelineExecutionRequest]: (StopPipelineExecutionRequest & StopPipelineExecutionRequest & StopPipelineExecutionRequest & StopPipelineExecutionRequest & StopPipelineExecutionRequest)[K]
+      [K in keyof StopPipelineExecutionRequest]: (StopPipelineExecutionRequest)[K]
     }>): Request<StopPipelineExecutionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopPipelineExecution(
-          this.ops["StopPipelineExecution"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeStopProcessingJob(partialParams: ToOptional<{
-      [K in keyof StopProcessingJobRequest & keyof StopProcessingJobRequest & keyof StopProcessingJobRequest & keyof StopProcessingJobRequest & keyof StopProcessingJobRequest]: (StopProcessingJobRequest & StopProcessingJobRequest & StopProcessingJobRequest & StopProcessingJobRequest & StopProcessingJobRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.stopProcessingJob(
-          this.ops["StopProcessingJob"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeStopTrainingJob(partialParams: ToOptional<{
-      [K in keyof StopTrainingJobRequest & keyof StopTrainingJobRequest & keyof StopTrainingJobRequest & keyof StopTrainingJobRequest & keyof StopTrainingJobRequest]: (StopTrainingJobRequest & StopTrainingJobRequest & StopTrainingJobRequest & StopTrainingJobRequest & StopTrainingJobRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.stopTrainingJob(
-          this.ops["StopTrainingJob"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeStopTransformJob(partialParams: ToOptional<{
-      [K in keyof StopTransformJobRequest & keyof StopTransformJobRequest & keyof StopTransformJobRequest & keyof StopTransformJobRequest & keyof StopTransformJobRequest]: (StopTransformJobRequest & StopTransformJobRequest & StopTransformJobRequest & StopTransformJobRequest & StopTransformJobRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.stopTransformJob(
-          this.ops["StopTransformJob"].applicator.apply(partialParams)
+          this.ops["StopPipelineExecution"].apply(partialParams)
         );
     }
 
     invokeUpdateAction(partialParams: ToOptional<{
-      [K in keyof UpdateActionRequest & keyof UpdateActionRequest & keyof UpdateActionRequest & keyof UpdateActionRequest & keyof UpdateActionRequest]: (UpdateActionRequest & UpdateActionRequest & UpdateActionRequest & UpdateActionRequest & UpdateActionRequest)[K]
+      [K in keyof UpdateActionRequest]: (UpdateActionRequest)[K]
     }>): Request<UpdateActionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateAction(
-          this.ops["UpdateAction"].applicator.apply(partialParams)
+          this.ops["UpdateAction"].apply(partialParams)
         );
     }
 
     invokeUpdateAppImageConfig(partialParams: ToOptional<{
-      [K in keyof UpdateAppImageConfigRequest & keyof UpdateAppImageConfigRequest & keyof UpdateAppImageConfigRequest & keyof UpdateAppImageConfigRequest & keyof UpdateAppImageConfigRequest]: (UpdateAppImageConfigRequest & UpdateAppImageConfigRequest & UpdateAppImageConfigRequest & UpdateAppImageConfigRequest & UpdateAppImageConfigRequest)[K]
+      [K in keyof UpdateAppImageConfigRequest]: (UpdateAppImageConfigRequest)[K]
     }>): Request<UpdateAppImageConfigResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateAppImageConfig(
-          this.ops["UpdateAppImageConfig"].applicator.apply(partialParams)
+          this.ops["UpdateAppImageConfig"].apply(partialParams)
         );
     }
 
     invokeUpdateArtifact(partialParams: ToOptional<{
-      [K in keyof UpdateArtifactRequest & keyof UpdateArtifactRequest & keyof UpdateArtifactRequest & keyof UpdateArtifactRequest & keyof UpdateArtifactRequest]: (UpdateArtifactRequest & UpdateArtifactRequest & UpdateArtifactRequest & UpdateArtifactRequest & UpdateArtifactRequest)[K]
+      [K in keyof UpdateArtifactRequest]: (UpdateArtifactRequest)[K]
     }>): Request<UpdateArtifactResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateArtifact(
-          this.ops["UpdateArtifact"].applicator.apply(partialParams)
+          this.ops["UpdateArtifact"].apply(partialParams)
         );
     }
 
     invokeUpdateCodeRepository(partialParams: ToOptional<{
-      [K in keyof UpdateCodeRepositoryInput & keyof UpdateCodeRepositoryInput & keyof UpdateCodeRepositoryInput & keyof UpdateCodeRepositoryInput & keyof UpdateCodeRepositoryInput]: (UpdateCodeRepositoryInput & UpdateCodeRepositoryInput & UpdateCodeRepositoryInput & UpdateCodeRepositoryInput & UpdateCodeRepositoryInput)[K]
+      [K in keyof UpdateCodeRepositoryInput]: (UpdateCodeRepositoryInput)[K]
     }>): Request<UpdateCodeRepositoryOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateCodeRepository(
-          this.ops["UpdateCodeRepository"].applicator.apply(partialParams)
+          this.ops["UpdateCodeRepository"].apply(partialParams)
         );
     }
 
     invokeUpdateContext(partialParams: ToOptional<{
-      [K in keyof UpdateContextRequest & keyof UpdateContextRequest & keyof UpdateContextRequest & keyof UpdateContextRequest & keyof UpdateContextRequest]: (UpdateContextRequest & UpdateContextRequest & UpdateContextRequest & UpdateContextRequest & UpdateContextRequest)[K]
+      [K in keyof UpdateContextRequest]: (UpdateContextRequest)[K]
     }>): Request<UpdateContextResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateContext(
-          this.ops["UpdateContext"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateDeviceFleet(partialParams: ToOptional<{
-      [K in keyof UpdateDeviceFleetRequest & keyof UpdateDeviceFleetRequest & keyof UpdateDeviceFleetRequest & keyof UpdateDeviceFleetRequest & keyof UpdateDeviceFleetRequest]: (UpdateDeviceFleetRequest & UpdateDeviceFleetRequest & UpdateDeviceFleetRequest & UpdateDeviceFleetRequest & UpdateDeviceFleetRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateDeviceFleet(
-          this.ops["UpdateDeviceFleet"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateDevices(partialParams: ToOptional<{
-      [K in keyof UpdateDevicesRequest & keyof UpdateDevicesRequest & keyof UpdateDevicesRequest & keyof UpdateDevicesRequest & keyof UpdateDevicesRequest]: (UpdateDevicesRequest & UpdateDevicesRequest & UpdateDevicesRequest & UpdateDevicesRequest & UpdateDevicesRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateDevices(
-          this.ops["UpdateDevices"].applicator.apply(partialParams)
+          this.ops["UpdateContext"].apply(partialParams)
         );
     }
 
     invokeUpdateDomain(partialParams: ToOptional<{
-      [K in keyof UpdateDomainRequest & keyof UpdateDomainRequest & keyof UpdateDomainRequest & keyof UpdateDomainRequest & keyof UpdateDomainRequest]: (UpdateDomainRequest & UpdateDomainRequest & UpdateDomainRequest & UpdateDomainRequest & UpdateDomainRequest)[K]
+      [K in keyof UpdateDomainRequest]: (UpdateDomainRequest)[K]
     }>): Request<UpdateDomainResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateDomain(
-          this.ops["UpdateDomain"].applicator.apply(partialParams)
+          this.ops["UpdateDomain"].apply(partialParams)
         );
     }
 
     invokeUpdateEndpoint(partialParams: ToOptional<{
-      [K in keyof UpdateEndpointInput & keyof UpdateEndpointInput & keyof UpdateEndpointInput & keyof UpdateEndpointInput & keyof UpdateEndpointInput]: (UpdateEndpointInput & UpdateEndpointInput & UpdateEndpointInput & UpdateEndpointInput & UpdateEndpointInput)[K]
+      [K in keyof UpdateEndpointInput]: (UpdateEndpointInput)[K]
     }>): Request<UpdateEndpointOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateEndpoint(
-          this.ops["UpdateEndpoint"].applicator.apply(partialParams)
+          this.ops["UpdateEndpoint"].apply(partialParams)
         );
     }
 
     invokeUpdateEndpointWeightsAndCapacities(partialParams: ToOptional<{
-      [K in keyof UpdateEndpointWeightsAndCapacitiesInput & keyof UpdateEndpointWeightsAndCapacitiesInput & keyof UpdateEndpointWeightsAndCapacitiesInput & keyof UpdateEndpointWeightsAndCapacitiesInput & keyof UpdateEndpointWeightsAndCapacitiesInput]: (UpdateEndpointWeightsAndCapacitiesInput & UpdateEndpointWeightsAndCapacitiesInput & UpdateEndpointWeightsAndCapacitiesInput & UpdateEndpointWeightsAndCapacitiesInput & UpdateEndpointWeightsAndCapacitiesInput)[K]
+      [K in keyof UpdateEndpointWeightsAndCapacitiesInput]: (UpdateEndpointWeightsAndCapacitiesInput)[K]
     }>): Request<UpdateEndpointWeightsAndCapacitiesOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateEndpointWeightsAndCapacities(
-          this.ops["UpdateEndpointWeightsAndCapacities"].applicator.apply(partialParams)
+          this.ops["UpdateEndpointWeightsAndCapacities"].apply(partialParams)
         );
     }
 
     invokeUpdateExperiment(partialParams: ToOptional<{
-      [K in keyof UpdateExperimentRequest & keyof UpdateExperimentRequest & keyof UpdateExperimentRequest & keyof UpdateExperimentRequest & keyof UpdateExperimentRequest]: (UpdateExperimentRequest & UpdateExperimentRequest & UpdateExperimentRequest & UpdateExperimentRequest & UpdateExperimentRequest)[K]
+      [K in keyof UpdateExperimentRequest]: (UpdateExperimentRequest)[K]
     }>): Request<UpdateExperimentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateExperiment(
-          this.ops["UpdateExperiment"].applicator.apply(partialParams)
+          this.ops["UpdateExperiment"].apply(partialParams)
         );
     }
 
     invokeUpdateImage(partialParams: ToOptional<{
-      [K in keyof UpdateImageRequest & keyof UpdateImageRequest & keyof UpdateImageRequest & keyof UpdateImageRequest & keyof Omit<UpdateImageRequest, "ImageName">]: (UpdateImageRequest & UpdateImageRequest & UpdateImageRequest & UpdateImageRequest & Omit<UpdateImageRequest, "ImageName">)[K]
+      [K in keyof UpdateImageRequest & keyof Omit<UpdateImageRequest, "ImageName">]: (UpdateImageRequest)[K]
     }>): Request<UpdateImageResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateImage(
-          this.ops["UpdateImage"].applicator.apply(partialParams)
+          this.ops["UpdateImage"].apply(partialParams)
         );
     }
 
     invokeUpdateModelPackage(partialParams: ToOptional<{
-      [K in keyof UpdateModelPackageInput & keyof UpdateModelPackageInput & keyof UpdateModelPackageInput & keyof UpdateModelPackageInput & keyof UpdateModelPackageInput]: (UpdateModelPackageInput & UpdateModelPackageInput & UpdateModelPackageInput & UpdateModelPackageInput & UpdateModelPackageInput)[K]
+      [K in keyof UpdateModelPackageInput]: (UpdateModelPackageInput)[K]
     }>): Request<UpdateModelPackageOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateModelPackage(
-          this.ops["UpdateModelPackage"].applicator.apply(partialParams)
+          this.ops["UpdateModelPackage"].apply(partialParams)
         );
     }
 
     invokeUpdateMonitoringSchedule(partialParams: ToOptional<{
-      [K in keyof UpdateMonitoringScheduleRequest & keyof UpdateMonitoringScheduleRequest & keyof UpdateMonitoringScheduleRequest & keyof UpdateMonitoringScheduleRequest & keyof UpdateMonitoringScheduleRequest]: (UpdateMonitoringScheduleRequest & UpdateMonitoringScheduleRequest & UpdateMonitoringScheduleRequest & UpdateMonitoringScheduleRequest & UpdateMonitoringScheduleRequest)[K]
+      [K in keyof UpdateMonitoringScheduleRequest]: (UpdateMonitoringScheduleRequest)[K]
     }>): Request<UpdateMonitoringScheduleResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateMonitoringSchedule(
-          this.ops["UpdateMonitoringSchedule"].applicator.apply(partialParams)
+          this.ops["UpdateMonitoringSchedule"].apply(partialParams)
         );
     }
 
     invokeUpdateNotebookInstance(partialParams: ToOptional<{
-      [K in keyof UpdateNotebookInstanceInput & keyof UpdateNotebookInstanceInput & keyof UpdateNotebookInstanceInput & keyof UpdateNotebookInstanceInput & keyof UpdateNotebookInstanceInput]: (UpdateNotebookInstanceInput & UpdateNotebookInstanceInput & UpdateNotebookInstanceInput & UpdateNotebookInstanceInput & UpdateNotebookInstanceInput)[K]
+      [K in keyof UpdateNotebookInstanceInput]: (UpdateNotebookInstanceInput)[K]
     }>): Request<UpdateNotebookInstanceOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateNotebookInstance(
-          this.ops["UpdateNotebookInstance"].applicator.apply(partialParams)
+          this.ops["UpdateNotebookInstance"].apply(partialParams)
         );
     }
 
     invokeUpdateNotebookInstanceLifecycleConfig(partialParams: ToOptional<{
-      [K in keyof UpdateNotebookInstanceLifecycleConfigInput & keyof UpdateNotebookInstanceLifecycleConfigInput & keyof UpdateNotebookInstanceLifecycleConfigInput & keyof UpdateNotebookInstanceLifecycleConfigInput & keyof UpdateNotebookInstanceLifecycleConfigInput]: (UpdateNotebookInstanceLifecycleConfigInput & UpdateNotebookInstanceLifecycleConfigInput & UpdateNotebookInstanceLifecycleConfigInput & UpdateNotebookInstanceLifecycleConfigInput & UpdateNotebookInstanceLifecycleConfigInput)[K]
+      [K in keyof UpdateNotebookInstanceLifecycleConfigInput]: (UpdateNotebookInstanceLifecycleConfigInput)[K]
     }>): Request<UpdateNotebookInstanceLifecycleConfigOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateNotebookInstanceLifecycleConfig(
-          this.ops["UpdateNotebookInstanceLifecycleConfig"].applicator.apply(partialParams)
+          this.ops["UpdateNotebookInstanceLifecycleConfig"].apply(partialParams)
         );
     }
 
     invokeUpdatePipeline(partialParams: ToOptional<{
-      [K in keyof UpdatePipelineRequest & keyof UpdatePipelineRequest & keyof UpdatePipelineRequest & keyof UpdatePipelineRequest & keyof UpdatePipelineRequest]: (UpdatePipelineRequest & UpdatePipelineRequest & UpdatePipelineRequest & UpdatePipelineRequest & UpdatePipelineRequest)[K]
+      [K in keyof UpdatePipelineRequest]: (UpdatePipelineRequest)[K]
     }>): Request<UpdatePipelineResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updatePipeline(
-          this.ops["UpdatePipeline"].applicator.apply(partialParams)
+          this.ops["UpdatePipeline"].apply(partialParams)
         );
     }
 
     invokeUpdatePipelineExecution(partialParams: ToOptional<{
-      [K in keyof UpdatePipelineExecutionRequest & keyof UpdatePipelineExecutionRequest & keyof UpdatePipelineExecutionRequest & keyof UpdatePipelineExecutionRequest & keyof UpdatePipelineExecutionRequest]: (UpdatePipelineExecutionRequest & UpdatePipelineExecutionRequest & UpdatePipelineExecutionRequest & UpdatePipelineExecutionRequest & UpdatePipelineExecutionRequest)[K]
+      [K in keyof UpdatePipelineExecutionRequest]: (UpdatePipelineExecutionRequest)[K]
     }>): Request<UpdatePipelineExecutionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updatePipelineExecution(
-          this.ops["UpdatePipelineExecution"].applicator.apply(partialParams)
+          this.ops["UpdatePipelineExecution"].apply(partialParams)
         );
     }
 
     invokeUpdateProject(partialParams: ToOptional<{
-      [K in keyof UpdateProjectInput & keyof UpdateProjectInput & keyof UpdateProjectInput & keyof UpdateProjectInput & keyof UpdateProjectInput]: (UpdateProjectInput & UpdateProjectInput & UpdateProjectInput & UpdateProjectInput & UpdateProjectInput)[K]
+      [K in keyof UpdateProjectInput]: (UpdateProjectInput)[K]
     }>): Request<UpdateProjectOutput, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateProject(
-          this.ops["UpdateProject"].applicator.apply(partialParams)
+          this.ops["UpdateProject"].apply(partialParams)
         );
     }
 
     invokeUpdateTrainingJob(partialParams: ToOptional<{
-      [K in keyof UpdateTrainingJobRequest & keyof UpdateTrainingJobRequest & keyof UpdateTrainingJobRequest & keyof UpdateTrainingJobRequest & keyof UpdateTrainingJobRequest]: (UpdateTrainingJobRequest & UpdateTrainingJobRequest & UpdateTrainingJobRequest & UpdateTrainingJobRequest & UpdateTrainingJobRequest)[K]
+      [K in keyof UpdateTrainingJobRequest]: (UpdateTrainingJobRequest)[K]
     }>): Request<UpdateTrainingJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateTrainingJob(
-          this.ops["UpdateTrainingJob"].applicator.apply(partialParams)
+          this.ops["UpdateTrainingJob"].apply(partialParams)
         );
     }
 
     invokeUpdateTrial(partialParams: ToOptional<{
-      [K in keyof UpdateTrialRequest & keyof UpdateTrialRequest & keyof UpdateTrialRequest & keyof UpdateTrialRequest & keyof UpdateTrialRequest]: (UpdateTrialRequest & UpdateTrialRequest & UpdateTrialRequest & UpdateTrialRequest & UpdateTrialRequest)[K]
+      [K in keyof UpdateTrialRequest]: (UpdateTrialRequest)[K]
     }>): Request<UpdateTrialResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateTrial(
-          this.ops["UpdateTrial"].applicator.apply(partialParams)
+          this.ops["UpdateTrial"].apply(partialParams)
         );
     }
 
     invokeUpdateTrialComponent(partialParams: ToOptional<{
-      [K in keyof UpdateTrialComponentRequest & keyof UpdateTrialComponentRequest & keyof UpdateTrialComponentRequest & keyof UpdateTrialComponentRequest & keyof UpdateTrialComponentRequest]: (UpdateTrialComponentRequest & UpdateTrialComponentRequest & UpdateTrialComponentRequest & UpdateTrialComponentRequest & UpdateTrialComponentRequest)[K]
+      [K in keyof UpdateTrialComponentRequest]: (UpdateTrialComponentRequest)[K]
     }>): Request<UpdateTrialComponentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateTrialComponent(
-          this.ops["UpdateTrialComponent"].applicator.apply(partialParams)
+          this.ops["UpdateTrialComponent"].apply(partialParams)
         );
     }
 
     invokeUpdateUserProfile(partialParams: ToOptional<{
-      [K in keyof UpdateUserProfileRequest & keyof UpdateUserProfileRequest & keyof UpdateUserProfileRequest & keyof UpdateUserProfileRequest & keyof UpdateUserProfileRequest]: (UpdateUserProfileRequest & UpdateUserProfileRequest & UpdateUserProfileRequest & UpdateUserProfileRequest & UpdateUserProfileRequest)[K]
+      [K in keyof UpdateUserProfileRequest]: (UpdateUserProfileRequest)[K]
     }>): Request<UpdateUserProfileResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateUserProfile(
-          this.ops["UpdateUserProfile"].applicator.apply(partialParams)
+          this.ops["UpdateUserProfile"].apply(partialParams)
         );
     }
 
     invokeUpdateWorkforce(partialParams: ToOptional<{
-      [K in keyof UpdateWorkforceRequest & keyof UpdateWorkforceRequest & keyof UpdateWorkforceRequest & keyof UpdateWorkforceRequest & keyof UpdateWorkforceRequest]: (UpdateWorkforceRequest & UpdateWorkforceRequest & UpdateWorkforceRequest & UpdateWorkforceRequest & UpdateWorkforceRequest)[K]
+      [K in keyof UpdateWorkforceRequest]: (UpdateWorkforceRequest)[K]
     }>): Request<UpdateWorkforceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateWorkforce(
-          this.ops["UpdateWorkforce"].applicator.apply(partialParams)
+          this.ops["UpdateWorkforce"].apply(partialParams)
         );
     }
 
     invokeUpdateWorkteam(partialParams: ToOptional<{
-      [K in keyof UpdateWorkteamRequest & keyof UpdateWorkteamRequest & keyof UpdateWorkteamRequest & keyof UpdateWorkteamRequest & keyof UpdateWorkteamRequest]: (UpdateWorkteamRequest & UpdateWorkteamRequest & UpdateWorkteamRequest & UpdateWorkteamRequest & UpdateWorkteamRequest)[K]
+      [K in keyof UpdateWorkteamRequest]: (UpdateWorkteamRequest)[K]
     }>): Request<UpdateWorkteamResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateWorkteam(
-          this.ops["UpdateWorkteam"].applicator.apply(partialParams)
+          this.ops["UpdateWorkteam"].apply(partialParams)
         );
     }
 }

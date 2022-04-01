@@ -12,7 +12,12 @@ import {
     DeleteClusterRequest,
     DeleteParameterGroupRequest,
     DeleteSubnetGroupRequest,
+    DescribeClustersRequest,
+    DescribeDefaultParametersRequest,
+    DescribeEventsRequest,
+    DescribeParameterGroupsRequest,
     DescribeParametersRequest,
+    DescribeSubnetGroupsRequest,
     IncreaseReplicationFactorRequest,
     ListTagsRequest,
     RebootNodeRequest,
@@ -28,7 +33,12 @@ import {
     DeleteClusterResponse,
     DeleteParameterGroupResponse,
     DeleteSubnetGroupResponse,
+    DescribeClustersResponse,
+    DescribeDefaultParametersResponse,
+    DescribeEventsResponse,
+    DescribeParameterGroupsResponse,
     DescribeParametersResponse,
+    DescribeSubnetGroupsResponse,
     IncreaseReplicationFactorResponse,
     ListTagsResponse,
     RebootNodeResponse,
@@ -51,21 +61,24 @@ export default class extends aws.dax.Cluster {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.dax.Cluster>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.DAX()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -75,182 +88,196 @@ export default class extends aws.dax.Cluster {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCreateCluster(partialParams: ToOptional<{
-      [K in keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest & keyof CreateClusterRequest]: (CreateClusterRequest & CreateClusterRequest & CreateClusterRequest & CreateClusterRequest & CreateClusterRequest & CreateClusterRequest & CreateClusterRequest & CreateClusterRequest & CreateClusterRequest & CreateClusterRequest & CreateClusterRequest & CreateClusterRequest)[K]
+      [K in keyof CreateClusterRequest & keyof Omit<CreateClusterRequest, "ClusterName" | "NodeType" | "IamRoleArn">]: (CreateClusterRequest)[K]
     }>): Request<CreateClusterResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createCluster(
-          this.ops["CreateCluster"].applicator.apply(partialParams)
+          this.ops["CreateCluster"].apply(partialParams)
         );
     }
 
     invokeCreateParameterGroup(partialParams: ToOptional<{
-      [K in keyof CreateParameterGroupRequest & keyof CreateParameterGroupRequest & keyof CreateParameterGroupRequest & keyof CreateParameterGroupRequest & keyof CreateParameterGroupRequest & keyof CreateParameterGroupRequest & keyof CreateParameterGroupRequest & keyof CreateParameterGroupRequest & keyof CreateParameterGroupRequest & keyof CreateParameterGroupRequest & keyof CreateParameterGroupRequest & keyof CreateParameterGroupRequest]: (CreateParameterGroupRequest & CreateParameterGroupRequest & CreateParameterGroupRequest & CreateParameterGroupRequest & CreateParameterGroupRequest & CreateParameterGroupRequest & CreateParameterGroupRequest & CreateParameterGroupRequest & CreateParameterGroupRequest & CreateParameterGroupRequest & CreateParameterGroupRequest & CreateParameterGroupRequest)[K]
+      [K in keyof CreateParameterGroupRequest & keyof Omit<CreateParameterGroupRequest, "ParameterGroupName">]: (CreateParameterGroupRequest)[K]
     }>): Request<CreateParameterGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createParameterGroup(
-          this.ops["CreateParameterGroup"].applicator.apply(partialParams)
+          this.ops["CreateParameterGroup"].apply(partialParams)
         );
     }
 
     invokeCreateSubnetGroup(partialParams: ToOptional<{
-      [K in keyof CreateSubnetGroupRequest & keyof CreateSubnetGroupRequest & keyof CreateSubnetGroupRequest & keyof CreateSubnetGroupRequest & keyof CreateSubnetGroupRequest & keyof CreateSubnetGroupRequest & keyof CreateSubnetGroupRequest & keyof CreateSubnetGroupRequest & keyof CreateSubnetGroupRequest & keyof CreateSubnetGroupRequest & keyof CreateSubnetGroupRequest & keyof CreateSubnetGroupRequest]: (CreateSubnetGroupRequest & CreateSubnetGroupRequest & CreateSubnetGroupRequest & CreateSubnetGroupRequest & CreateSubnetGroupRequest & CreateSubnetGroupRequest & CreateSubnetGroupRequest & CreateSubnetGroupRequest & CreateSubnetGroupRequest & CreateSubnetGroupRequest & CreateSubnetGroupRequest & CreateSubnetGroupRequest)[K]
+      [K in keyof CreateSubnetGroupRequest & keyof Omit<CreateSubnetGroupRequest, "SubnetGroupName">]: (CreateSubnetGroupRequest)[K]
     }>): Request<CreateSubnetGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createSubnetGroup(
-          this.ops["CreateSubnetGroup"].applicator.apply(partialParams)
+          this.ops["CreateSubnetGroup"].apply(partialParams)
         );
     }
 
     invokeDecreaseReplicationFactor(partialParams: ToOptional<{
-      [K in keyof DecreaseReplicationFactorRequest & keyof DecreaseReplicationFactorRequest & keyof DecreaseReplicationFactorRequest & keyof DecreaseReplicationFactorRequest & keyof DecreaseReplicationFactorRequest & keyof DecreaseReplicationFactorRequest & keyof DecreaseReplicationFactorRequest & keyof DecreaseReplicationFactorRequest & keyof DecreaseReplicationFactorRequest & keyof DecreaseReplicationFactorRequest & keyof DecreaseReplicationFactorRequest & keyof DecreaseReplicationFactorRequest]: (DecreaseReplicationFactorRequest & DecreaseReplicationFactorRequest & DecreaseReplicationFactorRequest & DecreaseReplicationFactorRequest & DecreaseReplicationFactorRequest & DecreaseReplicationFactorRequest & DecreaseReplicationFactorRequest & DecreaseReplicationFactorRequest & DecreaseReplicationFactorRequest & DecreaseReplicationFactorRequest & DecreaseReplicationFactorRequest & DecreaseReplicationFactorRequest)[K]
+      [K in keyof DecreaseReplicationFactorRequest & keyof Omit<DecreaseReplicationFactorRequest, "ClusterName">]: (DecreaseReplicationFactorRequest)[K]
     }>): Request<DecreaseReplicationFactorResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.decreaseReplicationFactor(
-          this.ops["DecreaseReplicationFactor"].applicator.apply(partialParams)
+          this.ops["DecreaseReplicationFactor"].apply(partialParams)
         );
     }
 
     invokeDeleteCluster(partialParams: ToOptional<{
-      [K in keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest & keyof DeleteClusterRequest]: (DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest & DeleteClusterRequest)[K]
+      [K in keyof DeleteClusterRequest & keyof Omit<DeleteClusterRequest, "ClusterName">]: (DeleteClusterRequest)[K]
     }>): Request<DeleteClusterResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteCluster(
-          this.ops["DeleteCluster"].applicator.apply(partialParams)
+          this.ops["DeleteCluster"].apply(partialParams)
         );
     }
 
     invokeDeleteParameterGroup(partialParams: ToOptional<{
-      [K in keyof DeleteParameterGroupRequest & keyof DeleteParameterGroupRequest & keyof DeleteParameterGroupRequest & keyof DeleteParameterGroupRequest & keyof DeleteParameterGroupRequest & keyof DeleteParameterGroupRequest & keyof DeleteParameterGroupRequest & keyof DeleteParameterGroupRequest & keyof DeleteParameterGroupRequest & keyof DeleteParameterGroupRequest & keyof DeleteParameterGroupRequest & keyof DeleteParameterGroupRequest]: (DeleteParameterGroupRequest & DeleteParameterGroupRequest & DeleteParameterGroupRequest & DeleteParameterGroupRequest & DeleteParameterGroupRequest & DeleteParameterGroupRequest & DeleteParameterGroupRequest & DeleteParameterGroupRequest & DeleteParameterGroupRequest & DeleteParameterGroupRequest & DeleteParameterGroupRequest & DeleteParameterGroupRequest)[K]
+      [K in keyof DeleteParameterGroupRequest & keyof Omit<DeleteParameterGroupRequest, "ParameterGroupName">]: (DeleteParameterGroupRequest)[K]
     }>): Request<DeleteParameterGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteParameterGroup(
-          this.ops["DeleteParameterGroup"].applicator.apply(partialParams)
+          this.ops["DeleteParameterGroup"].apply(partialParams)
         );
     }
 
     invokeDeleteSubnetGroup(partialParams: ToOptional<{
-      [K in keyof DeleteSubnetGroupRequest & keyof DeleteSubnetGroupRequest & keyof DeleteSubnetGroupRequest & keyof DeleteSubnetGroupRequest & keyof DeleteSubnetGroupRequest & keyof DeleteSubnetGroupRequest & keyof DeleteSubnetGroupRequest & keyof DeleteSubnetGroupRequest & keyof DeleteSubnetGroupRequest & keyof DeleteSubnetGroupRequest & keyof DeleteSubnetGroupRequest & keyof DeleteSubnetGroupRequest]: (DeleteSubnetGroupRequest & DeleteSubnetGroupRequest & DeleteSubnetGroupRequest & DeleteSubnetGroupRequest & DeleteSubnetGroupRequest & DeleteSubnetGroupRequest & DeleteSubnetGroupRequest & DeleteSubnetGroupRequest & DeleteSubnetGroupRequest & DeleteSubnetGroupRequest & DeleteSubnetGroupRequest & DeleteSubnetGroupRequest)[K]
+      [K in keyof DeleteSubnetGroupRequest & keyof Omit<DeleteSubnetGroupRequest, "SubnetGroupName">]: (DeleteSubnetGroupRequest)[K]
     }>): Request<DeleteSubnetGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteSubnetGroup(
-          this.ops["DeleteSubnetGroup"].applicator.apply(partialParams)
+          this.ops["DeleteSubnetGroup"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeClusters(partialParams: ToOptional<{
+      [K in keyof DescribeClustersRequest]: (DescribeClustersRequest)[K]
+    }>): Request<DescribeClustersResponse, AWSError> {
+        this.boot();
+        return this.client.describeClusters(
+          this.ops["DescribeClusters"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeDefaultParameters(partialParams: ToOptional<{
+      [K in keyof DescribeDefaultParametersRequest]: (DescribeDefaultParametersRequest)[K]
+    }>): Request<DescribeDefaultParametersResponse, AWSError> {
+        this.boot();
+        return this.client.describeDefaultParameters(
+          this.ops["DescribeDefaultParameters"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeEvents(partialParams: ToOptional<{
+      [K in keyof DescribeEventsRequest]: (DescribeEventsRequest)[K]
+    }>): Request<DescribeEventsResponse, AWSError> {
+        this.boot();
+        return this.client.describeEvents(
+          this.ops["DescribeEvents"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeParameterGroups(partialParams: ToOptional<{
+      [K in keyof DescribeParameterGroupsRequest]: (DescribeParameterGroupsRequest)[K]
+    }>): Request<DescribeParameterGroupsResponse, AWSError> {
+        this.boot();
+        return this.client.describeParameterGroups(
+          this.ops["DescribeParameterGroups"].apply(partialParams)
         );
     }
 
     invokeDescribeParameters(partialParams: ToOptional<{
-      [K in keyof DescribeParametersRequest & keyof DescribeParametersRequest & keyof DescribeParametersRequest & keyof DescribeParametersRequest & keyof DescribeParametersRequest & keyof DescribeParametersRequest & keyof DescribeParametersRequest & keyof DescribeParametersRequest & keyof DescribeParametersRequest & keyof DescribeParametersRequest & keyof DescribeParametersRequest & keyof DescribeParametersRequest]: (DescribeParametersRequest & DescribeParametersRequest & DescribeParametersRequest & DescribeParametersRequest & DescribeParametersRequest & DescribeParametersRequest & DescribeParametersRequest & DescribeParametersRequest & DescribeParametersRequest & DescribeParametersRequest & DescribeParametersRequest & DescribeParametersRequest)[K]
+      [K in keyof DescribeParametersRequest & keyof Omit<DescribeParametersRequest, "ParameterGroupName">]: (DescribeParametersRequest)[K]
     }>): Request<DescribeParametersResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeParameters(
-          this.ops["DescribeParameters"].applicator.apply(partialParams)
+          this.ops["DescribeParameters"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeSubnetGroups(partialParams: ToOptional<{
+      [K in keyof DescribeSubnetGroupsRequest]: (DescribeSubnetGroupsRequest)[K]
+    }>): Request<DescribeSubnetGroupsResponse, AWSError> {
+        this.boot();
+        return this.client.describeSubnetGroups(
+          this.ops["DescribeSubnetGroups"].apply(partialParams)
         );
     }
 
     invokeIncreaseReplicationFactor(partialParams: ToOptional<{
-      [K in keyof IncreaseReplicationFactorRequest & keyof IncreaseReplicationFactorRequest & keyof IncreaseReplicationFactorRequest & keyof IncreaseReplicationFactorRequest & keyof IncreaseReplicationFactorRequest & keyof IncreaseReplicationFactorRequest & keyof IncreaseReplicationFactorRequest & keyof IncreaseReplicationFactorRequest & keyof IncreaseReplicationFactorRequest & keyof IncreaseReplicationFactorRequest & keyof IncreaseReplicationFactorRequest & keyof IncreaseReplicationFactorRequest]: (IncreaseReplicationFactorRequest & IncreaseReplicationFactorRequest & IncreaseReplicationFactorRequest & IncreaseReplicationFactorRequest & IncreaseReplicationFactorRequest & IncreaseReplicationFactorRequest & IncreaseReplicationFactorRequest & IncreaseReplicationFactorRequest & IncreaseReplicationFactorRequest & IncreaseReplicationFactorRequest & IncreaseReplicationFactorRequest & IncreaseReplicationFactorRequest)[K]
+      [K in keyof IncreaseReplicationFactorRequest & keyof Omit<IncreaseReplicationFactorRequest, "ClusterName">]: (IncreaseReplicationFactorRequest)[K]
     }>): Request<IncreaseReplicationFactorResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.increaseReplicationFactor(
-          this.ops["IncreaseReplicationFactor"].applicator.apply(partialParams)
+          this.ops["IncreaseReplicationFactor"].apply(partialParams)
         );
     }
 
     invokeListTags(partialParams: ToOptional<{
-      [K in keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest]: (ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest)[K]
+      [K in keyof ListTagsRequest]: (ListTagsRequest)[K]
     }>): Request<ListTagsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTags(
-          this.ops["ListTags"].applicator.apply(partialParams)
+          this.ops["ListTags"].apply(partialParams)
         );
     }
 
     invokeRebootNode(partialParams: ToOptional<{
-      [K in keyof RebootNodeRequest & keyof RebootNodeRequest & keyof RebootNodeRequest & keyof RebootNodeRequest & keyof RebootNodeRequest & keyof RebootNodeRequest & keyof RebootNodeRequest & keyof RebootNodeRequest & keyof RebootNodeRequest & keyof RebootNodeRequest & keyof RebootNodeRequest & keyof RebootNodeRequest]: (RebootNodeRequest & RebootNodeRequest & RebootNodeRequest & RebootNodeRequest & RebootNodeRequest & RebootNodeRequest & RebootNodeRequest & RebootNodeRequest & RebootNodeRequest & RebootNodeRequest & RebootNodeRequest & RebootNodeRequest)[K]
+      [K in keyof RebootNodeRequest & keyof Omit<RebootNodeRequest, "ClusterName">]: (RebootNodeRequest)[K]
     }>): Request<RebootNodeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.rebootNode(
-          this.ops["RebootNode"].applicator.apply(partialParams)
+          this.ops["RebootNode"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateCluster(partialParams: ToOptional<{
-      [K in keyof UpdateClusterRequest & keyof UpdateClusterRequest & keyof UpdateClusterRequest & keyof Omit<UpdateClusterRequest, "ClusterName"> & keyof UpdateClusterRequest & keyof UpdateClusterRequest & keyof UpdateClusterRequest & keyof UpdateClusterRequest & keyof UpdateClusterRequest & keyof UpdateClusterRequest & keyof UpdateClusterRequest & keyof UpdateClusterRequest]: (UpdateClusterRequest & UpdateClusterRequest & UpdateClusterRequest & Omit<UpdateClusterRequest, "ClusterName"> & UpdateClusterRequest & UpdateClusterRequest & UpdateClusterRequest & UpdateClusterRequest & UpdateClusterRequest & UpdateClusterRequest & UpdateClusterRequest & UpdateClusterRequest)[K]
+      [K in keyof UpdateClusterRequest & keyof Omit<UpdateClusterRequest, "ClusterName">]: (UpdateClusterRequest)[K]
     }>): Request<UpdateClusterResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateCluster(
-          this.ops["UpdateCluster"].applicator.apply(partialParams)
+          this.ops["UpdateCluster"].apply(partialParams)
         );
     }
 
     invokeUpdateParameterGroup(partialParams: ToOptional<{
-      [K in keyof UpdateParameterGroupRequest & keyof UpdateParameterGroupRequest & keyof UpdateParameterGroupRequest & keyof UpdateParameterGroupRequest & keyof UpdateParameterGroupRequest & keyof UpdateParameterGroupRequest & keyof UpdateParameterGroupRequest & keyof UpdateParameterGroupRequest & keyof UpdateParameterGroupRequest & keyof UpdateParameterGroupRequest & keyof Omit<UpdateParameterGroupRequest, "ParameterGroupName"> & keyof UpdateParameterGroupRequest]: (UpdateParameterGroupRequest & UpdateParameterGroupRequest & UpdateParameterGroupRequest & UpdateParameterGroupRequest & UpdateParameterGroupRequest & UpdateParameterGroupRequest & UpdateParameterGroupRequest & UpdateParameterGroupRequest & UpdateParameterGroupRequest & UpdateParameterGroupRequest & Omit<UpdateParameterGroupRequest, "ParameterGroupName"> & UpdateParameterGroupRequest)[K]
+      [K in keyof UpdateParameterGroupRequest & keyof Omit<UpdateParameterGroupRequest, "ParameterGroupName">]: (UpdateParameterGroupRequest)[K]
     }>): Request<UpdateParameterGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateParameterGroup(
-          this.ops["UpdateParameterGroup"].applicator.apply(partialParams)
+          this.ops["UpdateParameterGroup"].apply(partialParams)
         );
     }
 
     invokeUpdateSubnetGroup(partialParams: ToOptional<{
-      [K in keyof UpdateSubnetGroupRequest & keyof UpdateSubnetGroupRequest & keyof UpdateSubnetGroupRequest & keyof UpdateSubnetGroupRequest & keyof UpdateSubnetGroupRequest & keyof UpdateSubnetGroupRequest & keyof UpdateSubnetGroupRequest & keyof UpdateSubnetGroupRequest & keyof UpdateSubnetGroupRequest & keyof UpdateSubnetGroupRequest & keyof UpdateSubnetGroupRequest & keyof Omit<UpdateSubnetGroupRequest, "SubnetGroupName">]: (UpdateSubnetGroupRequest & UpdateSubnetGroupRequest & UpdateSubnetGroupRequest & UpdateSubnetGroupRequest & UpdateSubnetGroupRequest & UpdateSubnetGroupRequest & UpdateSubnetGroupRequest & UpdateSubnetGroupRequest & UpdateSubnetGroupRequest & UpdateSubnetGroupRequest & UpdateSubnetGroupRequest & Omit<UpdateSubnetGroupRequest, "SubnetGroupName">)[K]
+      [K in keyof UpdateSubnetGroupRequest & keyof Omit<UpdateSubnetGroupRequest, "SubnetGroupName">]: (UpdateSubnetGroupRequest)[K]
     }>): Request<UpdateSubnetGroupResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateSubnetGroup(
-          this.ops["UpdateSubnetGroup"].applicator.apply(partialParams)
+          this.ops["UpdateSubnetGroup"].apply(partialParams)
         );
     }
 }

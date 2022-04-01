@@ -27,6 +27,7 @@ import {
     DiscoverInputSchemaRequest,
     ListApplicationSnapshotsRequest,
     ListApplicationVersionsRequest,
+    ListApplicationsRequest,
     ListTagsForResourceRequest,
     RollbackApplicationRequest,
     StartApplicationRequest,
@@ -57,6 +58,7 @@ import {
     DiscoverInputSchemaResponse,
     ListApplicationSnapshotsResponse,
     ListApplicationVersionsResponse,
+    ListApplicationsResponse,
     ListTagsForResourceResponse,
     RollbackApplicationResponse,
     StartApplicationResponse,
@@ -79,21 +81,24 @@ export default class extends aws.kinesisanalyticsv2.ApplicationSnapshot {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.kinesisanalyticsv2.ApplicationSnapshot>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.KinesisAnalyticsV2()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -103,336 +108,286 @@ export default class extends aws.kinesisanalyticsv2.ApplicationSnapshot {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAddApplicationCloudWatchLoggingOption(partialParams: ToOptional<{
-      [K in keyof AddApplicationCloudWatchLoggingOptionRequest & keyof AddApplicationCloudWatchLoggingOptionRequest & keyof AddApplicationCloudWatchLoggingOptionRequest]: (AddApplicationCloudWatchLoggingOptionRequest & AddApplicationCloudWatchLoggingOptionRequest & AddApplicationCloudWatchLoggingOptionRequest)[K]
+      [K in keyof AddApplicationCloudWatchLoggingOptionRequest & keyof Omit<AddApplicationCloudWatchLoggingOptionRequest, "ApplicationName">]: (AddApplicationCloudWatchLoggingOptionRequest)[K]
     }>): Request<AddApplicationCloudWatchLoggingOptionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addApplicationCloudWatchLoggingOption(
-          this.ops["AddApplicationCloudWatchLoggingOption"].applicator.apply(partialParams)
+          this.ops["AddApplicationCloudWatchLoggingOption"].apply(partialParams)
         );
     }
 
     invokeAddApplicationInput(partialParams: ToOptional<{
-      [K in keyof AddApplicationInputRequest & keyof AddApplicationInputRequest & keyof AddApplicationInputRequest]: (AddApplicationInputRequest & AddApplicationInputRequest & AddApplicationInputRequest)[K]
+      [K in keyof AddApplicationInputRequest & keyof Omit<AddApplicationInputRequest, "ApplicationName">]: (AddApplicationInputRequest)[K]
     }>): Request<AddApplicationInputResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addApplicationInput(
-          this.ops["AddApplicationInput"].applicator.apply(partialParams)
+          this.ops["AddApplicationInput"].apply(partialParams)
         );
     }
 
     invokeAddApplicationInputProcessingConfiguration(partialParams: ToOptional<{
-      [K in keyof AddApplicationInputProcessingConfigurationRequest & keyof AddApplicationInputProcessingConfigurationRequest & keyof AddApplicationInputProcessingConfigurationRequest]: (AddApplicationInputProcessingConfigurationRequest & AddApplicationInputProcessingConfigurationRequest & AddApplicationInputProcessingConfigurationRequest)[K]
+      [K in keyof AddApplicationInputProcessingConfigurationRequest & keyof Omit<AddApplicationInputProcessingConfigurationRequest, "ApplicationName">]: (AddApplicationInputProcessingConfigurationRequest)[K]
     }>): Request<AddApplicationInputProcessingConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addApplicationInputProcessingConfiguration(
-          this.ops["AddApplicationInputProcessingConfiguration"].applicator.apply(partialParams)
+          this.ops["AddApplicationInputProcessingConfiguration"].apply(partialParams)
         );
     }
 
     invokeAddApplicationOutput(partialParams: ToOptional<{
-      [K in keyof AddApplicationOutputRequest & keyof AddApplicationOutputRequest & keyof AddApplicationOutputRequest]: (AddApplicationOutputRequest & AddApplicationOutputRequest & AddApplicationOutputRequest)[K]
+      [K in keyof AddApplicationOutputRequest & keyof Omit<AddApplicationOutputRequest, "ApplicationName">]: (AddApplicationOutputRequest)[K]
     }>): Request<AddApplicationOutputResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addApplicationOutput(
-          this.ops["AddApplicationOutput"].applicator.apply(partialParams)
+          this.ops["AddApplicationOutput"].apply(partialParams)
         );
     }
 
     invokeAddApplicationReferenceDataSource(partialParams: ToOptional<{
-      [K in keyof AddApplicationReferenceDataSourceRequest & keyof AddApplicationReferenceDataSourceRequest & keyof AddApplicationReferenceDataSourceRequest]: (AddApplicationReferenceDataSourceRequest & AddApplicationReferenceDataSourceRequest & AddApplicationReferenceDataSourceRequest)[K]
+      [K in keyof AddApplicationReferenceDataSourceRequest & keyof Omit<AddApplicationReferenceDataSourceRequest, "ApplicationName">]: (AddApplicationReferenceDataSourceRequest)[K]
     }>): Request<AddApplicationReferenceDataSourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addApplicationReferenceDataSource(
-          this.ops["AddApplicationReferenceDataSource"].applicator.apply(partialParams)
+          this.ops["AddApplicationReferenceDataSource"].apply(partialParams)
         );
     }
 
     invokeAddApplicationVpcConfiguration(partialParams: ToOptional<{
-      [K in keyof AddApplicationVpcConfigurationRequest & keyof AddApplicationVpcConfigurationRequest & keyof AddApplicationVpcConfigurationRequest]: (AddApplicationVpcConfigurationRequest & AddApplicationVpcConfigurationRequest & AddApplicationVpcConfigurationRequest)[K]
+      [K in keyof AddApplicationVpcConfigurationRequest & keyof Omit<AddApplicationVpcConfigurationRequest, "ApplicationName">]: (AddApplicationVpcConfigurationRequest)[K]
     }>): Request<AddApplicationVpcConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addApplicationVpcConfiguration(
-          this.ops["AddApplicationVpcConfiguration"].applicator.apply(partialParams)
+          this.ops["AddApplicationVpcConfiguration"].apply(partialParams)
         );
     }
 
     invokeCreateApplication(partialParams: ToOptional<{
-      [K in keyof Omit<CreateApplicationRequest, "ApplicationName"> & keyof CreateApplicationRequest & keyof CreateApplicationRequest]: (Omit<CreateApplicationRequest, "ApplicationName"> & CreateApplicationRequest & CreateApplicationRequest)[K]
+      [K in keyof CreateApplicationRequest & keyof Omit<CreateApplicationRequest, "ApplicationName">]: (CreateApplicationRequest)[K]
     }>): Request<CreateApplicationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createApplication(
-          this.ops["CreateApplication"].applicator.apply(partialParams)
+          this.ops["CreateApplication"].apply(partialParams)
         );
     }
 
     invokeCreateApplicationPresignedUrl(partialParams: ToOptional<{
-      [K in keyof Omit<CreateApplicationPresignedUrlRequest, "ApplicationName"> & keyof CreateApplicationPresignedUrlRequest & keyof CreateApplicationPresignedUrlRequest]: (Omit<CreateApplicationPresignedUrlRequest, "ApplicationName"> & CreateApplicationPresignedUrlRequest & CreateApplicationPresignedUrlRequest)[K]
+      [K in keyof CreateApplicationPresignedUrlRequest & keyof Omit<CreateApplicationPresignedUrlRequest, "ApplicationName">]: (CreateApplicationPresignedUrlRequest)[K]
     }>): Request<CreateApplicationPresignedUrlResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createApplicationPresignedUrl(
-          this.ops["CreateApplicationPresignedUrl"].applicator.apply(partialParams)
+          this.ops["CreateApplicationPresignedUrl"].apply(partialParams)
         );
     }
 
     invokeCreateApplicationSnapshot(partialParams: ToOptional<{
-      [K in keyof Omit<CreateApplicationSnapshotRequest, "ApplicationName"> & keyof CreateApplicationSnapshotRequest & keyof CreateApplicationSnapshotRequest]: (Omit<CreateApplicationSnapshotRequest, "ApplicationName"> & CreateApplicationSnapshotRequest & CreateApplicationSnapshotRequest)[K]
+      [K in keyof CreateApplicationSnapshotRequest & keyof Omit<CreateApplicationSnapshotRequest, "ApplicationName" | "SnapshotName">]: (CreateApplicationSnapshotRequest)[K]
     }>): Request<CreateApplicationSnapshotResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createApplicationSnapshot(
-          this.ops["CreateApplicationSnapshot"].applicator.apply(partialParams)
+          this.ops["CreateApplicationSnapshot"].apply(partialParams)
         );
     }
 
     invokeDeleteApplication(partialParams: ToOptional<{
-      [K in keyof Omit<DeleteApplicationRequest, "ApplicationName"> & keyof DeleteApplicationRequest & keyof DeleteApplicationRequest]: (Omit<DeleteApplicationRequest, "ApplicationName"> & DeleteApplicationRequest & DeleteApplicationRequest)[K]
+      [K in keyof DeleteApplicationRequest & keyof Omit<DeleteApplicationRequest, "ApplicationName">]: (DeleteApplicationRequest)[K]
     }>): Request<DeleteApplicationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteApplication(
-          this.ops["DeleteApplication"].applicator.apply(partialParams)
+          this.ops["DeleteApplication"].apply(partialParams)
         );
     }
 
     invokeDeleteApplicationCloudWatchLoggingOption(partialParams: ToOptional<{
-      [K in keyof Omit<DeleteApplicationCloudWatchLoggingOptionRequest, "ApplicationName"> & keyof DeleteApplicationCloudWatchLoggingOptionRequest & keyof DeleteApplicationCloudWatchLoggingOptionRequest]: (Omit<DeleteApplicationCloudWatchLoggingOptionRequest, "ApplicationName"> & DeleteApplicationCloudWatchLoggingOptionRequest & DeleteApplicationCloudWatchLoggingOptionRequest)[K]
+      [K in keyof DeleteApplicationCloudWatchLoggingOptionRequest & keyof Omit<DeleteApplicationCloudWatchLoggingOptionRequest, "ApplicationName">]: (DeleteApplicationCloudWatchLoggingOptionRequest)[K]
     }>): Request<DeleteApplicationCloudWatchLoggingOptionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteApplicationCloudWatchLoggingOption(
-          this.ops["DeleteApplicationCloudWatchLoggingOption"].applicator.apply(partialParams)
+          this.ops["DeleteApplicationCloudWatchLoggingOption"].apply(partialParams)
         );
     }
 
     invokeDeleteApplicationInputProcessingConfiguration(partialParams: ToOptional<{
-      [K in keyof Omit<DeleteApplicationInputProcessingConfigurationRequest, "ApplicationName"> & keyof DeleteApplicationInputProcessingConfigurationRequest & keyof DeleteApplicationInputProcessingConfigurationRequest]: (Omit<DeleteApplicationInputProcessingConfigurationRequest, "ApplicationName"> & DeleteApplicationInputProcessingConfigurationRequest & DeleteApplicationInputProcessingConfigurationRequest)[K]
+      [K in keyof DeleteApplicationInputProcessingConfigurationRequest & keyof Omit<DeleteApplicationInputProcessingConfigurationRequest, "ApplicationName">]: (DeleteApplicationInputProcessingConfigurationRequest)[K]
     }>): Request<DeleteApplicationInputProcessingConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteApplicationInputProcessingConfiguration(
-          this.ops["DeleteApplicationInputProcessingConfiguration"].applicator.apply(partialParams)
+          this.ops["DeleteApplicationInputProcessingConfiguration"].apply(partialParams)
         );
     }
 
     invokeDeleteApplicationOutput(partialParams: ToOptional<{
-      [K in keyof Omit<DeleteApplicationOutputRequest, "ApplicationName"> & keyof DeleteApplicationOutputRequest & keyof DeleteApplicationOutputRequest]: (Omit<DeleteApplicationOutputRequest, "ApplicationName"> & DeleteApplicationOutputRequest & DeleteApplicationOutputRequest)[K]
+      [K in keyof DeleteApplicationOutputRequest & keyof Omit<DeleteApplicationOutputRequest, "ApplicationName">]: (DeleteApplicationOutputRequest)[K]
     }>): Request<DeleteApplicationOutputResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteApplicationOutput(
-          this.ops["DeleteApplicationOutput"].applicator.apply(partialParams)
+          this.ops["DeleteApplicationOutput"].apply(partialParams)
         );
     }
 
     invokeDeleteApplicationReferenceDataSource(partialParams: ToOptional<{
-      [K in keyof Omit<DeleteApplicationReferenceDataSourceRequest, "ApplicationName"> & keyof DeleteApplicationReferenceDataSourceRequest & keyof DeleteApplicationReferenceDataSourceRequest]: (Omit<DeleteApplicationReferenceDataSourceRequest, "ApplicationName"> & DeleteApplicationReferenceDataSourceRequest & DeleteApplicationReferenceDataSourceRequest)[K]
+      [K in keyof DeleteApplicationReferenceDataSourceRequest & keyof Omit<DeleteApplicationReferenceDataSourceRequest, "ApplicationName">]: (DeleteApplicationReferenceDataSourceRequest)[K]
     }>): Request<DeleteApplicationReferenceDataSourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteApplicationReferenceDataSource(
-          this.ops["DeleteApplicationReferenceDataSource"].applicator.apply(partialParams)
+          this.ops["DeleteApplicationReferenceDataSource"].apply(partialParams)
         );
     }
 
     invokeDeleteApplicationSnapshot(partialParams: ToOptional<{
-      [K in keyof Omit<DeleteApplicationSnapshotRequest, "ApplicationName"> & keyof DeleteApplicationSnapshotRequest & keyof DeleteApplicationSnapshotRequest]: (Omit<DeleteApplicationSnapshotRequest, "ApplicationName"> & DeleteApplicationSnapshotRequest & DeleteApplicationSnapshotRequest)[K]
+      [K in keyof DeleteApplicationSnapshotRequest & keyof Omit<DeleteApplicationSnapshotRequest, "ApplicationName" | "SnapshotName" | "SnapshotCreationTimestamp">]: (DeleteApplicationSnapshotRequest)[K]
     }>): Request<DeleteApplicationSnapshotResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteApplicationSnapshot(
-          this.ops["DeleteApplicationSnapshot"].applicator.apply(partialParams)
+          this.ops["DeleteApplicationSnapshot"].apply(partialParams)
         );
     }
 
     invokeDeleteApplicationVpcConfiguration(partialParams: ToOptional<{
-      [K in keyof Omit<DeleteApplicationVpcConfigurationRequest, "ApplicationName"> & keyof DeleteApplicationVpcConfigurationRequest & keyof DeleteApplicationVpcConfigurationRequest]: (Omit<DeleteApplicationVpcConfigurationRequest, "ApplicationName"> & DeleteApplicationVpcConfigurationRequest & DeleteApplicationVpcConfigurationRequest)[K]
+      [K in keyof DeleteApplicationVpcConfigurationRequest & keyof Omit<DeleteApplicationVpcConfigurationRequest, "ApplicationName">]: (DeleteApplicationVpcConfigurationRequest)[K]
     }>): Request<DeleteApplicationVpcConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteApplicationVpcConfiguration(
-          this.ops["DeleteApplicationVpcConfiguration"].applicator.apply(partialParams)
+          this.ops["DeleteApplicationVpcConfiguration"].apply(partialParams)
         );
     }
 
     invokeDescribeApplication(partialParams: ToOptional<{
-      [K in keyof Omit<DescribeApplicationRequest, "ApplicationName"> & keyof DescribeApplicationRequest & keyof DescribeApplicationRequest]: (Omit<DescribeApplicationRequest, "ApplicationName"> & DescribeApplicationRequest & DescribeApplicationRequest)[K]
+      [K in keyof DescribeApplicationRequest & keyof Omit<DescribeApplicationRequest, "ApplicationName">]: (DescribeApplicationRequest)[K]
     }>): Request<DescribeApplicationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeApplication(
-          this.ops["DescribeApplication"].applicator.apply(partialParams)
+          this.ops["DescribeApplication"].apply(partialParams)
         );
     }
 
     invokeDescribeApplicationSnapshot(partialParams: ToOptional<{
-      [K in keyof Omit<DescribeApplicationSnapshotRequest, "ApplicationName"> & keyof DescribeApplicationSnapshotRequest & keyof DescribeApplicationSnapshotRequest]: (Omit<DescribeApplicationSnapshotRequest, "ApplicationName"> & DescribeApplicationSnapshotRequest & DescribeApplicationSnapshotRequest)[K]
+      [K in keyof DescribeApplicationSnapshotRequest & keyof Omit<DescribeApplicationSnapshotRequest, "ApplicationName" | "SnapshotName">]: (DescribeApplicationSnapshotRequest)[K]
     }>): Request<DescribeApplicationSnapshotResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeApplicationSnapshot(
-          this.ops["DescribeApplicationSnapshot"].applicator.apply(partialParams)
+          this.ops["DescribeApplicationSnapshot"].apply(partialParams)
         );
     }
 
     invokeDescribeApplicationVersion(partialParams: ToOptional<{
-      [K in keyof Omit<DescribeApplicationVersionRequest, "ApplicationName"> & keyof DescribeApplicationVersionRequest & keyof DescribeApplicationVersionRequest]: (Omit<DescribeApplicationVersionRequest, "ApplicationName"> & DescribeApplicationVersionRequest & DescribeApplicationVersionRequest)[K]
+      [K in keyof DescribeApplicationVersionRequest & keyof Omit<DescribeApplicationVersionRequest, "ApplicationName">]: (DescribeApplicationVersionRequest)[K]
     }>): Request<DescribeApplicationVersionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeApplicationVersion(
-          this.ops["DescribeApplicationVersion"].applicator.apply(partialParams)
+          this.ops["DescribeApplicationVersion"].apply(partialParams)
         );
     }
 
     invokeDiscoverInputSchema(partialParams: ToOptional<{
-      [K in keyof DiscoverInputSchemaRequest & keyof DiscoverInputSchemaRequest & keyof DiscoverInputSchemaRequest]: (DiscoverInputSchemaRequest & DiscoverInputSchemaRequest & DiscoverInputSchemaRequest)[K]
+      [K in keyof DiscoverInputSchemaRequest]: (DiscoverInputSchemaRequest)[K]
     }>): Request<DiscoverInputSchemaResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.discoverInputSchema(
-          this.ops["DiscoverInputSchema"].applicator.apply(partialParams)
+          this.ops["DiscoverInputSchema"].apply(partialParams)
         );
     }
 
     invokeListApplicationSnapshots(partialParams: ToOptional<{
-      [K in keyof Omit<ListApplicationSnapshotsRequest, "ApplicationName"> & keyof ListApplicationSnapshotsRequest & keyof ListApplicationSnapshotsRequest]: (Omit<ListApplicationSnapshotsRequest, "ApplicationName"> & ListApplicationSnapshotsRequest & ListApplicationSnapshotsRequest)[K]
+      [K in keyof ListApplicationSnapshotsRequest & keyof Omit<ListApplicationSnapshotsRequest, "ApplicationName">]: (ListApplicationSnapshotsRequest)[K]
     }>): Request<ListApplicationSnapshotsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listApplicationSnapshots(
-          this.ops["ListApplicationSnapshots"].applicator.apply(partialParams)
+          this.ops["ListApplicationSnapshots"].apply(partialParams)
         );
     }
 
     invokeListApplicationVersions(partialParams: ToOptional<{
-      [K in keyof Omit<ListApplicationVersionsRequest, "ApplicationName"> & keyof ListApplicationVersionsRequest & keyof ListApplicationVersionsRequest]: (Omit<ListApplicationVersionsRequest, "ApplicationName"> & ListApplicationVersionsRequest & ListApplicationVersionsRequest)[K]
+      [K in keyof ListApplicationVersionsRequest & keyof Omit<ListApplicationVersionsRequest, "ApplicationName">]: (ListApplicationVersionsRequest)[K]
     }>): Request<ListApplicationVersionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listApplicationVersions(
-          this.ops["ListApplicationVersions"].applicator.apply(partialParams)
+          this.ops["ListApplicationVersions"].apply(partialParams)
+        );
+    }
+
+    invokeListApplications(partialParams: ToOptional<{
+      [K in keyof ListApplicationsRequest]: (ListApplicationsRequest)[K]
+    }>): Request<ListApplicationsResponse, AWSError> {
+        this.boot();
+        return this.client.listApplications(
+          this.ops["ListApplications"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeRollbackApplication(partialParams: ToOptional<{
-      [K in keyof Omit<RollbackApplicationRequest, "ApplicationName"> & keyof RollbackApplicationRequest & keyof RollbackApplicationRequest]: (Omit<RollbackApplicationRequest, "ApplicationName"> & RollbackApplicationRequest & RollbackApplicationRequest)[K]
+      [K in keyof RollbackApplicationRequest & keyof Omit<RollbackApplicationRequest, "ApplicationName">]: (RollbackApplicationRequest)[K]
     }>): Request<RollbackApplicationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.rollbackApplication(
-          this.ops["RollbackApplication"].applicator.apply(partialParams)
+          this.ops["RollbackApplication"].apply(partialParams)
         );
     }
 
     invokeStartApplication(partialParams: ToOptional<{
-      [K in keyof Omit<StartApplicationRequest, "ApplicationName"> & keyof StartApplicationRequest & keyof StartApplicationRequest]: (Omit<StartApplicationRequest, "ApplicationName"> & StartApplicationRequest & StartApplicationRequest)[K]
+      [K in keyof StartApplicationRequest & keyof Omit<StartApplicationRequest, "ApplicationName">]: (StartApplicationRequest)[K]
     }>): Request<StartApplicationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startApplication(
-          this.ops["StartApplication"].applicator.apply(partialParams)
+          this.ops["StartApplication"].apply(partialParams)
         );
     }
 
     invokeStopApplication(partialParams: ToOptional<{
-      [K in keyof Omit<StopApplicationRequest, "ApplicationName"> & keyof StopApplicationRequest & keyof StopApplicationRequest]: (Omit<StopApplicationRequest, "ApplicationName"> & StopApplicationRequest & StopApplicationRequest)[K]
+      [K in keyof StopApplicationRequest & keyof Omit<StopApplicationRequest, "ApplicationName">]: (StopApplicationRequest)[K]
     }>): Request<StopApplicationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopApplication(
-          this.ops["StopApplication"].applicator.apply(partialParams)
+          this.ops["StopApplication"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
     invokeUpdateApplication(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateApplicationRequest, "ApplicationName"> & keyof UpdateApplicationRequest & keyof UpdateApplicationRequest]: (Omit<UpdateApplicationRequest, "ApplicationName"> & UpdateApplicationRequest & UpdateApplicationRequest)[K]
+      [K in keyof UpdateApplicationRequest & keyof Omit<UpdateApplicationRequest, "ApplicationName">]: (UpdateApplicationRequest)[K]
     }>): Request<UpdateApplicationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateApplication(
-          this.ops["UpdateApplication"].applicator.apply(partialParams)
+          this.ops["UpdateApplication"].apply(partialParams)
         );
     }
 
     invokeUpdateApplicationMaintenanceConfiguration(partialParams: ToOptional<{
-      [K in keyof Omit<UpdateApplicationMaintenanceConfigurationRequest, "ApplicationName"> & keyof UpdateApplicationMaintenanceConfigurationRequest & keyof UpdateApplicationMaintenanceConfigurationRequest]: (Omit<UpdateApplicationMaintenanceConfigurationRequest, "ApplicationName"> & UpdateApplicationMaintenanceConfigurationRequest & UpdateApplicationMaintenanceConfigurationRequest)[K]
+      [K in keyof UpdateApplicationMaintenanceConfigurationRequest & keyof Omit<UpdateApplicationMaintenanceConfigurationRequest, "ApplicationName">]: (UpdateApplicationMaintenanceConfigurationRequest)[K]
     }>): Request<UpdateApplicationMaintenanceConfigurationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateApplicationMaintenanceConfiguration(
-          this.ops["UpdateApplicationMaintenanceConfiguration"].applicator.apply(partialParams)
+          this.ops["UpdateApplicationMaintenanceConfiguration"].apply(partialParams)
         );
     }
 }

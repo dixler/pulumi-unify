@@ -6,16 +6,16 @@ import {AWSError} from 'aws-sdk/lib/error';
 
 import {
     AddProfilePermissionRequest,
-    CancelSigningProfileRequest,
     DescribeSigningJobRequest,
     GetSigningPlatformRequest,
     GetSigningProfileRequest,
     ListProfilePermissionsRequest,
+    ListSigningJobsRequest,
+    ListSigningPlatformsRequest,
+    ListSigningProfilesRequest,
     ListTagsForResourceRequest,
     PutSigningProfileRequest,
     RemoveProfilePermissionRequest,
-    RevokeSignatureRequest,
-    RevokeSigningProfileRequest,
     StartSigningJobRequest,
     TagResourceRequest,
     UntagResourceRequest,
@@ -24,6 +24,9 @@ import {
     GetSigningPlatformResponse,
     GetSigningProfileResponse,
     ListProfilePermissionsResponse,
+    ListSigningJobsResponse,
+    ListSigningPlatformsResponse,
+    ListSigningProfilesResponse,
     ListTagsForResourceResponse,
     PutSigningProfileResponse,
     RemoveProfilePermissionResponse,
@@ -44,21 +47,24 @@ export default class extends aws.signer.SigningProfile {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.signer.SigningProfile>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.Signer()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -68,160 +74,133 @@ export default class extends aws.signer.SigningProfile {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAddProfilePermission(partialParams: ToOptional<{
-      [K in keyof AddProfilePermissionRequest & keyof AddProfilePermissionRequest & keyof AddProfilePermissionRequest & keyof AddProfilePermissionRequest & keyof AddProfilePermissionRequest & keyof AddProfilePermissionRequest & keyof AddProfilePermissionRequest & keyof AddProfilePermissionRequest]: (AddProfilePermissionRequest & AddProfilePermissionRequest & AddProfilePermissionRequest & AddProfilePermissionRequest & AddProfilePermissionRequest & AddProfilePermissionRequest & AddProfilePermissionRequest & AddProfilePermissionRequest)[K]
+      [K in keyof AddProfilePermissionRequest]: (AddProfilePermissionRequest)[K]
     }>): Request<AddProfilePermissionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addProfilePermission(
-          this.ops["AddProfilePermission"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeCancelSigningProfile(partialParams: ToOptional<{
-      [K in keyof CancelSigningProfileRequest & keyof CancelSigningProfileRequest & keyof CancelSigningProfileRequest & keyof CancelSigningProfileRequest & keyof CancelSigningProfileRequest & keyof CancelSigningProfileRequest & keyof CancelSigningProfileRequest & keyof CancelSigningProfileRequest]: (CancelSigningProfileRequest & CancelSigningProfileRequest & CancelSigningProfileRequest & CancelSigningProfileRequest & CancelSigningProfileRequest & CancelSigningProfileRequest & CancelSigningProfileRequest & CancelSigningProfileRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.cancelSigningProfile(
-          this.ops["CancelSigningProfile"].applicator.apply(partialParams)
+          this.ops["AddProfilePermission"].apply(partialParams)
         );
     }
 
     invokeDescribeSigningJob(partialParams: ToOptional<{
-      [K in keyof DescribeSigningJobRequest & keyof DescribeSigningJobRequest & keyof DescribeSigningJobRequest & keyof DescribeSigningJobRequest & keyof DescribeSigningJobRequest & keyof DescribeSigningJobRequest & keyof DescribeSigningJobRequest & keyof DescribeSigningJobRequest]: (DescribeSigningJobRequest & DescribeSigningJobRequest & DescribeSigningJobRequest & DescribeSigningJobRequest & DescribeSigningJobRequest & DescribeSigningJobRequest & DescribeSigningJobRequest & DescribeSigningJobRequest)[K]
+      [K in keyof DescribeSigningJobRequest]: (DescribeSigningJobRequest)[K]
     }>): Request<DescribeSigningJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeSigningJob(
-          this.ops["DescribeSigningJob"].applicator.apply(partialParams)
+          this.ops["DescribeSigningJob"].apply(partialParams)
         );
     }
 
     invokeGetSigningPlatform(partialParams: ToOptional<{
-      [K in keyof GetSigningPlatformRequest & keyof GetSigningPlatformRequest & keyof GetSigningPlatformRequest & keyof GetSigningPlatformRequest & keyof GetSigningPlatformRequest & keyof GetSigningPlatformRequest & keyof GetSigningPlatformRequest & keyof GetSigningPlatformRequest]: (GetSigningPlatformRequest & GetSigningPlatformRequest & GetSigningPlatformRequest & GetSigningPlatformRequest & GetSigningPlatformRequest & GetSigningPlatformRequest & GetSigningPlatformRequest & GetSigningPlatformRequest)[K]
+      [K in keyof GetSigningPlatformRequest]: (GetSigningPlatformRequest)[K]
     }>): Request<GetSigningPlatformResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getSigningPlatform(
-          this.ops["GetSigningPlatform"].applicator.apply(partialParams)
+          this.ops["GetSigningPlatform"].apply(partialParams)
         );
     }
 
     invokeGetSigningProfile(partialParams: ToOptional<{
-      [K in keyof GetSigningProfileRequest & keyof GetSigningProfileRequest & keyof GetSigningProfileRequest & keyof GetSigningProfileRequest & keyof GetSigningProfileRequest & keyof GetSigningProfileRequest & keyof GetSigningProfileRequest & keyof GetSigningProfileRequest]: (GetSigningProfileRequest & GetSigningProfileRequest & GetSigningProfileRequest & GetSigningProfileRequest & GetSigningProfileRequest & GetSigningProfileRequest & GetSigningProfileRequest & GetSigningProfileRequest)[K]
+      [K in keyof GetSigningProfileRequest]: (GetSigningProfileRequest)[K]
     }>): Request<GetSigningProfileResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getSigningProfile(
-          this.ops["GetSigningProfile"].applicator.apply(partialParams)
+          this.ops["GetSigningProfile"].apply(partialParams)
         );
     }
 
     invokeListProfilePermissions(partialParams: ToOptional<{
-      [K in keyof ListProfilePermissionsRequest & keyof ListProfilePermissionsRequest & keyof ListProfilePermissionsRequest & keyof ListProfilePermissionsRequest & keyof ListProfilePermissionsRequest & keyof ListProfilePermissionsRequest & keyof ListProfilePermissionsRequest & keyof ListProfilePermissionsRequest]: (ListProfilePermissionsRequest & ListProfilePermissionsRequest & ListProfilePermissionsRequest & ListProfilePermissionsRequest & ListProfilePermissionsRequest & ListProfilePermissionsRequest & ListProfilePermissionsRequest & ListProfilePermissionsRequest)[K]
+      [K in keyof ListProfilePermissionsRequest]: (ListProfilePermissionsRequest)[K]
     }>): Request<ListProfilePermissionsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listProfilePermissions(
-          this.ops["ListProfilePermissions"].applicator.apply(partialParams)
+          this.ops["ListProfilePermissions"].apply(partialParams)
+        );
+    }
+
+    invokeListSigningJobs(partialParams: ToOptional<{
+      [K in keyof ListSigningJobsRequest]: (ListSigningJobsRequest)[K]
+    }>): Request<ListSigningJobsResponse, AWSError> {
+        this.boot();
+        return this.client.listSigningJobs(
+          this.ops["ListSigningJobs"].apply(partialParams)
+        );
+    }
+
+    invokeListSigningPlatforms(partialParams: ToOptional<{
+      [K in keyof ListSigningPlatformsRequest]: (ListSigningPlatformsRequest)[K]
+    }>): Request<ListSigningPlatformsResponse, AWSError> {
+        this.boot();
+        return this.client.listSigningPlatforms(
+          this.ops["ListSigningPlatforms"].apply(partialParams)
+        );
+    }
+
+    invokeListSigningProfiles(partialParams: ToOptional<{
+      [K in keyof ListSigningProfilesRequest]: (ListSigningProfilesRequest)[K]
+    }>): Request<ListSigningProfilesResponse, AWSError> {
+        this.boot();
+        return this.client.listSigningProfiles(
+          this.ops["ListSigningProfiles"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokePutSigningProfile(partialParams: ToOptional<{
-      [K in keyof PutSigningProfileRequest & keyof PutSigningProfileRequest & keyof PutSigningProfileRequest & keyof PutSigningProfileRequest & keyof Omit<PutSigningProfileRequest, "platformId"> & keyof PutSigningProfileRequest & keyof PutSigningProfileRequest & keyof PutSigningProfileRequest]: (PutSigningProfileRequest & PutSigningProfileRequest & PutSigningProfileRequest & PutSigningProfileRequest & Omit<PutSigningProfileRequest, "platformId"> & PutSigningProfileRequest & PutSigningProfileRequest & PutSigningProfileRequest)[K]
+      [K in keyof PutSigningProfileRequest]: (PutSigningProfileRequest)[K]
     }>): Request<PutSigningProfileResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putSigningProfile(
-          this.ops["PutSigningProfile"].applicator.apply(partialParams)
+          this.ops["PutSigningProfile"].apply(partialParams)
         );
     }
 
     invokeRemoveProfilePermission(partialParams: ToOptional<{
-      [K in keyof RemoveProfilePermissionRequest & keyof RemoveProfilePermissionRequest & keyof RemoveProfilePermissionRequest & keyof RemoveProfilePermissionRequest & keyof RemoveProfilePermissionRequest & keyof RemoveProfilePermissionRequest & keyof RemoveProfilePermissionRequest & keyof RemoveProfilePermissionRequest]: (RemoveProfilePermissionRequest & RemoveProfilePermissionRequest & RemoveProfilePermissionRequest & RemoveProfilePermissionRequest & RemoveProfilePermissionRequest & RemoveProfilePermissionRequest & RemoveProfilePermissionRequest & RemoveProfilePermissionRequest)[K]
+      [K in keyof RemoveProfilePermissionRequest]: (RemoveProfilePermissionRequest)[K]
     }>): Request<RemoveProfilePermissionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.removeProfilePermission(
-          this.ops["RemoveProfilePermission"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeRevokeSignature(partialParams: ToOptional<{
-      [K in keyof RevokeSignatureRequest & keyof RevokeSignatureRequest & keyof RevokeSignatureRequest & keyof RevokeSignatureRequest & keyof RevokeSignatureRequest & keyof RevokeSignatureRequest & keyof RevokeSignatureRequest & keyof RevokeSignatureRequest]: (RevokeSignatureRequest & RevokeSignatureRequest & RevokeSignatureRequest & RevokeSignatureRequest & RevokeSignatureRequest & RevokeSignatureRequest & RevokeSignatureRequest & RevokeSignatureRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.revokeSignature(
-          this.ops["RevokeSignature"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeRevokeSigningProfile(partialParams: ToOptional<{
-      [K in keyof RevokeSigningProfileRequest & keyof RevokeSigningProfileRequest & keyof RevokeSigningProfileRequest & keyof RevokeSigningProfileRequest & keyof RevokeSigningProfileRequest & keyof RevokeSigningProfileRequest & keyof RevokeSigningProfileRequest & keyof RevokeSigningProfileRequest]: (RevokeSigningProfileRequest & RevokeSigningProfileRequest & RevokeSigningProfileRequest & RevokeSigningProfileRequest & RevokeSigningProfileRequest & RevokeSigningProfileRequest & RevokeSigningProfileRequest & RevokeSigningProfileRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.revokeSigningProfile(
-          this.ops["RevokeSigningProfile"].applicator.apply(partialParams)
+          this.ops["RemoveProfilePermission"].apply(partialParams)
         );
     }
 
     invokeStartSigningJob(partialParams: ToOptional<{
-      [K in keyof StartSigningJobRequest & keyof StartSigningJobRequest & keyof StartSigningJobRequest & keyof StartSigningJobRequest & keyof StartSigningJobRequest & keyof StartSigningJobRequest & keyof StartSigningJobRequest & keyof StartSigningJobRequest]: (StartSigningJobRequest & StartSigningJobRequest & StartSigningJobRequest & StartSigningJobRequest & StartSigningJobRequest & StartSigningJobRequest & StartSigningJobRequest & StartSigningJobRequest)[K]
+      [K in keyof StartSigningJobRequest]: (StartSigningJobRequest)[K]
     }>): Request<StartSigningJobResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startSigningJob(
-          this.ops["StartSigningJob"].applicator.apply(partialParams)
+          this.ops["StartSigningJob"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 }

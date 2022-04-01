@@ -8,10 +8,17 @@ import {
     BatchGetTracesRequest,
     CreateGroupRequest,
     CreateSamplingRuleRequest,
+    DeleteGroupRequest,
+    DeleteSamplingRuleRequest,
+    GetEncryptionConfigRequest,
+    GetGroupRequest,
+    GetGroupsRequest,
     GetInsightRequest,
     GetInsightEventsRequest,
     GetInsightImpactGraphRequest,
     GetInsightSummariesRequest,
+    GetSamplingRulesRequest,
+    GetSamplingStatisticSummariesRequest,
     GetSamplingTargetsRequest,
     GetServiceGraphRequest,
     GetTimeSeriesServiceStatisticsRequest,
@@ -23,14 +30,22 @@ import {
     PutTraceSegmentsRequest,
     TagResourceRequest,
     UntagResourceRequest,
+    UpdateGroupRequest,
     UpdateSamplingRuleRequest,
     BatchGetTracesResult,
     CreateGroupResult,
     CreateSamplingRuleResult,
+    DeleteGroupResult,
+    DeleteSamplingRuleResult,
+    GetEncryptionConfigResult,
+    GetGroupResult,
+    GetGroupsResult,
     GetInsightResult,
     GetInsightEventsResult,
     GetInsightImpactGraphResult,
     GetInsightSummariesResult,
+    GetSamplingRulesResult,
+    GetSamplingStatisticSummariesResult,
     GetSamplingTargetsResult,
     GetServiceGraphResult,
     GetTimeSeriesServiceStatisticsResult,
@@ -42,6 +57,7 @@ import {
     PutTraceSegmentsResult,
     TagResourceResponse,
     UntagResourceResponse,
+    UpdateGroupResult,
     UpdateSamplingRuleResult
 } from "aws-sdk/clients/xray";
 const schema = require("../apis/xray-2016-04-12.normal.json")
@@ -57,21 +73,24 @@ export default class extends aws.xray.EncryptionConfig {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.xray.EncryptionConfig>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.XRay()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -81,215 +100,250 @@ export default class extends aws.xray.EncryptionConfig {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeBatchGetTraces(partialParams: ToOptional<{
-      [K in keyof BatchGetTracesRequest & keyof BatchGetTracesRequest]: (BatchGetTracesRequest & BatchGetTracesRequest)[K]
+      [K in keyof BatchGetTracesRequest]: (BatchGetTracesRequest)[K]
     }>): Request<BatchGetTracesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.batchGetTraces(
-          this.ops["BatchGetTraces"].applicator.apply(partialParams)
+          this.ops["BatchGetTraces"].apply(partialParams)
         );
     }
 
     invokeCreateGroup(partialParams: ToOptional<{
-      [K in keyof CreateGroupRequest & keyof CreateGroupRequest]: (CreateGroupRequest & CreateGroupRequest)[K]
+      [K in keyof CreateGroupRequest]: (CreateGroupRequest)[K]
     }>): Request<CreateGroupResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createGroup(
-          this.ops["CreateGroup"].applicator.apply(partialParams)
+          this.ops["CreateGroup"].apply(partialParams)
         );
     }
 
     invokeCreateSamplingRule(partialParams: ToOptional<{
-      [K in keyof CreateSamplingRuleRequest & keyof CreateSamplingRuleRequest]: (CreateSamplingRuleRequest & CreateSamplingRuleRequest)[K]
+      [K in keyof CreateSamplingRuleRequest]: (CreateSamplingRuleRequest)[K]
     }>): Request<CreateSamplingRuleResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createSamplingRule(
-          this.ops["CreateSamplingRule"].applicator.apply(partialParams)
+          this.ops["CreateSamplingRule"].apply(partialParams)
+        );
+    }
+
+    invokeDeleteGroup(partialParams: ToOptional<{
+      [K in keyof DeleteGroupRequest]: (DeleteGroupRequest)[K]
+    }>): Request<DeleteGroupResult, AWSError> {
+        this.boot();
+        return this.client.deleteGroup(
+          this.ops["DeleteGroup"].apply(partialParams)
+        );
+    }
+
+    invokeDeleteSamplingRule(partialParams: ToOptional<{
+      [K in keyof DeleteSamplingRuleRequest]: (DeleteSamplingRuleRequest)[K]
+    }>): Request<DeleteSamplingRuleResult, AWSError> {
+        this.boot();
+        return this.client.deleteSamplingRule(
+          this.ops["DeleteSamplingRule"].apply(partialParams)
+        );
+    }
+
+    invokeGetEncryptionConfig(partialParams: ToOptional<{
+      [K in keyof GetEncryptionConfigRequest]: (GetEncryptionConfigRequest)[K]
+    }>): Request<GetEncryptionConfigResult, AWSError> {
+        this.boot();
+        return this.client.getEncryptionConfig(
+          this.ops["GetEncryptionConfig"].apply(partialParams)
+        );
+    }
+
+    invokeGetGroup(partialParams: ToOptional<{
+      [K in keyof GetGroupRequest]: (GetGroupRequest)[K]
+    }>): Request<GetGroupResult, AWSError> {
+        this.boot();
+        return this.client.getGroup(
+          this.ops["GetGroup"].apply(partialParams)
+        );
+    }
+
+    invokeGetGroups(partialParams: ToOptional<{
+      [K in keyof GetGroupsRequest]: (GetGroupsRequest)[K]
+    }>): Request<GetGroupsResult, AWSError> {
+        this.boot();
+        return this.client.getGroups(
+          this.ops["GetGroups"].apply(partialParams)
         );
     }
 
     invokeGetInsight(partialParams: ToOptional<{
-      [K in keyof GetInsightRequest & keyof GetInsightRequest]: (GetInsightRequest & GetInsightRequest)[K]
+      [K in keyof GetInsightRequest]: (GetInsightRequest)[K]
     }>): Request<GetInsightResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getInsight(
-          this.ops["GetInsight"].applicator.apply(partialParams)
+          this.ops["GetInsight"].apply(partialParams)
         );
     }
 
     invokeGetInsightEvents(partialParams: ToOptional<{
-      [K in keyof GetInsightEventsRequest & keyof GetInsightEventsRequest]: (GetInsightEventsRequest & GetInsightEventsRequest)[K]
+      [K in keyof GetInsightEventsRequest]: (GetInsightEventsRequest)[K]
     }>): Request<GetInsightEventsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getInsightEvents(
-          this.ops["GetInsightEvents"].applicator.apply(partialParams)
+          this.ops["GetInsightEvents"].apply(partialParams)
         );
     }
 
     invokeGetInsightImpactGraph(partialParams: ToOptional<{
-      [K in keyof GetInsightImpactGraphRequest & keyof GetInsightImpactGraphRequest]: (GetInsightImpactGraphRequest & GetInsightImpactGraphRequest)[K]
+      [K in keyof GetInsightImpactGraphRequest]: (GetInsightImpactGraphRequest)[K]
     }>): Request<GetInsightImpactGraphResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getInsightImpactGraph(
-          this.ops["GetInsightImpactGraph"].applicator.apply(partialParams)
+          this.ops["GetInsightImpactGraph"].apply(partialParams)
         );
     }
 
     invokeGetInsightSummaries(partialParams: ToOptional<{
-      [K in keyof GetInsightSummariesRequest & keyof GetInsightSummariesRequest]: (GetInsightSummariesRequest & GetInsightSummariesRequest)[K]
+      [K in keyof GetInsightSummariesRequest]: (GetInsightSummariesRequest)[K]
     }>): Request<GetInsightSummariesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getInsightSummaries(
-          this.ops["GetInsightSummaries"].applicator.apply(partialParams)
+          this.ops["GetInsightSummaries"].apply(partialParams)
+        );
+    }
+
+    invokeGetSamplingRules(partialParams: ToOptional<{
+      [K in keyof GetSamplingRulesRequest]: (GetSamplingRulesRequest)[K]
+    }>): Request<GetSamplingRulesResult, AWSError> {
+        this.boot();
+        return this.client.getSamplingRules(
+          this.ops["GetSamplingRules"].apply(partialParams)
+        );
+    }
+
+    invokeGetSamplingStatisticSummaries(partialParams: ToOptional<{
+      [K in keyof GetSamplingStatisticSummariesRequest]: (GetSamplingStatisticSummariesRequest)[K]
+    }>): Request<GetSamplingStatisticSummariesResult, AWSError> {
+        this.boot();
+        return this.client.getSamplingStatisticSummaries(
+          this.ops["GetSamplingStatisticSummaries"].apply(partialParams)
         );
     }
 
     invokeGetSamplingTargets(partialParams: ToOptional<{
-      [K in keyof GetSamplingTargetsRequest & keyof GetSamplingTargetsRequest]: (GetSamplingTargetsRequest & GetSamplingTargetsRequest)[K]
+      [K in keyof GetSamplingTargetsRequest]: (GetSamplingTargetsRequest)[K]
     }>): Request<GetSamplingTargetsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getSamplingTargets(
-          this.ops["GetSamplingTargets"].applicator.apply(partialParams)
+          this.ops["GetSamplingTargets"].apply(partialParams)
         );
     }
 
     invokeGetServiceGraph(partialParams: ToOptional<{
-      [K in keyof GetServiceGraphRequest & keyof GetServiceGraphRequest]: (GetServiceGraphRequest & GetServiceGraphRequest)[K]
+      [K in keyof GetServiceGraphRequest]: (GetServiceGraphRequest)[K]
     }>): Request<GetServiceGraphResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getServiceGraph(
-          this.ops["GetServiceGraph"].applicator.apply(partialParams)
+          this.ops["GetServiceGraph"].apply(partialParams)
         );
     }
 
     invokeGetTimeSeriesServiceStatistics(partialParams: ToOptional<{
-      [K in keyof GetTimeSeriesServiceStatisticsRequest & keyof GetTimeSeriesServiceStatisticsRequest]: (GetTimeSeriesServiceStatisticsRequest & GetTimeSeriesServiceStatisticsRequest)[K]
+      [K in keyof GetTimeSeriesServiceStatisticsRequest]: (GetTimeSeriesServiceStatisticsRequest)[K]
     }>): Request<GetTimeSeriesServiceStatisticsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getTimeSeriesServiceStatistics(
-          this.ops["GetTimeSeriesServiceStatistics"].applicator.apply(partialParams)
+          this.ops["GetTimeSeriesServiceStatistics"].apply(partialParams)
         );
     }
 
     invokeGetTraceGraph(partialParams: ToOptional<{
-      [K in keyof GetTraceGraphRequest & keyof GetTraceGraphRequest]: (GetTraceGraphRequest & GetTraceGraphRequest)[K]
+      [K in keyof GetTraceGraphRequest]: (GetTraceGraphRequest)[K]
     }>): Request<GetTraceGraphResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getTraceGraph(
-          this.ops["GetTraceGraph"].applicator.apply(partialParams)
+          this.ops["GetTraceGraph"].apply(partialParams)
         );
     }
 
     invokeGetTraceSummaries(partialParams: ToOptional<{
-      [K in keyof GetTraceSummariesRequest & keyof GetTraceSummariesRequest]: (GetTraceSummariesRequest & GetTraceSummariesRequest)[K]
+      [K in keyof GetTraceSummariesRequest]: (GetTraceSummariesRequest)[K]
     }>): Request<GetTraceSummariesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getTraceSummaries(
-          this.ops["GetTraceSummaries"].applicator.apply(partialParams)
+          this.ops["GetTraceSummaries"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokePutEncryptionConfig(partialParams: ToOptional<{
-      [K in keyof PutEncryptionConfigRequest & keyof Omit<PutEncryptionConfigRequest, "Type">]: (PutEncryptionConfigRequest & Omit<PutEncryptionConfigRequest, "Type">)[K]
+      [K in keyof PutEncryptionConfigRequest & keyof Omit<PutEncryptionConfigRequest, "Type">]: (PutEncryptionConfigRequest)[K]
     }>): Request<PutEncryptionConfigResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putEncryptionConfig(
-          this.ops["PutEncryptionConfig"].applicator.apply(partialParams)
+          this.ops["PutEncryptionConfig"].apply(partialParams)
         );
     }
 
     invokePutTelemetryRecords(partialParams: ToOptional<{
-      [K in keyof PutTelemetryRecordsRequest & keyof PutTelemetryRecordsRequest]: (PutTelemetryRecordsRequest & PutTelemetryRecordsRequest)[K]
+      [K in keyof PutTelemetryRecordsRequest]: (PutTelemetryRecordsRequest)[K]
     }>): Request<PutTelemetryRecordsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putTelemetryRecords(
-          this.ops["PutTelemetryRecords"].applicator.apply(partialParams)
+          this.ops["PutTelemetryRecords"].apply(partialParams)
         );
     }
 
     invokePutTraceSegments(partialParams: ToOptional<{
-      [K in keyof PutTraceSegmentsRequest & keyof PutTraceSegmentsRequest]: (PutTraceSegmentsRequest & PutTraceSegmentsRequest)[K]
+      [K in keyof PutTraceSegmentsRequest]: (PutTraceSegmentsRequest)[K]
     }>): Request<PutTraceSegmentsResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putTraceSegments(
-          this.ops["PutTraceSegments"].applicator.apply(partialParams)
+          this.ops["PutTraceSegments"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
+        );
+    }
+
+    invokeUpdateGroup(partialParams: ToOptional<{
+      [K in keyof UpdateGroupRequest]: (UpdateGroupRequest)[K]
+    }>): Request<UpdateGroupResult, AWSError> {
+        this.boot();
+        return this.client.updateGroup(
+          this.ops["UpdateGroup"].apply(partialParams)
         );
     }
 
     invokeUpdateSamplingRule(partialParams: ToOptional<{
-      [K in keyof UpdateSamplingRuleRequest & keyof UpdateSamplingRuleRequest]: (UpdateSamplingRuleRequest & UpdateSamplingRuleRequest)[K]
+      [K in keyof UpdateSamplingRuleRequest]: (UpdateSamplingRuleRequest)[K]
     }>): Request<UpdateSamplingRuleResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateSamplingRule(
-          this.ops["UpdateSamplingRule"].applicator.apply(partialParams)
+          this.ops["UpdateSamplingRule"].apply(partialParams)
         );
     }
 }

@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.apprunner.Service {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.AppRunner();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,139 +50,112 @@ class default_1 extends aws.apprunner.Service {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAssociateCustomDomain(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateCustomDomain(this.ops["AssociateCustomDomain"].applicator.apply(partialParams));
+        return this.client.associateCustomDomain(this.ops["AssociateCustomDomain"].apply(partialParams));
     }
     invokeCreateAutoScalingConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createAutoScalingConfiguration(this.ops["CreateAutoScalingConfiguration"].applicator.apply(partialParams));
+        return this.client.createAutoScalingConfiguration(this.ops["CreateAutoScalingConfiguration"].apply(partialParams));
     }
     invokeCreateConnection(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createConnection(this.ops["CreateConnection"].applicator.apply(partialParams));
+        return this.client.createConnection(this.ops["CreateConnection"].apply(partialParams));
     }
     invokeCreateService(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createService(this.ops["CreateService"].applicator.apply(partialParams));
+        return this.client.createService(this.ops["CreateService"].apply(partialParams));
     }
     invokeCreateVpcConnector(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createVpcConnector(this.ops["CreateVpcConnector"].applicator.apply(partialParams));
+        return this.client.createVpcConnector(this.ops["CreateVpcConnector"].apply(partialParams));
     }
     invokeDeleteAutoScalingConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteAutoScalingConfiguration(this.ops["DeleteAutoScalingConfiguration"].applicator.apply(partialParams));
+        return this.client.deleteAutoScalingConfiguration(this.ops["DeleteAutoScalingConfiguration"].apply(partialParams));
     }
     invokeDeleteConnection(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteConnection(this.ops["DeleteConnection"].applicator.apply(partialParams));
+        return this.client.deleteConnection(this.ops["DeleteConnection"].apply(partialParams));
     }
     invokeDeleteService(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteService(this.ops["DeleteService"].applicator.apply(partialParams));
+        return this.client.deleteService(this.ops["DeleteService"].apply(partialParams));
     }
     invokeDeleteVpcConnector(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteVpcConnector(this.ops["DeleteVpcConnector"].applicator.apply(partialParams));
+        return this.client.deleteVpcConnector(this.ops["DeleteVpcConnector"].apply(partialParams));
     }
     invokeDescribeAutoScalingConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeAutoScalingConfiguration(this.ops["DescribeAutoScalingConfiguration"].applicator.apply(partialParams));
+        return this.client.describeAutoScalingConfiguration(this.ops["DescribeAutoScalingConfiguration"].apply(partialParams));
     }
     invokeDescribeCustomDomains(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeCustomDomains(this.ops["DescribeCustomDomains"].applicator.apply(partialParams));
+        return this.client.describeCustomDomains(this.ops["DescribeCustomDomains"].apply(partialParams));
     }
     invokeDescribeService(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeService(this.ops["DescribeService"].applicator.apply(partialParams));
+        return this.client.describeService(this.ops["DescribeService"].apply(partialParams));
     }
     invokeDescribeVpcConnector(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeVpcConnector(this.ops["DescribeVpcConnector"].applicator.apply(partialParams));
+        return this.client.describeVpcConnector(this.ops["DescribeVpcConnector"].apply(partialParams));
     }
     invokeDisassociateCustomDomain(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateCustomDomain(this.ops["DisassociateCustomDomain"].applicator.apply(partialParams));
+        return this.client.disassociateCustomDomain(this.ops["DisassociateCustomDomain"].apply(partialParams));
+    }
+    invokeListAutoScalingConfigurations(partialParams) {
+        this.boot();
+        return this.client.listAutoScalingConfigurations(this.ops["ListAutoScalingConfigurations"].apply(partialParams));
+    }
+    invokeListConnections(partialParams) {
+        this.boot();
+        return this.client.listConnections(this.ops["ListConnections"].apply(partialParams));
     }
     invokeListOperations(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listOperations(this.ops["ListOperations"].applicator.apply(partialParams));
+        return this.client.listOperations(this.ops["ListOperations"].apply(partialParams));
+    }
+    invokeListServices(partialParams) {
+        this.boot();
+        return this.client.listServices(this.ops["ListServices"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
+    }
+    invokeListVpcConnectors(partialParams) {
+        this.boot();
+        return this.client.listVpcConnectors(this.ops["ListVpcConnectors"].apply(partialParams));
     }
     invokePauseService(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.pauseService(this.ops["PauseService"].applicator.apply(partialParams));
+        return this.client.pauseService(this.ops["PauseService"].apply(partialParams));
     }
     invokeResumeService(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.resumeService(this.ops["ResumeService"].applicator.apply(partialParams));
+        return this.client.resumeService(this.ops["ResumeService"].apply(partialParams));
     }
     invokeStartDeployment(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startDeployment(this.ops["StartDeployment"].applicator.apply(partialParams));
+        return this.client.startDeployment(this.ops["StartDeployment"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateService(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateService(this.ops["UpdateService"].applicator.apply(partialParams));
+        return this.client.updateService(this.ops["UpdateService"].apply(partialParams));
     }
 }
 exports.default = default_1;

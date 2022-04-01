@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.appsync.DataSource {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.AppSync();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,289 +50,204 @@ class default_1 extends aws.appsync.DataSource {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeAssociateApi(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.associateApi(this.ops["AssociateApi"].applicator.apply(partialParams));
+        return this.client.associateApi(this.ops["AssociateApi"].apply(partialParams));
     }
     invokeCreateApiCache(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createApiCache(this.ops["CreateApiCache"].applicator.apply(partialParams));
+        return this.client.createApiCache(this.ops["CreateApiCache"].apply(partialParams));
     }
     invokeCreateApiKey(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createApiKey(this.ops["CreateApiKey"].applicator.apply(partialParams));
+        return this.client.createApiKey(this.ops["CreateApiKey"].apply(partialParams));
     }
     invokeCreateDataSource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDataSource(this.ops["CreateDataSource"].applicator.apply(partialParams));
+        return this.client.createDataSource(this.ops["CreateDataSource"].apply(partialParams));
     }
     invokeCreateDomainName(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createDomainName(this.ops["CreateDomainName"].applicator.apply(partialParams));
+        return this.client.createDomainName(this.ops["CreateDomainName"].apply(partialParams));
     }
     invokeCreateFunction(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createFunction(this.ops["CreateFunction"].applicator.apply(partialParams));
+        return this.client.createFunction(this.ops["CreateFunction"].apply(partialParams));
     }
     invokeCreateGraphqlApi(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createGraphqlApi(this.ops["CreateGraphqlApi"].applicator.apply(partialParams));
+        return this.client.createGraphqlApi(this.ops["CreateGraphqlApi"].apply(partialParams));
     }
     invokeCreateResolver(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createResolver(this.ops["CreateResolver"].applicator.apply(partialParams));
+        return this.client.createResolver(this.ops["CreateResolver"].apply(partialParams));
     }
     invokeCreateType(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createType(this.ops["CreateType"].applicator.apply(partialParams));
+        return this.client.createType(this.ops["CreateType"].apply(partialParams));
     }
     invokeDeleteApiCache(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteApiCache(this.ops["DeleteApiCache"].applicator.apply(partialParams));
+        return this.client.deleteApiCache(this.ops["DeleteApiCache"].apply(partialParams));
     }
     invokeDeleteApiKey(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteApiKey(this.ops["DeleteApiKey"].applicator.apply(partialParams));
+        return this.client.deleteApiKey(this.ops["DeleteApiKey"].apply(partialParams));
     }
     invokeDeleteDataSource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteDataSource(this.ops["DeleteDataSource"].applicator.apply(partialParams));
+        return this.client.deleteDataSource(this.ops["DeleteDataSource"].apply(partialParams));
     }
     invokeDeleteDomainName(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteDomainName(this.ops["DeleteDomainName"].applicator.apply(partialParams));
+        return this.client.deleteDomainName(this.ops["DeleteDomainName"].apply(partialParams));
     }
     invokeDeleteFunction(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteFunction(this.ops["DeleteFunction"].applicator.apply(partialParams));
+        return this.client.deleteFunction(this.ops["DeleteFunction"].apply(partialParams));
     }
     invokeDeleteGraphqlApi(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteGraphqlApi(this.ops["DeleteGraphqlApi"].applicator.apply(partialParams));
+        return this.client.deleteGraphqlApi(this.ops["DeleteGraphqlApi"].apply(partialParams));
     }
     invokeDeleteResolver(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteResolver(this.ops["DeleteResolver"].applicator.apply(partialParams));
+        return this.client.deleteResolver(this.ops["DeleteResolver"].apply(partialParams));
     }
     invokeDeleteType(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteType(this.ops["DeleteType"].applicator.apply(partialParams));
+        return this.client.deleteType(this.ops["DeleteType"].apply(partialParams));
     }
     invokeDisassociateApi(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.disassociateApi(this.ops["DisassociateApi"].applicator.apply(partialParams));
+        return this.client.disassociateApi(this.ops["DisassociateApi"].apply(partialParams));
     }
     invokeFlushApiCache(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.flushApiCache(this.ops["FlushApiCache"].applicator.apply(partialParams));
+        return this.client.flushApiCache(this.ops["FlushApiCache"].apply(partialParams));
     }
     invokeGetApiAssociation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getApiAssociation(this.ops["GetApiAssociation"].applicator.apply(partialParams));
+        return this.client.getApiAssociation(this.ops["GetApiAssociation"].apply(partialParams));
     }
     invokeGetApiCache(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getApiCache(this.ops["GetApiCache"].applicator.apply(partialParams));
+        return this.client.getApiCache(this.ops["GetApiCache"].apply(partialParams));
     }
     invokeGetDataSource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getDataSource(this.ops["GetDataSource"].applicator.apply(partialParams));
+        return this.client.getDataSource(this.ops["GetDataSource"].apply(partialParams));
     }
     invokeGetDomainName(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getDomainName(this.ops["GetDomainName"].applicator.apply(partialParams));
+        return this.client.getDomainName(this.ops["GetDomainName"].apply(partialParams));
     }
     invokeGetFunction(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getFunction(this.ops["GetFunction"].applicator.apply(partialParams));
+        return this.client.getFunction(this.ops["GetFunction"].apply(partialParams));
     }
     invokeGetGraphqlApi(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getGraphqlApi(this.ops["GetGraphqlApi"].applicator.apply(partialParams));
+        return this.client.getGraphqlApi(this.ops["GetGraphqlApi"].apply(partialParams));
     }
     invokeGetIntrospectionSchema(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getIntrospectionSchema(this.ops["GetIntrospectionSchema"].applicator.apply(partialParams));
+        return this.client.getIntrospectionSchema(this.ops["GetIntrospectionSchema"].apply(partialParams));
     }
     invokeGetResolver(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getResolver(this.ops["GetResolver"].applicator.apply(partialParams));
+        return this.client.getResolver(this.ops["GetResolver"].apply(partialParams));
     }
     invokeGetSchemaCreationStatus(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getSchemaCreationStatus(this.ops["GetSchemaCreationStatus"].applicator.apply(partialParams));
+        return this.client.getSchemaCreationStatus(this.ops["GetSchemaCreationStatus"].apply(partialParams));
     }
     invokeGetType(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getType(this.ops["GetType"].applicator.apply(partialParams));
+        return this.client.getType(this.ops["GetType"].apply(partialParams));
     }
     invokeListApiKeys(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listApiKeys(this.ops["ListApiKeys"].applicator.apply(partialParams));
+        return this.client.listApiKeys(this.ops["ListApiKeys"].apply(partialParams));
     }
     invokeListDataSources(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listDataSources(this.ops["ListDataSources"].applicator.apply(partialParams));
+        return this.client.listDataSources(this.ops["ListDataSources"].apply(partialParams));
+    }
+    invokeListDomainNames(partialParams) {
+        this.boot();
+        return this.client.listDomainNames(this.ops["ListDomainNames"].apply(partialParams));
     }
     invokeListFunctions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listFunctions(this.ops["ListFunctions"].applicator.apply(partialParams));
+        return this.client.listFunctions(this.ops["ListFunctions"].apply(partialParams));
+    }
+    invokeListGraphqlApis(partialParams) {
+        this.boot();
+        return this.client.listGraphqlApis(this.ops["ListGraphqlApis"].apply(partialParams));
     }
     invokeListResolvers(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listResolvers(this.ops["ListResolvers"].applicator.apply(partialParams));
+        return this.client.listResolvers(this.ops["ListResolvers"].apply(partialParams));
     }
     invokeListResolversByFunction(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listResolversByFunction(this.ops["ListResolversByFunction"].applicator.apply(partialParams));
+        return this.client.listResolversByFunction(this.ops["ListResolversByFunction"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeListTypes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTypes(this.ops["ListTypes"].applicator.apply(partialParams));
+        return this.client.listTypes(this.ops["ListTypes"].apply(partialParams));
     }
     invokeStartSchemaCreation(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startSchemaCreation(this.ops["StartSchemaCreation"].applicator.apply(partialParams));
+        return this.client.startSchemaCreation(this.ops["StartSchemaCreation"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateApiCache(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateApiCache(this.ops["UpdateApiCache"].applicator.apply(partialParams));
+        return this.client.updateApiCache(this.ops["UpdateApiCache"].apply(partialParams));
     }
     invokeUpdateApiKey(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateApiKey(this.ops["UpdateApiKey"].applicator.apply(partialParams));
+        return this.client.updateApiKey(this.ops["UpdateApiKey"].apply(partialParams));
     }
     invokeUpdateDataSource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateDataSource(this.ops["UpdateDataSource"].applicator.apply(partialParams));
+        return this.client.updateDataSource(this.ops["UpdateDataSource"].apply(partialParams));
     }
     invokeUpdateDomainName(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateDomainName(this.ops["UpdateDomainName"].applicator.apply(partialParams));
+        return this.client.updateDomainName(this.ops["UpdateDomainName"].apply(partialParams));
     }
     invokeUpdateFunction(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateFunction(this.ops["UpdateFunction"].applicator.apply(partialParams));
+        return this.client.updateFunction(this.ops["UpdateFunction"].apply(partialParams));
     }
     invokeUpdateGraphqlApi(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateGraphqlApi(this.ops["UpdateGraphqlApi"].applicator.apply(partialParams));
+        return this.client.updateGraphqlApi(this.ops["UpdateGraphqlApi"].apply(partialParams));
     }
     invokeUpdateResolver(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateResolver(this.ops["UpdateResolver"].applicator.apply(partialParams));
+        return this.client.updateResolver(this.ops["UpdateResolver"].apply(partialParams));
     }
     invokeUpdateType(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateType(this.ops["UpdateType"].applicator.apply(partialParams));
+        return this.client.updateType(this.ops["UpdateType"].apply(partialParams));
     }
 }
 exports.default = default_1;

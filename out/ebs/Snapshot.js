@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.ebs.Snapshot {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.EBS();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,43 +50,32 @@ class default_1 extends aws.ebs.Snapshot {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeCompleteSnapshot(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.completeSnapshot(this.ops["CompleteSnapshot"].applicator.apply(partialParams));
+        return this.client.completeSnapshot(this.ops["CompleteSnapshot"].apply(partialParams));
     }
     invokeGetSnapshotBlock(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getSnapshotBlock(this.ops["GetSnapshotBlock"].applicator.apply(partialParams));
+        return this.client.getSnapshotBlock(this.ops["GetSnapshotBlock"].apply(partialParams));
     }
     invokeListChangedBlocks(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listChangedBlocks(this.ops["ListChangedBlocks"].applicator.apply(partialParams));
+        return this.client.listChangedBlocks(this.ops["ListChangedBlocks"].apply(partialParams));
     }
     invokeListSnapshotBlocks(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listSnapshotBlocks(this.ops["ListSnapshotBlocks"].applicator.apply(partialParams));
+        return this.client.listSnapshotBlocks(this.ops["ListSnapshotBlocks"].apply(partialParams));
     }
     invokePutSnapshotBlock(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.putSnapshotBlock(this.ops["PutSnapshotBlock"].applicator.apply(partialParams));
+        return this.client.putSnapshotBlock(this.ops["PutSnapshotBlock"].apply(partialParams));
     }
     invokeStartSnapshot(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.startSnapshot(this.ops["StartSnapshot"].applicator.apply(partialParams));
+        return this.client.startSnapshot(this.ops["StartSnapshot"].apply(partialParams));
     }
 }
 exports.default = default_1;

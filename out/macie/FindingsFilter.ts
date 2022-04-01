@@ -5,13 +5,15 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    AssociateMemberAccountRequest,
     AssociateS3ResourcesRequest,
-    DisassociateMemberAccountRequest,
     DisassociateS3ResourcesRequest,
+    ListMemberAccountsRequest,
+    ListS3ResourcesRequest,
     UpdateS3ResourcesRequest,
     AssociateS3ResourcesResult,
     DisassociateS3ResourcesResult,
+    ListMemberAccountsResult,
+    ListS3ResourcesResult,
     UpdateS3ResourcesResult
 } from "aws-sdk/clients/macie";
 const schema = require("../apis/macie-2017-12-19.normal.json")
@@ -27,21 +29,24 @@ export default class extends aws.macie.FindingsFilter {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.macie.FindingsFilter>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.Macie()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -51,61 +56,52 @@ export default class extends aws.macie.FindingsFilter {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
-    }
-
-    invokeAssociateMemberAccount(partialParams: ToOptional<{
-      [K in keyof AssociateMemberAccountRequest & keyof AssociateMemberAccountRequest & keyof AssociateMemberAccountRequest & keyof AssociateMemberAccountRequest & keyof AssociateMemberAccountRequest]: (AssociateMemberAccountRequest & AssociateMemberAccountRequest & AssociateMemberAccountRequest & AssociateMemberAccountRequest & AssociateMemberAccountRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.associateMemberAccount(
-          this.ops["AssociateMemberAccount"].applicator.apply(partialParams)
-        );
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAssociateS3Resources(partialParams: ToOptional<{
-      [K in keyof AssociateS3ResourcesRequest & keyof AssociateS3ResourcesRequest & keyof AssociateS3ResourcesRequest & keyof AssociateS3ResourcesRequest & keyof AssociateS3ResourcesRequest]: (AssociateS3ResourcesRequest & AssociateS3ResourcesRequest & AssociateS3ResourcesRequest & AssociateS3ResourcesRequest & AssociateS3ResourcesRequest)[K]
+      [K in keyof AssociateS3ResourcesRequest]: (AssociateS3ResourcesRequest)[K]
     }>): Request<AssociateS3ResourcesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.associateS3Resources(
-          this.ops["AssociateS3Resources"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDisassociateMemberAccount(partialParams: ToOptional<{
-      [K in keyof DisassociateMemberAccountRequest & keyof DisassociateMemberAccountRequest & keyof DisassociateMemberAccountRequest & keyof DisassociateMemberAccountRequest & keyof DisassociateMemberAccountRequest]: (DisassociateMemberAccountRequest & DisassociateMemberAccountRequest & DisassociateMemberAccountRequest & DisassociateMemberAccountRequest & DisassociateMemberAccountRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disassociateMemberAccount(
-          this.ops["DisassociateMemberAccount"].applicator.apply(partialParams)
+          this.ops["AssociateS3Resources"].apply(partialParams)
         );
     }
 
     invokeDisassociateS3Resources(partialParams: ToOptional<{
-      [K in keyof DisassociateS3ResourcesRequest & keyof DisassociateS3ResourcesRequest & keyof DisassociateS3ResourcesRequest & keyof DisassociateS3ResourcesRequest & keyof DisassociateS3ResourcesRequest]: (DisassociateS3ResourcesRequest & DisassociateS3ResourcesRequest & DisassociateS3ResourcesRequest & DisassociateS3ResourcesRequest & DisassociateS3ResourcesRequest)[K]
+      [K in keyof DisassociateS3ResourcesRequest]: (DisassociateS3ResourcesRequest)[K]
     }>): Request<DisassociateS3ResourcesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disassociateS3Resources(
-          this.ops["DisassociateS3Resources"].applicator.apply(partialParams)
+          this.ops["DisassociateS3Resources"].apply(partialParams)
+        );
+    }
+
+    invokeListMemberAccounts(partialParams: ToOptional<{
+      [K in keyof ListMemberAccountsRequest]: (ListMemberAccountsRequest)[K]
+    }>): Request<ListMemberAccountsResult, AWSError> {
+        this.boot();
+        return this.client.listMemberAccounts(
+          this.ops["ListMemberAccounts"].apply(partialParams)
+        );
+    }
+
+    invokeListS3Resources(partialParams: ToOptional<{
+      [K in keyof ListS3ResourcesRequest]: (ListS3ResourcesRequest)[K]
+    }>): Request<ListS3ResourcesResult, AWSError> {
+        this.boot();
+        return this.client.listS3Resources(
+          this.ops["ListS3Resources"].apply(partialParams)
         );
     }
 
     invokeUpdateS3Resources(partialParams: ToOptional<{
-      [K in keyof UpdateS3ResourcesRequest & keyof UpdateS3ResourcesRequest & keyof UpdateS3ResourcesRequest & keyof UpdateS3ResourcesRequest & keyof UpdateS3ResourcesRequest]: (UpdateS3ResourcesRequest & UpdateS3ResourcesRequest & UpdateS3ResourcesRequest & UpdateS3ResourcesRequest & UpdateS3ResourcesRequest)[K]
+      [K in keyof UpdateS3ResourcesRequest]: (UpdateS3ResourcesRequest)[K]
     }>): Request<UpdateS3ResourcesResult, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateS3Resources(
-          this.ops["UpdateS3Resources"].applicator.apply(partialParams)
+          this.ops["UpdateS3Resources"].apply(partialParams)
         );
     }
 }

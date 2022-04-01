@@ -6,48 +6,46 @@ import {AWSError} from 'aws-sdk/lib/error';
 
 import {
     AcceptHandshakeRequest,
-    AttachPolicyRequest,
     CancelHandshakeRequest,
     CreateAccountRequest,
     CreateGovCloudAccountRequest,
+    CreateOrganizationRequest,
     CreateOrganizationalUnitRequest,
     CreatePolicyRequest,
     DeclineHandshakeRequest,
-    DeleteOrganizationalUnitRequest,
-    DeletePolicyRequest,
-    DeregisterDelegatedAdministratorRequest,
     DescribeAccountRequest,
     DescribeCreateAccountStatusRequest,
     DescribeEffectivePolicyRequest,
     DescribeHandshakeRequest,
     DescribeOrganizationalUnitRequest,
     DescribePolicyRequest,
-    DetachPolicyRequest,
-    DisableAWSServiceAccessRequest,
     DisablePolicyTypeRequest,
-    EnableAWSServiceAccessRequest,
+    EnableAllFeaturesRequest,
     EnablePolicyTypeRequest,
     InviteAccountToOrganizationRequest,
+    ListAWSServiceAccessForOrganizationRequest,
+    ListAccountsRequest,
     ListAccountsForParentRequest,
     ListChildrenRequest,
+    ListCreateAccountStatusRequest,
+    ListDelegatedAdministratorsRequest,
     ListDelegatedServicesForAccountRequest,
+    ListHandshakesForAccountRequest,
+    ListHandshakesForOrganizationRequest,
     ListOrganizationalUnitsForParentRequest,
     ListParentsRequest,
     ListPoliciesRequest,
     ListPoliciesForTargetRequest,
+    ListRootsRequest,
     ListTagsForResourceRequest,
     ListTargetsForPolicyRequest,
-    MoveAccountRequest,
-    RegisterDelegatedAdministratorRequest,
-    RemoveAccountFromOrganizationRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
     UpdateOrganizationalUnitRequest,
     UpdatePolicyRequest,
     AcceptHandshakeResponse,
     CancelHandshakeResponse,
     CreateAccountResponse,
     CreateGovCloudAccountResponse,
+    CreateOrganizationResponse,
     CreateOrganizationalUnitResponse,
     CreatePolicyResponse,
     DeclineHandshakeResponse,
@@ -58,15 +56,23 @@ import {
     DescribeOrganizationalUnitResponse,
     DescribePolicyResponse,
     DisablePolicyTypeResponse,
+    EnableAllFeaturesResponse,
     EnablePolicyTypeResponse,
     InviteAccountToOrganizationResponse,
+    ListAWSServiceAccessForOrganizationResponse,
+    ListAccountsResponse,
     ListAccountsForParentResponse,
     ListChildrenResponse,
+    ListCreateAccountStatusResponse,
+    ListDelegatedAdministratorsResponse,
     ListDelegatedServicesForAccountResponse,
+    ListHandshakesForAccountResponse,
+    ListHandshakesForOrganizationResponse,
     ListOrganizationalUnitsForParentResponse,
     ListParentsResponse,
     ListPoliciesResponse,
     ListPoliciesForTargetResponse,
+    ListRootsResponse,
     ListTagsForResourceResponse,
     ListTargetsForPolicyResponse,
     UpdateOrganizationalUnitResponse,
@@ -85,21 +91,24 @@ export default class extends aws.organizations.PolicyAttachment {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.organizations.PolicyAttachment>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.Organizations()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -109,435 +118,331 @@ export default class extends aws.organizations.PolicyAttachment {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAcceptHandshake(partialParams: ToOptional<{
-      [K in keyof AcceptHandshakeRequest & keyof AcceptHandshakeRequest]: (AcceptHandshakeRequest & AcceptHandshakeRequest)[K]
+      [K in keyof AcceptHandshakeRequest]: (AcceptHandshakeRequest)[K]
     }>): Request<AcceptHandshakeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.acceptHandshake(
-          this.ops["AcceptHandshake"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeAttachPolicy(partialParams: ToOptional<{
-      [K in keyof AttachPolicyRequest & keyof AttachPolicyRequest]: (AttachPolicyRequest & AttachPolicyRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.attachPolicy(
-          this.ops["AttachPolicy"].applicator.apply(partialParams)
+          this.ops["AcceptHandshake"].apply(partialParams)
         );
     }
 
     invokeCancelHandshake(partialParams: ToOptional<{
-      [K in keyof CancelHandshakeRequest & keyof CancelHandshakeRequest]: (CancelHandshakeRequest & CancelHandshakeRequest)[K]
+      [K in keyof CancelHandshakeRequest]: (CancelHandshakeRequest)[K]
     }>): Request<CancelHandshakeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.cancelHandshake(
-          this.ops["CancelHandshake"].applicator.apply(partialParams)
+          this.ops["CancelHandshake"].apply(partialParams)
         );
     }
 
     invokeCreateAccount(partialParams: ToOptional<{
-      [K in keyof CreateAccountRequest & keyof CreateAccountRequest]: (CreateAccountRequest & CreateAccountRequest)[K]
+      [K in keyof CreateAccountRequest]: (CreateAccountRequest)[K]
     }>): Request<CreateAccountResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createAccount(
-          this.ops["CreateAccount"].applicator.apply(partialParams)
+          this.ops["CreateAccount"].apply(partialParams)
         );
     }
 
     invokeCreateGovCloudAccount(partialParams: ToOptional<{
-      [K in keyof CreateGovCloudAccountRequest & keyof CreateGovCloudAccountRequest]: (CreateGovCloudAccountRequest & CreateGovCloudAccountRequest)[K]
+      [K in keyof CreateGovCloudAccountRequest]: (CreateGovCloudAccountRequest)[K]
     }>): Request<CreateGovCloudAccountResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createGovCloudAccount(
-          this.ops["CreateGovCloudAccount"].applicator.apply(partialParams)
+          this.ops["CreateGovCloudAccount"].apply(partialParams)
+        );
+    }
+
+    invokeCreateOrganization(partialParams: ToOptional<{
+      [K in keyof CreateOrganizationRequest]: (CreateOrganizationRequest)[K]
+    }>): Request<CreateOrganizationResponse, AWSError> {
+        this.boot();
+        return this.client.createOrganization(
+          this.ops["CreateOrganization"].apply(partialParams)
         );
     }
 
     invokeCreateOrganizationalUnit(partialParams: ToOptional<{
-      [K in keyof CreateOrganizationalUnitRequest & keyof CreateOrganizationalUnitRequest]: (CreateOrganizationalUnitRequest & CreateOrganizationalUnitRequest)[K]
+      [K in keyof CreateOrganizationalUnitRequest]: (CreateOrganizationalUnitRequest)[K]
     }>): Request<CreateOrganizationalUnitResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createOrganizationalUnit(
-          this.ops["CreateOrganizationalUnit"].applicator.apply(partialParams)
+          this.ops["CreateOrganizationalUnit"].apply(partialParams)
         );
     }
 
     invokeCreatePolicy(partialParams: ToOptional<{
-      [K in keyof CreatePolicyRequest & keyof CreatePolicyRequest]: (CreatePolicyRequest & CreatePolicyRequest)[K]
+      [K in keyof CreatePolicyRequest]: (CreatePolicyRequest)[K]
     }>): Request<CreatePolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createPolicy(
-          this.ops["CreatePolicy"].applicator.apply(partialParams)
+          this.ops["CreatePolicy"].apply(partialParams)
         );
     }
 
     invokeDeclineHandshake(partialParams: ToOptional<{
-      [K in keyof DeclineHandshakeRequest & keyof DeclineHandshakeRequest]: (DeclineHandshakeRequest & DeclineHandshakeRequest)[K]
+      [K in keyof DeclineHandshakeRequest]: (DeclineHandshakeRequest)[K]
     }>): Request<DeclineHandshakeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.declineHandshake(
-          this.ops["DeclineHandshake"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteOrganizationalUnit(partialParams: ToOptional<{
-      [K in keyof DeleteOrganizationalUnitRequest & keyof DeleteOrganizationalUnitRequest]: (DeleteOrganizationalUnitRequest & DeleteOrganizationalUnitRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteOrganizationalUnit(
-          this.ops["DeleteOrganizationalUnit"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeletePolicy(partialParams: ToOptional<{
-      [K in keyof DeletePolicyRequest & keyof DeletePolicyRequest]: (DeletePolicyRequest & DeletePolicyRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deletePolicy(
-          this.ops["DeletePolicy"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeregisterDelegatedAdministrator(partialParams: ToOptional<{
-      [K in keyof DeregisterDelegatedAdministratorRequest & keyof DeregisterDelegatedAdministratorRequest]: (DeregisterDelegatedAdministratorRequest & DeregisterDelegatedAdministratorRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deregisterDelegatedAdministrator(
-          this.ops["DeregisterDelegatedAdministrator"].applicator.apply(partialParams)
+          this.ops["DeclineHandshake"].apply(partialParams)
         );
     }
 
     invokeDescribeAccount(partialParams: ToOptional<{
-      [K in keyof DescribeAccountRequest & keyof DescribeAccountRequest]: (DescribeAccountRequest & DescribeAccountRequest)[K]
+      [K in keyof DescribeAccountRequest]: (DescribeAccountRequest)[K]
     }>): Request<DescribeAccountResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeAccount(
-          this.ops["DescribeAccount"].applicator.apply(partialParams)
+          this.ops["DescribeAccount"].apply(partialParams)
         );
     }
 
     invokeDescribeCreateAccountStatus(partialParams: ToOptional<{
-      [K in keyof DescribeCreateAccountStatusRequest & keyof DescribeCreateAccountStatusRequest]: (DescribeCreateAccountStatusRequest & DescribeCreateAccountStatusRequest)[K]
+      [K in keyof DescribeCreateAccountStatusRequest]: (DescribeCreateAccountStatusRequest)[K]
     }>): Request<DescribeCreateAccountStatusResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeCreateAccountStatus(
-          this.ops["DescribeCreateAccountStatus"].applicator.apply(partialParams)
+          this.ops["DescribeCreateAccountStatus"].apply(partialParams)
         );
     }
 
     invokeDescribeEffectivePolicy(partialParams: ToOptional<{
-      [K in keyof DescribeEffectivePolicyRequest & keyof DescribeEffectivePolicyRequest]: (DescribeEffectivePolicyRequest & DescribeEffectivePolicyRequest)[K]
+      [K in keyof DescribeEffectivePolicyRequest]: (DescribeEffectivePolicyRequest)[K]
     }>): Request<DescribeEffectivePolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeEffectivePolicy(
-          this.ops["DescribeEffectivePolicy"].applicator.apply(partialParams)
+          this.ops["DescribeEffectivePolicy"].apply(partialParams)
         );
     }
 
     invokeDescribeHandshake(partialParams: ToOptional<{
-      [K in keyof DescribeHandshakeRequest & keyof DescribeHandshakeRequest]: (DescribeHandshakeRequest & DescribeHandshakeRequest)[K]
+      [K in keyof DescribeHandshakeRequest]: (DescribeHandshakeRequest)[K]
     }>): Request<DescribeHandshakeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeHandshake(
-          this.ops["DescribeHandshake"].applicator.apply(partialParams)
+          this.ops["DescribeHandshake"].apply(partialParams)
         );
     }
 
     invokeDescribeOrganizationalUnit(partialParams: ToOptional<{
-      [K in keyof DescribeOrganizationalUnitRequest & keyof DescribeOrganizationalUnitRequest]: (DescribeOrganizationalUnitRequest & DescribeOrganizationalUnitRequest)[K]
+      [K in keyof DescribeOrganizationalUnitRequest]: (DescribeOrganizationalUnitRequest)[K]
     }>): Request<DescribeOrganizationalUnitResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeOrganizationalUnit(
-          this.ops["DescribeOrganizationalUnit"].applicator.apply(partialParams)
+          this.ops["DescribeOrganizationalUnit"].apply(partialParams)
         );
     }
 
     invokeDescribePolicy(partialParams: ToOptional<{
-      [K in keyof DescribePolicyRequest & keyof DescribePolicyRequest]: (DescribePolicyRequest & DescribePolicyRequest)[K]
+      [K in keyof DescribePolicyRequest & keyof Omit<DescribePolicyRequest, "PolicyId">]: (DescribePolicyRequest)[K]
     }>): Request<DescribePolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describePolicy(
-          this.ops["DescribePolicy"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDetachPolicy(partialParams: ToOptional<{
-      [K in keyof DetachPolicyRequest & keyof DetachPolicyRequest]: (DetachPolicyRequest & DetachPolicyRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.detachPolicy(
-          this.ops["DetachPolicy"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDisableAWSServiceAccess(partialParams: ToOptional<{
-      [K in keyof DisableAWSServiceAccessRequest & keyof DisableAWSServiceAccessRequest]: (DisableAWSServiceAccessRequest & DisableAWSServiceAccessRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.disableAWSServiceAccess(
-          this.ops["DisableAWSServiceAccess"].applicator.apply(partialParams)
+          this.ops["DescribePolicy"].apply(partialParams)
         );
     }
 
     invokeDisablePolicyType(partialParams: ToOptional<{
-      [K in keyof DisablePolicyTypeRequest & keyof DisablePolicyTypeRequest]: (DisablePolicyTypeRequest & DisablePolicyTypeRequest)[K]
+      [K in keyof DisablePolicyTypeRequest]: (DisablePolicyTypeRequest)[K]
     }>): Request<DisablePolicyTypeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.disablePolicyType(
-          this.ops["DisablePolicyType"].applicator.apply(partialParams)
+          this.ops["DisablePolicyType"].apply(partialParams)
         );
     }
 
-    invokeEnableAWSServiceAccess(partialParams: ToOptional<{
-      [K in keyof EnableAWSServiceAccessRequest & keyof EnableAWSServiceAccessRequest]: (EnableAWSServiceAccessRequest & EnableAWSServiceAccessRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeEnableAllFeatures(partialParams: ToOptional<{
+      [K in keyof EnableAllFeaturesRequest]: (EnableAllFeaturesRequest)[K]
+    }>): Request<EnableAllFeaturesResponse, AWSError> {
         this.boot();
-        return this.client.enableAWSServiceAccess(
-          this.ops["EnableAWSServiceAccess"].applicator.apply(partialParams)
+        return this.client.enableAllFeatures(
+          this.ops["EnableAllFeatures"].apply(partialParams)
         );
     }
 
     invokeEnablePolicyType(partialParams: ToOptional<{
-      [K in keyof EnablePolicyTypeRequest & keyof EnablePolicyTypeRequest]: (EnablePolicyTypeRequest & EnablePolicyTypeRequest)[K]
+      [K in keyof EnablePolicyTypeRequest]: (EnablePolicyTypeRequest)[K]
     }>): Request<EnablePolicyTypeResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.enablePolicyType(
-          this.ops["EnablePolicyType"].applicator.apply(partialParams)
+          this.ops["EnablePolicyType"].apply(partialParams)
         );
     }
 
     invokeInviteAccountToOrganization(partialParams: ToOptional<{
-      [K in keyof InviteAccountToOrganizationRequest & keyof InviteAccountToOrganizationRequest]: (InviteAccountToOrganizationRequest & InviteAccountToOrganizationRequest)[K]
+      [K in keyof InviteAccountToOrganizationRequest]: (InviteAccountToOrganizationRequest)[K]
     }>): Request<InviteAccountToOrganizationResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.inviteAccountToOrganization(
-          this.ops["InviteAccountToOrganization"].applicator.apply(partialParams)
+          this.ops["InviteAccountToOrganization"].apply(partialParams)
+        );
+    }
+
+    invokeListAWSServiceAccessForOrganization(partialParams: ToOptional<{
+      [K in keyof ListAWSServiceAccessForOrganizationRequest]: (ListAWSServiceAccessForOrganizationRequest)[K]
+    }>): Request<ListAWSServiceAccessForOrganizationResponse, AWSError> {
+        this.boot();
+        return this.client.listAWSServiceAccessForOrganization(
+          this.ops["ListAWSServiceAccessForOrganization"].apply(partialParams)
+        );
+    }
+
+    invokeListAccounts(partialParams: ToOptional<{
+      [K in keyof ListAccountsRequest]: (ListAccountsRequest)[K]
+    }>): Request<ListAccountsResponse, AWSError> {
+        this.boot();
+        return this.client.listAccounts(
+          this.ops["ListAccounts"].apply(partialParams)
         );
     }
 
     invokeListAccountsForParent(partialParams: ToOptional<{
-      [K in keyof ListAccountsForParentRequest & keyof ListAccountsForParentRequest]: (ListAccountsForParentRequest & ListAccountsForParentRequest)[K]
+      [K in keyof ListAccountsForParentRequest]: (ListAccountsForParentRequest)[K]
     }>): Request<ListAccountsForParentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listAccountsForParent(
-          this.ops["ListAccountsForParent"].applicator.apply(partialParams)
+          this.ops["ListAccountsForParent"].apply(partialParams)
         );
     }
 
     invokeListChildren(partialParams: ToOptional<{
-      [K in keyof ListChildrenRequest & keyof ListChildrenRequest]: (ListChildrenRequest & ListChildrenRequest)[K]
+      [K in keyof ListChildrenRequest]: (ListChildrenRequest)[K]
     }>): Request<ListChildrenResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listChildren(
-          this.ops["ListChildren"].applicator.apply(partialParams)
+          this.ops["ListChildren"].apply(partialParams)
+        );
+    }
+
+    invokeListCreateAccountStatus(partialParams: ToOptional<{
+      [K in keyof ListCreateAccountStatusRequest]: (ListCreateAccountStatusRequest)[K]
+    }>): Request<ListCreateAccountStatusResponse, AWSError> {
+        this.boot();
+        return this.client.listCreateAccountStatus(
+          this.ops["ListCreateAccountStatus"].apply(partialParams)
+        );
+    }
+
+    invokeListDelegatedAdministrators(partialParams: ToOptional<{
+      [K in keyof ListDelegatedAdministratorsRequest]: (ListDelegatedAdministratorsRequest)[K]
+    }>): Request<ListDelegatedAdministratorsResponse, AWSError> {
+        this.boot();
+        return this.client.listDelegatedAdministrators(
+          this.ops["ListDelegatedAdministrators"].apply(partialParams)
         );
     }
 
     invokeListDelegatedServicesForAccount(partialParams: ToOptional<{
-      [K in keyof ListDelegatedServicesForAccountRequest & keyof ListDelegatedServicesForAccountRequest]: (ListDelegatedServicesForAccountRequest & ListDelegatedServicesForAccountRequest)[K]
+      [K in keyof ListDelegatedServicesForAccountRequest]: (ListDelegatedServicesForAccountRequest)[K]
     }>): Request<ListDelegatedServicesForAccountResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listDelegatedServicesForAccount(
-          this.ops["ListDelegatedServicesForAccount"].applicator.apply(partialParams)
+          this.ops["ListDelegatedServicesForAccount"].apply(partialParams)
+        );
+    }
+
+    invokeListHandshakesForAccount(partialParams: ToOptional<{
+      [K in keyof ListHandshakesForAccountRequest]: (ListHandshakesForAccountRequest)[K]
+    }>): Request<ListHandshakesForAccountResponse, AWSError> {
+        this.boot();
+        return this.client.listHandshakesForAccount(
+          this.ops["ListHandshakesForAccount"].apply(partialParams)
+        );
+    }
+
+    invokeListHandshakesForOrganization(partialParams: ToOptional<{
+      [K in keyof ListHandshakesForOrganizationRequest]: (ListHandshakesForOrganizationRequest)[K]
+    }>): Request<ListHandshakesForOrganizationResponse, AWSError> {
+        this.boot();
+        return this.client.listHandshakesForOrganization(
+          this.ops["ListHandshakesForOrganization"].apply(partialParams)
         );
     }
 
     invokeListOrganizationalUnitsForParent(partialParams: ToOptional<{
-      [K in keyof ListOrganizationalUnitsForParentRequest & keyof ListOrganizationalUnitsForParentRequest]: (ListOrganizationalUnitsForParentRequest & ListOrganizationalUnitsForParentRequest)[K]
+      [K in keyof ListOrganizationalUnitsForParentRequest]: (ListOrganizationalUnitsForParentRequest)[K]
     }>): Request<ListOrganizationalUnitsForParentResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listOrganizationalUnitsForParent(
-          this.ops["ListOrganizationalUnitsForParent"].applicator.apply(partialParams)
+          this.ops["ListOrganizationalUnitsForParent"].apply(partialParams)
         );
     }
 
     invokeListParents(partialParams: ToOptional<{
-      [K in keyof ListParentsRequest & keyof ListParentsRequest]: (ListParentsRequest & ListParentsRequest)[K]
+      [K in keyof ListParentsRequest]: (ListParentsRequest)[K]
     }>): Request<ListParentsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listParents(
-          this.ops["ListParents"].applicator.apply(partialParams)
+          this.ops["ListParents"].apply(partialParams)
         );
     }
 
     invokeListPolicies(partialParams: ToOptional<{
-      [K in keyof ListPoliciesRequest & keyof ListPoliciesRequest]: (ListPoliciesRequest & ListPoliciesRequest)[K]
+      [K in keyof ListPoliciesRequest]: (ListPoliciesRequest)[K]
     }>): Request<ListPoliciesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listPolicies(
-          this.ops["ListPolicies"].applicator.apply(partialParams)
+          this.ops["ListPolicies"].apply(partialParams)
         );
     }
 
     invokeListPoliciesForTarget(partialParams: ToOptional<{
-      [K in keyof ListPoliciesForTargetRequest & keyof ListPoliciesForTargetRequest]: (ListPoliciesForTargetRequest & ListPoliciesForTargetRequest)[K]
+      [K in keyof ListPoliciesForTargetRequest & keyof Omit<ListPoliciesForTargetRequest, "TargetId">]: (ListPoliciesForTargetRequest)[K]
     }>): Request<ListPoliciesForTargetResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listPoliciesForTarget(
-          this.ops["ListPoliciesForTarget"].applicator.apply(partialParams)
+          this.ops["ListPoliciesForTarget"].apply(partialParams)
+        );
+    }
+
+    invokeListRoots(partialParams: ToOptional<{
+      [K in keyof ListRootsRequest]: (ListRootsRequest)[K]
+    }>): Request<ListRootsResponse, AWSError> {
+        this.boot();
+        return this.client.listRoots(
+          this.ops["ListRoots"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
     invokeListTargetsForPolicy(partialParams: ToOptional<{
-      [K in keyof ListTargetsForPolicyRequest & keyof ListTargetsForPolicyRequest]: (ListTargetsForPolicyRequest & ListTargetsForPolicyRequest)[K]
+      [K in keyof ListTargetsForPolicyRequest & keyof Omit<ListTargetsForPolicyRequest, "PolicyId">]: (ListTargetsForPolicyRequest)[K]
     }>): Request<ListTargetsForPolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTargetsForPolicy(
-          this.ops["ListTargetsForPolicy"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeMoveAccount(partialParams: ToOptional<{
-      [K in keyof MoveAccountRequest & keyof MoveAccountRequest]: (MoveAccountRequest & MoveAccountRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.moveAccount(
-          this.ops["MoveAccount"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeRegisterDelegatedAdministrator(partialParams: ToOptional<{
-      [K in keyof RegisterDelegatedAdministratorRequest & keyof RegisterDelegatedAdministratorRequest]: (RegisterDelegatedAdministratorRequest & RegisterDelegatedAdministratorRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.registerDelegatedAdministrator(
-          this.ops["RegisterDelegatedAdministrator"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeRemoveAccountFromOrganization(partialParams: ToOptional<{
-      [K in keyof RemoveAccountFromOrganizationRequest & keyof RemoveAccountFromOrganizationRequest]: (RemoveAccountFromOrganizationRequest & RemoveAccountFromOrganizationRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.removeAccountFromOrganization(
-          this.ops["RemoveAccountFromOrganization"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
+          this.ops["ListTargetsForPolicy"].apply(partialParams)
         );
     }
 
     invokeUpdateOrganizationalUnit(partialParams: ToOptional<{
-      [K in keyof UpdateOrganizationalUnitRequest & keyof UpdateOrganizationalUnitRequest]: (UpdateOrganizationalUnitRequest & UpdateOrganizationalUnitRequest)[K]
+      [K in keyof UpdateOrganizationalUnitRequest]: (UpdateOrganizationalUnitRequest)[K]
     }>): Request<UpdateOrganizationalUnitResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateOrganizationalUnit(
-          this.ops["UpdateOrganizationalUnit"].applicator.apply(partialParams)
+          this.ops["UpdateOrganizationalUnit"].apply(partialParams)
         );
     }
 
     invokeUpdatePolicy(partialParams: ToOptional<{
-      [K in keyof Omit<UpdatePolicyRequest, "PolicyId"> & keyof UpdatePolicyRequest]: (Omit<UpdatePolicyRequest, "PolicyId"> & UpdatePolicyRequest)[K]
+      [K in keyof UpdatePolicyRequest & keyof Omit<UpdatePolicyRequest, "PolicyId">]: (UpdatePolicyRequest)[K]
     }>): Request<UpdatePolicyResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updatePolicy(
-          this.ops["UpdatePolicy"].applicator.apply(partialParams)
+          this.ops["UpdatePolicy"].apply(partialParams)
         );
     }
 }

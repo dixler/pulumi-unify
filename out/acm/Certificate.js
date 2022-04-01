@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.acm.Certificate {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.ACM();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,85 +50,36 @@ class default_1 extends aws.acm.Certificate {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
-    }
-    invokeAddTagsToCertificate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.addTagsToCertificate(this.ops["AddTagsToCertificate"].applicator.apply(partialParams));
-    }
-    invokeDeleteCertificate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteCertificate(this.ops["DeleteCertificate"].applicator.apply(partialParams));
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeDescribeCertificate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeCertificate(this.ops["DescribeCertificate"].applicator.apply(partialParams));
+        return this.client.describeCertificate(this.ops["DescribeCertificate"].apply(partialParams));
     }
     invokeExportCertificate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.exportCertificate(this.ops["ExportCertificate"].applicator.apply(partialParams));
+        return this.client.exportCertificate(this.ops["ExportCertificate"].apply(partialParams));
     }
     invokeGetCertificate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getCertificate(this.ops["GetCertificate"].applicator.apply(partialParams));
+        return this.client.getCertificate(this.ops["GetCertificate"].apply(partialParams));
     }
     invokeImportCertificate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.importCertificate(this.ops["ImportCertificate"].applicator.apply(partialParams));
+        return this.client.importCertificate(this.ops["ImportCertificate"].apply(partialParams));
+    }
+    invokeListCertificates(partialParams) {
+        this.boot();
+        return this.client.listCertificates(this.ops["ListCertificates"].apply(partialParams));
     }
     invokeListTagsForCertificate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForCertificate(this.ops["ListTagsForCertificate"].applicator.apply(partialParams));
-    }
-    invokePutAccountConfiguration(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.putAccountConfiguration(this.ops["PutAccountConfiguration"].applicator.apply(partialParams));
-    }
-    invokeRemoveTagsFromCertificate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.removeTagsFromCertificate(this.ops["RemoveTagsFromCertificate"].applicator.apply(partialParams));
-    }
-    invokeRenewCertificate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.renewCertificate(this.ops["RenewCertificate"].applicator.apply(partialParams));
+        return this.client.listTagsForCertificate(this.ops["ListTagsForCertificate"].apply(partialParams));
     }
     invokeRequestCertificate(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.requestCertificate(this.ops["RequestCertificate"].applicator.apply(partialParams));
-    }
-    invokeResendValidationEmail(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.resendValidationEmail(this.ops["ResendValidationEmail"].applicator.apply(partialParams));
-    }
-    invokeUpdateCertificateOptions(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateCertificateOptions(this.ops["UpdateCertificateOptions"].applicator.apply(partialParams));
+        return this.client.requestCertificate(this.ops["RequestCertificate"].apply(partialParams));
     }
 }
 exports.default = default_1;

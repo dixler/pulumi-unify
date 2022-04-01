@@ -7,26 +7,26 @@ import {AWSError} from 'aws-sdk/lib/error';
 import {
     CreateAlertManagerDefinitionRequest,
     CreateRuleGroupsNamespaceRequest,
-    DeleteAlertManagerDefinitionRequest,
-    DeleteRuleGroupsNamespaceRequest,
-    DeleteWorkspaceRequest,
+    CreateWorkspaceRequest,
     DescribeAlertManagerDefinitionRequest,
     DescribeRuleGroupsNamespaceRequest,
     DescribeWorkspaceRequest,
     ListRuleGroupsNamespacesRequest,
     ListTagsForResourceRequest,
+    ListWorkspacesRequest,
     PutAlertManagerDefinitionRequest,
     PutRuleGroupsNamespaceRequest,
     TagResourceRequest,
     UntagResourceRequest,
-    UpdateWorkspaceAliasRequest,
     CreateAlertManagerDefinitionResponse,
     CreateRuleGroupsNamespaceResponse,
+    CreateWorkspaceResponse,
     DescribeAlertManagerDefinitionResponse,
     DescribeRuleGroupsNamespaceResponse,
     DescribeWorkspaceResponse,
     ListRuleGroupsNamespacesResponse,
     ListTagsForResourceResponse,
+    ListWorkspacesResponse,
     PutAlertManagerDefinitionResponse,
     PutRuleGroupsNamespaceResponse,
     TagResourceResponse,
@@ -45,21 +45,24 @@ export default class extends aws.amp.Workspace {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.amp.Workspace>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.Amp()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -69,171 +72,124 @@ export default class extends aws.amp.Workspace {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeCreateAlertManagerDefinition(partialParams: ToOptional<{
-      [K in keyof CreateAlertManagerDefinitionRequest & keyof CreateAlertManagerDefinitionRequest & keyof CreateAlertManagerDefinitionRequest]: (CreateAlertManagerDefinitionRequest & CreateAlertManagerDefinitionRequest & CreateAlertManagerDefinitionRequest)[K]
+      [K in keyof CreateAlertManagerDefinitionRequest]: (CreateAlertManagerDefinitionRequest)[K]
     }>): Request<CreateAlertManagerDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createAlertManagerDefinition(
-          this.ops["CreateAlertManagerDefinition"].applicator.apply(partialParams)
+          this.ops["CreateAlertManagerDefinition"].apply(partialParams)
         );
     }
 
     invokeCreateRuleGroupsNamespace(partialParams: ToOptional<{
-      [K in keyof CreateRuleGroupsNamespaceRequest & keyof CreateRuleGroupsNamespaceRequest & keyof CreateRuleGroupsNamespaceRequest]: (CreateRuleGroupsNamespaceRequest & CreateRuleGroupsNamespaceRequest & CreateRuleGroupsNamespaceRequest)[K]
+      [K in keyof CreateRuleGroupsNamespaceRequest]: (CreateRuleGroupsNamespaceRequest)[K]
     }>): Request<CreateRuleGroupsNamespaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createRuleGroupsNamespace(
-          this.ops["CreateRuleGroupsNamespace"].applicator.apply(partialParams)
+          this.ops["CreateRuleGroupsNamespace"].apply(partialParams)
         );
     }
 
-    invokeDeleteAlertManagerDefinition(partialParams: ToOptional<{
-      [K in keyof DeleteAlertManagerDefinitionRequest & keyof DeleteAlertManagerDefinitionRequest & keyof DeleteAlertManagerDefinitionRequest]: (DeleteAlertManagerDefinitionRequest & DeleteAlertManagerDefinitionRequest & DeleteAlertManagerDefinitionRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
+    invokeCreateWorkspace(partialParams: ToOptional<{
+      [K in keyof CreateWorkspaceRequest]: (CreateWorkspaceRequest)[K]
+    }>): Request<CreateWorkspaceResponse, AWSError> {
         this.boot();
-        return this.client.deleteAlertManagerDefinition(
-          this.ops["DeleteAlertManagerDefinition"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteRuleGroupsNamespace(partialParams: ToOptional<{
-      [K in keyof DeleteRuleGroupsNamespaceRequest & keyof DeleteRuleGroupsNamespaceRequest & keyof DeleteRuleGroupsNamespaceRequest]: (DeleteRuleGroupsNamespaceRequest & DeleteRuleGroupsNamespaceRequest & DeleteRuleGroupsNamespaceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteRuleGroupsNamespace(
-          this.ops["DeleteRuleGroupsNamespace"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeDeleteWorkspace(partialParams: ToOptional<{
-      [K in keyof DeleteWorkspaceRequest & keyof DeleteWorkspaceRequest & keyof DeleteWorkspaceRequest]: (DeleteWorkspaceRequest & DeleteWorkspaceRequest & DeleteWorkspaceRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteWorkspace(
-          this.ops["DeleteWorkspace"].applicator.apply(partialParams)
+        return this.client.createWorkspace(
+          this.ops["CreateWorkspace"].apply(partialParams)
         );
     }
 
     invokeDescribeAlertManagerDefinition(partialParams: ToOptional<{
-      [K in keyof DescribeAlertManagerDefinitionRequest & keyof DescribeAlertManagerDefinitionRequest & keyof DescribeAlertManagerDefinitionRequest]: (DescribeAlertManagerDefinitionRequest & DescribeAlertManagerDefinitionRequest & DescribeAlertManagerDefinitionRequest)[K]
+      [K in keyof DescribeAlertManagerDefinitionRequest]: (DescribeAlertManagerDefinitionRequest)[K]
     }>): Request<DescribeAlertManagerDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeAlertManagerDefinition(
-          this.ops["DescribeAlertManagerDefinition"].applicator.apply(partialParams)
+          this.ops["DescribeAlertManagerDefinition"].apply(partialParams)
         );
     }
 
     invokeDescribeRuleGroupsNamespace(partialParams: ToOptional<{
-      [K in keyof DescribeRuleGroupsNamespaceRequest & keyof DescribeRuleGroupsNamespaceRequest & keyof DescribeRuleGroupsNamespaceRequest]: (DescribeRuleGroupsNamespaceRequest & DescribeRuleGroupsNamespaceRequest & DescribeRuleGroupsNamespaceRequest)[K]
+      [K in keyof DescribeRuleGroupsNamespaceRequest]: (DescribeRuleGroupsNamespaceRequest)[K]
     }>): Request<DescribeRuleGroupsNamespaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeRuleGroupsNamespace(
-          this.ops["DescribeRuleGroupsNamespace"].applicator.apply(partialParams)
+          this.ops["DescribeRuleGroupsNamespace"].apply(partialParams)
         );
     }
 
     invokeDescribeWorkspace(partialParams: ToOptional<{
-      [K in keyof DescribeWorkspaceRequest & keyof DescribeWorkspaceRequest & keyof DescribeWorkspaceRequest]: (DescribeWorkspaceRequest & DescribeWorkspaceRequest & DescribeWorkspaceRequest)[K]
+      [K in keyof DescribeWorkspaceRequest]: (DescribeWorkspaceRequest)[K]
     }>): Request<DescribeWorkspaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeWorkspace(
-          this.ops["DescribeWorkspace"].applicator.apply(partialParams)
+          this.ops["DescribeWorkspace"].apply(partialParams)
         );
     }
 
     invokeListRuleGroupsNamespaces(partialParams: ToOptional<{
-      [K in keyof ListRuleGroupsNamespacesRequest & keyof ListRuleGroupsNamespacesRequest & keyof ListRuleGroupsNamespacesRequest]: (ListRuleGroupsNamespacesRequest & ListRuleGroupsNamespacesRequest & ListRuleGroupsNamespacesRequest)[K]
+      [K in keyof ListRuleGroupsNamespacesRequest]: (ListRuleGroupsNamespacesRequest)[K]
     }>): Request<ListRuleGroupsNamespacesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listRuleGroupsNamespaces(
-          this.ops["ListRuleGroupsNamespaces"].applicator.apply(partialParams)
+          this.ops["ListRuleGroupsNamespaces"].apply(partialParams)
         );
     }
 
     invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest & keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest & ListTagsForResourceRequest & ListTagsForResourceRequest)[K]
+      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].applicator.apply(partialParams)
+          this.ops["ListTagsForResource"].apply(partialParams)
+        );
+    }
+
+    invokeListWorkspaces(partialParams: ToOptional<{
+      [K in keyof ListWorkspacesRequest]: (ListWorkspacesRequest)[K]
+    }>): Request<ListWorkspacesResponse, AWSError> {
+        this.boot();
+        return this.client.listWorkspaces(
+          this.ops["ListWorkspaces"].apply(partialParams)
         );
     }
 
     invokePutAlertManagerDefinition(partialParams: ToOptional<{
-      [K in keyof PutAlertManagerDefinitionRequest & keyof PutAlertManagerDefinitionRequest & keyof PutAlertManagerDefinitionRequest]: (PutAlertManagerDefinitionRequest & PutAlertManagerDefinitionRequest & PutAlertManagerDefinitionRequest)[K]
+      [K in keyof PutAlertManagerDefinitionRequest]: (PutAlertManagerDefinitionRequest)[K]
     }>): Request<PutAlertManagerDefinitionResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putAlertManagerDefinition(
-          this.ops["PutAlertManagerDefinition"].applicator.apply(partialParams)
+          this.ops["PutAlertManagerDefinition"].apply(partialParams)
         );
     }
 
     invokePutRuleGroupsNamespace(partialParams: ToOptional<{
-      [K in keyof PutRuleGroupsNamespaceRequest & keyof PutRuleGroupsNamespaceRequest & keyof PutRuleGroupsNamespaceRequest]: (PutRuleGroupsNamespaceRequest & PutRuleGroupsNamespaceRequest & PutRuleGroupsNamespaceRequest)[K]
+      [K in keyof PutRuleGroupsNamespaceRequest]: (PutRuleGroupsNamespaceRequest)[K]
     }>): Request<PutRuleGroupsNamespaceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putRuleGroupsNamespace(
-          this.ops["PutRuleGroupsNamespace"].applicator.apply(partialParams)
+          this.ops["PutRuleGroupsNamespace"].apply(partialParams)
         );
     }
 
     invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest & keyof TagResourceRequest & keyof TagResourceRequest]: (TagResourceRequest & TagResourceRequest & TagResourceRequest)[K]
+      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
     }>): Request<TagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.tagResource(
-          this.ops["TagResource"].applicator.apply(partialParams)
+          this.ops["TagResource"].apply(partialParams)
         );
     }
 
     invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest & keyof UntagResourceRequest & keyof UntagResourceRequest]: (UntagResourceRequest & UntagResourceRequest & UntagResourceRequest)[K]
+      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
     }>): Request<UntagResourceResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.untagResource(
-          this.ops["UntagResource"].applicator.apply(partialParams)
-        );
-    }
-
-    invokeUpdateWorkspaceAlias(partialParams: ToOptional<{
-      [K in keyof UpdateWorkspaceAliasRequest & keyof UpdateWorkspaceAliasRequest & keyof UpdateWorkspaceAliasRequest]: (UpdateWorkspaceAliasRequest & UpdateWorkspaceAliasRequest & UpdateWorkspaceAliasRequest)[K]
-    }>): Request<void, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.updateWorkspaceAlias(
-          this.ops["UpdateWorkspaceAlias"].applicator.apply(partialParams)
+          this.ops["UntagResource"].apply(partialParams)
         );
     }
 }

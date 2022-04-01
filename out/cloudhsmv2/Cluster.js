@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.cloudhsmv2.Cluster {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.CloudHSMV2();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,85 +50,68 @@ class default_1 extends aws.cloudhsmv2.Cluster {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeCopyBackupToRegion(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.copyBackupToRegion(this.ops["CopyBackupToRegion"].applicator.apply(partialParams));
+        return this.client.copyBackupToRegion(this.ops["CopyBackupToRegion"].apply(partialParams));
     }
     invokeCreateCluster(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createCluster(this.ops["CreateCluster"].applicator.apply(partialParams));
+        return this.client.createCluster(this.ops["CreateCluster"].apply(partialParams));
     }
     invokeCreateHsm(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createHsm(this.ops["CreateHsm"].applicator.apply(partialParams));
+        return this.client.createHsm(this.ops["CreateHsm"].apply(partialParams));
     }
     invokeDeleteBackup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteBackup(this.ops["DeleteBackup"].applicator.apply(partialParams));
+        return this.client.deleteBackup(this.ops["DeleteBackup"].apply(partialParams));
     }
     invokeDeleteCluster(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteCluster(this.ops["DeleteCluster"].applicator.apply(partialParams));
+        return this.client.deleteCluster(this.ops["DeleteCluster"].apply(partialParams));
     }
     invokeDeleteHsm(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.deleteHsm(this.ops["DeleteHsm"].applicator.apply(partialParams));
+        return this.client.deleteHsm(this.ops["DeleteHsm"].apply(partialParams));
+    }
+    invokeDescribeBackups(partialParams) {
+        this.boot();
+        return this.client.describeBackups(this.ops["DescribeBackups"].apply(partialParams));
+    }
+    invokeDescribeClusters(partialParams) {
+        this.boot();
+        return this.client.describeClusters(this.ops["DescribeClusters"].apply(partialParams));
     }
     invokeInitializeCluster(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.initializeCluster(this.ops["InitializeCluster"].applicator.apply(partialParams));
+        return this.client.initializeCluster(this.ops["InitializeCluster"].apply(partialParams));
     }
     invokeListTags(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTags(this.ops["ListTags"].applicator.apply(partialParams));
+        return this.client.listTags(this.ops["ListTags"].apply(partialParams));
     }
     invokeModifyBackupAttributes(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyBackupAttributes(this.ops["ModifyBackupAttributes"].applicator.apply(partialParams));
+        return this.client.modifyBackupAttributes(this.ops["ModifyBackupAttributes"].apply(partialParams));
     }
     invokeModifyCluster(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.modifyCluster(this.ops["ModifyCluster"].applicator.apply(partialParams));
+        return this.client.modifyCluster(this.ops["ModifyCluster"].apply(partialParams));
     }
     invokeRestoreBackup(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.restoreBackup(this.ops["RestoreBackup"].applicator.apply(partialParams));
+        return this.client.restoreBackup(this.ops["RestoreBackup"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
 }
 exports.default = default_1;

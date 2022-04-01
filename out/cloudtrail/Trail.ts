@@ -12,14 +12,19 @@ import {
     DeleteEventDataStoreRequest,
     DeleteTrailRequest,
     DescribeQueryRequest,
+    DescribeTrailsRequest,
     GetEventDataStoreRequest,
     GetEventSelectorsRequest,
     GetInsightSelectorsRequest,
     GetQueryResultsRequest,
     GetTrailRequest,
     GetTrailStatusRequest,
+    ListEventDataStoresRequest,
+    ListPublicKeysRequest,
     ListQueriesRequest,
     ListTagsRequest,
+    ListTrailsRequest,
+    LookupEventsRequest,
     PutEventSelectorsRequest,
     PutInsightSelectorsRequest,
     RemoveTagsRequest,
@@ -36,14 +41,19 @@ import {
     DeleteEventDataStoreResponse,
     DeleteTrailResponse,
     DescribeQueryResponse,
+    DescribeTrailsResponse,
     GetEventDataStoreResponse,
     GetEventSelectorsResponse,
     GetInsightSelectorsResponse,
     GetQueryResultsResponse,
     GetTrailResponse,
     GetTrailStatusResponse,
+    ListEventDataStoresResponse,
+    ListPublicKeysResponse,
     ListQueriesResponse,
     ListTagsResponse,
+    ListTrailsResponse,
+    LookupEventsResponse,
     PutEventSelectorsResponse,
     PutInsightSelectorsResponse,
     RemoveTagsResponse,
@@ -67,21 +77,24 @@ export default class extends aws.cloudtrail.Trail {
     public ops: any // TODO make private
     private client: any
     capitalizedParams: {[key: string]: any}
+    booted: boolean
     constructor(...args: ConstructorParameters<typeof aws.cloudtrail.Trail>) {
         super(...args)
+        this.booted = false;
         this.client = new awssdk.CloudTrail()
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]: [string, any]) => {
-          try {
-            this.capitalizedParams[upperCamelCase(key)] = value;
-            return;
-          } catch (e) {
-
-          }
           this.capitalizedParams[upperCamelCase(key)] = value;
+          if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
+              this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
+          }
+          console.log(this.capitalizedParams);
         })
     }
     boot() {
+        if (this.booted) {
+          return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]: [string, any]) => {
           try {
             this.capitalizedParams[upperCamelCase(key)] = value.value;
@@ -91,270 +104,268 @@ export default class extends aws.cloudtrail.Trail {
           }
           this.capitalizedParams[upperCamelCase(key)] = value;
         })
-        this.ops = getResourceOperations(this.capitalizedParams as any, schema, this.client)
+        this.ops = getResourceOperations(this.capitalizedParams as any, schema);
+        this.booted = true;
     }
 
     invokeAddTags(partialParams: ToOptional<{
-      [K in keyof AddTagsRequest & keyof AddTagsRequest & keyof AddTagsRequest & keyof AddTagsRequest & keyof AddTagsRequest & keyof AddTagsRequest & keyof AddTagsRequest & keyof AddTagsRequest & keyof AddTagsRequest]: (AddTagsRequest & AddTagsRequest & AddTagsRequest & AddTagsRequest & AddTagsRequest & AddTagsRequest & AddTagsRequest & AddTagsRequest & AddTagsRequest)[K]
+      [K in keyof AddTagsRequest]: (AddTagsRequest)[K]
     }>): Request<AddTagsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.addTags(
-          this.ops["AddTags"].applicator.apply(partialParams)
+          this.ops["AddTags"].apply(partialParams)
         );
     }
 
     invokeCancelQuery(partialParams: ToOptional<{
-      [K in keyof CancelQueryRequest & keyof CancelQueryRequest & keyof CancelQueryRequest & keyof CancelQueryRequest & keyof CancelQueryRequest & keyof CancelQueryRequest & keyof CancelQueryRequest & keyof CancelQueryRequest & keyof CancelQueryRequest]: (CancelQueryRequest & CancelQueryRequest & CancelQueryRequest & CancelQueryRequest & CancelQueryRequest & CancelQueryRequest & CancelQueryRequest & CancelQueryRequest & CancelQueryRequest)[K]
+      [K in keyof CancelQueryRequest]: (CancelQueryRequest)[K]
     }>): Request<CancelQueryResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.cancelQuery(
-          this.ops["CancelQuery"].applicator.apply(partialParams)
+          this.ops["CancelQuery"].apply(partialParams)
         );
     }
 
     invokeCreateEventDataStore(partialParams: ToOptional<{
-      [K in keyof CreateEventDataStoreRequest & keyof CreateEventDataStoreRequest & keyof CreateEventDataStoreRequest & keyof CreateEventDataStoreRequest & keyof CreateEventDataStoreRequest & keyof CreateEventDataStoreRequest & keyof CreateEventDataStoreRequest & keyof CreateEventDataStoreRequest & keyof CreateEventDataStoreRequest]: (CreateEventDataStoreRequest & CreateEventDataStoreRequest & CreateEventDataStoreRequest & CreateEventDataStoreRequest & CreateEventDataStoreRequest & CreateEventDataStoreRequest & CreateEventDataStoreRequest & CreateEventDataStoreRequest & CreateEventDataStoreRequest)[K]
+      [K in keyof CreateEventDataStoreRequest & keyof Omit<CreateEventDataStoreRequest, "Name">]: (CreateEventDataStoreRequest)[K]
     }>): Request<CreateEventDataStoreResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createEventDataStore(
-          this.ops["CreateEventDataStore"].applicator.apply(partialParams)
+          this.ops["CreateEventDataStore"].apply(partialParams)
         );
     }
 
     invokeCreateTrail(partialParams: ToOptional<{
-      [K in keyof CreateTrailRequest & keyof CreateTrailRequest & keyof CreateTrailRequest & keyof CreateTrailRequest & keyof CreateTrailRequest & keyof CreateTrailRequest & keyof CreateTrailRequest & keyof CreateTrailRequest & keyof CreateTrailRequest]: (CreateTrailRequest & CreateTrailRequest & CreateTrailRequest & CreateTrailRequest & CreateTrailRequest & CreateTrailRequest & CreateTrailRequest & CreateTrailRequest & CreateTrailRequest)[K]
+      [K in keyof CreateTrailRequest & keyof Omit<CreateTrailRequest, "Name" | "S3BucketName">]: (CreateTrailRequest)[K]
     }>): Request<CreateTrailResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.createTrail(
-          this.ops["CreateTrail"].applicator.apply(partialParams)
+          this.ops["CreateTrail"].apply(partialParams)
         );
     }
 
     invokeDeleteEventDataStore(partialParams: ToOptional<{
-      [K in keyof DeleteEventDataStoreRequest & keyof DeleteEventDataStoreRequest & keyof DeleteEventDataStoreRequest & keyof DeleteEventDataStoreRequest & keyof DeleteEventDataStoreRequest & keyof DeleteEventDataStoreRequest & keyof DeleteEventDataStoreRequest & keyof DeleteEventDataStoreRequest & keyof DeleteEventDataStoreRequest]: (DeleteEventDataStoreRequest & DeleteEventDataStoreRequest & DeleteEventDataStoreRequest & DeleteEventDataStoreRequest & DeleteEventDataStoreRequest & DeleteEventDataStoreRequest & DeleteEventDataStoreRequest & DeleteEventDataStoreRequest & DeleteEventDataStoreRequest)[K]
+      [K in keyof DeleteEventDataStoreRequest]: (DeleteEventDataStoreRequest)[K]
     }>): Request<DeleteEventDataStoreResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteEventDataStore(
-          this.ops["DeleteEventDataStore"].applicator.apply(partialParams)
+          this.ops["DeleteEventDataStore"].apply(partialParams)
         );
     }
 
     invokeDeleteTrail(partialParams: ToOptional<{
-      [K in keyof DeleteTrailRequest & keyof DeleteTrailRequest & keyof DeleteTrailRequest & keyof DeleteTrailRequest & keyof DeleteTrailRequest & keyof DeleteTrailRequest & keyof DeleteTrailRequest & keyof DeleteTrailRequest & keyof DeleteTrailRequest]: (DeleteTrailRequest & DeleteTrailRequest & DeleteTrailRequest & DeleteTrailRequest & DeleteTrailRequest & DeleteTrailRequest & DeleteTrailRequest & DeleteTrailRequest & DeleteTrailRequest)[K]
+      [K in keyof DeleteTrailRequest & keyof Omit<DeleteTrailRequest, "Name">]: (DeleteTrailRequest)[K]
     }>): Request<DeleteTrailResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.deleteTrail(
-          this.ops["DeleteTrail"].applicator.apply(partialParams)
+          this.ops["DeleteTrail"].apply(partialParams)
         );
     }
 
     invokeDescribeQuery(partialParams: ToOptional<{
-      [K in keyof DescribeQueryRequest & keyof DescribeQueryRequest & keyof DescribeQueryRequest & keyof DescribeQueryRequest & keyof DescribeQueryRequest & keyof DescribeQueryRequest & keyof DescribeQueryRequest & keyof DescribeQueryRequest & keyof DescribeQueryRequest]: (DescribeQueryRequest & DescribeQueryRequest & DescribeQueryRequest & DescribeQueryRequest & DescribeQueryRequest & DescribeQueryRequest & DescribeQueryRequest & DescribeQueryRequest & DescribeQueryRequest)[K]
+      [K in keyof DescribeQueryRequest]: (DescribeQueryRequest)[K]
     }>): Request<DescribeQueryResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.describeQuery(
-          this.ops["DescribeQuery"].applicator.apply(partialParams)
+          this.ops["DescribeQuery"].apply(partialParams)
+        );
+    }
+
+    invokeDescribeTrails(partialParams: ToOptional<{
+      [K in keyof DescribeTrailsRequest]: (DescribeTrailsRequest)[K]
+    }>): Request<DescribeTrailsResponse, AWSError> {
+        this.boot();
+        return this.client.describeTrails(
+          this.ops["DescribeTrails"].apply(partialParams)
         );
     }
 
     invokeGetEventDataStore(partialParams: ToOptional<{
-      [K in keyof GetEventDataStoreRequest & keyof GetEventDataStoreRequest & keyof GetEventDataStoreRequest & keyof GetEventDataStoreRequest & keyof GetEventDataStoreRequest & keyof GetEventDataStoreRequest & keyof GetEventDataStoreRequest & keyof GetEventDataStoreRequest & keyof GetEventDataStoreRequest]: (GetEventDataStoreRequest & GetEventDataStoreRequest & GetEventDataStoreRequest & GetEventDataStoreRequest & GetEventDataStoreRequest & GetEventDataStoreRequest & GetEventDataStoreRequest & GetEventDataStoreRequest & GetEventDataStoreRequest)[K]
+      [K in keyof GetEventDataStoreRequest]: (GetEventDataStoreRequest)[K]
     }>): Request<GetEventDataStoreResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getEventDataStore(
-          this.ops["GetEventDataStore"].applicator.apply(partialParams)
+          this.ops["GetEventDataStore"].apply(partialParams)
         );
     }
 
     invokeGetEventSelectors(partialParams: ToOptional<{
-      [K in keyof GetEventSelectorsRequest & keyof GetEventSelectorsRequest & keyof GetEventSelectorsRequest & keyof GetEventSelectorsRequest & keyof GetEventSelectorsRequest & keyof GetEventSelectorsRequest & keyof GetEventSelectorsRequest & keyof GetEventSelectorsRequest & keyof GetEventSelectorsRequest]: (GetEventSelectorsRequest & GetEventSelectorsRequest & GetEventSelectorsRequest & GetEventSelectorsRequest & GetEventSelectorsRequest & GetEventSelectorsRequest & GetEventSelectorsRequest & GetEventSelectorsRequest & GetEventSelectorsRequest)[K]
+      [K in keyof GetEventSelectorsRequest & keyof Omit<GetEventSelectorsRequest, "TrailName">]: (GetEventSelectorsRequest)[K]
     }>): Request<GetEventSelectorsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getEventSelectors(
-          this.ops["GetEventSelectors"].applicator.apply(partialParams)
+          this.ops["GetEventSelectors"].apply(partialParams)
         );
     }
 
     invokeGetInsightSelectors(partialParams: ToOptional<{
-      [K in keyof GetInsightSelectorsRequest & keyof GetInsightSelectorsRequest & keyof GetInsightSelectorsRequest & keyof GetInsightSelectorsRequest & keyof GetInsightSelectorsRequest & keyof GetInsightSelectorsRequest & keyof GetInsightSelectorsRequest & keyof GetInsightSelectorsRequest & keyof GetInsightSelectorsRequest]: (GetInsightSelectorsRequest & GetInsightSelectorsRequest & GetInsightSelectorsRequest & GetInsightSelectorsRequest & GetInsightSelectorsRequest & GetInsightSelectorsRequest & GetInsightSelectorsRequest & GetInsightSelectorsRequest & GetInsightSelectorsRequest)[K]
+      [K in keyof GetInsightSelectorsRequest & keyof Omit<GetInsightSelectorsRequest, "TrailName">]: (GetInsightSelectorsRequest)[K]
     }>): Request<GetInsightSelectorsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getInsightSelectors(
-          this.ops["GetInsightSelectors"].applicator.apply(partialParams)
+          this.ops["GetInsightSelectors"].apply(partialParams)
         );
     }
 
     invokeGetQueryResults(partialParams: ToOptional<{
-      [K in keyof GetQueryResultsRequest & keyof GetQueryResultsRequest & keyof GetQueryResultsRequest & keyof GetQueryResultsRequest & keyof GetQueryResultsRequest & keyof GetQueryResultsRequest & keyof GetQueryResultsRequest & keyof GetQueryResultsRequest & keyof GetQueryResultsRequest]: (GetQueryResultsRequest & GetQueryResultsRequest & GetQueryResultsRequest & GetQueryResultsRequest & GetQueryResultsRequest & GetQueryResultsRequest & GetQueryResultsRequest & GetQueryResultsRequest & GetQueryResultsRequest)[K]
+      [K in keyof GetQueryResultsRequest]: (GetQueryResultsRequest)[K]
     }>): Request<GetQueryResultsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getQueryResults(
-          this.ops["GetQueryResults"].applicator.apply(partialParams)
+          this.ops["GetQueryResults"].apply(partialParams)
         );
     }
 
     invokeGetTrail(partialParams: ToOptional<{
-      [K in keyof GetTrailRequest & keyof GetTrailRequest & keyof GetTrailRequest & keyof GetTrailRequest & keyof GetTrailRequest & keyof GetTrailRequest & keyof GetTrailRequest & keyof GetTrailRequest & keyof GetTrailRequest]: (GetTrailRequest & GetTrailRequest & GetTrailRequest & GetTrailRequest & GetTrailRequest & GetTrailRequest & GetTrailRequest & GetTrailRequest & GetTrailRequest)[K]
+      [K in keyof GetTrailRequest & keyof Omit<GetTrailRequest, "Name">]: (GetTrailRequest)[K]
     }>): Request<GetTrailResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getTrail(
-          this.ops["GetTrail"].applicator.apply(partialParams)
+          this.ops["GetTrail"].apply(partialParams)
         );
     }
 
     invokeGetTrailStatus(partialParams: ToOptional<{
-      [K in keyof GetTrailStatusRequest & keyof GetTrailStatusRequest & keyof GetTrailStatusRequest & keyof GetTrailStatusRequest & keyof GetTrailStatusRequest & keyof GetTrailStatusRequest & keyof GetTrailStatusRequest & keyof GetTrailStatusRequest & keyof GetTrailStatusRequest]: (GetTrailStatusRequest & GetTrailStatusRequest & GetTrailStatusRequest & GetTrailStatusRequest & GetTrailStatusRequest & GetTrailStatusRequest & GetTrailStatusRequest & GetTrailStatusRequest & GetTrailStatusRequest)[K]
+      [K in keyof GetTrailStatusRequest & keyof Omit<GetTrailStatusRequest, "Name">]: (GetTrailStatusRequest)[K]
     }>): Request<GetTrailStatusResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.getTrailStatus(
-          this.ops["GetTrailStatus"].applicator.apply(partialParams)
+          this.ops["GetTrailStatus"].apply(partialParams)
+        );
+    }
+
+    invokeListEventDataStores(partialParams: ToOptional<{
+      [K in keyof ListEventDataStoresRequest]: (ListEventDataStoresRequest)[K]
+    }>): Request<ListEventDataStoresResponse, AWSError> {
+        this.boot();
+        return this.client.listEventDataStores(
+          this.ops["ListEventDataStores"].apply(partialParams)
+        );
+    }
+
+    invokeListPublicKeys(partialParams: ToOptional<{
+      [K in keyof ListPublicKeysRequest]: (ListPublicKeysRequest)[K]
+    }>): Request<ListPublicKeysResponse, AWSError> {
+        this.boot();
+        return this.client.listPublicKeys(
+          this.ops["ListPublicKeys"].apply(partialParams)
         );
     }
 
     invokeListQueries(partialParams: ToOptional<{
-      [K in keyof ListQueriesRequest & keyof ListQueriesRequest & keyof ListQueriesRequest & keyof ListQueriesRequest & keyof ListQueriesRequest & keyof ListQueriesRequest & keyof ListQueriesRequest & keyof ListQueriesRequest & keyof ListQueriesRequest]: (ListQueriesRequest & ListQueriesRequest & ListQueriesRequest & ListQueriesRequest & ListQueriesRequest & ListQueriesRequest & ListQueriesRequest & ListQueriesRequest & ListQueriesRequest)[K]
+      [K in keyof ListQueriesRequest]: (ListQueriesRequest)[K]
     }>): Request<ListQueriesResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listQueries(
-          this.ops["ListQueries"].applicator.apply(partialParams)
+          this.ops["ListQueries"].apply(partialParams)
         );
     }
 
     invokeListTags(partialParams: ToOptional<{
-      [K in keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest & keyof ListTagsRequest]: (ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest & ListTagsRequest)[K]
+      [K in keyof ListTagsRequest]: (ListTagsRequest)[K]
     }>): Request<ListTagsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.listTags(
-          this.ops["ListTags"].applicator.apply(partialParams)
+          this.ops["ListTags"].apply(partialParams)
+        );
+    }
+
+    invokeListTrails(partialParams: ToOptional<{
+      [K in keyof ListTrailsRequest]: (ListTrailsRequest)[K]
+    }>): Request<ListTrailsResponse, AWSError> {
+        this.boot();
+        return this.client.listTrails(
+          this.ops["ListTrails"].apply(partialParams)
+        );
+    }
+
+    invokeLookupEvents(partialParams: ToOptional<{
+      [K in keyof LookupEventsRequest]: (LookupEventsRequest)[K]
+    }>): Request<LookupEventsResponse, AWSError> {
+        this.boot();
+        return this.client.lookupEvents(
+          this.ops["LookupEvents"].apply(partialParams)
         );
     }
 
     invokePutEventSelectors(partialParams: ToOptional<{
-      [K in keyof PutEventSelectorsRequest & keyof PutEventSelectorsRequest & keyof PutEventSelectorsRequest & keyof PutEventSelectorsRequest & keyof PutEventSelectorsRequest & keyof PutEventSelectorsRequest & keyof PutEventSelectorsRequest & keyof PutEventSelectorsRequest & keyof PutEventSelectorsRequest]: (PutEventSelectorsRequest & PutEventSelectorsRequest & PutEventSelectorsRequest & PutEventSelectorsRequest & PutEventSelectorsRequest & PutEventSelectorsRequest & PutEventSelectorsRequest & PutEventSelectorsRequest & PutEventSelectorsRequest)[K]
+      [K in keyof PutEventSelectorsRequest & keyof Omit<PutEventSelectorsRequest, "TrailName">]: (PutEventSelectorsRequest)[K]
     }>): Request<PutEventSelectorsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putEventSelectors(
-          this.ops["PutEventSelectors"].applicator.apply(partialParams)
+          this.ops["PutEventSelectors"].apply(partialParams)
         );
     }
 
     invokePutInsightSelectors(partialParams: ToOptional<{
-      [K in keyof PutInsightSelectorsRequest & keyof PutInsightSelectorsRequest & keyof PutInsightSelectorsRequest & keyof PutInsightSelectorsRequest & keyof PutInsightSelectorsRequest & keyof PutInsightSelectorsRequest & keyof PutInsightSelectorsRequest & keyof PutInsightSelectorsRequest & keyof PutInsightSelectorsRequest]: (PutInsightSelectorsRequest & PutInsightSelectorsRequest & PutInsightSelectorsRequest & PutInsightSelectorsRequest & PutInsightSelectorsRequest & PutInsightSelectorsRequest & PutInsightSelectorsRequest & PutInsightSelectorsRequest & PutInsightSelectorsRequest)[K]
+      [K in keyof PutInsightSelectorsRequest & keyof Omit<PutInsightSelectorsRequest, "TrailName">]: (PutInsightSelectorsRequest)[K]
     }>): Request<PutInsightSelectorsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.putInsightSelectors(
-          this.ops["PutInsightSelectors"].applicator.apply(partialParams)
+          this.ops["PutInsightSelectors"].apply(partialParams)
         );
     }
 
     invokeRemoveTags(partialParams: ToOptional<{
-      [K in keyof RemoveTagsRequest & keyof RemoveTagsRequest & keyof RemoveTagsRequest & keyof RemoveTagsRequest & keyof RemoveTagsRequest & keyof RemoveTagsRequest & keyof RemoveTagsRequest & keyof RemoveTagsRequest & keyof RemoveTagsRequest]: (RemoveTagsRequest & RemoveTagsRequest & RemoveTagsRequest & RemoveTagsRequest & RemoveTagsRequest & RemoveTagsRequest & RemoveTagsRequest & RemoveTagsRequest & RemoveTagsRequest)[K]
+      [K in keyof RemoveTagsRequest]: (RemoveTagsRequest)[K]
     }>): Request<RemoveTagsResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.removeTags(
-          this.ops["RemoveTags"].applicator.apply(partialParams)
+          this.ops["RemoveTags"].apply(partialParams)
         );
     }
 
     invokeRestoreEventDataStore(partialParams: ToOptional<{
-      [K in keyof RestoreEventDataStoreRequest & keyof RestoreEventDataStoreRequest & keyof RestoreEventDataStoreRequest & keyof RestoreEventDataStoreRequest & keyof RestoreEventDataStoreRequest & keyof RestoreEventDataStoreRequest & keyof RestoreEventDataStoreRequest & keyof RestoreEventDataStoreRequest & keyof RestoreEventDataStoreRequest]: (RestoreEventDataStoreRequest & RestoreEventDataStoreRequest & RestoreEventDataStoreRequest & RestoreEventDataStoreRequest & RestoreEventDataStoreRequest & RestoreEventDataStoreRequest & RestoreEventDataStoreRequest & RestoreEventDataStoreRequest & RestoreEventDataStoreRequest)[K]
+      [K in keyof RestoreEventDataStoreRequest]: (RestoreEventDataStoreRequest)[K]
     }>): Request<RestoreEventDataStoreResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.restoreEventDataStore(
-          this.ops["RestoreEventDataStore"].applicator.apply(partialParams)
+          this.ops["RestoreEventDataStore"].apply(partialParams)
         );
     }
 
     invokeStartLogging(partialParams: ToOptional<{
-      [K in keyof StartLoggingRequest & keyof StartLoggingRequest & keyof StartLoggingRequest & keyof StartLoggingRequest & keyof StartLoggingRequest & keyof StartLoggingRequest & keyof StartLoggingRequest & keyof StartLoggingRequest & keyof StartLoggingRequest]: (StartLoggingRequest & StartLoggingRequest & StartLoggingRequest & StartLoggingRequest & StartLoggingRequest & StartLoggingRequest & StartLoggingRequest & StartLoggingRequest & StartLoggingRequest)[K]
+      [K in keyof StartLoggingRequest & keyof Omit<StartLoggingRequest, "Name">]: (StartLoggingRequest)[K]
     }>): Request<StartLoggingResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startLogging(
-          this.ops["StartLogging"].applicator.apply(partialParams)
+          this.ops["StartLogging"].apply(partialParams)
         );
     }
 
     invokeStartQuery(partialParams: ToOptional<{
-      [K in keyof StartQueryRequest & keyof StartQueryRequest & keyof StartQueryRequest & keyof StartQueryRequest & keyof StartQueryRequest & keyof StartQueryRequest & keyof StartQueryRequest & keyof StartQueryRequest & keyof StartQueryRequest]: (StartQueryRequest & StartQueryRequest & StartQueryRequest & StartQueryRequest & StartQueryRequest & StartQueryRequest & StartQueryRequest & StartQueryRequest & StartQueryRequest)[K]
+      [K in keyof StartQueryRequest]: (StartQueryRequest)[K]
     }>): Request<StartQueryResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.startQuery(
-          this.ops["StartQuery"].applicator.apply(partialParams)
+          this.ops["StartQuery"].apply(partialParams)
         );
     }
 
     invokeStopLogging(partialParams: ToOptional<{
-      [K in keyof StopLoggingRequest & keyof StopLoggingRequest & keyof StopLoggingRequest & keyof StopLoggingRequest & keyof StopLoggingRequest & keyof StopLoggingRequest & keyof StopLoggingRequest & keyof StopLoggingRequest & keyof StopLoggingRequest]: (StopLoggingRequest & StopLoggingRequest & StopLoggingRequest & StopLoggingRequest & StopLoggingRequest & StopLoggingRequest & StopLoggingRequest & StopLoggingRequest & StopLoggingRequest)[K]
+      [K in keyof StopLoggingRequest & keyof Omit<StopLoggingRequest, "Name">]: (StopLoggingRequest)[K]
     }>): Request<StopLoggingResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.stopLogging(
-          this.ops["StopLogging"].applicator.apply(partialParams)
+          this.ops["StopLogging"].apply(partialParams)
         );
     }
 
     invokeUpdateEventDataStore(partialParams: ToOptional<{
-      [K in keyof UpdateEventDataStoreRequest & keyof UpdateEventDataStoreRequest & keyof UpdateEventDataStoreRequest & keyof UpdateEventDataStoreRequest & keyof UpdateEventDataStoreRequest & keyof UpdateEventDataStoreRequest & keyof UpdateEventDataStoreRequest & keyof UpdateEventDataStoreRequest & keyof UpdateEventDataStoreRequest]: (UpdateEventDataStoreRequest & UpdateEventDataStoreRequest & UpdateEventDataStoreRequest & UpdateEventDataStoreRequest & UpdateEventDataStoreRequest & UpdateEventDataStoreRequest & UpdateEventDataStoreRequest & UpdateEventDataStoreRequest & UpdateEventDataStoreRequest)[K]
+      [K in keyof UpdateEventDataStoreRequest]: (UpdateEventDataStoreRequest)[K]
     }>): Request<UpdateEventDataStoreResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateEventDataStore(
-          this.ops["UpdateEventDataStore"].applicator.apply(partialParams)
+          this.ops["UpdateEventDataStore"].apply(partialParams)
         );
     }
 
     invokeUpdateTrail(partialParams: ToOptional<{
-      [K in keyof UpdateTrailRequest & keyof UpdateTrailRequest & keyof UpdateTrailRequest & keyof UpdateTrailRequest & keyof UpdateTrailRequest & keyof Omit<UpdateTrailRequest, "Name"> & keyof UpdateTrailRequest & keyof UpdateTrailRequest & keyof UpdateTrailRequest]: (UpdateTrailRequest & UpdateTrailRequest & UpdateTrailRequest & UpdateTrailRequest & UpdateTrailRequest & Omit<UpdateTrailRequest, "Name"> & UpdateTrailRequest & UpdateTrailRequest & UpdateTrailRequest)[K]
+      [K in keyof UpdateTrailRequest & keyof Omit<UpdateTrailRequest, "Name">]: (UpdateTrailRequest)[K]
     }>): Request<UpdateTrailResponse, AWSError> {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
         return this.client.updateTrail(
-          this.ops["UpdateTrail"].applicator.apply(partialParams)
+          this.ops["UpdateTrail"].apply(partialParams)
         );
     }
 }

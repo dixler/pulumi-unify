@@ -26,19 +26,21 @@ const parse_1 = require("../parse");
 class default_1 extends aws.qldb.Ledger {
     constructor(...args) {
         super(...args);
+        this.booted = false;
         this.client = new awssdk.QLDB();
         this.capitalizedParams = {};
         Object.entries(this).forEach(([key, value]) => {
-            try {
-                this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
-                return;
-            }
-            catch (e) {
-            }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
+            if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
+                this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
+            }
+            console.log(this.capitalizedParams);
         });
     }
     boot() {
+        if (this.booted) {
+            return;
+        }
         Object.entries(this.capitalizedParams).forEach(([key, value]) => {
             try {
                 this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value.value;
@@ -48,115 +50,84 @@ class default_1 extends aws.qldb.Ledger {
             }
             this.capitalizedParams[(0, parse_1.upperCamelCase)(key)] = value;
         });
-        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema, this.client);
+        this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
+        this.booted = true;
     }
     invokeCancelJournalKinesisStream(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.cancelJournalKinesisStream(this.ops["CancelJournalKinesisStream"].applicator.apply(partialParams));
+        return this.client.cancelJournalKinesisStream(this.ops["CancelJournalKinesisStream"].apply(partialParams));
     }
     invokeCreateLedger(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.createLedger(this.ops["CreateLedger"].applicator.apply(partialParams));
-    }
-    invokeDeleteLedger(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
-        this.boot();
-        return this.client.deleteLedger(this.ops["DeleteLedger"].applicator.apply(partialParams));
+        return this.client.createLedger(this.ops["CreateLedger"].apply(partialParams));
     }
     invokeDescribeJournalKinesisStream(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeJournalKinesisStream(this.ops["DescribeJournalKinesisStream"].applicator.apply(partialParams));
+        return this.client.describeJournalKinesisStream(this.ops["DescribeJournalKinesisStream"].apply(partialParams));
     }
     invokeDescribeJournalS3Export(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeJournalS3Export(this.ops["DescribeJournalS3Export"].applicator.apply(partialParams));
+        return this.client.describeJournalS3Export(this.ops["DescribeJournalS3Export"].apply(partialParams));
     }
     invokeDescribeLedger(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.describeLedger(this.ops["DescribeLedger"].applicator.apply(partialParams));
+        return this.client.describeLedger(this.ops["DescribeLedger"].apply(partialParams));
     }
     invokeExportJournalToS3(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.exportJournalToS3(this.ops["ExportJournalToS3"].applicator.apply(partialParams));
+        return this.client.exportJournalToS3(this.ops["ExportJournalToS3"].apply(partialParams));
     }
     invokeGetBlock(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getBlock(this.ops["GetBlock"].applicator.apply(partialParams));
+        return this.client.getBlock(this.ops["GetBlock"].apply(partialParams));
     }
     invokeGetDigest(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getDigest(this.ops["GetDigest"].applicator.apply(partialParams));
+        return this.client.getDigest(this.ops["GetDigest"].apply(partialParams));
     }
     invokeGetRevision(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.getRevision(this.ops["GetRevision"].applicator.apply(partialParams));
+        return this.client.getRevision(this.ops["GetRevision"].apply(partialParams));
     }
     invokeListJournalKinesisStreamsForLedger(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listJournalKinesisStreamsForLedger(this.ops["ListJournalKinesisStreamsForLedger"].applicator.apply(partialParams));
+        return this.client.listJournalKinesisStreamsForLedger(this.ops["ListJournalKinesisStreamsForLedger"].apply(partialParams));
+    }
+    invokeListJournalS3Exports(partialParams) {
+        this.boot();
+        return this.client.listJournalS3Exports(this.ops["ListJournalS3Exports"].apply(partialParams));
     }
     invokeListJournalS3ExportsForLedger(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listJournalS3ExportsForLedger(this.ops["ListJournalS3ExportsForLedger"].applicator.apply(partialParams));
+        return this.client.listJournalS3ExportsForLedger(this.ops["ListJournalS3ExportsForLedger"].apply(partialParams));
+    }
+    invokeListLedgers(partialParams) {
+        this.boot();
+        return this.client.listLedgers(this.ops["ListLedgers"].apply(partialParams));
     }
     invokeListTagsForResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].applicator.apply(partialParams));
+        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeStreamJournalToKinesis(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.streamJournalToKinesis(this.ops["StreamJournalToKinesis"].applicator.apply(partialParams));
+        return this.client.streamJournalToKinesis(this.ops["StreamJournalToKinesis"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.tagResource(this.ops["TagResource"].applicator.apply(partialParams));
+        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUntagResource(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].applicator.apply(partialParams));
+        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateLedger(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateLedger(this.ops["UpdateLedger"].applicator.apply(partialParams));
+        return this.client.updateLedger(this.ops["UpdateLedger"].apply(partialParams));
     }
     invokeUpdateLedgerPermissionsMode(partialParams) {
-        //console.log(this.capitalizedParams['Bucket'])
-        //console.log(this.capitalizedParams['Bucket'].value)
         this.boot();
-        return this.client.updateLedgerPermissionsMode(this.ops["UpdateLedgerPermissionsMode"].applicator.apply(partialParams));
+        return this.client.updateLedgerPermissionsMode(this.ops["UpdateLedgerPermissionsMode"].apply(partialParams));
     }
 }
 exports.default = default_1;
