@@ -52,17 +52,9 @@ class default_1 extends aws.pinpoint.ApnsSandboxChannel {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeCreateApp(partialParams) {
-        this.boot();
-        return this.client.createApp(this.ops["CreateApp"].apply(partialParams));
-    }
     invokeCreateCampaign(partialParams) {
         this.boot();
         return this.client.createCampaign(this.ops["CreateCampaign"].apply(partialParams));
-    }
-    invokeCreateEmailTemplate(partialParams) {
-        this.boot();
-        return this.client.createEmailTemplate(this.ops["CreateEmailTemplate"].apply(partialParams));
     }
     invokeCreateExportJob(partialParams) {
         this.boot();
@@ -72,33 +64,13 @@ class default_1 extends aws.pinpoint.ApnsSandboxChannel {
         this.boot();
         return this.client.createImportJob(this.ops["CreateImportJob"].apply(partialParams));
     }
-    invokeCreateInAppTemplate(partialParams) {
-        this.boot();
-        return this.client.createInAppTemplate(this.ops["CreateInAppTemplate"].apply(partialParams));
-    }
     invokeCreateJourney(partialParams) {
         this.boot();
         return this.client.createJourney(this.ops["CreateJourney"].apply(partialParams));
     }
-    invokeCreatePushTemplate(partialParams) {
-        this.boot();
-        return this.client.createPushTemplate(this.ops["CreatePushTemplate"].apply(partialParams));
-    }
-    invokeCreateRecommenderConfiguration(partialParams) {
-        this.boot();
-        return this.client.createRecommenderConfiguration(this.ops["CreateRecommenderConfiguration"].apply(partialParams));
-    }
     invokeCreateSegment(partialParams) {
         this.boot();
         return this.client.createSegment(this.ops["CreateSegment"].apply(partialParams));
-    }
-    invokeCreateSmsTemplate(partialParams) {
-        this.boot();
-        return this.client.createSmsTemplate(this.ops["CreateSmsTemplate"].apply(partialParams));
-    }
-    invokeCreateVoiceTemplate(partialParams) {
-        this.boot();
-        return this.client.createVoiceTemplate(this.ops["CreateVoiceTemplate"].apply(partialParams));
     }
     invokeDeleteAdmChannel(partialParams) {
         this.boot();
@@ -136,10 +108,6 @@ class default_1 extends aws.pinpoint.ApnsSandboxChannel {
         this.boot();
         return this.client.deleteEmailChannel(this.ops["DeleteEmailChannel"].apply(partialParams));
     }
-    invokeDeleteEmailTemplate(partialParams) {
-        this.boot();
-        return this.client.deleteEmailTemplate(this.ops["DeleteEmailTemplate"].apply(partialParams));
-    }
     invokeDeleteEndpoint(partialParams) {
         this.boot();
         return this.client.deleteEndpoint(this.ops["DeleteEndpoint"].apply(partialParams));
@@ -152,21 +120,9 @@ class default_1 extends aws.pinpoint.ApnsSandboxChannel {
         this.boot();
         return this.client.deleteGcmChannel(this.ops["DeleteGcmChannel"].apply(partialParams));
     }
-    invokeDeleteInAppTemplate(partialParams) {
-        this.boot();
-        return this.client.deleteInAppTemplate(this.ops["DeleteInAppTemplate"].apply(partialParams));
-    }
     invokeDeleteJourney(partialParams) {
         this.boot();
         return this.client.deleteJourney(this.ops["DeleteJourney"].apply(partialParams));
-    }
-    invokeDeletePushTemplate(partialParams) {
-        this.boot();
-        return this.client.deletePushTemplate(this.ops["DeletePushTemplate"].apply(partialParams));
-    }
-    invokeDeleteRecommenderConfiguration(partialParams) {
-        this.boot();
-        return this.client.deleteRecommenderConfiguration(this.ops["DeleteRecommenderConfiguration"].apply(partialParams));
     }
     invokeDeleteSegment(partialParams) {
         this.boot();
@@ -176,10 +132,6 @@ class default_1 extends aws.pinpoint.ApnsSandboxChannel {
         this.boot();
         return this.client.deleteSmsChannel(this.ops["DeleteSmsChannel"].apply(partialParams));
     }
-    invokeDeleteSmsTemplate(partialParams) {
-        this.boot();
-        return this.client.deleteSmsTemplate(this.ops["DeleteSmsTemplate"].apply(partialParams));
-    }
     invokeDeleteUserEndpoints(partialParams) {
         this.boot();
         return this.client.deleteUserEndpoints(this.ops["DeleteUserEndpoints"].apply(partialParams));
@@ -187,10 +139,6 @@ class default_1 extends aws.pinpoint.ApnsSandboxChannel {
     invokeDeleteVoiceChannel(partialParams) {
         this.boot();
         return this.client.deleteVoiceChannel(this.ops["DeleteVoiceChannel"].apply(partialParams));
-    }
-    invokeDeleteVoiceTemplate(partialParams) {
-        this.boot();
-        return this.client.deleteVoiceTemplate(this.ops["DeleteVoiceTemplate"].apply(partialParams));
     }
     invokeGetAdmChannel(partialParams) {
         this.boot();
@@ -223,10 +171,6 @@ class default_1 extends aws.pinpoint.ApnsSandboxChannel {
     invokeGetApplicationSettings(partialParams) {
         this.boot();
         return this.client.getApplicationSettings(this.ops["GetApplicationSettings"].apply(partialParams));
-    }
-    invokeGetApps(partialParams) {
-        this.boot();
-        return this.client.getApps(this.ops["GetApps"].apply(partialParams));
     }
     invokeGetBaiduChannel(partialParams) {
         this.boot();
@@ -264,10 +208,6 @@ class default_1 extends aws.pinpoint.ApnsSandboxChannel {
         this.boot();
         return this.client.getEmailChannel(this.ops["GetEmailChannel"].apply(partialParams));
     }
-    invokeGetEmailTemplate(partialParams) {
-        this.boot();
-        return this.client.getEmailTemplate(this.ops["GetEmailTemplate"].apply(partialParams));
-    }
     invokeGetEndpoint(partialParams) {
         this.boot();
         return this.client.getEndpoint(this.ops["GetEndpoint"].apply(partialParams));
@@ -300,10 +240,6 @@ class default_1 extends aws.pinpoint.ApnsSandboxChannel {
         this.boot();
         return this.client.getInAppMessages(this.ops["GetInAppMessages"].apply(partialParams));
     }
-    invokeGetInAppTemplate(partialParams) {
-        this.boot();
-        return this.client.getInAppTemplate(this.ops["GetInAppTemplate"].apply(partialParams));
-    }
     invokeGetJourney(partialParams) {
         this.boot();
         return this.client.getJourney(this.ops["GetJourney"].apply(partialParams));
@@ -319,18 +255,6 @@ class default_1 extends aws.pinpoint.ApnsSandboxChannel {
     invokeGetJourneyExecutionMetrics(partialParams) {
         this.boot();
         return this.client.getJourneyExecutionMetrics(this.ops["GetJourneyExecutionMetrics"].apply(partialParams));
-    }
-    invokeGetPushTemplate(partialParams) {
-        this.boot();
-        return this.client.getPushTemplate(this.ops["GetPushTemplate"].apply(partialParams));
-    }
-    invokeGetRecommenderConfiguration(partialParams) {
-        this.boot();
-        return this.client.getRecommenderConfiguration(this.ops["GetRecommenderConfiguration"].apply(partialParams));
-    }
-    invokeGetRecommenderConfigurations(partialParams) {
-        this.boot();
-        return this.client.getRecommenderConfigurations(this.ops["GetRecommenderConfigurations"].apply(partialParams));
     }
     invokeGetSegment(partialParams) {
         this.boot();
@@ -360,10 +284,6 @@ class default_1 extends aws.pinpoint.ApnsSandboxChannel {
         this.boot();
         return this.client.getSmsChannel(this.ops["GetSmsChannel"].apply(partialParams));
     }
-    invokeGetSmsTemplate(partialParams) {
-        this.boot();
-        return this.client.getSmsTemplate(this.ops["GetSmsTemplate"].apply(partialParams));
-    }
     invokeGetUserEndpoints(partialParams) {
         this.boot();
         return this.client.getUserEndpoints(this.ops["GetUserEndpoints"].apply(partialParams));
@@ -372,29 +292,9 @@ class default_1 extends aws.pinpoint.ApnsSandboxChannel {
         this.boot();
         return this.client.getVoiceChannel(this.ops["GetVoiceChannel"].apply(partialParams));
     }
-    invokeGetVoiceTemplate(partialParams) {
-        this.boot();
-        return this.client.getVoiceTemplate(this.ops["GetVoiceTemplate"].apply(partialParams));
-    }
     invokeListJourneys(partialParams) {
         this.boot();
         return this.client.listJourneys(this.ops["ListJourneys"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
-    invokeListTemplateVersions(partialParams) {
-        this.boot();
-        return this.client.listTemplateVersions(this.ops["ListTemplateVersions"].apply(partialParams));
-    }
-    invokeListTemplates(partialParams) {
-        this.boot();
-        return this.client.listTemplates(this.ops["ListTemplates"].apply(partialParams));
-    }
-    invokePhoneNumberValidate(partialParams) {
-        this.boot();
-        return this.client.phoneNumberValidate(this.ops["PhoneNumberValidate"].apply(partialParams));
     }
     invokePutEventStream(partialParams) {
         this.boot();
@@ -456,10 +356,6 @@ class default_1 extends aws.pinpoint.ApnsSandboxChannel {
         this.boot();
         return this.client.updateEmailChannel(this.ops["UpdateEmailChannel"].apply(partialParams));
     }
-    invokeUpdateEmailTemplate(partialParams) {
-        this.boot();
-        return this.client.updateEmailTemplate(this.ops["UpdateEmailTemplate"].apply(partialParams));
-    }
     invokeUpdateEndpoint(partialParams) {
         this.boot();
         return this.client.updateEndpoint(this.ops["UpdateEndpoint"].apply(partialParams));
@@ -472,10 +368,6 @@ class default_1 extends aws.pinpoint.ApnsSandboxChannel {
         this.boot();
         return this.client.updateGcmChannel(this.ops["UpdateGcmChannel"].apply(partialParams));
     }
-    invokeUpdateInAppTemplate(partialParams) {
-        this.boot();
-        return this.client.updateInAppTemplate(this.ops["UpdateInAppTemplate"].apply(partialParams));
-    }
     invokeUpdateJourney(partialParams) {
         this.boot();
         return this.client.updateJourney(this.ops["UpdateJourney"].apply(partialParams));
@@ -483,14 +375,6 @@ class default_1 extends aws.pinpoint.ApnsSandboxChannel {
     invokeUpdateJourneyState(partialParams) {
         this.boot();
         return this.client.updateJourneyState(this.ops["UpdateJourneyState"].apply(partialParams));
-    }
-    invokeUpdatePushTemplate(partialParams) {
-        this.boot();
-        return this.client.updatePushTemplate(this.ops["UpdatePushTemplate"].apply(partialParams));
-    }
-    invokeUpdateRecommenderConfiguration(partialParams) {
-        this.boot();
-        return this.client.updateRecommenderConfiguration(this.ops["UpdateRecommenderConfiguration"].apply(partialParams));
     }
     invokeUpdateSegment(partialParams) {
         this.boot();
@@ -500,21 +384,9 @@ class default_1 extends aws.pinpoint.ApnsSandboxChannel {
         this.boot();
         return this.client.updateSmsChannel(this.ops["UpdateSmsChannel"].apply(partialParams));
     }
-    invokeUpdateSmsTemplate(partialParams) {
-        this.boot();
-        return this.client.updateSmsTemplate(this.ops["UpdateSmsTemplate"].apply(partialParams));
-    }
-    invokeUpdateTemplateActiveVersion(partialParams) {
-        this.boot();
-        return this.client.updateTemplateActiveVersion(this.ops["UpdateTemplateActiveVersion"].apply(partialParams));
-    }
     invokeUpdateVoiceChannel(partialParams) {
         this.boot();
         return this.client.updateVoiceChannel(this.ops["UpdateVoiceChannel"].apply(partialParams));
-    }
-    invokeUpdateVoiceTemplate(partialParams) {
-        this.boot();
-        return this.client.updateVoiceTemplate(this.ops["UpdateVoiceTemplate"].apply(partialParams));
     }
     invokeVerifyOTPMessage(partialParams) {
         this.boot();

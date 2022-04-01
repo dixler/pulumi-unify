@@ -6,47 +6,25 @@ import {AWSError} from 'aws-sdk/lib/error';
 
 import {
     CreateAccessRequest,
-    CreateServerRequest,
     CreateUserRequest,
-    CreateWorkflowRequest,
     DescribeAccessRequest,
-    DescribeExecutionRequest,
-    DescribeSecurityPolicyRequest,
     DescribeServerRequest,
     DescribeUserRequest,
-    DescribeWorkflowRequest,
     ImportSshPublicKeyRequest,
     ListAccessesRequest,
-    ListExecutionsRequest,
-    ListSecurityPoliciesRequest,
-    ListServersRequest,
-    ListTagsForResourceRequest,
     ListUsersRequest,
-    ListWorkflowsRequest,
-    SendWorkflowStepStateRequest,
     TestIdentityProviderRequest,
     UpdateAccessRequest,
     UpdateServerRequest,
     UpdateUserRequest,
     CreateAccessResponse,
-    CreateServerResponse,
     CreateUserResponse,
-    CreateWorkflowResponse,
     DescribeAccessResponse,
-    DescribeExecutionResponse,
-    DescribeSecurityPolicyResponse,
     DescribeServerResponse,
     DescribeUserResponse,
-    DescribeWorkflowResponse,
     ImportSshPublicKeyResponse,
     ListAccessesResponse,
-    ListExecutionsResponse,
-    ListSecurityPoliciesResponse,
-    ListServersResponse,
-    ListTagsForResourceResponse,
     ListUsersResponse,
-    ListWorkflowsResponse,
-    SendWorkflowStepStateResponse,
     TestIdentityProviderResponse,
     UpdateAccessResponse,
     UpdateServerResponse,
@@ -104,15 +82,6 @@ export default class extends aws.transfer.SshKey {
         );
     }
 
-    invokeCreateServer(partialParams: ToOptional<{
-      [K in keyof CreateServerRequest]: (CreateServerRequest)[K]
-    }>): Request<CreateServerResponse, AWSError> {
-        this.boot();
-        return this.client.createServer(
-          this.ops["CreateServer"].apply(partialParams)
-        );
-    }
-
     invokeCreateUser(partialParams: ToOptional<{
       [K in keyof CreateUserRequest & keyof Omit<CreateUserRequest, "ServerId" | "UserName">]: (CreateUserRequest)[K]
     }>): Request<CreateUserResponse, AWSError> {
@@ -122,39 +91,12 @@ export default class extends aws.transfer.SshKey {
         );
     }
 
-    invokeCreateWorkflow(partialParams: ToOptional<{
-      [K in keyof CreateWorkflowRequest]: (CreateWorkflowRequest)[K]
-    }>): Request<CreateWorkflowResponse, AWSError> {
-        this.boot();
-        return this.client.createWorkflow(
-          this.ops["CreateWorkflow"].apply(partialParams)
-        );
-    }
-
     invokeDescribeAccess(partialParams: ToOptional<{
       [K in keyof DescribeAccessRequest & keyof Omit<DescribeAccessRequest, "ServerId">]: (DescribeAccessRequest)[K]
     }>): Request<DescribeAccessResponse, AWSError> {
         this.boot();
         return this.client.describeAccess(
           this.ops["DescribeAccess"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeExecution(partialParams: ToOptional<{
-      [K in keyof DescribeExecutionRequest]: (DescribeExecutionRequest)[K]
-    }>): Request<DescribeExecutionResponse, AWSError> {
-        this.boot();
-        return this.client.describeExecution(
-          this.ops["DescribeExecution"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeSecurityPolicy(partialParams: ToOptional<{
-      [K in keyof DescribeSecurityPolicyRequest]: (DescribeSecurityPolicyRequest)[K]
-    }>): Request<DescribeSecurityPolicyResponse, AWSError> {
-        this.boot();
-        return this.client.describeSecurityPolicy(
-          this.ops["DescribeSecurityPolicy"].apply(partialParams)
         );
     }
 
@@ -176,15 +118,6 @@ export default class extends aws.transfer.SshKey {
         );
     }
 
-    invokeDescribeWorkflow(partialParams: ToOptional<{
-      [K in keyof DescribeWorkflowRequest]: (DescribeWorkflowRequest)[K]
-    }>): Request<DescribeWorkflowResponse, AWSError> {
-        this.boot();
-        return this.client.describeWorkflow(
-          this.ops["DescribeWorkflow"].apply(partialParams)
-        );
-    }
-
     invokeImportSshPublicKey(partialParams: ToOptional<{
       [K in keyof ImportSshPublicKeyRequest & keyof Omit<ImportSshPublicKeyRequest, "ServerId" | "UserName">]: (ImportSshPublicKeyRequest)[K]
     }>): Request<ImportSshPublicKeyResponse, AWSError> {
@@ -203,66 +136,12 @@ export default class extends aws.transfer.SshKey {
         );
     }
 
-    invokeListExecutions(partialParams: ToOptional<{
-      [K in keyof ListExecutionsRequest]: (ListExecutionsRequest)[K]
-    }>): Request<ListExecutionsResponse, AWSError> {
-        this.boot();
-        return this.client.listExecutions(
-          this.ops["ListExecutions"].apply(partialParams)
-        );
-    }
-
-    invokeListSecurityPolicies(partialParams: ToOptional<{
-      [K in keyof ListSecurityPoliciesRequest]: (ListSecurityPoliciesRequest)[K]
-    }>): Request<ListSecurityPoliciesResponse, AWSError> {
-        this.boot();
-        return this.client.listSecurityPolicies(
-          this.ops["ListSecurityPolicies"].apply(partialParams)
-        );
-    }
-
-    invokeListServers(partialParams: ToOptional<{
-      [K in keyof ListServersRequest]: (ListServersRequest)[K]
-    }>): Request<ListServersResponse, AWSError> {
-        this.boot();
-        return this.client.listServers(
-          this.ops["ListServers"].apply(partialParams)
-        );
-    }
-
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
-    }>): Request<ListTagsForResourceResponse, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
-        );
-    }
-
     invokeListUsers(partialParams: ToOptional<{
       [K in keyof ListUsersRequest & keyof Omit<ListUsersRequest, "ServerId">]: (ListUsersRequest)[K]
     }>): Request<ListUsersResponse, AWSError> {
         this.boot();
         return this.client.listUsers(
           this.ops["ListUsers"].apply(partialParams)
-        );
-    }
-
-    invokeListWorkflows(partialParams: ToOptional<{
-      [K in keyof ListWorkflowsRequest]: (ListWorkflowsRequest)[K]
-    }>): Request<ListWorkflowsResponse, AWSError> {
-        this.boot();
-        return this.client.listWorkflows(
-          this.ops["ListWorkflows"].apply(partialParams)
-        );
-    }
-
-    invokeSendWorkflowStepState(partialParams: ToOptional<{
-      [K in keyof SendWorkflowStepStateRequest]: (SendWorkflowStepStateRequest)[K]
-    }>): Request<SendWorkflowStepStateResponse, AWSError> {
-        this.boot();
-        return this.client.sendWorkflowStepState(
-          this.ops["SendWorkflowStepState"].apply(partialParams)
         );
     }
 

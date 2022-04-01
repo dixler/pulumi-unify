@@ -52,73 +52,9 @@ class default_1 extends aws.mediapackage.Channel {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeConfigureLogs(partialParams) {
-        this.boot();
-        return this.client.configureLogs(this.ops["ConfigureLogs"].apply(partialParams));
-    }
-    invokeCreateChannel(partialParams) {
-        this.boot();
-        return this.client.createChannel(this.ops["CreateChannel"].apply(partialParams));
-    }
-    invokeCreateHarvestJob(partialParams) {
-        this.boot();
-        return this.client.createHarvestJob(this.ops["CreateHarvestJob"].apply(partialParams));
-    }
     invokeCreateOriginEndpoint(partialParams) {
         this.boot();
         return this.client.createOriginEndpoint(this.ops["CreateOriginEndpoint"].apply(partialParams));
-    }
-    invokeDeleteChannel(partialParams) {
-        this.boot();
-        return this.client.deleteChannel(this.ops["DeleteChannel"].apply(partialParams));
-    }
-    invokeDeleteOriginEndpoint(partialParams) {
-        this.boot();
-        return this.client.deleteOriginEndpoint(this.ops["DeleteOriginEndpoint"].apply(partialParams));
-    }
-    invokeDescribeChannel(partialParams) {
-        this.boot();
-        return this.client.describeChannel(this.ops["DescribeChannel"].apply(partialParams));
-    }
-    invokeDescribeHarvestJob(partialParams) {
-        this.boot();
-        return this.client.describeHarvestJob(this.ops["DescribeHarvestJob"].apply(partialParams));
-    }
-    invokeDescribeOriginEndpoint(partialParams) {
-        this.boot();
-        return this.client.describeOriginEndpoint(this.ops["DescribeOriginEndpoint"].apply(partialParams));
-    }
-    invokeListChannels(partialParams) {
-        this.boot();
-        return this.client.listChannels(this.ops["ListChannels"].apply(partialParams));
-    }
-    invokeListHarvestJobs(partialParams) {
-        this.boot();
-        return this.client.listHarvestJobs(this.ops["ListHarvestJobs"].apply(partialParams));
-    }
-    invokeListOriginEndpoints(partialParams) {
-        this.boot();
-        return this.client.listOriginEndpoints(this.ops["ListOriginEndpoints"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
-    invokeRotateChannelCredentials(partialParams) {
-        this.boot();
-        return this.client.rotateChannelCredentials(this.ops["RotateChannelCredentials"].apply(partialParams));
-    }
-    invokeRotateIngestEndpointCredentials(partialParams) {
-        this.boot();
-        return this.client.rotateIngestEndpointCredentials(this.ops["RotateIngestEndpointCredentials"].apply(partialParams));
-    }
-    invokeUpdateChannel(partialParams) {
-        this.boot();
-        return this.client.updateChannel(this.ops["UpdateChannel"].apply(partialParams));
-    }
-    invokeUpdateOriginEndpoint(partialParams) {
-        this.boot();
-        return this.client.updateOriginEndpoint(this.ops["UpdateOriginEndpoint"].apply(partialParams));
     }
 }
 exports.default = default_1;

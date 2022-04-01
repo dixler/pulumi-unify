@@ -5,20 +5,14 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    CancelResourceRequestInput,
     CreateResourceInput,
     DeleteResourceInput,
     GetResourceInput,
-    GetResourceRequestStatusInput,
-    ListResourceRequestsInput,
     ListResourcesInput,
     UpdateResourceInput,
-    CancelResourceRequestOutput,
     CreateResourceOutput,
     DeleteResourceOutput,
     GetResourceOutput,
-    GetResourceRequestStatusOutput,
-    ListResourceRequestsOutput,
     ListResourcesOutput,
     UpdateResourceOutput
 } from "aws-sdk/clients/cloudcontrol";
@@ -65,15 +59,6 @@ export default class extends aws.cloudcontrol.Resource {
         this.booted = true;
     }
 
-    invokeCancelResourceRequest(partialParams: ToOptional<{
-      [K in keyof CancelResourceRequestInput]: (CancelResourceRequestInput)[K]
-    }>): Request<CancelResourceRequestOutput, AWSError> {
-        this.boot();
-        return this.client.cancelResourceRequest(
-          this.ops["CancelResourceRequest"].apply(partialParams)
-        );
-    }
-
     invokeCreateResource(partialParams: ToOptional<{
       [K in keyof CreateResourceInput & keyof Omit<CreateResourceInput, "TypeName" | "DesiredState">]: (CreateResourceInput)[K]
     }>): Request<CreateResourceOutput, AWSError> {
@@ -98,24 +83,6 @@ export default class extends aws.cloudcontrol.Resource {
         this.boot();
         return this.client.getResource(
           this.ops["GetResource"].apply(partialParams)
-        );
-    }
-
-    invokeGetResourceRequestStatus(partialParams: ToOptional<{
-      [K in keyof GetResourceRequestStatusInput]: (GetResourceRequestStatusInput)[K]
-    }>): Request<GetResourceRequestStatusOutput, AWSError> {
-        this.boot();
-        return this.client.getResourceRequestStatus(
-          this.ops["GetResourceRequestStatus"].apply(partialParams)
-        );
-    }
-
-    invokeListResourceRequests(partialParams: ToOptional<{
-      [K in keyof ListResourceRequestsInput]: (ListResourceRequestsInput)[K]
-    }>): Request<ListResourceRequestsOutput, AWSError> {
-        this.boot();
-        return this.client.listResourceRequests(
-          this.ops["ListResourceRequests"].apply(partialParams)
         );
     }
 

@@ -52,81 +52,9 @@ class default_1 extends aws.fms.Policy {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeGetAdminAccount(partialParams) {
-        this.boot();
-        return this.client.getAdminAccount(this.ops["GetAdminAccount"].apply(partialParams));
-    }
-    invokeGetAppsList(partialParams) {
-        this.boot();
-        return this.client.getAppsList(this.ops["GetAppsList"].apply(partialParams));
-    }
-    invokeGetComplianceDetail(partialParams) {
-        this.boot();
-        return this.client.getComplianceDetail(this.ops["GetComplianceDetail"].apply(partialParams));
-    }
-    invokeGetNotificationChannel(partialParams) {
-        this.boot();
-        return this.client.getNotificationChannel(this.ops["GetNotificationChannel"].apply(partialParams));
-    }
-    invokeGetPolicy(partialParams) {
-        this.boot();
-        return this.client.getPolicy(this.ops["GetPolicy"].apply(partialParams));
-    }
-    invokeGetProtectionStatus(partialParams) {
-        this.boot();
-        return this.client.getProtectionStatus(this.ops["GetProtectionStatus"].apply(partialParams));
-    }
-    invokeGetProtocolsList(partialParams) {
-        this.boot();
-        return this.client.getProtocolsList(this.ops["GetProtocolsList"].apply(partialParams));
-    }
     invokeGetViolationDetails(partialParams) {
         this.boot();
         return this.client.getViolationDetails(this.ops["GetViolationDetails"].apply(partialParams));
-    }
-    invokeListAppsLists(partialParams) {
-        this.boot();
-        return this.client.listAppsLists(this.ops["ListAppsLists"].apply(partialParams));
-    }
-    invokeListComplianceStatus(partialParams) {
-        this.boot();
-        return this.client.listComplianceStatus(this.ops["ListComplianceStatus"].apply(partialParams));
-    }
-    invokeListMemberAccounts(partialParams) {
-        this.boot();
-        return this.client.listMemberAccounts(this.ops["ListMemberAccounts"].apply(partialParams));
-    }
-    invokeListPolicies(partialParams) {
-        this.boot();
-        return this.client.listPolicies(this.ops["ListPolicies"].apply(partialParams));
-    }
-    invokeListProtocolsLists(partialParams) {
-        this.boot();
-        return this.client.listProtocolsLists(this.ops["ListProtocolsLists"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
-    invokePutAppsList(partialParams) {
-        this.boot();
-        return this.client.putAppsList(this.ops["PutAppsList"].apply(partialParams));
-    }
-    invokePutPolicy(partialParams) {
-        this.boot();
-        return this.client.putPolicy(this.ops["PutPolicy"].apply(partialParams));
-    }
-    invokePutProtocolsList(partialParams) {
-        this.boot();
-        return this.client.putProtocolsList(this.ops["PutProtocolsList"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
 }
 exports.default = default_1;

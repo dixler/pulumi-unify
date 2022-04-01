@@ -56,10 +56,6 @@ class default_1 extends aws.secretsmanager.SecretVersion {
         this.boot();
         return this.client.cancelRotateSecret(this.ops["CancelRotateSecret"].apply(partialParams));
     }
-    invokeCreateSecret(partialParams) {
-        this.boot();
-        return this.client.createSecret(this.ops["CreateSecret"].apply(partialParams));
-    }
     invokeDeleteResourcePolicy(partialParams) {
         this.boot();
         return this.client.deleteResourcePolicy(this.ops["DeleteResourcePolicy"].apply(partialParams));
@@ -72,10 +68,6 @@ class default_1 extends aws.secretsmanager.SecretVersion {
         this.boot();
         return this.client.describeSecret(this.ops["DescribeSecret"].apply(partialParams));
     }
-    invokeGetRandomPassword(partialParams) {
-        this.boot();
-        return this.client.getRandomPassword(this.ops["GetRandomPassword"].apply(partialParams));
-    }
     invokeGetResourcePolicy(partialParams) {
         this.boot();
         return this.client.getResourcePolicy(this.ops["GetResourcePolicy"].apply(partialParams));
@@ -87,10 +79,6 @@ class default_1 extends aws.secretsmanager.SecretVersion {
     invokeListSecretVersionIds(partialParams) {
         this.boot();
         return this.client.listSecretVersionIds(this.ops["ListSecretVersionIds"].apply(partialParams));
-    }
-    invokeListSecrets(partialParams) {
-        this.boot();
-        return this.client.listSecrets(this.ops["ListSecrets"].apply(partialParams));
     }
     invokePutResourcePolicy(partialParams) {
         this.boot();
@@ -127,10 +115,6 @@ class default_1 extends aws.secretsmanager.SecretVersion {
     invokeUpdateSecretVersionStage(partialParams) {
         this.boot();
         return this.client.updateSecretVersionStage(this.ops["UpdateSecretVersionStage"].apply(partialParams));
-    }
-    invokeValidateResourcePolicy(partialParams) {
-        this.boot();
-        return this.client.validateResourcePolicy(this.ops["ValidateResourcePolicy"].apply(partialParams));
     }
 }
 exports.default = default_1;

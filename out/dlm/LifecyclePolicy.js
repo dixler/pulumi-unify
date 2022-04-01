@@ -56,33 +56,5 @@ class default_1 extends aws.dlm.LifecyclePolicy {
         this.boot();
         return this.client.createLifecyclePolicy(this.ops["CreateLifecyclePolicy"].apply(partialParams));
     }
-    invokeDeleteLifecyclePolicy(partialParams) {
-        this.boot();
-        return this.client.deleteLifecyclePolicy(this.ops["DeleteLifecyclePolicy"].apply(partialParams));
-    }
-    invokeGetLifecyclePolicies(partialParams) {
-        this.boot();
-        return this.client.getLifecyclePolicies(this.ops["GetLifecyclePolicies"].apply(partialParams));
-    }
-    invokeGetLifecyclePolicy(partialParams) {
-        this.boot();
-        return this.client.getLifecyclePolicy(this.ops["GetLifecyclePolicy"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
-    }
-    invokeUpdateLifecyclePolicy(partialParams) {
-        this.boot();
-        return this.client.updateLifecyclePolicy(this.ops["UpdateLifecyclePolicy"].apply(partialParams));
-    }
 }
 exports.default = default_1;

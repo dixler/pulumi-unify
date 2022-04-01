@@ -27,13 +27,9 @@ import {
     DiscoverInputSchemaRequest,
     ListApplicationSnapshotsRequest,
     ListApplicationVersionsRequest,
-    ListApplicationsRequest,
-    ListTagsForResourceRequest,
     RollbackApplicationRequest,
     StartApplicationRequest,
     StopApplicationRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
     UpdateApplicationRequest,
     UpdateApplicationMaintenanceConfigurationRequest,
     AddApplicationCloudWatchLoggingOptionResponse,
@@ -58,13 +54,9 @@ import {
     DiscoverInputSchemaResponse,
     ListApplicationSnapshotsResponse,
     ListApplicationVersionsResponse,
-    ListApplicationsResponse,
-    ListTagsForResourceResponse,
     RollbackApplicationResponse,
     StartApplicationResponse,
     StopApplicationResponse,
-    TagResourceResponse,
-    UntagResourceResponse,
     UpdateApplicationResponse,
     UpdateApplicationMaintenanceConfigurationResponse
 } from "aws-sdk/clients/kinesisanalyticsv2";
@@ -309,24 +301,6 @@ export default class extends aws.kinesisanalyticsv2.Application {
         );
     }
 
-    invokeListApplications(partialParams: ToOptional<{
-      [K in keyof ListApplicationsRequest]: (ListApplicationsRequest)[K]
-    }>): Request<ListApplicationsResponse, AWSError> {
-        this.boot();
-        return this.client.listApplications(
-          this.ops["ListApplications"].apply(partialParams)
-        );
-    }
-
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
-    }>): Request<ListTagsForResourceResponse, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
-        );
-    }
-
     invokeRollbackApplication(partialParams: ToOptional<{
       [K in keyof RollbackApplicationRequest & keyof Omit<RollbackApplicationRequest, "ApplicationName">]: (RollbackApplicationRequest)[K]
     }>): Request<RollbackApplicationResponse, AWSError> {
@@ -351,24 +325,6 @@ export default class extends aws.kinesisanalyticsv2.Application {
         this.boot();
         return this.client.stopApplication(
           this.ops["StopApplication"].apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
-    }>): Request<TagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
-    }>): Request<UntagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].apply(partialParams)
         );
     }
 

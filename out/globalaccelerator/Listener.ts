@@ -5,82 +5,32 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    AddCustomRoutingEndpointsRequest,
-    AdvertiseByoipCidrRequest,
-    CreateAcceleratorRequest,
-    CreateCustomRoutingAcceleratorRequest,
-    CreateCustomRoutingEndpointGroupRequest,
     CreateCustomRoutingListenerRequest,
-    CreateEndpointGroupRequest,
     CreateListenerRequest,
-    DeprovisionByoipCidrRequest,
     DescribeAcceleratorRequest,
     DescribeAcceleratorAttributesRequest,
     DescribeCustomRoutingAcceleratorRequest,
     DescribeCustomRoutingAcceleratorAttributesRequest,
-    DescribeCustomRoutingEndpointGroupRequest,
-    DescribeCustomRoutingListenerRequest,
-    DescribeEndpointGroupRequest,
-    DescribeListenerRequest,
-    ListAcceleratorsRequest,
-    ListByoipCidrsRequest,
-    ListCustomRoutingAcceleratorsRequest,
-    ListCustomRoutingEndpointGroupsRequest,
     ListCustomRoutingListenersRequest,
     ListCustomRoutingPortMappingsRequest,
-    ListCustomRoutingPortMappingsByDestinationRequest,
-    ListEndpointGroupsRequest,
     ListListenersRequest,
-    ListTagsForResourceRequest,
-    ProvisionByoipCidrRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
     UpdateAcceleratorRequest,
     UpdateAcceleratorAttributesRequest,
     UpdateCustomRoutingAcceleratorRequest,
     UpdateCustomRoutingAcceleratorAttributesRequest,
-    UpdateCustomRoutingListenerRequest,
-    UpdateEndpointGroupRequest,
-    UpdateListenerRequest,
-    WithdrawByoipCidrRequest,
-    AddCustomRoutingEndpointsResponse,
-    AdvertiseByoipCidrResponse,
-    CreateAcceleratorResponse,
-    CreateCustomRoutingAcceleratorResponse,
-    CreateCustomRoutingEndpointGroupResponse,
     CreateCustomRoutingListenerResponse,
-    CreateEndpointGroupResponse,
     CreateListenerResponse,
-    DeprovisionByoipCidrResponse,
     DescribeAcceleratorResponse,
     DescribeAcceleratorAttributesResponse,
     DescribeCustomRoutingAcceleratorResponse,
     DescribeCustomRoutingAcceleratorAttributesResponse,
-    DescribeCustomRoutingEndpointGroupResponse,
-    DescribeCustomRoutingListenerResponse,
-    DescribeEndpointGroupResponse,
-    DescribeListenerResponse,
-    ListAcceleratorsResponse,
-    ListByoipCidrsResponse,
-    ListCustomRoutingAcceleratorsResponse,
-    ListCustomRoutingEndpointGroupsResponse,
     ListCustomRoutingListenersResponse,
     ListCustomRoutingPortMappingsResponse,
-    ListCustomRoutingPortMappingsByDestinationResponse,
-    ListEndpointGroupsResponse,
     ListListenersResponse,
-    ListTagsForResourceResponse,
-    ProvisionByoipCidrResponse,
-    TagResourceResponse,
-    UntagResourceResponse,
     UpdateAcceleratorResponse,
     UpdateAcceleratorAttributesResponse,
     UpdateCustomRoutingAcceleratorResponse,
-    UpdateCustomRoutingAcceleratorAttributesResponse,
-    UpdateCustomRoutingListenerResponse,
-    UpdateEndpointGroupResponse,
-    UpdateListenerResponse,
-    WithdrawByoipCidrResponse
+    UpdateCustomRoutingAcceleratorAttributesResponse
 } from "aws-sdk/clients/globalaccelerator";
 const schema = require("../apis/globalaccelerator-2018-08-08.normal.json")
 import {getResourceOperations, upperCamelCase} from "../parse";
@@ -125,51 +75,6 @@ export default class extends aws.globalaccelerator.Listener {
         this.booted = true;
     }
 
-    invokeAddCustomRoutingEndpoints(partialParams: ToOptional<{
-      [K in keyof AddCustomRoutingEndpointsRequest]: (AddCustomRoutingEndpointsRequest)[K]
-    }>): Request<AddCustomRoutingEndpointsResponse, AWSError> {
-        this.boot();
-        return this.client.addCustomRoutingEndpoints(
-          this.ops["AddCustomRoutingEndpoints"].apply(partialParams)
-        );
-    }
-
-    invokeAdvertiseByoipCidr(partialParams: ToOptional<{
-      [K in keyof AdvertiseByoipCidrRequest]: (AdvertiseByoipCidrRequest)[K]
-    }>): Request<AdvertiseByoipCidrResponse, AWSError> {
-        this.boot();
-        return this.client.advertiseByoipCidr(
-          this.ops["AdvertiseByoipCidr"].apply(partialParams)
-        );
-    }
-
-    invokeCreateAccelerator(partialParams: ToOptional<{
-      [K in keyof CreateAcceleratorRequest]: (CreateAcceleratorRequest)[K]
-    }>): Request<CreateAcceleratorResponse, AWSError> {
-        this.boot();
-        return this.client.createAccelerator(
-          this.ops["CreateAccelerator"].apply(partialParams)
-        );
-    }
-
-    invokeCreateCustomRoutingAccelerator(partialParams: ToOptional<{
-      [K in keyof CreateCustomRoutingAcceleratorRequest]: (CreateCustomRoutingAcceleratorRequest)[K]
-    }>): Request<CreateCustomRoutingAcceleratorResponse, AWSError> {
-        this.boot();
-        return this.client.createCustomRoutingAccelerator(
-          this.ops["CreateCustomRoutingAccelerator"].apply(partialParams)
-        );
-    }
-
-    invokeCreateCustomRoutingEndpointGroup(partialParams: ToOptional<{
-      [K in keyof CreateCustomRoutingEndpointGroupRequest]: (CreateCustomRoutingEndpointGroupRequest)[K]
-    }>): Request<CreateCustomRoutingEndpointGroupResponse, AWSError> {
-        this.boot();
-        return this.client.createCustomRoutingEndpointGroup(
-          this.ops["CreateCustomRoutingEndpointGroup"].apply(partialParams)
-        );
-    }
-
     invokeCreateCustomRoutingListener(partialParams: ToOptional<{
       [K in keyof CreateCustomRoutingListenerRequest & keyof Omit<CreateCustomRoutingListenerRequest, "AcceleratorArn">]: (CreateCustomRoutingListenerRequest)[K]
     }>): Request<CreateCustomRoutingListenerResponse, AWSError> {
@@ -179,30 +84,12 @@ export default class extends aws.globalaccelerator.Listener {
         );
     }
 
-    invokeCreateEndpointGroup(partialParams: ToOptional<{
-      [K in keyof CreateEndpointGroupRequest]: (CreateEndpointGroupRequest)[K]
-    }>): Request<CreateEndpointGroupResponse, AWSError> {
-        this.boot();
-        return this.client.createEndpointGroup(
-          this.ops["CreateEndpointGroup"].apply(partialParams)
-        );
-    }
-
     invokeCreateListener(partialParams: ToOptional<{
       [K in keyof CreateListenerRequest & keyof Omit<CreateListenerRequest, "AcceleratorArn" | "Protocol">]: (CreateListenerRequest)[K]
     }>): Request<CreateListenerResponse, AWSError> {
         this.boot();
         return this.client.createListener(
           this.ops["CreateListener"].apply(partialParams)
-        );
-    }
-
-    invokeDeprovisionByoipCidr(partialParams: ToOptional<{
-      [K in keyof DeprovisionByoipCidrRequest]: (DeprovisionByoipCidrRequest)[K]
-    }>): Request<DeprovisionByoipCidrResponse, AWSError> {
-        this.boot();
-        return this.client.deprovisionByoipCidr(
-          this.ops["DeprovisionByoipCidr"].apply(partialParams)
         );
     }
 
@@ -242,78 +129,6 @@ export default class extends aws.globalaccelerator.Listener {
         );
     }
 
-    invokeDescribeCustomRoutingEndpointGroup(partialParams: ToOptional<{
-      [K in keyof DescribeCustomRoutingEndpointGroupRequest]: (DescribeCustomRoutingEndpointGroupRequest)[K]
-    }>): Request<DescribeCustomRoutingEndpointGroupResponse, AWSError> {
-        this.boot();
-        return this.client.describeCustomRoutingEndpointGroup(
-          this.ops["DescribeCustomRoutingEndpointGroup"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeCustomRoutingListener(partialParams: ToOptional<{
-      [K in keyof DescribeCustomRoutingListenerRequest]: (DescribeCustomRoutingListenerRequest)[K]
-    }>): Request<DescribeCustomRoutingListenerResponse, AWSError> {
-        this.boot();
-        return this.client.describeCustomRoutingListener(
-          this.ops["DescribeCustomRoutingListener"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeEndpointGroup(partialParams: ToOptional<{
-      [K in keyof DescribeEndpointGroupRequest]: (DescribeEndpointGroupRequest)[K]
-    }>): Request<DescribeEndpointGroupResponse, AWSError> {
-        this.boot();
-        return this.client.describeEndpointGroup(
-          this.ops["DescribeEndpointGroup"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeListener(partialParams: ToOptional<{
-      [K in keyof DescribeListenerRequest]: (DescribeListenerRequest)[K]
-    }>): Request<DescribeListenerResponse, AWSError> {
-        this.boot();
-        return this.client.describeListener(
-          this.ops["DescribeListener"].apply(partialParams)
-        );
-    }
-
-    invokeListAccelerators(partialParams: ToOptional<{
-      [K in keyof ListAcceleratorsRequest]: (ListAcceleratorsRequest)[K]
-    }>): Request<ListAcceleratorsResponse, AWSError> {
-        this.boot();
-        return this.client.listAccelerators(
-          this.ops["ListAccelerators"].apply(partialParams)
-        );
-    }
-
-    invokeListByoipCidrs(partialParams: ToOptional<{
-      [K in keyof ListByoipCidrsRequest]: (ListByoipCidrsRequest)[K]
-    }>): Request<ListByoipCidrsResponse, AWSError> {
-        this.boot();
-        return this.client.listByoipCidrs(
-          this.ops["ListByoipCidrs"].apply(partialParams)
-        );
-    }
-
-    invokeListCustomRoutingAccelerators(partialParams: ToOptional<{
-      [K in keyof ListCustomRoutingAcceleratorsRequest]: (ListCustomRoutingAcceleratorsRequest)[K]
-    }>): Request<ListCustomRoutingAcceleratorsResponse, AWSError> {
-        this.boot();
-        return this.client.listCustomRoutingAccelerators(
-          this.ops["ListCustomRoutingAccelerators"].apply(partialParams)
-        );
-    }
-
-    invokeListCustomRoutingEndpointGroups(partialParams: ToOptional<{
-      [K in keyof ListCustomRoutingEndpointGroupsRequest]: (ListCustomRoutingEndpointGroupsRequest)[K]
-    }>): Request<ListCustomRoutingEndpointGroupsResponse, AWSError> {
-        this.boot();
-        return this.client.listCustomRoutingEndpointGroups(
-          this.ops["ListCustomRoutingEndpointGroups"].apply(partialParams)
-        );
-    }
-
     invokeListCustomRoutingListeners(partialParams: ToOptional<{
       [K in keyof ListCustomRoutingListenersRequest & keyof Omit<ListCustomRoutingListenersRequest, "AcceleratorArn">]: (ListCustomRoutingListenersRequest)[K]
     }>): Request<ListCustomRoutingListenersResponse, AWSError> {
@@ -332,66 +147,12 @@ export default class extends aws.globalaccelerator.Listener {
         );
     }
 
-    invokeListCustomRoutingPortMappingsByDestination(partialParams: ToOptional<{
-      [K in keyof ListCustomRoutingPortMappingsByDestinationRequest]: (ListCustomRoutingPortMappingsByDestinationRequest)[K]
-    }>): Request<ListCustomRoutingPortMappingsByDestinationResponse, AWSError> {
-        this.boot();
-        return this.client.listCustomRoutingPortMappingsByDestination(
-          this.ops["ListCustomRoutingPortMappingsByDestination"].apply(partialParams)
-        );
-    }
-
-    invokeListEndpointGroups(partialParams: ToOptional<{
-      [K in keyof ListEndpointGroupsRequest]: (ListEndpointGroupsRequest)[K]
-    }>): Request<ListEndpointGroupsResponse, AWSError> {
-        this.boot();
-        return this.client.listEndpointGroups(
-          this.ops["ListEndpointGroups"].apply(partialParams)
-        );
-    }
-
     invokeListListeners(partialParams: ToOptional<{
       [K in keyof ListListenersRequest & keyof Omit<ListListenersRequest, "AcceleratorArn">]: (ListListenersRequest)[K]
     }>): Request<ListListenersResponse, AWSError> {
         this.boot();
         return this.client.listListeners(
           this.ops["ListListeners"].apply(partialParams)
-        );
-    }
-
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
-    }>): Request<ListTagsForResourceResponse, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
-        );
-    }
-
-    invokeProvisionByoipCidr(partialParams: ToOptional<{
-      [K in keyof ProvisionByoipCidrRequest]: (ProvisionByoipCidrRequest)[K]
-    }>): Request<ProvisionByoipCidrResponse, AWSError> {
-        this.boot();
-        return this.client.provisionByoipCidr(
-          this.ops["ProvisionByoipCidr"].apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
-    }>): Request<TagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
-    }>): Request<UntagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].apply(partialParams)
         );
     }
 
@@ -428,42 +189,6 @@ export default class extends aws.globalaccelerator.Listener {
         this.boot();
         return this.client.updateCustomRoutingAcceleratorAttributes(
           this.ops["UpdateCustomRoutingAcceleratorAttributes"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateCustomRoutingListener(partialParams: ToOptional<{
-      [K in keyof UpdateCustomRoutingListenerRequest]: (UpdateCustomRoutingListenerRequest)[K]
-    }>): Request<UpdateCustomRoutingListenerResponse, AWSError> {
-        this.boot();
-        return this.client.updateCustomRoutingListener(
-          this.ops["UpdateCustomRoutingListener"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateEndpointGroup(partialParams: ToOptional<{
-      [K in keyof UpdateEndpointGroupRequest]: (UpdateEndpointGroupRequest)[K]
-    }>): Request<UpdateEndpointGroupResponse, AWSError> {
-        this.boot();
-        return this.client.updateEndpointGroup(
-          this.ops["UpdateEndpointGroup"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateListener(partialParams: ToOptional<{
-      [K in keyof UpdateListenerRequest]: (UpdateListenerRequest)[K]
-    }>): Request<UpdateListenerResponse, AWSError> {
-        this.boot();
-        return this.client.updateListener(
-          this.ops["UpdateListener"].apply(partialParams)
-        );
-    }
-
-    invokeWithdrawByoipCidr(partialParams: ToOptional<{
-      [K in keyof WithdrawByoipCidrRequest]: (WithdrawByoipCidrRequest)[K]
-    }>): Request<WithdrawByoipCidrResponse, AWSError> {
-        this.boot();
-        return this.client.withdrawByoipCidr(
-          this.ops["WithdrawByoipCidr"].apply(partialParams)
         );
     }
 }

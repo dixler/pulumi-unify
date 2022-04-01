@@ -52,18 +52,6 @@ class default_1 extends aws.memorydb.Cluster {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeBatchUpdateCluster(partialParams) {
-        this.boot();
-        return this.client.batchUpdateCluster(this.ops["BatchUpdateCluster"].apply(partialParams));
-    }
-    invokeCopySnapshot(partialParams) {
-        this.boot();
-        return this.client.copySnapshot(this.ops["CopySnapshot"].apply(partialParams));
-    }
-    invokeCreateACL(partialParams) {
-        this.boot();
-        return this.client.createACL(this.ops["CreateACL"].apply(partialParams));
-    }
     invokeCreateCluster(partialParams) {
         this.boot();
         return this.client.createCluster(this.ops["CreateCluster"].apply(partialParams));
@@ -79,14 +67,6 @@ class default_1 extends aws.memorydb.Cluster {
     invokeCreateSubnetGroup(partialParams) {
         this.boot();
         return this.client.createSubnetGroup(this.ops["CreateSubnetGroup"].apply(partialParams));
-    }
-    invokeCreateUser(partialParams) {
-        this.boot();
-        return this.client.createUser(this.ops["CreateUser"].apply(partialParams));
-    }
-    invokeDeleteACL(partialParams) {
-        this.boot();
-        return this.client.deleteACL(this.ops["DeleteACL"].apply(partialParams));
     }
     invokeDeleteCluster(partialParams) {
         this.boot();
@@ -104,49 +84,9 @@ class default_1 extends aws.memorydb.Cluster {
         this.boot();
         return this.client.deleteSubnetGroup(this.ops["DeleteSubnetGroup"].apply(partialParams));
     }
-    invokeDeleteUser(partialParams) {
-        this.boot();
-        return this.client.deleteUser(this.ops["DeleteUser"].apply(partialParams));
-    }
-    invokeDescribeACLs(partialParams) {
-        this.boot();
-        return this.client.describeACLs(this.ops["DescribeACLs"].apply(partialParams));
-    }
-    invokeDescribeClusters(partialParams) {
-        this.boot();
-        return this.client.describeClusters(this.ops["DescribeClusters"].apply(partialParams));
-    }
-    invokeDescribeEngineVersions(partialParams) {
-        this.boot();
-        return this.client.describeEngineVersions(this.ops["DescribeEngineVersions"].apply(partialParams));
-    }
-    invokeDescribeEvents(partialParams) {
-        this.boot();
-        return this.client.describeEvents(this.ops["DescribeEvents"].apply(partialParams));
-    }
-    invokeDescribeParameterGroups(partialParams) {
-        this.boot();
-        return this.client.describeParameterGroups(this.ops["DescribeParameterGroups"].apply(partialParams));
-    }
     invokeDescribeParameters(partialParams) {
         this.boot();
         return this.client.describeParameters(this.ops["DescribeParameters"].apply(partialParams));
-    }
-    invokeDescribeServiceUpdates(partialParams) {
-        this.boot();
-        return this.client.describeServiceUpdates(this.ops["DescribeServiceUpdates"].apply(partialParams));
-    }
-    invokeDescribeSnapshots(partialParams) {
-        this.boot();
-        return this.client.describeSnapshots(this.ops["DescribeSnapshots"].apply(partialParams));
-    }
-    invokeDescribeSubnetGroups(partialParams) {
-        this.boot();
-        return this.client.describeSubnetGroups(this.ops["DescribeSubnetGroups"].apply(partialParams));
-    }
-    invokeDescribeUsers(partialParams) {
-        this.boot();
-        return this.client.describeUsers(this.ops["DescribeUsers"].apply(partialParams));
     }
     invokeFailoverShard(partialParams) {
         this.boot();
@@ -156,25 +96,9 @@ class default_1 extends aws.memorydb.Cluster {
         this.boot();
         return this.client.listAllowedNodeTypeUpdates(this.ops["ListAllowedNodeTypeUpdates"].apply(partialParams));
     }
-    invokeListTags(partialParams) {
-        this.boot();
-        return this.client.listTags(this.ops["ListTags"].apply(partialParams));
-    }
     invokeResetParameterGroup(partialParams) {
         this.boot();
         return this.client.resetParameterGroup(this.ops["ResetParameterGroup"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
-    }
-    invokeUpdateACL(partialParams) {
-        this.boot();
-        return this.client.updateACL(this.ops["UpdateACL"].apply(partialParams));
     }
     invokeUpdateCluster(partialParams) {
         this.boot();
@@ -187,10 +111,6 @@ class default_1 extends aws.memorydb.Cluster {
     invokeUpdateSubnetGroup(partialParams) {
         this.boot();
         return this.client.updateSubnetGroup(this.ops["UpdateSubnetGroup"].apply(partialParams));
-    }
-    invokeUpdateUser(partialParams) {
-        this.boot();
-        return this.client.updateUser(this.ops["UpdateUser"].apply(partialParams));
     }
 }
 exports.default = default_1;

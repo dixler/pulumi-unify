@@ -12,7 +12,6 @@ import {
     CreateContactFlowRequest,
     CreateContactFlowModuleRequest,
     CreateHoursOfOperationRequest,
-    CreateInstanceRequest,
     CreateIntegrationAssociationRequest,
     CreateQueueRequest,
     CreateQuickConnectRequest,
@@ -54,7 +53,6 @@ import {
     ListHoursOfOperationsRequest,
     ListInstanceAttributesRequest,
     ListInstanceStorageConfigsRequest,
-    ListInstancesRequest,
     ListIntegrationAssociationsRequest,
     ListLambdaFunctionsRequest,
     ListLexBotsRequest,
@@ -68,7 +66,6 @@ import {
     ListSecurityKeysRequest,
     ListSecurityProfilePermissionsRequest,
     ListSecurityProfilesRequest,
-    ListTagsForResourceRequest,
     ListUseCasesRequest,
     ListUserHierarchyGroupsRequest,
     ListUsersRequest,
@@ -95,7 +92,6 @@ import {
     CreateContactFlowResponse,
     CreateContactFlowModuleResponse,
     CreateHoursOfOperationResponse,
-    CreateInstanceResponse,
     CreateIntegrationAssociationResponse,
     CreateQueueResponse,
     CreateQuickConnectResponse,
@@ -137,7 +133,6 @@ import {
     ListHoursOfOperationsResponse,
     ListInstanceAttributesResponse,
     ListInstanceStorageConfigsResponse,
-    ListInstancesResponse,
     ListIntegrationAssociationsResponse,
     ListLambdaFunctionsResponse,
     ListLexBotsResponse,
@@ -151,7 +146,6 @@ import {
     ListSecurityKeysResponse,
     ListSecurityProfilePermissionsResponse,
     ListSecurityProfilesResponse,
-    ListTagsForResourceResponse,
     ListUseCasesResponse,
     ListUserHierarchyGroupsResponse,
     ListUsersResponse,
@@ -275,15 +269,6 @@ export default class extends aws.connect.ContactFlowModule {
         this.boot();
         return this.client.createHoursOfOperation(
           this.ops["CreateHoursOfOperation"].apply(partialParams)
-        );
-    }
-
-    invokeCreateInstance(partialParams: ToOptional<{
-      [K in keyof CreateInstanceRequest]: (CreateInstanceRequest)[K]
-    }>): Request<CreateInstanceResponse, AWSError> {
-        this.boot();
-        return this.client.createInstance(
-          this.ops["CreateInstance"].apply(partialParams)
         );
     }
 
@@ -656,15 +641,6 @@ export default class extends aws.connect.ContactFlowModule {
         );
     }
 
-    invokeListInstances(partialParams: ToOptional<{
-      [K in keyof ListInstancesRequest]: (ListInstancesRequest)[K]
-    }>): Request<ListInstancesResponse, AWSError> {
-        this.boot();
-        return this.client.listInstances(
-          this.ops["ListInstances"].apply(partialParams)
-        );
-    }
-
     invokeListIntegrationAssociations(partialParams: ToOptional<{
       [K in keyof ListIntegrationAssociationsRequest & keyof Omit<ListIntegrationAssociationsRequest, "InstanceId">]: (ListIntegrationAssociationsRequest)[K]
     }>): Request<ListIntegrationAssociationsResponse, AWSError> {
@@ -779,15 +755,6 @@ export default class extends aws.connect.ContactFlowModule {
         this.boot();
         return this.client.listSecurityProfiles(
           this.ops["ListSecurityProfiles"].apply(partialParams)
-        );
-    }
-
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
-    }>): Request<ListTagsForResourceResponse, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 

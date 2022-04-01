@@ -8,17 +8,11 @@ import {
     DescribeCertificateRequest,
     ExportCertificateRequest,
     GetCertificateRequest,
-    ImportCertificateRequest,
-    ListCertificatesRequest,
     ListTagsForCertificateRequest,
-    RequestCertificateRequest,
     DescribeCertificateResponse,
     ExportCertificateResponse,
     GetCertificateResponse,
-    ImportCertificateResponse,
-    ListCertificatesResponse,
-    ListTagsForCertificateResponse,
-    RequestCertificateResponse
+    ListTagsForCertificateResponse
 } from "aws-sdk/clients/acm";
 const schema = require("../apis/acm-2015-12-08.normal.json")
 import {getResourceOperations, upperCamelCase} from "../parse";
@@ -90,39 +84,12 @@ export default class extends aws.acm.CertificateValidation {
         );
     }
 
-    invokeImportCertificate(partialParams: ToOptional<{
-      [K in keyof ImportCertificateRequest]: (ImportCertificateRequest)[K]
-    }>): Request<ImportCertificateResponse, AWSError> {
-        this.boot();
-        return this.client.importCertificate(
-          this.ops["ImportCertificate"].apply(partialParams)
-        );
-    }
-
-    invokeListCertificates(partialParams: ToOptional<{
-      [K in keyof ListCertificatesRequest]: (ListCertificatesRequest)[K]
-    }>): Request<ListCertificatesResponse, AWSError> {
-        this.boot();
-        return this.client.listCertificates(
-          this.ops["ListCertificates"].apply(partialParams)
-        );
-    }
-
     invokeListTagsForCertificate(partialParams: ToOptional<{
       [K in keyof ListTagsForCertificateRequest & keyof Omit<ListTagsForCertificateRequest, "CertificateArn">]: (ListTagsForCertificateRequest)[K]
     }>): Request<ListTagsForCertificateResponse, AWSError> {
         this.boot();
         return this.client.listTagsForCertificate(
           this.ops["ListTagsForCertificate"].apply(partialParams)
-        );
-    }
-
-    invokeRequestCertificate(partialParams: ToOptional<{
-      [K in keyof RequestCertificateRequest]: (RequestCertificateRequest)[K]
-    }>): Request<RequestCertificateResponse, AWSError> {
-        this.boot();
-        return this.client.requestCertificate(
-          this.ops["RequestCertificate"].apply(partialParams)
         );
     }
 }

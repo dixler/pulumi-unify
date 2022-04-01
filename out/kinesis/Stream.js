@@ -52,17 +52,9 @@ class default_1 extends aws.kinesis.Stream {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeDescribeLimits(partialParams) {
-        this.boot();
-        return this.client.describeLimits(this.ops["DescribeLimits"].apply(partialParams));
-    }
     invokeDescribeStream(partialParams) {
         this.boot();
         return this.client.describeStream(this.ops["DescribeStream"].apply(partialParams));
-    }
-    invokeDescribeStreamConsumer(partialParams) {
-        this.boot();
-        return this.client.describeStreamConsumer(this.ops["DescribeStreamConsumer"].apply(partialParams));
     }
     invokeDescribeStreamSummary(partialParams) {
         this.boot();
@@ -76,25 +68,9 @@ class default_1 extends aws.kinesis.Stream {
         this.boot();
         return this.client.enableEnhancedMonitoring(this.ops["EnableEnhancedMonitoring"].apply(partialParams));
     }
-    invokeGetRecords(partialParams) {
-        this.boot();
-        return this.client.getRecords(this.ops["GetRecords"].apply(partialParams));
-    }
     invokeGetShardIterator(partialParams) {
         this.boot();
         return this.client.getShardIterator(this.ops["GetShardIterator"].apply(partialParams));
-    }
-    invokeListShards(partialParams) {
-        this.boot();
-        return this.client.listShards(this.ops["ListShards"].apply(partialParams));
-    }
-    invokeListStreamConsumers(partialParams) {
-        this.boot();
-        return this.client.listStreamConsumers(this.ops["ListStreamConsumers"].apply(partialParams));
-    }
-    invokeListStreams(partialParams) {
-        this.boot();
-        return this.client.listStreams(this.ops["ListStreams"].apply(partialParams));
     }
     invokeListTagsForStream(partialParams) {
         this.boot();
@@ -107,10 +83,6 @@ class default_1 extends aws.kinesis.Stream {
     invokePutRecords(partialParams) {
         this.boot();
         return this.client.putRecords(this.ops["PutRecords"].apply(partialParams));
-    }
-    invokeRegisterStreamConsumer(partialParams) {
-        this.boot();
-        return this.client.registerStreamConsumer(this.ops["RegisterStreamConsumer"].apply(partialParams));
     }
     invokeUpdateShardCount(partialParams) {
         this.boot();

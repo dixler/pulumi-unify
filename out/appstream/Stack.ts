@@ -5,134 +5,70 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    AssociateApplicationFleetRequest,
     AssociateApplicationToEntitlementRequest,
     AssociateFleetRequest,
-    BatchAssociateUserStackRequest,
-    BatchDisassociateUserStackRequest,
-    CopyImageRequest,
     CreateAppBlockRequest,
     CreateApplicationRequest,
-    CreateDirectoryConfigRequest,
     CreateEntitlementRequest,
     CreateFleetRequest,
     CreateImageBuilderRequest,
     CreateImageBuilderStreamingURLRequest,
     CreateStackRequest,
     CreateStreamingURLRequest,
-    CreateUpdatedImageRequest,
-    CreateUsageReportSubscriptionRequest,
-    CreateUserRequest,
     DeleteAppBlockRequest,
     DeleteApplicationRequest,
-    DeleteDirectoryConfigRequest,
     DeleteEntitlementRequest,
     DeleteFleetRequest,
     DeleteImageRequest,
     DeleteImageBuilderRequest,
     DeleteImagePermissionsRequest,
     DeleteStackRequest,
-    DeleteUsageReportSubscriptionRequest,
-    DeleteUserRequest,
-    DescribeAppBlocksRequest,
-    DescribeApplicationFleetAssociationsRequest,
-    DescribeApplicationsRequest,
-    DescribeDirectoryConfigsRequest,
     DescribeEntitlementsRequest,
-    DescribeFleetsRequest,
-    DescribeImageBuildersRequest,
     DescribeImagePermissionsRequest,
-    DescribeImagesRequest,
     DescribeSessionsRequest,
-    DescribeStacksRequest,
-    DescribeUsageReportSubscriptionsRequest,
-    DescribeUserStackAssociationsRequest,
-    DescribeUsersRequest,
-    DisableUserRequest,
-    DisassociateApplicationFleetRequest,
     DisassociateApplicationFromEntitlementRequest,
     DisassociateFleetRequest,
-    EnableUserRequest,
-    ExpireSessionRequest,
     ListAssociatedFleetsRequest,
-    ListAssociatedStacksRequest,
     ListEntitledApplicationsRequest,
-    ListTagsForResourceRequest,
     StartFleetRequest,
     StartImageBuilderRequest,
     StopFleetRequest,
     StopImageBuilderRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
     UpdateApplicationRequest,
-    UpdateDirectoryConfigRequest,
     UpdateEntitlementRequest,
-    UpdateFleetRequest,
     UpdateImagePermissionsRequest,
     UpdateStackRequest,
-    AssociateApplicationFleetResult,
     AssociateApplicationToEntitlementResult,
     AssociateFleetResult,
-    BatchAssociateUserStackResult,
-    BatchDisassociateUserStackResult,
-    CopyImageResponse,
     CreateAppBlockResult,
     CreateApplicationResult,
-    CreateDirectoryConfigResult,
     CreateEntitlementResult,
     CreateFleetResult,
     CreateImageBuilderResult,
     CreateImageBuilderStreamingURLResult,
     CreateStackResult,
     CreateStreamingURLResult,
-    CreateUpdatedImageResult,
-    CreateUsageReportSubscriptionResult,
-    CreateUserResult,
     DeleteAppBlockResult,
     DeleteApplicationResult,
-    DeleteDirectoryConfigResult,
     DeleteEntitlementResult,
     DeleteFleetResult,
     DeleteImageResult,
     DeleteImageBuilderResult,
     DeleteImagePermissionsResult,
     DeleteStackResult,
-    DeleteUsageReportSubscriptionResult,
-    DeleteUserResult,
-    DescribeAppBlocksResult,
-    DescribeApplicationFleetAssociationsResult,
-    DescribeApplicationsResult,
-    DescribeDirectoryConfigsResult,
     DescribeEntitlementsResult,
-    DescribeFleetsResult,
-    DescribeImageBuildersResult,
     DescribeImagePermissionsResult,
-    DescribeImagesResult,
     DescribeSessionsResult,
-    DescribeStacksResult,
-    DescribeUsageReportSubscriptionsResult,
-    DescribeUserStackAssociationsResult,
-    DescribeUsersResult,
-    DisableUserResult,
-    DisassociateApplicationFleetResult,
     DisassociateApplicationFromEntitlementResult,
     DisassociateFleetResult,
-    EnableUserResult,
-    ExpireSessionResult,
     ListAssociatedFleetsResult,
-    ListAssociatedStacksResult,
     ListEntitledApplicationsResult,
-    ListTagsForResourceResponse,
     StartFleetResult,
     StartImageBuilderResult,
     StopFleetResult,
     StopImageBuilderResult,
-    TagResourceResponse,
-    UntagResourceResponse,
     UpdateApplicationResult,
-    UpdateDirectoryConfigResult,
     UpdateEntitlementResult,
-    UpdateFleetResult,
     UpdateImagePermissionsResult,
     UpdateStackResult
 } from "aws-sdk/clients/appstream";
@@ -179,15 +115,6 @@ export default class extends aws.appstream.Stack {
         this.booted = true;
     }
 
-    invokeAssociateApplicationFleet(partialParams: ToOptional<{
-      [K in keyof AssociateApplicationFleetRequest]: (AssociateApplicationFleetRequest)[K]
-    }>): Request<AssociateApplicationFleetResult, AWSError> {
-        this.boot();
-        return this.client.associateApplicationFleet(
-          this.ops["AssociateApplicationFleet"].apply(partialParams)
-        );
-    }
-
     invokeAssociateApplicationToEntitlement(partialParams: ToOptional<{
       [K in keyof AssociateApplicationToEntitlementRequest & keyof Omit<AssociateApplicationToEntitlementRequest, "StackName">]: (AssociateApplicationToEntitlementRequest)[K]
     }>): Request<AssociateApplicationToEntitlementResult, AWSError> {
@@ -206,33 +133,6 @@ export default class extends aws.appstream.Stack {
         );
     }
 
-    invokeBatchAssociateUserStack(partialParams: ToOptional<{
-      [K in keyof BatchAssociateUserStackRequest]: (BatchAssociateUserStackRequest)[K]
-    }>): Request<BatchAssociateUserStackResult, AWSError> {
-        this.boot();
-        return this.client.batchAssociateUserStack(
-          this.ops["BatchAssociateUserStack"].apply(partialParams)
-        );
-    }
-
-    invokeBatchDisassociateUserStack(partialParams: ToOptional<{
-      [K in keyof BatchDisassociateUserStackRequest]: (BatchDisassociateUserStackRequest)[K]
-    }>): Request<BatchDisassociateUserStackResult, AWSError> {
-        this.boot();
-        return this.client.batchDisassociateUserStack(
-          this.ops["BatchDisassociateUserStack"].apply(partialParams)
-        );
-    }
-
-    invokeCopyImage(partialParams: ToOptional<{
-      [K in keyof CopyImageRequest]: (CopyImageRequest)[K]
-    }>): Request<CopyImageResponse, AWSError> {
-        this.boot();
-        return this.client.copyImage(
-          this.ops["CopyImage"].apply(partialParams)
-        );
-    }
-
     invokeCreateAppBlock(partialParams: ToOptional<{
       [K in keyof CreateAppBlockRequest & keyof Omit<CreateAppBlockRequest, "Name">]: (CreateAppBlockRequest)[K]
     }>): Request<CreateAppBlockResult, AWSError> {
@@ -248,15 +148,6 @@ export default class extends aws.appstream.Stack {
         this.boot();
         return this.client.createApplication(
           this.ops["CreateApplication"].apply(partialParams)
-        );
-    }
-
-    invokeCreateDirectoryConfig(partialParams: ToOptional<{
-      [K in keyof CreateDirectoryConfigRequest]: (CreateDirectoryConfigRequest)[K]
-    }>): Request<CreateDirectoryConfigResult, AWSError> {
-        this.boot();
-        return this.client.createDirectoryConfig(
-          this.ops["CreateDirectoryConfig"].apply(partialParams)
         );
     }
 
@@ -314,33 +205,6 @@ export default class extends aws.appstream.Stack {
         );
     }
 
-    invokeCreateUpdatedImage(partialParams: ToOptional<{
-      [K in keyof CreateUpdatedImageRequest]: (CreateUpdatedImageRequest)[K]
-    }>): Request<CreateUpdatedImageResult, AWSError> {
-        this.boot();
-        return this.client.createUpdatedImage(
-          this.ops["CreateUpdatedImage"].apply(partialParams)
-        );
-    }
-
-    invokeCreateUsageReportSubscription(partialParams: ToOptional<{
-      [K in keyof CreateUsageReportSubscriptionRequest]: (CreateUsageReportSubscriptionRequest)[K]
-    }>): Request<CreateUsageReportSubscriptionResult, AWSError> {
-        this.boot();
-        return this.client.createUsageReportSubscription(
-          this.ops["CreateUsageReportSubscription"].apply(partialParams)
-        );
-    }
-
-    invokeCreateUser(partialParams: ToOptional<{
-      [K in keyof CreateUserRequest]: (CreateUserRequest)[K]
-    }>): Request<CreateUserResult, AWSError> {
-        this.boot();
-        return this.client.createUser(
-          this.ops["CreateUser"].apply(partialParams)
-        );
-    }
-
     invokeDeleteAppBlock(partialParams: ToOptional<{
       [K in keyof DeleteAppBlockRequest & keyof Omit<DeleteAppBlockRequest, "Name">]: (DeleteAppBlockRequest)[K]
     }>): Request<DeleteAppBlockResult, AWSError> {
@@ -356,15 +220,6 @@ export default class extends aws.appstream.Stack {
         this.boot();
         return this.client.deleteApplication(
           this.ops["DeleteApplication"].apply(partialParams)
-        );
-    }
-
-    invokeDeleteDirectoryConfig(partialParams: ToOptional<{
-      [K in keyof DeleteDirectoryConfigRequest]: (DeleteDirectoryConfigRequest)[K]
-    }>): Request<DeleteDirectoryConfigResult, AWSError> {
-        this.boot();
-        return this.client.deleteDirectoryConfig(
-          this.ops["DeleteDirectoryConfig"].apply(partialParams)
         );
     }
 
@@ -422,84 +277,12 @@ export default class extends aws.appstream.Stack {
         );
     }
 
-    invokeDeleteUsageReportSubscription(partialParams: ToOptional<{
-      [K in keyof DeleteUsageReportSubscriptionRequest]: (DeleteUsageReportSubscriptionRequest)[K]
-    }>): Request<DeleteUsageReportSubscriptionResult, AWSError> {
-        this.boot();
-        return this.client.deleteUsageReportSubscription(
-          this.ops["DeleteUsageReportSubscription"].apply(partialParams)
-        );
-    }
-
-    invokeDeleteUser(partialParams: ToOptional<{
-      [K in keyof DeleteUserRequest]: (DeleteUserRequest)[K]
-    }>): Request<DeleteUserResult, AWSError> {
-        this.boot();
-        return this.client.deleteUser(
-          this.ops["DeleteUser"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeAppBlocks(partialParams: ToOptional<{
-      [K in keyof DescribeAppBlocksRequest]: (DescribeAppBlocksRequest)[K]
-    }>): Request<DescribeAppBlocksResult, AWSError> {
-        this.boot();
-        return this.client.describeAppBlocks(
-          this.ops["DescribeAppBlocks"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeApplicationFleetAssociations(partialParams: ToOptional<{
-      [K in keyof DescribeApplicationFleetAssociationsRequest]: (DescribeApplicationFleetAssociationsRequest)[K]
-    }>): Request<DescribeApplicationFleetAssociationsResult, AWSError> {
-        this.boot();
-        return this.client.describeApplicationFleetAssociations(
-          this.ops["DescribeApplicationFleetAssociations"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeApplications(partialParams: ToOptional<{
-      [K in keyof DescribeApplicationsRequest]: (DescribeApplicationsRequest)[K]
-    }>): Request<DescribeApplicationsResult, AWSError> {
-        this.boot();
-        return this.client.describeApplications(
-          this.ops["DescribeApplications"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeDirectoryConfigs(partialParams: ToOptional<{
-      [K in keyof DescribeDirectoryConfigsRequest]: (DescribeDirectoryConfigsRequest)[K]
-    }>): Request<DescribeDirectoryConfigsResult, AWSError> {
-        this.boot();
-        return this.client.describeDirectoryConfigs(
-          this.ops["DescribeDirectoryConfigs"].apply(partialParams)
-        );
-    }
-
     invokeDescribeEntitlements(partialParams: ToOptional<{
       [K in keyof DescribeEntitlementsRequest & keyof Omit<DescribeEntitlementsRequest, "StackName">]: (DescribeEntitlementsRequest)[K]
     }>): Request<DescribeEntitlementsResult, AWSError> {
         this.boot();
         return this.client.describeEntitlements(
           this.ops["DescribeEntitlements"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeFleets(partialParams: ToOptional<{
-      [K in keyof DescribeFleetsRequest]: (DescribeFleetsRequest)[K]
-    }>): Request<DescribeFleetsResult, AWSError> {
-        this.boot();
-        return this.client.describeFleets(
-          this.ops["DescribeFleets"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeImageBuilders(partialParams: ToOptional<{
-      [K in keyof DescribeImageBuildersRequest]: (DescribeImageBuildersRequest)[K]
-    }>): Request<DescribeImageBuildersResult, AWSError> {
-        this.boot();
-        return this.client.describeImageBuilders(
-          this.ops["DescribeImageBuilders"].apply(partialParams)
         );
     }
 
@@ -512,75 +295,12 @@ export default class extends aws.appstream.Stack {
         );
     }
 
-    invokeDescribeImages(partialParams: ToOptional<{
-      [K in keyof DescribeImagesRequest]: (DescribeImagesRequest)[K]
-    }>): Request<DescribeImagesResult, AWSError> {
-        this.boot();
-        return this.client.describeImages(
-          this.ops["DescribeImages"].apply(partialParams)
-        );
-    }
-
     invokeDescribeSessions(partialParams: ToOptional<{
       [K in keyof DescribeSessionsRequest & keyof Omit<DescribeSessionsRequest, "StackName">]: (DescribeSessionsRequest)[K]
     }>): Request<DescribeSessionsResult, AWSError> {
         this.boot();
         return this.client.describeSessions(
           this.ops["DescribeSessions"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeStacks(partialParams: ToOptional<{
-      [K in keyof DescribeStacksRequest]: (DescribeStacksRequest)[K]
-    }>): Request<DescribeStacksResult, AWSError> {
-        this.boot();
-        return this.client.describeStacks(
-          this.ops["DescribeStacks"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeUsageReportSubscriptions(partialParams: ToOptional<{
-      [K in keyof DescribeUsageReportSubscriptionsRequest]: (DescribeUsageReportSubscriptionsRequest)[K]
-    }>): Request<DescribeUsageReportSubscriptionsResult, AWSError> {
-        this.boot();
-        return this.client.describeUsageReportSubscriptions(
-          this.ops["DescribeUsageReportSubscriptions"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeUserStackAssociations(partialParams: ToOptional<{
-      [K in keyof DescribeUserStackAssociationsRequest]: (DescribeUserStackAssociationsRequest)[K]
-    }>): Request<DescribeUserStackAssociationsResult, AWSError> {
-        this.boot();
-        return this.client.describeUserStackAssociations(
-          this.ops["DescribeUserStackAssociations"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeUsers(partialParams: ToOptional<{
-      [K in keyof DescribeUsersRequest]: (DescribeUsersRequest)[K]
-    }>): Request<DescribeUsersResult, AWSError> {
-        this.boot();
-        return this.client.describeUsers(
-          this.ops["DescribeUsers"].apply(partialParams)
-        );
-    }
-
-    invokeDisableUser(partialParams: ToOptional<{
-      [K in keyof DisableUserRequest]: (DisableUserRequest)[K]
-    }>): Request<DisableUserResult, AWSError> {
-        this.boot();
-        return this.client.disableUser(
-          this.ops["DisableUser"].apply(partialParams)
-        );
-    }
-
-    invokeDisassociateApplicationFleet(partialParams: ToOptional<{
-      [K in keyof DisassociateApplicationFleetRequest]: (DisassociateApplicationFleetRequest)[K]
-    }>): Request<DisassociateApplicationFleetResult, AWSError> {
-        this.boot();
-        return this.client.disassociateApplicationFleet(
-          this.ops["DisassociateApplicationFleet"].apply(partialParams)
         );
     }
 
@@ -602,24 +322,6 @@ export default class extends aws.appstream.Stack {
         );
     }
 
-    invokeEnableUser(partialParams: ToOptional<{
-      [K in keyof EnableUserRequest]: (EnableUserRequest)[K]
-    }>): Request<EnableUserResult, AWSError> {
-        this.boot();
-        return this.client.enableUser(
-          this.ops["EnableUser"].apply(partialParams)
-        );
-    }
-
-    invokeExpireSession(partialParams: ToOptional<{
-      [K in keyof ExpireSessionRequest]: (ExpireSessionRequest)[K]
-    }>): Request<ExpireSessionResult, AWSError> {
-        this.boot();
-        return this.client.expireSession(
-          this.ops["ExpireSession"].apply(partialParams)
-        );
-    }
-
     invokeListAssociatedFleets(partialParams: ToOptional<{
       [K in keyof ListAssociatedFleetsRequest & keyof Omit<ListAssociatedFleetsRequest, "StackName">]: (ListAssociatedFleetsRequest)[K]
     }>): Request<ListAssociatedFleetsResult, AWSError> {
@@ -629,30 +331,12 @@ export default class extends aws.appstream.Stack {
         );
     }
 
-    invokeListAssociatedStacks(partialParams: ToOptional<{
-      [K in keyof ListAssociatedStacksRequest]: (ListAssociatedStacksRequest)[K]
-    }>): Request<ListAssociatedStacksResult, AWSError> {
-        this.boot();
-        return this.client.listAssociatedStacks(
-          this.ops["ListAssociatedStacks"].apply(partialParams)
-        );
-    }
-
     invokeListEntitledApplications(partialParams: ToOptional<{
       [K in keyof ListEntitledApplicationsRequest & keyof Omit<ListEntitledApplicationsRequest, "StackName">]: (ListEntitledApplicationsRequest)[K]
     }>): Request<ListEntitledApplicationsResult, AWSError> {
         this.boot();
         return this.client.listEntitledApplications(
           this.ops["ListEntitledApplications"].apply(partialParams)
-        );
-    }
-
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
-    }>): Request<ListTagsForResourceResponse, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
@@ -692,24 +376,6 @@ export default class extends aws.appstream.Stack {
         );
     }
 
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
-    }>): Request<TagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
-    }>): Request<UntagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].apply(partialParams)
-        );
-    }
-
     invokeUpdateApplication(partialParams: ToOptional<{
       [K in keyof UpdateApplicationRequest & keyof Omit<UpdateApplicationRequest, "Name">]: (UpdateApplicationRequest)[K]
     }>): Request<UpdateApplicationResult, AWSError> {
@@ -719,30 +385,12 @@ export default class extends aws.appstream.Stack {
         );
     }
 
-    invokeUpdateDirectoryConfig(partialParams: ToOptional<{
-      [K in keyof UpdateDirectoryConfigRequest]: (UpdateDirectoryConfigRequest)[K]
-    }>): Request<UpdateDirectoryConfigResult, AWSError> {
-        this.boot();
-        return this.client.updateDirectoryConfig(
-          this.ops["UpdateDirectoryConfig"].apply(partialParams)
-        );
-    }
-
     invokeUpdateEntitlement(partialParams: ToOptional<{
       [K in keyof UpdateEntitlementRequest & keyof Omit<UpdateEntitlementRequest, "Name" | "StackName">]: (UpdateEntitlementRequest)[K]
     }>): Request<UpdateEntitlementResult, AWSError> {
         this.boot();
         return this.client.updateEntitlement(
           this.ops["UpdateEntitlement"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateFleet(partialParams: ToOptional<{
-      [K in keyof UpdateFleetRequest]: (UpdateFleetRequest)[K]
-    }>): Request<UpdateFleetResult, AWSError> {
-        this.boot();
-        return this.client.updateFleet(
-          this.ops["UpdateFleet"].apply(partialParams)
         );
     }
 

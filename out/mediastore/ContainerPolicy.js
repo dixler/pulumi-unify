@@ -76,10 +76,6 @@ class default_1 extends aws.mediastore.ContainerPolicy {
         this.boot();
         return this.client.deleteMetricPolicy(this.ops["DeleteMetricPolicy"].apply(partialParams));
     }
-    invokeDescribeContainer(partialParams) {
-        this.boot();
-        return this.client.describeContainer(this.ops["DescribeContainer"].apply(partialParams));
-    }
     invokeGetContainerPolicy(partialParams) {
         this.boot();
         return this.client.getContainerPolicy(this.ops["GetContainerPolicy"].apply(partialParams));
@@ -95,14 +91,6 @@ class default_1 extends aws.mediastore.ContainerPolicy {
     invokeGetMetricPolicy(partialParams) {
         this.boot();
         return this.client.getMetricPolicy(this.ops["GetMetricPolicy"].apply(partialParams));
-    }
-    invokeListContainers(partialParams) {
-        this.boot();
-        return this.client.listContainers(this.ops["ListContainers"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokePutContainerPolicy(partialParams) {
         this.boot();
@@ -127,14 +115,6 @@ class default_1 extends aws.mediastore.ContainerPolicy {
     invokeStopAccessLogging(partialParams) {
         this.boot();
         return this.client.stopAccessLogging(this.ops["StopAccessLogging"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
 }
 exports.default = default_1;

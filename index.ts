@@ -1,31 +1,62 @@
 import * as aws from "@pulumi/aws";
-import Table from "unify/dynamodb/Table";
 import Bucket from "unify/s3/Bucket";
-import Instance from "unify/ec2/Instance";
+import * as awsSDK from "aws-sdk";
 
 const mybucket = new Bucket("myResource", {
   "bucket": "wew9018",
 })
 
-new aws.lambda.CallbackFunction("myfun", {
+new aws.lambda.CallbackFunction("myfun-normal", {
     callback: async (event, context, cb) => {
-        const filename = `wew1-${(new Date()).toISOString()}`;
-        const val = await mybucket.invokePutObject({
+        const client = new awsSDK.S3();
+        const filename = `normal-${(new Date()).toISOString()}`;
+        const body = `my random number is: ${Math.floor(Math.random()*10)}`;
+
+        await client.putObject({
+            Bucket: mybucket.bucket.get(),
             Key: filename,
-            Body: `my random number is: ${Math.floor(Math.random()*10)}`,
+            Body: body,
         }).promise()
+
+        const obj = await client.getObject({
+            Bucket: mybucket.bucket.get(),
+            Key: filename,
+        }).promise()
+
+        console.log(`the contents of the file are: "${obj.Body}"`);
+        return;
+    }
+})
+
+
+
+
+new aws.lambda.CallbackFunction("myfun-unify", {
+    callback: async (event, context, cb) => {
+        const filename = `unify-${(new Date()).toISOString()}`;
+        const body = `my random number is: ${Math.floor(Math.random()*10)}`;
+
+        await mybucket.invokePutObject({
+            Key: filename,
+            Body: body,
+        }).promise()
+
         const obj = await mybucket.invokeGetObject({
             Key: filename,
         }).promise()
         console.log(`the contents of the file are: "${obj.Body}"`);
-        return val;
+        return;
     }
 })
 
-/*
-Monday
-Tuesday
-Wednesday - Fix package + serialization/
-Thursday - Introspect pulumi refs
-Friday
-*/
+
+
+
+
+
+
+
+
+
+
+

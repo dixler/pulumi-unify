@@ -68,10 +68,6 @@ class default_1 extends aws.acm.Certificate {
         this.boot();
         return this.client.importCertificate(this.ops["ImportCertificate"].apply(partialParams));
     }
-    invokeListCertificates(partialParams) {
-        this.boot();
-        return this.client.listCertificates(this.ops["ListCertificates"].apply(partialParams));
-    }
     invokeListTagsForCertificate(partialParams) {
         this.boot();
         return this.client.listTagsForCertificate(this.ops["ListTagsForCertificate"].apply(partialParams));

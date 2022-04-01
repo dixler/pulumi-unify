@@ -6,69 +6,44 @@ import {AWSError} from 'aws-sdk/lib/error';
 
 import {
     CancelKeyDeletionRequest,
-    ConnectCustomKeyStoreRequest,
-    CreateCustomKeyStoreRequest,
     CreateGrantRequest,
-    CreateKeyRequest,
-    DecryptRequest,
-    DeleteCustomKeyStoreRequest,
-    DescribeCustomKeyStoresRequest,
     DescribeKeyRequest,
-    DisconnectCustomKeyStoreRequest,
     EncryptRequest,
     GenerateDataKeyRequest,
     GenerateDataKeyPairRequest,
     GenerateDataKeyPairWithoutPlaintextRequest,
     GenerateDataKeyWithoutPlaintextRequest,
-    GenerateRandomRequest,
     GetKeyPolicyRequest,
     GetKeyRotationStatusRequest,
     GetParametersForImportRequest,
     GetPublicKeyRequest,
     ImportKeyMaterialRequest,
-    ListAliasesRequest,
     ListGrantsRequest,
     ListKeyPoliciesRequest,
-    ListKeysRequest,
     ListResourceTagsRequest,
-    ListRetirableGrantsRequest,
-    ReEncryptRequest,
     ReplicateKeyRequest,
     ScheduleKeyDeletionRequest,
     SignRequest,
-    UpdateCustomKeyStoreRequest,
     VerifyRequest,
     CancelKeyDeletionResponse,
-    ConnectCustomKeyStoreResponse,
-    CreateCustomKeyStoreResponse,
     CreateGrantResponse,
-    CreateKeyResponse,
-    DecryptResponse,
-    DeleteCustomKeyStoreResponse,
-    DescribeCustomKeyStoresResponse,
     DescribeKeyResponse,
-    DisconnectCustomKeyStoreResponse,
     EncryptResponse,
     GenerateDataKeyResponse,
     GenerateDataKeyPairResponse,
     GenerateDataKeyPairWithoutPlaintextResponse,
     GenerateDataKeyWithoutPlaintextResponse,
-    GenerateRandomResponse,
     GetKeyPolicyResponse,
     GetKeyRotationStatusResponse,
     GetParametersForImportResponse,
     GetPublicKeyResponse,
     ImportKeyMaterialResponse,
-    ListAliasesResponse,
     ListGrantsResponse,
     ListKeyPoliciesResponse,
-    ListKeysResponse,
     ListResourceTagsResponse,
-    ReEncryptResponse,
     ReplicateKeyResponse,
     ScheduleKeyDeletionResponse,
     SignResponse,
-    UpdateCustomKeyStoreResponse,
     VerifyResponse
 } from "aws-sdk/clients/kms";
 const schema = require("../apis/kms-2014-11-01.normal.json")
@@ -123,24 +98,6 @@ export default class extends aws.kms.ReplicaKey {
         );
     }
 
-    invokeConnectCustomKeyStore(partialParams: ToOptional<{
-      [K in keyof ConnectCustomKeyStoreRequest]: (ConnectCustomKeyStoreRequest)[K]
-    }>): Request<ConnectCustomKeyStoreResponse, AWSError> {
-        this.boot();
-        return this.client.connectCustomKeyStore(
-          this.ops["ConnectCustomKeyStore"].apply(partialParams)
-        );
-    }
-
-    invokeCreateCustomKeyStore(partialParams: ToOptional<{
-      [K in keyof CreateCustomKeyStoreRequest]: (CreateCustomKeyStoreRequest)[K]
-    }>): Request<CreateCustomKeyStoreResponse, AWSError> {
-        this.boot();
-        return this.client.createCustomKeyStore(
-          this.ops["CreateCustomKeyStore"].apply(partialParams)
-        );
-    }
-
     invokeCreateGrant(partialParams: ToOptional<{
       [K in keyof CreateGrantRequest & keyof Omit<CreateGrantRequest, "KeyId">]: (CreateGrantRequest)[K]
     }>): Request<CreateGrantResponse, AWSError> {
@@ -150,57 +107,12 @@ export default class extends aws.kms.ReplicaKey {
         );
     }
 
-    invokeCreateKey(partialParams: ToOptional<{
-      [K in keyof CreateKeyRequest]: (CreateKeyRequest)[K]
-    }>): Request<CreateKeyResponse, AWSError> {
-        this.boot();
-        return this.client.createKey(
-          this.ops["CreateKey"].apply(partialParams)
-        );
-    }
-
-    invokeDecrypt(partialParams: ToOptional<{
-      [K in keyof DecryptRequest]: (DecryptRequest)[K]
-    }>): Request<DecryptResponse, AWSError> {
-        this.boot();
-        return this.client.decrypt(
-          this.ops["Decrypt"].apply(partialParams)
-        );
-    }
-
-    invokeDeleteCustomKeyStore(partialParams: ToOptional<{
-      [K in keyof DeleteCustomKeyStoreRequest]: (DeleteCustomKeyStoreRequest)[K]
-    }>): Request<DeleteCustomKeyStoreResponse, AWSError> {
-        this.boot();
-        return this.client.deleteCustomKeyStore(
-          this.ops["DeleteCustomKeyStore"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeCustomKeyStores(partialParams: ToOptional<{
-      [K in keyof DescribeCustomKeyStoresRequest]: (DescribeCustomKeyStoresRequest)[K]
-    }>): Request<DescribeCustomKeyStoresResponse, AWSError> {
-        this.boot();
-        return this.client.describeCustomKeyStores(
-          this.ops["DescribeCustomKeyStores"].apply(partialParams)
-        );
-    }
-
     invokeDescribeKey(partialParams: ToOptional<{
       [K in keyof DescribeKeyRequest & keyof Omit<DescribeKeyRequest, "KeyId">]: (DescribeKeyRequest)[K]
     }>): Request<DescribeKeyResponse, AWSError> {
         this.boot();
         return this.client.describeKey(
           this.ops["DescribeKey"].apply(partialParams)
-        );
-    }
-
-    invokeDisconnectCustomKeyStore(partialParams: ToOptional<{
-      [K in keyof DisconnectCustomKeyStoreRequest]: (DisconnectCustomKeyStoreRequest)[K]
-    }>): Request<DisconnectCustomKeyStoreResponse, AWSError> {
-        this.boot();
-        return this.client.disconnectCustomKeyStore(
-          this.ops["DisconnectCustomKeyStore"].apply(partialParams)
         );
     }
 
@@ -249,15 +161,6 @@ export default class extends aws.kms.ReplicaKey {
         );
     }
 
-    invokeGenerateRandom(partialParams: ToOptional<{
-      [K in keyof GenerateRandomRequest]: (GenerateRandomRequest)[K]
-    }>): Request<GenerateRandomResponse, AWSError> {
-        this.boot();
-        return this.client.generateRandom(
-          this.ops["GenerateRandom"].apply(partialParams)
-        );
-    }
-
     invokeGetKeyPolicy(partialParams: ToOptional<{
       [K in keyof GetKeyPolicyRequest & keyof Omit<GetKeyPolicyRequest, "KeyId">]: (GetKeyPolicyRequest)[K]
     }>): Request<GetKeyPolicyResponse, AWSError> {
@@ -303,15 +206,6 @@ export default class extends aws.kms.ReplicaKey {
         );
     }
 
-    invokeListAliases(partialParams: ToOptional<{
-      [K in keyof ListAliasesRequest]: (ListAliasesRequest)[K]
-    }>): Request<ListAliasesResponse, AWSError> {
-        this.boot();
-        return this.client.listAliases(
-          this.ops["ListAliases"].apply(partialParams)
-        );
-    }
-
     invokeListGrants(partialParams: ToOptional<{
       [K in keyof ListGrantsRequest & keyof Omit<ListGrantsRequest, "KeyId">]: (ListGrantsRequest)[K]
     }>): Request<ListGrantsResponse, AWSError> {
@@ -330,39 +224,12 @@ export default class extends aws.kms.ReplicaKey {
         );
     }
 
-    invokeListKeys(partialParams: ToOptional<{
-      [K in keyof ListKeysRequest]: (ListKeysRequest)[K]
-    }>): Request<ListKeysResponse, AWSError> {
-        this.boot();
-        return this.client.listKeys(
-          this.ops["ListKeys"].apply(partialParams)
-        );
-    }
-
     invokeListResourceTags(partialParams: ToOptional<{
       [K in keyof ListResourceTagsRequest & keyof Omit<ListResourceTagsRequest, "KeyId">]: (ListResourceTagsRequest)[K]
     }>): Request<ListResourceTagsResponse, AWSError> {
         this.boot();
         return this.client.listResourceTags(
           this.ops["ListResourceTags"].apply(partialParams)
-        );
-    }
-
-    invokeListRetirableGrants(partialParams: ToOptional<{
-      [K in keyof ListRetirableGrantsRequest]: (ListRetirableGrantsRequest)[K]
-    }>): Request<ListGrantsResponse, AWSError> {
-        this.boot();
-        return this.client.listRetirableGrants(
-          this.ops["ListRetirableGrants"].apply(partialParams)
-        );
-    }
-
-    invokeReEncrypt(partialParams: ToOptional<{
-      [K in keyof ReEncryptRequest]: (ReEncryptRequest)[K]
-    }>): Request<ReEncryptResponse, AWSError> {
-        this.boot();
-        return this.client.reEncrypt(
-          this.ops["ReEncrypt"].apply(partialParams)
         );
     }
 
@@ -390,15 +257,6 @@ export default class extends aws.kms.ReplicaKey {
         this.boot();
         return this.client.sign(
           this.ops["Sign"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateCustomKeyStore(partialParams: ToOptional<{
-      [K in keyof UpdateCustomKeyStoreRequest]: (UpdateCustomKeyStoreRequest)[K]
-    }>): Request<UpdateCustomKeyStoreResponse, AWSError> {
-        this.boot();
-        return this.client.updateCustomKeyStore(
-          this.ops["UpdateCustomKeyStore"].apply(partialParams)
         );
     }
 

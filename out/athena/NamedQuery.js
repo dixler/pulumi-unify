@@ -52,14 +52,6 @@ class default_1 extends aws.athena.NamedQuery {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeBatchGetNamedQuery(partialParams) {
-        this.boot();
-        return this.client.batchGetNamedQuery(this.ops["BatchGetNamedQuery"].apply(partialParams));
-    }
-    invokeBatchGetQueryExecution(partialParams) {
-        this.boot();
-        return this.client.batchGetQueryExecution(this.ops["BatchGetQueryExecution"].apply(partialParams));
-    }
     invokeCreateDataCatalog(partialParams) {
         this.boot();
         return this.client.createDataCatalog(this.ops["CreateDataCatalog"].apply(partialParams));
@@ -67,10 +59,6 @@ class default_1 extends aws.athena.NamedQuery {
     invokeCreateNamedQuery(partialParams) {
         this.boot();
         return this.client.createNamedQuery(this.ops["CreateNamedQuery"].apply(partialParams));
-    }
-    invokeCreatePreparedStatement(partialParams) {
-        this.boot();
-        return this.client.createPreparedStatement(this.ops["CreatePreparedStatement"].apply(partialParams));
     }
     invokeCreateWorkGroup(partialParams) {
         this.boot();
@@ -80,113 +68,13 @@ class default_1 extends aws.athena.NamedQuery {
         this.boot();
         return this.client.deleteDataCatalog(this.ops["DeleteDataCatalog"].apply(partialParams));
     }
-    invokeDeleteNamedQuery(partialParams) {
-        this.boot();
-        return this.client.deleteNamedQuery(this.ops["DeleteNamedQuery"].apply(partialParams));
-    }
-    invokeDeletePreparedStatement(partialParams) {
-        this.boot();
-        return this.client.deletePreparedStatement(this.ops["DeletePreparedStatement"].apply(partialParams));
-    }
-    invokeDeleteWorkGroup(partialParams) {
-        this.boot();
-        return this.client.deleteWorkGroup(this.ops["DeleteWorkGroup"].apply(partialParams));
-    }
     invokeGetDataCatalog(partialParams) {
         this.boot();
         return this.client.getDataCatalog(this.ops["GetDataCatalog"].apply(partialParams));
     }
-    invokeGetDatabase(partialParams) {
-        this.boot();
-        return this.client.getDatabase(this.ops["GetDatabase"].apply(partialParams));
-    }
-    invokeGetNamedQuery(partialParams) {
-        this.boot();
-        return this.client.getNamedQuery(this.ops["GetNamedQuery"].apply(partialParams));
-    }
-    invokeGetPreparedStatement(partialParams) {
-        this.boot();
-        return this.client.getPreparedStatement(this.ops["GetPreparedStatement"].apply(partialParams));
-    }
-    invokeGetQueryExecution(partialParams) {
-        this.boot();
-        return this.client.getQueryExecution(this.ops["GetQueryExecution"].apply(partialParams));
-    }
-    invokeGetQueryResults(partialParams) {
-        this.boot();
-        return this.client.getQueryResults(this.ops["GetQueryResults"].apply(partialParams));
-    }
-    invokeGetTableMetadata(partialParams) {
-        this.boot();
-        return this.client.getTableMetadata(this.ops["GetTableMetadata"].apply(partialParams));
-    }
-    invokeGetWorkGroup(partialParams) {
-        this.boot();
-        return this.client.getWorkGroup(this.ops["GetWorkGroup"].apply(partialParams));
-    }
-    invokeListDataCatalogs(partialParams) {
-        this.boot();
-        return this.client.listDataCatalogs(this.ops["ListDataCatalogs"].apply(partialParams));
-    }
-    invokeListDatabases(partialParams) {
-        this.boot();
-        return this.client.listDatabases(this.ops["ListDatabases"].apply(partialParams));
-    }
-    invokeListEngineVersions(partialParams) {
-        this.boot();
-        return this.client.listEngineVersions(this.ops["ListEngineVersions"].apply(partialParams));
-    }
-    invokeListNamedQueries(partialParams) {
-        this.boot();
-        return this.client.listNamedQueries(this.ops["ListNamedQueries"].apply(partialParams));
-    }
-    invokeListPreparedStatements(partialParams) {
-        this.boot();
-        return this.client.listPreparedStatements(this.ops["ListPreparedStatements"].apply(partialParams));
-    }
-    invokeListQueryExecutions(partialParams) {
-        this.boot();
-        return this.client.listQueryExecutions(this.ops["ListQueryExecutions"].apply(partialParams));
-    }
-    invokeListTableMetadata(partialParams) {
-        this.boot();
-        return this.client.listTableMetadata(this.ops["ListTableMetadata"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
-    invokeListWorkGroups(partialParams) {
-        this.boot();
-        return this.client.listWorkGroups(this.ops["ListWorkGroups"].apply(partialParams));
-    }
-    invokeStartQueryExecution(partialParams) {
-        this.boot();
-        return this.client.startQueryExecution(this.ops["StartQueryExecution"].apply(partialParams));
-    }
-    invokeStopQueryExecution(partialParams) {
-        this.boot();
-        return this.client.stopQueryExecution(this.ops["StopQueryExecution"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
-    }
     invokeUpdateDataCatalog(partialParams) {
         this.boot();
         return this.client.updateDataCatalog(this.ops["UpdateDataCatalog"].apply(partialParams));
-    }
-    invokeUpdatePreparedStatement(partialParams) {
-        this.boot();
-        return this.client.updatePreparedStatement(this.ops["UpdatePreparedStatement"].apply(partialParams));
-    }
-    invokeUpdateWorkGroup(partialParams) {
-        this.boot();
-        return this.client.updateWorkGroup(this.ops["UpdateWorkGroup"].apply(partialParams));
     }
 }
 exports.default = default_1;

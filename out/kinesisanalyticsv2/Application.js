@@ -140,14 +140,6 @@ class default_1 extends aws.kinesisanalyticsv2.Application {
         this.boot();
         return this.client.listApplicationVersions(this.ops["ListApplicationVersions"].apply(partialParams));
     }
-    invokeListApplications(partialParams) {
-        this.boot();
-        return this.client.listApplications(this.ops["ListApplications"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
     invokeRollbackApplication(partialParams) {
         this.boot();
         return this.client.rollbackApplication(this.ops["RollbackApplication"].apply(partialParams));
@@ -159,14 +151,6 @@ class default_1 extends aws.kinesisanalyticsv2.Application {
     invokeStopApplication(partialParams) {
         this.boot();
         return this.client.stopApplication(this.ops["StopApplication"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateApplication(partialParams) {
         this.boot();

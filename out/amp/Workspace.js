@@ -52,57 +52,5 @@ class default_1 extends aws.amp.Workspace {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeCreateAlertManagerDefinition(partialParams) {
-        this.boot();
-        return this.client.createAlertManagerDefinition(this.ops["CreateAlertManagerDefinition"].apply(partialParams));
-    }
-    invokeCreateRuleGroupsNamespace(partialParams) {
-        this.boot();
-        return this.client.createRuleGroupsNamespace(this.ops["CreateRuleGroupsNamespace"].apply(partialParams));
-    }
-    invokeCreateWorkspace(partialParams) {
-        this.boot();
-        return this.client.createWorkspace(this.ops["CreateWorkspace"].apply(partialParams));
-    }
-    invokeDescribeAlertManagerDefinition(partialParams) {
-        this.boot();
-        return this.client.describeAlertManagerDefinition(this.ops["DescribeAlertManagerDefinition"].apply(partialParams));
-    }
-    invokeDescribeRuleGroupsNamespace(partialParams) {
-        this.boot();
-        return this.client.describeRuleGroupsNamespace(this.ops["DescribeRuleGroupsNamespace"].apply(partialParams));
-    }
-    invokeDescribeWorkspace(partialParams) {
-        this.boot();
-        return this.client.describeWorkspace(this.ops["DescribeWorkspace"].apply(partialParams));
-    }
-    invokeListRuleGroupsNamespaces(partialParams) {
-        this.boot();
-        return this.client.listRuleGroupsNamespaces(this.ops["ListRuleGroupsNamespaces"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
-    invokeListWorkspaces(partialParams) {
-        this.boot();
-        return this.client.listWorkspaces(this.ops["ListWorkspaces"].apply(partialParams));
-    }
-    invokePutAlertManagerDefinition(partialParams) {
-        this.boot();
-        return this.client.putAlertManagerDefinition(this.ops["PutAlertManagerDefinition"].apply(partialParams));
-    }
-    invokePutRuleGroupsNamespace(partialParams) {
-        this.boot();
-        return this.client.putRuleGroupsNamespace(this.ops["PutRuleGroupsNamespace"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
-    }
 }
 exports.default = default_1;

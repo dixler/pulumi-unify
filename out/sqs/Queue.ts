@@ -12,7 +12,6 @@ import {
     GetQueueUrlRequest,
     ListDeadLetterSourceQueuesRequest,
     ListQueueTagsRequest,
-    ListQueuesRequest,
     ReceiveMessageRequest,
     SendMessageRequest,
     SendMessageBatchRequest,
@@ -23,7 +22,6 @@ import {
     GetQueueUrlResult,
     ListDeadLetterSourceQueuesResult,
     ListQueueTagsResult,
-    ListQueuesResult,
     ReceiveMessageResult,
     SendMessageResult,
     SendMessageBatchResult
@@ -131,15 +129,6 @@ export default class extends aws.sqs.Queue {
         this.boot();
         return this.client.listQueueTags(
           this.ops["ListQueueTags"].apply(partialParams)
-        );
-    }
-
-    invokeListQueues(partialParams: ToOptional<{
-      [K in keyof ListQueuesRequest]: (ListQueuesRequest)[K]
-    }>): Request<ListQueuesResult, AWSError> {
-        this.boot();
-        return this.client.listQueues(
-          this.ops["ListQueues"].apply(partialParams)
         );
     }
 

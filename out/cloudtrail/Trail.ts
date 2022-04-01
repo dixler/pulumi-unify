@@ -5,63 +5,29 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    AddTagsRequest,
-    CancelQueryRequest,
     CreateEventDataStoreRequest,
     CreateTrailRequest,
-    DeleteEventDataStoreRequest,
     DeleteTrailRequest,
-    DescribeQueryRequest,
-    DescribeTrailsRequest,
-    GetEventDataStoreRequest,
     GetEventSelectorsRequest,
     GetInsightSelectorsRequest,
-    GetQueryResultsRequest,
     GetTrailRequest,
     GetTrailStatusRequest,
-    ListEventDataStoresRequest,
-    ListPublicKeysRequest,
-    ListQueriesRequest,
-    ListTagsRequest,
-    ListTrailsRequest,
-    LookupEventsRequest,
     PutEventSelectorsRequest,
     PutInsightSelectorsRequest,
-    RemoveTagsRequest,
-    RestoreEventDataStoreRequest,
     StartLoggingRequest,
-    StartQueryRequest,
     StopLoggingRequest,
-    UpdateEventDataStoreRequest,
     UpdateTrailRequest,
-    AddTagsResponse,
-    CancelQueryResponse,
     CreateEventDataStoreResponse,
     CreateTrailResponse,
-    DeleteEventDataStoreResponse,
     DeleteTrailResponse,
-    DescribeQueryResponse,
-    DescribeTrailsResponse,
-    GetEventDataStoreResponse,
     GetEventSelectorsResponse,
     GetInsightSelectorsResponse,
-    GetQueryResultsResponse,
     GetTrailResponse,
     GetTrailStatusResponse,
-    ListEventDataStoresResponse,
-    ListPublicKeysResponse,
-    ListQueriesResponse,
-    ListTagsResponse,
-    ListTrailsResponse,
-    LookupEventsResponse,
     PutEventSelectorsResponse,
     PutInsightSelectorsResponse,
-    RemoveTagsResponse,
-    RestoreEventDataStoreResponse,
     StartLoggingResponse,
-    StartQueryResponse,
     StopLoggingResponse,
-    UpdateEventDataStoreResponse,
     UpdateTrailResponse
 } from "aws-sdk/clients/cloudtrail";
 const schema = require("../apis/cloudtrail-2013-11-01.normal.json")
@@ -107,24 +73,6 @@ export default class extends aws.cloudtrail.Trail {
         this.booted = true;
     }
 
-    invokeAddTags(partialParams: ToOptional<{
-      [K in keyof AddTagsRequest]: (AddTagsRequest)[K]
-    }>): Request<AddTagsResponse, AWSError> {
-        this.boot();
-        return this.client.addTags(
-          this.ops["AddTags"].apply(partialParams)
-        );
-    }
-
-    invokeCancelQuery(partialParams: ToOptional<{
-      [K in keyof CancelQueryRequest]: (CancelQueryRequest)[K]
-    }>): Request<CancelQueryResponse, AWSError> {
-        this.boot();
-        return this.client.cancelQuery(
-          this.ops["CancelQuery"].apply(partialParams)
-        );
-    }
-
     invokeCreateEventDataStore(partialParams: ToOptional<{
       [K in keyof CreateEventDataStoreRequest & keyof Omit<CreateEventDataStoreRequest, "Name">]: (CreateEventDataStoreRequest)[K]
     }>): Request<CreateEventDataStoreResponse, AWSError> {
@@ -143,48 +91,12 @@ export default class extends aws.cloudtrail.Trail {
         );
     }
 
-    invokeDeleteEventDataStore(partialParams: ToOptional<{
-      [K in keyof DeleteEventDataStoreRequest]: (DeleteEventDataStoreRequest)[K]
-    }>): Request<DeleteEventDataStoreResponse, AWSError> {
-        this.boot();
-        return this.client.deleteEventDataStore(
-          this.ops["DeleteEventDataStore"].apply(partialParams)
-        );
-    }
-
     invokeDeleteTrail(partialParams: ToOptional<{
       [K in keyof DeleteTrailRequest & keyof Omit<DeleteTrailRequest, "Name">]: (DeleteTrailRequest)[K]
     }>): Request<DeleteTrailResponse, AWSError> {
         this.boot();
         return this.client.deleteTrail(
           this.ops["DeleteTrail"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeQuery(partialParams: ToOptional<{
-      [K in keyof DescribeQueryRequest]: (DescribeQueryRequest)[K]
-    }>): Request<DescribeQueryResponse, AWSError> {
-        this.boot();
-        return this.client.describeQuery(
-          this.ops["DescribeQuery"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeTrails(partialParams: ToOptional<{
-      [K in keyof DescribeTrailsRequest]: (DescribeTrailsRequest)[K]
-    }>): Request<DescribeTrailsResponse, AWSError> {
-        this.boot();
-        return this.client.describeTrails(
-          this.ops["DescribeTrails"].apply(partialParams)
-        );
-    }
-
-    invokeGetEventDataStore(partialParams: ToOptional<{
-      [K in keyof GetEventDataStoreRequest]: (GetEventDataStoreRequest)[K]
-    }>): Request<GetEventDataStoreResponse, AWSError> {
-        this.boot();
-        return this.client.getEventDataStore(
-          this.ops["GetEventDataStore"].apply(partialParams)
         );
     }
 
@@ -206,15 +118,6 @@ export default class extends aws.cloudtrail.Trail {
         );
     }
 
-    invokeGetQueryResults(partialParams: ToOptional<{
-      [K in keyof GetQueryResultsRequest]: (GetQueryResultsRequest)[K]
-    }>): Request<GetQueryResultsResponse, AWSError> {
-        this.boot();
-        return this.client.getQueryResults(
-          this.ops["GetQueryResults"].apply(partialParams)
-        );
-    }
-
     invokeGetTrail(partialParams: ToOptional<{
       [K in keyof GetTrailRequest & keyof Omit<GetTrailRequest, "Name">]: (GetTrailRequest)[K]
     }>): Request<GetTrailResponse, AWSError> {
@@ -230,60 +133,6 @@ export default class extends aws.cloudtrail.Trail {
         this.boot();
         return this.client.getTrailStatus(
           this.ops["GetTrailStatus"].apply(partialParams)
-        );
-    }
-
-    invokeListEventDataStores(partialParams: ToOptional<{
-      [K in keyof ListEventDataStoresRequest]: (ListEventDataStoresRequest)[K]
-    }>): Request<ListEventDataStoresResponse, AWSError> {
-        this.boot();
-        return this.client.listEventDataStores(
-          this.ops["ListEventDataStores"].apply(partialParams)
-        );
-    }
-
-    invokeListPublicKeys(partialParams: ToOptional<{
-      [K in keyof ListPublicKeysRequest]: (ListPublicKeysRequest)[K]
-    }>): Request<ListPublicKeysResponse, AWSError> {
-        this.boot();
-        return this.client.listPublicKeys(
-          this.ops["ListPublicKeys"].apply(partialParams)
-        );
-    }
-
-    invokeListQueries(partialParams: ToOptional<{
-      [K in keyof ListQueriesRequest]: (ListQueriesRequest)[K]
-    }>): Request<ListQueriesResponse, AWSError> {
-        this.boot();
-        return this.client.listQueries(
-          this.ops["ListQueries"].apply(partialParams)
-        );
-    }
-
-    invokeListTags(partialParams: ToOptional<{
-      [K in keyof ListTagsRequest]: (ListTagsRequest)[K]
-    }>): Request<ListTagsResponse, AWSError> {
-        this.boot();
-        return this.client.listTags(
-          this.ops["ListTags"].apply(partialParams)
-        );
-    }
-
-    invokeListTrails(partialParams: ToOptional<{
-      [K in keyof ListTrailsRequest]: (ListTrailsRequest)[K]
-    }>): Request<ListTrailsResponse, AWSError> {
-        this.boot();
-        return this.client.listTrails(
-          this.ops["ListTrails"].apply(partialParams)
-        );
-    }
-
-    invokeLookupEvents(partialParams: ToOptional<{
-      [K in keyof LookupEventsRequest]: (LookupEventsRequest)[K]
-    }>): Request<LookupEventsResponse, AWSError> {
-        this.boot();
-        return this.client.lookupEvents(
-          this.ops["LookupEvents"].apply(partialParams)
         );
     }
 
@@ -305,24 +154,6 @@ export default class extends aws.cloudtrail.Trail {
         );
     }
 
-    invokeRemoveTags(partialParams: ToOptional<{
-      [K in keyof RemoveTagsRequest]: (RemoveTagsRequest)[K]
-    }>): Request<RemoveTagsResponse, AWSError> {
-        this.boot();
-        return this.client.removeTags(
-          this.ops["RemoveTags"].apply(partialParams)
-        );
-    }
-
-    invokeRestoreEventDataStore(partialParams: ToOptional<{
-      [K in keyof RestoreEventDataStoreRequest]: (RestoreEventDataStoreRequest)[K]
-    }>): Request<RestoreEventDataStoreResponse, AWSError> {
-        this.boot();
-        return this.client.restoreEventDataStore(
-          this.ops["RestoreEventDataStore"].apply(partialParams)
-        );
-    }
-
     invokeStartLogging(partialParams: ToOptional<{
       [K in keyof StartLoggingRequest & keyof Omit<StartLoggingRequest, "Name">]: (StartLoggingRequest)[K]
     }>): Request<StartLoggingResponse, AWSError> {
@@ -332,30 +163,12 @@ export default class extends aws.cloudtrail.Trail {
         );
     }
 
-    invokeStartQuery(partialParams: ToOptional<{
-      [K in keyof StartQueryRequest]: (StartQueryRequest)[K]
-    }>): Request<StartQueryResponse, AWSError> {
-        this.boot();
-        return this.client.startQuery(
-          this.ops["StartQuery"].apply(partialParams)
-        );
-    }
-
     invokeStopLogging(partialParams: ToOptional<{
       [K in keyof StopLoggingRequest & keyof Omit<StopLoggingRequest, "Name">]: (StopLoggingRequest)[K]
     }>): Request<StopLoggingResponse, AWSError> {
         this.boot();
         return this.client.stopLogging(
           this.ops["StopLogging"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateEventDataStore(partialParams: ToOptional<{
-      [K in keyof UpdateEventDataStoreRequest]: (UpdateEventDataStoreRequest)[K]
-    }>): Request<UpdateEventDataStoreResponse, AWSError> {
-        this.boot();
-        return this.client.updateEventDataStore(
-          this.ops["UpdateEventDataStore"].apply(partialParams)
         );
     }
 

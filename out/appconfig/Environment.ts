@@ -11,39 +11,29 @@ import {
     CreateEnvironmentRequest,
     CreateHostedConfigurationVersionRequest,
     GetApplicationRequest,
-    GetConfigurationRequest,
     GetConfigurationProfileRequest,
     GetDeploymentRequest,
-    GetDeploymentStrategyRequest,
     GetEnvironmentRequest,
     GetHostedConfigurationVersionRequest,
-    ListApplicationsRequest,
     ListConfigurationProfilesRequest,
-    ListDeploymentStrategiesRequest,
     ListDeploymentsRequest,
     ListEnvironmentsRequest,
     ListHostedConfigurationVersionsRequest,
-    ListTagsForResourceRequest,
     StartDeploymentRequest,
     StopDeploymentRequest,
     UpdateApplicationRequest,
     UpdateConfigurationProfileRequest,
-    UpdateDeploymentStrategyRequest,
     UpdateEnvironmentRequest,
     Application,
     ConfigurationProfile,
     DeploymentStrategy,
     Environment,
     HostedConfigurationVersion,
-    Configuration,
     Deployment,
-    Applications,
     ConfigurationProfiles,
-    DeploymentStrategies,
     Deployments,
     Environments,
-    HostedConfigurationVersions,
-    ResourceTags
+    HostedConfigurationVersions
 } from "aws-sdk/clients/appconfig";
 const schema = require("../apis/appconfig-2019-10-09.normal.json")
 import {getResourceOperations, upperCamelCase} from "../parse";
@@ -142,15 +132,6 @@ export default class extends aws.appconfig.Environment {
         );
     }
 
-    invokeGetConfiguration(partialParams: ToOptional<{
-      [K in keyof GetConfigurationRequest]: (GetConfigurationRequest)[K]
-    }>): Request<Configuration, AWSError> {
-        this.boot();
-        return this.client.getConfiguration(
-          this.ops["GetConfiguration"].apply(partialParams)
-        );
-    }
-
     invokeGetConfigurationProfile(partialParams: ToOptional<{
       [K in keyof GetConfigurationProfileRequest & keyof Omit<GetConfigurationProfileRequest, "ApplicationId">]: (GetConfigurationProfileRequest)[K]
     }>): Request<ConfigurationProfile, AWSError> {
@@ -166,15 +147,6 @@ export default class extends aws.appconfig.Environment {
         this.boot();
         return this.client.getDeployment(
           this.ops["GetDeployment"].apply(partialParams)
-        );
-    }
-
-    invokeGetDeploymentStrategy(partialParams: ToOptional<{
-      [K in keyof GetDeploymentStrategyRequest]: (GetDeploymentStrategyRequest)[K]
-    }>): Request<DeploymentStrategy, AWSError> {
-        this.boot();
-        return this.client.getDeploymentStrategy(
-          this.ops["GetDeploymentStrategy"].apply(partialParams)
         );
     }
 
@@ -196,30 +168,12 @@ export default class extends aws.appconfig.Environment {
         );
     }
 
-    invokeListApplications(partialParams: ToOptional<{
-      [K in keyof ListApplicationsRequest]: (ListApplicationsRequest)[K]
-    }>): Request<Applications, AWSError> {
-        this.boot();
-        return this.client.listApplications(
-          this.ops["ListApplications"].apply(partialParams)
-        );
-    }
-
     invokeListConfigurationProfiles(partialParams: ToOptional<{
       [K in keyof ListConfigurationProfilesRequest & keyof Omit<ListConfigurationProfilesRequest, "ApplicationId">]: (ListConfigurationProfilesRequest)[K]
     }>): Request<ConfigurationProfiles, AWSError> {
         this.boot();
         return this.client.listConfigurationProfiles(
           this.ops["ListConfigurationProfiles"].apply(partialParams)
-        );
-    }
-
-    invokeListDeploymentStrategies(partialParams: ToOptional<{
-      [K in keyof ListDeploymentStrategiesRequest]: (ListDeploymentStrategiesRequest)[K]
-    }>): Request<DeploymentStrategies, AWSError> {
-        this.boot();
-        return this.client.listDeploymentStrategies(
-          this.ops["ListDeploymentStrategies"].apply(partialParams)
         );
     }
 
@@ -247,15 +201,6 @@ export default class extends aws.appconfig.Environment {
         this.boot();
         return this.client.listHostedConfigurationVersions(
           this.ops["ListHostedConfigurationVersions"].apply(partialParams)
-        );
-    }
-
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
-    }>): Request<ResourceTags, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
@@ -292,15 +237,6 @@ export default class extends aws.appconfig.Environment {
         this.boot();
         return this.client.updateConfigurationProfile(
           this.ops["UpdateConfigurationProfile"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateDeploymentStrategy(partialParams: ToOptional<{
-      [K in keyof UpdateDeploymentStrategyRequest]: (UpdateDeploymentStrategyRequest)[K]
-    }>): Request<DeploymentStrategy, AWSError> {
-        this.boot();
-        return this.client.updateDeploymentStrategy(
-          this.ops["UpdateDeploymentStrategy"].apply(partialParams)
         );
     }
 

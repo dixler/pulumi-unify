@@ -76,10 +76,6 @@ class default_1 extends aws.appconfig.Environment {
         this.boot();
         return this.client.getApplication(this.ops["GetApplication"].apply(partialParams));
     }
-    invokeGetConfiguration(partialParams) {
-        this.boot();
-        return this.client.getConfiguration(this.ops["GetConfiguration"].apply(partialParams));
-    }
     invokeGetConfigurationProfile(partialParams) {
         this.boot();
         return this.client.getConfigurationProfile(this.ops["GetConfigurationProfile"].apply(partialParams));
@@ -87,10 +83,6 @@ class default_1 extends aws.appconfig.Environment {
     invokeGetDeployment(partialParams) {
         this.boot();
         return this.client.getDeployment(this.ops["GetDeployment"].apply(partialParams));
-    }
-    invokeGetDeploymentStrategy(partialParams) {
-        this.boot();
-        return this.client.getDeploymentStrategy(this.ops["GetDeploymentStrategy"].apply(partialParams));
     }
     invokeGetEnvironment(partialParams) {
         this.boot();
@@ -100,17 +92,9 @@ class default_1 extends aws.appconfig.Environment {
         this.boot();
         return this.client.getHostedConfigurationVersion(this.ops["GetHostedConfigurationVersion"].apply(partialParams));
     }
-    invokeListApplications(partialParams) {
-        this.boot();
-        return this.client.listApplications(this.ops["ListApplications"].apply(partialParams));
-    }
     invokeListConfigurationProfiles(partialParams) {
         this.boot();
         return this.client.listConfigurationProfiles(this.ops["ListConfigurationProfiles"].apply(partialParams));
-    }
-    invokeListDeploymentStrategies(partialParams) {
-        this.boot();
-        return this.client.listDeploymentStrategies(this.ops["ListDeploymentStrategies"].apply(partialParams));
     }
     invokeListDeployments(partialParams) {
         this.boot();
@@ -123,10 +107,6 @@ class default_1 extends aws.appconfig.Environment {
     invokeListHostedConfigurationVersions(partialParams) {
         this.boot();
         return this.client.listHostedConfigurationVersions(this.ops["ListHostedConfigurationVersions"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeStartDeployment(partialParams) {
         this.boot();
@@ -143,10 +123,6 @@ class default_1 extends aws.appconfig.Environment {
     invokeUpdateConfigurationProfile(partialParams) {
         this.boot();
         return this.client.updateConfigurationProfile(this.ops["UpdateConfigurationProfile"].apply(partialParams));
-    }
-    invokeUpdateDeploymentStrategy(partialParams) {
-        this.boot();
-        return this.client.updateDeploymentStrategy(this.ops["UpdateDeploymentStrategy"].apply(partialParams));
     }
     invokeUpdateEnvironment(partialParams) {
         this.boot();

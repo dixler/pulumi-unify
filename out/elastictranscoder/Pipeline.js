@@ -52,14 +52,6 @@ class default_1 extends aws.elastictranscoder.Pipeline {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeCancelJob(partialParams) {
-        this.boot();
-        return this.client.cancelJob(this.ops["CancelJob"].apply(partialParams));
-    }
-    invokeCreateJob(partialParams) {
-        this.boot();
-        return this.client.createJob(this.ops["CreateJob"].apply(partialParams));
-    }
     invokeCreatePipeline(partialParams) {
         this.boot();
         return this.client.createPipeline(this.ops["CreatePipeline"].apply(partialParams));
@@ -68,57 +60,9 @@ class default_1 extends aws.elastictranscoder.Pipeline {
         this.boot();
         return this.client.createPreset(this.ops["CreatePreset"].apply(partialParams));
     }
-    invokeDeletePipeline(partialParams) {
-        this.boot();
-        return this.client.deletePipeline(this.ops["DeletePipeline"].apply(partialParams));
-    }
-    invokeDeletePreset(partialParams) {
-        this.boot();
-        return this.client.deletePreset(this.ops["DeletePreset"].apply(partialParams));
-    }
-    invokeListJobsByPipeline(partialParams) {
-        this.boot();
-        return this.client.listJobsByPipeline(this.ops["ListJobsByPipeline"].apply(partialParams));
-    }
-    invokeListJobsByStatus(partialParams) {
-        this.boot();
-        return this.client.listJobsByStatus(this.ops["ListJobsByStatus"].apply(partialParams));
-    }
-    invokeListPipelines(partialParams) {
-        this.boot();
-        return this.client.listPipelines(this.ops["ListPipelines"].apply(partialParams));
-    }
-    invokeListPresets(partialParams) {
-        this.boot();
-        return this.client.listPresets(this.ops["ListPresets"].apply(partialParams));
-    }
-    invokeReadJob(partialParams) {
-        this.boot();
-        return this.client.readJob(this.ops["ReadJob"].apply(partialParams));
-    }
-    invokeReadPipeline(partialParams) {
-        this.boot();
-        return this.client.readPipeline(this.ops["ReadPipeline"].apply(partialParams));
-    }
-    invokeReadPreset(partialParams) {
-        this.boot();
-        return this.client.readPreset(this.ops["ReadPreset"].apply(partialParams));
-    }
     invokeTestRole(partialParams) {
         this.boot();
         return this.client.testRole(this.ops["TestRole"].apply(partialParams));
-    }
-    invokeUpdatePipeline(partialParams) {
-        this.boot();
-        return this.client.updatePipeline(this.ops["UpdatePipeline"].apply(partialParams));
-    }
-    invokeUpdatePipelineNotifications(partialParams) {
-        this.boot();
-        return this.client.updatePipelineNotifications(this.ops["UpdatePipelineNotifications"].apply(partialParams));
-    }
-    invokeUpdatePipelineStatus(partialParams) {
-        this.boot();
-        return this.client.updatePipelineStatus(this.ops["UpdatePipelineStatus"].apply(partialParams));
     }
 }
 exports.default = default_1;

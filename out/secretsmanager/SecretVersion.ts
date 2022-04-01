@@ -6,15 +6,12 @@ import {AWSError} from 'aws-sdk/lib/error';
 
 import {
     CancelRotateSecretRequest,
-    CreateSecretRequest,
     DeleteResourcePolicyRequest,
     DeleteSecretRequest,
     DescribeSecretRequest,
-    GetRandomPasswordRequest,
     GetResourcePolicyRequest,
     GetSecretValueRequest,
     ListSecretVersionIdsRequest,
-    ListSecretsRequest,
     PutResourcePolicyRequest,
     PutSecretValueRequest,
     RemoveRegionsFromReplicationRequest,
@@ -24,17 +21,13 @@ import {
     StopReplicationToReplicaRequest,
     UpdateSecretRequest,
     UpdateSecretVersionStageRequest,
-    ValidateResourcePolicyRequest,
     CancelRotateSecretResponse,
-    CreateSecretResponse,
     DeleteResourcePolicyResponse,
     DeleteSecretResponse,
     DescribeSecretResponse,
-    GetRandomPasswordResponse,
     GetResourcePolicyResponse,
     GetSecretValueResponse,
     ListSecretVersionIdsResponse,
-    ListSecretsResponse,
     PutResourcePolicyResponse,
     PutSecretValueResponse,
     RemoveRegionsFromReplicationResponse,
@@ -43,8 +36,7 @@ import {
     RotateSecretResponse,
     StopReplicationToReplicaResponse,
     UpdateSecretResponse,
-    UpdateSecretVersionStageResponse,
-    ValidateResourcePolicyResponse
+    UpdateSecretVersionStageResponse
 } from "aws-sdk/clients/secretsmanager";
 const schema = require("../apis/secretsmanager-2017-10-17.normal.json")
 import {getResourceOperations, upperCamelCase} from "../parse";
@@ -98,15 +90,6 @@ export default class extends aws.secretsmanager.SecretVersion {
         );
     }
 
-    invokeCreateSecret(partialParams: ToOptional<{
-      [K in keyof CreateSecretRequest]: (CreateSecretRequest)[K]
-    }>): Request<CreateSecretResponse, AWSError> {
-        this.boot();
-        return this.client.createSecret(
-          this.ops["CreateSecret"].apply(partialParams)
-        );
-    }
-
     invokeDeleteResourcePolicy(partialParams: ToOptional<{
       [K in keyof DeleteResourcePolicyRequest & keyof Omit<DeleteResourcePolicyRequest, "SecretId">]: (DeleteResourcePolicyRequest)[K]
     }>): Request<DeleteResourcePolicyResponse, AWSError> {
@@ -134,15 +117,6 @@ export default class extends aws.secretsmanager.SecretVersion {
         );
     }
 
-    invokeGetRandomPassword(partialParams: ToOptional<{
-      [K in keyof GetRandomPasswordRequest]: (GetRandomPasswordRequest)[K]
-    }>): Request<GetRandomPasswordResponse, AWSError> {
-        this.boot();
-        return this.client.getRandomPassword(
-          this.ops["GetRandomPassword"].apply(partialParams)
-        );
-    }
-
     invokeGetResourcePolicy(partialParams: ToOptional<{
       [K in keyof GetResourcePolicyRequest & keyof Omit<GetResourcePolicyRequest, "SecretId">]: (GetResourcePolicyRequest)[K]
     }>): Request<GetResourcePolicyResponse, AWSError> {
@@ -167,15 +141,6 @@ export default class extends aws.secretsmanager.SecretVersion {
         this.boot();
         return this.client.listSecretVersionIds(
           this.ops["ListSecretVersionIds"].apply(partialParams)
-        );
-    }
-
-    invokeListSecrets(partialParams: ToOptional<{
-      [K in keyof ListSecretsRequest]: (ListSecretsRequest)[K]
-    }>): Request<ListSecretsResponse, AWSError> {
-        this.boot();
-        return this.client.listSecrets(
-          this.ops["ListSecrets"].apply(partialParams)
         );
     }
 
@@ -257,15 +222,6 @@ export default class extends aws.secretsmanager.SecretVersion {
         this.boot();
         return this.client.updateSecretVersionStage(
           this.ops["UpdateSecretVersionStage"].apply(partialParams)
-        );
-    }
-
-    invokeValidateResourcePolicy(partialParams: ToOptional<{
-      [K in keyof ValidateResourcePolicyRequest]: (ValidateResourcePolicyRequest)[K]
-    }>): Request<ValidateResourcePolicyResponse, AWSError> {
-        this.boot();
-        return this.client.validateResourcePolicy(
-          this.ops["ValidateResourcePolicy"].apply(partialParams)
         );
     }
 }

@@ -56,10 +56,6 @@ class default_1 extends aws.sqs.QueuePolicy {
         this.boot();
         return this.client.changeMessageVisibilityBatch(this.ops["ChangeMessageVisibilityBatch"].apply(partialParams));
     }
-    invokeCreateQueue(partialParams) {
-        this.boot();
-        return this.client.createQueue(this.ops["CreateQueue"].apply(partialParams));
-    }
     invokeDeleteMessageBatch(partialParams) {
         this.boot();
         return this.client.deleteMessageBatch(this.ops["DeleteMessageBatch"].apply(partialParams));
@@ -68,10 +64,6 @@ class default_1 extends aws.sqs.QueuePolicy {
         this.boot();
         return this.client.getQueueAttributes(this.ops["GetQueueAttributes"].apply(partialParams));
     }
-    invokeGetQueueUrl(partialParams) {
-        this.boot();
-        return this.client.getQueueUrl(this.ops["GetQueueUrl"].apply(partialParams));
-    }
     invokeListDeadLetterSourceQueues(partialParams) {
         this.boot();
         return this.client.listDeadLetterSourceQueues(this.ops["ListDeadLetterSourceQueues"].apply(partialParams));
@@ -79,10 +71,6 @@ class default_1 extends aws.sqs.QueuePolicy {
     invokeListQueueTags(partialParams) {
         this.boot();
         return this.client.listQueueTags(this.ops["ListQueueTags"].apply(partialParams));
-    }
-    invokeListQueues(partialParams) {
-        this.boot();
-        return this.client.listQueues(this.ops["ListQueues"].apply(partialParams));
     }
     invokeReceiveMessage(partialParams) {
         this.boot();

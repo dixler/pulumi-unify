@@ -9,14 +9,12 @@ import {
     ExportCertificateRequest,
     GetCertificateRequest,
     ImportCertificateRequest,
-    ListCertificatesRequest,
     ListTagsForCertificateRequest,
     RequestCertificateRequest,
     DescribeCertificateResponse,
     ExportCertificateResponse,
     GetCertificateResponse,
     ImportCertificateResponse,
-    ListCertificatesResponse,
     ListTagsForCertificateResponse,
     RequestCertificateResponse
 } from "aws-sdk/clients/acm";
@@ -96,15 +94,6 @@ export default class extends aws.acm.Certificate {
         this.boot();
         return this.client.importCertificate(
           this.ops["ImportCertificate"].apply(partialParams)
-        );
-    }
-
-    invokeListCertificates(partialParams: ToOptional<{
-      [K in keyof ListCertificatesRequest]: (ListCertificatesRequest)[K]
-    }>): Request<ListCertificatesResponse, AWSError> {
-        this.boot();
-        return this.client.listCertificates(
-          this.ops["ListCertificates"].apply(partialParams)
         );
     }
 

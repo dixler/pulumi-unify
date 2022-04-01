@@ -56,29 +56,13 @@ class default_1 extends aws.transfer.Access {
         this.boot();
         return this.client.createAccess(this.ops["CreateAccess"].apply(partialParams));
     }
-    invokeCreateServer(partialParams) {
-        this.boot();
-        return this.client.createServer(this.ops["CreateServer"].apply(partialParams));
-    }
     invokeCreateUser(partialParams) {
         this.boot();
         return this.client.createUser(this.ops["CreateUser"].apply(partialParams));
     }
-    invokeCreateWorkflow(partialParams) {
-        this.boot();
-        return this.client.createWorkflow(this.ops["CreateWorkflow"].apply(partialParams));
-    }
     invokeDescribeAccess(partialParams) {
         this.boot();
         return this.client.describeAccess(this.ops["DescribeAccess"].apply(partialParams));
-    }
-    invokeDescribeExecution(partialParams) {
-        this.boot();
-        return this.client.describeExecution(this.ops["DescribeExecution"].apply(partialParams));
-    }
-    invokeDescribeSecurityPolicy(partialParams) {
-        this.boot();
-        return this.client.describeSecurityPolicy(this.ops["DescribeSecurityPolicy"].apply(partialParams));
     }
     invokeDescribeServer(partialParams) {
         this.boot();
@@ -88,10 +72,6 @@ class default_1 extends aws.transfer.Access {
         this.boot();
         return this.client.describeUser(this.ops["DescribeUser"].apply(partialParams));
     }
-    invokeDescribeWorkflow(partialParams) {
-        this.boot();
-        return this.client.describeWorkflow(this.ops["DescribeWorkflow"].apply(partialParams));
-    }
     invokeImportSshPublicKey(partialParams) {
         this.boot();
         return this.client.importSshPublicKey(this.ops["ImportSshPublicKey"].apply(partialParams));
@@ -100,33 +80,9 @@ class default_1 extends aws.transfer.Access {
         this.boot();
         return this.client.listAccesses(this.ops["ListAccesses"].apply(partialParams));
     }
-    invokeListExecutions(partialParams) {
-        this.boot();
-        return this.client.listExecutions(this.ops["ListExecutions"].apply(partialParams));
-    }
-    invokeListSecurityPolicies(partialParams) {
-        this.boot();
-        return this.client.listSecurityPolicies(this.ops["ListSecurityPolicies"].apply(partialParams));
-    }
-    invokeListServers(partialParams) {
-        this.boot();
-        return this.client.listServers(this.ops["ListServers"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
     invokeListUsers(partialParams) {
         this.boot();
         return this.client.listUsers(this.ops["ListUsers"].apply(partialParams));
-    }
-    invokeListWorkflows(partialParams) {
-        this.boot();
-        return this.client.listWorkflows(this.ops["ListWorkflows"].apply(partialParams));
-    }
-    invokeSendWorkflowStepState(partialParams) {
-        this.boot();
-        return this.client.sendWorkflowStepState(this.ops["SendWorkflowStepState"].apply(partialParams));
     }
     invokeTestIdentityProvider(partialParams) {
         this.boot();

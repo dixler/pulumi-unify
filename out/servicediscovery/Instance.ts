@@ -5,56 +5,16 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    CreateHttpNamespaceRequest,
-    CreatePrivateDnsNamespaceRequest,
-    CreatePublicDnsNamespaceRequest,
-    CreateServiceRequest,
-    DeleteNamespaceRequest,
-    DeleteServiceRequest,
     DeregisterInstanceRequest,
-    DiscoverInstancesRequest,
     GetInstanceRequest,
     GetInstancesHealthStatusRequest,
-    GetNamespaceRequest,
-    GetOperationRequest,
-    GetServiceRequest,
     ListInstancesRequest,
-    ListNamespacesRequest,
-    ListOperationsRequest,
-    ListServicesRequest,
-    ListTagsForResourceRequest,
     RegisterInstanceRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
-    UpdateHttpNamespaceRequest,
-    UpdatePrivateDnsNamespaceRequest,
-    UpdatePublicDnsNamespaceRequest,
-    UpdateServiceRequest,
-    CreateHttpNamespaceResponse,
-    CreatePrivateDnsNamespaceResponse,
-    CreatePublicDnsNamespaceResponse,
-    CreateServiceResponse,
-    DeleteNamespaceResponse,
-    DeleteServiceResponse,
     DeregisterInstanceResponse,
-    DiscoverInstancesResponse,
     GetInstanceResponse,
     GetInstancesHealthStatusResponse,
-    GetNamespaceResponse,
-    GetOperationResponse,
-    GetServiceResponse,
     ListInstancesResponse,
-    ListNamespacesResponse,
-    ListOperationsResponse,
-    ListServicesResponse,
-    ListTagsForResourceResponse,
-    RegisterInstanceResponse,
-    TagResourceResponse,
-    UntagResourceResponse,
-    UpdateHttpNamespaceResponse,
-    UpdatePrivateDnsNamespaceResponse,
-    UpdatePublicDnsNamespaceResponse,
-    UpdateServiceResponse
+    RegisterInstanceResponse
 } from "aws-sdk/clients/servicediscovery";
 const schema = require("../apis/servicediscovery-2017-03-14.normal.json")
 import {getResourceOperations, upperCamelCase} from "../parse";
@@ -99,75 +59,12 @@ export default class extends aws.servicediscovery.Instance {
         this.booted = true;
     }
 
-    invokeCreateHttpNamespace(partialParams: ToOptional<{
-      [K in keyof CreateHttpNamespaceRequest]: (CreateHttpNamespaceRequest)[K]
-    }>): Request<CreateHttpNamespaceResponse, AWSError> {
-        this.boot();
-        return this.client.createHttpNamespace(
-          this.ops["CreateHttpNamespace"].apply(partialParams)
-        );
-    }
-
-    invokeCreatePrivateDnsNamespace(partialParams: ToOptional<{
-      [K in keyof CreatePrivateDnsNamespaceRequest]: (CreatePrivateDnsNamespaceRequest)[K]
-    }>): Request<CreatePrivateDnsNamespaceResponse, AWSError> {
-        this.boot();
-        return this.client.createPrivateDnsNamespace(
-          this.ops["CreatePrivateDnsNamespace"].apply(partialParams)
-        );
-    }
-
-    invokeCreatePublicDnsNamespace(partialParams: ToOptional<{
-      [K in keyof CreatePublicDnsNamespaceRequest]: (CreatePublicDnsNamespaceRequest)[K]
-    }>): Request<CreatePublicDnsNamespaceResponse, AWSError> {
-        this.boot();
-        return this.client.createPublicDnsNamespace(
-          this.ops["CreatePublicDnsNamespace"].apply(partialParams)
-        );
-    }
-
-    invokeCreateService(partialParams: ToOptional<{
-      [K in keyof CreateServiceRequest]: (CreateServiceRequest)[K]
-    }>): Request<CreateServiceResponse, AWSError> {
-        this.boot();
-        return this.client.createService(
-          this.ops["CreateService"].apply(partialParams)
-        );
-    }
-
-    invokeDeleteNamespace(partialParams: ToOptional<{
-      [K in keyof DeleteNamespaceRequest]: (DeleteNamespaceRequest)[K]
-    }>): Request<DeleteNamespaceResponse, AWSError> {
-        this.boot();
-        return this.client.deleteNamespace(
-          this.ops["DeleteNamespace"].apply(partialParams)
-        );
-    }
-
-    invokeDeleteService(partialParams: ToOptional<{
-      [K in keyof DeleteServiceRequest]: (DeleteServiceRequest)[K]
-    }>): Request<DeleteServiceResponse, AWSError> {
-        this.boot();
-        return this.client.deleteService(
-          this.ops["DeleteService"].apply(partialParams)
-        );
-    }
-
     invokeDeregisterInstance(partialParams: ToOptional<{
       [K in keyof DeregisterInstanceRequest & keyof Omit<DeregisterInstanceRequest, "ServiceId" | "InstanceId">]: (DeregisterInstanceRequest)[K]
     }>): Request<DeregisterInstanceResponse, AWSError> {
         this.boot();
         return this.client.deregisterInstance(
           this.ops["DeregisterInstance"].apply(partialParams)
-        );
-    }
-
-    invokeDiscoverInstances(partialParams: ToOptional<{
-      [K in keyof DiscoverInstancesRequest]: (DiscoverInstancesRequest)[K]
-    }>): Request<DiscoverInstancesResponse, AWSError> {
-        this.boot();
-        return this.client.discoverInstances(
-          this.ops["DiscoverInstances"].apply(partialParams)
         );
     }
 
@@ -189,33 +86,6 @@ export default class extends aws.servicediscovery.Instance {
         );
     }
 
-    invokeGetNamespace(partialParams: ToOptional<{
-      [K in keyof GetNamespaceRequest]: (GetNamespaceRequest)[K]
-    }>): Request<GetNamespaceResponse, AWSError> {
-        this.boot();
-        return this.client.getNamespace(
-          this.ops["GetNamespace"].apply(partialParams)
-        );
-    }
-
-    invokeGetOperation(partialParams: ToOptional<{
-      [K in keyof GetOperationRequest]: (GetOperationRequest)[K]
-    }>): Request<GetOperationResponse, AWSError> {
-        this.boot();
-        return this.client.getOperation(
-          this.ops["GetOperation"].apply(partialParams)
-        );
-    }
-
-    invokeGetService(partialParams: ToOptional<{
-      [K in keyof GetServiceRequest]: (GetServiceRequest)[K]
-    }>): Request<GetServiceResponse, AWSError> {
-        this.boot();
-        return this.client.getService(
-          this.ops["GetService"].apply(partialParams)
-        );
-    }
-
     invokeListInstances(partialParams: ToOptional<{
       [K in keyof ListInstancesRequest & keyof Omit<ListInstancesRequest, "ServiceId">]: (ListInstancesRequest)[K]
     }>): Request<ListInstancesResponse, AWSError> {
@@ -225,102 +95,12 @@ export default class extends aws.servicediscovery.Instance {
         );
     }
 
-    invokeListNamespaces(partialParams: ToOptional<{
-      [K in keyof ListNamespacesRequest]: (ListNamespacesRequest)[K]
-    }>): Request<ListNamespacesResponse, AWSError> {
-        this.boot();
-        return this.client.listNamespaces(
-          this.ops["ListNamespaces"].apply(partialParams)
-        );
-    }
-
-    invokeListOperations(partialParams: ToOptional<{
-      [K in keyof ListOperationsRequest]: (ListOperationsRequest)[K]
-    }>): Request<ListOperationsResponse, AWSError> {
-        this.boot();
-        return this.client.listOperations(
-          this.ops["ListOperations"].apply(partialParams)
-        );
-    }
-
-    invokeListServices(partialParams: ToOptional<{
-      [K in keyof ListServicesRequest]: (ListServicesRequest)[K]
-    }>): Request<ListServicesResponse, AWSError> {
-        this.boot();
-        return this.client.listServices(
-          this.ops["ListServices"].apply(partialParams)
-        );
-    }
-
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
-    }>): Request<ListTagsForResourceResponse, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
-        );
-    }
-
     invokeRegisterInstance(partialParams: ToOptional<{
       [K in keyof RegisterInstanceRequest & keyof Omit<RegisterInstanceRequest, "ServiceId" | "InstanceId">]: (RegisterInstanceRequest)[K]
     }>): Request<RegisterInstanceResponse, AWSError> {
         this.boot();
         return this.client.registerInstance(
           this.ops["RegisterInstance"].apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
-    }>): Request<TagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
-    }>): Request<UntagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateHttpNamespace(partialParams: ToOptional<{
-      [K in keyof UpdateHttpNamespaceRequest]: (UpdateHttpNamespaceRequest)[K]
-    }>): Request<UpdateHttpNamespaceResponse, AWSError> {
-        this.boot();
-        return this.client.updateHttpNamespace(
-          this.ops["UpdateHttpNamespace"].apply(partialParams)
-        );
-    }
-
-    invokeUpdatePrivateDnsNamespace(partialParams: ToOptional<{
-      [K in keyof UpdatePrivateDnsNamespaceRequest]: (UpdatePrivateDnsNamespaceRequest)[K]
-    }>): Request<UpdatePrivateDnsNamespaceResponse, AWSError> {
-        this.boot();
-        return this.client.updatePrivateDnsNamespace(
-          this.ops["UpdatePrivateDnsNamespace"].apply(partialParams)
-        );
-    }
-
-    invokeUpdatePublicDnsNamespace(partialParams: ToOptional<{
-      [K in keyof UpdatePublicDnsNamespaceRequest]: (UpdatePublicDnsNamespaceRequest)[K]
-    }>): Request<UpdatePublicDnsNamespaceResponse, AWSError> {
-        this.boot();
-        return this.client.updatePublicDnsNamespace(
-          this.ops["UpdatePublicDnsNamespace"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateService(partialParams: ToOptional<{
-      [K in keyof UpdateServiceRequest]: (UpdateServiceRequest)[K]
-    }>): Request<UpdateServiceResponse, AWSError> {
-        this.boot();
-        return this.client.updateService(
-          this.ops["UpdateService"].apply(partialParams)
         );
     }
 }

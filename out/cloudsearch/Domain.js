@@ -108,10 +108,6 @@ class default_1 extends aws.cloudsearch.Domain {
         this.boot();
         return this.client.describeDomainEndpointOptions(this.ops["DescribeDomainEndpointOptions"].apply(partialParams));
     }
-    invokeDescribeDomains(partialParams) {
-        this.boot();
-        return this.client.describeDomains(this.ops["DescribeDomains"].apply(partialParams));
-    }
     invokeDescribeExpressions(partialParams) {
         this.boot();
         return this.client.describeExpressions(this.ops["DescribeExpressions"].apply(partialParams));

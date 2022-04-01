@@ -52,41 +52,13 @@ class default_1 extends aws.globalaccelerator.Listener {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeAddCustomRoutingEndpoints(partialParams) {
-        this.boot();
-        return this.client.addCustomRoutingEndpoints(this.ops["AddCustomRoutingEndpoints"].apply(partialParams));
-    }
-    invokeAdvertiseByoipCidr(partialParams) {
-        this.boot();
-        return this.client.advertiseByoipCidr(this.ops["AdvertiseByoipCidr"].apply(partialParams));
-    }
-    invokeCreateAccelerator(partialParams) {
-        this.boot();
-        return this.client.createAccelerator(this.ops["CreateAccelerator"].apply(partialParams));
-    }
-    invokeCreateCustomRoutingAccelerator(partialParams) {
-        this.boot();
-        return this.client.createCustomRoutingAccelerator(this.ops["CreateCustomRoutingAccelerator"].apply(partialParams));
-    }
-    invokeCreateCustomRoutingEndpointGroup(partialParams) {
-        this.boot();
-        return this.client.createCustomRoutingEndpointGroup(this.ops["CreateCustomRoutingEndpointGroup"].apply(partialParams));
-    }
     invokeCreateCustomRoutingListener(partialParams) {
         this.boot();
         return this.client.createCustomRoutingListener(this.ops["CreateCustomRoutingListener"].apply(partialParams));
     }
-    invokeCreateEndpointGroup(partialParams) {
-        this.boot();
-        return this.client.createEndpointGroup(this.ops["CreateEndpointGroup"].apply(partialParams));
-    }
     invokeCreateListener(partialParams) {
         this.boot();
         return this.client.createListener(this.ops["CreateListener"].apply(partialParams));
-    }
-    invokeDeprovisionByoipCidr(partialParams) {
-        this.boot();
-        return this.client.deprovisionByoipCidr(this.ops["DeprovisionByoipCidr"].apply(partialParams));
     }
     invokeDescribeAccelerator(partialParams) {
         this.boot();
@@ -104,38 +76,6 @@ class default_1 extends aws.globalaccelerator.Listener {
         this.boot();
         return this.client.describeCustomRoutingAcceleratorAttributes(this.ops["DescribeCustomRoutingAcceleratorAttributes"].apply(partialParams));
     }
-    invokeDescribeCustomRoutingEndpointGroup(partialParams) {
-        this.boot();
-        return this.client.describeCustomRoutingEndpointGroup(this.ops["DescribeCustomRoutingEndpointGroup"].apply(partialParams));
-    }
-    invokeDescribeCustomRoutingListener(partialParams) {
-        this.boot();
-        return this.client.describeCustomRoutingListener(this.ops["DescribeCustomRoutingListener"].apply(partialParams));
-    }
-    invokeDescribeEndpointGroup(partialParams) {
-        this.boot();
-        return this.client.describeEndpointGroup(this.ops["DescribeEndpointGroup"].apply(partialParams));
-    }
-    invokeDescribeListener(partialParams) {
-        this.boot();
-        return this.client.describeListener(this.ops["DescribeListener"].apply(partialParams));
-    }
-    invokeListAccelerators(partialParams) {
-        this.boot();
-        return this.client.listAccelerators(this.ops["ListAccelerators"].apply(partialParams));
-    }
-    invokeListByoipCidrs(partialParams) {
-        this.boot();
-        return this.client.listByoipCidrs(this.ops["ListByoipCidrs"].apply(partialParams));
-    }
-    invokeListCustomRoutingAccelerators(partialParams) {
-        this.boot();
-        return this.client.listCustomRoutingAccelerators(this.ops["ListCustomRoutingAccelerators"].apply(partialParams));
-    }
-    invokeListCustomRoutingEndpointGroups(partialParams) {
-        this.boot();
-        return this.client.listCustomRoutingEndpointGroups(this.ops["ListCustomRoutingEndpointGroups"].apply(partialParams));
-    }
     invokeListCustomRoutingListeners(partialParams) {
         this.boot();
         return this.client.listCustomRoutingListeners(this.ops["ListCustomRoutingListeners"].apply(partialParams));
@@ -144,33 +84,9 @@ class default_1 extends aws.globalaccelerator.Listener {
         this.boot();
         return this.client.listCustomRoutingPortMappings(this.ops["ListCustomRoutingPortMappings"].apply(partialParams));
     }
-    invokeListCustomRoutingPortMappingsByDestination(partialParams) {
-        this.boot();
-        return this.client.listCustomRoutingPortMappingsByDestination(this.ops["ListCustomRoutingPortMappingsByDestination"].apply(partialParams));
-    }
-    invokeListEndpointGroups(partialParams) {
-        this.boot();
-        return this.client.listEndpointGroups(this.ops["ListEndpointGroups"].apply(partialParams));
-    }
     invokeListListeners(partialParams) {
         this.boot();
         return this.client.listListeners(this.ops["ListListeners"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
-    invokeProvisionByoipCidr(partialParams) {
-        this.boot();
-        return this.client.provisionByoipCidr(this.ops["ProvisionByoipCidr"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateAccelerator(partialParams) {
         this.boot();
@@ -187,22 +103,6 @@ class default_1 extends aws.globalaccelerator.Listener {
     invokeUpdateCustomRoutingAcceleratorAttributes(partialParams) {
         this.boot();
         return this.client.updateCustomRoutingAcceleratorAttributes(this.ops["UpdateCustomRoutingAcceleratorAttributes"].apply(partialParams));
-    }
-    invokeUpdateCustomRoutingListener(partialParams) {
-        this.boot();
-        return this.client.updateCustomRoutingListener(this.ops["UpdateCustomRoutingListener"].apply(partialParams));
-    }
-    invokeUpdateEndpointGroup(partialParams) {
-        this.boot();
-        return this.client.updateEndpointGroup(this.ops["UpdateEndpointGroup"].apply(partialParams));
-    }
-    invokeUpdateListener(partialParams) {
-        this.boot();
-        return this.client.updateListener(this.ops["UpdateListener"].apply(partialParams));
-    }
-    invokeWithdrawByoipCidr(partialParams) {
-        this.boot();
-        return this.client.withdrawByoipCidr(this.ops["WithdrawByoipCidr"].apply(partialParams));
     }
 }
 exports.default = default_1;

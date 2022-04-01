@@ -52,21 +52,9 @@ class default_1 extends aws.cloudhsmv2.Hsm {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeCopyBackupToRegion(partialParams) {
-        this.boot();
-        return this.client.copyBackupToRegion(this.ops["CopyBackupToRegion"].apply(partialParams));
-    }
-    invokeCreateCluster(partialParams) {
-        this.boot();
-        return this.client.createCluster(this.ops["CreateCluster"].apply(partialParams));
-    }
     invokeCreateHsm(partialParams) {
         this.boot();
         return this.client.createHsm(this.ops["CreateHsm"].apply(partialParams));
-    }
-    invokeDeleteBackup(partialParams) {
-        this.boot();
-        return this.client.deleteBackup(this.ops["DeleteBackup"].apply(partialParams));
     }
     invokeDeleteCluster(partialParams) {
         this.boot();
@@ -76,41 +64,13 @@ class default_1 extends aws.cloudhsmv2.Hsm {
         this.boot();
         return this.client.deleteHsm(this.ops["DeleteHsm"].apply(partialParams));
     }
-    invokeDescribeBackups(partialParams) {
-        this.boot();
-        return this.client.describeBackups(this.ops["DescribeBackups"].apply(partialParams));
-    }
-    invokeDescribeClusters(partialParams) {
-        this.boot();
-        return this.client.describeClusters(this.ops["DescribeClusters"].apply(partialParams));
-    }
     invokeInitializeCluster(partialParams) {
         this.boot();
         return this.client.initializeCluster(this.ops["InitializeCluster"].apply(partialParams));
     }
-    invokeListTags(partialParams) {
-        this.boot();
-        return this.client.listTags(this.ops["ListTags"].apply(partialParams));
-    }
-    invokeModifyBackupAttributes(partialParams) {
-        this.boot();
-        return this.client.modifyBackupAttributes(this.ops["ModifyBackupAttributes"].apply(partialParams));
-    }
     invokeModifyCluster(partialParams) {
         this.boot();
         return this.client.modifyCluster(this.ops["ModifyCluster"].apply(partialParams));
-    }
-    invokeRestoreBackup(partialParams) {
-        this.boot();
-        return this.client.restoreBackup(this.ops["RestoreBackup"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
 }
 exports.default = default_1;

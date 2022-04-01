@@ -6,24 +6,18 @@ import {AWSError} from 'aws-sdk/lib/error';
 
 import {
     ChangeMessageVisibilityBatchRequest,
-    CreateQueueRequest,
     DeleteMessageBatchRequest,
     GetQueueAttributesRequest,
-    GetQueueUrlRequest,
     ListDeadLetterSourceQueuesRequest,
     ListQueueTagsRequest,
-    ListQueuesRequest,
     ReceiveMessageRequest,
     SendMessageRequest,
     SendMessageBatchRequest,
     ChangeMessageVisibilityBatchResult,
-    CreateQueueResult,
     DeleteMessageBatchResult,
     GetQueueAttributesResult,
-    GetQueueUrlResult,
     ListDeadLetterSourceQueuesResult,
     ListQueueTagsResult,
-    ListQueuesResult,
     ReceiveMessageResult,
     SendMessageResult,
     SendMessageBatchResult
@@ -80,15 +74,6 @@ export default class extends aws.sqs.QueuePolicy {
         );
     }
 
-    invokeCreateQueue(partialParams: ToOptional<{
-      [K in keyof CreateQueueRequest]: (CreateQueueRequest)[K]
-    }>): Request<CreateQueueResult, AWSError> {
-        this.boot();
-        return this.client.createQueue(
-          this.ops["CreateQueue"].apply(partialParams)
-        );
-    }
-
     invokeDeleteMessageBatch(partialParams: ToOptional<{
       [K in keyof DeleteMessageBatchRequest & keyof Omit<DeleteMessageBatchRequest, "QueueUrl">]: (DeleteMessageBatchRequest)[K]
     }>): Request<DeleteMessageBatchResult, AWSError> {
@@ -107,15 +92,6 @@ export default class extends aws.sqs.QueuePolicy {
         );
     }
 
-    invokeGetQueueUrl(partialParams: ToOptional<{
-      [K in keyof GetQueueUrlRequest]: (GetQueueUrlRequest)[K]
-    }>): Request<GetQueueUrlResult, AWSError> {
-        this.boot();
-        return this.client.getQueueUrl(
-          this.ops["GetQueueUrl"].apply(partialParams)
-        );
-    }
-
     invokeListDeadLetterSourceQueues(partialParams: ToOptional<{
       [K in keyof ListDeadLetterSourceQueuesRequest & keyof Omit<ListDeadLetterSourceQueuesRequest, "QueueUrl">]: (ListDeadLetterSourceQueuesRequest)[K]
     }>): Request<ListDeadLetterSourceQueuesResult, AWSError> {
@@ -131,15 +107,6 @@ export default class extends aws.sqs.QueuePolicy {
         this.boot();
         return this.client.listQueueTags(
           this.ops["ListQueueTags"].apply(partialParams)
-        );
-    }
-
-    invokeListQueues(partialParams: ToOptional<{
-      [K in keyof ListQueuesRequest]: (ListQueuesRequest)[K]
-    }>): Request<ListQueuesResult, AWSError> {
-        this.boot();
-        return this.client.listQueues(
-          this.ops["ListQueues"].apply(partialParams)
         );
     }
 

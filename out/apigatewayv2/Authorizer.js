@@ -68,10 +68,6 @@ class default_1 extends aws.apigatewayv2.Authorizer {
         this.boot();
         return this.client.createDeployment(this.ops["CreateDeployment"].apply(partialParams));
     }
-    invokeCreateDomainName(partialParams) {
-        this.boot();
-        return this.client.createDomainName(this.ops["CreateDomainName"].apply(partialParams));
-    }
     invokeCreateIntegration(partialParams) {
         this.boot();
         return this.client.createIntegration(this.ops["CreateIntegration"].apply(partialParams));
@@ -100,10 +96,6 @@ class default_1 extends aws.apigatewayv2.Authorizer {
         this.boot();
         return this.client.createVpcLink(this.ops["CreateVpcLink"].apply(partialParams));
     }
-    invokeDeleteVpcLink(partialParams) {
-        this.boot();
-        return this.client.deleteVpcLink(this.ops["DeleteVpcLink"].apply(partialParams));
-    }
     invokeExportApi(partialParams) {
         this.boot();
         return this.client.exportApi(this.ops["ExportApi"].apply(partialParams));
@@ -111,18 +103,6 @@ class default_1 extends aws.apigatewayv2.Authorizer {
     invokeGetApi(partialParams) {
         this.boot();
         return this.client.getApi(this.ops["GetApi"].apply(partialParams));
-    }
-    invokeGetApiMapping(partialParams) {
-        this.boot();
-        return this.client.getApiMapping(this.ops["GetApiMapping"].apply(partialParams));
-    }
-    invokeGetApiMappings(partialParams) {
-        this.boot();
-        return this.client.getApiMappings(this.ops["GetApiMappings"].apply(partialParams));
-    }
-    invokeGetApis(partialParams) {
-        this.boot();
-        return this.client.getApis(this.ops["GetApis"].apply(partialParams));
     }
     invokeGetAuthorizer(partialParams) {
         this.boot();
@@ -139,14 +119,6 @@ class default_1 extends aws.apigatewayv2.Authorizer {
     invokeGetDeployments(partialParams) {
         this.boot();
         return this.client.getDeployments(this.ops["GetDeployments"].apply(partialParams));
-    }
-    invokeGetDomainName(partialParams) {
-        this.boot();
-        return this.client.getDomainName(this.ops["GetDomainName"].apply(partialParams));
-    }
-    invokeGetDomainNames(partialParams) {
-        this.boot();
-        return this.client.getDomainNames(this.ops["GetDomainNames"].apply(partialParams));
     }
     invokeGetIntegration(partialParams) {
         this.boot();
@@ -200,29 +172,9 @@ class default_1 extends aws.apigatewayv2.Authorizer {
         this.boot();
         return this.client.getStages(this.ops["GetStages"].apply(partialParams));
     }
-    invokeGetTags(partialParams) {
-        this.boot();
-        return this.client.getTags(this.ops["GetTags"].apply(partialParams));
-    }
-    invokeGetVpcLink(partialParams) {
-        this.boot();
-        return this.client.getVpcLink(this.ops["GetVpcLink"].apply(partialParams));
-    }
-    invokeGetVpcLinks(partialParams) {
-        this.boot();
-        return this.client.getVpcLinks(this.ops["GetVpcLinks"].apply(partialParams));
-    }
-    invokeImportApi(partialParams) {
-        this.boot();
-        return this.client.importApi(this.ops["ImportApi"].apply(partialParams));
-    }
     invokeReimportApi(partialParams) {
         this.boot();
         return this.client.reimportApi(this.ops["ReimportApi"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
     }
     invokeUpdateApi(partialParams) {
         this.boot();
@@ -239,10 +191,6 @@ class default_1 extends aws.apigatewayv2.Authorizer {
     invokeUpdateDeployment(partialParams) {
         this.boot();
         return this.client.updateDeployment(this.ops["UpdateDeployment"].apply(partialParams));
-    }
-    invokeUpdateDomainName(partialParams) {
-        this.boot();
-        return this.client.updateDomainName(this.ops["UpdateDomainName"].apply(partialParams));
     }
     invokeUpdateIntegration(partialParams) {
         this.boot();
@@ -267,10 +215,6 @@ class default_1 extends aws.apigatewayv2.Authorizer {
     invokeUpdateStage(partialParams) {
         this.boot();
         return this.client.updateStage(this.ops["UpdateStage"].apply(partialParams));
-    }
-    invokeUpdateVpcLink(partialParams) {
-        this.boot();
-        return this.client.updateVpcLink(this.ops["UpdateVpcLink"].apply(partialParams));
     }
 }
 exports.default = default_1;

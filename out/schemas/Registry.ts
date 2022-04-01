@@ -5,52 +5,30 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    CreateDiscovererRequest,
     CreateRegistryRequest,
     CreateSchemaRequest,
     DescribeCodeBindingRequest,
-    DescribeDiscovererRequest,
     DescribeRegistryRequest,
     DescribeSchemaRequest,
     ExportSchemaRequest,
     GetCodeBindingSourceRequest,
-    GetDiscoveredSchemaRequest,
-    GetResourcePolicyRequest,
-    ListDiscoverersRequest,
-    ListRegistriesRequest,
     ListSchemaVersionsRequest,
     ListSchemasRequest,
-    ListTagsForResourceRequest,
     PutCodeBindingRequest,
-    PutResourcePolicyRequest,
     SearchSchemasRequest,
-    StartDiscovererRequest,
-    StopDiscovererRequest,
-    UpdateDiscovererRequest,
     UpdateRegistryRequest,
     UpdateSchemaRequest,
-    CreateDiscovererResponse,
     CreateRegistryResponse,
     CreateSchemaResponse,
     DescribeCodeBindingResponse,
-    DescribeDiscovererResponse,
     DescribeRegistryResponse,
     DescribeSchemaResponse,
     ExportSchemaResponse,
     GetCodeBindingSourceResponse,
-    GetDiscoveredSchemaResponse,
-    GetResourcePolicyResponse,
-    ListDiscoverersResponse,
-    ListRegistriesResponse,
     ListSchemaVersionsResponse,
     ListSchemasResponse,
-    ListTagsForResourceResponse,
     PutCodeBindingResponse,
-    PutResourcePolicyResponse,
     SearchSchemasResponse,
-    StartDiscovererResponse,
-    StopDiscovererResponse,
-    UpdateDiscovererResponse,
     UpdateRegistryResponse,
     UpdateSchemaResponse
 } from "aws-sdk/clients/schemas";
@@ -97,15 +75,6 @@ export default class extends aws.schemas.Registry {
         this.booted = true;
     }
 
-    invokeCreateDiscoverer(partialParams: ToOptional<{
-      [K in keyof CreateDiscovererRequest]: (CreateDiscovererRequest)[K]
-    }>): Request<CreateDiscovererResponse, AWSError> {
-        this.boot();
-        return this.client.createDiscoverer(
-          this.ops["CreateDiscoverer"].apply(partialParams)
-        );
-    }
-
     invokeCreateRegistry(partialParams: ToOptional<{
       [K in keyof CreateRegistryRequest & keyof Omit<CreateRegistryRequest, "RegistryName">]: (CreateRegistryRequest)[K]
     }>): Request<CreateRegistryResponse, AWSError> {
@@ -130,15 +99,6 @@ export default class extends aws.schemas.Registry {
         this.boot();
         return this.client.describeCodeBinding(
           this.ops["DescribeCodeBinding"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeDiscoverer(partialParams: ToOptional<{
-      [K in keyof DescribeDiscovererRequest]: (DescribeDiscovererRequest)[K]
-    }>): Request<DescribeDiscovererResponse, AWSError> {
-        this.boot();
-        return this.client.describeDiscoverer(
-          this.ops["DescribeDiscoverer"].apply(partialParams)
         );
     }
 
@@ -178,42 +138,6 @@ export default class extends aws.schemas.Registry {
         );
     }
 
-    invokeGetDiscoveredSchema(partialParams: ToOptional<{
-      [K in keyof GetDiscoveredSchemaRequest]: (GetDiscoveredSchemaRequest)[K]
-    }>): Request<GetDiscoveredSchemaResponse, AWSError> {
-        this.boot();
-        return this.client.getDiscoveredSchema(
-          this.ops["GetDiscoveredSchema"].apply(partialParams)
-        );
-    }
-
-    invokeGetResourcePolicy(partialParams: ToOptional<{
-      [K in keyof GetResourcePolicyRequest]: (GetResourcePolicyRequest)[K]
-    }>): Request<GetResourcePolicyResponse, AWSError> {
-        this.boot();
-        return this.client.getResourcePolicy(
-          this.ops["GetResourcePolicy"].apply(partialParams)
-        );
-    }
-
-    invokeListDiscoverers(partialParams: ToOptional<{
-      [K in keyof ListDiscoverersRequest]: (ListDiscoverersRequest)[K]
-    }>): Request<ListDiscoverersResponse, AWSError> {
-        this.boot();
-        return this.client.listDiscoverers(
-          this.ops["ListDiscoverers"].apply(partialParams)
-        );
-    }
-
-    invokeListRegistries(partialParams: ToOptional<{
-      [K in keyof ListRegistriesRequest]: (ListRegistriesRequest)[K]
-    }>): Request<ListRegistriesResponse, AWSError> {
-        this.boot();
-        return this.client.listRegistries(
-          this.ops["ListRegistries"].apply(partialParams)
-        );
-    }
-
     invokeListSchemaVersions(partialParams: ToOptional<{
       [K in keyof ListSchemaVersionsRequest & keyof Omit<ListSchemaVersionsRequest, "RegistryName">]: (ListSchemaVersionsRequest)[K]
     }>): Request<ListSchemaVersionsResponse, AWSError> {
@@ -232,15 +156,6 @@ export default class extends aws.schemas.Registry {
         );
     }
 
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
-    }>): Request<ListTagsForResourceResponse, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
-        );
-    }
-
     invokePutCodeBinding(partialParams: ToOptional<{
       [K in keyof PutCodeBindingRequest & keyof Omit<PutCodeBindingRequest, "RegistryName">]: (PutCodeBindingRequest)[K]
     }>): Request<PutCodeBindingResponse, AWSError> {
@@ -250,48 +165,12 @@ export default class extends aws.schemas.Registry {
         );
     }
 
-    invokePutResourcePolicy(partialParams: ToOptional<{
-      [K in keyof PutResourcePolicyRequest]: (PutResourcePolicyRequest)[K]
-    }>): Request<PutResourcePolicyResponse, AWSError> {
-        this.boot();
-        return this.client.putResourcePolicy(
-          this.ops["PutResourcePolicy"].apply(partialParams)
-        );
-    }
-
     invokeSearchSchemas(partialParams: ToOptional<{
       [K in keyof SearchSchemasRequest & keyof Omit<SearchSchemasRequest, "RegistryName">]: (SearchSchemasRequest)[K]
     }>): Request<SearchSchemasResponse, AWSError> {
         this.boot();
         return this.client.searchSchemas(
           this.ops["SearchSchemas"].apply(partialParams)
-        );
-    }
-
-    invokeStartDiscoverer(partialParams: ToOptional<{
-      [K in keyof StartDiscovererRequest]: (StartDiscovererRequest)[K]
-    }>): Request<StartDiscovererResponse, AWSError> {
-        this.boot();
-        return this.client.startDiscoverer(
-          this.ops["StartDiscoverer"].apply(partialParams)
-        );
-    }
-
-    invokeStopDiscoverer(partialParams: ToOptional<{
-      [K in keyof StopDiscovererRequest]: (StopDiscovererRequest)[K]
-    }>): Request<StopDiscovererResponse, AWSError> {
-        this.boot();
-        return this.client.stopDiscoverer(
-          this.ops["StopDiscoverer"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateDiscoverer(partialParams: ToOptional<{
-      [K in keyof UpdateDiscovererRequest]: (UpdateDiscovererRequest)[K]
-    }>): Request<UpdateDiscovererResponse, AWSError> {
-        this.boot();
-        return this.client.updateDiscoverer(
-          this.ops["UpdateDiscoverer"].apply(partialParams)
         );
     }
 

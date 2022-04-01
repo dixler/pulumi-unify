@@ -52,10 +52,6 @@ class default_1 extends aws.detective.InvitationAccepter {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeCreateGraph(partialParams) {
-        this.boot();
-        return this.client.createGraph(this.ops["CreateGraph"].apply(partialParams));
-    }
     invokeCreateMembers(partialParams) {
         this.boot();
         return this.client.createMembers(this.ops["CreateMembers"].apply(partialParams));
@@ -72,33 +68,9 @@ class default_1 extends aws.detective.InvitationAccepter {
         this.boot();
         return this.client.getMembers(this.ops["GetMembers"].apply(partialParams));
     }
-    invokeListGraphs(partialParams) {
-        this.boot();
-        return this.client.listGraphs(this.ops["ListGraphs"].apply(partialParams));
-    }
-    invokeListInvitations(partialParams) {
-        this.boot();
-        return this.client.listInvitations(this.ops["ListInvitations"].apply(partialParams));
-    }
     invokeListMembers(partialParams) {
         this.boot();
         return this.client.listMembers(this.ops["ListMembers"].apply(partialParams));
-    }
-    invokeListOrganizationAdminAccounts(partialParams) {
-        this.boot();
-        return this.client.listOrganizationAdminAccounts(this.ops["ListOrganizationAdminAccounts"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
 }
 exports.default = default_1;

@@ -10,22 +10,14 @@ import {
     CreateWebLoginTokenRequest,
     DeleteEnvironmentInput,
     GetEnvironmentInput,
-    ListEnvironmentsInput,
-    ListTagsForResourceInput,
     PublishMetricsInput,
-    TagResourceInput,
-    UntagResourceInput,
     UpdateEnvironmentInput,
     CreateCliTokenResponse,
     CreateEnvironmentOutput,
     CreateWebLoginTokenResponse,
     DeleteEnvironmentOutput,
     GetEnvironmentOutput,
-    ListEnvironmentsOutput,
-    ListTagsForResourceOutput,
     PublishMetricsOutput,
-    TagResourceOutput,
-    UntagResourceOutput,
     UpdateEnvironmentOutput
 } from "aws-sdk/clients/mwaa";
 const schema = require("../apis/mwaa-2020-07-01.normal.json")
@@ -116,48 +108,12 @@ export default class extends aws.mwaa.Environment {
         );
     }
 
-    invokeListEnvironments(partialParams: ToOptional<{
-      [K in keyof ListEnvironmentsInput]: (ListEnvironmentsInput)[K]
-    }>): Request<ListEnvironmentsOutput, AWSError> {
-        this.boot();
-        return this.client.listEnvironments(
-          this.ops["ListEnvironments"].apply(partialParams)
-        );
-    }
-
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceInput]: (ListTagsForResourceInput)[K]
-    }>): Request<ListTagsForResourceOutput, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
-        );
-    }
-
     invokePublishMetrics(partialParams: ToOptional<{
       [K in keyof PublishMetricsInput & keyof Omit<PublishMetricsInput, "EnvironmentName">]: (PublishMetricsInput)[K]
     }>): Request<PublishMetricsOutput, AWSError> {
         this.boot();
         return this.client.publishMetrics(
           this.ops["PublishMetrics"].apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceInput]: (TagResourceInput)[K]
-    }>): Request<TagResourceOutput, AWSError> {
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceInput]: (UntagResourceInput)[K]
-    }>): Request<UntagResourceOutput, AWSError> {
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].apply(partialParams)
         );
     }
 

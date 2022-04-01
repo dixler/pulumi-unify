@@ -356,10 +356,6 @@ class default_1 extends aws.quicksight.DataSource {
         this.boot();
         return this.client.listNamespaces(this.ops["ListNamespaces"].apply(partialParams));
     }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
     invokeListTemplateAliases(partialParams) {
         this.boot();
         return this.client.listTemplateAliases(this.ops["ListTemplateAliases"].apply(partialParams));
@@ -411,14 +407,6 @@ class default_1 extends aws.quicksight.DataSource {
     invokeSearchFolders(partialParams) {
         this.boot();
         return this.client.searchFolders(this.ops["SearchFolders"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateAccountCustomization(partialParams) {
         this.boot();

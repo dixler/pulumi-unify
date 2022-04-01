@@ -81,7 +81,6 @@ import {
     ListIAMPolicyAssignmentsForUserRequest,
     ListIngestionsRequest,
     ListNamespacesRequest,
-    ListTagsForResourceRequest,
     ListTemplateAliasesRequest,
     ListTemplateVersionsRequest,
     ListTemplatesRequest,
@@ -95,8 +94,6 @@ import {
     SearchAnalysesRequest,
     SearchDashboardsRequest,
     SearchFoldersRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
     UpdateAccountCustomizationRequest,
     UpdateAccountSettingsRequest,
     UpdateAnalysisRequest,
@@ -196,7 +193,6 @@ import {
     ListIAMPolicyAssignmentsForUserResponse,
     ListIngestionsResponse,
     ListNamespacesResponse,
-    ListTagsForResourceResponse,
     ListTemplateAliasesResponse,
     ListTemplateVersionsResponse,
     ListTemplatesResponse,
@@ -210,8 +206,6 @@ import {
     SearchAnalysesResponse,
     SearchDashboardsResponse,
     SearchFoldersResponse,
-    TagResourceResponse,
-    UntagResourceResponse,
     UpdateAccountCustomizationResponse,
     UpdateAccountSettingsResponse,
     UpdateAnalysisResponse,
@@ -963,15 +957,6 @@ export default class extends aws.quicksight.GroupMembership {
         );
     }
 
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
-    }>): Request<ListTagsForResourceResponse, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
-        );
-    }
-
     invokeListTemplateAliases(partialParams: ToOptional<{
       [K in keyof ListTemplateAliasesRequest & keyof Omit<ListTemplateAliasesRequest, "AwsAccountId">]: (ListTemplateAliasesRequest)[K]
     }>): Request<ListTemplateAliasesResponse, AWSError> {
@@ -1086,24 +1071,6 @@ export default class extends aws.quicksight.GroupMembership {
         this.boot();
         return this.client.searchFolders(
           this.ops["SearchFolders"].apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
-    }>): Request<TagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
-    }>): Request<UntagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].apply(partialParams)
         );
     }
 

@@ -5,195 +5,68 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    AcceptReservedNodeExchangeInputMessage,
     PartnerIntegrationInputMessage,
-    AssociateDataShareConsumerMessage,
-    AuthorizeClusterSecurityGroupIngressMessage,
-    AuthorizeDataShareMessage,
-    AuthorizeEndpointAccessMessage,
     AuthorizeSnapshotAccessMessage,
-    BatchDeleteClusterSnapshotsRequest,
-    BatchModifyClusterSnapshotsMessage,
     CancelResizeMessage,
-    CopyClusterSnapshotMessage,
-    CreateAuthenticationProfileMessage,
     CreateClusterMessage,
-    CreateClusterParameterGroupMessage,
-    CreateClusterSecurityGroupMessage,
     CreateClusterSnapshotMessage,
     CreateClusterSubnetGroupMessage,
-    CreateEndpointAccessMessage,
-    CreateEventSubscriptionMessage,
-    CreateHsmClientCertificateMessage,
-    CreateHsmConfigurationMessage,
-    CreateScheduledActionMessage,
-    CreateSnapshotCopyGrantMessage,
-    CreateSnapshotScheduleMessage,
     CreateUsageLimitMessage,
-    DeauthorizeDataShareMessage,
-    DeleteAuthenticationProfileMessage,
     DeleteClusterMessage,
     DeleteClusterSnapshotMessage,
-    DeleteEndpointAccessMessage,
-    DescribeAccountAttributesMessage,
-    DescribeAuthenticationProfilesMessage,
-    DescribeClusterDbRevisionsMessage,
-    DescribeClusterParameterGroupsMessage,
-    DescribeClusterParametersMessage,
-    DescribeClusterSecurityGroupsMessage,
-    DescribeClusterSnapshotsMessage,
-    DescribeClusterSubnetGroupsMessage,
-    DescribeClusterTracksMessage,
-    DescribeClusterVersionsMessage,
-    DescribeClustersMessage,
-    DescribeDataSharesMessage,
-    DescribeDataSharesForConsumerMessage,
-    DescribeDataSharesForProducerMessage,
-    DescribeDefaultClusterParametersMessage,
-    DescribeEndpointAccessMessage,
-    DescribeEndpointAuthorizationMessage,
-    DescribeEventCategoriesMessage,
-    DescribeEventSubscriptionsMessage,
-    DescribeEventsMessage,
-    DescribeHsmClientCertificatesMessage,
-    DescribeHsmConfigurationsMessage,
     DescribeLoggingStatusMessage,
-    DescribeNodeConfigurationOptionsMessage,
-    DescribeOrderableClusterOptionsMessage,
     DescribePartnersInputMessage,
-    DescribeReservedNodeExchangeStatusInputMessage,
-    DescribeReservedNodeOfferingsMessage,
-    DescribeReservedNodesMessage,
     DescribeResizeMessage,
-    DescribeScheduledActionsMessage,
-    DescribeSnapshotCopyGrantsMessage,
-    DescribeSnapshotSchedulesMessage,
-    DescribeTableRestoreStatusMessage,
-    DescribeTagsMessage,
-    DescribeUsageLimitsMessage,
     DisableLoggingMessage,
     DisableSnapshotCopyMessage,
-    DisassociateDataShareConsumerMessage,
     EnableLoggingMessage,
     EnableSnapshotCopyMessage,
     GetClusterCredentialsMessage,
-    GetReservedNodeExchangeConfigurationOptionsInputMessage,
-    GetReservedNodeExchangeOfferingsInputMessage,
     ModifyAquaInputMessage,
-    ModifyAuthenticationProfileMessage,
     ModifyClusterMessage,
     ModifyClusterDbRevisionMessage,
     ModifyClusterIamRolesMessage,
     ModifyClusterMaintenanceMessage,
-    ModifyClusterParameterGroupMessage,
     ModifyClusterSnapshotMessage,
     ModifyClusterSubnetGroupMessage,
-    ModifyEndpointAccessMessage,
-    ModifyEventSubscriptionMessage,
-    ModifyScheduledActionMessage,
     ModifySnapshotCopyRetentionPeriodMessage,
-    ModifySnapshotScheduleMessage,
-    ModifyUsageLimitMessage,
     PauseClusterMessage,
-    PurchaseReservedNodeOfferingMessage,
     RebootClusterMessage,
-    RejectDataShareMessage,
-    ResetClusterParameterGroupMessage,
     ResizeClusterMessage,
     RestoreFromClusterSnapshotMessage,
     RestoreTableFromClusterSnapshotMessage,
     ResumeClusterMessage,
-    RevokeClusterSecurityGroupIngressMessage,
-    RevokeEndpointAccessMessage,
     RevokeSnapshotAccessMessage,
     RotateEncryptionKeyMessage,
     UpdatePartnerStatusInputMessage,
-    AcceptReservedNodeExchangeOutputMessage,
     PartnerIntegrationOutputMessage,
-    DataShare,
-    AuthorizeClusterSecurityGroupIngressResult,
-    EndpointAuthorization,
     AuthorizeSnapshotAccessResult,
-    BatchDeleteClusterSnapshotsResult,
-    BatchModifyClusterSnapshotsOutputMessage,
     ResizeProgressMessage,
-    CopyClusterSnapshotResult,
-    CreateAuthenticationProfileResult,
     CreateClusterResult,
-    CreateClusterParameterGroupResult,
-    CreateClusterSecurityGroupResult,
     CreateClusterSnapshotResult,
     CreateClusterSubnetGroupResult,
-    EndpointAccess,
-    CreateEventSubscriptionResult,
-    CreateHsmClientCertificateResult,
-    CreateHsmConfigurationResult,
-    ScheduledAction,
-    CreateSnapshotCopyGrantResult,
-    SnapshotSchedule,
     UsageLimit,
-    DeleteAuthenticationProfileResult,
     DeleteClusterResult,
     DeleteClusterSnapshotResult,
-    AccountAttributeList,
-    DescribeAuthenticationProfilesResult,
-    ClusterDbRevisionsMessage,
-    ClusterParameterGroupsMessage,
-    ClusterParameterGroupDetails,
-    ClusterSecurityGroupMessage,
-    SnapshotMessage,
-    ClusterSubnetGroupMessage,
-    TrackListMessage,
-    ClusterVersionsMessage,
-    ClustersMessage,
-    DescribeDataSharesResult,
-    DescribeDataSharesForConsumerResult,
-    DescribeDataSharesForProducerResult,
-    DescribeDefaultClusterParametersResult,
-    EndpointAccessList,
-    EndpointAuthorizationList,
-    EventCategoriesMessage,
-    EventSubscriptionsMessage,
-    EventsMessage,
-    HsmClientCertificateMessage,
-    HsmConfigurationMessage,
     LoggingStatus,
-    NodeConfigurationOptionsMessage,
-    OrderableClusterOptionsMessage,
     DescribePartnersOutputMessage,
-    DescribeReservedNodeExchangeStatusOutputMessage,
-    ReservedNodeOfferingsMessage,
-    ReservedNodesMessage,
-    ScheduledActionsMessage,
-    SnapshotCopyGrantMessage,
-    DescribeSnapshotSchedulesOutputMessage,
-    TableRestoreStatusMessage,
-    TaggedResourceListMessage,
-    UsageLimitList,
     DisableSnapshotCopyResult,
     EnableSnapshotCopyResult,
     ClusterCredentials,
-    GetReservedNodeExchangeConfigurationOptionsOutputMessage,
-    GetReservedNodeExchangeOfferingsOutputMessage,
     ModifyAquaOutputMessage,
-    ModifyAuthenticationProfileResult,
     ModifyClusterResult,
     ModifyClusterDbRevisionResult,
     ModifyClusterIamRolesResult,
     ModifyClusterMaintenanceResult,
-    ClusterParameterGroupNameMessage,
     ModifyClusterSnapshotResult,
     ModifyClusterSubnetGroupResult,
-    ModifyEventSubscriptionResult,
     ModifySnapshotCopyRetentionPeriodResult,
     PauseClusterResult,
-    PurchaseReservedNodeOfferingResult,
     RebootClusterResult,
     ResizeClusterResult,
     RestoreFromClusterSnapshotResult,
     RestoreTableFromClusterSnapshotResult,
     ResumeClusterResult,
-    RevokeClusterSecurityGroupIngressResult,
     RevokeSnapshotAccessResult,
     RotateEncryptionKeyResult
 } from "aws-sdk/clients/redshift";
@@ -240,57 +113,12 @@ export default class extends aws.redshift.Cluster {
         this.booted = true;
     }
 
-    invokeAcceptReservedNodeExchange(partialParams: ToOptional<{
-      [K in keyof AcceptReservedNodeExchangeInputMessage]: (AcceptReservedNodeExchangeInputMessage)[K]
-    }>): Request<AcceptReservedNodeExchangeOutputMessage, AWSError> {
-        this.boot();
-        return this.client.acceptReservedNodeExchange(
-          this.ops["AcceptReservedNodeExchange"].apply(partialParams)
-        );
-    }
-
     invokeAddPartner(partialParams: ToOptional<{
       [K in keyof PartnerIntegrationInputMessage & keyof Omit<PartnerIntegrationInputMessage, "ClusterIdentifier" | "DatabaseName">]: (PartnerIntegrationInputMessage)[K]
     }>): Request<PartnerIntegrationOutputMessage, AWSError> {
         this.boot();
         return this.client.addPartner(
           this.ops["AddPartner"].apply(partialParams)
-        );
-    }
-
-    invokeAssociateDataShareConsumer(partialParams: ToOptional<{
-      [K in keyof AssociateDataShareConsumerMessage]: (AssociateDataShareConsumerMessage)[K]
-    }>): Request<DataShare, AWSError> {
-        this.boot();
-        return this.client.associateDataShareConsumer(
-          this.ops["AssociateDataShareConsumer"].apply(partialParams)
-        );
-    }
-
-    invokeAuthorizeClusterSecurityGroupIngress(partialParams: ToOptional<{
-      [K in keyof AuthorizeClusterSecurityGroupIngressMessage]: (AuthorizeClusterSecurityGroupIngressMessage)[K]
-    }>): Request<AuthorizeClusterSecurityGroupIngressResult, AWSError> {
-        this.boot();
-        return this.client.authorizeClusterSecurityGroupIngress(
-          this.ops["AuthorizeClusterSecurityGroupIngress"].apply(partialParams)
-        );
-    }
-
-    invokeAuthorizeDataShare(partialParams: ToOptional<{
-      [K in keyof AuthorizeDataShareMessage]: (AuthorizeDataShareMessage)[K]
-    }>): Request<DataShare, AWSError> {
-        this.boot();
-        return this.client.authorizeDataShare(
-          this.ops["AuthorizeDataShare"].apply(partialParams)
-        );
-    }
-
-    invokeAuthorizeEndpointAccess(partialParams: ToOptional<{
-      [K in keyof AuthorizeEndpointAccessMessage]: (AuthorizeEndpointAccessMessage)[K]
-    }>): Request<EndpointAuthorization, AWSError> {
-        this.boot();
-        return this.client.authorizeEndpointAccess(
-          this.ops["AuthorizeEndpointAccess"].apply(partialParams)
         );
     }
 
@@ -303,24 +131,6 @@ export default class extends aws.redshift.Cluster {
         );
     }
 
-    invokeBatchDeleteClusterSnapshots(partialParams: ToOptional<{
-      [K in keyof BatchDeleteClusterSnapshotsRequest]: (BatchDeleteClusterSnapshotsRequest)[K]
-    }>): Request<BatchDeleteClusterSnapshotsResult, AWSError> {
-        this.boot();
-        return this.client.batchDeleteClusterSnapshots(
-          this.ops["BatchDeleteClusterSnapshots"].apply(partialParams)
-        );
-    }
-
-    invokeBatchModifyClusterSnapshots(partialParams: ToOptional<{
-      [K in keyof BatchModifyClusterSnapshotsMessage]: (BatchModifyClusterSnapshotsMessage)[K]
-    }>): Request<BatchModifyClusterSnapshotsOutputMessage, AWSError> {
-        this.boot();
-        return this.client.batchModifyClusterSnapshots(
-          this.ops["BatchModifyClusterSnapshots"].apply(partialParams)
-        );
-    }
-
     invokeCancelResize(partialParams: ToOptional<{
       [K in keyof CancelResizeMessage & keyof Omit<CancelResizeMessage, "ClusterIdentifier">]: (CancelResizeMessage)[K]
     }>): Request<ResizeProgressMessage, AWSError> {
@@ -330,48 +140,12 @@ export default class extends aws.redshift.Cluster {
         );
     }
 
-    invokeCopyClusterSnapshot(partialParams: ToOptional<{
-      [K in keyof CopyClusterSnapshotMessage]: (CopyClusterSnapshotMessage)[K]
-    }>): Request<CopyClusterSnapshotResult, AWSError> {
-        this.boot();
-        return this.client.copyClusterSnapshot(
-          this.ops["CopyClusterSnapshot"].apply(partialParams)
-        );
-    }
-
-    invokeCreateAuthenticationProfile(partialParams: ToOptional<{
-      [K in keyof CreateAuthenticationProfileMessage]: (CreateAuthenticationProfileMessage)[K]
-    }>): Request<CreateAuthenticationProfileResult, AWSError> {
-        this.boot();
-        return this.client.createAuthenticationProfile(
-          this.ops["CreateAuthenticationProfile"].apply(partialParams)
-        );
-    }
-
     invokeCreateCluster(partialParams: ToOptional<{
       [K in keyof CreateClusterMessage & keyof Omit<CreateClusterMessage, "ClusterIdentifier" | "NodeType" | "MasterUsername">]: (CreateClusterMessage)[K]
     }>): Request<CreateClusterResult, AWSError> {
         this.boot();
         return this.client.createCluster(
           this.ops["CreateCluster"].apply(partialParams)
-        );
-    }
-
-    invokeCreateClusterParameterGroup(partialParams: ToOptional<{
-      [K in keyof CreateClusterParameterGroupMessage]: (CreateClusterParameterGroupMessage)[K]
-    }>): Request<CreateClusterParameterGroupResult, AWSError> {
-        this.boot();
-        return this.client.createClusterParameterGroup(
-          this.ops["CreateClusterParameterGroup"].apply(partialParams)
-        );
-    }
-
-    invokeCreateClusterSecurityGroup(partialParams: ToOptional<{
-      [K in keyof CreateClusterSecurityGroupMessage]: (CreateClusterSecurityGroupMessage)[K]
-    }>): Request<CreateClusterSecurityGroupResult, AWSError> {
-        this.boot();
-        return this.client.createClusterSecurityGroup(
-          this.ops["CreateClusterSecurityGroup"].apply(partialParams)
         );
     }
 
@@ -393,93 +167,12 @@ export default class extends aws.redshift.Cluster {
         );
     }
 
-    invokeCreateEndpointAccess(partialParams: ToOptional<{
-      [K in keyof CreateEndpointAccessMessage]: (CreateEndpointAccessMessage)[K]
-    }>): Request<EndpointAccess, AWSError> {
-        this.boot();
-        return this.client.createEndpointAccess(
-          this.ops["CreateEndpointAccess"].apply(partialParams)
-        );
-    }
-
-    invokeCreateEventSubscription(partialParams: ToOptional<{
-      [K in keyof CreateEventSubscriptionMessage]: (CreateEventSubscriptionMessage)[K]
-    }>): Request<CreateEventSubscriptionResult, AWSError> {
-        this.boot();
-        return this.client.createEventSubscription(
-          this.ops["CreateEventSubscription"].apply(partialParams)
-        );
-    }
-
-    invokeCreateHsmClientCertificate(partialParams: ToOptional<{
-      [K in keyof CreateHsmClientCertificateMessage]: (CreateHsmClientCertificateMessage)[K]
-    }>): Request<CreateHsmClientCertificateResult, AWSError> {
-        this.boot();
-        return this.client.createHsmClientCertificate(
-          this.ops["CreateHsmClientCertificate"].apply(partialParams)
-        );
-    }
-
-    invokeCreateHsmConfiguration(partialParams: ToOptional<{
-      [K in keyof CreateHsmConfigurationMessage]: (CreateHsmConfigurationMessage)[K]
-    }>): Request<CreateHsmConfigurationResult, AWSError> {
-        this.boot();
-        return this.client.createHsmConfiguration(
-          this.ops["CreateHsmConfiguration"].apply(partialParams)
-        );
-    }
-
-    invokeCreateScheduledAction(partialParams: ToOptional<{
-      [K in keyof CreateScheduledActionMessage]: (CreateScheduledActionMessage)[K]
-    }>): Request<ScheduledAction, AWSError> {
-        this.boot();
-        return this.client.createScheduledAction(
-          this.ops["CreateScheduledAction"].apply(partialParams)
-        );
-    }
-
-    invokeCreateSnapshotCopyGrant(partialParams: ToOptional<{
-      [K in keyof CreateSnapshotCopyGrantMessage]: (CreateSnapshotCopyGrantMessage)[K]
-    }>): Request<CreateSnapshotCopyGrantResult, AWSError> {
-        this.boot();
-        return this.client.createSnapshotCopyGrant(
-          this.ops["CreateSnapshotCopyGrant"].apply(partialParams)
-        );
-    }
-
-    invokeCreateSnapshotSchedule(partialParams: ToOptional<{
-      [K in keyof CreateSnapshotScheduleMessage]: (CreateSnapshotScheduleMessage)[K]
-    }>): Request<SnapshotSchedule, AWSError> {
-        this.boot();
-        return this.client.createSnapshotSchedule(
-          this.ops["CreateSnapshotSchedule"].apply(partialParams)
-        );
-    }
-
     invokeCreateUsageLimit(partialParams: ToOptional<{
       [K in keyof CreateUsageLimitMessage & keyof Omit<CreateUsageLimitMessage, "ClusterIdentifier">]: (CreateUsageLimitMessage)[K]
     }>): Request<UsageLimit, AWSError> {
         this.boot();
         return this.client.createUsageLimit(
           this.ops["CreateUsageLimit"].apply(partialParams)
-        );
-    }
-
-    invokeDeauthorizeDataShare(partialParams: ToOptional<{
-      [K in keyof DeauthorizeDataShareMessage]: (DeauthorizeDataShareMessage)[K]
-    }>): Request<DataShare, AWSError> {
-        this.boot();
-        return this.client.deauthorizeDataShare(
-          this.ops["DeauthorizeDataShare"].apply(partialParams)
-        );
-    }
-
-    invokeDeleteAuthenticationProfile(partialParams: ToOptional<{
-      [K in keyof DeleteAuthenticationProfileMessage]: (DeleteAuthenticationProfileMessage)[K]
-    }>): Request<DeleteAuthenticationProfileResult, AWSError> {
-        this.boot();
-        return this.client.deleteAuthenticationProfile(
-          this.ops["DeleteAuthenticationProfile"].apply(partialParams)
         );
     }
 
@@ -501,219 +194,12 @@ export default class extends aws.redshift.Cluster {
         );
     }
 
-    invokeDeleteEndpointAccess(partialParams: ToOptional<{
-      [K in keyof DeleteEndpointAccessMessage]: (DeleteEndpointAccessMessage)[K]
-    }>): Request<EndpointAccess, AWSError> {
-        this.boot();
-        return this.client.deleteEndpointAccess(
-          this.ops["DeleteEndpointAccess"].apply(partialParams)
-        );
-    }
-
     invokeDeletePartner(partialParams: ToOptional<{
       [K in keyof PartnerIntegrationInputMessage & keyof Omit<PartnerIntegrationInputMessage, "ClusterIdentifier" | "DatabaseName">]: (PartnerIntegrationInputMessage)[K]
     }>): Request<PartnerIntegrationOutputMessage, AWSError> {
         this.boot();
         return this.client.deletePartner(
           this.ops["DeletePartner"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeAccountAttributes(partialParams: ToOptional<{
-      [K in keyof DescribeAccountAttributesMessage]: (DescribeAccountAttributesMessage)[K]
-    }>): Request<AccountAttributeList, AWSError> {
-        this.boot();
-        return this.client.describeAccountAttributes(
-          this.ops["DescribeAccountAttributes"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeAuthenticationProfiles(partialParams: ToOptional<{
-      [K in keyof DescribeAuthenticationProfilesMessage]: (DescribeAuthenticationProfilesMessage)[K]
-    }>): Request<DescribeAuthenticationProfilesResult, AWSError> {
-        this.boot();
-        return this.client.describeAuthenticationProfiles(
-          this.ops["DescribeAuthenticationProfiles"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeClusterDbRevisions(partialParams: ToOptional<{
-      [K in keyof DescribeClusterDbRevisionsMessage]: (DescribeClusterDbRevisionsMessage)[K]
-    }>): Request<ClusterDbRevisionsMessage, AWSError> {
-        this.boot();
-        return this.client.describeClusterDbRevisions(
-          this.ops["DescribeClusterDbRevisions"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeClusterParameterGroups(partialParams: ToOptional<{
-      [K in keyof DescribeClusterParameterGroupsMessage]: (DescribeClusterParameterGroupsMessage)[K]
-    }>): Request<ClusterParameterGroupsMessage, AWSError> {
-        this.boot();
-        return this.client.describeClusterParameterGroups(
-          this.ops["DescribeClusterParameterGroups"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeClusterParameters(partialParams: ToOptional<{
-      [K in keyof DescribeClusterParametersMessage]: (DescribeClusterParametersMessage)[K]
-    }>): Request<ClusterParameterGroupDetails, AWSError> {
-        this.boot();
-        return this.client.describeClusterParameters(
-          this.ops["DescribeClusterParameters"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeClusterSecurityGroups(partialParams: ToOptional<{
-      [K in keyof DescribeClusterSecurityGroupsMessage]: (DescribeClusterSecurityGroupsMessage)[K]
-    }>): Request<ClusterSecurityGroupMessage, AWSError> {
-        this.boot();
-        return this.client.describeClusterSecurityGroups(
-          this.ops["DescribeClusterSecurityGroups"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeClusterSnapshots(partialParams: ToOptional<{
-      [K in keyof DescribeClusterSnapshotsMessage]: (DescribeClusterSnapshotsMessage)[K]
-    }>): Request<SnapshotMessage, AWSError> {
-        this.boot();
-        return this.client.describeClusterSnapshots(
-          this.ops["DescribeClusterSnapshots"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeClusterSubnetGroups(partialParams: ToOptional<{
-      [K in keyof DescribeClusterSubnetGroupsMessage]: (DescribeClusterSubnetGroupsMessage)[K]
-    }>): Request<ClusterSubnetGroupMessage, AWSError> {
-        this.boot();
-        return this.client.describeClusterSubnetGroups(
-          this.ops["DescribeClusterSubnetGroups"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeClusterTracks(partialParams: ToOptional<{
-      [K in keyof DescribeClusterTracksMessage]: (DescribeClusterTracksMessage)[K]
-    }>): Request<TrackListMessage, AWSError> {
-        this.boot();
-        return this.client.describeClusterTracks(
-          this.ops["DescribeClusterTracks"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeClusterVersions(partialParams: ToOptional<{
-      [K in keyof DescribeClusterVersionsMessage]: (DescribeClusterVersionsMessage)[K]
-    }>): Request<ClusterVersionsMessage, AWSError> {
-        this.boot();
-        return this.client.describeClusterVersions(
-          this.ops["DescribeClusterVersions"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeClusters(partialParams: ToOptional<{
-      [K in keyof DescribeClustersMessage]: (DescribeClustersMessage)[K]
-    }>): Request<ClustersMessage, AWSError> {
-        this.boot();
-        return this.client.describeClusters(
-          this.ops["DescribeClusters"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeDataShares(partialParams: ToOptional<{
-      [K in keyof DescribeDataSharesMessage]: (DescribeDataSharesMessage)[K]
-    }>): Request<DescribeDataSharesResult, AWSError> {
-        this.boot();
-        return this.client.describeDataShares(
-          this.ops["DescribeDataShares"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeDataSharesForConsumer(partialParams: ToOptional<{
-      [K in keyof DescribeDataSharesForConsumerMessage]: (DescribeDataSharesForConsumerMessage)[K]
-    }>): Request<DescribeDataSharesForConsumerResult, AWSError> {
-        this.boot();
-        return this.client.describeDataSharesForConsumer(
-          this.ops["DescribeDataSharesForConsumer"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeDataSharesForProducer(partialParams: ToOptional<{
-      [K in keyof DescribeDataSharesForProducerMessage]: (DescribeDataSharesForProducerMessage)[K]
-    }>): Request<DescribeDataSharesForProducerResult, AWSError> {
-        this.boot();
-        return this.client.describeDataSharesForProducer(
-          this.ops["DescribeDataSharesForProducer"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeDefaultClusterParameters(partialParams: ToOptional<{
-      [K in keyof DescribeDefaultClusterParametersMessage]: (DescribeDefaultClusterParametersMessage)[K]
-    }>): Request<DescribeDefaultClusterParametersResult, AWSError> {
-        this.boot();
-        return this.client.describeDefaultClusterParameters(
-          this.ops["DescribeDefaultClusterParameters"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeEndpointAccess(partialParams: ToOptional<{
-      [K in keyof DescribeEndpointAccessMessage]: (DescribeEndpointAccessMessage)[K]
-    }>): Request<EndpointAccessList, AWSError> {
-        this.boot();
-        return this.client.describeEndpointAccess(
-          this.ops["DescribeEndpointAccess"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeEndpointAuthorization(partialParams: ToOptional<{
-      [K in keyof DescribeEndpointAuthorizationMessage]: (DescribeEndpointAuthorizationMessage)[K]
-    }>): Request<EndpointAuthorizationList, AWSError> {
-        this.boot();
-        return this.client.describeEndpointAuthorization(
-          this.ops["DescribeEndpointAuthorization"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeEventCategories(partialParams: ToOptional<{
-      [K in keyof DescribeEventCategoriesMessage]: (DescribeEventCategoriesMessage)[K]
-    }>): Request<EventCategoriesMessage, AWSError> {
-        this.boot();
-        return this.client.describeEventCategories(
-          this.ops["DescribeEventCategories"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeEventSubscriptions(partialParams: ToOptional<{
-      [K in keyof DescribeEventSubscriptionsMessage]: (DescribeEventSubscriptionsMessage)[K]
-    }>): Request<EventSubscriptionsMessage, AWSError> {
-        this.boot();
-        return this.client.describeEventSubscriptions(
-          this.ops["DescribeEventSubscriptions"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeEvents(partialParams: ToOptional<{
-      [K in keyof DescribeEventsMessage]: (DescribeEventsMessage)[K]
-    }>): Request<EventsMessage, AWSError> {
-        this.boot();
-        return this.client.describeEvents(
-          this.ops["DescribeEvents"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeHsmClientCertificates(partialParams: ToOptional<{
-      [K in keyof DescribeHsmClientCertificatesMessage]: (DescribeHsmClientCertificatesMessage)[K]
-    }>): Request<HsmClientCertificateMessage, AWSError> {
-        this.boot();
-        return this.client.describeHsmClientCertificates(
-          this.ops["DescribeHsmClientCertificates"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeHsmConfigurations(partialParams: ToOptional<{
-      [K in keyof DescribeHsmConfigurationsMessage]: (DescribeHsmConfigurationsMessage)[K]
-    }>): Request<HsmConfigurationMessage, AWSError> {
-        this.boot();
-        return this.client.describeHsmConfigurations(
-          this.ops["DescribeHsmConfigurations"].apply(partialParams)
         );
     }
 
@@ -726,24 +212,6 @@ export default class extends aws.redshift.Cluster {
         );
     }
 
-    invokeDescribeNodeConfigurationOptions(partialParams: ToOptional<{
-      [K in keyof DescribeNodeConfigurationOptionsMessage]: (DescribeNodeConfigurationOptionsMessage)[K]
-    }>): Request<NodeConfigurationOptionsMessage, AWSError> {
-        this.boot();
-        return this.client.describeNodeConfigurationOptions(
-          this.ops["DescribeNodeConfigurationOptions"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeOrderableClusterOptions(partialParams: ToOptional<{
-      [K in keyof DescribeOrderableClusterOptionsMessage]: (DescribeOrderableClusterOptionsMessage)[K]
-    }>): Request<OrderableClusterOptionsMessage, AWSError> {
-        this.boot();
-        return this.client.describeOrderableClusterOptions(
-          this.ops["DescribeOrderableClusterOptions"].apply(partialParams)
-        );
-    }
-
     invokeDescribePartners(partialParams: ToOptional<{
       [K in keyof DescribePartnersInputMessage & keyof Omit<DescribePartnersInputMessage, "ClusterIdentifier">]: (DescribePartnersInputMessage)[K]
     }>): Request<DescribePartnersOutputMessage, AWSError> {
@@ -753,93 +221,12 @@ export default class extends aws.redshift.Cluster {
         );
     }
 
-    invokeDescribeReservedNodeExchangeStatus(partialParams: ToOptional<{
-      [K in keyof DescribeReservedNodeExchangeStatusInputMessage]: (DescribeReservedNodeExchangeStatusInputMessage)[K]
-    }>): Request<DescribeReservedNodeExchangeStatusOutputMessage, AWSError> {
-        this.boot();
-        return this.client.describeReservedNodeExchangeStatus(
-          this.ops["DescribeReservedNodeExchangeStatus"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeReservedNodeOfferings(partialParams: ToOptional<{
-      [K in keyof DescribeReservedNodeOfferingsMessage]: (DescribeReservedNodeOfferingsMessage)[K]
-    }>): Request<ReservedNodeOfferingsMessage, AWSError> {
-        this.boot();
-        return this.client.describeReservedNodeOfferings(
-          this.ops["DescribeReservedNodeOfferings"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeReservedNodes(partialParams: ToOptional<{
-      [K in keyof DescribeReservedNodesMessage]: (DescribeReservedNodesMessage)[K]
-    }>): Request<ReservedNodesMessage, AWSError> {
-        this.boot();
-        return this.client.describeReservedNodes(
-          this.ops["DescribeReservedNodes"].apply(partialParams)
-        );
-    }
-
     invokeDescribeResize(partialParams: ToOptional<{
       [K in keyof DescribeResizeMessage & keyof Omit<DescribeResizeMessage, "ClusterIdentifier">]: (DescribeResizeMessage)[K]
     }>): Request<ResizeProgressMessage, AWSError> {
         this.boot();
         return this.client.describeResize(
           this.ops["DescribeResize"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeScheduledActions(partialParams: ToOptional<{
-      [K in keyof DescribeScheduledActionsMessage]: (DescribeScheduledActionsMessage)[K]
-    }>): Request<ScheduledActionsMessage, AWSError> {
-        this.boot();
-        return this.client.describeScheduledActions(
-          this.ops["DescribeScheduledActions"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeSnapshotCopyGrants(partialParams: ToOptional<{
-      [K in keyof DescribeSnapshotCopyGrantsMessage]: (DescribeSnapshotCopyGrantsMessage)[K]
-    }>): Request<SnapshotCopyGrantMessage, AWSError> {
-        this.boot();
-        return this.client.describeSnapshotCopyGrants(
-          this.ops["DescribeSnapshotCopyGrants"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeSnapshotSchedules(partialParams: ToOptional<{
-      [K in keyof DescribeSnapshotSchedulesMessage]: (DescribeSnapshotSchedulesMessage)[K]
-    }>): Request<DescribeSnapshotSchedulesOutputMessage, AWSError> {
-        this.boot();
-        return this.client.describeSnapshotSchedules(
-          this.ops["DescribeSnapshotSchedules"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeTableRestoreStatus(partialParams: ToOptional<{
-      [K in keyof DescribeTableRestoreStatusMessage]: (DescribeTableRestoreStatusMessage)[K]
-    }>): Request<TableRestoreStatusMessage, AWSError> {
-        this.boot();
-        return this.client.describeTableRestoreStatus(
-          this.ops["DescribeTableRestoreStatus"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeTags(partialParams: ToOptional<{
-      [K in keyof DescribeTagsMessage]: (DescribeTagsMessage)[K]
-    }>): Request<TaggedResourceListMessage, AWSError> {
-        this.boot();
-        return this.client.describeTags(
-          this.ops["DescribeTags"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeUsageLimits(partialParams: ToOptional<{
-      [K in keyof DescribeUsageLimitsMessage]: (DescribeUsageLimitsMessage)[K]
-    }>): Request<UsageLimitList, AWSError> {
-        this.boot();
-        return this.client.describeUsageLimits(
-          this.ops["DescribeUsageLimits"].apply(partialParams)
         );
     }
 
@@ -858,15 +245,6 @@ export default class extends aws.redshift.Cluster {
         this.boot();
         return this.client.disableSnapshotCopy(
           this.ops["DisableSnapshotCopy"].apply(partialParams)
-        );
-    }
-
-    invokeDisassociateDataShareConsumer(partialParams: ToOptional<{
-      [K in keyof DisassociateDataShareConsumerMessage]: (DisassociateDataShareConsumerMessage)[K]
-    }>): Request<DataShare, AWSError> {
-        this.boot();
-        return this.client.disassociateDataShareConsumer(
-          this.ops["DisassociateDataShareConsumer"].apply(partialParams)
         );
     }
 
@@ -897,39 +275,12 @@ export default class extends aws.redshift.Cluster {
         );
     }
 
-    invokeGetReservedNodeExchangeConfigurationOptions(partialParams: ToOptional<{
-      [K in keyof GetReservedNodeExchangeConfigurationOptionsInputMessage]: (GetReservedNodeExchangeConfigurationOptionsInputMessage)[K]
-    }>): Request<GetReservedNodeExchangeConfigurationOptionsOutputMessage, AWSError> {
-        this.boot();
-        return this.client.getReservedNodeExchangeConfigurationOptions(
-          this.ops["GetReservedNodeExchangeConfigurationOptions"].apply(partialParams)
-        );
-    }
-
-    invokeGetReservedNodeExchangeOfferings(partialParams: ToOptional<{
-      [K in keyof GetReservedNodeExchangeOfferingsInputMessage]: (GetReservedNodeExchangeOfferingsInputMessage)[K]
-    }>): Request<GetReservedNodeExchangeOfferingsOutputMessage, AWSError> {
-        this.boot();
-        return this.client.getReservedNodeExchangeOfferings(
-          this.ops["GetReservedNodeExchangeOfferings"].apply(partialParams)
-        );
-    }
-
     invokeModifyAquaConfiguration(partialParams: ToOptional<{
       [K in keyof ModifyAquaInputMessage & keyof Omit<ModifyAquaInputMessage, "ClusterIdentifier">]: (ModifyAquaInputMessage)[K]
     }>): Request<ModifyAquaOutputMessage, AWSError> {
         this.boot();
         return this.client.modifyAquaConfiguration(
           this.ops["ModifyAquaConfiguration"].apply(partialParams)
-        );
-    }
-
-    invokeModifyAuthenticationProfile(partialParams: ToOptional<{
-      [K in keyof ModifyAuthenticationProfileMessage]: (ModifyAuthenticationProfileMessage)[K]
-    }>): Request<ModifyAuthenticationProfileResult, AWSError> {
-        this.boot();
-        return this.client.modifyAuthenticationProfile(
-          this.ops["ModifyAuthenticationProfile"].apply(partialParams)
         );
     }
 
@@ -969,15 +320,6 @@ export default class extends aws.redshift.Cluster {
         );
     }
 
-    invokeModifyClusterParameterGroup(partialParams: ToOptional<{
-      [K in keyof ModifyClusterParameterGroupMessage]: (ModifyClusterParameterGroupMessage)[K]
-    }>): Request<ClusterParameterGroupNameMessage, AWSError> {
-        this.boot();
-        return this.client.modifyClusterParameterGroup(
-          this.ops["ModifyClusterParameterGroup"].apply(partialParams)
-        );
-    }
-
     invokeModifyClusterSnapshot(partialParams: ToOptional<{
       [K in keyof ModifyClusterSnapshotMessage & keyof Omit<ModifyClusterSnapshotMessage, "SnapshotIdentifier">]: (ModifyClusterSnapshotMessage)[K]
     }>): Request<ModifyClusterSnapshotResult, AWSError> {
@@ -996,57 +338,12 @@ export default class extends aws.redshift.Cluster {
         );
     }
 
-    invokeModifyEndpointAccess(partialParams: ToOptional<{
-      [K in keyof ModifyEndpointAccessMessage]: (ModifyEndpointAccessMessage)[K]
-    }>): Request<EndpointAccess, AWSError> {
-        this.boot();
-        return this.client.modifyEndpointAccess(
-          this.ops["ModifyEndpointAccess"].apply(partialParams)
-        );
-    }
-
-    invokeModifyEventSubscription(partialParams: ToOptional<{
-      [K in keyof ModifyEventSubscriptionMessage]: (ModifyEventSubscriptionMessage)[K]
-    }>): Request<ModifyEventSubscriptionResult, AWSError> {
-        this.boot();
-        return this.client.modifyEventSubscription(
-          this.ops["ModifyEventSubscription"].apply(partialParams)
-        );
-    }
-
-    invokeModifyScheduledAction(partialParams: ToOptional<{
-      [K in keyof ModifyScheduledActionMessage]: (ModifyScheduledActionMessage)[K]
-    }>): Request<ScheduledAction, AWSError> {
-        this.boot();
-        return this.client.modifyScheduledAction(
-          this.ops["ModifyScheduledAction"].apply(partialParams)
-        );
-    }
-
     invokeModifySnapshotCopyRetentionPeriod(partialParams: ToOptional<{
       [K in keyof ModifySnapshotCopyRetentionPeriodMessage & keyof Omit<ModifySnapshotCopyRetentionPeriodMessage, "ClusterIdentifier">]: (ModifySnapshotCopyRetentionPeriodMessage)[K]
     }>): Request<ModifySnapshotCopyRetentionPeriodResult, AWSError> {
         this.boot();
         return this.client.modifySnapshotCopyRetentionPeriod(
           this.ops["ModifySnapshotCopyRetentionPeriod"].apply(partialParams)
-        );
-    }
-
-    invokeModifySnapshotSchedule(partialParams: ToOptional<{
-      [K in keyof ModifySnapshotScheduleMessage]: (ModifySnapshotScheduleMessage)[K]
-    }>): Request<SnapshotSchedule, AWSError> {
-        this.boot();
-        return this.client.modifySnapshotSchedule(
-          this.ops["ModifySnapshotSchedule"].apply(partialParams)
-        );
-    }
-
-    invokeModifyUsageLimit(partialParams: ToOptional<{
-      [K in keyof ModifyUsageLimitMessage]: (ModifyUsageLimitMessage)[K]
-    }>): Request<UsageLimit, AWSError> {
-        this.boot();
-        return this.client.modifyUsageLimit(
-          this.ops["ModifyUsageLimit"].apply(partialParams)
         );
     }
 
@@ -1059,39 +356,12 @@ export default class extends aws.redshift.Cluster {
         );
     }
 
-    invokePurchaseReservedNodeOffering(partialParams: ToOptional<{
-      [K in keyof PurchaseReservedNodeOfferingMessage]: (PurchaseReservedNodeOfferingMessage)[K]
-    }>): Request<PurchaseReservedNodeOfferingResult, AWSError> {
-        this.boot();
-        return this.client.purchaseReservedNodeOffering(
-          this.ops["PurchaseReservedNodeOffering"].apply(partialParams)
-        );
-    }
-
     invokeRebootCluster(partialParams: ToOptional<{
       [K in keyof RebootClusterMessage & keyof Omit<RebootClusterMessage, "ClusterIdentifier">]: (RebootClusterMessage)[K]
     }>): Request<RebootClusterResult, AWSError> {
         this.boot();
         return this.client.rebootCluster(
           this.ops["RebootCluster"].apply(partialParams)
-        );
-    }
-
-    invokeRejectDataShare(partialParams: ToOptional<{
-      [K in keyof RejectDataShareMessage]: (RejectDataShareMessage)[K]
-    }>): Request<DataShare, AWSError> {
-        this.boot();
-        return this.client.rejectDataShare(
-          this.ops["RejectDataShare"].apply(partialParams)
-        );
-    }
-
-    invokeResetClusterParameterGroup(partialParams: ToOptional<{
-      [K in keyof ResetClusterParameterGroupMessage]: (ResetClusterParameterGroupMessage)[K]
-    }>): Request<ClusterParameterGroupNameMessage, AWSError> {
-        this.boot();
-        return this.client.resetClusterParameterGroup(
-          this.ops["ResetClusterParameterGroup"].apply(partialParams)
         );
     }
 
@@ -1128,24 +398,6 @@ export default class extends aws.redshift.Cluster {
         this.boot();
         return this.client.resumeCluster(
           this.ops["ResumeCluster"].apply(partialParams)
-        );
-    }
-
-    invokeRevokeClusterSecurityGroupIngress(partialParams: ToOptional<{
-      [K in keyof RevokeClusterSecurityGroupIngressMessage]: (RevokeClusterSecurityGroupIngressMessage)[K]
-    }>): Request<RevokeClusterSecurityGroupIngressResult, AWSError> {
-        this.boot();
-        return this.client.revokeClusterSecurityGroupIngress(
-          this.ops["RevokeClusterSecurityGroupIngress"].apply(partialParams)
-        );
-    }
-
-    invokeRevokeEndpointAccess(partialParams: ToOptional<{
-      [K in keyof RevokeEndpointAccessMessage]: (RevokeEndpointAccessMessage)[K]
-    }>): Request<EndpointAuthorization, AWSError> {
-        this.boot();
-        return this.client.revokeEndpointAccess(
-          this.ops["RevokeEndpointAccess"].apply(partialParams)
         );
     }
 

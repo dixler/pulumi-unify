@@ -80,10 +80,6 @@ class default_1 extends aws.connect.QuickConnect {
         this.boot();
         return this.client.createHoursOfOperation(this.ops["CreateHoursOfOperation"].apply(partialParams));
     }
-    invokeCreateInstance(partialParams) {
-        this.boot();
-        return this.client.createInstance(this.ops["CreateInstance"].apply(partialParams));
-    }
     invokeCreateIntegrationAssociation(partialParams) {
         this.boot();
         return this.client.createIntegrationAssociation(this.ops["CreateIntegrationAssociation"].apply(partialParams));
@@ -248,10 +244,6 @@ class default_1 extends aws.connect.QuickConnect {
         this.boot();
         return this.client.listInstanceStorageConfigs(this.ops["ListInstanceStorageConfigs"].apply(partialParams));
     }
-    invokeListInstances(partialParams) {
-        this.boot();
-        return this.client.listInstances(this.ops["ListInstances"].apply(partialParams));
-    }
     invokeListIntegrationAssociations(partialParams) {
         this.boot();
         return this.client.listIntegrationAssociations(this.ops["ListIntegrationAssociations"].apply(partialParams));
@@ -303,10 +295,6 @@ class default_1 extends aws.connect.QuickConnect {
     invokeListSecurityProfiles(partialParams) {
         this.boot();
         return this.client.listSecurityProfiles(this.ops["ListSecurityProfiles"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeListUseCases(partialParams) {
         this.boot();

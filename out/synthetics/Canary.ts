@@ -7,29 +7,17 @@ import {AWSError} from 'aws-sdk/lib/error';
 import {
     CreateCanaryRequest,
     DeleteCanaryRequest,
-    DescribeCanariesRequest,
-    DescribeCanariesLastRunRequest,
-    DescribeRuntimeVersionsRequest,
     GetCanaryRequest,
     GetCanaryRunsRequest,
-    ListTagsForResourceRequest,
     StartCanaryRequest,
     StopCanaryRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
     UpdateCanaryRequest,
     CreateCanaryResponse,
     DeleteCanaryResponse,
-    DescribeCanariesResponse,
-    DescribeCanariesLastRunResponse,
-    DescribeRuntimeVersionsResponse,
     GetCanaryResponse,
     GetCanaryRunsResponse,
-    ListTagsForResourceResponse,
     StartCanaryResponse,
     StopCanaryResponse,
-    TagResourceResponse,
-    UntagResourceResponse,
     UpdateCanaryResponse
 } from "aws-sdk/clients/synthetics";
 const schema = require("../apis/synthetics-2017-10-11.normal.json")
@@ -93,33 +81,6 @@ export default class extends aws.synthetics.Canary {
         );
     }
 
-    invokeDescribeCanaries(partialParams: ToOptional<{
-      [K in keyof DescribeCanariesRequest]: (DescribeCanariesRequest)[K]
-    }>): Request<DescribeCanariesResponse, AWSError> {
-        this.boot();
-        return this.client.describeCanaries(
-          this.ops["DescribeCanaries"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeCanariesLastRun(partialParams: ToOptional<{
-      [K in keyof DescribeCanariesLastRunRequest]: (DescribeCanariesLastRunRequest)[K]
-    }>): Request<DescribeCanariesLastRunResponse, AWSError> {
-        this.boot();
-        return this.client.describeCanariesLastRun(
-          this.ops["DescribeCanariesLastRun"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeRuntimeVersions(partialParams: ToOptional<{
-      [K in keyof DescribeRuntimeVersionsRequest]: (DescribeRuntimeVersionsRequest)[K]
-    }>): Request<DescribeRuntimeVersionsResponse, AWSError> {
-        this.boot();
-        return this.client.describeRuntimeVersions(
-          this.ops["DescribeRuntimeVersions"].apply(partialParams)
-        );
-    }
-
     invokeGetCanary(partialParams: ToOptional<{
       [K in keyof GetCanaryRequest & keyof Omit<GetCanaryRequest, "Name">]: (GetCanaryRequest)[K]
     }>): Request<GetCanaryResponse, AWSError> {
@@ -138,15 +99,6 @@ export default class extends aws.synthetics.Canary {
         );
     }
 
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
-    }>): Request<ListTagsForResourceResponse, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
-        );
-    }
-
     invokeStartCanary(partialParams: ToOptional<{
       [K in keyof StartCanaryRequest & keyof Omit<StartCanaryRequest, "Name">]: (StartCanaryRequest)[K]
     }>): Request<StartCanaryResponse, AWSError> {
@@ -162,24 +114,6 @@ export default class extends aws.synthetics.Canary {
         this.boot();
         return this.client.stopCanary(
           this.ops["StopCanary"].apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
-    }>): Request<TagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
-    }>): Request<UntagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].apply(partialParams)
         );
     }
 

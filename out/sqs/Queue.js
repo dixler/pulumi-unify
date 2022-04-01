@@ -80,10 +80,6 @@ class default_1 extends aws.sqs.Queue {
         this.boot();
         return this.client.listQueueTags(this.ops["ListQueueTags"].apply(partialParams));
     }
-    invokeListQueues(partialParams) {
-        this.boot();
-        return this.client.listQueues(this.ops["ListQueues"].apply(partialParams));
-    }
     invokeReceiveMessage(partialParams) {
         this.boot();
         return this.client.receiveMessage(this.ops["ReceiveMessage"].apply(partialParams));

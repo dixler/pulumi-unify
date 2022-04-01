@@ -19,7 +19,6 @@ import {
     DescribeAnalysisSchemesRequest,
     DescribeAvailabilityOptionsRequest,
     DescribeDomainEndpointOptionsRequest,
-    DescribeDomainsRequest,
     DescribeExpressionsRequest,
     DescribeIndexFieldsRequest,
     DescribeScalingParametersRequest,
@@ -44,7 +43,6 @@ import {
     DescribeAnalysisSchemesResponse,
     DescribeAvailabilityOptionsResponse,
     DescribeDomainEndpointOptionsResponse,
-    DescribeDomainsResponse,
     DescribeExpressionsResponse,
     DescribeIndexFieldsResponse,
     DescribeScalingParametersResponse,
@@ -222,15 +220,6 @@ export default class extends aws.cloudsearch.Domain {
         this.boot();
         return this.client.describeDomainEndpointOptions(
           this.ops["DescribeDomainEndpointOptions"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeDomains(partialParams: ToOptional<{
-      [K in keyof DescribeDomainsRequest]: (DescribeDomainsRequest)[K]
-    }>): Request<DescribeDomainsResponse, AWSError> {
-        this.boot();
-        return this.client.describeDomains(
-          this.ops["DescribeDomains"].apply(partialParams)
         );
     }
 

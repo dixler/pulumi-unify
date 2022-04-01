@@ -60,10 +60,6 @@ class default_1 extends aws.guardduty.InviteAccepter {
         this.boot();
         return this.client.archiveFindings(this.ops["ArchiveFindings"].apply(partialParams));
     }
-    invokeCreateDetector(partialParams) {
-        this.boot();
-        return this.client.createDetector(this.ops["CreateDetector"].apply(partialParams));
-    }
     invokeCreateFilter(partialParams) {
         this.boot();
         return this.client.createFilter(this.ops["CreateFilter"].apply(partialParams));
@@ -88,10 +84,6 @@ class default_1 extends aws.guardduty.InviteAccepter {
         this.boot();
         return this.client.createThreatIntelSet(this.ops["CreateThreatIntelSet"].apply(partialParams));
     }
-    invokeDeclineInvitations(partialParams) {
-        this.boot();
-        return this.client.declineInvitations(this.ops["DeclineInvitations"].apply(partialParams));
-    }
     invokeDeleteDetector(partialParams) {
         this.boot();
         return this.client.deleteDetector(this.ops["DeleteDetector"].apply(partialParams));
@@ -103,10 +95,6 @@ class default_1 extends aws.guardduty.InviteAccepter {
     invokeDeleteIPSet(partialParams) {
         this.boot();
         return this.client.deleteIPSet(this.ops["DeleteIPSet"].apply(partialParams));
-    }
-    invokeDeleteInvitations(partialParams) {
-        this.boot();
-        return this.client.deleteInvitations(this.ops["DeleteInvitations"].apply(partialParams));
     }
     invokeDeleteMembers(partialParams) {
         this.boot();
@@ -128,10 +116,6 @@ class default_1 extends aws.guardduty.InviteAccepter {
         this.boot();
         return this.client.describePublishingDestination(this.ops["DescribePublishingDestination"].apply(partialParams));
     }
-    invokeDisableOrganizationAdminAccount(partialParams) {
-        this.boot();
-        return this.client.disableOrganizationAdminAccount(this.ops["DisableOrganizationAdminAccount"].apply(partialParams));
-    }
     invokeDisassociateFromMasterAccount(partialParams) {
         this.boot();
         return this.client.disassociateFromMasterAccount(this.ops["DisassociateFromMasterAccount"].apply(partialParams));
@@ -139,10 +123,6 @@ class default_1 extends aws.guardduty.InviteAccepter {
     invokeDisassociateMembers(partialParams) {
         this.boot();
         return this.client.disassociateMembers(this.ops["DisassociateMembers"].apply(partialParams));
-    }
-    invokeEnableOrganizationAdminAccount(partialParams) {
-        this.boot();
-        return this.client.enableOrganizationAdminAccount(this.ops["EnableOrganizationAdminAccount"].apply(partialParams));
     }
     invokeGetDetector(partialParams) {
         this.boot();
@@ -163,10 +143,6 @@ class default_1 extends aws.guardduty.InviteAccepter {
     invokeGetIPSet(partialParams) {
         this.boot();
         return this.client.getIPSet(this.ops["GetIPSet"].apply(partialParams));
-    }
-    invokeGetInvitationsCount(partialParams) {
-        this.boot();
-        return this.client.getInvitationsCount(this.ops["GetInvitationsCount"].apply(partialParams));
     }
     invokeGetMasterAccount(partialParams) {
         this.boot();
@@ -192,10 +168,6 @@ class default_1 extends aws.guardduty.InviteAccepter {
         this.boot();
         return this.client.inviteMembers(this.ops["InviteMembers"].apply(partialParams));
     }
-    invokeListDetectors(partialParams) {
-        this.boot();
-        return this.client.listDetectors(this.ops["ListDetectors"].apply(partialParams));
-    }
     invokeListFilters(partialParams) {
         this.boot();
         return this.client.listFilters(this.ops["ListFilters"].apply(partialParams));
@@ -208,25 +180,13 @@ class default_1 extends aws.guardduty.InviteAccepter {
         this.boot();
         return this.client.listIPSets(this.ops["ListIPSets"].apply(partialParams));
     }
-    invokeListInvitations(partialParams) {
-        this.boot();
-        return this.client.listInvitations(this.ops["ListInvitations"].apply(partialParams));
-    }
     invokeListMembers(partialParams) {
         this.boot();
         return this.client.listMembers(this.ops["ListMembers"].apply(partialParams));
     }
-    invokeListOrganizationAdminAccounts(partialParams) {
-        this.boot();
-        return this.client.listOrganizationAdminAccounts(this.ops["ListOrganizationAdminAccounts"].apply(partialParams));
-    }
     invokeListPublishingDestinations(partialParams) {
         this.boot();
         return this.client.listPublishingDestinations(this.ops["ListPublishingDestinations"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeListThreatIntelSets(partialParams) {
         this.boot();
@@ -240,17 +200,9 @@ class default_1 extends aws.guardduty.InviteAccepter {
         this.boot();
         return this.client.stopMonitoringMembers(this.ops["StopMonitoringMembers"].apply(partialParams));
     }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
     invokeUnarchiveFindings(partialParams) {
         this.boot();
         return this.client.unarchiveFindings(this.ops["UnarchiveFindings"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateDetector(partialParams) {
         this.boot();

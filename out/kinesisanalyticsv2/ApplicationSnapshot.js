@@ -128,10 +128,6 @@ class default_1 extends aws.kinesisanalyticsv2.ApplicationSnapshot {
         this.boot();
         return this.client.describeApplicationVersion(this.ops["DescribeApplicationVersion"].apply(partialParams));
     }
-    invokeDiscoverInputSchema(partialParams) {
-        this.boot();
-        return this.client.discoverInputSchema(this.ops["DiscoverInputSchema"].apply(partialParams));
-    }
     invokeListApplicationSnapshots(partialParams) {
         this.boot();
         return this.client.listApplicationSnapshots(this.ops["ListApplicationSnapshots"].apply(partialParams));
@@ -139,14 +135,6 @@ class default_1 extends aws.kinesisanalyticsv2.ApplicationSnapshot {
     invokeListApplicationVersions(partialParams) {
         this.boot();
         return this.client.listApplicationVersions(this.ops["ListApplicationVersions"].apply(partialParams));
-    }
-    invokeListApplications(partialParams) {
-        this.boot();
-        return this.client.listApplications(this.ops["ListApplications"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
     }
     invokeRollbackApplication(partialParams) {
         this.boot();
@@ -159,14 +147,6 @@ class default_1 extends aws.kinesisanalyticsv2.ApplicationSnapshot {
     invokeStopApplication(partialParams) {
         this.boot();
         return this.client.stopApplication(this.ops["StopApplication"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateApplication(partialParams) {
         this.boot();

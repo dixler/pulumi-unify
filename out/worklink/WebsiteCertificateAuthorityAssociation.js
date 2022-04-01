@@ -64,10 +64,6 @@ class default_1 extends aws.worklink.WebsiteCertificateAuthorityAssociation {
         this.boot();
         return this.client.associateWebsiteCertificateAuthority(this.ops["AssociateWebsiteCertificateAuthority"].apply(partialParams));
     }
-    invokeCreateFleet(partialParams) {
-        this.boot();
-        return this.client.createFleet(this.ops["CreateFleet"].apply(partialParams));
-    }
     invokeDeleteFleet(partialParams) {
         this.boot();
         return this.client.deleteFleet(this.ops["DeleteFleet"].apply(partialParams));
@@ -124,14 +120,6 @@ class default_1 extends aws.worklink.WebsiteCertificateAuthorityAssociation {
         this.boot();
         return this.client.listDomains(this.ops["ListDomains"].apply(partialParams));
     }
-    invokeListFleets(partialParams) {
-        this.boot();
-        return this.client.listFleets(this.ops["ListFleets"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
     invokeListWebsiteAuthorizationProviders(partialParams) {
         this.boot();
         return this.client.listWebsiteAuthorizationProviders(this.ops["ListWebsiteAuthorizationProviders"].apply(partialParams));
@@ -151,14 +139,6 @@ class default_1 extends aws.worklink.WebsiteCertificateAuthorityAssociation {
     invokeSignOutUser(partialParams) {
         this.boot();
         return this.client.signOutUser(this.ops["SignOutUser"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateAuditStreamConfiguration(partialParams) {
         this.boot();

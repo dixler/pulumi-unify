@@ -52,57 +52,5 @@ class default_1 extends aws.cloud9.EnvironmentMembership {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeCreateEnvironmentEC2(partialParams) {
-        this.boot();
-        return this.client.createEnvironmentEC2(this.ops["CreateEnvironmentEC2"].apply(partialParams));
-    }
-    invokeCreateEnvironmentMembership(partialParams) {
-        this.boot();
-        return this.client.createEnvironmentMembership(this.ops["CreateEnvironmentMembership"].apply(partialParams));
-    }
-    invokeDeleteEnvironment(partialParams) {
-        this.boot();
-        return this.client.deleteEnvironment(this.ops["DeleteEnvironment"].apply(partialParams));
-    }
-    invokeDeleteEnvironmentMembership(partialParams) {
-        this.boot();
-        return this.client.deleteEnvironmentMembership(this.ops["DeleteEnvironmentMembership"].apply(partialParams));
-    }
-    invokeDescribeEnvironmentMemberships(partialParams) {
-        this.boot();
-        return this.client.describeEnvironmentMemberships(this.ops["DescribeEnvironmentMemberships"].apply(partialParams));
-    }
-    invokeDescribeEnvironmentStatus(partialParams) {
-        this.boot();
-        return this.client.describeEnvironmentStatus(this.ops["DescribeEnvironmentStatus"].apply(partialParams));
-    }
-    invokeDescribeEnvironments(partialParams) {
-        this.boot();
-        return this.client.describeEnvironments(this.ops["DescribeEnvironments"].apply(partialParams));
-    }
-    invokeListEnvironments(partialParams) {
-        this.boot();
-        return this.client.listEnvironments(this.ops["ListEnvironments"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
-    }
-    invokeUpdateEnvironment(partialParams) {
-        this.boot();
-        return this.client.updateEnvironment(this.ops["UpdateEnvironment"].apply(partialParams));
-    }
-    invokeUpdateEnvironmentMembership(partialParams) {
-        this.boot();
-        return this.client.updateEnvironmentMembership(this.ops["UpdateEnvironmentMembership"].apply(partialParams));
-    }
 }
 exports.default = default_1;

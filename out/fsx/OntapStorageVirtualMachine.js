@@ -56,18 +56,6 @@ class default_1 extends aws.fsx.OntapStorageVirtualMachine {
         this.boot();
         return this.client.associateFileSystemAliases(this.ops["AssociateFileSystemAliases"].apply(partialParams));
     }
-    invokeCancelDataRepositoryTask(partialParams) {
-        this.boot();
-        return this.client.cancelDataRepositoryTask(this.ops["CancelDataRepositoryTask"].apply(partialParams));
-    }
-    invokeCopyBackup(partialParams) {
-        this.boot();
-        return this.client.copyBackup(this.ops["CopyBackup"].apply(partialParams));
-    }
-    invokeCreateBackup(partialParams) {
-        this.boot();
-        return this.client.createBackup(this.ops["CreateBackup"].apply(partialParams));
-    }
     invokeCreateDataRepositoryAssociation(partialParams) {
         this.boot();
         return this.client.createDataRepositoryAssociation(this.ops["CreateDataRepositoryAssociation"].apply(partialParams));
@@ -75,14 +63,6 @@ class default_1 extends aws.fsx.OntapStorageVirtualMachine {
     invokeCreateDataRepositoryTask(partialParams) {
         this.boot();
         return this.client.createDataRepositoryTask(this.ops["CreateDataRepositoryTask"].apply(partialParams));
-    }
-    invokeCreateFileSystem(partialParams) {
-        this.boot();
-        return this.client.createFileSystem(this.ops["CreateFileSystem"].apply(partialParams));
-    }
-    invokeCreateFileSystemFromBackup(partialParams) {
-        this.boot();
-        return this.client.createFileSystemFromBackup(this.ops["CreateFileSystemFromBackup"].apply(partialParams));
     }
     invokeCreateSnapshot(partialParams) {
         this.boot();
@@ -100,89 +80,21 @@ class default_1 extends aws.fsx.OntapStorageVirtualMachine {
         this.boot();
         return this.client.createVolumeFromBackup(this.ops["CreateVolumeFromBackup"].apply(partialParams));
     }
-    invokeDeleteBackup(partialParams) {
-        this.boot();
-        return this.client.deleteBackup(this.ops["DeleteBackup"].apply(partialParams));
-    }
-    invokeDeleteDataRepositoryAssociation(partialParams) {
-        this.boot();
-        return this.client.deleteDataRepositoryAssociation(this.ops["DeleteDataRepositoryAssociation"].apply(partialParams));
-    }
     invokeDeleteFileSystem(partialParams) {
         this.boot();
         return this.client.deleteFileSystem(this.ops["DeleteFileSystem"].apply(partialParams));
-    }
-    invokeDeleteSnapshot(partialParams) {
-        this.boot();
-        return this.client.deleteSnapshot(this.ops["DeleteSnapshot"].apply(partialParams));
-    }
-    invokeDeleteStorageVirtualMachine(partialParams) {
-        this.boot();
-        return this.client.deleteStorageVirtualMachine(this.ops["DeleteStorageVirtualMachine"].apply(partialParams));
-    }
-    invokeDeleteVolume(partialParams) {
-        this.boot();
-        return this.client.deleteVolume(this.ops["DeleteVolume"].apply(partialParams));
-    }
-    invokeDescribeBackups(partialParams) {
-        this.boot();
-        return this.client.describeBackups(this.ops["DescribeBackups"].apply(partialParams));
-    }
-    invokeDescribeDataRepositoryAssociations(partialParams) {
-        this.boot();
-        return this.client.describeDataRepositoryAssociations(this.ops["DescribeDataRepositoryAssociations"].apply(partialParams));
-    }
-    invokeDescribeDataRepositoryTasks(partialParams) {
-        this.boot();
-        return this.client.describeDataRepositoryTasks(this.ops["DescribeDataRepositoryTasks"].apply(partialParams));
     }
     invokeDescribeFileSystemAliases(partialParams) {
         this.boot();
         return this.client.describeFileSystemAliases(this.ops["DescribeFileSystemAliases"].apply(partialParams));
     }
-    invokeDescribeFileSystems(partialParams) {
-        this.boot();
-        return this.client.describeFileSystems(this.ops["DescribeFileSystems"].apply(partialParams));
-    }
-    invokeDescribeSnapshots(partialParams) {
-        this.boot();
-        return this.client.describeSnapshots(this.ops["DescribeSnapshots"].apply(partialParams));
-    }
-    invokeDescribeStorageVirtualMachines(partialParams) {
-        this.boot();
-        return this.client.describeStorageVirtualMachines(this.ops["DescribeStorageVirtualMachines"].apply(partialParams));
-    }
-    invokeDescribeVolumes(partialParams) {
-        this.boot();
-        return this.client.describeVolumes(this.ops["DescribeVolumes"].apply(partialParams));
-    }
     invokeDisassociateFileSystemAliases(partialParams) {
         this.boot();
         return this.client.disassociateFileSystemAliases(this.ops["DisassociateFileSystemAliases"].apply(partialParams));
     }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
     invokeReleaseFileSystemNfsV3Locks(partialParams) {
         this.boot();
         return this.client.releaseFileSystemNfsV3Locks(this.ops["ReleaseFileSystemNfsV3Locks"].apply(partialParams));
-    }
-    invokeRestoreVolumeFromSnapshot(partialParams) {
-        this.boot();
-        return this.client.restoreVolumeFromSnapshot(this.ops["RestoreVolumeFromSnapshot"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
-    }
-    invokeUpdateDataRepositoryAssociation(partialParams) {
-        this.boot();
-        return this.client.updateDataRepositoryAssociation(this.ops["UpdateDataRepositoryAssociation"].apply(partialParams));
     }
     invokeUpdateFileSystem(partialParams) {
         this.boot();
@@ -191,14 +103,6 @@ class default_1 extends aws.fsx.OntapStorageVirtualMachine {
     invokeUpdateSnapshot(partialParams) {
         this.boot();
         return this.client.updateSnapshot(this.ops["UpdateSnapshot"].apply(partialParams));
-    }
-    invokeUpdateStorageVirtualMachine(partialParams) {
-        this.boot();
-        return this.client.updateStorageVirtualMachine(this.ops["UpdateStorageVirtualMachine"].apply(partialParams));
-    }
-    invokeUpdateVolume(partialParams) {
-        this.boot();
-        return this.client.updateVolume(this.ops["UpdateVolume"].apply(partialParams));
     }
 }
 exports.default = default_1;

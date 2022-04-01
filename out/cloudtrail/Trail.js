@@ -52,14 +52,6 @@ class default_1 extends aws.cloudtrail.Trail {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeAddTags(partialParams) {
-        this.boot();
-        return this.client.addTags(this.ops["AddTags"].apply(partialParams));
-    }
-    invokeCancelQuery(partialParams) {
-        this.boot();
-        return this.client.cancelQuery(this.ops["CancelQuery"].apply(partialParams));
-    }
     invokeCreateEventDataStore(partialParams) {
         this.boot();
         return this.client.createEventDataStore(this.ops["CreateEventDataStore"].apply(partialParams));
@@ -68,25 +60,9 @@ class default_1 extends aws.cloudtrail.Trail {
         this.boot();
         return this.client.createTrail(this.ops["CreateTrail"].apply(partialParams));
     }
-    invokeDeleteEventDataStore(partialParams) {
-        this.boot();
-        return this.client.deleteEventDataStore(this.ops["DeleteEventDataStore"].apply(partialParams));
-    }
     invokeDeleteTrail(partialParams) {
         this.boot();
         return this.client.deleteTrail(this.ops["DeleteTrail"].apply(partialParams));
-    }
-    invokeDescribeQuery(partialParams) {
-        this.boot();
-        return this.client.describeQuery(this.ops["DescribeQuery"].apply(partialParams));
-    }
-    invokeDescribeTrails(partialParams) {
-        this.boot();
-        return this.client.describeTrails(this.ops["DescribeTrails"].apply(partialParams));
-    }
-    invokeGetEventDataStore(partialParams) {
-        this.boot();
-        return this.client.getEventDataStore(this.ops["GetEventDataStore"].apply(partialParams));
     }
     invokeGetEventSelectors(partialParams) {
         this.boot();
@@ -96,10 +72,6 @@ class default_1 extends aws.cloudtrail.Trail {
         this.boot();
         return this.client.getInsightSelectors(this.ops["GetInsightSelectors"].apply(partialParams));
     }
-    invokeGetQueryResults(partialParams) {
-        this.boot();
-        return this.client.getQueryResults(this.ops["GetQueryResults"].apply(partialParams));
-    }
     invokeGetTrail(partialParams) {
         this.boot();
         return this.client.getTrail(this.ops["GetTrail"].apply(partialParams));
@@ -107,30 +79,6 @@ class default_1 extends aws.cloudtrail.Trail {
     invokeGetTrailStatus(partialParams) {
         this.boot();
         return this.client.getTrailStatus(this.ops["GetTrailStatus"].apply(partialParams));
-    }
-    invokeListEventDataStores(partialParams) {
-        this.boot();
-        return this.client.listEventDataStores(this.ops["ListEventDataStores"].apply(partialParams));
-    }
-    invokeListPublicKeys(partialParams) {
-        this.boot();
-        return this.client.listPublicKeys(this.ops["ListPublicKeys"].apply(partialParams));
-    }
-    invokeListQueries(partialParams) {
-        this.boot();
-        return this.client.listQueries(this.ops["ListQueries"].apply(partialParams));
-    }
-    invokeListTags(partialParams) {
-        this.boot();
-        return this.client.listTags(this.ops["ListTags"].apply(partialParams));
-    }
-    invokeListTrails(partialParams) {
-        this.boot();
-        return this.client.listTrails(this.ops["ListTrails"].apply(partialParams));
-    }
-    invokeLookupEvents(partialParams) {
-        this.boot();
-        return this.client.lookupEvents(this.ops["LookupEvents"].apply(partialParams));
     }
     invokePutEventSelectors(partialParams) {
         this.boot();
@@ -140,29 +88,13 @@ class default_1 extends aws.cloudtrail.Trail {
         this.boot();
         return this.client.putInsightSelectors(this.ops["PutInsightSelectors"].apply(partialParams));
     }
-    invokeRemoveTags(partialParams) {
-        this.boot();
-        return this.client.removeTags(this.ops["RemoveTags"].apply(partialParams));
-    }
-    invokeRestoreEventDataStore(partialParams) {
-        this.boot();
-        return this.client.restoreEventDataStore(this.ops["RestoreEventDataStore"].apply(partialParams));
-    }
     invokeStartLogging(partialParams) {
         this.boot();
         return this.client.startLogging(this.ops["StartLogging"].apply(partialParams));
     }
-    invokeStartQuery(partialParams) {
-        this.boot();
-        return this.client.startQuery(this.ops["StartQuery"].apply(partialParams));
-    }
     invokeStopLogging(partialParams) {
         this.boot();
         return this.client.stopLogging(this.ops["StopLogging"].apply(partialParams));
-    }
-    invokeUpdateEventDataStore(partialParams) {
-        this.boot();
-        return this.client.updateEventDataStore(this.ops["UpdateEventDataStore"].apply(partialParams));
     }
     invokeUpdateTrail(partialParams) {
         this.boot();

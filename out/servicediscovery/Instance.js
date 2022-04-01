@@ -52,37 +52,9 @@ class default_1 extends aws.servicediscovery.Instance {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeCreateHttpNamespace(partialParams) {
-        this.boot();
-        return this.client.createHttpNamespace(this.ops["CreateHttpNamespace"].apply(partialParams));
-    }
-    invokeCreatePrivateDnsNamespace(partialParams) {
-        this.boot();
-        return this.client.createPrivateDnsNamespace(this.ops["CreatePrivateDnsNamespace"].apply(partialParams));
-    }
-    invokeCreatePublicDnsNamespace(partialParams) {
-        this.boot();
-        return this.client.createPublicDnsNamespace(this.ops["CreatePublicDnsNamespace"].apply(partialParams));
-    }
-    invokeCreateService(partialParams) {
-        this.boot();
-        return this.client.createService(this.ops["CreateService"].apply(partialParams));
-    }
-    invokeDeleteNamespace(partialParams) {
-        this.boot();
-        return this.client.deleteNamespace(this.ops["DeleteNamespace"].apply(partialParams));
-    }
-    invokeDeleteService(partialParams) {
-        this.boot();
-        return this.client.deleteService(this.ops["DeleteService"].apply(partialParams));
-    }
     invokeDeregisterInstance(partialParams) {
         this.boot();
         return this.client.deregisterInstance(this.ops["DeregisterInstance"].apply(partialParams));
-    }
-    invokeDiscoverInstances(partialParams) {
-        this.boot();
-        return this.client.discoverInstances(this.ops["DiscoverInstances"].apply(partialParams));
     }
     invokeGetInstance(partialParams) {
         this.boot();
@@ -92,65 +64,13 @@ class default_1 extends aws.servicediscovery.Instance {
         this.boot();
         return this.client.getInstancesHealthStatus(this.ops["GetInstancesHealthStatus"].apply(partialParams));
     }
-    invokeGetNamespace(partialParams) {
-        this.boot();
-        return this.client.getNamespace(this.ops["GetNamespace"].apply(partialParams));
-    }
-    invokeGetOperation(partialParams) {
-        this.boot();
-        return this.client.getOperation(this.ops["GetOperation"].apply(partialParams));
-    }
-    invokeGetService(partialParams) {
-        this.boot();
-        return this.client.getService(this.ops["GetService"].apply(partialParams));
-    }
     invokeListInstances(partialParams) {
         this.boot();
         return this.client.listInstances(this.ops["ListInstances"].apply(partialParams));
     }
-    invokeListNamespaces(partialParams) {
-        this.boot();
-        return this.client.listNamespaces(this.ops["ListNamespaces"].apply(partialParams));
-    }
-    invokeListOperations(partialParams) {
-        this.boot();
-        return this.client.listOperations(this.ops["ListOperations"].apply(partialParams));
-    }
-    invokeListServices(partialParams) {
-        this.boot();
-        return this.client.listServices(this.ops["ListServices"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
     invokeRegisterInstance(partialParams) {
         this.boot();
         return this.client.registerInstance(this.ops["RegisterInstance"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
-    }
-    invokeUpdateHttpNamespace(partialParams) {
-        this.boot();
-        return this.client.updateHttpNamespace(this.ops["UpdateHttpNamespace"].apply(partialParams));
-    }
-    invokeUpdatePrivateDnsNamespace(partialParams) {
-        this.boot();
-        return this.client.updatePrivateDnsNamespace(this.ops["UpdatePrivateDnsNamespace"].apply(partialParams));
-    }
-    invokeUpdatePublicDnsNamespace(partialParams) {
-        this.boot();
-        return this.client.updatePublicDnsNamespace(this.ops["UpdatePublicDnsNamespace"].apply(partialParams));
-    }
-    invokeUpdateService(partialParams) {
-        this.boot();
-        return this.client.updateService(this.ops["UpdateService"].apply(partialParams));
     }
 }
 exports.default = default_1;

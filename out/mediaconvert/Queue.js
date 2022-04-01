@@ -56,14 +56,6 @@ class default_1 extends aws.mediaconvert.Queue {
         this.boot();
         return this.client.associateCertificate(this.ops["AssociateCertificate"].apply(partialParams));
     }
-    invokeCancelJob(partialParams) {
-        this.boot();
-        return this.client.cancelJob(this.ops["CancelJob"].apply(partialParams));
-    }
-    invokeCreateJob(partialParams) {
-        this.boot();
-        return this.client.createJob(this.ops["CreateJob"].apply(partialParams));
-    }
     invokeCreateJobTemplate(partialParams) {
         this.boot();
         return this.client.createJobTemplate(this.ops["CreateJobTemplate"].apply(partialParams));
@@ -80,10 +72,6 @@ class default_1 extends aws.mediaconvert.Queue {
         this.boot();
         return this.client.deleteJobTemplate(this.ops["DeleteJobTemplate"].apply(partialParams));
     }
-    invokeDeletePolicy(partialParams) {
-        this.boot();
-        return this.client.deletePolicy(this.ops["DeletePolicy"].apply(partialParams));
-    }
     invokeDeletePreset(partialParams) {
         this.boot();
         return this.client.deletePreset(this.ops["DeletePreset"].apply(partialParams));
@@ -92,25 +80,13 @@ class default_1 extends aws.mediaconvert.Queue {
         this.boot();
         return this.client.deleteQueue(this.ops["DeleteQueue"].apply(partialParams));
     }
-    invokeDescribeEndpoints(partialParams) {
-        this.boot();
-        return this.client.describeEndpoints(this.ops["DescribeEndpoints"].apply(partialParams));
-    }
     invokeDisassociateCertificate(partialParams) {
         this.boot();
         return this.client.disassociateCertificate(this.ops["DisassociateCertificate"].apply(partialParams));
     }
-    invokeGetJob(partialParams) {
-        this.boot();
-        return this.client.getJob(this.ops["GetJob"].apply(partialParams));
-    }
     invokeGetJobTemplate(partialParams) {
         this.boot();
         return this.client.getJobTemplate(this.ops["GetJobTemplate"].apply(partialParams));
-    }
-    invokeGetPolicy(partialParams) {
-        this.boot();
-        return this.client.getPolicy(this.ops["GetPolicy"].apply(partialParams));
     }
     invokeGetPreset(partialParams) {
         this.boot();
@@ -120,29 +96,9 @@ class default_1 extends aws.mediaconvert.Queue {
         this.boot();
         return this.client.getQueue(this.ops["GetQueue"].apply(partialParams));
     }
-    invokeListJobTemplates(partialParams) {
-        this.boot();
-        return this.client.listJobTemplates(this.ops["ListJobTemplates"].apply(partialParams));
-    }
-    invokeListJobs(partialParams) {
-        this.boot();
-        return this.client.listJobs(this.ops["ListJobs"].apply(partialParams));
-    }
-    invokeListPresets(partialParams) {
-        this.boot();
-        return this.client.listPresets(this.ops["ListPresets"].apply(partialParams));
-    }
-    invokeListQueues(partialParams) {
-        this.boot();
-        return this.client.listQueues(this.ops["ListQueues"].apply(partialParams));
-    }
     invokeListTagsForResource(partialParams) {
         this.boot();
         return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
-    invokePutPolicy(partialParams) {
-        this.boot();
-        return this.client.putPolicy(this.ops["PutPolicy"].apply(partialParams));
     }
     invokeTagResource(partialParams) {
         this.boot();

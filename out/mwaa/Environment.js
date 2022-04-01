@@ -72,25 +72,9 @@ class default_1 extends aws.mwaa.Environment {
         this.boot();
         return this.client.getEnvironment(this.ops["GetEnvironment"].apply(partialParams));
     }
-    invokeListEnvironments(partialParams) {
-        this.boot();
-        return this.client.listEnvironments(this.ops["ListEnvironments"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
     invokePublishMetrics(partialParams) {
         this.boot();
         return this.client.publishMetrics(this.ops["PublishMetrics"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateEnvironment(partialParams) {
         this.boot();

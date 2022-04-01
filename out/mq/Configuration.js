@@ -60,77 +60,9 @@ class default_1 extends aws.mq.Configuration {
         this.boot();
         return this.client.createConfiguration(this.ops["CreateConfiguration"].apply(partialParams));
     }
-    invokeCreateUser(partialParams) {
-        this.boot();
-        return this.client.createUser(this.ops["CreateUser"].apply(partialParams));
-    }
-    invokeDeleteBroker(partialParams) {
-        this.boot();
-        return this.client.deleteBroker(this.ops["DeleteBroker"].apply(partialParams));
-    }
-    invokeDeleteUser(partialParams) {
-        this.boot();
-        return this.client.deleteUser(this.ops["DeleteUser"].apply(partialParams));
-    }
-    invokeDescribeBroker(partialParams) {
-        this.boot();
-        return this.client.describeBroker(this.ops["DescribeBroker"].apply(partialParams));
-    }
-    invokeDescribeBrokerEngineTypes(partialParams) {
-        this.boot();
-        return this.client.describeBrokerEngineTypes(this.ops["DescribeBrokerEngineTypes"].apply(partialParams));
-    }
-    invokeDescribeBrokerInstanceOptions(partialParams) {
-        this.boot();
-        return this.client.describeBrokerInstanceOptions(this.ops["DescribeBrokerInstanceOptions"].apply(partialParams));
-    }
-    invokeDescribeConfiguration(partialParams) {
-        this.boot();
-        return this.client.describeConfiguration(this.ops["DescribeConfiguration"].apply(partialParams));
-    }
-    invokeDescribeConfigurationRevision(partialParams) {
-        this.boot();
-        return this.client.describeConfigurationRevision(this.ops["DescribeConfigurationRevision"].apply(partialParams));
-    }
-    invokeDescribeUser(partialParams) {
-        this.boot();
-        return this.client.describeUser(this.ops["DescribeUser"].apply(partialParams));
-    }
-    invokeListBrokers(partialParams) {
-        this.boot();
-        return this.client.listBrokers(this.ops["ListBrokers"].apply(partialParams));
-    }
-    invokeListConfigurationRevisions(partialParams) {
-        this.boot();
-        return this.client.listConfigurationRevisions(this.ops["ListConfigurationRevisions"].apply(partialParams));
-    }
-    invokeListConfigurations(partialParams) {
-        this.boot();
-        return this.client.listConfigurations(this.ops["ListConfigurations"].apply(partialParams));
-    }
-    invokeListTags(partialParams) {
-        this.boot();
-        return this.client.listTags(this.ops["ListTags"].apply(partialParams));
-    }
-    invokeListUsers(partialParams) {
-        this.boot();
-        return this.client.listUsers(this.ops["ListUsers"].apply(partialParams));
-    }
-    invokeRebootBroker(partialParams) {
-        this.boot();
-        return this.client.rebootBroker(this.ops["RebootBroker"].apply(partialParams));
-    }
-    invokeUpdateBroker(partialParams) {
-        this.boot();
-        return this.client.updateBroker(this.ops["UpdateBroker"].apply(partialParams));
-    }
     invokeUpdateConfiguration(partialParams) {
         this.boot();
         return this.client.updateConfiguration(this.ops["UpdateConfiguration"].apply(partialParams));
-    }
-    invokeUpdateUser(partialParams) {
-        this.boot();
-        return this.client.updateUser(this.ops["UpdateUser"].apply(partialParams));
     }
 }
 exports.default = default_1;

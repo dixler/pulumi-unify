@@ -56,85 +56,9 @@ class default_1 extends aws.dataexchange.DataSet {
         this.boot();
         return this.client.createDataSet(this.ops["CreateDataSet"].apply(partialParams));
     }
-    invokeCreateEventAction(partialParams) {
-        this.boot();
-        return this.client.createEventAction(this.ops["CreateEventAction"].apply(partialParams));
-    }
-    invokeCreateJob(partialParams) {
-        this.boot();
-        return this.client.createJob(this.ops["CreateJob"].apply(partialParams));
-    }
-    invokeCreateRevision(partialParams) {
-        this.boot();
-        return this.client.createRevision(this.ops["CreateRevision"].apply(partialParams));
-    }
-    invokeGetAsset(partialParams) {
-        this.boot();
-        return this.client.getAsset(this.ops["GetAsset"].apply(partialParams));
-    }
-    invokeGetDataSet(partialParams) {
-        this.boot();
-        return this.client.getDataSet(this.ops["GetDataSet"].apply(partialParams));
-    }
-    invokeGetEventAction(partialParams) {
-        this.boot();
-        return this.client.getEventAction(this.ops["GetEventAction"].apply(partialParams));
-    }
-    invokeGetJob(partialParams) {
-        this.boot();
-        return this.client.getJob(this.ops["GetJob"].apply(partialParams));
-    }
-    invokeGetRevision(partialParams) {
-        this.boot();
-        return this.client.getRevision(this.ops["GetRevision"].apply(partialParams));
-    }
-    invokeListDataSetRevisions(partialParams) {
-        this.boot();
-        return this.client.listDataSetRevisions(this.ops["ListDataSetRevisions"].apply(partialParams));
-    }
-    invokeListDataSets(partialParams) {
-        this.boot();
-        return this.client.listDataSets(this.ops["ListDataSets"].apply(partialParams));
-    }
-    invokeListEventActions(partialParams) {
-        this.boot();
-        return this.client.listEventActions(this.ops["ListEventActions"].apply(partialParams));
-    }
-    invokeListJobs(partialParams) {
-        this.boot();
-        return this.client.listJobs(this.ops["ListJobs"].apply(partialParams));
-    }
-    invokeListRevisionAssets(partialParams) {
-        this.boot();
-        return this.client.listRevisionAssets(this.ops["ListRevisionAssets"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
-    invokeSendApiAsset(partialParams) {
-        this.boot();
-        return this.client.sendApiAsset(this.ops["SendApiAsset"].apply(partialParams));
-    }
-    invokeStartJob(partialParams) {
-        this.boot();
-        return this.client.startJob(this.ops["StartJob"].apply(partialParams));
-    }
     invokeUpdateAsset(partialParams) {
         this.boot();
         return this.client.updateAsset(this.ops["UpdateAsset"].apply(partialParams));
-    }
-    invokeUpdateDataSet(partialParams) {
-        this.boot();
-        return this.client.updateDataSet(this.ops["UpdateDataSet"].apply(partialParams));
-    }
-    invokeUpdateEventAction(partialParams) {
-        this.boot();
-        return this.client.updateEventAction(this.ops["UpdateEventAction"].apply(partialParams));
-    }
-    invokeUpdateRevision(partialParams) {
-        this.boot();
-        return this.client.updateRevision(this.ops["UpdateRevision"].apply(partialParams));
     }
 }
 exports.default = default_1;

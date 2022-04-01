@@ -11,42 +11,32 @@ import {
     DeleteCorsPolicyInput,
     DeleteLifecyclePolicyInput,
     DeleteMetricPolicyInput,
-    DescribeContainerInput,
     GetContainerPolicyInput,
     GetCorsPolicyInput,
     GetLifecyclePolicyInput,
     GetMetricPolicyInput,
-    ListContainersInput,
-    ListTagsForResourceInput,
     PutContainerPolicyInput,
     PutCorsPolicyInput,
     PutLifecyclePolicyInput,
     PutMetricPolicyInput,
     StartAccessLoggingInput,
     StopAccessLoggingInput,
-    TagResourceInput,
-    UntagResourceInput,
     CreateContainerOutput,
     DeleteContainerOutput,
     DeleteContainerPolicyOutput,
     DeleteCorsPolicyOutput,
     DeleteLifecyclePolicyOutput,
     DeleteMetricPolicyOutput,
-    DescribeContainerOutput,
     GetContainerPolicyOutput,
     GetCorsPolicyOutput,
     GetLifecyclePolicyOutput,
     GetMetricPolicyOutput,
-    ListContainersOutput,
-    ListTagsForResourceOutput,
     PutContainerPolicyOutput,
     PutCorsPolicyOutput,
     PutLifecyclePolicyOutput,
     PutMetricPolicyOutput,
     StartAccessLoggingOutput,
-    StopAccessLoggingOutput,
-    TagResourceOutput,
-    UntagResourceOutput
+    StopAccessLoggingOutput
 } from "aws-sdk/clients/mediastore";
 const schema = require("../apis/mediastore-2017-09-01.normal.json")
 import {getResourceOperations, upperCamelCase} from "../parse";
@@ -145,15 +135,6 @@ export default class extends aws.mediastore.Container {
         );
     }
 
-    invokeDescribeContainer(partialParams: ToOptional<{
-      [K in keyof DescribeContainerInput]: (DescribeContainerInput)[K]
-    }>): Request<DescribeContainerOutput, AWSError> {
-        this.boot();
-        return this.client.describeContainer(
-          this.ops["DescribeContainer"].apply(partialParams)
-        );
-    }
-
     invokeGetContainerPolicy(partialParams: ToOptional<{
       [K in keyof GetContainerPolicyInput & keyof Omit<GetContainerPolicyInput, "ContainerName">]: (GetContainerPolicyInput)[K]
     }>): Request<GetContainerPolicyOutput, AWSError> {
@@ -187,24 +168,6 @@ export default class extends aws.mediastore.Container {
         this.boot();
         return this.client.getMetricPolicy(
           this.ops["GetMetricPolicy"].apply(partialParams)
-        );
-    }
-
-    invokeListContainers(partialParams: ToOptional<{
-      [K in keyof ListContainersInput]: (ListContainersInput)[K]
-    }>): Request<ListContainersOutput, AWSError> {
-        this.boot();
-        return this.client.listContainers(
-          this.ops["ListContainers"].apply(partialParams)
-        );
-    }
-
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceInput]: (ListTagsForResourceInput)[K]
-    }>): Request<ListTagsForResourceOutput, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
@@ -259,24 +222,6 @@ export default class extends aws.mediastore.Container {
         this.boot();
         return this.client.stopAccessLogging(
           this.ops["StopAccessLogging"].apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceInput]: (TagResourceInput)[K]
-    }>): Request<TagResourceOutput, AWSError> {
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceInput]: (UntagResourceInput)[K]
-    }>): Request<UntagResourceOutput, AWSError> {
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].apply(partialParams)
         );
     }
 }

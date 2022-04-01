@@ -52,109 +52,13 @@ class default_1 extends aws.apprunner.Connection {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeAssociateCustomDomain(partialParams) {
-        this.boot();
-        return this.client.associateCustomDomain(this.ops["AssociateCustomDomain"].apply(partialParams));
-    }
-    invokeCreateAutoScalingConfiguration(partialParams) {
-        this.boot();
-        return this.client.createAutoScalingConfiguration(this.ops["CreateAutoScalingConfiguration"].apply(partialParams));
-    }
     invokeCreateConnection(partialParams) {
         this.boot();
         return this.client.createConnection(this.ops["CreateConnection"].apply(partialParams));
     }
-    invokeCreateService(partialParams) {
-        this.boot();
-        return this.client.createService(this.ops["CreateService"].apply(partialParams));
-    }
-    invokeCreateVpcConnector(partialParams) {
-        this.boot();
-        return this.client.createVpcConnector(this.ops["CreateVpcConnector"].apply(partialParams));
-    }
-    invokeDeleteAutoScalingConfiguration(partialParams) {
-        this.boot();
-        return this.client.deleteAutoScalingConfiguration(this.ops["DeleteAutoScalingConfiguration"].apply(partialParams));
-    }
     invokeDeleteConnection(partialParams) {
         this.boot();
         return this.client.deleteConnection(this.ops["DeleteConnection"].apply(partialParams));
-    }
-    invokeDeleteService(partialParams) {
-        this.boot();
-        return this.client.deleteService(this.ops["DeleteService"].apply(partialParams));
-    }
-    invokeDeleteVpcConnector(partialParams) {
-        this.boot();
-        return this.client.deleteVpcConnector(this.ops["DeleteVpcConnector"].apply(partialParams));
-    }
-    invokeDescribeAutoScalingConfiguration(partialParams) {
-        this.boot();
-        return this.client.describeAutoScalingConfiguration(this.ops["DescribeAutoScalingConfiguration"].apply(partialParams));
-    }
-    invokeDescribeCustomDomains(partialParams) {
-        this.boot();
-        return this.client.describeCustomDomains(this.ops["DescribeCustomDomains"].apply(partialParams));
-    }
-    invokeDescribeService(partialParams) {
-        this.boot();
-        return this.client.describeService(this.ops["DescribeService"].apply(partialParams));
-    }
-    invokeDescribeVpcConnector(partialParams) {
-        this.boot();
-        return this.client.describeVpcConnector(this.ops["DescribeVpcConnector"].apply(partialParams));
-    }
-    invokeDisassociateCustomDomain(partialParams) {
-        this.boot();
-        return this.client.disassociateCustomDomain(this.ops["DisassociateCustomDomain"].apply(partialParams));
-    }
-    invokeListAutoScalingConfigurations(partialParams) {
-        this.boot();
-        return this.client.listAutoScalingConfigurations(this.ops["ListAutoScalingConfigurations"].apply(partialParams));
-    }
-    invokeListConnections(partialParams) {
-        this.boot();
-        return this.client.listConnections(this.ops["ListConnections"].apply(partialParams));
-    }
-    invokeListOperations(partialParams) {
-        this.boot();
-        return this.client.listOperations(this.ops["ListOperations"].apply(partialParams));
-    }
-    invokeListServices(partialParams) {
-        this.boot();
-        return this.client.listServices(this.ops["ListServices"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
-    invokeListVpcConnectors(partialParams) {
-        this.boot();
-        return this.client.listVpcConnectors(this.ops["ListVpcConnectors"].apply(partialParams));
-    }
-    invokePauseService(partialParams) {
-        this.boot();
-        return this.client.pauseService(this.ops["PauseService"].apply(partialParams));
-    }
-    invokeResumeService(partialParams) {
-        this.boot();
-        return this.client.resumeService(this.ops["ResumeService"].apply(partialParams));
-    }
-    invokeStartDeployment(partialParams) {
-        this.boot();
-        return this.client.startDeployment(this.ops["StartDeployment"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
-    }
-    invokeUpdateService(partialParams) {
-        this.boot();
-        return this.client.updateService(this.ops["UpdateService"].apply(partialParams));
     }
 }
 exports.default = default_1;

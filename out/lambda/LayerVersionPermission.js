@@ -60,185 +60,21 @@ class default_1 extends aws.lambda.LayerVersionPermission {
         this.boot();
         return this.client.addPermission(this.ops["AddPermission"].apply(partialParams));
     }
-    invokeCreateAlias(partialParams) {
-        this.boot();
-        return this.client.createAlias(this.ops["CreateAlias"].apply(partialParams));
-    }
-    invokeCreateCodeSigningConfig(partialParams) {
-        this.boot();
-        return this.client.createCodeSigningConfig(this.ops["CreateCodeSigningConfig"].apply(partialParams));
-    }
-    invokeCreateEventSourceMapping(partialParams) {
-        this.boot();
-        return this.client.createEventSourceMapping(this.ops["CreateEventSourceMapping"].apply(partialParams));
-    }
-    invokeCreateFunction(partialParams) {
-        this.boot();
-        return this.client.createFunction(this.ops["CreateFunction"].apply(partialParams));
-    }
-    invokeDeleteCodeSigningConfig(partialParams) {
-        this.boot();
-        return this.client.deleteCodeSigningConfig(this.ops["DeleteCodeSigningConfig"].apply(partialParams));
-    }
-    invokeDeleteEventSourceMapping(partialParams) {
-        this.boot();
-        return this.client.deleteEventSourceMapping(this.ops["DeleteEventSourceMapping"].apply(partialParams));
-    }
-    invokeGetAccountSettings(partialParams) {
-        this.boot();
-        return this.client.getAccountSettings(this.ops["GetAccountSettings"].apply(partialParams));
-    }
-    invokeGetAlias(partialParams) {
-        this.boot();
-        return this.client.getAlias(this.ops["GetAlias"].apply(partialParams));
-    }
-    invokeGetCodeSigningConfig(partialParams) {
-        this.boot();
-        return this.client.getCodeSigningConfig(this.ops["GetCodeSigningConfig"].apply(partialParams));
-    }
-    invokeGetEventSourceMapping(partialParams) {
-        this.boot();
-        return this.client.getEventSourceMapping(this.ops["GetEventSourceMapping"].apply(partialParams));
-    }
-    invokeGetFunction(partialParams) {
-        this.boot();
-        return this.client.getFunction(this.ops["GetFunction"].apply(partialParams));
-    }
-    invokeGetFunctionCodeSigningConfig(partialParams) {
-        this.boot();
-        return this.client.getFunctionCodeSigningConfig(this.ops["GetFunctionCodeSigningConfig"].apply(partialParams));
-    }
-    invokeGetFunctionConcurrency(partialParams) {
-        this.boot();
-        return this.client.getFunctionConcurrency(this.ops["GetFunctionConcurrency"].apply(partialParams));
-    }
-    invokeGetFunctionConfiguration(partialParams) {
-        this.boot();
-        return this.client.getFunctionConfiguration(this.ops["GetFunctionConfiguration"].apply(partialParams));
-    }
-    invokeGetFunctionEventInvokeConfig(partialParams) {
-        this.boot();
-        return this.client.getFunctionEventInvokeConfig(this.ops["GetFunctionEventInvokeConfig"].apply(partialParams));
-    }
     invokeGetLayerVersion(partialParams) {
         this.boot();
         return this.client.getLayerVersion(this.ops["GetLayerVersion"].apply(partialParams));
-    }
-    invokeGetLayerVersionByArn(partialParams) {
-        this.boot();
-        return this.client.getLayerVersionByArn(this.ops["GetLayerVersionByArn"].apply(partialParams));
     }
     invokeGetLayerVersionPolicy(partialParams) {
         this.boot();
         return this.client.getLayerVersionPolicy(this.ops["GetLayerVersionPolicy"].apply(partialParams));
     }
-    invokeGetPolicy(partialParams) {
-        this.boot();
-        return this.client.getPolicy(this.ops["GetPolicy"].apply(partialParams));
-    }
-    invokeGetProvisionedConcurrencyConfig(partialParams) {
-        this.boot();
-        return this.client.getProvisionedConcurrencyConfig(this.ops["GetProvisionedConcurrencyConfig"].apply(partialParams));
-    }
-    invokeInvoke(partialParams) {
-        this.boot();
-        return this.client.invoke(this.ops["Invoke"].apply(partialParams));
-    }
-    invokeInvokeAsync(partialParams) {
-        this.boot();
-        return this.client.invokeAsync(this.ops["InvokeAsync"].apply(partialParams));
-    }
-    invokeListAliases(partialParams) {
-        this.boot();
-        return this.client.listAliases(this.ops["ListAliases"].apply(partialParams));
-    }
-    invokeListCodeSigningConfigs(partialParams) {
-        this.boot();
-        return this.client.listCodeSigningConfigs(this.ops["ListCodeSigningConfigs"].apply(partialParams));
-    }
-    invokeListEventSourceMappings(partialParams) {
-        this.boot();
-        return this.client.listEventSourceMappings(this.ops["ListEventSourceMappings"].apply(partialParams));
-    }
-    invokeListFunctionEventInvokeConfigs(partialParams) {
-        this.boot();
-        return this.client.listFunctionEventInvokeConfigs(this.ops["ListFunctionEventInvokeConfigs"].apply(partialParams));
-    }
-    invokeListFunctions(partialParams) {
-        this.boot();
-        return this.client.listFunctions(this.ops["ListFunctions"].apply(partialParams));
-    }
-    invokeListFunctionsByCodeSigningConfig(partialParams) {
-        this.boot();
-        return this.client.listFunctionsByCodeSigningConfig(this.ops["ListFunctionsByCodeSigningConfig"].apply(partialParams));
-    }
     invokeListLayerVersions(partialParams) {
         this.boot();
         return this.client.listLayerVersions(this.ops["ListLayerVersions"].apply(partialParams));
     }
-    invokeListLayers(partialParams) {
-        this.boot();
-        return this.client.listLayers(this.ops["ListLayers"].apply(partialParams));
-    }
-    invokeListProvisionedConcurrencyConfigs(partialParams) {
-        this.boot();
-        return this.client.listProvisionedConcurrencyConfigs(this.ops["ListProvisionedConcurrencyConfigs"].apply(partialParams));
-    }
-    invokeListTags(partialParams) {
-        this.boot();
-        return this.client.listTags(this.ops["ListTags"].apply(partialParams));
-    }
-    invokeListVersionsByFunction(partialParams) {
-        this.boot();
-        return this.client.listVersionsByFunction(this.ops["ListVersionsByFunction"].apply(partialParams));
-    }
     invokePublishLayerVersion(partialParams) {
         this.boot();
         return this.client.publishLayerVersion(this.ops["PublishLayerVersion"].apply(partialParams));
-    }
-    invokePublishVersion(partialParams) {
-        this.boot();
-        return this.client.publishVersion(this.ops["PublishVersion"].apply(partialParams));
-    }
-    invokePutFunctionCodeSigningConfig(partialParams) {
-        this.boot();
-        return this.client.putFunctionCodeSigningConfig(this.ops["PutFunctionCodeSigningConfig"].apply(partialParams));
-    }
-    invokePutFunctionConcurrency(partialParams) {
-        this.boot();
-        return this.client.putFunctionConcurrency(this.ops["PutFunctionConcurrency"].apply(partialParams));
-    }
-    invokePutFunctionEventInvokeConfig(partialParams) {
-        this.boot();
-        return this.client.putFunctionEventInvokeConfig(this.ops["PutFunctionEventInvokeConfig"].apply(partialParams));
-    }
-    invokePutProvisionedConcurrencyConfig(partialParams) {
-        this.boot();
-        return this.client.putProvisionedConcurrencyConfig(this.ops["PutProvisionedConcurrencyConfig"].apply(partialParams));
-    }
-    invokeUpdateAlias(partialParams) {
-        this.boot();
-        return this.client.updateAlias(this.ops["UpdateAlias"].apply(partialParams));
-    }
-    invokeUpdateCodeSigningConfig(partialParams) {
-        this.boot();
-        return this.client.updateCodeSigningConfig(this.ops["UpdateCodeSigningConfig"].apply(partialParams));
-    }
-    invokeUpdateEventSourceMapping(partialParams) {
-        this.boot();
-        return this.client.updateEventSourceMapping(this.ops["UpdateEventSourceMapping"].apply(partialParams));
-    }
-    invokeUpdateFunctionCode(partialParams) {
-        this.boot();
-        return this.client.updateFunctionCode(this.ops["UpdateFunctionCode"].apply(partialParams));
-    }
-    invokeUpdateFunctionConfiguration(partialParams) {
-        this.boot();
-        return this.client.updateFunctionConfiguration(this.ops["UpdateFunctionConfiguration"].apply(partialParams));
-    }
-    invokeUpdateFunctionEventInvokeConfig(partialParams) {
-        this.boot();
-        return this.client.updateFunctionEventInvokeConfig(this.ops["UpdateFunctionEventInvokeConfig"].apply(partialParams));
     }
 }
 exports.default = default_1;

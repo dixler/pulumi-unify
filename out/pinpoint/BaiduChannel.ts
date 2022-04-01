@@ -5,18 +5,11 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    CreateAppRequest,
     CreateCampaignRequest,
-    CreateEmailTemplateRequest,
     CreateExportJobRequest,
     CreateImportJobRequest,
-    CreateInAppTemplateRequest,
     CreateJourneyRequest,
-    CreatePushTemplateRequest,
-    CreateRecommenderConfigurationRequest,
     CreateSegmentRequest,
-    CreateSmsTemplateRequest,
-    CreateVoiceTemplateRequest,
     DeleteAdmChannelRequest,
     DeleteApnsChannelRequest,
     DeleteApnsSandboxChannelRequest,
@@ -26,20 +19,14 @@ import {
     DeleteBaiduChannelRequest,
     DeleteCampaignRequest,
     DeleteEmailChannelRequest,
-    DeleteEmailTemplateRequest,
     DeleteEndpointRequest,
     DeleteEventStreamRequest,
     DeleteGcmChannelRequest,
-    DeleteInAppTemplateRequest,
     DeleteJourneyRequest,
-    DeletePushTemplateRequest,
-    DeleteRecommenderConfigurationRequest,
     DeleteSegmentRequest,
     DeleteSmsChannelRequest,
-    DeleteSmsTemplateRequest,
     DeleteUserEndpointsRequest,
     DeleteVoiceChannelRequest,
-    DeleteVoiceTemplateRequest,
     GetAdmChannelRequest,
     GetApnsChannelRequest,
     GetApnsSandboxChannelRequest,
@@ -48,7 +35,6 @@ import {
     GetAppRequest,
     GetApplicationDateRangeKpiRequest,
     GetApplicationSettingsRequest,
-    GetAppsRequest,
     GetBaiduChannelRequest,
     GetCampaignRequest,
     GetCampaignActivitiesRequest,
@@ -58,7 +44,6 @@ import {
     GetCampaignsRequest,
     GetChannelsRequest,
     GetEmailChannelRequest,
-    GetEmailTemplateRequest,
     GetEndpointRequest,
     GetEventStreamRequest,
     GetExportJobRequest,
@@ -67,14 +52,10 @@ import {
     GetImportJobRequest,
     GetImportJobsRequest,
     GetInAppMessagesRequest,
-    GetInAppTemplateRequest,
     GetJourneyRequest,
     GetJourneyDateRangeKpiRequest,
     GetJourneyExecutionActivityMetricsRequest,
     GetJourneyExecutionMetricsRequest,
-    GetPushTemplateRequest,
-    GetRecommenderConfigurationRequest,
-    GetRecommenderConfigurationsRequest,
     GetSegmentRequest,
     GetSegmentExportJobsRequest,
     GetSegmentImportJobsRequest,
@@ -82,15 +63,9 @@ import {
     GetSegmentVersionsRequest,
     GetSegmentsRequest,
     GetSmsChannelRequest,
-    GetSmsTemplateRequest,
     GetUserEndpointsRequest,
     GetVoiceChannelRequest,
-    GetVoiceTemplateRequest,
     ListJourneysRequest,
-    ListTagsForResourceRequest,
-    ListTemplateVersionsRequest,
-    ListTemplatesRequest,
-    PhoneNumberValidateRequest,
     PutEventStreamRequest,
     PutEventsRequest,
     RemoveAttributesRequest,
@@ -106,34 +81,20 @@ import {
     UpdateBaiduChannelRequest,
     UpdateCampaignRequest,
     UpdateEmailChannelRequest,
-    UpdateEmailTemplateRequest,
     UpdateEndpointRequest,
     UpdateEndpointsBatchRequest,
     UpdateGcmChannelRequest,
-    UpdateInAppTemplateRequest,
     UpdateJourneyRequest,
     UpdateJourneyStateRequest,
-    UpdatePushTemplateRequest,
-    UpdateRecommenderConfigurationRequest,
     UpdateSegmentRequest,
     UpdateSmsChannelRequest,
-    UpdateSmsTemplateRequest,
-    UpdateTemplateActiveVersionRequest,
     UpdateVoiceChannelRequest,
-    UpdateVoiceTemplateRequest,
     VerifyOTPMessageRequest,
-    CreateAppResponse,
     CreateCampaignResponse,
-    CreateEmailTemplateResponse,
     CreateExportJobResponse,
     CreateImportJobResponse,
-    CreateInAppTemplateResponse,
     CreateJourneyResponse,
-    CreatePushTemplateResponse,
-    CreateRecommenderConfigurationResponse,
     CreateSegmentResponse,
-    CreateSmsTemplateResponse,
-    CreateVoiceTemplateResponse,
     DeleteAdmChannelResponse,
     DeleteApnsChannelResponse,
     DeleteApnsSandboxChannelResponse,
@@ -143,20 +104,14 @@ import {
     DeleteBaiduChannelResponse,
     DeleteCampaignResponse,
     DeleteEmailChannelResponse,
-    DeleteEmailTemplateResponse,
     DeleteEndpointResponse,
     DeleteEventStreamResponse,
     DeleteGcmChannelResponse,
-    DeleteInAppTemplateResponse,
     DeleteJourneyResponse,
-    DeletePushTemplateResponse,
-    DeleteRecommenderConfigurationResponse,
     DeleteSegmentResponse,
     DeleteSmsChannelResponse,
-    DeleteSmsTemplateResponse,
     DeleteUserEndpointsResponse,
     DeleteVoiceChannelResponse,
-    DeleteVoiceTemplateResponse,
     GetAdmChannelResponse,
     GetApnsChannelResponse,
     GetApnsSandboxChannelResponse,
@@ -165,7 +120,6 @@ import {
     GetAppResponse,
     GetApplicationDateRangeKpiResponse,
     GetApplicationSettingsResponse,
-    GetAppsResponse,
     GetBaiduChannelResponse,
     GetCampaignResponse,
     GetCampaignActivitiesResponse,
@@ -175,7 +129,6 @@ import {
     GetCampaignsResponse,
     GetChannelsResponse,
     GetEmailChannelResponse,
-    GetEmailTemplateResponse,
     GetEndpointResponse,
     GetEventStreamResponse,
     GetExportJobResponse,
@@ -184,14 +137,10 @@ import {
     GetImportJobResponse,
     GetImportJobsResponse,
     GetInAppMessagesResponse,
-    GetInAppTemplateResponse,
     GetJourneyResponse,
     GetJourneyDateRangeKpiResponse,
     GetJourneyExecutionActivityMetricsResponse,
     GetJourneyExecutionMetricsResponse,
-    GetPushTemplateResponse,
-    GetRecommenderConfigurationResponse,
-    GetRecommenderConfigurationsResponse,
     GetSegmentResponse,
     GetSegmentExportJobsResponse,
     GetSegmentImportJobsResponse,
@@ -199,15 +148,9 @@ import {
     GetSegmentVersionsResponse,
     GetSegmentsResponse,
     GetSmsChannelResponse,
-    GetSmsTemplateResponse,
     GetUserEndpointsResponse,
     GetVoiceChannelResponse,
-    GetVoiceTemplateResponse,
     ListJourneysResponse,
-    ListTagsForResourceResponse,
-    ListTemplateVersionsResponse,
-    ListTemplatesResponse,
-    PhoneNumberValidateResponse,
     PutEventStreamResponse,
     PutEventsResponse,
     RemoveAttributesResponse,
@@ -223,21 +166,14 @@ import {
     UpdateBaiduChannelResponse,
     UpdateCampaignResponse,
     UpdateEmailChannelResponse,
-    UpdateEmailTemplateResponse,
     UpdateEndpointResponse,
     UpdateEndpointsBatchResponse,
     UpdateGcmChannelResponse,
-    UpdateInAppTemplateResponse,
     UpdateJourneyResponse,
     UpdateJourneyStateResponse,
-    UpdatePushTemplateResponse,
-    UpdateRecommenderConfigurationResponse,
     UpdateSegmentResponse,
     UpdateSmsChannelResponse,
-    UpdateSmsTemplateResponse,
-    UpdateTemplateActiveVersionResponse,
     UpdateVoiceChannelResponse,
-    UpdateVoiceTemplateResponse,
     VerifyOTPMessageResponse
 } from "aws-sdk/clients/pinpoint";
 const schema = require("../apis/pinpoint-2016-12-01.normal.json")
@@ -283,30 +219,12 @@ export default class extends aws.pinpoint.BaiduChannel {
         this.booted = true;
     }
 
-    invokeCreateApp(partialParams: ToOptional<{
-      [K in keyof CreateAppRequest]: (CreateAppRequest)[K]
-    }>): Request<CreateAppResponse, AWSError> {
-        this.boot();
-        return this.client.createApp(
-          this.ops["CreateApp"].apply(partialParams)
-        );
-    }
-
     invokeCreateCampaign(partialParams: ToOptional<{
       [K in keyof CreateCampaignRequest & keyof Omit<CreateCampaignRequest, "ApplicationId">]: (CreateCampaignRequest)[K]
     }>): Request<CreateCampaignResponse, AWSError> {
         this.boot();
         return this.client.createCampaign(
           this.ops["CreateCampaign"].apply(partialParams)
-        );
-    }
-
-    invokeCreateEmailTemplate(partialParams: ToOptional<{
-      [K in keyof CreateEmailTemplateRequest]: (CreateEmailTemplateRequest)[K]
-    }>): Request<CreateEmailTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.createEmailTemplate(
-          this.ops["CreateEmailTemplate"].apply(partialParams)
         );
     }
 
@@ -328,15 +246,6 @@ export default class extends aws.pinpoint.BaiduChannel {
         );
     }
 
-    invokeCreateInAppTemplate(partialParams: ToOptional<{
-      [K in keyof CreateInAppTemplateRequest]: (CreateInAppTemplateRequest)[K]
-    }>): Request<CreateInAppTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.createInAppTemplate(
-          this.ops["CreateInAppTemplate"].apply(partialParams)
-        );
-    }
-
     invokeCreateJourney(partialParams: ToOptional<{
       [K in keyof CreateJourneyRequest & keyof Omit<CreateJourneyRequest, "ApplicationId">]: (CreateJourneyRequest)[K]
     }>): Request<CreateJourneyResponse, AWSError> {
@@ -346,48 +255,12 @@ export default class extends aws.pinpoint.BaiduChannel {
         );
     }
 
-    invokeCreatePushTemplate(partialParams: ToOptional<{
-      [K in keyof CreatePushTemplateRequest]: (CreatePushTemplateRequest)[K]
-    }>): Request<CreatePushTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.createPushTemplate(
-          this.ops["CreatePushTemplate"].apply(partialParams)
-        );
-    }
-
-    invokeCreateRecommenderConfiguration(partialParams: ToOptional<{
-      [K in keyof CreateRecommenderConfigurationRequest]: (CreateRecommenderConfigurationRequest)[K]
-    }>): Request<CreateRecommenderConfigurationResponse, AWSError> {
-        this.boot();
-        return this.client.createRecommenderConfiguration(
-          this.ops["CreateRecommenderConfiguration"].apply(partialParams)
-        );
-    }
-
     invokeCreateSegment(partialParams: ToOptional<{
       [K in keyof CreateSegmentRequest & keyof Omit<CreateSegmentRequest, "ApplicationId">]: (CreateSegmentRequest)[K]
     }>): Request<CreateSegmentResponse, AWSError> {
         this.boot();
         return this.client.createSegment(
           this.ops["CreateSegment"].apply(partialParams)
-        );
-    }
-
-    invokeCreateSmsTemplate(partialParams: ToOptional<{
-      [K in keyof CreateSmsTemplateRequest]: (CreateSmsTemplateRequest)[K]
-    }>): Request<CreateSmsTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.createSmsTemplate(
-          this.ops["CreateSmsTemplate"].apply(partialParams)
-        );
-    }
-
-    invokeCreateVoiceTemplate(partialParams: ToOptional<{
-      [K in keyof CreateVoiceTemplateRequest]: (CreateVoiceTemplateRequest)[K]
-    }>): Request<CreateVoiceTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.createVoiceTemplate(
-          this.ops["CreateVoiceTemplate"].apply(partialParams)
         );
     }
 
@@ -472,15 +345,6 @@ export default class extends aws.pinpoint.BaiduChannel {
         );
     }
 
-    invokeDeleteEmailTemplate(partialParams: ToOptional<{
-      [K in keyof DeleteEmailTemplateRequest]: (DeleteEmailTemplateRequest)[K]
-    }>): Request<DeleteEmailTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.deleteEmailTemplate(
-          this.ops["DeleteEmailTemplate"].apply(partialParams)
-        );
-    }
-
     invokeDeleteEndpoint(partialParams: ToOptional<{
       [K in keyof DeleteEndpointRequest & keyof Omit<DeleteEndpointRequest, "ApplicationId">]: (DeleteEndpointRequest)[K]
     }>): Request<DeleteEndpointResponse, AWSError> {
@@ -508,39 +372,12 @@ export default class extends aws.pinpoint.BaiduChannel {
         );
     }
 
-    invokeDeleteInAppTemplate(partialParams: ToOptional<{
-      [K in keyof DeleteInAppTemplateRequest]: (DeleteInAppTemplateRequest)[K]
-    }>): Request<DeleteInAppTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.deleteInAppTemplate(
-          this.ops["DeleteInAppTemplate"].apply(partialParams)
-        );
-    }
-
     invokeDeleteJourney(partialParams: ToOptional<{
       [K in keyof DeleteJourneyRequest & keyof Omit<DeleteJourneyRequest, "ApplicationId">]: (DeleteJourneyRequest)[K]
     }>): Request<DeleteJourneyResponse, AWSError> {
         this.boot();
         return this.client.deleteJourney(
           this.ops["DeleteJourney"].apply(partialParams)
-        );
-    }
-
-    invokeDeletePushTemplate(partialParams: ToOptional<{
-      [K in keyof DeletePushTemplateRequest]: (DeletePushTemplateRequest)[K]
-    }>): Request<DeletePushTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.deletePushTemplate(
-          this.ops["DeletePushTemplate"].apply(partialParams)
-        );
-    }
-
-    invokeDeleteRecommenderConfiguration(partialParams: ToOptional<{
-      [K in keyof DeleteRecommenderConfigurationRequest]: (DeleteRecommenderConfigurationRequest)[K]
-    }>): Request<DeleteRecommenderConfigurationResponse, AWSError> {
-        this.boot();
-        return this.client.deleteRecommenderConfiguration(
-          this.ops["DeleteRecommenderConfiguration"].apply(partialParams)
         );
     }
 
@@ -562,15 +399,6 @@ export default class extends aws.pinpoint.BaiduChannel {
         );
     }
 
-    invokeDeleteSmsTemplate(partialParams: ToOptional<{
-      [K in keyof DeleteSmsTemplateRequest]: (DeleteSmsTemplateRequest)[K]
-    }>): Request<DeleteSmsTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.deleteSmsTemplate(
-          this.ops["DeleteSmsTemplate"].apply(partialParams)
-        );
-    }
-
     invokeDeleteUserEndpoints(partialParams: ToOptional<{
       [K in keyof DeleteUserEndpointsRequest & keyof Omit<DeleteUserEndpointsRequest, "ApplicationId">]: (DeleteUserEndpointsRequest)[K]
     }>): Request<DeleteUserEndpointsResponse, AWSError> {
@@ -586,15 +414,6 @@ export default class extends aws.pinpoint.BaiduChannel {
         this.boot();
         return this.client.deleteVoiceChannel(
           this.ops["DeleteVoiceChannel"].apply(partialParams)
-        );
-    }
-
-    invokeDeleteVoiceTemplate(partialParams: ToOptional<{
-      [K in keyof DeleteVoiceTemplateRequest]: (DeleteVoiceTemplateRequest)[K]
-    }>): Request<DeleteVoiceTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.deleteVoiceTemplate(
-          this.ops["DeleteVoiceTemplate"].apply(partialParams)
         );
     }
 
@@ -667,15 +486,6 @@ export default class extends aws.pinpoint.BaiduChannel {
         this.boot();
         return this.client.getApplicationSettings(
           this.ops["GetApplicationSettings"].apply(partialParams)
-        );
-    }
-
-    invokeGetApps(partialParams: ToOptional<{
-      [K in keyof GetAppsRequest]: (GetAppsRequest)[K]
-    }>): Request<GetAppsResponse, AWSError> {
-        this.boot();
-        return this.client.getApps(
-          this.ops["GetApps"].apply(partialParams)
         );
     }
 
@@ -760,15 +570,6 @@ export default class extends aws.pinpoint.BaiduChannel {
         );
     }
 
-    invokeGetEmailTemplate(partialParams: ToOptional<{
-      [K in keyof GetEmailTemplateRequest]: (GetEmailTemplateRequest)[K]
-    }>): Request<GetEmailTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.getEmailTemplate(
-          this.ops["GetEmailTemplate"].apply(partialParams)
-        );
-    }
-
     invokeGetEndpoint(partialParams: ToOptional<{
       [K in keyof GetEndpointRequest & keyof Omit<GetEndpointRequest, "ApplicationId">]: (GetEndpointRequest)[K]
     }>): Request<GetEndpointResponse, AWSError> {
@@ -841,15 +642,6 @@ export default class extends aws.pinpoint.BaiduChannel {
         );
     }
 
-    invokeGetInAppTemplate(partialParams: ToOptional<{
-      [K in keyof GetInAppTemplateRequest]: (GetInAppTemplateRequest)[K]
-    }>): Request<GetInAppTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.getInAppTemplate(
-          this.ops["GetInAppTemplate"].apply(partialParams)
-        );
-    }
-
     invokeGetJourney(partialParams: ToOptional<{
       [K in keyof GetJourneyRequest & keyof Omit<GetJourneyRequest, "ApplicationId">]: (GetJourneyRequest)[K]
     }>): Request<GetJourneyResponse, AWSError> {
@@ -883,33 +675,6 @@ export default class extends aws.pinpoint.BaiduChannel {
         this.boot();
         return this.client.getJourneyExecutionMetrics(
           this.ops["GetJourneyExecutionMetrics"].apply(partialParams)
-        );
-    }
-
-    invokeGetPushTemplate(partialParams: ToOptional<{
-      [K in keyof GetPushTemplateRequest]: (GetPushTemplateRequest)[K]
-    }>): Request<GetPushTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.getPushTemplate(
-          this.ops["GetPushTemplate"].apply(partialParams)
-        );
-    }
-
-    invokeGetRecommenderConfiguration(partialParams: ToOptional<{
-      [K in keyof GetRecommenderConfigurationRequest]: (GetRecommenderConfigurationRequest)[K]
-    }>): Request<GetRecommenderConfigurationResponse, AWSError> {
-        this.boot();
-        return this.client.getRecommenderConfiguration(
-          this.ops["GetRecommenderConfiguration"].apply(partialParams)
-        );
-    }
-
-    invokeGetRecommenderConfigurations(partialParams: ToOptional<{
-      [K in keyof GetRecommenderConfigurationsRequest]: (GetRecommenderConfigurationsRequest)[K]
-    }>): Request<GetRecommenderConfigurationsResponse, AWSError> {
-        this.boot();
-        return this.client.getRecommenderConfigurations(
-          this.ops["GetRecommenderConfigurations"].apply(partialParams)
         );
     }
 
@@ -976,15 +741,6 @@ export default class extends aws.pinpoint.BaiduChannel {
         );
     }
 
-    invokeGetSmsTemplate(partialParams: ToOptional<{
-      [K in keyof GetSmsTemplateRequest]: (GetSmsTemplateRequest)[K]
-    }>): Request<GetSmsTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.getSmsTemplate(
-          this.ops["GetSmsTemplate"].apply(partialParams)
-        );
-    }
-
     invokeGetUserEndpoints(partialParams: ToOptional<{
       [K in keyof GetUserEndpointsRequest & keyof Omit<GetUserEndpointsRequest, "ApplicationId">]: (GetUserEndpointsRequest)[K]
     }>): Request<GetUserEndpointsResponse, AWSError> {
@@ -1003,57 +759,12 @@ export default class extends aws.pinpoint.BaiduChannel {
         );
     }
 
-    invokeGetVoiceTemplate(partialParams: ToOptional<{
-      [K in keyof GetVoiceTemplateRequest]: (GetVoiceTemplateRequest)[K]
-    }>): Request<GetVoiceTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.getVoiceTemplate(
-          this.ops["GetVoiceTemplate"].apply(partialParams)
-        );
-    }
-
     invokeListJourneys(partialParams: ToOptional<{
       [K in keyof ListJourneysRequest & keyof Omit<ListJourneysRequest, "ApplicationId">]: (ListJourneysRequest)[K]
     }>): Request<ListJourneysResponse, AWSError> {
         this.boot();
         return this.client.listJourneys(
           this.ops["ListJourneys"].apply(partialParams)
-        );
-    }
-
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
-    }>): Request<ListTagsForResourceResponse, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
-        );
-    }
-
-    invokeListTemplateVersions(partialParams: ToOptional<{
-      [K in keyof ListTemplateVersionsRequest]: (ListTemplateVersionsRequest)[K]
-    }>): Request<ListTemplateVersionsResponse, AWSError> {
-        this.boot();
-        return this.client.listTemplateVersions(
-          this.ops["ListTemplateVersions"].apply(partialParams)
-        );
-    }
-
-    invokeListTemplates(partialParams: ToOptional<{
-      [K in keyof ListTemplatesRequest]: (ListTemplatesRequest)[K]
-    }>): Request<ListTemplatesResponse, AWSError> {
-        this.boot();
-        return this.client.listTemplates(
-          this.ops["ListTemplates"].apply(partialParams)
-        );
-    }
-
-    invokePhoneNumberValidate(partialParams: ToOptional<{
-      [K in keyof PhoneNumberValidateRequest]: (PhoneNumberValidateRequest)[K]
-    }>): Request<PhoneNumberValidateResponse, AWSError> {
-        this.boot();
-        return this.client.phoneNumberValidate(
-          this.ops["PhoneNumberValidate"].apply(partialParams)
         );
     }
 
@@ -1192,15 +903,6 @@ export default class extends aws.pinpoint.BaiduChannel {
         );
     }
 
-    invokeUpdateEmailTemplate(partialParams: ToOptional<{
-      [K in keyof UpdateEmailTemplateRequest]: (UpdateEmailTemplateRequest)[K]
-    }>): Request<UpdateEmailTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.updateEmailTemplate(
-          this.ops["UpdateEmailTemplate"].apply(partialParams)
-        );
-    }
-
     invokeUpdateEndpoint(partialParams: ToOptional<{
       [K in keyof UpdateEndpointRequest & keyof Omit<UpdateEndpointRequest, "ApplicationId">]: (UpdateEndpointRequest)[K]
     }>): Request<UpdateEndpointResponse, AWSError> {
@@ -1228,15 +930,6 @@ export default class extends aws.pinpoint.BaiduChannel {
         );
     }
 
-    invokeUpdateInAppTemplate(partialParams: ToOptional<{
-      [K in keyof UpdateInAppTemplateRequest]: (UpdateInAppTemplateRequest)[K]
-    }>): Request<UpdateInAppTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.updateInAppTemplate(
-          this.ops["UpdateInAppTemplate"].apply(partialParams)
-        );
-    }
-
     invokeUpdateJourney(partialParams: ToOptional<{
       [K in keyof UpdateJourneyRequest & keyof Omit<UpdateJourneyRequest, "ApplicationId">]: (UpdateJourneyRequest)[K]
     }>): Request<UpdateJourneyResponse, AWSError> {
@@ -1252,24 +945,6 @@ export default class extends aws.pinpoint.BaiduChannel {
         this.boot();
         return this.client.updateJourneyState(
           this.ops["UpdateJourneyState"].apply(partialParams)
-        );
-    }
-
-    invokeUpdatePushTemplate(partialParams: ToOptional<{
-      [K in keyof UpdatePushTemplateRequest]: (UpdatePushTemplateRequest)[K]
-    }>): Request<UpdatePushTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.updatePushTemplate(
-          this.ops["UpdatePushTemplate"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateRecommenderConfiguration(partialParams: ToOptional<{
-      [K in keyof UpdateRecommenderConfigurationRequest]: (UpdateRecommenderConfigurationRequest)[K]
-    }>): Request<UpdateRecommenderConfigurationResponse, AWSError> {
-        this.boot();
-        return this.client.updateRecommenderConfiguration(
-          this.ops["UpdateRecommenderConfiguration"].apply(partialParams)
         );
     }
 
@@ -1291,39 +966,12 @@ export default class extends aws.pinpoint.BaiduChannel {
         );
     }
 
-    invokeUpdateSmsTemplate(partialParams: ToOptional<{
-      [K in keyof UpdateSmsTemplateRequest]: (UpdateSmsTemplateRequest)[K]
-    }>): Request<UpdateSmsTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.updateSmsTemplate(
-          this.ops["UpdateSmsTemplate"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateTemplateActiveVersion(partialParams: ToOptional<{
-      [K in keyof UpdateTemplateActiveVersionRequest]: (UpdateTemplateActiveVersionRequest)[K]
-    }>): Request<UpdateTemplateActiveVersionResponse, AWSError> {
-        this.boot();
-        return this.client.updateTemplateActiveVersion(
-          this.ops["UpdateTemplateActiveVersion"].apply(partialParams)
-        );
-    }
-
     invokeUpdateVoiceChannel(partialParams: ToOptional<{
       [K in keyof UpdateVoiceChannelRequest & keyof Omit<UpdateVoiceChannelRequest, "ApplicationId">]: (UpdateVoiceChannelRequest)[K]
     }>): Request<UpdateVoiceChannelResponse, AWSError> {
         this.boot();
         return this.client.updateVoiceChannel(
           this.ops["UpdateVoiceChannel"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateVoiceTemplate(partialParams: ToOptional<{
-      [K in keyof UpdateVoiceTemplateRequest]: (UpdateVoiceTemplateRequest)[K]
-    }>): Request<UpdateVoiceTemplateResponse, AWSError> {
-        this.boot();
-        return this.client.updateVoiceTemplate(
-          this.ops["UpdateVoiceTemplate"].apply(partialParams)
         );
     }
 

@@ -5,96 +5,44 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    BatchExecuteStatementInput,
-    BatchGetItemInput,
-    BatchWriteItemInput,
     CreateBackupInput,
-    CreateGlobalTableInput,
     CreateTableInput,
-    DeleteBackupInput,
     DeleteItemInput,
     DeleteTableInput,
-    DescribeBackupInput,
     DescribeContinuousBackupsInput,
     DescribeContributorInsightsInput,
-    DescribeEndpointsRequest,
-    DescribeExportInput,
-    DescribeGlobalTableInput,
-    DescribeGlobalTableSettingsInput,
     DescribeKinesisStreamingDestinationInput,
-    DescribeLimitsInput,
     DescribeTableInput,
     DescribeTableReplicaAutoScalingInput,
     DescribeTimeToLiveInput,
     KinesisStreamingDestinationInput,
-    ExecuteStatementInput,
-    ExecuteTransactionInput,
-    ExportTableToPointInTimeInput,
     GetItemInput,
-    ListBackupsInput,
-    ListContributorInsightsInput,
-    ListExportsInput,
-    ListGlobalTablesInput,
-    ListTablesInput,
-    ListTagsOfResourceInput,
     PutItemInput,
     QueryInput,
-    RestoreTableFromBackupInput,
-    RestoreTableToPointInTimeInput,
     ScanInput,
-    TransactGetItemsInput,
-    TransactWriteItemsInput,
     UpdateContinuousBackupsInput,
     UpdateContributorInsightsInput,
-    UpdateGlobalTableInput,
-    UpdateGlobalTableSettingsInput,
     UpdateItemInput,
     UpdateTableInput,
     UpdateTableReplicaAutoScalingInput,
     UpdateTimeToLiveInput,
-    BatchExecuteStatementOutput,
-    BatchGetItemOutput,
-    BatchWriteItemOutput,
     CreateBackupOutput,
-    CreateGlobalTableOutput,
     CreateTableOutput,
-    DeleteBackupOutput,
     DeleteItemOutput,
     DeleteTableOutput,
-    DescribeBackupOutput,
     DescribeContinuousBackupsOutput,
     DescribeContributorInsightsOutput,
-    DescribeEndpointsResponse,
-    DescribeExportOutput,
-    DescribeGlobalTableOutput,
-    DescribeGlobalTableSettingsOutput,
     DescribeKinesisStreamingDestinationOutput,
-    DescribeLimitsOutput,
     DescribeTableOutput,
     DescribeTableReplicaAutoScalingOutput,
     DescribeTimeToLiveOutput,
     KinesisStreamingDestinationOutput,
-    ExecuteStatementOutput,
-    ExecuteTransactionOutput,
-    ExportTableToPointInTimeOutput,
     GetItemOutput,
-    ListBackupsOutput,
-    ListContributorInsightsOutput,
-    ListExportsOutput,
-    ListGlobalTablesOutput,
-    ListTablesOutput,
-    ListTagsOfResourceOutput,
     PutItemOutput,
     QueryOutput,
-    RestoreTableFromBackupOutput,
-    RestoreTableToPointInTimeOutput,
     ScanOutput,
-    TransactGetItemsOutput,
-    TransactWriteItemsOutput,
     UpdateContinuousBackupsOutput,
     UpdateContributorInsightsOutput,
-    UpdateGlobalTableOutput,
-    UpdateGlobalTableSettingsOutput,
     UpdateItemOutput,
     UpdateTableOutput,
     UpdateTableReplicaAutoScalingOutput,
@@ -143,33 +91,6 @@ export default class extends aws.dynamodb.KinesisStreamingDestination {
         this.booted = true;
     }
 
-    invokeBatchExecuteStatement(partialParams: ToOptional<{
-      [K in keyof BatchExecuteStatementInput]: (BatchExecuteStatementInput)[K]
-    }>): Request<BatchExecuteStatementOutput, AWSError> {
-        this.boot();
-        return this.client.batchExecuteStatement(
-          this.ops["BatchExecuteStatement"].apply(partialParams)
-        );
-    }
-
-    invokeBatchGetItem(partialParams: ToOptional<{
-      [K in keyof BatchGetItemInput]: (BatchGetItemInput)[K]
-    }>): Request<BatchGetItemOutput, AWSError> {
-        this.boot();
-        return this.client.batchGetItem(
-          this.ops["BatchGetItem"].apply(partialParams)
-        );
-    }
-
-    invokeBatchWriteItem(partialParams: ToOptional<{
-      [K in keyof BatchWriteItemInput]: (BatchWriteItemInput)[K]
-    }>): Request<BatchWriteItemOutput, AWSError> {
-        this.boot();
-        return this.client.batchWriteItem(
-          this.ops["BatchWriteItem"].apply(partialParams)
-        );
-    }
-
     invokeCreateBackup(partialParams: ToOptional<{
       [K in keyof CreateBackupInput & keyof Omit<CreateBackupInput, "TableName">]: (CreateBackupInput)[K]
     }>): Request<CreateBackupOutput, AWSError> {
@@ -179,30 +100,12 @@ export default class extends aws.dynamodb.KinesisStreamingDestination {
         );
     }
 
-    invokeCreateGlobalTable(partialParams: ToOptional<{
-      [K in keyof CreateGlobalTableInput]: (CreateGlobalTableInput)[K]
-    }>): Request<CreateGlobalTableOutput, AWSError> {
-        this.boot();
-        return this.client.createGlobalTable(
-          this.ops["CreateGlobalTable"].apply(partialParams)
-        );
-    }
-
     invokeCreateTable(partialParams: ToOptional<{
       [K in keyof CreateTableInput & keyof Omit<CreateTableInput, "TableName">]: (CreateTableInput)[K]
     }>): Request<CreateTableOutput, AWSError> {
         this.boot();
         return this.client.createTable(
           this.ops["CreateTable"].apply(partialParams)
-        );
-    }
-
-    invokeDeleteBackup(partialParams: ToOptional<{
-      [K in keyof DeleteBackupInput]: (DeleteBackupInput)[K]
-    }>): Request<DeleteBackupOutput, AWSError> {
-        this.boot();
-        return this.client.deleteBackup(
-          this.ops["DeleteBackup"].apply(partialParams)
         );
     }
 
@@ -224,15 +127,6 @@ export default class extends aws.dynamodb.KinesisStreamingDestination {
         );
     }
 
-    invokeDescribeBackup(partialParams: ToOptional<{
-      [K in keyof DescribeBackupInput]: (DescribeBackupInput)[K]
-    }>): Request<DescribeBackupOutput, AWSError> {
-        this.boot();
-        return this.client.describeBackup(
-          this.ops["DescribeBackup"].apply(partialParams)
-        );
-    }
-
     invokeDescribeContinuousBackups(partialParams: ToOptional<{
       [K in keyof DescribeContinuousBackupsInput & keyof Omit<DescribeContinuousBackupsInput, "TableName">]: (DescribeContinuousBackupsInput)[K]
     }>): Request<DescribeContinuousBackupsOutput, AWSError> {
@@ -251,57 +145,12 @@ export default class extends aws.dynamodb.KinesisStreamingDestination {
         );
     }
 
-    invokeDescribeEndpoints(partialParams: ToOptional<{
-      [K in keyof DescribeEndpointsRequest]: (DescribeEndpointsRequest)[K]
-    }>): Request<DescribeEndpointsResponse, AWSError> {
-        this.boot();
-        return this.client.describeEndpoints(
-          this.ops["DescribeEndpoints"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeExport(partialParams: ToOptional<{
-      [K in keyof DescribeExportInput]: (DescribeExportInput)[K]
-    }>): Request<DescribeExportOutput, AWSError> {
-        this.boot();
-        return this.client.describeExport(
-          this.ops["DescribeExport"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeGlobalTable(partialParams: ToOptional<{
-      [K in keyof DescribeGlobalTableInput]: (DescribeGlobalTableInput)[K]
-    }>): Request<DescribeGlobalTableOutput, AWSError> {
-        this.boot();
-        return this.client.describeGlobalTable(
-          this.ops["DescribeGlobalTable"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeGlobalTableSettings(partialParams: ToOptional<{
-      [K in keyof DescribeGlobalTableSettingsInput]: (DescribeGlobalTableSettingsInput)[K]
-    }>): Request<DescribeGlobalTableSettingsOutput, AWSError> {
-        this.boot();
-        return this.client.describeGlobalTableSettings(
-          this.ops["DescribeGlobalTableSettings"].apply(partialParams)
-        );
-    }
-
     invokeDescribeKinesisStreamingDestination(partialParams: ToOptional<{
       [K in keyof DescribeKinesisStreamingDestinationInput & keyof Omit<DescribeKinesisStreamingDestinationInput, "TableName">]: (DescribeKinesisStreamingDestinationInput)[K]
     }>): Request<DescribeKinesisStreamingDestinationOutput, AWSError> {
         this.boot();
         return this.client.describeKinesisStreamingDestination(
           this.ops["DescribeKinesisStreamingDestination"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeLimits(partialParams: ToOptional<{
-      [K in keyof DescribeLimitsInput]: (DescribeLimitsInput)[K]
-    }>): Request<DescribeLimitsOutput, AWSError> {
-        this.boot();
-        return this.client.describeLimits(
-          this.ops["DescribeLimits"].apply(partialParams)
         );
     }
 
@@ -350,93 +199,12 @@ export default class extends aws.dynamodb.KinesisStreamingDestination {
         );
     }
 
-    invokeExecuteStatement(partialParams: ToOptional<{
-      [K in keyof ExecuteStatementInput]: (ExecuteStatementInput)[K]
-    }>): Request<ExecuteStatementOutput, AWSError> {
-        this.boot();
-        return this.client.executeStatement(
-          this.ops["ExecuteStatement"].apply(partialParams)
-        );
-    }
-
-    invokeExecuteTransaction(partialParams: ToOptional<{
-      [K in keyof ExecuteTransactionInput]: (ExecuteTransactionInput)[K]
-    }>): Request<ExecuteTransactionOutput, AWSError> {
-        this.boot();
-        return this.client.executeTransaction(
-          this.ops["ExecuteTransaction"].apply(partialParams)
-        );
-    }
-
-    invokeExportTableToPointInTime(partialParams: ToOptional<{
-      [K in keyof ExportTableToPointInTimeInput]: (ExportTableToPointInTimeInput)[K]
-    }>): Request<ExportTableToPointInTimeOutput, AWSError> {
-        this.boot();
-        return this.client.exportTableToPointInTime(
-          this.ops["ExportTableToPointInTime"].apply(partialParams)
-        );
-    }
-
     invokeGetItem(partialParams: ToOptional<{
       [K in keyof GetItemInput & keyof Omit<GetItemInput, "TableName">]: (GetItemInput)[K]
     }>): Request<GetItemOutput, AWSError> {
         this.boot();
         return this.client.getItem(
           this.ops["GetItem"].apply(partialParams)
-        );
-    }
-
-    invokeListBackups(partialParams: ToOptional<{
-      [K in keyof ListBackupsInput]: (ListBackupsInput)[K]
-    }>): Request<ListBackupsOutput, AWSError> {
-        this.boot();
-        return this.client.listBackups(
-          this.ops["ListBackups"].apply(partialParams)
-        );
-    }
-
-    invokeListContributorInsights(partialParams: ToOptional<{
-      [K in keyof ListContributorInsightsInput]: (ListContributorInsightsInput)[K]
-    }>): Request<ListContributorInsightsOutput, AWSError> {
-        this.boot();
-        return this.client.listContributorInsights(
-          this.ops["ListContributorInsights"].apply(partialParams)
-        );
-    }
-
-    invokeListExports(partialParams: ToOptional<{
-      [K in keyof ListExportsInput]: (ListExportsInput)[K]
-    }>): Request<ListExportsOutput, AWSError> {
-        this.boot();
-        return this.client.listExports(
-          this.ops["ListExports"].apply(partialParams)
-        );
-    }
-
-    invokeListGlobalTables(partialParams: ToOptional<{
-      [K in keyof ListGlobalTablesInput]: (ListGlobalTablesInput)[K]
-    }>): Request<ListGlobalTablesOutput, AWSError> {
-        this.boot();
-        return this.client.listGlobalTables(
-          this.ops["ListGlobalTables"].apply(partialParams)
-        );
-    }
-
-    invokeListTables(partialParams: ToOptional<{
-      [K in keyof ListTablesInput]: (ListTablesInput)[K]
-    }>): Request<ListTablesOutput, AWSError> {
-        this.boot();
-        return this.client.listTables(
-          this.ops["ListTables"].apply(partialParams)
-        );
-    }
-
-    invokeListTagsOfResource(partialParams: ToOptional<{
-      [K in keyof ListTagsOfResourceInput]: (ListTagsOfResourceInput)[K]
-    }>): Request<ListTagsOfResourceOutput, AWSError> {
-        this.boot();
-        return this.client.listTagsOfResource(
-          this.ops["ListTagsOfResource"].apply(partialParams)
         );
     }
 
@@ -458,48 +226,12 @@ export default class extends aws.dynamodb.KinesisStreamingDestination {
         );
     }
 
-    invokeRestoreTableFromBackup(partialParams: ToOptional<{
-      [K in keyof RestoreTableFromBackupInput]: (RestoreTableFromBackupInput)[K]
-    }>): Request<RestoreTableFromBackupOutput, AWSError> {
-        this.boot();
-        return this.client.restoreTableFromBackup(
-          this.ops["RestoreTableFromBackup"].apply(partialParams)
-        );
-    }
-
-    invokeRestoreTableToPointInTime(partialParams: ToOptional<{
-      [K in keyof RestoreTableToPointInTimeInput]: (RestoreTableToPointInTimeInput)[K]
-    }>): Request<RestoreTableToPointInTimeOutput, AWSError> {
-        this.boot();
-        return this.client.restoreTableToPointInTime(
-          this.ops["RestoreTableToPointInTime"].apply(partialParams)
-        );
-    }
-
     invokeScan(partialParams: ToOptional<{
       [K in keyof ScanInput & keyof Omit<ScanInput, "TableName">]: (ScanInput)[K]
     }>): Request<ScanOutput, AWSError> {
         this.boot();
         return this.client.scan(
           this.ops["Scan"].apply(partialParams)
-        );
-    }
-
-    invokeTransactGetItems(partialParams: ToOptional<{
-      [K in keyof TransactGetItemsInput]: (TransactGetItemsInput)[K]
-    }>): Request<TransactGetItemsOutput, AWSError> {
-        this.boot();
-        return this.client.transactGetItems(
-          this.ops["TransactGetItems"].apply(partialParams)
-        );
-    }
-
-    invokeTransactWriteItems(partialParams: ToOptional<{
-      [K in keyof TransactWriteItemsInput]: (TransactWriteItemsInput)[K]
-    }>): Request<TransactWriteItemsOutput, AWSError> {
-        this.boot();
-        return this.client.transactWriteItems(
-          this.ops["TransactWriteItems"].apply(partialParams)
         );
     }
 
@@ -518,24 +250,6 @@ export default class extends aws.dynamodb.KinesisStreamingDestination {
         this.boot();
         return this.client.updateContributorInsights(
           this.ops["UpdateContributorInsights"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateGlobalTable(partialParams: ToOptional<{
-      [K in keyof UpdateGlobalTableInput]: (UpdateGlobalTableInput)[K]
-    }>): Request<UpdateGlobalTableOutput, AWSError> {
-        this.boot();
-        return this.client.updateGlobalTable(
-          this.ops["UpdateGlobalTable"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateGlobalTableSettings(partialParams: ToOptional<{
-      [K in keyof UpdateGlobalTableSettingsInput]: (UpdateGlobalTableSettingsInput)[K]
-    }>): Request<UpdateGlobalTableSettingsOutput, AWSError> {
-        this.boot();
-        return this.client.updateGlobalTableSettings(
-          this.ops["UpdateGlobalTableSettings"].apply(partialParams)
         );
     }
 

@@ -12,17 +12,9 @@ import {
     DeleteClusterRequest,
     DeleteParameterGroupRequest,
     DeleteSubnetGroupRequest,
-    DescribeClustersRequest,
-    DescribeDefaultParametersRequest,
-    DescribeEventsRequest,
-    DescribeParameterGroupsRequest,
     DescribeParametersRequest,
-    DescribeSubnetGroupsRequest,
     IncreaseReplicationFactorRequest,
-    ListTagsRequest,
     RebootNodeRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
     UpdateClusterRequest,
     UpdateParameterGroupRequest,
     UpdateSubnetGroupRequest,
@@ -33,17 +25,9 @@ import {
     DeleteClusterResponse,
     DeleteParameterGroupResponse,
     DeleteSubnetGroupResponse,
-    DescribeClustersResponse,
-    DescribeDefaultParametersResponse,
-    DescribeEventsResponse,
-    DescribeParameterGroupsResponse,
     DescribeParametersResponse,
-    DescribeSubnetGroupsResponse,
     IncreaseReplicationFactorResponse,
-    ListTagsResponse,
     RebootNodeResponse,
-    TagResourceResponse,
-    UntagResourceResponse,
     UpdateClusterResponse,
     UpdateParameterGroupResponse,
     UpdateSubnetGroupResponse
@@ -154,57 +138,12 @@ export default class extends aws.dax.Cluster {
         );
     }
 
-    invokeDescribeClusters(partialParams: ToOptional<{
-      [K in keyof DescribeClustersRequest]: (DescribeClustersRequest)[K]
-    }>): Request<DescribeClustersResponse, AWSError> {
-        this.boot();
-        return this.client.describeClusters(
-          this.ops["DescribeClusters"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeDefaultParameters(partialParams: ToOptional<{
-      [K in keyof DescribeDefaultParametersRequest]: (DescribeDefaultParametersRequest)[K]
-    }>): Request<DescribeDefaultParametersResponse, AWSError> {
-        this.boot();
-        return this.client.describeDefaultParameters(
-          this.ops["DescribeDefaultParameters"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeEvents(partialParams: ToOptional<{
-      [K in keyof DescribeEventsRequest]: (DescribeEventsRequest)[K]
-    }>): Request<DescribeEventsResponse, AWSError> {
-        this.boot();
-        return this.client.describeEvents(
-          this.ops["DescribeEvents"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeParameterGroups(partialParams: ToOptional<{
-      [K in keyof DescribeParameterGroupsRequest]: (DescribeParameterGroupsRequest)[K]
-    }>): Request<DescribeParameterGroupsResponse, AWSError> {
-        this.boot();
-        return this.client.describeParameterGroups(
-          this.ops["DescribeParameterGroups"].apply(partialParams)
-        );
-    }
-
     invokeDescribeParameters(partialParams: ToOptional<{
       [K in keyof DescribeParametersRequest & keyof Omit<DescribeParametersRequest, "ParameterGroupName">]: (DescribeParametersRequest)[K]
     }>): Request<DescribeParametersResponse, AWSError> {
         this.boot();
         return this.client.describeParameters(
           this.ops["DescribeParameters"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeSubnetGroups(partialParams: ToOptional<{
-      [K in keyof DescribeSubnetGroupsRequest]: (DescribeSubnetGroupsRequest)[K]
-    }>): Request<DescribeSubnetGroupsResponse, AWSError> {
-        this.boot();
-        return this.client.describeSubnetGroups(
-          this.ops["DescribeSubnetGroups"].apply(partialParams)
         );
     }
 
@@ -217,39 +156,12 @@ export default class extends aws.dax.Cluster {
         );
     }
 
-    invokeListTags(partialParams: ToOptional<{
-      [K in keyof ListTagsRequest]: (ListTagsRequest)[K]
-    }>): Request<ListTagsResponse, AWSError> {
-        this.boot();
-        return this.client.listTags(
-          this.ops["ListTags"].apply(partialParams)
-        );
-    }
-
     invokeRebootNode(partialParams: ToOptional<{
       [K in keyof RebootNodeRequest & keyof Omit<RebootNodeRequest, "ClusterName">]: (RebootNodeRequest)[K]
     }>): Request<RebootNodeResponse, AWSError> {
         this.boot();
         return this.client.rebootNode(
           this.ops["RebootNode"].apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
-    }>): Request<TagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
-    }>): Request<UntagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].apply(partialParams)
         );
     }
 

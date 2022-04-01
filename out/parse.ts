@@ -130,7 +130,9 @@ class ClassFactory {
         }
     })
     const ops = getResourceOperations(params, require(this.schemaFile))
-    const methods = Object.entries(ops).map(([opName, op]) => {
+    const methods = Object.entries(ops)
+    .filter(([opName, op]) => op.omittedFields !== undefined && op.omittedFields.length > 0)
+    .map(([opName, op]) => {
       return new MethodFactory(op);
     })
 

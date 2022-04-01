@@ -5,7 +5,6 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    CreateApiRequest,
     CreateApiMappingRequest,
     CreateAuthorizerRequest,
     CreateDeploymentRequest,
@@ -16,19 +15,15 @@ import {
     CreateRouteRequest,
     CreateRouteResponseRequest,
     CreateStageRequest,
-    CreateVpcLinkRequest,
-    DeleteVpcLinkRequest,
     ExportApiRequest,
     GetApiRequest,
     GetApiMappingRequest,
     GetApiMappingsRequest,
-    GetApisRequest,
     GetAuthorizerRequest,
     GetAuthorizersRequest,
     GetDeploymentRequest,
     GetDeploymentsRequest,
     GetDomainNameRequest,
-    GetDomainNamesRequest,
     GetIntegrationRequest,
     GetIntegrationResponseRequest,
     GetIntegrationResponsesRequest,
@@ -42,12 +37,7 @@ import {
     GetRoutesRequest,
     GetStageRequest,
     GetStagesRequest,
-    GetTagsRequest,
-    GetVpcLinkRequest,
-    GetVpcLinksRequest,
-    ImportApiRequest,
     ReimportApiRequest,
-    TagResourceRequest,
     UpdateApiRequest,
     UpdateApiMappingRequest,
     UpdateAuthorizerRequest,
@@ -59,8 +49,6 @@ import {
     UpdateRouteRequest,
     UpdateRouteResponseRequest,
     UpdateStageRequest,
-    UpdateVpcLinkRequest,
-    CreateApiResponse,
     CreateApiMappingResponse,
     CreateAuthorizerResponse,
     CreateDeploymentResponse,
@@ -71,19 +59,15 @@ import {
     CreateRouteResult,
     CreateRouteResponseResponse,
     CreateStageResponse,
-    CreateVpcLinkResponse,
-    DeleteVpcLinkResponse,
     ExportApiResponse,
     GetApiResponse,
     GetApiMappingResponse,
     GetApiMappingsResponse,
-    GetApisResponse,
     GetAuthorizerResponse,
     GetAuthorizersResponse,
     GetDeploymentResponse,
     GetDeploymentsResponse,
     GetDomainNameResponse,
-    GetDomainNamesResponse,
     GetIntegrationResult,
     GetIntegrationResponseResponse,
     GetIntegrationResponsesResponse,
@@ -97,12 +81,7 @@ import {
     GetRoutesResponse,
     GetStageResponse,
     GetStagesResponse,
-    GetTagsResponse,
-    GetVpcLinkResponse,
-    GetVpcLinksResponse,
-    ImportApiResponse,
     ReimportApiResponse,
-    TagResourceResponse,
     UpdateApiResponse,
     UpdateApiMappingResponse,
     UpdateAuthorizerResponse,
@@ -113,8 +92,7 @@ import {
     UpdateModelResponse,
     UpdateRouteResult,
     UpdateRouteResponseResponse,
-    UpdateStageResponse,
-    UpdateVpcLinkResponse
+    UpdateStageResponse
 } from "aws-sdk/clients/apigatewayv2";
 const schema = require("../apis/apigatewayv2-2018-11-29.normal.json")
 import {getResourceOperations, upperCamelCase} from "../parse";
@@ -157,15 +135,6 @@ export default class extends aws.apigatewayv2.ApiMapping {
         })
         this.ops = getResourceOperations(this.capitalizedParams as any, schema);
         this.booted = true;
-    }
-
-    invokeCreateApi(partialParams: ToOptional<{
-      [K in keyof CreateApiRequest]: (CreateApiRequest)[K]
-    }>): Request<CreateApiResponse, AWSError> {
-        this.boot();
-        return this.client.createApi(
-          this.ops["CreateApi"].apply(partialParams)
-        );
     }
 
     invokeCreateApiMapping(partialParams: ToOptional<{
@@ -258,24 +227,6 @@ export default class extends aws.apigatewayv2.ApiMapping {
         );
     }
 
-    invokeCreateVpcLink(partialParams: ToOptional<{
-      [K in keyof CreateVpcLinkRequest]: (CreateVpcLinkRequest)[K]
-    }>): Request<CreateVpcLinkResponse, AWSError> {
-        this.boot();
-        return this.client.createVpcLink(
-          this.ops["CreateVpcLink"].apply(partialParams)
-        );
-    }
-
-    invokeDeleteVpcLink(partialParams: ToOptional<{
-      [K in keyof DeleteVpcLinkRequest]: (DeleteVpcLinkRequest)[K]
-    }>): Request<DeleteVpcLinkResponse, AWSError> {
-        this.boot();
-        return this.client.deleteVpcLink(
-          this.ops["DeleteVpcLink"].apply(partialParams)
-        );
-    }
-
     invokeExportApi(partialParams: ToOptional<{
       [K in keyof ExportApiRequest & keyof Omit<ExportApiRequest, "ApiId">]: (ExportApiRequest)[K]
     }>): Request<ExportApiResponse, AWSError> {
@@ -309,15 +260,6 @@ export default class extends aws.apigatewayv2.ApiMapping {
         this.boot();
         return this.client.getApiMappings(
           this.ops["GetApiMappings"].apply(partialParams)
-        );
-    }
-
-    invokeGetApis(partialParams: ToOptional<{
-      [K in keyof GetApisRequest]: (GetApisRequest)[K]
-    }>): Request<GetApisResponse, AWSError> {
-        this.boot();
-        return this.client.getApis(
-          this.ops["GetApis"].apply(partialParams)
         );
     }
 
@@ -363,15 +305,6 @@ export default class extends aws.apigatewayv2.ApiMapping {
         this.boot();
         return this.client.getDomainName(
           this.ops["GetDomainName"].apply(partialParams)
-        );
-    }
-
-    invokeGetDomainNames(partialParams: ToOptional<{
-      [K in keyof GetDomainNamesRequest]: (GetDomainNamesRequest)[K]
-    }>): Request<GetDomainNamesResponse, AWSError> {
-        this.boot();
-        return this.client.getDomainNames(
-          this.ops["GetDomainNames"].apply(partialParams)
         );
     }
 
@@ -492,57 +425,12 @@ export default class extends aws.apigatewayv2.ApiMapping {
         );
     }
 
-    invokeGetTags(partialParams: ToOptional<{
-      [K in keyof GetTagsRequest]: (GetTagsRequest)[K]
-    }>): Request<GetTagsResponse, AWSError> {
-        this.boot();
-        return this.client.getTags(
-          this.ops["GetTags"].apply(partialParams)
-        );
-    }
-
-    invokeGetVpcLink(partialParams: ToOptional<{
-      [K in keyof GetVpcLinkRequest]: (GetVpcLinkRequest)[K]
-    }>): Request<GetVpcLinkResponse, AWSError> {
-        this.boot();
-        return this.client.getVpcLink(
-          this.ops["GetVpcLink"].apply(partialParams)
-        );
-    }
-
-    invokeGetVpcLinks(partialParams: ToOptional<{
-      [K in keyof GetVpcLinksRequest]: (GetVpcLinksRequest)[K]
-    }>): Request<GetVpcLinksResponse, AWSError> {
-        this.boot();
-        return this.client.getVpcLinks(
-          this.ops["GetVpcLinks"].apply(partialParams)
-        );
-    }
-
-    invokeImportApi(partialParams: ToOptional<{
-      [K in keyof ImportApiRequest]: (ImportApiRequest)[K]
-    }>): Request<ImportApiResponse, AWSError> {
-        this.boot();
-        return this.client.importApi(
-          this.ops["ImportApi"].apply(partialParams)
-        );
-    }
-
     invokeReimportApi(partialParams: ToOptional<{
       [K in keyof ReimportApiRequest & keyof Omit<ReimportApiRequest, "ApiId">]: (ReimportApiRequest)[K]
     }>): Request<ReimportApiResponse, AWSError> {
         this.boot();
         return this.client.reimportApi(
           this.ops["ReimportApi"].apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
-    }>): Request<TagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].apply(partialParams)
         );
     }
 
@@ -642,15 +530,6 @@ export default class extends aws.apigatewayv2.ApiMapping {
         this.boot();
         return this.client.updateStage(
           this.ops["UpdateStage"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateVpcLink(partialParams: ToOptional<{
-      [K in keyof UpdateVpcLinkRequest]: (UpdateVpcLinkRequest)[K]
-    }>): Request<UpdateVpcLinkResponse, AWSError> {
-        this.boot();
-        return this.client.updateVpcLink(
-          this.ops["UpdateVpcLink"].apply(partialParams)
         );
     }
 }

@@ -52,10 +52,6 @@ class default_1 extends aws.wafv2.WebAcl {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeAssociateWebACL(partialParams) {
-        this.boot();
-        return this.client.associateWebACL(this.ops["AssociateWebACL"].apply(partialParams));
-    }
     invokeCheckCapacity(partialParams) {
         this.boot();
         return this.client.checkCapacity(this.ops["CheckCapacity"].apply(partialParams));
@@ -76,21 +72,9 @@ class default_1 extends aws.wafv2.WebAcl {
         this.boot();
         return this.client.createWebACL(this.ops["CreateWebACL"].apply(partialParams));
     }
-    invokeDeleteFirewallManagerRuleGroups(partialParams) {
-        this.boot();
-        return this.client.deleteFirewallManagerRuleGroups(this.ops["DeleteFirewallManagerRuleGroups"].apply(partialParams));
-    }
     invokeDeleteIPSet(partialParams) {
         this.boot();
         return this.client.deleteIPSet(this.ops["DeleteIPSet"].apply(partialParams));
-    }
-    invokeDeleteLoggingConfiguration(partialParams) {
-        this.boot();
-        return this.client.deleteLoggingConfiguration(this.ops["DeleteLoggingConfiguration"].apply(partialParams));
-    }
-    invokeDeletePermissionPolicy(partialParams) {
-        this.boot();
-        return this.client.deletePermissionPolicy(this.ops["DeletePermissionPolicy"].apply(partialParams));
     }
     invokeDeleteRegexPatternSet(partialParams) {
         this.boot();
@@ -108,33 +92,13 @@ class default_1 extends aws.wafv2.WebAcl {
         this.boot();
         return this.client.describeManagedRuleGroup(this.ops["DescribeManagedRuleGroup"].apply(partialParams));
     }
-    invokeDisassociateWebACL(partialParams) {
-        this.boot();
-        return this.client.disassociateWebACL(this.ops["DisassociateWebACL"].apply(partialParams));
-    }
-    invokeGenerateMobileSdkReleaseUrl(partialParams) {
-        this.boot();
-        return this.client.generateMobileSdkReleaseUrl(this.ops["GenerateMobileSdkReleaseUrl"].apply(partialParams));
-    }
     invokeGetIPSet(partialParams) {
         this.boot();
         return this.client.getIPSet(this.ops["GetIPSet"].apply(partialParams));
     }
-    invokeGetLoggingConfiguration(partialParams) {
-        this.boot();
-        return this.client.getLoggingConfiguration(this.ops["GetLoggingConfiguration"].apply(partialParams));
-    }
     invokeGetManagedRuleSet(partialParams) {
         this.boot();
         return this.client.getManagedRuleSet(this.ops["GetManagedRuleSet"].apply(partialParams));
-    }
-    invokeGetMobileSdkRelease(partialParams) {
-        this.boot();
-        return this.client.getMobileSdkRelease(this.ops["GetMobileSdkRelease"].apply(partialParams));
-    }
-    invokeGetPermissionPolicy(partialParams) {
-        this.boot();
-        return this.client.getPermissionPolicy(this.ops["GetPermissionPolicy"].apply(partialParams));
     }
     invokeGetRateBasedStatementManagedKeys(partialParams) {
         this.boot();
@@ -144,10 +108,6 @@ class default_1 extends aws.wafv2.WebAcl {
         this.boot();
         return this.client.getRegexPatternSet(this.ops["GetRegexPatternSet"].apply(partialParams));
     }
-    invokeGetRuleGroup(partialParams) {
-        this.boot();
-        return this.client.getRuleGroup(this.ops["GetRuleGroup"].apply(partialParams));
-    }
     invokeGetSampledRequests(partialParams) {
         this.boot();
         return this.client.getSampledRequests(this.ops["GetSampledRequests"].apply(partialParams));
@@ -155,10 +115,6 @@ class default_1 extends aws.wafv2.WebAcl {
     invokeGetWebACL(partialParams) {
         this.boot();
         return this.client.getWebACL(this.ops["GetWebACL"].apply(partialParams));
-    }
-    invokeGetWebACLForResource(partialParams) {
-        this.boot();
-        return this.client.getWebACLForResource(this.ops["GetWebACLForResource"].apply(partialParams));
     }
     invokeListAvailableManagedRuleGroupVersions(partialParams) {
         this.boot();
@@ -180,49 +136,21 @@ class default_1 extends aws.wafv2.WebAcl {
         this.boot();
         return this.client.listManagedRuleSets(this.ops["ListManagedRuleSets"].apply(partialParams));
     }
-    invokeListMobileSdkReleases(partialParams) {
-        this.boot();
-        return this.client.listMobileSdkReleases(this.ops["ListMobileSdkReleases"].apply(partialParams));
-    }
     invokeListRegexPatternSets(partialParams) {
         this.boot();
         return this.client.listRegexPatternSets(this.ops["ListRegexPatternSets"].apply(partialParams));
-    }
-    invokeListResourcesForWebACL(partialParams) {
-        this.boot();
-        return this.client.listResourcesForWebACL(this.ops["ListResourcesForWebACL"].apply(partialParams));
     }
     invokeListRuleGroups(partialParams) {
         this.boot();
         return this.client.listRuleGroups(this.ops["ListRuleGroups"].apply(partialParams));
     }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
     invokeListWebACLs(partialParams) {
         this.boot();
         return this.client.listWebACLs(this.ops["ListWebACLs"].apply(partialParams));
     }
-    invokePutLoggingConfiguration(partialParams) {
-        this.boot();
-        return this.client.putLoggingConfiguration(this.ops["PutLoggingConfiguration"].apply(partialParams));
-    }
     invokePutManagedRuleSetVersions(partialParams) {
         this.boot();
         return this.client.putManagedRuleSetVersions(this.ops["PutManagedRuleSetVersions"].apply(partialParams));
-    }
-    invokePutPermissionPolicy(partialParams) {
-        this.boot();
-        return this.client.putPermissionPolicy(this.ops["PutPermissionPolicy"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateIPSet(partialParams) {
         this.boot();

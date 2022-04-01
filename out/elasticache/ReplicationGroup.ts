@@ -5,120 +5,48 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    AddTagsToResourceMessage,
-    AuthorizeCacheSecurityGroupIngressMessage,
-    BatchApplyUpdateActionMessage,
-    BatchStopUpdateActionMessage,
     CompleteMigrationMessage,
-    CopySnapshotMessage,
-    CreateCacheClusterMessage,
     CreateCacheParameterGroupMessage,
     CreateCacheSecurityGroupMessage,
-    CreateCacheSubnetGroupMessage,
-    CreateGlobalReplicationGroupMessage,
     CreateReplicationGroupMessage,
     CreateSnapshotMessage,
     CreateUserMessage,
     CreateUserGroupMessage,
     DecreaseNodeGroupsInGlobalReplicationGroupMessage,
     DecreaseReplicaCountMessage,
-    DeleteCacheClusterMessage,
     DeleteGlobalReplicationGroupMessage,
     DeleteReplicationGroupMessage,
     DeleteSnapshotMessage,
-    DeleteUserMessage,
-    DeleteUserGroupMessage,
-    DescribeCacheClustersMessage,
-    DescribeCacheEngineVersionsMessage,
-    DescribeCacheParameterGroupsMessage,
-    DescribeCacheParametersMessage,
-    DescribeCacheSecurityGroupsMessage,
-    DescribeCacheSubnetGroupsMessage,
-    DescribeEngineDefaultParametersMessage,
-    DescribeEventsMessage,
-    DescribeGlobalReplicationGroupsMessage,
-    DescribeReplicationGroupsMessage,
-    DescribeReservedCacheNodesMessage,
-    DescribeReservedCacheNodesOfferingsMessage,
-    DescribeServiceUpdatesMessage,
-    DescribeSnapshotsMessage,
-    DescribeUpdateActionsMessage,
-    DescribeUserGroupsMessage,
-    DescribeUsersMessage,
     DisassociateGlobalReplicationGroupMessage,
     FailoverGlobalReplicationGroupMessage,
     IncreaseNodeGroupsInGlobalReplicationGroupMessage,
     IncreaseReplicaCountMessage,
-    ListAllowedNodeTypeModificationsMessage,
-    ListTagsForResourceMessage,
-    ModifyCacheClusterMessage,
-    ModifyCacheParameterGroupMessage,
-    ModifyCacheSubnetGroupMessage,
     ModifyGlobalReplicationGroupMessage,
     ModifyReplicationGroupMessage,
     ModifyReplicationGroupShardConfigurationMessage,
-    ModifyUserMessage,
-    ModifyUserGroupMessage,
-    PurchaseReservedCacheNodesOfferingMessage,
     RebalanceSlotsInGlobalReplicationGroupMessage,
-    RebootCacheClusterMessage,
-    RemoveTagsFromResourceMessage,
-    ResetCacheParameterGroupMessage,
-    RevokeCacheSecurityGroupIngressMessage,
     StartMigrationMessage,
     TestFailoverMessage,
-    TagListMessage,
-    AuthorizeCacheSecurityGroupIngressResult,
-    UpdateActionResultsMessage,
     CompleteMigrationResponse,
-    CopySnapshotResult,
-    CreateCacheClusterResult,
     CreateCacheParameterGroupResult,
     CreateCacheSecurityGroupResult,
-    CreateCacheSubnetGroupResult,
-    CreateGlobalReplicationGroupResult,
     CreateReplicationGroupResult,
     CreateSnapshotResult,
     User,
     UserGroup,
     DecreaseNodeGroupsInGlobalReplicationGroupResult,
     DecreaseReplicaCountResult,
-    DeleteCacheClusterResult,
     DeleteGlobalReplicationGroupResult,
     DeleteReplicationGroupResult,
     DeleteSnapshotResult,
-    CacheClusterMessage,
-    CacheEngineVersionMessage,
-    CacheParameterGroupsMessage,
-    CacheParameterGroupDetails,
-    CacheSecurityGroupMessage,
-    CacheSubnetGroupMessage,
-    DescribeEngineDefaultParametersResult,
-    EventsMessage,
-    DescribeGlobalReplicationGroupsResult,
-    ReplicationGroupMessage,
-    ReservedCacheNodeMessage,
-    ReservedCacheNodesOfferingMessage,
-    ServiceUpdatesMessage,
-    DescribeSnapshotsListMessage,
-    UpdateActionsMessage,
-    DescribeUserGroupsResult,
-    DescribeUsersResult,
     DisassociateGlobalReplicationGroupResult,
     FailoverGlobalReplicationGroupResult,
     IncreaseNodeGroupsInGlobalReplicationGroupResult,
     IncreaseReplicaCountResult,
-    AllowedNodeTypeModificationsMessage,
-    ModifyCacheClusterResult,
-    CacheParameterGroupNameMessage,
-    ModifyCacheSubnetGroupResult,
     ModifyGlobalReplicationGroupResult,
     ModifyReplicationGroupResult,
     ModifyReplicationGroupShardConfigurationResult,
-    PurchaseReservedCacheNodesOfferingResult,
     RebalanceSlotsInGlobalReplicationGroupResult,
-    RebootCacheClusterResult,
-    RevokeCacheSecurityGroupIngressResult,
     StartMigrationResponse,
     TestFailoverResult
 } from "aws-sdk/clients/elasticache";
@@ -165,66 +93,12 @@ export default class extends aws.elasticache.ReplicationGroup {
         this.booted = true;
     }
 
-    invokeAddTagsToResource(partialParams: ToOptional<{
-      [K in keyof AddTagsToResourceMessage]: (AddTagsToResourceMessage)[K]
-    }>): Request<TagListMessage, AWSError> {
-        this.boot();
-        return this.client.addTagsToResource(
-          this.ops["AddTagsToResource"].apply(partialParams)
-        );
-    }
-
-    invokeAuthorizeCacheSecurityGroupIngress(partialParams: ToOptional<{
-      [K in keyof AuthorizeCacheSecurityGroupIngressMessage]: (AuthorizeCacheSecurityGroupIngressMessage)[K]
-    }>): Request<AuthorizeCacheSecurityGroupIngressResult, AWSError> {
-        this.boot();
-        return this.client.authorizeCacheSecurityGroupIngress(
-          this.ops["AuthorizeCacheSecurityGroupIngress"].apply(partialParams)
-        );
-    }
-
-    invokeBatchApplyUpdateAction(partialParams: ToOptional<{
-      [K in keyof BatchApplyUpdateActionMessage]: (BatchApplyUpdateActionMessage)[K]
-    }>): Request<UpdateActionResultsMessage, AWSError> {
-        this.boot();
-        return this.client.batchApplyUpdateAction(
-          this.ops["BatchApplyUpdateAction"].apply(partialParams)
-        );
-    }
-
-    invokeBatchStopUpdateAction(partialParams: ToOptional<{
-      [K in keyof BatchStopUpdateActionMessage]: (BatchStopUpdateActionMessage)[K]
-    }>): Request<UpdateActionResultsMessage, AWSError> {
-        this.boot();
-        return this.client.batchStopUpdateAction(
-          this.ops["BatchStopUpdateAction"].apply(partialParams)
-        );
-    }
-
     invokeCompleteMigration(partialParams: ToOptional<{
       [K in keyof CompleteMigrationMessage & keyof Omit<CompleteMigrationMessage, "ReplicationGroupId">]: (CompleteMigrationMessage)[K]
     }>): Request<CompleteMigrationResponse, AWSError> {
         this.boot();
         return this.client.completeMigration(
           this.ops["CompleteMigration"].apply(partialParams)
-        );
-    }
-
-    invokeCopySnapshot(partialParams: ToOptional<{
-      [K in keyof CopySnapshotMessage]: (CopySnapshotMessage)[K]
-    }>): Request<CopySnapshotResult, AWSError> {
-        this.boot();
-        return this.client.copySnapshot(
-          this.ops["CopySnapshot"].apply(partialParams)
-        );
-    }
-
-    invokeCreateCacheCluster(partialParams: ToOptional<{
-      [K in keyof CreateCacheClusterMessage]: (CreateCacheClusterMessage)[K]
-    }>): Request<CreateCacheClusterResult, AWSError> {
-        this.boot();
-        return this.client.createCacheCluster(
-          this.ops["CreateCacheCluster"].apply(partialParams)
         );
     }
 
@@ -243,24 +117,6 @@ export default class extends aws.elasticache.ReplicationGroup {
         this.boot();
         return this.client.createCacheSecurityGroup(
           this.ops["CreateCacheSecurityGroup"].apply(partialParams)
-        );
-    }
-
-    invokeCreateCacheSubnetGroup(partialParams: ToOptional<{
-      [K in keyof CreateCacheSubnetGroupMessage]: (CreateCacheSubnetGroupMessage)[K]
-    }>): Request<CreateCacheSubnetGroupResult, AWSError> {
-        this.boot();
-        return this.client.createCacheSubnetGroup(
-          this.ops["CreateCacheSubnetGroup"].apply(partialParams)
-        );
-    }
-
-    invokeCreateGlobalReplicationGroup(partialParams: ToOptional<{
-      [K in keyof CreateGlobalReplicationGroupMessage]: (CreateGlobalReplicationGroupMessage)[K]
-    }>): Request<CreateGlobalReplicationGroupResult, AWSError> {
-        this.boot();
-        return this.client.createGlobalReplicationGroup(
-          this.ops["CreateGlobalReplicationGroup"].apply(partialParams)
         );
     }
 
@@ -318,15 +174,6 @@ export default class extends aws.elasticache.ReplicationGroup {
         );
     }
 
-    invokeDeleteCacheCluster(partialParams: ToOptional<{
-      [K in keyof DeleteCacheClusterMessage]: (DeleteCacheClusterMessage)[K]
-    }>): Request<DeleteCacheClusterResult, AWSError> {
-        this.boot();
-        return this.client.deleteCacheCluster(
-          this.ops["DeleteCacheCluster"].apply(partialParams)
-        );
-    }
-
     invokeDeleteGlobalReplicationGroup(partialParams: ToOptional<{
       [K in keyof DeleteGlobalReplicationGroupMessage & keyof Omit<DeleteGlobalReplicationGroupMessage, "GlobalReplicationGroupId">]: (DeleteGlobalReplicationGroupMessage)[K]
     }>): Request<DeleteGlobalReplicationGroupResult, AWSError> {
@@ -351,177 +198,6 @@ export default class extends aws.elasticache.ReplicationGroup {
         this.boot();
         return this.client.deleteSnapshot(
           this.ops["DeleteSnapshot"].apply(partialParams)
-        );
-    }
-
-    invokeDeleteUser(partialParams: ToOptional<{
-      [K in keyof DeleteUserMessage]: (DeleteUserMessage)[K]
-    }>): Request<User, AWSError> {
-        this.boot();
-        return this.client.deleteUser(
-          this.ops["DeleteUser"].apply(partialParams)
-        );
-    }
-
-    invokeDeleteUserGroup(partialParams: ToOptional<{
-      [K in keyof DeleteUserGroupMessage]: (DeleteUserGroupMessage)[K]
-    }>): Request<UserGroup, AWSError> {
-        this.boot();
-        return this.client.deleteUserGroup(
-          this.ops["DeleteUserGroup"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeCacheClusters(partialParams: ToOptional<{
-      [K in keyof DescribeCacheClustersMessage]: (DescribeCacheClustersMessage)[K]
-    }>): Request<CacheClusterMessage, AWSError> {
-        this.boot();
-        return this.client.describeCacheClusters(
-          this.ops["DescribeCacheClusters"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeCacheEngineVersions(partialParams: ToOptional<{
-      [K in keyof DescribeCacheEngineVersionsMessage]: (DescribeCacheEngineVersionsMessage)[K]
-    }>): Request<CacheEngineVersionMessage, AWSError> {
-        this.boot();
-        return this.client.describeCacheEngineVersions(
-          this.ops["DescribeCacheEngineVersions"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeCacheParameterGroups(partialParams: ToOptional<{
-      [K in keyof DescribeCacheParameterGroupsMessage]: (DescribeCacheParameterGroupsMessage)[K]
-    }>): Request<CacheParameterGroupsMessage, AWSError> {
-        this.boot();
-        return this.client.describeCacheParameterGroups(
-          this.ops["DescribeCacheParameterGroups"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeCacheParameters(partialParams: ToOptional<{
-      [K in keyof DescribeCacheParametersMessage]: (DescribeCacheParametersMessage)[K]
-    }>): Request<CacheParameterGroupDetails, AWSError> {
-        this.boot();
-        return this.client.describeCacheParameters(
-          this.ops["DescribeCacheParameters"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeCacheSecurityGroups(partialParams: ToOptional<{
-      [K in keyof DescribeCacheSecurityGroupsMessage]: (DescribeCacheSecurityGroupsMessage)[K]
-    }>): Request<CacheSecurityGroupMessage, AWSError> {
-        this.boot();
-        return this.client.describeCacheSecurityGroups(
-          this.ops["DescribeCacheSecurityGroups"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeCacheSubnetGroups(partialParams: ToOptional<{
-      [K in keyof DescribeCacheSubnetGroupsMessage]: (DescribeCacheSubnetGroupsMessage)[K]
-    }>): Request<CacheSubnetGroupMessage, AWSError> {
-        this.boot();
-        return this.client.describeCacheSubnetGroups(
-          this.ops["DescribeCacheSubnetGroups"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeEngineDefaultParameters(partialParams: ToOptional<{
-      [K in keyof DescribeEngineDefaultParametersMessage]: (DescribeEngineDefaultParametersMessage)[K]
-    }>): Request<DescribeEngineDefaultParametersResult, AWSError> {
-        this.boot();
-        return this.client.describeEngineDefaultParameters(
-          this.ops["DescribeEngineDefaultParameters"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeEvents(partialParams: ToOptional<{
-      [K in keyof DescribeEventsMessage]: (DescribeEventsMessage)[K]
-    }>): Request<EventsMessage, AWSError> {
-        this.boot();
-        return this.client.describeEvents(
-          this.ops["DescribeEvents"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeGlobalReplicationGroups(partialParams: ToOptional<{
-      [K in keyof DescribeGlobalReplicationGroupsMessage]: (DescribeGlobalReplicationGroupsMessage)[K]
-    }>): Request<DescribeGlobalReplicationGroupsResult, AWSError> {
-        this.boot();
-        return this.client.describeGlobalReplicationGroups(
-          this.ops["DescribeGlobalReplicationGroups"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeReplicationGroups(partialParams: ToOptional<{
-      [K in keyof DescribeReplicationGroupsMessage]: (DescribeReplicationGroupsMessage)[K]
-    }>): Request<ReplicationGroupMessage, AWSError> {
-        this.boot();
-        return this.client.describeReplicationGroups(
-          this.ops["DescribeReplicationGroups"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeReservedCacheNodes(partialParams: ToOptional<{
-      [K in keyof DescribeReservedCacheNodesMessage]: (DescribeReservedCacheNodesMessage)[K]
-    }>): Request<ReservedCacheNodeMessage, AWSError> {
-        this.boot();
-        return this.client.describeReservedCacheNodes(
-          this.ops["DescribeReservedCacheNodes"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeReservedCacheNodesOfferings(partialParams: ToOptional<{
-      [K in keyof DescribeReservedCacheNodesOfferingsMessage]: (DescribeReservedCacheNodesOfferingsMessage)[K]
-    }>): Request<ReservedCacheNodesOfferingMessage, AWSError> {
-        this.boot();
-        return this.client.describeReservedCacheNodesOfferings(
-          this.ops["DescribeReservedCacheNodesOfferings"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeServiceUpdates(partialParams: ToOptional<{
-      [K in keyof DescribeServiceUpdatesMessage]: (DescribeServiceUpdatesMessage)[K]
-    }>): Request<ServiceUpdatesMessage, AWSError> {
-        this.boot();
-        return this.client.describeServiceUpdates(
-          this.ops["DescribeServiceUpdates"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeSnapshots(partialParams: ToOptional<{
-      [K in keyof DescribeSnapshotsMessage]: (DescribeSnapshotsMessage)[K]
-    }>): Request<DescribeSnapshotsListMessage, AWSError> {
-        this.boot();
-        return this.client.describeSnapshots(
-          this.ops["DescribeSnapshots"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeUpdateActions(partialParams: ToOptional<{
-      [K in keyof DescribeUpdateActionsMessage]: (DescribeUpdateActionsMessage)[K]
-    }>): Request<UpdateActionsMessage, AWSError> {
-        this.boot();
-        return this.client.describeUpdateActions(
-          this.ops["DescribeUpdateActions"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeUserGroups(partialParams: ToOptional<{
-      [K in keyof DescribeUserGroupsMessage]: (DescribeUserGroupsMessage)[K]
-    }>): Request<DescribeUserGroupsResult, AWSError> {
-        this.boot();
-        return this.client.describeUserGroups(
-          this.ops["DescribeUserGroups"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeUsers(partialParams: ToOptional<{
-      [K in keyof DescribeUsersMessage]: (DescribeUsersMessage)[K]
-    }>): Request<DescribeUsersResult, AWSError> {
-        this.boot();
-        return this.client.describeUsers(
-          this.ops["DescribeUsers"].apply(partialParams)
         );
     }
 
@@ -561,51 +237,6 @@ export default class extends aws.elasticache.ReplicationGroup {
         );
     }
 
-    invokeListAllowedNodeTypeModifications(partialParams: ToOptional<{
-      [K in keyof ListAllowedNodeTypeModificationsMessage]: (ListAllowedNodeTypeModificationsMessage)[K]
-    }>): Request<AllowedNodeTypeModificationsMessage, AWSError> {
-        this.boot();
-        return this.client.listAllowedNodeTypeModifications(
-          this.ops["ListAllowedNodeTypeModifications"].apply(partialParams)
-        );
-    }
-
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceMessage]: (ListTagsForResourceMessage)[K]
-    }>): Request<TagListMessage, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
-        );
-    }
-
-    invokeModifyCacheCluster(partialParams: ToOptional<{
-      [K in keyof ModifyCacheClusterMessage]: (ModifyCacheClusterMessage)[K]
-    }>): Request<ModifyCacheClusterResult, AWSError> {
-        this.boot();
-        return this.client.modifyCacheCluster(
-          this.ops["ModifyCacheCluster"].apply(partialParams)
-        );
-    }
-
-    invokeModifyCacheParameterGroup(partialParams: ToOptional<{
-      [K in keyof ModifyCacheParameterGroupMessage]: (ModifyCacheParameterGroupMessage)[K]
-    }>): Request<CacheParameterGroupNameMessage, AWSError> {
-        this.boot();
-        return this.client.modifyCacheParameterGroup(
-          this.ops["ModifyCacheParameterGroup"].apply(partialParams)
-        );
-    }
-
-    invokeModifyCacheSubnetGroup(partialParams: ToOptional<{
-      [K in keyof ModifyCacheSubnetGroupMessage]: (ModifyCacheSubnetGroupMessage)[K]
-    }>): Request<ModifyCacheSubnetGroupResult, AWSError> {
-        this.boot();
-        return this.client.modifyCacheSubnetGroup(
-          this.ops["ModifyCacheSubnetGroup"].apply(partialParams)
-        );
-    }
-
     invokeModifyGlobalReplicationGroup(partialParams: ToOptional<{
       [K in keyof ModifyGlobalReplicationGroupMessage & keyof Omit<ModifyGlobalReplicationGroupMessage, "GlobalReplicationGroupId">]: (ModifyGlobalReplicationGroupMessage)[K]
     }>): Request<ModifyGlobalReplicationGroupResult, AWSError> {
@@ -633,75 +264,12 @@ export default class extends aws.elasticache.ReplicationGroup {
         );
     }
 
-    invokeModifyUser(partialParams: ToOptional<{
-      [K in keyof ModifyUserMessage]: (ModifyUserMessage)[K]
-    }>): Request<User, AWSError> {
-        this.boot();
-        return this.client.modifyUser(
-          this.ops["ModifyUser"].apply(partialParams)
-        );
-    }
-
-    invokeModifyUserGroup(partialParams: ToOptional<{
-      [K in keyof ModifyUserGroupMessage]: (ModifyUserGroupMessage)[K]
-    }>): Request<UserGroup, AWSError> {
-        this.boot();
-        return this.client.modifyUserGroup(
-          this.ops["ModifyUserGroup"].apply(partialParams)
-        );
-    }
-
-    invokePurchaseReservedCacheNodesOffering(partialParams: ToOptional<{
-      [K in keyof PurchaseReservedCacheNodesOfferingMessage]: (PurchaseReservedCacheNodesOfferingMessage)[K]
-    }>): Request<PurchaseReservedCacheNodesOfferingResult, AWSError> {
-        this.boot();
-        return this.client.purchaseReservedCacheNodesOffering(
-          this.ops["PurchaseReservedCacheNodesOffering"].apply(partialParams)
-        );
-    }
-
     invokeRebalanceSlotsInGlobalReplicationGroup(partialParams: ToOptional<{
       [K in keyof RebalanceSlotsInGlobalReplicationGroupMessage & keyof Omit<RebalanceSlotsInGlobalReplicationGroupMessage, "GlobalReplicationGroupId">]: (RebalanceSlotsInGlobalReplicationGroupMessage)[K]
     }>): Request<RebalanceSlotsInGlobalReplicationGroupResult, AWSError> {
         this.boot();
         return this.client.rebalanceSlotsInGlobalReplicationGroup(
           this.ops["RebalanceSlotsInGlobalReplicationGroup"].apply(partialParams)
-        );
-    }
-
-    invokeRebootCacheCluster(partialParams: ToOptional<{
-      [K in keyof RebootCacheClusterMessage]: (RebootCacheClusterMessage)[K]
-    }>): Request<RebootCacheClusterResult, AWSError> {
-        this.boot();
-        return this.client.rebootCacheCluster(
-          this.ops["RebootCacheCluster"].apply(partialParams)
-        );
-    }
-
-    invokeRemoveTagsFromResource(partialParams: ToOptional<{
-      [K in keyof RemoveTagsFromResourceMessage]: (RemoveTagsFromResourceMessage)[K]
-    }>): Request<TagListMessage, AWSError> {
-        this.boot();
-        return this.client.removeTagsFromResource(
-          this.ops["RemoveTagsFromResource"].apply(partialParams)
-        );
-    }
-
-    invokeResetCacheParameterGroup(partialParams: ToOptional<{
-      [K in keyof ResetCacheParameterGroupMessage]: (ResetCacheParameterGroupMessage)[K]
-    }>): Request<CacheParameterGroupNameMessage, AWSError> {
-        this.boot();
-        return this.client.resetCacheParameterGroup(
-          this.ops["ResetCacheParameterGroup"].apply(partialParams)
-        );
-    }
-
-    invokeRevokeCacheSecurityGroupIngress(partialParams: ToOptional<{
-      [K in keyof RevokeCacheSecurityGroupIngressMessage]: (RevokeCacheSecurityGroupIngressMessage)[K]
-    }>): Request<RevokeCacheSecurityGroupIngressResult, AWSError> {
-        this.boot();
-        return this.client.revokeCacheSecurityGroupIngress(
-          this.ops["RevokeCacheSecurityGroupIngress"].apply(partialParams)
         );
     }
 

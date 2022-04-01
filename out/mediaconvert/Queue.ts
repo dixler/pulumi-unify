@@ -6,56 +6,34 @@ import {AWSError} from 'aws-sdk/lib/error';
 
 import {
     AssociateCertificateRequest,
-    CancelJobRequest,
-    CreateJobRequest,
     CreateJobTemplateRequest,
     CreatePresetRequest,
     CreateQueueRequest,
     DeleteJobTemplateRequest,
-    DeletePolicyRequest,
     DeletePresetRequest,
     DeleteQueueRequest,
-    DescribeEndpointsRequest,
     DisassociateCertificateRequest,
-    GetJobRequest,
     GetJobTemplateRequest,
-    GetPolicyRequest,
     GetPresetRequest,
     GetQueueRequest,
-    ListJobTemplatesRequest,
-    ListJobsRequest,
-    ListPresetsRequest,
-    ListQueuesRequest,
     ListTagsForResourceRequest,
-    PutPolicyRequest,
     TagResourceRequest,
     UntagResourceRequest,
     UpdateJobTemplateRequest,
     UpdatePresetRequest,
     UpdateQueueRequest,
     AssociateCertificateResponse,
-    CancelJobResponse,
-    CreateJobResponse,
     CreateJobTemplateResponse,
     CreatePresetResponse,
     CreateQueueResponse,
     DeleteJobTemplateResponse,
-    DeletePolicyResponse,
     DeletePresetResponse,
     DeleteQueueResponse,
-    DescribeEndpointsResponse,
     DisassociateCertificateResponse,
-    GetJobResponse,
     GetJobTemplateResponse,
-    GetPolicyResponse,
     GetPresetResponse,
     GetQueueResponse,
-    ListJobTemplatesResponse,
-    ListJobsResponse,
-    ListPresetsResponse,
-    ListQueuesResponse,
     ListTagsForResourceResponse,
-    PutPolicyResponse,
     TagResourceResponse,
     UntagResourceResponse,
     UpdateJobTemplateResponse,
@@ -114,24 +92,6 @@ export default class extends aws.mediaconvert.Queue {
         );
     }
 
-    invokeCancelJob(partialParams: ToOptional<{
-      [K in keyof CancelJobRequest]: (CancelJobRequest)[K]
-    }>): Request<CancelJobResponse, AWSError> {
-        this.boot();
-        return this.client.cancelJob(
-          this.ops["CancelJob"].apply(partialParams)
-        );
-    }
-
-    invokeCreateJob(partialParams: ToOptional<{
-      [K in keyof CreateJobRequest]: (CreateJobRequest)[K]
-    }>): Request<CreateJobResponse, AWSError> {
-        this.boot();
-        return this.client.createJob(
-          this.ops["CreateJob"].apply(partialParams)
-        );
-    }
-
     invokeCreateJobTemplate(partialParams: ToOptional<{
       [K in keyof CreateJobTemplateRequest & keyof Omit<CreateJobTemplateRequest, "Name">]: (CreateJobTemplateRequest)[K]
     }>): Request<CreateJobTemplateResponse, AWSError> {
@@ -168,15 +128,6 @@ export default class extends aws.mediaconvert.Queue {
         );
     }
 
-    invokeDeletePolicy(partialParams: ToOptional<{
-      [K in keyof DeletePolicyRequest]: (DeletePolicyRequest)[K]
-    }>): Request<DeletePolicyResponse, AWSError> {
-        this.boot();
-        return this.client.deletePolicy(
-          this.ops["DeletePolicy"].apply(partialParams)
-        );
-    }
-
     invokeDeletePreset(partialParams: ToOptional<{
       [K in keyof DeletePresetRequest & keyof Omit<DeletePresetRequest, "Name">]: (DeletePresetRequest)[K]
     }>): Request<DeletePresetResponse, AWSError> {
@@ -195,15 +146,6 @@ export default class extends aws.mediaconvert.Queue {
         );
     }
 
-    invokeDescribeEndpoints(partialParams: ToOptional<{
-      [K in keyof DescribeEndpointsRequest]: (DescribeEndpointsRequest)[K]
-    }>): Request<DescribeEndpointsResponse, AWSError> {
-        this.boot();
-        return this.client.describeEndpoints(
-          this.ops["DescribeEndpoints"].apply(partialParams)
-        );
-    }
-
     invokeDisassociateCertificate(partialParams: ToOptional<{
       [K in keyof DisassociateCertificateRequest & keyof Omit<DisassociateCertificateRequest, "Arn">]: (DisassociateCertificateRequest)[K]
     }>): Request<DisassociateCertificateResponse, AWSError> {
@@ -213,30 +155,12 @@ export default class extends aws.mediaconvert.Queue {
         );
     }
 
-    invokeGetJob(partialParams: ToOptional<{
-      [K in keyof GetJobRequest]: (GetJobRequest)[K]
-    }>): Request<GetJobResponse, AWSError> {
-        this.boot();
-        return this.client.getJob(
-          this.ops["GetJob"].apply(partialParams)
-        );
-    }
-
     invokeGetJobTemplate(partialParams: ToOptional<{
       [K in keyof GetJobTemplateRequest & keyof Omit<GetJobTemplateRequest, "Name">]: (GetJobTemplateRequest)[K]
     }>): Request<GetJobTemplateResponse, AWSError> {
         this.boot();
         return this.client.getJobTemplate(
           this.ops["GetJobTemplate"].apply(partialParams)
-        );
-    }
-
-    invokeGetPolicy(partialParams: ToOptional<{
-      [K in keyof GetPolicyRequest]: (GetPolicyRequest)[K]
-    }>): Request<GetPolicyResponse, AWSError> {
-        this.boot();
-        return this.client.getPolicy(
-          this.ops["GetPolicy"].apply(partialParams)
         );
     }
 
@@ -258,57 +182,12 @@ export default class extends aws.mediaconvert.Queue {
         );
     }
 
-    invokeListJobTemplates(partialParams: ToOptional<{
-      [K in keyof ListJobTemplatesRequest]: (ListJobTemplatesRequest)[K]
-    }>): Request<ListJobTemplatesResponse, AWSError> {
-        this.boot();
-        return this.client.listJobTemplates(
-          this.ops["ListJobTemplates"].apply(partialParams)
-        );
-    }
-
-    invokeListJobs(partialParams: ToOptional<{
-      [K in keyof ListJobsRequest]: (ListJobsRequest)[K]
-    }>): Request<ListJobsResponse, AWSError> {
-        this.boot();
-        return this.client.listJobs(
-          this.ops["ListJobs"].apply(partialParams)
-        );
-    }
-
-    invokeListPresets(partialParams: ToOptional<{
-      [K in keyof ListPresetsRequest]: (ListPresetsRequest)[K]
-    }>): Request<ListPresetsResponse, AWSError> {
-        this.boot();
-        return this.client.listPresets(
-          this.ops["ListPresets"].apply(partialParams)
-        );
-    }
-
-    invokeListQueues(partialParams: ToOptional<{
-      [K in keyof ListQueuesRequest]: (ListQueuesRequest)[K]
-    }>): Request<ListQueuesResponse, AWSError> {
-        this.boot();
-        return this.client.listQueues(
-          this.ops["ListQueues"].apply(partialParams)
-        );
-    }
-
     invokeListTagsForResource(partialParams: ToOptional<{
       [K in keyof ListTagsForResourceRequest & keyof Omit<ListTagsForResourceRequest, "Arn">]: (ListTagsForResourceRequest)[K]
     }>): Request<ListTagsForResourceResponse, AWSError> {
         this.boot();
         return this.client.listTagsForResource(
           this.ops["ListTagsForResource"].apply(partialParams)
-        );
-    }
-
-    invokePutPolicy(partialParams: ToOptional<{
-      [K in keyof PutPolicyRequest]: (PutPolicyRequest)[K]
-    }>): Request<PutPolicyResponse, AWSError> {
-        this.boot();
-        return this.client.putPolicy(
-          this.ops["PutPolicy"].apply(partialParams)
         );
     }
 

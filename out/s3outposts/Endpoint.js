@@ -56,9 +56,5 @@ class default_1 extends aws.s3outposts.Endpoint {
         this.boot();
         return this.client.createEndpoint(this.ops["CreateEndpoint"].apply(partialParams));
     }
-    invokeListEndpoints(partialParams) {
-        this.boot();
-        return this.client.listEndpoints(this.ops["ListEndpoints"].apply(partialParams));
-    }
 }
 exports.default = default_1;

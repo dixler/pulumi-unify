@@ -7,54 +7,42 @@ import {AWSError} from 'aws-sdk/lib/error';
 import {
     AcceptInvitationRequest,
     ArchiveFindingsRequest,
-    CreateDetectorRequest,
     CreateFilterRequest,
     CreateIPSetRequest,
     CreateMembersRequest,
     CreatePublishingDestinationRequest,
     CreateSampleFindingsRequest,
     CreateThreatIntelSetRequest,
-    DeclineInvitationsRequest,
     DeleteDetectorRequest,
     DeleteFilterRequest,
     DeleteIPSetRequest,
-    DeleteInvitationsRequest,
     DeleteMembersRequest,
     DeletePublishingDestinationRequest,
     DeleteThreatIntelSetRequest,
     DescribeOrganizationConfigurationRequest,
     DescribePublishingDestinationRequest,
-    DisableOrganizationAdminAccountRequest,
     DisassociateFromMasterAccountRequest,
     DisassociateMembersRequest,
-    EnableOrganizationAdminAccountRequest,
     GetDetectorRequest,
     GetFilterRequest,
     GetFindingsRequest,
     GetFindingsStatisticsRequest,
     GetIPSetRequest,
-    GetInvitationsCountRequest,
     GetMasterAccountRequest,
     GetMemberDetectorsRequest,
     GetMembersRequest,
     GetThreatIntelSetRequest,
     GetUsageStatisticsRequest,
     InviteMembersRequest,
-    ListDetectorsRequest,
     ListFiltersRequest,
     ListFindingsRequest,
     ListIPSetsRequest,
-    ListInvitationsRequest,
     ListMembersRequest,
-    ListOrganizationAdminAccountsRequest,
     ListPublishingDestinationsRequest,
-    ListTagsForResourceRequest,
     ListThreatIntelSetsRequest,
     StartMonitoringMembersRequest,
     StopMonitoringMembersRequest,
-    TagResourceRequest,
     UnarchiveFindingsRequest,
-    UntagResourceRequest,
     UpdateDetectorRequest,
     UpdateFilterRequest,
     UpdateFindingsFeedbackRequest,
@@ -65,54 +53,42 @@ import {
     UpdateThreatIntelSetRequest,
     AcceptInvitationResponse,
     ArchiveFindingsResponse,
-    CreateDetectorResponse,
     CreateFilterResponse,
     CreateIPSetResponse,
     CreateMembersResponse,
     CreatePublishingDestinationResponse,
     CreateSampleFindingsResponse,
     CreateThreatIntelSetResponse,
-    DeclineInvitationsResponse,
     DeleteDetectorResponse,
     DeleteFilterResponse,
     DeleteIPSetResponse,
-    DeleteInvitationsResponse,
     DeleteMembersResponse,
     DeletePublishingDestinationResponse,
     DeleteThreatIntelSetResponse,
     DescribeOrganizationConfigurationResponse,
     DescribePublishingDestinationResponse,
-    DisableOrganizationAdminAccountResponse,
     DisassociateFromMasterAccountResponse,
     DisassociateMembersResponse,
-    EnableOrganizationAdminAccountResponse,
     GetDetectorResponse,
     GetFilterResponse,
     GetFindingsResponse,
     GetFindingsStatisticsResponse,
     GetIPSetResponse,
-    GetInvitationsCountResponse,
     GetMasterAccountResponse,
     GetMemberDetectorsResponse,
     GetMembersResponse,
     GetThreatIntelSetResponse,
     GetUsageStatisticsResponse,
     InviteMembersResponse,
-    ListDetectorsResponse,
     ListFiltersResponse,
     ListFindingsResponse,
     ListIPSetsResponse,
-    ListInvitationsResponse,
     ListMembersResponse,
-    ListOrganizationAdminAccountsResponse,
     ListPublishingDestinationsResponse,
-    ListTagsForResourceResponse,
     ListThreatIntelSetsResponse,
     StartMonitoringMembersResponse,
     StopMonitoringMembersResponse,
-    TagResourceResponse,
     UnarchiveFindingsResponse,
-    UntagResourceResponse,
     UpdateDetectorResponse,
     UpdateFilterResponse,
     UpdateFindingsFeedbackResponse,
@@ -183,15 +159,6 @@ export default class extends aws.guardduty.ThreatIntelSet {
         );
     }
 
-    invokeCreateDetector(partialParams: ToOptional<{
-      [K in keyof CreateDetectorRequest]: (CreateDetectorRequest)[K]
-    }>): Request<CreateDetectorResponse, AWSError> {
-        this.boot();
-        return this.client.createDetector(
-          this.ops["CreateDetector"].apply(partialParams)
-        );
-    }
-
     invokeCreateFilter(partialParams: ToOptional<{
       [K in keyof CreateFilterRequest & keyof Omit<CreateFilterRequest, "DetectorId" | "Name">]: (CreateFilterRequest)[K]
     }>): Request<CreateFilterResponse, AWSError> {
@@ -246,15 +213,6 @@ export default class extends aws.guardduty.ThreatIntelSet {
         );
     }
 
-    invokeDeclineInvitations(partialParams: ToOptional<{
-      [K in keyof DeclineInvitationsRequest]: (DeclineInvitationsRequest)[K]
-    }>): Request<DeclineInvitationsResponse, AWSError> {
-        this.boot();
-        return this.client.declineInvitations(
-          this.ops["DeclineInvitations"].apply(partialParams)
-        );
-    }
-
     invokeDeleteDetector(partialParams: ToOptional<{
       [K in keyof DeleteDetectorRequest & keyof Omit<DeleteDetectorRequest, "DetectorId">]: (DeleteDetectorRequest)[K]
     }>): Request<DeleteDetectorResponse, AWSError> {
@@ -279,15 +237,6 @@ export default class extends aws.guardduty.ThreatIntelSet {
         this.boot();
         return this.client.deleteIPSet(
           this.ops["DeleteIPSet"].apply(partialParams)
-        );
-    }
-
-    invokeDeleteInvitations(partialParams: ToOptional<{
-      [K in keyof DeleteInvitationsRequest]: (DeleteInvitationsRequest)[K]
-    }>): Request<DeleteInvitationsResponse, AWSError> {
-        this.boot();
-        return this.client.deleteInvitations(
-          this.ops["DeleteInvitations"].apply(partialParams)
         );
     }
 
@@ -336,15 +285,6 @@ export default class extends aws.guardduty.ThreatIntelSet {
         );
     }
 
-    invokeDisableOrganizationAdminAccount(partialParams: ToOptional<{
-      [K in keyof DisableOrganizationAdminAccountRequest]: (DisableOrganizationAdminAccountRequest)[K]
-    }>): Request<DisableOrganizationAdminAccountResponse, AWSError> {
-        this.boot();
-        return this.client.disableOrganizationAdminAccount(
-          this.ops["DisableOrganizationAdminAccount"].apply(partialParams)
-        );
-    }
-
     invokeDisassociateFromMasterAccount(partialParams: ToOptional<{
       [K in keyof DisassociateFromMasterAccountRequest & keyof Omit<DisassociateFromMasterAccountRequest, "DetectorId">]: (DisassociateFromMasterAccountRequest)[K]
     }>): Request<DisassociateFromMasterAccountResponse, AWSError> {
@@ -360,15 +300,6 @@ export default class extends aws.guardduty.ThreatIntelSet {
         this.boot();
         return this.client.disassociateMembers(
           this.ops["DisassociateMembers"].apply(partialParams)
-        );
-    }
-
-    invokeEnableOrganizationAdminAccount(partialParams: ToOptional<{
-      [K in keyof EnableOrganizationAdminAccountRequest]: (EnableOrganizationAdminAccountRequest)[K]
-    }>): Request<EnableOrganizationAdminAccountResponse, AWSError> {
-        this.boot();
-        return this.client.enableOrganizationAdminAccount(
-          this.ops["EnableOrganizationAdminAccount"].apply(partialParams)
         );
     }
 
@@ -414,15 +345,6 @@ export default class extends aws.guardduty.ThreatIntelSet {
         this.boot();
         return this.client.getIPSet(
           this.ops["GetIPSet"].apply(partialParams)
-        );
-    }
-
-    invokeGetInvitationsCount(partialParams: ToOptional<{
-      [K in keyof GetInvitationsCountRequest]: (GetInvitationsCountRequest)[K]
-    }>): Request<GetInvitationsCountResponse, AWSError> {
-        this.boot();
-        return this.client.getInvitationsCount(
-          this.ops["GetInvitationsCount"].apply(partialParams)
         );
     }
 
@@ -480,15 +402,6 @@ export default class extends aws.guardduty.ThreatIntelSet {
         );
     }
 
-    invokeListDetectors(partialParams: ToOptional<{
-      [K in keyof ListDetectorsRequest]: (ListDetectorsRequest)[K]
-    }>): Request<ListDetectorsResponse, AWSError> {
-        this.boot();
-        return this.client.listDetectors(
-          this.ops["ListDetectors"].apply(partialParams)
-        );
-    }
-
     invokeListFilters(partialParams: ToOptional<{
       [K in keyof ListFiltersRequest & keyof Omit<ListFiltersRequest, "DetectorId">]: (ListFiltersRequest)[K]
     }>): Request<ListFiltersResponse, AWSError> {
@@ -516,15 +429,6 @@ export default class extends aws.guardduty.ThreatIntelSet {
         );
     }
 
-    invokeListInvitations(partialParams: ToOptional<{
-      [K in keyof ListInvitationsRequest]: (ListInvitationsRequest)[K]
-    }>): Request<ListInvitationsResponse, AWSError> {
-        this.boot();
-        return this.client.listInvitations(
-          this.ops["ListInvitations"].apply(partialParams)
-        );
-    }
-
     invokeListMembers(partialParams: ToOptional<{
       [K in keyof ListMembersRequest & keyof Omit<ListMembersRequest, "DetectorId">]: (ListMembersRequest)[K]
     }>): Request<ListMembersResponse, AWSError> {
@@ -534,30 +438,12 @@ export default class extends aws.guardduty.ThreatIntelSet {
         );
     }
 
-    invokeListOrganizationAdminAccounts(partialParams: ToOptional<{
-      [K in keyof ListOrganizationAdminAccountsRequest]: (ListOrganizationAdminAccountsRequest)[K]
-    }>): Request<ListOrganizationAdminAccountsResponse, AWSError> {
-        this.boot();
-        return this.client.listOrganizationAdminAccounts(
-          this.ops["ListOrganizationAdminAccounts"].apply(partialParams)
-        );
-    }
-
     invokeListPublishingDestinations(partialParams: ToOptional<{
       [K in keyof ListPublishingDestinationsRequest & keyof Omit<ListPublishingDestinationsRequest, "DetectorId">]: (ListPublishingDestinationsRequest)[K]
     }>): Request<ListPublishingDestinationsResponse, AWSError> {
         this.boot();
         return this.client.listPublishingDestinations(
           this.ops["ListPublishingDestinations"].apply(partialParams)
-        );
-    }
-
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
-    }>): Request<ListTagsForResourceResponse, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
         );
     }
 
@@ -588,30 +474,12 @@ export default class extends aws.guardduty.ThreatIntelSet {
         );
     }
 
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
-    }>): Request<TagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].apply(partialParams)
-        );
-    }
-
     invokeUnarchiveFindings(partialParams: ToOptional<{
       [K in keyof UnarchiveFindingsRequest & keyof Omit<UnarchiveFindingsRequest, "DetectorId">]: (UnarchiveFindingsRequest)[K]
     }>): Request<UnarchiveFindingsResponse, AWSError> {
         this.boot();
         return this.client.unarchiveFindings(
           this.ops["UnarchiveFindings"].apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
-    }>): Request<UntagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].apply(partialParams)
         );
     }
 

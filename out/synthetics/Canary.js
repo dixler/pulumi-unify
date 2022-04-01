@@ -60,18 +60,6 @@ class default_1 extends aws.synthetics.Canary {
         this.boot();
         return this.client.deleteCanary(this.ops["DeleteCanary"].apply(partialParams));
     }
-    invokeDescribeCanaries(partialParams) {
-        this.boot();
-        return this.client.describeCanaries(this.ops["DescribeCanaries"].apply(partialParams));
-    }
-    invokeDescribeCanariesLastRun(partialParams) {
-        this.boot();
-        return this.client.describeCanariesLastRun(this.ops["DescribeCanariesLastRun"].apply(partialParams));
-    }
-    invokeDescribeRuntimeVersions(partialParams) {
-        this.boot();
-        return this.client.describeRuntimeVersions(this.ops["DescribeRuntimeVersions"].apply(partialParams));
-    }
     invokeGetCanary(partialParams) {
         this.boot();
         return this.client.getCanary(this.ops["GetCanary"].apply(partialParams));
@@ -80,10 +68,6 @@ class default_1 extends aws.synthetics.Canary {
         this.boot();
         return this.client.getCanaryRuns(this.ops["GetCanaryRuns"].apply(partialParams));
     }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
     invokeStartCanary(partialParams) {
         this.boot();
         return this.client.startCanary(this.ops["StartCanary"].apply(partialParams));
@@ -91,14 +75,6 @@ class default_1 extends aws.synthetics.Canary {
     invokeStopCanary(partialParams) {
         this.boot();
         return this.client.stopCanary(this.ops["StopCanary"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateCanary(partialParams) {
         this.boot();

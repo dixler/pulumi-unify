@@ -52,25 +52,5 @@ class default_1 extends aws.macie.MemberAccountAssociation {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeAssociateS3Resources(partialParams) {
-        this.boot();
-        return this.client.associateS3Resources(this.ops["AssociateS3Resources"].apply(partialParams));
-    }
-    invokeDisassociateS3Resources(partialParams) {
-        this.boot();
-        return this.client.disassociateS3Resources(this.ops["DisassociateS3Resources"].apply(partialParams));
-    }
-    invokeListMemberAccounts(partialParams) {
-        this.boot();
-        return this.client.listMemberAccounts(this.ops["ListMemberAccounts"].apply(partialParams));
-    }
-    invokeListS3Resources(partialParams) {
-        this.boot();
-        return this.client.listS3Resources(this.ops["ListS3Resources"].apply(partialParams));
-    }
-    invokeUpdateS3Resources(partialParams) {
-        this.boot();
-        return this.client.updateS3Resources(this.ops["UpdateS3Resources"].apply(partialParams));
-    }
 }
 exports.default = default_1;

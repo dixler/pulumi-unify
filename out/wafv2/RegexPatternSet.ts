@@ -5,97 +5,61 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    AssociateWebACLRequest,
     CheckCapacityRequest,
     CreateIPSetRequest,
     CreateRegexPatternSetRequest,
     CreateRuleGroupRequest,
     CreateWebACLRequest,
-    DeleteFirewallManagerRuleGroupsRequest,
     DeleteIPSetRequest,
-    DeleteLoggingConfigurationRequest,
-    DeletePermissionPolicyRequest,
     DeleteRegexPatternSetRequest,
     DeleteRuleGroupRequest,
     DeleteWebACLRequest,
     DescribeManagedRuleGroupRequest,
-    DisassociateWebACLRequest,
-    GenerateMobileSdkReleaseUrlRequest,
     GetIPSetRequest,
-    GetLoggingConfigurationRequest,
     GetManagedRuleSetRequest,
-    GetMobileSdkReleaseRequest,
-    GetPermissionPolicyRequest,
     GetRateBasedStatementManagedKeysRequest,
     GetRegexPatternSetRequest,
-    GetRuleGroupRequest,
     GetSampledRequestsRequest,
     GetWebACLRequest,
-    GetWebACLForResourceRequest,
     ListAvailableManagedRuleGroupVersionsRequest,
     ListAvailableManagedRuleGroupsRequest,
     ListIPSetsRequest,
     ListLoggingConfigurationsRequest,
     ListManagedRuleSetsRequest,
-    ListMobileSdkReleasesRequest,
     ListRegexPatternSetsRequest,
-    ListResourcesForWebACLRequest,
     ListRuleGroupsRequest,
-    ListTagsForResourceRequest,
     ListWebACLsRequest,
-    PutLoggingConfigurationRequest,
     PutManagedRuleSetVersionsRequest,
-    PutPermissionPolicyRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
     UpdateIPSetRequest,
     UpdateManagedRuleSetVersionExpiryDateRequest,
     UpdateRegexPatternSetRequest,
     UpdateRuleGroupRequest,
     UpdateWebACLRequest,
-    AssociateWebACLResponse,
     CheckCapacityResponse,
     CreateIPSetResponse,
     CreateRegexPatternSetResponse,
     CreateRuleGroupResponse,
     CreateWebACLResponse,
-    DeleteFirewallManagerRuleGroupsResponse,
     DeleteIPSetResponse,
-    DeleteLoggingConfigurationResponse,
-    DeletePermissionPolicyResponse,
     DeleteRegexPatternSetResponse,
     DeleteRuleGroupResponse,
     DeleteWebACLResponse,
     DescribeManagedRuleGroupResponse,
-    DisassociateWebACLResponse,
-    GenerateMobileSdkReleaseUrlResponse,
     GetIPSetResponse,
-    GetLoggingConfigurationResponse,
     GetManagedRuleSetResponse,
-    GetMobileSdkReleaseResponse,
-    GetPermissionPolicyResponse,
     GetRateBasedStatementManagedKeysResponse,
     GetRegexPatternSetResponse,
-    GetRuleGroupResponse,
     GetSampledRequestsResponse,
     GetWebACLResponse,
-    GetWebACLForResourceResponse,
     ListAvailableManagedRuleGroupVersionsResponse,
     ListAvailableManagedRuleGroupsResponse,
     ListIPSetsResponse,
     ListLoggingConfigurationsResponse,
     ListManagedRuleSetsResponse,
-    ListMobileSdkReleasesResponse,
     ListRegexPatternSetsResponse,
-    ListResourcesForWebACLResponse,
     ListRuleGroupsResponse,
-    ListTagsForResourceResponse,
     ListWebACLsResponse,
-    PutLoggingConfigurationResponse,
     PutManagedRuleSetVersionsResponse,
-    PutPermissionPolicyResponse,
-    TagResourceResponse,
-    UntagResourceResponse,
     UpdateIPSetResponse,
     UpdateManagedRuleSetVersionExpiryDateResponse,
     UpdateRegexPatternSetResponse,
@@ -145,15 +109,6 @@ export default class extends aws.wafv2.RegexPatternSet {
         this.booted = true;
     }
 
-    invokeAssociateWebACL(partialParams: ToOptional<{
-      [K in keyof AssociateWebACLRequest]: (AssociateWebACLRequest)[K]
-    }>): Request<AssociateWebACLResponse, AWSError> {
-        this.boot();
-        return this.client.associateWebACL(
-          this.ops["AssociateWebACL"].apply(partialParams)
-        );
-    }
-
     invokeCheckCapacity(partialParams: ToOptional<{
       [K in keyof CheckCapacityRequest & keyof Omit<CheckCapacityRequest, "Scope">]: (CheckCapacityRequest)[K]
     }>): Request<CheckCapacityResponse, AWSError> {
@@ -199,39 +154,12 @@ export default class extends aws.wafv2.RegexPatternSet {
         );
     }
 
-    invokeDeleteFirewallManagerRuleGroups(partialParams: ToOptional<{
-      [K in keyof DeleteFirewallManagerRuleGroupsRequest]: (DeleteFirewallManagerRuleGroupsRequest)[K]
-    }>): Request<DeleteFirewallManagerRuleGroupsResponse, AWSError> {
-        this.boot();
-        return this.client.deleteFirewallManagerRuleGroups(
-          this.ops["DeleteFirewallManagerRuleGroups"].apply(partialParams)
-        );
-    }
-
     invokeDeleteIPSet(partialParams: ToOptional<{
       [K in keyof DeleteIPSetRequest & keyof Omit<DeleteIPSetRequest, "Name" | "Scope" | "LockToken">]: (DeleteIPSetRequest)[K]
     }>): Request<DeleteIPSetResponse, AWSError> {
         this.boot();
         return this.client.deleteIPSet(
           this.ops["DeleteIPSet"].apply(partialParams)
-        );
-    }
-
-    invokeDeleteLoggingConfiguration(partialParams: ToOptional<{
-      [K in keyof DeleteLoggingConfigurationRequest]: (DeleteLoggingConfigurationRequest)[K]
-    }>): Request<DeleteLoggingConfigurationResponse, AWSError> {
-        this.boot();
-        return this.client.deleteLoggingConfiguration(
-          this.ops["DeleteLoggingConfiguration"].apply(partialParams)
-        );
-    }
-
-    invokeDeletePermissionPolicy(partialParams: ToOptional<{
-      [K in keyof DeletePermissionPolicyRequest]: (DeletePermissionPolicyRequest)[K]
-    }>): Request<DeletePermissionPolicyResponse, AWSError> {
-        this.boot();
-        return this.client.deletePermissionPolicy(
-          this.ops["DeletePermissionPolicy"].apply(partialParams)
         );
     }
 
@@ -271,24 +199,6 @@ export default class extends aws.wafv2.RegexPatternSet {
         );
     }
 
-    invokeDisassociateWebACL(partialParams: ToOptional<{
-      [K in keyof DisassociateWebACLRequest]: (DisassociateWebACLRequest)[K]
-    }>): Request<DisassociateWebACLResponse, AWSError> {
-        this.boot();
-        return this.client.disassociateWebACL(
-          this.ops["DisassociateWebACL"].apply(partialParams)
-        );
-    }
-
-    invokeGenerateMobileSdkReleaseUrl(partialParams: ToOptional<{
-      [K in keyof GenerateMobileSdkReleaseUrlRequest]: (GenerateMobileSdkReleaseUrlRequest)[K]
-    }>): Request<GenerateMobileSdkReleaseUrlResponse, AWSError> {
-        this.boot();
-        return this.client.generateMobileSdkReleaseUrl(
-          this.ops["GenerateMobileSdkReleaseUrl"].apply(partialParams)
-        );
-    }
-
     invokeGetIPSet(partialParams: ToOptional<{
       [K in keyof GetIPSetRequest & keyof Omit<GetIPSetRequest, "Name" | "Scope">]: (GetIPSetRequest)[K]
     }>): Request<GetIPSetResponse, AWSError> {
@@ -298,39 +208,12 @@ export default class extends aws.wafv2.RegexPatternSet {
         );
     }
 
-    invokeGetLoggingConfiguration(partialParams: ToOptional<{
-      [K in keyof GetLoggingConfigurationRequest]: (GetLoggingConfigurationRequest)[K]
-    }>): Request<GetLoggingConfigurationResponse, AWSError> {
-        this.boot();
-        return this.client.getLoggingConfiguration(
-          this.ops["GetLoggingConfiguration"].apply(partialParams)
-        );
-    }
-
     invokeGetManagedRuleSet(partialParams: ToOptional<{
       [K in keyof GetManagedRuleSetRequest & keyof Omit<GetManagedRuleSetRequest, "Name" | "Scope">]: (GetManagedRuleSetRequest)[K]
     }>): Request<GetManagedRuleSetResponse, AWSError> {
         this.boot();
         return this.client.getManagedRuleSet(
           this.ops["GetManagedRuleSet"].apply(partialParams)
-        );
-    }
-
-    invokeGetMobileSdkRelease(partialParams: ToOptional<{
-      [K in keyof GetMobileSdkReleaseRequest]: (GetMobileSdkReleaseRequest)[K]
-    }>): Request<GetMobileSdkReleaseResponse, AWSError> {
-        this.boot();
-        return this.client.getMobileSdkRelease(
-          this.ops["GetMobileSdkRelease"].apply(partialParams)
-        );
-    }
-
-    invokeGetPermissionPolicy(partialParams: ToOptional<{
-      [K in keyof GetPermissionPolicyRequest]: (GetPermissionPolicyRequest)[K]
-    }>): Request<GetPermissionPolicyResponse, AWSError> {
-        this.boot();
-        return this.client.getPermissionPolicy(
-          this.ops["GetPermissionPolicy"].apply(partialParams)
         );
     }
 
@@ -352,15 +235,6 @@ export default class extends aws.wafv2.RegexPatternSet {
         );
     }
 
-    invokeGetRuleGroup(partialParams: ToOptional<{
-      [K in keyof GetRuleGroupRequest]: (GetRuleGroupRequest)[K]
-    }>): Request<GetRuleGroupResponse, AWSError> {
-        this.boot();
-        return this.client.getRuleGroup(
-          this.ops["GetRuleGroup"].apply(partialParams)
-        );
-    }
-
     invokeGetSampledRequests(partialParams: ToOptional<{
       [K in keyof GetSampledRequestsRequest & keyof Omit<GetSampledRequestsRequest, "Scope">]: (GetSampledRequestsRequest)[K]
     }>): Request<GetSampledRequestsResponse, AWSError> {
@@ -376,15 +250,6 @@ export default class extends aws.wafv2.RegexPatternSet {
         this.boot();
         return this.client.getWebACL(
           this.ops["GetWebACL"].apply(partialParams)
-        );
-    }
-
-    invokeGetWebACLForResource(partialParams: ToOptional<{
-      [K in keyof GetWebACLForResourceRequest]: (GetWebACLForResourceRequest)[K]
-    }>): Request<GetWebACLForResourceResponse, AWSError> {
-        this.boot();
-        return this.client.getWebACLForResource(
-          this.ops["GetWebACLForResource"].apply(partialParams)
         );
     }
 
@@ -433,30 +298,12 @@ export default class extends aws.wafv2.RegexPatternSet {
         );
     }
 
-    invokeListMobileSdkReleases(partialParams: ToOptional<{
-      [K in keyof ListMobileSdkReleasesRequest]: (ListMobileSdkReleasesRequest)[K]
-    }>): Request<ListMobileSdkReleasesResponse, AWSError> {
-        this.boot();
-        return this.client.listMobileSdkReleases(
-          this.ops["ListMobileSdkReleases"].apply(partialParams)
-        );
-    }
-
     invokeListRegexPatternSets(partialParams: ToOptional<{
       [K in keyof ListRegexPatternSetsRequest & keyof Omit<ListRegexPatternSetsRequest, "Scope">]: (ListRegexPatternSetsRequest)[K]
     }>): Request<ListRegexPatternSetsResponse, AWSError> {
         this.boot();
         return this.client.listRegexPatternSets(
           this.ops["ListRegexPatternSets"].apply(partialParams)
-        );
-    }
-
-    invokeListResourcesForWebACL(partialParams: ToOptional<{
-      [K in keyof ListResourcesForWebACLRequest]: (ListResourcesForWebACLRequest)[K]
-    }>): Request<ListResourcesForWebACLResponse, AWSError> {
-        this.boot();
-        return this.client.listResourcesForWebACL(
-          this.ops["ListResourcesForWebACL"].apply(partialParams)
         );
     }
 
@@ -469,15 +316,6 @@ export default class extends aws.wafv2.RegexPatternSet {
         );
     }
 
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
-    }>): Request<ListTagsForResourceResponse, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
-        );
-    }
-
     invokeListWebACLs(partialParams: ToOptional<{
       [K in keyof ListWebACLsRequest & keyof Omit<ListWebACLsRequest, "Scope">]: (ListWebACLsRequest)[K]
     }>): Request<ListWebACLsResponse, AWSError> {
@@ -487,48 +325,12 @@ export default class extends aws.wafv2.RegexPatternSet {
         );
     }
 
-    invokePutLoggingConfiguration(partialParams: ToOptional<{
-      [K in keyof PutLoggingConfigurationRequest]: (PutLoggingConfigurationRequest)[K]
-    }>): Request<PutLoggingConfigurationResponse, AWSError> {
-        this.boot();
-        return this.client.putLoggingConfiguration(
-          this.ops["PutLoggingConfiguration"].apply(partialParams)
-        );
-    }
-
     invokePutManagedRuleSetVersions(partialParams: ToOptional<{
       [K in keyof PutManagedRuleSetVersionsRequest & keyof Omit<PutManagedRuleSetVersionsRequest, "Name" | "Scope" | "LockToken">]: (PutManagedRuleSetVersionsRequest)[K]
     }>): Request<PutManagedRuleSetVersionsResponse, AWSError> {
         this.boot();
         return this.client.putManagedRuleSetVersions(
           this.ops["PutManagedRuleSetVersions"].apply(partialParams)
-        );
-    }
-
-    invokePutPermissionPolicy(partialParams: ToOptional<{
-      [K in keyof PutPermissionPolicyRequest]: (PutPermissionPolicyRequest)[K]
-    }>): Request<PutPermissionPolicyResponse, AWSError> {
-        this.boot();
-        return this.client.putPermissionPolicy(
-          this.ops["PutPermissionPolicy"].apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
-    }>): Request<TagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
-    }>): Request<UntagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].apply(partialParams)
         );
     }
 

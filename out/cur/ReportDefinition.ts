@@ -5,14 +5,8 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    DeleteReportDefinitionRequest,
-    DescribeReportDefinitionsRequest,
     ModifyReportDefinitionRequest,
-    PutReportDefinitionRequest,
-    DeleteReportDefinitionResponse,
-    DescribeReportDefinitionsResponse,
-    ModifyReportDefinitionResponse,
-    PutReportDefinitionResponse
+    ModifyReportDefinitionResponse
 } from "aws-sdk/clients/cur";
 const schema = require("../apis/cur-2017-01-06.normal.json")
 import {getResourceOperations, upperCamelCase} from "../parse";
@@ -57,39 +51,12 @@ export default class extends aws.cur.ReportDefinition {
         this.booted = true;
     }
 
-    invokeDeleteReportDefinition(partialParams: ToOptional<{
-      [K in keyof DeleteReportDefinitionRequest]: (DeleteReportDefinitionRequest)[K]
-    }>): Request<DeleteReportDefinitionResponse, AWSError> {
-        this.boot();
-        return this.client.deleteReportDefinition(
-          this.ops["DeleteReportDefinition"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeReportDefinitions(partialParams: ToOptional<{
-      [K in keyof DescribeReportDefinitionsRequest]: (DescribeReportDefinitionsRequest)[K]
-    }>): Request<DescribeReportDefinitionsResponse, AWSError> {
-        this.boot();
-        return this.client.describeReportDefinitions(
-          this.ops["DescribeReportDefinitions"].apply(partialParams)
-        );
-    }
-
     invokeModifyReportDefinition(partialParams: ToOptional<{
       [K in keyof ModifyReportDefinitionRequest & keyof Omit<ModifyReportDefinitionRequest, "ReportName">]: (ModifyReportDefinitionRequest)[K]
     }>): Request<ModifyReportDefinitionResponse, AWSError> {
         this.boot();
         return this.client.modifyReportDefinition(
           this.ops["ModifyReportDefinition"].apply(partialParams)
-        );
-    }
-
-    invokePutReportDefinition(partialParams: ToOptional<{
-      [K in keyof PutReportDefinitionRequest]: (PutReportDefinitionRequest)[K]
-    }>): Request<PutReportDefinitionResponse, AWSError> {
-        this.boot();
-        return this.client.putReportDefinition(
-          this.ops["PutReportDefinition"].apply(partialParams)
         );
     }
 }

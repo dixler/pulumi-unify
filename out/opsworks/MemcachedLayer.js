@@ -52,10 +52,6 @@ class default_1 extends aws.opsworks.MemcachedLayer {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeCloneStack(partialParams) {
-        this.boot();
-        return this.client.cloneStack(this.ops["CloneStack"].apply(partialParams));
-    }
     invokeCreateApp(partialParams) {
         this.boot();
         return this.client.createApp(this.ops["CreateApp"].apply(partialParams));
@@ -76,65 +72,9 @@ class default_1 extends aws.opsworks.MemcachedLayer {
         this.boot();
         return this.client.createStack(this.ops["CreateStack"].apply(partialParams));
     }
-    invokeCreateUserProfile(partialParams) {
-        this.boot();
-        return this.client.createUserProfile(this.ops["CreateUserProfile"].apply(partialParams));
-    }
-    invokeDescribeAgentVersions(partialParams) {
-        this.boot();
-        return this.client.describeAgentVersions(this.ops["DescribeAgentVersions"].apply(partialParams));
-    }
-    invokeDescribeApps(partialParams) {
-        this.boot();
-        return this.client.describeApps(this.ops["DescribeApps"].apply(partialParams));
-    }
-    invokeDescribeCommands(partialParams) {
-        this.boot();
-        return this.client.describeCommands(this.ops["DescribeCommands"].apply(partialParams));
-    }
-    invokeDescribeDeployments(partialParams) {
-        this.boot();
-        return this.client.describeDeployments(this.ops["DescribeDeployments"].apply(partialParams));
-    }
-    invokeDescribeEcsClusters(partialParams) {
-        this.boot();
-        return this.client.describeEcsClusters(this.ops["DescribeEcsClusters"].apply(partialParams));
-    }
-    invokeDescribeElasticIps(partialParams) {
-        this.boot();
-        return this.client.describeElasticIps(this.ops["DescribeElasticIps"].apply(partialParams));
-    }
-    invokeDescribeElasticLoadBalancers(partialParams) {
-        this.boot();
-        return this.client.describeElasticLoadBalancers(this.ops["DescribeElasticLoadBalancers"].apply(partialParams));
-    }
-    invokeDescribeInstances(partialParams) {
-        this.boot();
-        return this.client.describeInstances(this.ops["DescribeInstances"].apply(partialParams));
-    }
-    invokeDescribeLayers(partialParams) {
-        this.boot();
-        return this.client.describeLayers(this.ops["DescribeLayers"].apply(partialParams));
-    }
-    invokeDescribeLoadBasedAutoScaling(partialParams) {
-        this.boot();
-        return this.client.describeLoadBasedAutoScaling(this.ops["DescribeLoadBasedAutoScaling"].apply(partialParams));
-    }
-    invokeDescribePermissions(partialParams) {
-        this.boot();
-        return this.client.describePermissions(this.ops["DescribePermissions"].apply(partialParams));
-    }
-    invokeDescribeRaidArrays(partialParams) {
-        this.boot();
-        return this.client.describeRaidArrays(this.ops["DescribeRaidArrays"].apply(partialParams));
-    }
     invokeDescribeRdsDbInstances(partialParams) {
         this.boot();
         return this.client.describeRdsDbInstances(this.ops["DescribeRdsDbInstances"].apply(partialParams));
-    }
-    invokeDescribeServiceErrors(partialParams) {
-        this.boot();
-        return this.client.describeServiceErrors(this.ops["DescribeServiceErrors"].apply(partialParams));
     }
     invokeDescribeStackProvisioningParameters(partialParams) {
         this.boot();
@@ -143,34 +83,6 @@ class default_1 extends aws.opsworks.MemcachedLayer {
     invokeDescribeStackSummary(partialParams) {
         this.boot();
         return this.client.describeStackSummary(this.ops["DescribeStackSummary"].apply(partialParams));
-    }
-    invokeDescribeStacks(partialParams) {
-        this.boot();
-        return this.client.describeStacks(this.ops["DescribeStacks"].apply(partialParams));
-    }
-    invokeDescribeTimeBasedAutoScaling(partialParams) {
-        this.boot();
-        return this.client.describeTimeBasedAutoScaling(this.ops["DescribeTimeBasedAutoScaling"].apply(partialParams));
-    }
-    invokeDescribeUserProfiles(partialParams) {
-        this.boot();
-        return this.client.describeUserProfiles(this.ops["DescribeUserProfiles"].apply(partialParams));
-    }
-    invokeDescribeVolumes(partialParams) {
-        this.boot();
-        return this.client.describeVolumes(this.ops["DescribeVolumes"].apply(partialParams));
-    }
-    invokeGetHostnameSuggestion(partialParams) {
-        this.boot();
-        return this.client.getHostnameSuggestion(this.ops["GetHostnameSuggestion"].apply(partialParams));
-    }
-    invokeGrantAccess(partialParams) {
-        this.boot();
-        return this.client.grantAccess(this.ops["GrantAccess"].apply(partialParams));
-    }
-    invokeListTags(partialParams) {
-        this.boot();
-        return this.client.listTags(this.ops["ListTags"].apply(partialParams));
     }
     invokeRegisterEcsCluster(partialParams) {
         this.boot();

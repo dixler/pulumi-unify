@@ -92,33 +92,13 @@ class default_1 extends aws.qldb.Ledger {
         this.boot();
         return this.client.listJournalKinesisStreamsForLedger(this.ops["ListJournalKinesisStreamsForLedger"].apply(partialParams));
     }
-    invokeListJournalS3Exports(partialParams) {
-        this.boot();
-        return this.client.listJournalS3Exports(this.ops["ListJournalS3Exports"].apply(partialParams));
-    }
     invokeListJournalS3ExportsForLedger(partialParams) {
         this.boot();
         return this.client.listJournalS3ExportsForLedger(this.ops["ListJournalS3ExportsForLedger"].apply(partialParams));
     }
-    invokeListLedgers(partialParams) {
-        this.boot();
-        return this.client.listLedgers(this.ops["ListLedgers"].apply(partialParams));
-    }
-    invokeListTagsForResource(partialParams) {
-        this.boot();
-        return this.client.listTagsForResource(this.ops["ListTagsForResource"].apply(partialParams));
-    }
     invokeStreamJournalToKinesis(partialParams) {
         this.boot();
         return this.client.streamJournalToKinesis(this.ops["StreamJournalToKinesis"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateLedger(partialParams) {
         this.boot();

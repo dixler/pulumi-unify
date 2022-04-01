@@ -6,9 +6,7 @@ import {AWSError} from 'aws-sdk/lib/error';
 
 import {
     CreateEndpointRequest,
-    ListEndpointsRequest,
-    CreateEndpointResult,
-    ListEndpointsResult
+    CreateEndpointResult
 } from "aws-sdk/clients/s3outposts";
 const schema = require("../apis/s3outposts-2017-07-25.normal.json")
 import {getResourceOperations, upperCamelCase} from "../parse";
@@ -59,15 +57,6 @@ export default class extends aws.s3outposts.Endpoint {
         this.boot();
         return this.client.createEndpoint(
           this.ops["CreateEndpoint"].apply(partialParams)
-        );
-    }
-
-    invokeListEndpoints(partialParams: ToOptional<{
-      [K in keyof ListEndpointsRequest]: (ListEndpointsRequest)[K]
-    }>): Request<ListEndpointsResult, AWSError> {
-        this.boot();
-        return this.client.listEndpoints(
-          this.ops["ListEndpoints"].apply(partialParams)
         );
     }
 }

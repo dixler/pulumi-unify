@@ -56,41 +56,13 @@ class default_1 extends aws.kms.Grant {
         this.boot();
         return this.client.cancelKeyDeletion(this.ops["CancelKeyDeletion"].apply(partialParams));
     }
-    invokeConnectCustomKeyStore(partialParams) {
-        this.boot();
-        return this.client.connectCustomKeyStore(this.ops["ConnectCustomKeyStore"].apply(partialParams));
-    }
-    invokeCreateCustomKeyStore(partialParams) {
-        this.boot();
-        return this.client.createCustomKeyStore(this.ops["CreateCustomKeyStore"].apply(partialParams));
-    }
     invokeCreateGrant(partialParams) {
         this.boot();
         return this.client.createGrant(this.ops["CreateGrant"].apply(partialParams));
     }
-    invokeCreateKey(partialParams) {
-        this.boot();
-        return this.client.createKey(this.ops["CreateKey"].apply(partialParams));
-    }
-    invokeDecrypt(partialParams) {
-        this.boot();
-        return this.client.decrypt(this.ops["Decrypt"].apply(partialParams));
-    }
-    invokeDeleteCustomKeyStore(partialParams) {
-        this.boot();
-        return this.client.deleteCustomKeyStore(this.ops["DeleteCustomKeyStore"].apply(partialParams));
-    }
-    invokeDescribeCustomKeyStores(partialParams) {
-        this.boot();
-        return this.client.describeCustomKeyStores(this.ops["DescribeCustomKeyStores"].apply(partialParams));
-    }
     invokeDescribeKey(partialParams) {
         this.boot();
         return this.client.describeKey(this.ops["DescribeKey"].apply(partialParams));
-    }
-    invokeDisconnectCustomKeyStore(partialParams) {
-        this.boot();
-        return this.client.disconnectCustomKeyStore(this.ops["DisconnectCustomKeyStore"].apply(partialParams));
     }
     invokeEncrypt(partialParams) {
         this.boot();
@@ -112,10 +84,6 @@ class default_1 extends aws.kms.Grant {
         this.boot();
         return this.client.generateDataKeyWithoutPlaintext(this.ops["GenerateDataKeyWithoutPlaintext"].apply(partialParams));
     }
-    invokeGenerateRandom(partialParams) {
-        this.boot();
-        return this.client.generateRandom(this.ops["GenerateRandom"].apply(partialParams));
-    }
     invokeGetKeyPolicy(partialParams) {
         this.boot();
         return this.client.getKeyPolicy(this.ops["GetKeyPolicy"].apply(partialParams));
@@ -136,10 +104,6 @@ class default_1 extends aws.kms.Grant {
         this.boot();
         return this.client.importKeyMaterial(this.ops["ImportKeyMaterial"].apply(partialParams));
     }
-    invokeListAliases(partialParams) {
-        this.boot();
-        return this.client.listAliases(this.ops["ListAliases"].apply(partialParams));
-    }
     invokeListGrants(partialParams) {
         this.boot();
         return this.client.listGrants(this.ops["ListGrants"].apply(partialParams));
@@ -148,10 +112,6 @@ class default_1 extends aws.kms.Grant {
         this.boot();
         return this.client.listKeyPolicies(this.ops["ListKeyPolicies"].apply(partialParams));
     }
-    invokeListKeys(partialParams) {
-        this.boot();
-        return this.client.listKeys(this.ops["ListKeys"].apply(partialParams));
-    }
     invokeListResourceTags(partialParams) {
         this.boot();
         return this.client.listResourceTags(this.ops["ListResourceTags"].apply(partialParams));
@@ -159,10 +119,6 @@ class default_1 extends aws.kms.Grant {
     invokeListRetirableGrants(partialParams) {
         this.boot();
         return this.client.listRetirableGrants(this.ops["ListRetirableGrants"].apply(partialParams));
-    }
-    invokeReEncrypt(partialParams) {
-        this.boot();
-        return this.client.reEncrypt(this.ops["ReEncrypt"].apply(partialParams));
     }
     invokeReplicateKey(partialParams) {
         this.boot();
@@ -175,10 +131,6 @@ class default_1 extends aws.kms.Grant {
     invokeSign(partialParams) {
         this.boot();
         return this.client.sign(this.ops["Sign"].apply(partialParams));
-    }
-    invokeUpdateCustomKeyStore(partialParams) {
-        this.boot();
-        return this.client.updateCustomKeyStore(this.ops["UpdateCustomKeyStore"].apply(partialParams));
     }
     invokeVerify(partialParams) {
         this.boot();

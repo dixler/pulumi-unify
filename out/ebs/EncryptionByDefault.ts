@@ -5,18 +5,7 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    CompleteSnapshotRequest,
-    GetSnapshotBlockRequest,
-    ListChangedBlocksRequest,
-    ListSnapshotBlocksRequest,
-    PutSnapshotBlockRequest,
-    StartSnapshotRequest,
-    CompleteSnapshotResponse,
-    GetSnapshotBlockResponse,
-    ListChangedBlocksResponse,
-    ListSnapshotBlocksResponse,
-    PutSnapshotBlockResponse,
-    StartSnapshotResponse
+    
 } from "aws-sdk/clients/ebs";
 const schema = require("../apis/ebs-2019-11-02.normal.json")
 import {getResourceOperations, upperCamelCase} from "../parse";
@@ -61,57 +50,4 @@ export default class extends aws.ebs.EncryptionByDefault {
         this.booted = true;
     }
 
-    invokeCompleteSnapshot(partialParams: ToOptional<{
-      [K in keyof CompleteSnapshotRequest]: (CompleteSnapshotRequest)[K]
-    }>): Request<CompleteSnapshotResponse, AWSError> {
-        this.boot();
-        return this.client.completeSnapshot(
-          this.ops["CompleteSnapshot"].apply(partialParams)
-        );
-    }
-
-    invokeGetSnapshotBlock(partialParams: ToOptional<{
-      [K in keyof GetSnapshotBlockRequest]: (GetSnapshotBlockRequest)[K]
-    }>): Request<GetSnapshotBlockResponse, AWSError> {
-        this.boot();
-        return this.client.getSnapshotBlock(
-          this.ops["GetSnapshotBlock"].apply(partialParams)
-        );
-    }
-
-    invokeListChangedBlocks(partialParams: ToOptional<{
-      [K in keyof ListChangedBlocksRequest]: (ListChangedBlocksRequest)[K]
-    }>): Request<ListChangedBlocksResponse, AWSError> {
-        this.boot();
-        return this.client.listChangedBlocks(
-          this.ops["ListChangedBlocks"].apply(partialParams)
-        );
-    }
-
-    invokeListSnapshotBlocks(partialParams: ToOptional<{
-      [K in keyof ListSnapshotBlocksRequest]: (ListSnapshotBlocksRequest)[K]
-    }>): Request<ListSnapshotBlocksResponse, AWSError> {
-        this.boot();
-        return this.client.listSnapshotBlocks(
-          this.ops["ListSnapshotBlocks"].apply(partialParams)
-        );
-    }
-
-    invokePutSnapshotBlock(partialParams: ToOptional<{
-      [K in keyof PutSnapshotBlockRequest]: (PutSnapshotBlockRequest)[K]
-    }>): Request<PutSnapshotBlockResponse, AWSError> {
-        this.boot();
-        return this.client.putSnapshotBlock(
-          this.ops["PutSnapshotBlock"].apply(partialParams)
-        );
-    }
-
-    invokeStartSnapshot(partialParams: ToOptional<{
-      [K in keyof StartSnapshotRequest]: (StartSnapshotRequest)[K]
-    }>): Request<StartSnapshotResponse, AWSError> {
-        this.boot();
-        return this.client.startSnapshot(
-          this.ops["StartSnapshot"].apply(partialParams)
-        );
-    }
 }

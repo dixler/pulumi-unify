@@ -64,21 +64,9 @@ class default_1 extends aws.acm.CertificateValidation {
         this.boot();
         return this.client.getCertificate(this.ops["GetCertificate"].apply(partialParams));
     }
-    invokeImportCertificate(partialParams) {
-        this.boot();
-        return this.client.importCertificate(this.ops["ImportCertificate"].apply(partialParams));
-    }
-    invokeListCertificates(partialParams) {
-        this.boot();
-        return this.client.listCertificates(this.ops["ListCertificates"].apply(partialParams));
-    }
     invokeListTagsForCertificate(partialParams) {
         this.boot();
         return this.client.listTagsForCertificate(this.ops["ListTagsForCertificate"].apply(partialParams));
-    }
-    invokeRequestCertificate(partialParams) {
-        this.boot();
-        return this.client.requestCertificate(this.ops["RequestCertificate"].apply(partialParams));
     }
 }
 exports.default = default_1;

@@ -5,62 +5,21 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    ApplyEnvironmentManagedActionRequest,
-    CheckDNSAvailabilityMessage,
-    ComposeEnvironmentsMessage,
     CreateApplicationMessage,
     CreateApplicationVersionMessage,
     CreateConfigurationTemplateMessage,
     CreateEnvironmentMessage,
-    CreatePlatformVersionRequest,
-    DeletePlatformVersionRequest,
-    DescribeApplicationVersionsMessage,
-    DescribeApplicationsMessage,
-    DescribeConfigurationOptionsMessage,
     DescribeConfigurationSettingsMessage,
-    DescribeEnvironmentHealthRequest,
-    DescribeEnvironmentManagedActionHistoryRequest,
-    DescribeEnvironmentManagedActionsRequest,
-    DescribeEnvironmentResourcesMessage,
-    DescribeEnvironmentsMessage,
-    DescribeEventsMessage,
-    DescribeInstancesHealthRequest,
-    DescribePlatformVersionRequest,
-    ListPlatformBranchesRequest,
-    ListPlatformVersionsRequest,
-    ListTagsForResourceMessage,
-    RetrieveEnvironmentInfoMessage,
-    TerminateEnvironmentMessage,
     UpdateApplicationMessage,
     UpdateApplicationResourceLifecycleMessage,
     UpdateApplicationVersionMessage,
     UpdateConfigurationTemplateMessage,
-    UpdateEnvironmentMessage,
     ValidateConfigurationSettingsMessage,
-    ApplyEnvironmentManagedActionResult,
-    CheckDNSAvailabilityResultMessage,
-    EnvironmentDescriptionsMessage,
     ApplicationDescriptionMessage,
     ApplicationVersionDescriptionMessage,
     ConfigurationSettingsDescription,
     EnvironmentDescription,
-    CreatePlatformVersionResult,
-    DeletePlatformVersionResult,
-    ApplicationVersionDescriptionsMessage,
-    ApplicationDescriptionsMessage,
-    ConfigurationOptionsDescription,
     ConfigurationSettingsDescriptions,
-    DescribeEnvironmentHealthResult,
-    DescribeEnvironmentManagedActionHistoryResult,
-    DescribeEnvironmentManagedActionsResult,
-    EnvironmentResourceDescriptionsMessage,
-    EventDescriptionsMessage,
-    DescribeInstancesHealthResult,
-    DescribePlatformVersionResult,
-    ListPlatformBranchesResult,
-    ListPlatformVersionsResult,
-    ResourceTagsDescriptionMessage,
-    RetrieveEnvironmentInfoResultMessage,
     ApplicationResourceLifecycleDescriptionMessage,
     ConfigurationSettingsValidationMessages
 } from "aws-sdk/clients/elasticbeanstalk";
@@ -107,33 +66,6 @@ export default class extends aws.elasticbeanstalk.Application {
         this.booted = true;
     }
 
-    invokeApplyEnvironmentManagedAction(partialParams: ToOptional<{
-      [K in keyof ApplyEnvironmentManagedActionRequest]: (ApplyEnvironmentManagedActionRequest)[K]
-    }>): Request<ApplyEnvironmentManagedActionResult, AWSError> {
-        this.boot();
-        return this.client.applyEnvironmentManagedAction(
-          this.ops["ApplyEnvironmentManagedAction"].apply(partialParams)
-        );
-    }
-
-    invokeCheckDNSAvailability(partialParams: ToOptional<{
-      [K in keyof CheckDNSAvailabilityMessage]: (CheckDNSAvailabilityMessage)[K]
-    }>): Request<CheckDNSAvailabilityResultMessage, AWSError> {
-        this.boot();
-        return this.client.checkDNSAvailability(
-          this.ops["CheckDNSAvailability"].apply(partialParams)
-        );
-    }
-
-    invokeComposeEnvironments(partialParams: ToOptional<{
-      [K in keyof ComposeEnvironmentsMessage]: (ComposeEnvironmentsMessage)[K]
-    }>): Request<EnvironmentDescriptionsMessage, AWSError> {
-        this.boot();
-        return this.client.composeEnvironments(
-          this.ops["ComposeEnvironments"].apply(partialParams)
-        );
-    }
-
     invokeCreateApplication(partialParams: ToOptional<{
       [K in keyof CreateApplicationMessage & keyof Omit<CreateApplicationMessage, "ApplicationName">]: (CreateApplicationMessage)[K]
     }>): Request<ApplicationDescriptionMessage, AWSError> {
@@ -170,174 +102,12 @@ export default class extends aws.elasticbeanstalk.Application {
         );
     }
 
-    invokeCreatePlatformVersion(partialParams: ToOptional<{
-      [K in keyof CreatePlatformVersionRequest]: (CreatePlatformVersionRequest)[K]
-    }>): Request<CreatePlatformVersionResult, AWSError> {
-        this.boot();
-        return this.client.createPlatformVersion(
-          this.ops["CreatePlatformVersion"].apply(partialParams)
-        );
-    }
-
-    invokeDeletePlatformVersion(partialParams: ToOptional<{
-      [K in keyof DeletePlatformVersionRequest]: (DeletePlatformVersionRequest)[K]
-    }>): Request<DeletePlatformVersionResult, AWSError> {
-        this.boot();
-        return this.client.deletePlatformVersion(
-          this.ops["DeletePlatformVersion"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeApplicationVersions(partialParams: ToOptional<{
-      [K in keyof DescribeApplicationVersionsMessage]: (DescribeApplicationVersionsMessage)[K]
-    }>): Request<ApplicationVersionDescriptionsMessage, AWSError> {
-        this.boot();
-        return this.client.describeApplicationVersions(
-          this.ops["DescribeApplicationVersions"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeApplications(partialParams: ToOptional<{
-      [K in keyof DescribeApplicationsMessage]: (DescribeApplicationsMessage)[K]
-    }>): Request<ApplicationDescriptionsMessage, AWSError> {
-        this.boot();
-        return this.client.describeApplications(
-          this.ops["DescribeApplications"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeConfigurationOptions(partialParams: ToOptional<{
-      [K in keyof DescribeConfigurationOptionsMessage]: (DescribeConfigurationOptionsMessage)[K]
-    }>): Request<ConfigurationOptionsDescription, AWSError> {
-        this.boot();
-        return this.client.describeConfigurationOptions(
-          this.ops["DescribeConfigurationOptions"].apply(partialParams)
-        );
-    }
-
     invokeDescribeConfigurationSettings(partialParams: ToOptional<{
       [K in keyof DescribeConfigurationSettingsMessage & keyof Omit<DescribeConfigurationSettingsMessage, "ApplicationName">]: (DescribeConfigurationSettingsMessage)[K]
     }>): Request<ConfigurationSettingsDescriptions, AWSError> {
         this.boot();
         return this.client.describeConfigurationSettings(
           this.ops["DescribeConfigurationSettings"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeEnvironmentHealth(partialParams: ToOptional<{
-      [K in keyof DescribeEnvironmentHealthRequest]: (DescribeEnvironmentHealthRequest)[K]
-    }>): Request<DescribeEnvironmentHealthResult, AWSError> {
-        this.boot();
-        return this.client.describeEnvironmentHealth(
-          this.ops["DescribeEnvironmentHealth"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeEnvironmentManagedActionHistory(partialParams: ToOptional<{
-      [K in keyof DescribeEnvironmentManagedActionHistoryRequest]: (DescribeEnvironmentManagedActionHistoryRequest)[K]
-    }>): Request<DescribeEnvironmentManagedActionHistoryResult, AWSError> {
-        this.boot();
-        return this.client.describeEnvironmentManagedActionHistory(
-          this.ops["DescribeEnvironmentManagedActionHistory"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeEnvironmentManagedActions(partialParams: ToOptional<{
-      [K in keyof DescribeEnvironmentManagedActionsRequest]: (DescribeEnvironmentManagedActionsRequest)[K]
-    }>): Request<DescribeEnvironmentManagedActionsResult, AWSError> {
-        this.boot();
-        return this.client.describeEnvironmentManagedActions(
-          this.ops["DescribeEnvironmentManagedActions"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeEnvironmentResources(partialParams: ToOptional<{
-      [K in keyof DescribeEnvironmentResourcesMessage]: (DescribeEnvironmentResourcesMessage)[K]
-    }>): Request<EnvironmentResourceDescriptionsMessage, AWSError> {
-        this.boot();
-        return this.client.describeEnvironmentResources(
-          this.ops["DescribeEnvironmentResources"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeEnvironments(partialParams: ToOptional<{
-      [K in keyof DescribeEnvironmentsMessage]: (DescribeEnvironmentsMessage)[K]
-    }>): Request<EnvironmentDescriptionsMessage, AWSError> {
-        this.boot();
-        return this.client.describeEnvironments(
-          this.ops["DescribeEnvironments"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeEvents(partialParams: ToOptional<{
-      [K in keyof DescribeEventsMessage]: (DescribeEventsMessage)[K]
-    }>): Request<EventDescriptionsMessage, AWSError> {
-        this.boot();
-        return this.client.describeEvents(
-          this.ops["DescribeEvents"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeInstancesHealth(partialParams: ToOptional<{
-      [K in keyof DescribeInstancesHealthRequest]: (DescribeInstancesHealthRequest)[K]
-    }>): Request<DescribeInstancesHealthResult, AWSError> {
-        this.boot();
-        return this.client.describeInstancesHealth(
-          this.ops["DescribeInstancesHealth"].apply(partialParams)
-        );
-    }
-
-    invokeDescribePlatformVersion(partialParams: ToOptional<{
-      [K in keyof DescribePlatformVersionRequest]: (DescribePlatformVersionRequest)[K]
-    }>): Request<DescribePlatformVersionResult, AWSError> {
-        this.boot();
-        return this.client.describePlatformVersion(
-          this.ops["DescribePlatformVersion"].apply(partialParams)
-        );
-    }
-
-    invokeListPlatformBranches(partialParams: ToOptional<{
-      [K in keyof ListPlatformBranchesRequest]: (ListPlatformBranchesRequest)[K]
-    }>): Request<ListPlatformBranchesResult, AWSError> {
-        this.boot();
-        return this.client.listPlatformBranches(
-          this.ops["ListPlatformBranches"].apply(partialParams)
-        );
-    }
-
-    invokeListPlatformVersions(partialParams: ToOptional<{
-      [K in keyof ListPlatformVersionsRequest]: (ListPlatformVersionsRequest)[K]
-    }>): Request<ListPlatformVersionsResult, AWSError> {
-        this.boot();
-        return this.client.listPlatformVersions(
-          this.ops["ListPlatformVersions"].apply(partialParams)
-        );
-    }
-
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceMessage]: (ListTagsForResourceMessage)[K]
-    }>): Request<ResourceTagsDescriptionMessage, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
-        );
-    }
-
-    invokeRetrieveEnvironmentInfo(partialParams: ToOptional<{
-      [K in keyof RetrieveEnvironmentInfoMessage]: (RetrieveEnvironmentInfoMessage)[K]
-    }>): Request<RetrieveEnvironmentInfoResultMessage, AWSError> {
-        this.boot();
-        return this.client.retrieveEnvironmentInfo(
-          this.ops["RetrieveEnvironmentInfo"].apply(partialParams)
-        );
-    }
-
-    invokeTerminateEnvironment(partialParams: ToOptional<{
-      [K in keyof TerminateEnvironmentMessage]: (TerminateEnvironmentMessage)[K]
-    }>): Request<EnvironmentDescription, AWSError> {
-        this.boot();
-        return this.client.terminateEnvironment(
-          this.ops["TerminateEnvironment"].apply(partialParams)
         );
     }
 
@@ -374,15 +144,6 @@ export default class extends aws.elasticbeanstalk.Application {
         this.boot();
         return this.client.updateConfigurationTemplate(
           this.ops["UpdateConfigurationTemplate"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateEnvironment(partialParams: ToOptional<{
-      [K in keyof UpdateEnvironmentMessage]: (UpdateEnvironmentMessage)[K]
-    }>): Request<EnvironmentDescription, AWSError> {
-        this.boot();
-        return this.client.updateEnvironment(
-          this.ops["UpdateEnvironment"].apply(partialParams)
         );
     }
 

@@ -80,49 +80,17 @@ class default_1 extends aws.dax.Cluster {
         this.boot();
         return this.client.deleteSubnetGroup(this.ops["DeleteSubnetGroup"].apply(partialParams));
     }
-    invokeDescribeClusters(partialParams) {
-        this.boot();
-        return this.client.describeClusters(this.ops["DescribeClusters"].apply(partialParams));
-    }
-    invokeDescribeDefaultParameters(partialParams) {
-        this.boot();
-        return this.client.describeDefaultParameters(this.ops["DescribeDefaultParameters"].apply(partialParams));
-    }
-    invokeDescribeEvents(partialParams) {
-        this.boot();
-        return this.client.describeEvents(this.ops["DescribeEvents"].apply(partialParams));
-    }
-    invokeDescribeParameterGroups(partialParams) {
-        this.boot();
-        return this.client.describeParameterGroups(this.ops["DescribeParameterGroups"].apply(partialParams));
-    }
     invokeDescribeParameters(partialParams) {
         this.boot();
         return this.client.describeParameters(this.ops["DescribeParameters"].apply(partialParams));
-    }
-    invokeDescribeSubnetGroups(partialParams) {
-        this.boot();
-        return this.client.describeSubnetGroups(this.ops["DescribeSubnetGroups"].apply(partialParams));
     }
     invokeIncreaseReplicationFactor(partialParams) {
         this.boot();
         return this.client.increaseReplicationFactor(this.ops["IncreaseReplicationFactor"].apply(partialParams));
     }
-    invokeListTags(partialParams) {
-        this.boot();
-        return this.client.listTags(this.ops["ListTags"].apply(partialParams));
-    }
     invokeRebootNode(partialParams) {
         this.boot();
         return this.client.rebootNode(this.ops["RebootNode"].apply(partialParams));
-    }
-    invokeTagResource(partialParams) {
-        this.boot();
-        return this.client.tagResource(this.ops["TagResource"].apply(partialParams));
-    }
-    invokeUntagResource(partialParams) {
-        this.boot();
-        return this.client.untagResource(this.ops["UntagResource"].apply(partialParams));
     }
     invokeUpdateCluster(partialParams) {
         this.boot();

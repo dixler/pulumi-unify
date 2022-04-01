@@ -5,30 +5,16 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    CreateGraphRequest,
     CreateMembersRequest,
     DeleteMembersRequest,
     DescribeOrganizationConfigurationRequest,
     GetMembersRequest,
-    ListGraphsRequest,
-    ListInvitationsRequest,
     ListMembersRequest,
-    ListOrganizationAdminAccountsRequest,
-    ListTagsForResourceRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
-    CreateGraphResponse,
     CreateMembersResponse,
     DeleteMembersResponse,
     DescribeOrganizationConfigurationResponse,
     GetMembersResponse,
-    ListGraphsResponse,
-    ListInvitationsResponse,
-    ListMembersResponse,
-    ListOrganizationAdminAccountsResponse,
-    ListTagsForResourceResponse,
-    TagResourceResponse,
-    UntagResourceResponse
+    ListMembersResponse
 } from "aws-sdk/clients/detective";
 const schema = require("../apis/detective-2018-10-26.normal.json")
 import {getResourceOperations, upperCamelCase} from "../parse";
@@ -73,15 +59,6 @@ export default class extends aws.detective.Member {
         this.booted = true;
     }
 
-    invokeCreateGraph(partialParams: ToOptional<{
-      [K in keyof CreateGraphRequest]: (CreateGraphRequest)[K]
-    }>): Request<CreateGraphResponse, AWSError> {
-        this.boot();
-        return this.client.createGraph(
-          this.ops["CreateGraph"].apply(partialParams)
-        );
-    }
-
     invokeCreateMembers(partialParams: ToOptional<{
       [K in keyof CreateMembersRequest & keyof Omit<CreateMembersRequest, "GraphArn">]: (CreateMembersRequest)[K]
     }>): Request<CreateMembersResponse, AWSError> {
@@ -118,66 +95,12 @@ export default class extends aws.detective.Member {
         );
     }
 
-    invokeListGraphs(partialParams: ToOptional<{
-      [K in keyof ListGraphsRequest]: (ListGraphsRequest)[K]
-    }>): Request<ListGraphsResponse, AWSError> {
-        this.boot();
-        return this.client.listGraphs(
-          this.ops["ListGraphs"].apply(partialParams)
-        );
-    }
-
-    invokeListInvitations(partialParams: ToOptional<{
-      [K in keyof ListInvitationsRequest]: (ListInvitationsRequest)[K]
-    }>): Request<ListInvitationsResponse, AWSError> {
-        this.boot();
-        return this.client.listInvitations(
-          this.ops["ListInvitations"].apply(partialParams)
-        );
-    }
-
     invokeListMembers(partialParams: ToOptional<{
       [K in keyof ListMembersRequest & keyof Omit<ListMembersRequest, "GraphArn">]: (ListMembersRequest)[K]
     }>): Request<ListMembersResponse, AWSError> {
         this.boot();
         return this.client.listMembers(
           this.ops["ListMembers"].apply(partialParams)
-        );
-    }
-
-    invokeListOrganizationAdminAccounts(partialParams: ToOptional<{
-      [K in keyof ListOrganizationAdminAccountsRequest]: (ListOrganizationAdminAccountsRequest)[K]
-    }>): Request<ListOrganizationAdminAccountsResponse, AWSError> {
-        this.boot();
-        return this.client.listOrganizationAdminAccounts(
-          this.ops["ListOrganizationAdminAccounts"].apply(partialParams)
-        );
-    }
-
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
-    }>): Request<ListTagsForResourceResponse, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
-    }>): Request<TagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
-    }>): Request<UntagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].apply(partialParams)
         );
     }
 }

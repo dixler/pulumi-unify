@@ -52,10 +52,6 @@ class default_1 extends aws.cloudcontrol.Resource {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeCancelResourceRequest(partialParams) {
-        this.boot();
-        return this.client.cancelResourceRequest(this.ops["CancelResourceRequest"].apply(partialParams));
-    }
     invokeCreateResource(partialParams) {
         this.boot();
         return this.client.createResource(this.ops["CreateResource"].apply(partialParams));
@@ -67,14 +63,6 @@ class default_1 extends aws.cloudcontrol.Resource {
     invokeGetResource(partialParams) {
         this.boot();
         return this.client.getResource(this.ops["GetResource"].apply(partialParams));
-    }
-    invokeGetResourceRequestStatus(partialParams) {
-        this.boot();
-        return this.client.getResourceRequestStatus(this.ops["GetResourceRequestStatus"].apply(partialParams));
-    }
-    invokeListResourceRequests(partialParams) {
-        this.boot();
-        return this.client.listResourceRequests(this.ops["ListResourceRequests"].apply(partialParams));
     }
     invokeListResources(partialParams) {
         this.boot();

@@ -5,36 +5,18 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    CopyBackupToRegionRequest,
     CreateClusterRequest,
     CreateHsmRequest,
-    DeleteBackupRequest,
     DeleteClusterRequest,
     DeleteHsmRequest,
-    DescribeBackupsRequest,
-    DescribeClustersRequest,
     InitializeClusterRequest,
-    ListTagsRequest,
-    ModifyBackupAttributesRequest,
     ModifyClusterRequest,
-    RestoreBackupRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
-    CopyBackupToRegionResponse,
     CreateClusterResponse,
     CreateHsmResponse,
-    DeleteBackupResponse,
     DeleteClusterResponse,
     DeleteHsmResponse,
-    DescribeBackupsResponse,
-    DescribeClustersResponse,
     InitializeClusterResponse,
-    ListTagsResponse,
-    ModifyBackupAttributesResponse,
-    ModifyClusterResponse,
-    RestoreBackupResponse,
-    TagResourceResponse,
-    UntagResourceResponse
+    ModifyClusterResponse
 } from "aws-sdk/clients/cloudhsmv2";
 const schema = require("../apis/cloudhsmv2-2017-04-28.normal.json")
 import {getResourceOperations, upperCamelCase} from "../parse";
@@ -79,15 +61,6 @@ export default class extends aws.cloudhsmv2.Cluster {
         this.booted = true;
     }
 
-    invokeCopyBackupToRegion(partialParams: ToOptional<{
-      [K in keyof CopyBackupToRegionRequest]: (CopyBackupToRegionRequest)[K]
-    }>): Request<CopyBackupToRegionResponse, AWSError> {
-        this.boot();
-        return this.client.copyBackupToRegion(
-          this.ops["CopyBackupToRegion"].apply(partialParams)
-        );
-    }
-
     invokeCreateCluster(partialParams: ToOptional<{
       [K in keyof CreateClusterRequest & keyof Omit<CreateClusterRequest, "HsmType">]: (CreateClusterRequest)[K]
     }>): Request<CreateClusterResponse, AWSError> {
@@ -103,15 +76,6 @@ export default class extends aws.cloudhsmv2.Cluster {
         this.boot();
         return this.client.createHsm(
           this.ops["CreateHsm"].apply(partialParams)
-        );
-    }
-
-    invokeDeleteBackup(partialParams: ToOptional<{
-      [K in keyof DeleteBackupRequest]: (DeleteBackupRequest)[K]
-    }>): Request<DeleteBackupResponse, AWSError> {
-        this.boot();
-        return this.client.deleteBackup(
-          this.ops["DeleteBackup"].apply(partialParams)
         );
     }
 
@@ -133,24 +97,6 @@ export default class extends aws.cloudhsmv2.Cluster {
         );
     }
 
-    invokeDescribeBackups(partialParams: ToOptional<{
-      [K in keyof DescribeBackupsRequest]: (DescribeBackupsRequest)[K]
-    }>): Request<DescribeBackupsResponse, AWSError> {
-        this.boot();
-        return this.client.describeBackups(
-          this.ops["DescribeBackups"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeClusters(partialParams: ToOptional<{
-      [K in keyof DescribeClustersRequest]: (DescribeClustersRequest)[K]
-    }>): Request<DescribeClustersResponse, AWSError> {
-        this.boot();
-        return this.client.describeClusters(
-          this.ops["DescribeClusters"].apply(partialParams)
-        );
-    }
-
     invokeInitializeCluster(partialParams: ToOptional<{
       [K in keyof InitializeClusterRequest & keyof Omit<InitializeClusterRequest, "ClusterId">]: (InitializeClusterRequest)[K]
     }>): Request<InitializeClusterResponse, AWSError> {
@@ -160,57 +106,12 @@ export default class extends aws.cloudhsmv2.Cluster {
         );
     }
 
-    invokeListTags(partialParams: ToOptional<{
-      [K in keyof ListTagsRequest]: (ListTagsRequest)[K]
-    }>): Request<ListTagsResponse, AWSError> {
-        this.boot();
-        return this.client.listTags(
-          this.ops["ListTags"].apply(partialParams)
-        );
-    }
-
-    invokeModifyBackupAttributes(partialParams: ToOptional<{
-      [K in keyof ModifyBackupAttributesRequest]: (ModifyBackupAttributesRequest)[K]
-    }>): Request<ModifyBackupAttributesResponse, AWSError> {
-        this.boot();
-        return this.client.modifyBackupAttributes(
-          this.ops["ModifyBackupAttributes"].apply(partialParams)
-        );
-    }
-
     invokeModifyCluster(partialParams: ToOptional<{
       [K in keyof ModifyClusterRequest & keyof Omit<ModifyClusterRequest, "ClusterId">]: (ModifyClusterRequest)[K]
     }>): Request<ModifyClusterResponse, AWSError> {
         this.boot();
         return this.client.modifyCluster(
           this.ops["ModifyCluster"].apply(partialParams)
-        );
-    }
-
-    invokeRestoreBackup(partialParams: ToOptional<{
-      [K in keyof RestoreBackupRequest]: (RestoreBackupRequest)[K]
-    }>): Request<RestoreBackupResponse, AWSError> {
-        this.boot();
-        return this.client.restoreBackup(
-          this.ops["RestoreBackup"].apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
-    }>): Request<TagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
-    }>): Request<UntagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].apply(partialParams)
         );
     }
 }

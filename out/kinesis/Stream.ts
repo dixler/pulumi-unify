@@ -5,36 +5,22 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    DescribeLimitsInput,
     DescribeStreamInput,
-    DescribeStreamConsumerInput,
     DescribeStreamSummaryInput,
     DisableEnhancedMonitoringInput,
     EnableEnhancedMonitoringInput,
-    GetRecordsInput,
     GetShardIteratorInput,
-    ListShardsInput,
-    ListStreamConsumersInput,
-    ListStreamsInput,
     ListTagsForStreamInput,
     PutRecordInput,
     PutRecordsInput,
-    RegisterStreamConsumerInput,
     UpdateShardCountInput,
-    DescribeLimitsOutput,
     DescribeStreamOutput,
-    DescribeStreamConsumerOutput,
     DescribeStreamSummaryOutput,
     EnhancedMonitoringOutput,
-    GetRecordsOutput,
     GetShardIteratorOutput,
-    ListShardsOutput,
-    ListStreamConsumersOutput,
-    ListStreamsOutput,
     ListTagsForStreamOutput,
     PutRecordOutput,
     PutRecordsOutput,
-    RegisterStreamConsumerOutput,
     UpdateShardCountOutput
 } from "aws-sdk/clients/kinesis";
 const schema = require("../apis/kinesis-2013-12-02.normal.json")
@@ -80,30 +66,12 @@ export default class extends aws.kinesis.Stream {
         this.booted = true;
     }
 
-    invokeDescribeLimits(partialParams: ToOptional<{
-      [K in keyof DescribeLimitsInput]: (DescribeLimitsInput)[K]
-    }>): Request<DescribeLimitsOutput, AWSError> {
-        this.boot();
-        return this.client.describeLimits(
-          this.ops["DescribeLimits"].apply(partialParams)
-        );
-    }
-
     invokeDescribeStream(partialParams: ToOptional<{
       [K in keyof DescribeStreamInput & keyof Omit<DescribeStreamInput, "StreamName">]: (DescribeStreamInput)[K]
     }>): Request<DescribeStreamOutput, AWSError> {
         this.boot();
         return this.client.describeStream(
           this.ops["DescribeStream"].apply(partialParams)
-        );
-    }
-
-    invokeDescribeStreamConsumer(partialParams: ToOptional<{
-      [K in keyof DescribeStreamConsumerInput]: (DescribeStreamConsumerInput)[K]
-    }>): Request<DescribeStreamConsumerOutput, AWSError> {
-        this.boot();
-        return this.client.describeStreamConsumer(
-          this.ops["DescribeStreamConsumer"].apply(partialParams)
         );
     }
 
@@ -134,48 +102,12 @@ export default class extends aws.kinesis.Stream {
         );
     }
 
-    invokeGetRecords(partialParams: ToOptional<{
-      [K in keyof GetRecordsInput]: (GetRecordsInput)[K]
-    }>): Request<GetRecordsOutput, AWSError> {
-        this.boot();
-        return this.client.getRecords(
-          this.ops["GetRecords"].apply(partialParams)
-        );
-    }
-
     invokeGetShardIterator(partialParams: ToOptional<{
       [K in keyof GetShardIteratorInput & keyof Omit<GetShardIteratorInput, "StreamName">]: (GetShardIteratorInput)[K]
     }>): Request<GetShardIteratorOutput, AWSError> {
         this.boot();
         return this.client.getShardIterator(
           this.ops["GetShardIterator"].apply(partialParams)
-        );
-    }
-
-    invokeListShards(partialParams: ToOptional<{
-      [K in keyof ListShardsInput]: (ListShardsInput)[K]
-    }>): Request<ListShardsOutput, AWSError> {
-        this.boot();
-        return this.client.listShards(
-          this.ops["ListShards"].apply(partialParams)
-        );
-    }
-
-    invokeListStreamConsumers(partialParams: ToOptional<{
-      [K in keyof ListStreamConsumersInput]: (ListStreamConsumersInput)[K]
-    }>): Request<ListStreamConsumersOutput, AWSError> {
-        this.boot();
-        return this.client.listStreamConsumers(
-          this.ops["ListStreamConsumers"].apply(partialParams)
-        );
-    }
-
-    invokeListStreams(partialParams: ToOptional<{
-      [K in keyof ListStreamsInput]: (ListStreamsInput)[K]
-    }>): Request<ListStreamsOutput, AWSError> {
-        this.boot();
-        return this.client.listStreams(
-          this.ops["ListStreams"].apply(partialParams)
         );
     }
 
@@ -203,15 +135,6 @@ export default class extends aws.kinesis.Stream {
         this.boot();
         return this.client.putRecords(
           this.ops["PutRecords"].apply(partialParams)
-        );
-    }
-
-    invokeRegisterStreamConsumer(partialParams: ToOptional<{
-      [K in keyof RegisterStreamConsumerInput]: (RegisterStreamConsumerInput)[K]
-    }>): Request<RegisterStreamConsumerOutput, AWSError> {
-        this.boot();
-        return this.client.registerStreamConsumer(
-          this.ops["RegisterStreamConsumer"].apply(partialParams)
         );
     }
 

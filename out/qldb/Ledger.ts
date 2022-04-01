@@ -15,13 +15,8 @@ import {
     GetDigestRequest,
     GetRevisionRequest,
     ListJournalKinesisStreamsForLedgerRequest,
-    ListJournalS3ExportsRequest,
     ListJournalS3ExportsForLedgerRequest,
-    ListLedgersRequest,
-    ListTagsForResourceRequest,
     StreamJournalToKinesisRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
     UpdateLedgerRequest,
     UpdateLedgerPermissionsModeRequest,
     CancelJournalKinesisStreamResponse,
@@ -34,13 +29,8 @@ import {
     GetDigestResponse,
     GetRevisionResponse,
     ListJournalKinesisStreamsForLedgerResponse,
-    ListJournalS3ExportsResponse,
     ListJournalS3ExportsForLedgerResponse,
-    ListLedgersResponse,
-    ListTagsForResourceResponse,
     StreamJournalToKinesisResponse,
-    TagResourceResponse,
-    UntagResourceResponse,
     UpdateLedgerResponse,
     UpdateLedgerPermissionsModeResponse
 } from "aws-sdk/clients/qldb";
@@ -177,15 +167,6 @@ export default class extends aws.qldb.Ledger {
         );
     }
 
-    invokeListJournalS3Exports(partialParams: ToOptional<{
-      [K in keyof ListJournalS3ExportsRequest]: (ListJournalS3ExportsRequest)[K]
-    }>): Request<ListJournalS3ExportsResponse, AWSError> {
-        this.boot();
-        return this.client.listJournalS3Exports(
-          this.ops["ListJournalS3Exports"].apply(partialParams)
-        );
-    }
-
     invokeListJournalS3ExportsForLedger(partialParams: ToOptional<{
       [K in keyof ListJournalS3ExportsForLedgerRequest & keyof Omit<ListJournalS3ExportsForLedgerRequest, "Name">]: (ListJournalS3ExportsForLedgerRequest)[K]
     }>): Request<ListJournalS3ExportsForLedgerResponse, AWSError> {
@@ -195,48 +176,12 @@ export default class extends aws.qldb.Ledger {
         );
     }
 
-    invokeListLedgers(partialParams: ToOptional<{
-      [K in keyof ListLedgersRequest]: (ListLedgersRequest)[K]
-    }>): Request<ListLedgersResponse, AWSError> {
-        this.boot();
-        return this.client.listLedgers(
-          this.ops["ListLedgers"].apply(partialParams)
-        );
-    }
-
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
-    }>): Request<ListTagsForResourceResponse, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
-        );
-    }
-
     invokeStreamJournalToKinesis(partialParams: ToOptional<{
       [K in keyof StreamJournalToKinesisRequest & keyof Omit<StreamJournalToKinesisRequest, "LedgerName">]: (StreamJournalToKinesisRequest)[K]
     }>): Request<StreamJournalToKinesisResponse, AWSError> {
         this.boot();
         return this.client.streamJournalToKinesis(
           this.ops["StreamJournalToKinesis"].apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
-    }>): Request<TagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
-    }>): Request<UntagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].apply(partialParams)
         );
     }
 

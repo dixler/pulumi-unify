@@ -5,88 +5,52 @@ import {Request} from 'aws-sdk/lib/request';
 import {AWSError} from 'aws-sdk/lib/error';
 
 import {
-    AddLayerVersionPermissionRequest,
     AddPermissionRequest,
     CreateAliasRequest,
-    CreateCodeSigningConfigRequest,
     CreateEventSourceMappingRequest,
     CreateFunctionRequest,
-    DeleteCodeSigningConfigRequest,
-    DeleteEventSourceMappingRequest,
-    GetAccountSettingsRequest,
     GetAliasRequest,
-    GetCodeSigningConfigRequest,
-    GetEventSourceMappingRequest,
     GetFunctionRequest,
     GetFunctionCodeSigningConfigRequest,
     GetFunctionConcurrencyRequest,
     GetFunctionConfigurationRequest,
     GetFunctionEventInvokeConfigRequest,
-    GetLayerVersionRequest,
-    GetLayerVersionByArnRequest,
-    GetLayerVersionPolicyRequest,
     GetPolicyRequest,
     GetProvisionedConcurrencyConfigRequest,
     InvocationRequest,
     InvokeAsyncRequest,
     ListAliasesRequest,
-    ListCodeSigningConfigsRequest,
-    ListEventSourceMappingsRequest,
     ListFunctionEventInvokeConfigsRequest,
-    ListFunctionsRequest,
-    ListFunctionsByCodeSigningConfigRequest,
-    ListLayerVersionsRequest,
-    ListLayersRequest,
     ListProvisionedConcurrencyConfigsRequest,
-    ListTagsRequest,
     ListVersionsByFunctionRequest,
-    PublishLayerVersionRequest,
     PublishVersionRequest,
     PutFunctionCodeSigningConfigRequest,
     PutFunctionConcurrencyRequest,
     PutFunctionEventInvokeConfigRequest,
     PutProvisionedConcurrencyConfigRequest,
     UpdateAliasRequest,
-    UpdateCodeSigningConfigRequest,
-    UpdateEventSourceMappingRequest,
     UpdateFunctionCodeRequest,
     UpdateFunctionConfigurationRequest,
     UpdateFunctionEventInvokeConfigRequest,
-    AddLayerVersionPermissionResponse,
     AddPermissionResponse,
     AliasConfiguration,
-    CreateCodeSigningConfigResponse,
     EventSourceMappingConfiguration,
     FunctionConfiguration,
-    DeleteCodeSigningConfigResponse,
-    GetAccountSettingsResponse,
-    GetCodeSigningConfigResponse,
     GetFunctionResponse,
     GetFunctionCodeSigningConfigResponse,
     GetFunctionConcurrencyResponse,
     FunctionEventInvokeConfig,
-    GetLayerVersionResponse,
-    GetLayerVersionPolicyResponse,
     GetPolicyResponse,
     GetProvisionedConcurrencyConfigResponse,
     InvocationResponse,
     InvokeAsyncResponse,
     ListAliasesResponse,
-    ListCodeSigningConfigsResponse,
-    ListEventSourceMappingsResponse,
     ListFunctionEventInvokeConfigsResponse,
-    ListFunctionsResponse,
-    ListFunctionsByCodeSigningConfigResponse,
-    ListLayerVersionsResponse,
-    ListLayersResponse,
     ListProvisionedConcurrencyConfigsResponse,
-    ListTagsResponse,
     ListVersionsByFunctionResponse,
-    PublishLayerVersionResponse,
     PutFunctionCodeSigningConfigResponse,
     Concurrency,
-    PutProvisionedConcurrencyConfigResponse,
-    UpdateCodeSigningConfigResponse
+    PutProvisionedConcurrencyConfigResponse
 } from "aws-sdk/clients/lambda";
 const schema = require("../apis/lambda-2015-03-31.normal.json")
 import {getResourceOperations, upperCamelCase} from "../parse";
@@ -131,15 +95,6 @@ export default class extends aws.lambda.Invocation {
         this.booted = true;
     }
 
-    invokeAddLayerVersionPermission(partialParams: ToOptional<{
-      [K in keyof AddLayerVersionPermissionRequest]: (AddLayerVersionPermissionRequest)[K]
-    }>): Request<AddLayerVersionPermissionResponse, AWSError> {
-        this.boot();
-        return this.client.addLayerVersionPermission(
-          this.ops["AddLayerVersionPermission"].apply(partialParams)
-        );
-    }
-
     invokeAddPermission(partialParams: ToOptional<{
       [K in keyof AddPermissionRequest & keyof Omit<AddPermissionRequest, "FunctionName">]: (AddPermissionRequest)[K]
     }>): Request<AddPermissionResponse, AWSError> {
@@ -155,15 +110,6 @@ export default class extends aws.lambda.Invocation {
         this.boot();
         return this.client.createAlias(
           this.ops["CreateAlias"].apply(partialParams)
-        );
-    }
-
-    invokeCreateCodeSigningConfig(partialParams: ToOptional<{
-      [K in keyof CreateCodeSigningConfigRequest]: (CreateCodeSigningConfigRequest)[K]
-    }>): Request<CreateCodeSigningConfigResponse, AWSError> {
-        this.boot();
-        return this.client.createCodeSigningConfig(
-          this.ops["CreateCodeSigningConfig"].apply(partialParams)
         );
     }
 
@@ -185,57 +131,12 @@ export default class extends aws.lambda.Invocation {
         );
     }
 
-    invokeDeleteCodeSigningConfig(partialParams: ToOptional<{
-      [K in keyof DeleteCodeSigningConfigRequest]: (DeleteCodeSigningConfigRequest)[K]
-    }>): Request<DeleteCodeSigningConfigResponse, AWSError> {
-        this.boot();
-        return this.client.deleteCodeSigningConfig(
-          this.ops["DeleteCodeSigningConfig"].apply(partialParams)
-        );
-    }
-
-    invokeDeleteEventSourceMapping(partialParams: ToOptional<{
-      [K in keyof DeleteEventSourceMappingRequest]: (DeleteEventSourceMappingRequest)[K]
-    }>): Request<EventSourceMappingConfiguration, AWSError> {
-        this.boot();
-        return this.client.deleteEventSourceMapping(
-          this.ops["DeleteEventSourceMapping"].apply(partialParams)
-        );
-    }
-
-    invokeGetAccountSettings(partialParams: ToOptional<{
-      [K in keyof GetAccountSettingsRequest]: (GetAccountSettingsRequest)[K]
-    }>): Request<GetAccountSettingsResponse, AWSError> {
-        this.boot();
-        return this.client.getAccountSettings(
-          this.ops["GetAccountSettings"].apply(partialParams)
-        );
-    }
-
     invokeGetAlias(partialParams: ToOptional<{
       [K in keyof GetAliasRequest & keyof Omit<GetAliasRequest, "FunctionName">]: (GetAliasRequest)[K]
     }>): Request<AliasConfiguration, AWSError> {
         this.boot();
         return this.client.getAlias(
           this.ops["GetAlias"].apply(partialParams)
-        );
-    }
-
-    invokeGetCodeSigningConfig(partialParams: ToOptional<{
-      [K in keyof GetCodeSigningConfigRequest]: (GetCodeSigningConfigRequest)[K]
-    }>): Request<GetCodeSigningConfigResponse, AWSError> {
-        this.boot();
-        return this.client.getCodeSigningConfig(
-          this.ops["GetCodeSigningConfig"].apply(partialParams)
-        );
-    }
-
-    invokeGetEventSourceMapping(partialParams: ToOptional<{
-      [K in keyof GetEventSourceMappingRequest]: (GetEventSourceMappingRequest)[K]
-    }>): Request<EventSourceMappingConfiguration, AWSError> {
-        this.boot();
-        return this.client.getEventSourceMapping(
-          this.ops["GetEventSourceMapping"].apply(partialParams)
         );
     }
 
@@ -284,33 +185,6 @@ export default class extends aws.lambda.Invocation {
         );
     }
 
-    invokeGetLayerVersion(partialParams: ToOptional<{
-      [K in keyof GetLayerVersionRequest]: (GetLayerVersionRequest)[K]
-    }>): Request<GetLayerVersionResponse, AWSError> {
-        this.boot();
-        return this.client.getLayerVersion(
-          this.ops["GetLayerVersion"].apply(partialParams)
-        );
-    }
-
-    invokeGetLayerVersionByArn(partialParams: ToOptional<{
-      [K in keyof GetLayerVersionByArnRequest]: (GetLayerVersionByArnRequest)[K]
-    }>): Request<GetLayerVersionResponse, AWSError> {
-        this.boot();
-        return this.client.getLayerVersionByArn(
-          this.ops["GetLayerVersionByArn"].apply(partialParams)
-        );
-    }
-
-    invokeGetLayerVersionPolicy(partialParams: ToOptional<{
-      [K in keyof GetLayerVersionPolicyRequest]: (GetLayerVersionPolicyRequest)[K]
-    }>): Request<GetLayerVersionPolicyResponse, AWSError> {
-        this.boot();
-        return this.client.getLayerVersionPolicy(
-          this.ops["GetLayerVersionPolicy"].apply(partialParams)
-        );
-    }
-
     invokeGetPolicy(partialParams: ToOptional<{
       [K in keyof GetPolicyRequest & keyof Omit<GetPolicyRequest, "FunctionName">]: (GetPolicyRequest)[K]
     }>): Request<GetPolicyResponse, AWSError> {
@@ -356,66 +230,12 @@ export default class extends aws.lambda.Invocation {
         );
     }
 
-    invokeListCodeSigningConfigs(partialParams: ToOptional<{
-      [K in keyof ListCodeSigningConfigsRequest]: (ListCodeSigningConfigsRequest)[K]
-    }>): Request<ListCodeSigningConfigsResponse, AWSError> {
-        this.boot();
-        return this.client.listCodeSigningConfigs(
-          this.ops["ListCodeSigningConfigs"].apply(partialParams)
-        );
-    }
-
-    invokeListEventSourceMappings(partialParams: ToOptional<{
-      [K in keyof ListEventSourceMappingsRequest]: (ListEventSourceMappingsRequest)[K]
-    }>): Request<ListEventSourceMappingsResponse, AWSError> {
-        this.boot();
-        return this.client.listEventSourceMappings(
-          this.ops["ListEventSourceMappings"].apply(partialParams)
-        );
-    }
-
     invokeListFunctionEventInvokeConfigs(partialParams: ToOptional<{
       [K in keyof ListFunctionEventInvokeConfigsRequest & keyof Omit<ListFunctionEventInvokeConfigsRequest, "FunctionName">]: (ListFunctionEventInvokeConfigsRequest)[K]
     }>): Request<ListFunctionEventInvokeConfigsResponse, AWSError> {
         this.boot();
         return this.client.listFunctionEventInvokeConfigs(
           this.ops["ListFunctionEventInvokeConfigs"].apply(partialParams)
-        );
-    }
-
-    invokeListFunctions(partialParams: ToOptional<{
-      [K in keyof ListFunctionsRequest]: (ListFunctionsRequest)[K]
-    }>): Request<ListFunctionsResponse, AWSError> {
-        this.boot();
-        return this.client.listFunctions(
-          this.ops["ListFunctions"].apply(partialParams)
-        );
-    }
-
-    invokeListFunctionsByCodeSigningConfig(partialParams: ToOptional<{
-      [K in keyof ListFunctionsByCodeSigningConfigRequest]: (ListFunctionsByCodeSigningConfigRequest)[K]
-    }>): Request<ListFunctionsByCodeSigningConfigResponse, AWSError> {
-        this.boot();
-        return this.client.listFunctionsByCodeSigningConfig(
-          this.ops["ListFunctionsByCodeSigningConfig"].apply(partialParams)
-        );
-    }
-
-    invokeListLayerVersions(partialParams: ToOptional<{
-      [K in keyof ListLayerVersionsRequest]: (ListLayerVersionsRequest)[K]
-    }>): Request<ListLayerVersionsResponse, AWSError> {
-        this.boot();
-        return this.client.listLayerVersions(
-          this.ops["ListLayerVersions"].apply(partialParams)
-        );
-    }
-
-    invokeListLayers(partialParams: ToOptional<{
-      [K in keyof ListLayersRequest]: (ListLayersRequest)[K]
-    }>): Request<ListLayersResponse, AWSError> {
-        this.boot();
-        return this.client.listLayers(
-          this.ops["ListLayers"].apply(partialParams)
         );
     }
 
@@ -428,30 +248,12 @@ export default class extends aws.lambda.Invocation {
         );
     }
 
-    invokeListTags(partialParams: ToOptional<{
-      [K in keyof ListTagsRequest]: (ListTagsRequest)[K]
-    }>): Request<ListTagsResponse, AWSError> {
-        this.boot();
-        return this.client.listTags(
-          this.ops["ListTags"].apply(partialParams)
-        );
-    }
-
     invokeListVersionsByFunction(partialParams: ToOptional<{
       [K in keyof ListVersionsByFunctionRequest & keyof Omit<ListVersionsByFunctionRequest, "FunctionName">]: (ListVersionsByFunctionRequest)[K]
     }>): Request<ListVersionsByFunctionResponse, AWSError> {
         this.boot();
         return this.client.listVersionsByFunction(
           this.ops["ListVersionsByFunction"].apply(partialParams)
-        );
-    }
-
-    invokePublishLayerVersion(partialParams: ToOptional<{
-      [K in keyof PublishLayerVersionRequest]: (PublishLayerVersionRequest)[K]
-    }>): Request<PublishLayerVersionResponse, AWSError> {
-        this.boot();
-        return this.client.publishLayerVersion(
-          this.ops["PublishLayerVersion"].apply(partialParams)
         );
     }
 
@@ -506,24 +308,6 @@ export default class extends aws.lambda.Invocation {
         this.boot();
         return this.client.updateAlias(
           this.ops["UpdateAlias"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateCodeSigningConfig(partialParams: ToOptional<{
-      [K in keyof UpdateCodeSigningConfigRequest]: (UpdateCodeSigningConfigRequest)[K]
-    }>): Request<UpdateCodeSigningConfigResponse, AWSError> {
-        this.boot();
-        return this.client.updateCodeSigningConfig(
-          this.ops["UpdateCodeSigningConfig"].apply(partialParams)
-        );
-    }
-
-    invokeUpdateEventSourceMapping(partialParams: ToOptional<{
-      [K in keyof UpdateEventSourceMappingRequest]: (UpdateEventSourceMappingRequest)[K]
-    }>): Request<EventSourceMappingConfiguration, AWSError> {
-        this.boot();
-        return this.client.updateEventSourceMapping(
-          this.ops["UpdateEventSourceMapping"].apply(partialParams)
         );
     }
 

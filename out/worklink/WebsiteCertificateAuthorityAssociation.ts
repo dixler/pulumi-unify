@@ -8,7 +8,6 @@ import {
     AssociateDomainRequest,
     AssociateWebsiteAuthorizationProviderRequest,
     AssociateWebsiteCertificateAuthorityRequest,
-    CreateFleetRequest,
     DeleteFleetRequest,
     DescribeAuditStreamConfigurationRequest,
     DescribeCompanyNetworkConfigurationRequest,
@@ -23,15 +22,11 @@ import {
     DisassociateWebsiteCertificateAuthorityRequest,
     ListDevicesRequest,
     ListDomainsRequest,
-    ListFleetsRequest,
-    ListTagsForResourceRequest,
     ListWebsiteAuthorizationProvidersRequest,
     ListWebsiteCertificateAuthoritiesRequest,
     RestoreDomainAccessRequest,
     RevokeDomainAccessRequest,
     SignOutUserRequest,
-    TagResourceRequest,
-    UntagResourceRequest,
     UpdateAuditStreamConfigurationRequest,
     UpdateCompanyNetworkConfigurationRequest,
     UpdateDevicePolicyConfigurationRequest,
@@ -41,7 +36,6 @@ import {
     AssociateDomainResponse,
     AssociateWebsiteAuthorizationProviderResponse,
     AssociateWebsiteCertificateAuthorityResponse,
-    CreateFleetResponse,
     DeleteFleetResponse,
     DescribeAuditStreamConfigurationResponse,
     DescribeCompanyNetworkConfigurationResponse,
@@ -56,15 +50,11 @@ import {
     DisassociateWebsiteCertificateAuthorityResponse,
     ListDevicesResponse,
     ListDomainsResponse,
-    ListFleetsResponse,
-    ListTagsForResourceResponse,
     ListWebsiteAuthorizationProvidersResponse,
     ListWebsiteCertificateAuthoritiesResponse,
     RestoreDomainAccessResponse,
     RevokeDomainAccessResponse,
     SignOutUserResponse,
-    TagResourceResponse,
-    UntagResourceResponse,
     UpdateAuditStreamConfigurationResponse,
     UpdateCompanyNetworkConfigurationResponse,
     UpdateDevicePolicyConfigurationResponse,
@@ -139,15 +129,6 @@ export default class extends aws.worklink.WebsiteCertificateAuthorityAssociation
         this.boot();
         return this.client.associateWebsiteCertificateAuthority(
           this.ops["AssociateWebsiteCertificateAuthority"].apply(partialParams)
-        );
-    }
-
-    invokeCreateFleet(partialParams: ToOptional<{
-      [K in keyof CreateFleetRequest]: (CreateFleetRequest)[K]
-    }>): Request<CreateFleetResponse, AWSError> {
-        this.boot();
-        return this.client.createFleet(
-          this.ops["CreateFleet"].apply(partialParams)
         );
     }
 
@@ -277,24 +258,6 @@ export default class extends aws.worklink.WebsiteCertificateAuthorityAssociation
         );
     }
 
-    invokeListFleets(partialParams: ToOptional<{
-      [K in keyof ListFleetsRequest]: (ListFleetsRequest)[K]
-    }>): Request<ListFleetsResponse, AWSError> {
-        this.boot();
-        return this.client.listFleets(
-          this.ops["ListFleets"].apply(partialParams)
-        );
-    }
-
-    invokeListTagsForResource(partialParams: ToOptional<{
-      [K in keyof ListTagsForResourceRequest]: (ListTagsForResourceRequest)[K]
-    }>): Request<ListTagsForResourceResponse, AWSError> {
-        this.boot();
-        return this.client.listTagsForResource(
-          this.ops["ListTagsForResource"].apply(partialParams)
-        );
-    }
-
     invokeListWebsiteAuthorizationProviders(partialParams: ToOptional<{
       [K in keyof ListWebsiteAuthorizationProvidersRequest & keyof Omit<ListWebsiteAuthorizationProvidersRequest, "FleetArn">]: (ListWebsiteAuthorizationProvidersRequest)[K]
     }>): Request<ListWebsiteAuthorizationProvidersResponse, AWSError> {
@@ -337,24 +300,6 @@ export default class extends aws.worklink.WebsiteCertificateAuthorityAssociation
         this.boot();
         return this.client.signOutUser(
           this.ops["SignOutUser"].apply(partialParams)
-        );
-    }
-
-    invokeTagResource(partialParams: ToOptional<{
-      [K in keyof TagResourceRequest]: (TagResourceRequest)[K]
-    }>): Request<TagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.tagResource(
-          this.ops["TagResource"].apply(partialParams)
-        );
-    }
-
-    invokeUntagResource(partialParams: ToOptional<{
-      [K in keyof UntagResourceRequest]: (UntagResourceRequest)[K]
-    }>): Request<UntagResourceResponse, AWSError> {
-        this.boot();
-        return this.client.untagResource(
-          this.ops["UntagResource"].apply(partialParams)
         );
     }
 

@@ -52,21 +52,9 @@ class default_1 extends aws.cur.ReportDefinition {
         this.ops = (0, parse_1.getResourceOperations)(this.capitalizedParams, schema);
         this.booted = true;
     }
-    invokeDeleteReportDefinition(partialParams) {
-        this.boot();
-        return this.client.deleteReportDefinition(this.ops["DeleteReportDefinition"].apply(partialParams));
-    }
-    invokeDescribeReportDefinitions(partialParams) {
-        this.boot();
-        return this.client.describeReportDefinitions(this.ops["DescribeReportDefinitions"].apply(partialParams));
-    }
     invokeModifyReportDefinition(partialParams) {
         this.boot();
         return this.client.modifyReportDefinition(this.ops["ModifyReportDefinition"].apply(partialParams));
-    }
-    invokePutReportDefinition(partialParams) {
-        this.boot();
-        return this.client.putReportDefinition(this.ops["PutReportDefinition"].apply(partialParams));
     }
 }
 exports.default = default_1;

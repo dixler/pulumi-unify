@@ -60,10 +60,6 @@ class default_1 extends aws.ebs.Volume {
         this.boot();
         return this.client.getSnapshotBlock(this.ops["GetSnapshotBlock"].apply(partialParams));
     }
-    invokeListChangedBlocks(partialParams) {
-        this.boot();
-        return this.client.listChangedBlocks(this.ops["ListChangedBlocks"].apply(partialParams));
-    }
     invokeListSnapshotBlocks(partialParams) {
         this.boot();
         return this.client.listSnapshotBlocks(this.ops["ListSnapshotBlocks"].apply(partialParams));
@@ -71,10 +67,6 @@ class default_1 extends aws.ebs.Volume {
     invokePutSnapshotBlock(partialParams) {
         this.boot();
         return this.client.putSnapshotBlock(this.ops["PutSnapshotBlock"].apply(partialParams));
-    }
-    invokeStartSnapshot(partialParams) {
-        this.boot();
-        return this.client.startSnapshot(this.ops["StartSnapshot"].apply(partialParams));
     }
 }
 exports.default = default_1;
