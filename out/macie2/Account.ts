@@ -144,7 +144,6 @@ export default class extends aws.macie2.Account {
           if ((this as any)[upperCamelCase(this.constructor.name)+upperCamelCase(key)] === undefined) {
               this.capitalizedParams[this.constructor.name+upperCamelCase(key)] = value;
           }
-          console.log(this.capitalizedParams);
         })
     }
     boot() {

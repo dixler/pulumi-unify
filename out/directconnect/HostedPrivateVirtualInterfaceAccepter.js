@@ -34,7 +34,6 @@ class default_1 extends aws.directconnect.HostedPrivateVirtualInterfaceAccepter 
             if (this[(0, parse_1.upperCamelCase)(this.constructor.name) + (0, parse_1.upperCamelCase)(key)] === undefined) {
                 this.capitalizedParams[this.constructor.name + (0, parse_1.upperCamelCase)(key)] = value;
             }
-            console.log(this.capitalizedParams);
         });
     }
     boot() {

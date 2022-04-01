@@ -9,10 +9,15 @@ const mybucket = new Bucket("myResource", {
 
 new aws.lambda.CallbackFunction("myfun", {
     callback: async (event, context, cb) => {
+        const filename = `wew1-${(new Date()).toISOString()}`;
         const val = await mybucket.invokePutObject({
-            Key: `wew1-${(new Date()).toISOString()}`,
-            Body: "yay",
+            Key: filename,
+            Body: `my random number is: ${Math.floor(Math.random()*10)}`,
         }).promise()
+        const obj = await mybucket.invokeGetObject({
+            Key: filename,
+        }).promise()
+        console.log(`the contents of the file are: "${obj.Body}"`);
         return val;
     }
 })
