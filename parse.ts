@@ -1,23 +1,6 @@
-import * as pulumi from '@pulumi/pulumi';
-import * as awsSDK from 'aws-sdk';
-import {Service} from 'aws-sdk';
 import * as defs from './parsedefs';
 import * as fs from "fs";
 import path from "path";
-import { serializeFunction } from '@pulumi/pulumi/runtime';
-import { PassThrough } from 'stream';
-import { setSyntheticLeadingComments } from 'typescript';
-
-
-type CallSignature = {
-  operation: string;
-  required: defs.ShapeRef[];
-  optional: defs.ShapeRef[];
-}
-type CallRef = {
-  name: defs.ShapeRef;
-  type: string;
-}
 
 type ShapeMap = {[key: string]: defs.Shape};
 type OperationMap = {[key: string]: defs.Operation};
@@ -27,198 +10,16 @@ type Schema = {
   operations: OperationMap,
 }
 
-function toPrimitiveShape(shape: defs.Shape) {
-  const shapeType = shape.type;
-  switch (shapeType) {
-    case 'blob':
-    case 'string':
-      return 'string';
-    case 'boolean':
-      return 'boolean'
-    case 'integer':
-    case 'long':
-      return 'number'
-    case 'list':
-    case 'map':
-    case 'structure':
-      return undefined;
-  }
-}
-
-type PulumiType = 
-| PulumiType[]
-| {[key: string]: PulumiType}
-| "string" | "number" | "boolean"
-
 type Applicator = {
+  op: Op;
   apply: (elem: any) => any;
-}
-
-type ApplicatorMap = {[key: string]: Applicator};
-type TypeMap = {[key: string]: string};
-
-function getMatchApplicator(key: string, value: any, shapes: ShapeMap): [ApplicatorMap, TypeMap] {
-    const types: TypeMap = {}
-    const applicators: ApplicatorMap = {}
-    if (shapes[key] === undefined) {
-      return [applicators, types];
-    }
-    const shape = shapes[key];
-    
-    applicators[key] = {
-      apply: (args) => 1,
-    };
-    return [applicators, types];
-}
-
-function _getMatchApplicator(key: string, value: any, shapes: ShapeMap): [ApplicatorMap, TypeMap] {
-  const typeMatch: {[key: string]: true} = {}
-  const typeOverrides: TypeMap = {}
-  const hasMatch: ApplicatorMap = {}
-  const keyMatch: ApplicatorMap = {}
-  let lastTypeNum = 0;
-  let lastKeyNum = 0;
-  do {
-    lastTypeNum = Object.keys(typeMatch).length;
-    lastKeyNum = Object.keys(hasMatch).length;
-    for (const [shapeName, shape] of Object.entries(shapes)) {
-      if (key === "TableName" && shapeName === "TableName") {
-          console.log(1);
-      }
-      if (hasMatch[shapeName]) {
-        // already seen this
-        continue;
-      }
-
-      const pType = toPrimitiveShape(shape)
-      if (pType && pType === value) { // Possibly bugged it
-        typeMatch[shapeName] = true;
-
-        if (key.toLowerCase() !== shapeName.toLowerCase()) { // Same CamelCase these
-          continue
-        }
-        typeOverrides[shapeName] = pType;
-        keyMatch[shapeName] = hasMatch[shapeName] = {
-          apply: (elem) => {
-            return elem || value;
-          },
-        }
-        //continue
-      }
-
-      if (shape.type === "list") {
-        if (!hasMatch[shape.member.shape]) {
-          continue;
-        }
-        typeOverrides[shapeName] = `${typeOverrides[shape.member.shape]}[]`; // replace this
-        hasMatch[shapeName] = {
-          apply: (list: any[]) => {
-            return list.map((item) => hasMatch[shape.member.shape].apply(item));
-          }
-        }
-        //continue;
-      }
-      if (shape.type === "structure" && shape.required) {
-        const overridenFields: string[] = [];
-        const applicator: {[key: string]: (elem: any) => any} = {}
-        for (const subShapeName of shape.required) {
-          const subShape = shape.members[subShapeName];
-          if (!subShape) {
-            throw new Error("error in schema");
-          }
-          applicator[subShapeName] = (item) => item; // set default
-          if (hasMatch[subShapeName]) {
-            applicator[subShapeName] = hasMatch[subShapeName].apply;
-          }
-          if (subShapeName.toLowerCase() === key.toLowerCase() || subShape.shape.toLocaleLowerCase() === key.toLowerCase()) {
-            if (!typeMatch[subShape.shape]) {
-              continue;
-            }
-            applicator[subShapeName] = (item) => item || value; // set override
-            overridenFields.push(subShapeName);
-          }
-        }
-        if (typeOverrides[shapeName] === undefined) {
-          typeOverrides[shapeName] = shapeName;
-        }
-        const omittedFields = overridenFields.map(key => `"${key}"`).join("|")
-        typeOverrides[shapeName] = omittedFields ? `Omit<${typeOverrides[shapeName]}, ${omittedFields}>` : typeOverrides[shapeName]
-        keyMatch[shapeName] = hasMatch[shapeName] = {
-          apply: (item) => {
-            if (shape.required) {
-              for (const [key, value] of Object.entries(item)) {
-                if (!applicator[key]) {
-                  continue;
-                }
-                item[key] = applicator[key](value);
-              }
-              // add default requireds
-              for (const req of shape.required) {
-                item[req] = item[req] || applicator[req](item[req]);
-              }
-            }
-            return item;
-          }
-        }
-      }
-    }
-  } while (
-    Object.keys(hasMatch).length > lastKeyNum ||
-    Object.keys(typeMatch).length > lastTypeNum
-  );
-  return [hasMatch, typeOverrides];
-}
-
-type Op = {
-  operation: string;
-  applicator: Applicator;
-  applicatorType: string[];
-  inputShape: string;
-  returnType: string;
-}
-
-function getOperations(key: string, value: any, schema: Schema) {
-  if (key === "TableName") {
-    console.log("TABLE");
-  }
-  const [applicators, tmap] = getMatchApplicator(key, value, schema.shapes)
-  const operations = schema.operations;
-  const validOps: {[key: string]: Op} = {};
-  for (const [opName, body] of Object.entries(operations)) {
-    if (!body.input) {
-      continue;
-    }
-    if (!applicators[body.input.shape]) {
-      continue;
-    }
-    const inputShape = body.input.shape
-    const outputShape = body.output ? body.output.shape : "void"
-
-    type Method = string
-    const s3Method: Method = lowerCamelCase(opName);
-
-    validOps[opName] = {
-      operation: opName,
-      applicator: applicators[inputShape],
-      applicatorType: [tmap[inputShape]],
-      inputShape: inputShape,
-      returnType: outputShape,
-    }
-  }
-  return validOps;
-}
-
-type NewApplicator = {
-  op: NewOp;
-  apply: Applicator['apply'];
   omittedFields?: string[];
 }
 
 export function getResourceOperations(resource: {[key: string]: string}, schema: Schema) {
-  const resourceOps: {[key: string]: NewApplicator} = { };
+  const resourceOps: {[key: string]: Applicator} = { };
 
   for (const op of getInputOps(schema)) {
-    const shapeName = op.inputShapeName;
     const shape = op.shape;
 
     resourceOps[op.name] = {
@@ -250,14 +51,14 @@ export function getResourceOperations(resource: {[key: string]: string}, schema:
   return resourceOps;
 }
 
-type NewOp = {
+type Op = {
   name: string;
   inputShapeName: string;
   outputShapeName: string;
   shape: defs.Shape;
 }
 
-function getInputOps(schema: Schema): NewOp[] {
+function getInputOps(schema: Schema): Op[] {
   return Object.values(schema.operations)
   .filter((op) => {
     if (op.input === undefined) return false;
@@ -269,8 +70,7 @@ function getInputOps(schema: Schema): NewOp[] {
 
     return true;
   })
-  .map((op): NewOp => {
-    const shape = schema.shapes[op.input!.shape];
+  .map((op): Op => {
     return {
       name: op.name,
       inputShapeName: op.input!.shape,
@@ -280,38 +80,9 @@ function getInputOps(schema: Schema): NewOp[] {
   })
 }
 
-/*
-export function _getResourceOperations(resource: {[key: string]: string}, schema: Schema, client: Service) {
-  const resourceOps: {[key: string]: Op} = {};
-  for (const [key, value] of Object.entries(resource)) {
-    const ops = getOperations(key, value, schema, client)
-    for (const [op, opSpec] of Object.entries(ops))  {
-      if (!resourceOps[op]) {
-        resourceOps[op] = opSpec
-        continue;
-      }
-      const curOp = resourceOps[op];
-      curOp.applicator = {
-        apply: ((newApplicator, oldApplicator): Applicator['apply'] => {
-          return (elem) => newApplicator.apply(oldApplicator.apply(elem))
-        })(curOp.applicator, opSpec.applicator),
-      }
-
-      curOp.applicatorType = curOp.applicatorType.concat(opSpec.applicatorType);
-      //curOp.applicatorType = `(${curOp.applicatorType} | ${opSpec.applicatorType})`;
-    }
-  }
-  return resourceOps;
-}
-*/
-
 type BaseClass = string;
 type ServiceClass = string;
 type SchemaPath = string;
-
-type ArgName = string;
-type ArgType = string;
-type Arg = [ArgName, ArgType];
 
 export function lowerCamelCase(str: string) {
   return str[0].toLowerCase() + str.substring(1);
@@ -322,7 +93,7 @@ export function upperCamelCase(str: string) {
 
 class MethodFactory {
   //constructor(readonly methodName: string, readonly args: Arg[], readonly returnType: ArgType) {}
-  constructor(readonly op: NewApplicator) {}
+  constructor(readonly op: Applicator) {}
   render() {
     //${this.op.operation}(${this.args.map(([name, type]) =>`${name}: ${type}`).join(', ')}): ${this.returnType} {
     const op = this.op;
@@ -358,9 +129,6 @@ class ClassFactory {
             params[upperCamelCase(resource)+upperCamelCase(key)] = value
         }
     })
-    if (resource === "Table") {
-      console.log("TABLE", params);
-    }
     const ops = getResourceOperations(params, require(this.schemaFile))
     const methods = Object.entries(ops).map(([opName, op]) => {
       return new MethodFactory(op);
@@ -540,23 +308,4 @@ function main() {
 }
 if (require.main === module) {
     main();
-    /*
-    const schema = require(findAWSSchema('dynamodb')!)
-    const awsSDK = require('aws-sdk');
-    console.log(new ClassFactory(
-      [`aws.dynamodb.Table`, schemaToResourceKeys("aws:dynamodb/table:Table"), "Table"],
-      [`awssdk.DynamoDB`, new (awsSDK['DynamoDB'] as any)(), 'DynamoDB'],
-      schema,
-    ).render())
-    //});
-    ///*
-    const awsSDK = require('aws-sdk');
-    const schema = require(findAWSSchema('s3')!)
-    //serializeFunction(() => {
-      const resops = getResourceOperations({
-        "Bucket": "mybuck",
-      }, schema)
-      console.log(resops['PutObject'].apply({Key: "Wew"}))
-    //});
-    //*/
 }
